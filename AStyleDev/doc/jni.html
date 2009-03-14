@@ -1,0 +1,438 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Artistic Style JNI</title>
+    <meta http-equiv="Content-Language" content="en-us" />
+    <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+
+    <link href="styles.css" rel="stylesheet" type="text/css" />
+    <link href="highlight-emacs.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <h1>Artistic Style Developer Information</h1>
+    <h2  class="large">
+        Calling Artistic Style as a Java Native Interface</h2>
+    <p>&nbsp;</p>
+    
+        <p class="noindent">
+            Artistic Style can be compiled as a shared library (DLL) with a Java Native Interface (JNI). This will
+            allow the library to be called from a Java program.
+        </p>
+    <p class="noindent">
+        In a JNI shared library the name of the Java calling class is included in the name of the function call.
+        The name of the calling class in the Artistic Style JNI is AStyleInterface. To use the shared library
+        without modification the name of the Java class that calls Artistic Style needs to be AStyleInterface.
+        Calling the shared library from another class will require a modification to Artistic Style.&nbsp; To determine the function name being called run the Java program "javah". It will 
+            generate a  C/C++ header file (.h) that contains the function names. These must be the 
+            same names that are defined in the Artistic Style shared library.
+    </p>
+    <p class="noindent">
+        Since Java does not use function pointers the name of callback functions must be included in the shared library. Artistic Style expects a callback function named ErrorHandler.&nbsp; To use the
+        shared library without modification the name of the Java callback function needs to be ErrorHandler and it must be
+        in the class AStyleInterface. Using a different callback function or class name will require a modification
+        to Artistic Style.</p>
+    <p class="noindent">
+        A shared library that uses the JNI can still be called from a C, C++, or C# program. You just need to
+        use the proper calling procedure.</p>
+
+        <h3>
+            Compile Options</h3>
+
+            <p>To compile Artistic Style for use in a JNI the compile option ASTYLE_JNI
+            must be defined. Then Artistic Style will accept the files and options
+            as parameters from a function call. It is the responsibility of the Java program to read
+            the source files and accept the options from the user via a Graphical User Interface (GUI). These are then
+            passed via the function call described below. After the source files
+            are formatted they will be returned to the Java program which must then save the source
+            file and take other appropriate action.</p>
+
+        <h3>Static Constructor</h3>
+        
+        <p>
+            A static constructor is required to load the native Artistic Style shared library. The method name contains only
+            the keyword "static" and will be executed when the program begins. It should include a call to either
+            System.load or System.loadLibrary. Since it is calling an external library it is best to place the load
+            method in a try/catch block.</p>
+        
+        <h3>AStyleMain Function</h3>
+
+            <p>This function is called to format the source code. 
+            </p>
+            <h4>
+                Syntax</h4>
+            <div class="code">
+                <pre><span class="hl kwa">public native</span> <span class="hl kwc">String</span> <span class="hl kwd">AStyleMain</span><span class="hl sym">(</span><span class="hl kwc">String</span> textIn<span class="hl sym">,</span> <span class="hl kwc">String</span> options<span class="hl sym">);</span></pre>
+</div>
+
+            <h4>
+                Parameters</h4>
+           
+                <p>
+                    <i>textIn</i><br />
+                    A Java String containing the source file to be formatted.</p>
+                <p>
+                    <i>options</i><br />
+                    A Java String containing the formatting options. They should be in the same format as in the default
+                    options file. The options may be set apart by new-lines, tabs or spaces. The long options do not
+                    need the "--"
+                    prefix.</p>
+                <p>
+                                        For a Java file the file mode option "mode=java" must be included. Otherwise the default mode of
+                    C/C++ is used.</p>
+          
+            <h4>
+                Return Value</h4>
+           
+                <p>
+                    If the function succeeds, the return value is a Java String containing the formatted source code.</p>
+                <p>
+                    If the function fails, the return value is an empty Java String. The returned String should be checked for
+                    a length of zero to determine if an error occurred. Before the source is returned an error message will
+                    be sent to the ErrorHandler method.</p>
+            
+            <h4>
+                Remarks</h4>
+            
+                <p>
+                    The ASyleMain function must be called from the class AStyleInterface. The name of the function in Artistic
+                    Style is
+            Java_AStyleInterface_AStyleMain. If the class name is changed, or the method name
+                    is changed, the function names in the Artistic Style shared library must also be changed.</p>
+<p>
+                    The call to AStyleMain should be placed in a try/catch block that contains an UnsatisfiedLinkError to handle not finding the entry point.</p>
+           
+   
+        <h3>
+            AStyleGetVersion Function</h3>
+
+            <p>This function is called to get the Artistic Style version number.
+            </p>
+            
+    <h4>
+        Syntax</h4>
+    <div class="code">
+        <pre><span class="hl kwa">public native</span> <span class="hl kwc">String</span> <span class="hl kwd">AStyleGetVersion</span><span class="hl sym">();</span>
+</pre></div>
+        <h4>Return Value</h4>
+            
+                <p>
+                    A Java String containing the Artistic Style version number.</p>
+    <h4>
+        Remarks</h4>
+    <p>
+        The AStyleGetVersion function must be called from the class AStyleInterface. The name of the function in Artistic
+        Style is Java_AStyleInterface_AStyleGetVersion. If the class name is changed, or the method name is changed,
+        the function names in the Artistic Style shared library must also be changed.</p>
+<p>
+        The call to AStyleMain should be placed in a try/catch block that contains an UnsatisfiedLinkError to handle not finding the entry point.</p>
+ 
+   
+
+            <h3>ErrorHandler Function</h3>
+       
+         
+                <p>
+                    ErrorHandler is called by the Artistic Style static library when an error occurs.
+                It should display an error
+                message and then either abort or continue the program depending on the error.</p>
+                <h4>
+                    Syntax</h4>
+                <div class="code">
+                    <pre><span class="hl kwa">private</span> <span class="hl kwb">void</span> <span class="hl kwc">ErrorHandler</span><span class="hl sym">(</span><span class="hl kwb">int</span> errorNumber<span class="hl sym">,</span> <span class="hl kwc">String</span> errorMessage<span class="hl sym">)</span>
+</pre>
+                </div>
+                <h4>
+                    Parameters</h4>
+              
+                    <p>
+                        <i>errorNumber</i><br />
+                        The error number as defined by Artistic Style.</p>
+                    <p>
+                        <i>errorMessage</i><br />
+                        A Java String containing the error message as defined by Artistic Style.</p>
+               
+                <h4>
+                    Remarks</h4>
+               
+                    <p>
+                        Error messages numbered 100-199 are errors that prevent the file from being
+                formatted. A zero
+                        length String is returned to the calling program. Error
+                messages numbered 200-299 are errors that do NOT prevent the file from being
+                formatted. A formatted String is returned. This will
+                occur if an invalid option is sent to AStyleMain. The calling program has the
+                option of accepting or rejecting the formatted file.</p>
+                    <p>
+                 The name of the callback error handling method must be ErrorHandler and it must be in the same class
+                        as the method AStyleMain. Artistic Style uses the JNI function GetMethodID which contains the method
+                        name ErrorHandler. Changing the method name or changing the class designation requires changing the Artistic Style shared library.
+                    </p>
+ 
+            <h3>Example</h3>
+
+         
+                <p>The following example formats source files by calling the JNI functions in the Artistic Style shared library. It is a console application but the procedure for a GUI is the
+                same. The two classes can be copied and pasted into a source files. The Artistic Style source code must be compiled as
+                    a shared library (DLL) using the option ASTYLE_JNI. The shared library must be copied to the directory
+                    that contains the Java class files (it is loaded from the classpath directory).</p>
+    <p>
+        &nbsp;</p>
+           
+
+            <div class="code">
+                <pre>                
+<span class="hl slc">// Example.java</span>
+
+<span class="hl com">/*</span>
+<span class="hl com">* Example opens the source files, calls the AStyleInterface methods</span>
+<span class="hl com">* to format the files, and saves the reformatted source. The files</span>
+<span class="hl com">* are in a test-j directory. The option mode=java must be included</span>
+<span class="hl com">* for java files.</span>
+<span class="hl com">*/</span>
+
+<span class="hl kwa">import</span> java<span class="hl sym">.</span>io<span class="hl sym">.*;</span>
+
+<span class="hl kwa">public class</span> Example
+<span class="hl sym">{</span>
+    <span class="hl kwa">public static</span> <span class="hl kwb">void</span> <span class="hl kwd">main</span><span class="hl sym">(</span><span class="hl kwc">String</span><span class="hl sym">[]</span> args<span class="hl sym">)</span>
+    <span class="hl sym">{</span>
+        <span class="hl slc">// files to pass to AStyle</span>
+        <span class="hl kwc">String</span> fileName<span class="hl sym">[] =  {</span> <span class="hl str">&quot;../test-j/JSBeautifier.java&quot;</span><span class="hl sym">,</span>
+                               <span class="hl str">&quot;../test-j/JSFormatter.java&quot;</span> <span class="hl sym">,</span>
+                               <span class="hl str">&quot;../test-j/JSLineBreaker.java&quot;</span> <span class="hl sym">,</span>
+                             <span class="hl sym">};</span>
+
+        <span class="hl slc">// options to pass to AStyle</span>
+        <span class="hl slc">// mode=java is required for Java files</span>
+        <span class="hl kwc">String</span> options <span class="hl sym">=</span> <span class="hl str">&quot;style=java mode=java&quot;</span><span class="hl sym">;</span>
+
+        <span class="hl slc">// create an object</span>
+        AStyleInterface astyle <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">AStyleInterface</span><span class="hl sym">();</span>
+
+        <span class="hl slc">// get Artistic Style version</span>
+        <span class="hl slc">// does not need to terminate on an error</span>
+        <span class="hl kwc">String</span> version <span class="hl sym">=</span> astyle<span class="hl sym">.</span><span class="hl kwd">getVersion</span><span class="hl sym">();</span>
+        <span class="hl kwa">if</span> <span class="hl sym">(</span>version<span class="hl sym">.</span><span class="hl kwd">length</span><span class="hl sym">() !=</span> <span class="hl num">0</span><span class="hl sym">)</span>
+            <span class="hl kwc">System</span><span class="hl sym">.</span>out<span class="hl sym">.</span><span class="hl kwd">println</span><span class="hl sym">(</span><span class="hl str">&quot;AStyle Version &quot;</span> <span class="hl sym">+</span> version<span class="hl sym">);</span>
+
+        <span class="hl slc">// process the files</span>
+        <span class="hl kwa">for</span> <span class="hl sym">(</span><span class="hl kwb">int</span> i <span class="hl sym">=</span> <span class="hl num">0</span><span class="hl sym">;</span> i <span class="hl sym">&lt;</span> fileName<span class="hl sym">.</span>length<span class="hl sym">;</span> i<span class="hl sym">++) {</span>
+            <span class="hl slc">// get the text to format</span>
+            <span class="hl kwc">String</span> textIn <span class="hl sym">=</span> <span class="hl kwd">getText</span><span class="hl sym">(</span>fileName<span class="hl sym">[</span>i<span class="hl sym">]);</span>
+
+            <span class="hl slc">// call the Artistic Style formatting function</span>
+            <span class="hl slc">// does not need to terminate on an error</span>
+            <span class="hl kwc">String</span> textOut <span class="hl sym">=</span> astyle<span class="hl sym">.</span><span class="hl kwd">formatSource</span><span class="hl sym">(</span>textIn<span class="hl sym">,</span> options<span class="hl sym">);</span>
+            <span class="hl kwa">if</span> <span class="hl sym">(</span>textOut<span class="hl sym">.</span><span class="hl kwd">length</span><span class="hl sym">() ==</span> <span class="hl num">0</span><span class="hl sym">) {</span>
+                <span class="hl kwc">System</span><span class="hl sym">.</span>out<span class="hl sym">.</span><span class="hl kwd">println</span><span class="hl sym">(</span><span class="hl str">&quot;cannot format &quot;</span>  <span class="hl sym">+</span> fileName<span class="hl sym">[</span>i<span class="hl sym">]);</span>
+                <span class="hl kwa">continue</span><span class="hl sym">;</span>
+            <span class="hl sym">}</span>
+
+            <span class="hl slc">// return the formatted text</span>
+            <span class="hl kwc">System</span><span class="hl sym">.</span>out<span class="hl sym">.</span><span class="hl kwd">println</span><span class="hl sym">(</span><span class="hl str">&quot;formatted &quot;</span> <span class="hl sym">+</span> fileName<span class="hl sym">[</span>i<span class="hl sym">]);</span>
+            <span class="hl kwd">setText</span><span class="hl sym">(</span>textOut<span class="hl sym">,</span> fileName<span class="hl sym">[</span>i<span class="hl sym">]);</span>
+        <span class="hl sym">}</span>
+        <span class="hl kwa">return</span><span class="hl sym">;</span>
+    <span class="hl sym">}</span>
+
+    <span class="hl com">/*</span>
+<span class="hl com">    *  Error message function for this example.</span>
+<span class="hl com">    */</span>
+    <span class="hl kwa">private static</span> <span class="hl kwb">void</span> <span class="hl kwd">error</span><span class="hl sym">(</span><span class="hl kwc">String</span> why<span class="hl sym">,</span> <span class="hl kwc">String</span> what<span class="hl sym">)</span>
+    <span class="hl sym">{</span>
+        <span class="hl kwc">System</span><span class="hl sym">.</span>out<span class="hl sym">.</span><span class="hl kwd">println</span><span class="hl sym">(</span>why <span class="hl sym">+</span> <span class="hl str">' '</span> <span class="hl sym">+</span> what<span class="hl sym">);</span>
+        <span class="hl kwc">System</span><span class="hl sym">.</span>out<span class="hl sym">.</span><span class="hl kwd">println</span><span class="hl sym">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl sym">);</span>
+        <span class="hl kwc">System</span><span class="hl sym">.</span><span class="hl kwd">exit</span><span class="hl sym">(</span><span class="hl num">1</span><span class="hl sym">);</span>
+    <span class="hl sym">}</span>
+
+    <span class="hl com">/*</span>
+<span class="hl com">    *  Get the text to be formatted.</span>
+<span class="hl com">    *  Usually the text would be obtained from an edit control.</span>
+<span class="hl com">    */</span>
+    <span class="hl kwa">private static</span> <span class="hl kwc">String</span> <span class="hl kwd">getText</span><span class="hl sym">(</span><span class="hl kwc">String</span> fileName<span class="hl sym">)</span>
+    <span class="hl sym">{</span>
+        <span class="hl slc">// create input buffers</span>
+        <span class="hl kwc">File</span> inFile <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwc">File</span><span class="hl sym">(</span>fileName<span class="hl sym">);</span>
+        <span class="hl kwb">int</span> readSize <span class="hl sym">=</span> <span class="hl num">1024</span><span class="hl sym">;</span>
+        <span class="hl kwc">StringBuffer</span> bufferIn <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwc">StringBuffer</span><span class="hl sym">(</span>readSize<span class="hl sym">);</span>
+        <span class="hl kwb">char</span> fileIn<span class="hl sym">[] =</span> <span class="hl kwa">new</span> <span class="hl kwb">char</span><span class="hl sym">[</span>readSize<span class="hl sym">];</span>
+
+        <span class="hl slc">// read file data</span>
+        <span class="hl kwa">try</span> <span class="hl sym">{</span>
+            <span class="hl kwc">BufferedReader</span> in <span class="hl sym">=</span>
+                <span class="hl kwa">new</span> <span class="hl kwc">BufferedReader</span><span class="hl sym">(</span><span class="hl kwa">new</span> <span class="hl kwc">FileReader</span><span class="hl sym">(</span>inFile<span class="hl sym">));</span>
+            <span class="hl slc">// use read to preserve the current line endings</span>
+            <span class="hl kwb">int</span> charsIn <span class="hl sym">=</span> in<span class="hl sym">.</span><span class="hl kwd">read</span><span class="hl sym">(</span>fileIn<span class="hl sym">,</span> <span class="hl num">0</span><span class="hl sym">,</span> readSize<span class="hl sym">);</span>
+            <span class="hl kwa">while</span> <span class="hl sym">(</span>charsIn <span class="hl sym">!= -</span><span class="hl num">1</span><span class="hl sym">) {</span>
+                bufferIn<span class="hl sym">.</span><span class="hl kwd">append</span><span class="hl sym">(</span>fileIn<span class="hl sym">,</span> <span class="hl num">0</span><span class="hl sym">,</span> charsIn<span class="hl sym">);</span>
+                charsIn <span class="hl sym">=</span> in<span class="hl sym">.</span><span class="hl kwd">read</span><span class="hl sym">(</span>fileIn<span class="hl sym">,</span> <span class="hl num">0</span><span class="hl sym">,</span> readSize<span class="hl sym">);</span>
+            <span class="hl sym">}</span>
+            in<span class="hl sym">.</span><span class="hl kwd">close</span><span class="hl sym">();</span>
+        <span class="hl sym">}</span> <span class="hl kwa">catch</span> <span class="hl sym">(</span><span class="hl kwc">Exception</span> e<span class="hl sym">) {</span>
+            <span class="hl kwa">if</span> <span class="hl sym">(</span>e <span class="hl kwa">instanceof</span> <span class="hl kwc">FileNotFoundException</span><span class="hl sym">)</span>
+                <span class="hl kwd">error</span><span class="hl sym">(</span><span class="hl str">&quot;Could not open input file&quot;</span><span class="hl sym">,</span> fileName<span class="hl sym">);</span>
+            <span class="hl kwa">else if</span> <span class="hl sym">(</span>e <span class="hl kwa">instanceof</span> <span class="hl kwc">IOException</span><span class="hl sym">)</span>
+                <span class="hl kwd">error</span><span class="hl sym">(</span><span class="hl str">&quot;Error reading file&quot;</span><span class="hl sym">,</span> fileName<span class="hl sym">);</span>
+            <span class="hl kwa">else</span>
+                <span class="hl kwd">error</span><span class="hl sym">(</span>e<span class="hl sym">.</span><span class="hl kwd">getMessage</span><span class="hl sym">(),</span> fileName<span class="hl sym">);</span>
+        <span class="hl sym">}</span>
+
+        <span class="hl kwa">return</span> bufferIn<span class="hl sym">.</span><span class="hl kwd">toString</span><span class="hl sym">();</span>
+    <span class="hl sym">}</span>
+
+    <span class="hl com">/*</span>
+<span class="hl com">    *  Return the formatted text.</span>
+<span class="hl com">    *  Usually the text would be returned to  an edit control.</span>
+<span class="hl com">    */</span>
+    <span class="hl kwa">private static</span> <span class="hl kwb">void</span> <span class="hl kwd">setText</span><span class="hl sym">(</span><span class="hl kwc">String</span> textOut<span class="hl sym">,</span> <span class="hl kwc">String</span> fileName<span class="hl sym">)</span>
+    <span class="hl sym">{</span>
+        <span class="hl slc">// create a backup file</span>
+        <span class="hl kwc">String</span> origFileName <span class="hl sym">=</span> fileName <span class="hl sym">+</span>  <span class="hl str">&quot;.orig&quot;</span><span class="hl sym">;</span>
+        <span class="hl kwc">File</span> origFile <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwc">File</span><span class="hl sym">(</span>origFileName<span class="hl sym">);</span>
+        <span class="hl kwc">File</span> outFile <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwc">File</span><span class="hl sym">(</span>fileName<span class="hl sym">);</span>
+        origFile<span class="hl sym">.</span><span class="hl kwd">delete</span><span class="hl sym">();</span>                  <span class="hl slc">// remove a pre-existing file</span>
+        <span class="hl kwa">if</span> <span class="hl sym">(!</span>outFile<span class="hl sym">.</span><span class="hl kwd">renameTo</span><span class="hl sym">(</span>origFile<span class="hl sym">))</span>
+            <span class="hl kwd">error</span><span class="hl sym">(</span><span class="hl str">&quot;Could not create backup file&quot;</span><span class="hl sym">,</span> origFileName<span class="hl sym">);</span>
+
+        <span class="hl slc">// write the output file - same name as input</span>
+        <span class="hl kwa">try</span> <span class="hl sym">{</span>
+            <span class="hl kwc">BufferedWriter</span> out <span class="hl sym">=</span>
+                <span class="hl kwa">new</span> <span class="hl kwc">BufferedWriter</span><span class="hl sym">(</span><span class="hl kwa">new</span> <span class="hl kwc">FileWriter</span><span class="hl sym">(</span>fileName<span class="hl sym">));</span>
+            out<span class="hl sym">.</span><span class="hl kwd">write</span><span class="hl sym">(</span>textOut<span class="hl sym">,</span> <span class="hl num">0</span><span class="hl sym">,</span> textOut<span class="hl sym">.</span><span class="hl kwd">length</span><span class="hl sym">());</span>
+            out<span class="hl sym">.</span><span class="hl kwd">close</span><span class="hl sym">();</span>
+        <span class="hl sym">}</span> <span class="hl kwa">catch</span> <span class="hl sym">(</span><span class="hl kwc">IOException</span> e<span class="hl sym">) {</span>
+            <span class="hl kwd">error</span><span class="hl sym">(</span><span class="hl str">&quot;Could not write to output&quot;</span><span class="hl sym">,</span> fileName<span class="hl sym">);</span>
+        <span class="hl sym">}</span>
+    <span class="hl sym">}</span>
+
+<span class="hl sym">}</span>   <span class="hl slc">// class Example</span>
+
+</pre>
+</div>
+
+<p>&nbsp;</p>
+   
+<div class="code">
+      <pre>
+
+<span class="hl slc">// AStyleInterface.java</span>
+
+<span class="hl com">/**</span>
+<span class="hl com">* AStyleInterface contains methods to call the Artistic Style formatter.</span>
+<span class="hl com">* Changing the class name requires changing Artistic Style.</span>
+<span class="hl com">*/</span>
+
+<span class="hl kwa">class</span> AStyleInterface
+<span class="hl sym">{</span>
+    <span class="hl com">/**</span>
+<span class="hl com">    *  Call the AStyleMain function in Artistic Style.</span>
+<span class="hl com">    *  &#64;param   textIn   A string containing the source code to be formatted.</span>
+<span class="hl com">    *  &#64;param   options  A string of options to Artistic Style.</span>
+<span class="hl com">    *  &#64;return  A String containing the formatted source from Artistic Style,</span>
+<span class="hl com">    *           or an empty string on error.</span>
+<span class="hl com">    */</span>
+    <span class="hl kwa">public</span> <span class="hl kwc">String</span> <span class="hl kwd">formatSource</span><span class="hl sym">(</span><span class="hl kwc">String</span> textIn<span class="hl sym">,</span> <span class="hl kwc">String</span> options<span class="hl sym">)</span>
+    <span class="hl sym">{</span>
+        <span class="hl slc">// Return the allocated string</span>
+        <span class="hl slc">// Memory space is allocated by OnAStyleMemAlloc, a callback function from AStyle</span>
+        <span class="hl kwc">String</span> textOut <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwc">String</span><span class="hl sym">(</span><span class="hl str">&quot;&quot;</span><span class="hl sym">);</span>
+        <span class="hl kwa">try</span> <span class="hl sym">{</span>
+            textOut <span class="hl sym">=</span> <span class="hl kwd">AStyleMain</span><span class="hl sym">(</span>textIn<span class="hl sym">,</span> options<span class="hl sym">);</span>
+        <span class="hl sym">}</span> <span class="hl kwa">catch</span> <span class="hl sym">(</span><span class="hl kwc">UnsatisfiedLinkError</span> e<span class="hl sym">) {</span>
+<span class="hl slc">//            System.out.println(e.getMessage());</span>
+            <span class="hl kwc">System</span><span class="hl sym">.</span>out<span class="hl sym">.</span><span class="hl kwd">println</span><span class="hl sym">(</span><span class="hl str">&quot;cannot call function AStyleMain&quot;</span><span class="hl sym">);</span>
+        <span class="hl sym">}</span>
+        <span class="hl kwa">return</span> textOut<span class="hl sym">;</span>
+    <span class="hl sym">}</span>
+
+    <span class="hl com">/**</span>
+<span class="hl com">    *  Call the AStyleGetVersion function in Artistic Style.</span>
+<span class="hl com">    *  &#64;return  A String containing the formatted source from Artistic Style,</span>
+<span class="hl com">    *           or an empty string on error.</span>
+<span class="hl com">    */</span>
+    <span class="hl kwa">public</span> <span class="hl kwc">String</span> <span class="hl kwd">getVersion</span><span class="hl sym">()</span>
+    <span class="hl sym">{</span>
+        <span class="hl kwc">String</span> version <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwc">String</span><span class="hl sym">();</span>
+        <span class="hl kwa">try</span> <span class="hl sym">{</span>
+            version <span class="hl sym">=</span> <span class="hl kwd">AStyleGetVersion</span><span class="hl sym">();</span>
+        <span class="hl sym">}</span> <span class="hl kwa">catch</span> <span class="hl sym">(</span><span class="hl kwc">UnsatisfiedLinkError</span> e<span class="hl sym">) {</span>
+<span class="hl slc">//            System.out.println(e.getMessage());</span>
+            <span class="hl kwc">System</span><span class="hl sym">.</span>out<span class="hl sym">.</span><span class="hl kwd">println</span><span class="hl sym">(</span><span class="hl str">&quot;cannot call function GetVersion&quot;</span><span class="hl sym">);</span>
+        <span class="hl sym">}</span>
+        <span class="hl kwa">return</span> version<span class="hl sym">;</span>
+    <span class="hl sym">}</span>
+
+    <span class="hl slc">// functions to call Artistic Style ---------------------------------------------------</span>
+
+    <span class="hl com">/**</span>
+<span class="hl com">    * Static constructor to load the native Artistic Style library.</span>
+<span class="hl com">    * Does not need to terminate if the shared library fails to load.</span>
+<span class="hl com">    * But the exception must be handled when a function is called.</span>
+<span class="hl com">    */</span>
+    <span class="hl kwa">static</span>
+    <span class="hl sym">{</span>
+        <span class="hl slc">// load shared library from the classpath</span>
+        <span class="hl kwc">String</span> astylePath <span class="hl sym">=</span> <span class="hl kwc">System</span><span class="hl sym">.</span><span class="hl kwd">getProperty</span><span class="hl sym">(</span><span class="hl str">&quot;java.class.path&quot;</span><span class="hl sym">)</span>
+                            <span class="hl sym">+</span> <span class="hl kwc">System</span><span class="hl sym">.</span><span class="hl kwd">getProperty</span><span class="hl sym">(</span><span class="hl str">&quot;file.separator&quot;</span><span class="hl sym">)</span>
+                            <span class="hl sym">+</span> <span class="hl kwc">System</span><span class="hl sym">.</span><span class="hl kwd">mapLibraryName</span><span class="hl sym">(</span><span class="hl str">&quot;astylej&quot;</span><span class="hl sym">);</span>
+        <span class="hl kwa">try</span> <span class="hl sym">{</span>
+            <span class="hl kwc">System</span><span class="hl sym">.</span><span class="hl kwd">load</span><span class="hl sym">(</span>astylePath<span class="hl sym">);</span>
+        <span class="hl sym">}</span> <span class="hl kwa">catch</span> <span class="hl sym">(</span><span class="hl kwc">UnsatisfiedLinkError</span> e<span class="hl sym">) {</span>
+<span class="hl slc">//            System.out.println(e.getMessage());</span>
+            <span class="hl kwc">System</span><span class="hl sym">.</span>out<span class="hl sym">.</span><span class="hl kwd">println</span><span class="hl sym">(</span><span class="hl str">&quot;cannot load library &quot;</span> <span class="hl sym">+</span> astylePath<span class="hl sym">);</span>
+        <span class="hl sym">}</span>
+    <span class="hl sym">}</span>
+
+    <span class="hl com">/**</span>
+<span class="hl com">    *  Calls the AStyleMain function in Artistic Style.</span>
+<span class="hl com">    *</span>
+<span class="hl com">    *  &#64;param   textIn   A string containing the source code to be formatted.</span>
+<span class="hl com">    *  &#64;param   options  A string of options to Artistic Style.</span>
+<span class="hl com">    *  &#64;return  A String containing the formatted source from Artistic Style.</span>
+<span class="hl com">    */</span>
+    <span class="hl kwa">public native</span> <span class="hl kwc">String</span> <span class="hl kwd">AStyleMain</span><span class="hl sym">(</span><span class="hl kwc">String</span> textIn<span class="hl sym">,</span> <span class="hl kwc">String</span> options<span class="hl sym">);</span>
+
+    <span class="hl com">/**</span>
+<span class="hl com">    * Calls the AStyleGetVersion function in Artistic Style.</span>
+<span class="hl com">    *</span>
+<span class="hl com">    * &#64;return    A String containing the version number of Artistic Style.</span>
+<span class="hl com">    */</span>
+    <span class="hl kwa">public native</span> <span class="hl kwc">String</span> <span class="hl kwd">AStyleGetVersion</span><span class="hl sym">();</span>
+
+    <span class="hl com">/**</span>
+<span class="hl com">    * Error handler for messages from Artistic Style.</span>
+<span class="hl com">    * This method is called only if there are errors when AStyleMain is called.</span>
+<span class="hl com">    * This is for debugging and there should be no errors when the calling</span>
+<span class="hl com">    *  parameters are correct.</span>
+<span class="hl com">    * Changing the method name requires changing Artistic Style.</span>
+<span class="hl com">    * Signature: (ILjava/lang/String;)V</span>
+<span class="hl com">    *</span>
+<span class="hl com">    *  &#64;param  errorNumber   The error number from Artistic Style.</span>
+<span class="hl com">    *  &#64;param  errorMessage  The error message from Artistic Style.</span>
+<span class="hl com">    */</span>
+    <span class="hl kwa">private</span> <span class="hl kwb">void</span> <span class="hl kwc">ErrorHandler</span><span class="hl sym">(</span><span class="hl kwb">int</span> errorNumber<span class="hl sym">,</span> <span class="hl kwc">String</span> errorMessage<span class="hl sym">)</span>
+    <span class="hl sym">{</span>
+        <span class="hl kwc">System</span><span class="hl sym">.</span>out<span class="hl sym">.</span><span class="hl kwd">println</span><span class="hl sym">(</span><span class="hl str">&quot;astyle error &quot;</span>
+                           <span class="hl sym">+</span> <span class="hl kwc">String</span><span class="hl sym">.</span><span class="hl kwd">valueOf</span><span class="hl sym">(</span>errorNumber<span class="hl sym">)</span>
+                           <span class="hl sym">+</span> <span class="hl str">&quot; - &quot;</span> <span class="hl sym">+</span> errorMessage<span class="hl sym">);</span>
+    <span class="hl sym">}</span>
+
+<span class="hl sym">}</span>   <span class="hl slc">// class AStyleInterface</span>
+
+</pre>
+</div>
+
+    <p>&nbsp;</p>
+
+    <center style="margin-left:-0.4in;">
+    <a href="http://sourceforge.net/projects/astyle"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=2319&type=16" 
+    width="150" height="40" border="0" alt="Get Artistic Style at SourceForge.net. Fast, secure and Free Open Source software downloads" /></a>
+    </center>
+
+    <p>&nbsp;</p>
+
+</body>
+</html>
