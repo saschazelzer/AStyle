@@ -1,0 +1,13 @@
+
+LIBRARY "AStylej.dll"
+DESCRIPTION 'AStyle as a JNI DLL'
+EXETYPE NT
+SUBSYSTEM WINDOWS
+CODE SHARED EXECUTE
+DATA WRITE
+
+EXPORTS
+	_Java_ASInterface_AStyleMain@16                               @ 1
+	Java_ASInterface_AStyleMain = _Java_ASInterface_AStyleMain@16 @ 2
+	_Java_ASInterface_GetVersion@8                                @ 3
+	Java_ASInterface_GetVersion = _Java_ASInterface_GetVersion@8 @ 4

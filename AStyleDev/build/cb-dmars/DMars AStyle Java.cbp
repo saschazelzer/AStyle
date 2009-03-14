@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="DMars AStyle Java" />
+		<Option pch_mode="0" />
+		<Option default_target="ExampleD" />
+		<Option compiler="dmc" />
+		<Build>
+			<Target title="AStyleJ">
+				<Option output="bin\AStylej" prefix_auto="0" extension_auto="1" />
+				<Option object_output="objJava" />
+				<Option type="3" />
+				<Option compiler="dmc" />
+				<Option projectCompilerOptionsRelation="1" />
+				<Option projectLinkerOptionsRelation="1" />
+				<Option projectIncludeDirsRelation="1" />
+				<Option projectResourceIncludeDirsRelation="1" />
+				<Option projectLibDirsRelation="1" />
+				<Compiler>
+					<Add option="-x" />
+					<Add option="-WD" />
+					<Add option="-w-" />
+					<Add option="-DASTYLE_JNI" />
+					<Add option="-DNDEBUG" />
+					<Add directory="C:\Program Files\Java\jdk1.6.0_11\include" />
+					<Add directory="C:\Program Files\Java\jdk1.6.0_11\include\win32" />
+				</Compiler>
+				<Linker>
+					<Add option="/delexecutable" />
+					<Add option="/implib" />
+					<Add library="kernel32" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="cmd /c  del *.map" />
+					<Add after="cmd /c  move /y  AStylej.lib bin &gt; NUL" />
+					<Add after="cmd /c  copy /y  bin\AStylej.dll  ..\..\src-j\  &gt; NUL" />
+					<Add after="cmd /c  copy /y  bin\AStylej.dll  ..\..\src-jx\ &gt; NUL" />
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<VirtualTargets>
+			<Add alias="All" targets="AStyleJ;" />
+		</VirtualTargets>
+		<Unit filename="DllMain.cpp" />
+		<Unit filename="..\..\..\AStyle\src\ASBeautifier.cpp" />
+		<Unit filename="..\..\..\AStyle\src\ASEnhancer.cpp" />
+		<Unit filename="..\..\..\AStyle\src\ASFormatter.cpp" />
+		<Unit filename="..\..\..\AStyle\src\ASResource.cpp" />
+		<Unit filename="..\..\..\AStyle\src\astyle.h" />
+		<Unit filename="..\..\..\AStyle\src\astyle_main.cpp" />
+		<Unit filename="..\..\..\AStyle\src\astyle_main.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

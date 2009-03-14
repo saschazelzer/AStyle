@@ -1,0 +1,13 @@
+
+LIBRARY "AStyle.dll"
+DESCRIPTION 'AStyle as a DLL'
+EXETYPE NT
+SUBSYSTEM WINDOWS
+CODE SHARED EXECUTE
+DATA WRITE
+
+EXPORTS
+	_AStyleMain@16              @ 1
+	AStyleMain = _AStyleMain@16 @ 2
+	_AStyleGetVersion@0      @3
+	AStyleGetVersion = _AStyleGetVersion@0      @4
