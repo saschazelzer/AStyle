@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D548198F-FB9D-4235-AF8D-AF0C227F25E9}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\doc\cpp.html = ..\..\doc\cpp.html
+		..\..\doc\highlight-emacs.css = ..\..\doc\highlight-emacs.css
+		..\..\doc\highlight-ide-msvs2008.css = ..\..\doc\highlight-ide-msvs2008.css
+		..\..\doc\highlight-typical.css = ..\..\doc\highlight-typical.css
+		..\..\doc\index.html = ..\..\doc\index.html
+		..\..\doc\jni.html = ..\..\doc\jni.html
+		..\..\doc\sharp.html = ..\..\doc\sharp.html
+		..\..\doc\styles.css = ..\..\doc\styles.css
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
