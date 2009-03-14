@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Workspace">
+		<Project filename="MinGW AStyle.cbp" active="1" />
+		<Project filename="MinGW AStyle Java.cbp" />
+		<Project filename="MinGW AStyle Sharp.cbp" />
+		<Project filename="MinGW Example Dll.cbp" />
+		<Project filename="MinGW Example Lib.cbp" />
+		<Project filename="MinGW Example Obj.cbp" />
+		<Project filename="MinGW Example2 Dll.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>
