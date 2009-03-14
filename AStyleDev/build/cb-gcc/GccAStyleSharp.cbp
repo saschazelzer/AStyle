@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Gcc AStyle Sharp" />
+		<Option pch_mode="0" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="AStyleSo">
+				<Option output="bin/libastyle" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objSo" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option parameters="../test/*.cpp  ../test/*.h" />
+				<Option projectCompilerOptionsRelation="1" />
+				<Option projectLinkerOptionsRelation="1" />
+				<Option projectIncludeDirsRelation="1" />
+				<Option projectResourceIncludeDirsRelation="1" />
+				<Option projectLibDirsRelation="1" />
+				<Compiler>
+					<Add option="-O3" />
+					<Add option="-W" />
+					<Add option="-Wall" />
+					<Add option="-fno-rtti" />
+					<Add option="-fno-exceptions" />
+					<Add option="-DASTYLE_LIB" />
+					<Add option="-DDNDEBUG" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="cp  bin/libastyle.so  ../../src-s/" />
+					<Add after="cp  bin/libastyle.so  ../../src-sx/" />
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<VirtualTargets>
+			<Add alias="All" targets="AStyleSo;" />
+		</VirtualTargets>
+		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
+		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
+		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />
+		<Unit filename="../../../AStyle/src/ASResource.cpp" />
+		<Unit filename="../../../AStyle/src/astyle.h" />
+		<Unit filename="../../../AStyle/src/astyle_main.cpp" />
+		<Unit filename="../../../AStyle/src/astyle_main.h" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
