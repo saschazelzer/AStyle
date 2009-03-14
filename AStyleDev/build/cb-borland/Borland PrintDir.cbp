@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Borland PrintDir" />
+		<Option pch_mode="0" />
+		<Option compiler="bcc" />
+		<Build>
+			<Target title="default">
+				<Option output="bin\PrintDir" prefix_auto="0" extension_auto="1" />
+				<Option object_output="objpd" />
+				<Option deps_output="dep" />
+				<Option type="1" />
+				<Option compiler="bcc" />
+				<Option parameters="C:\" />
+				<Option projectLinkerOptionsRelation="0" />
+				<Option projectIncludeDirsRelation="0" />
+				<Option projectResourceIncludeDirsRelation="0" />
+			</Target>
+		</Build>
+		<VirtualTargets>
+			<Add alias="All" targets="default;" />
+		</VirtualTargets>
+		<Compiler>
+			<Add option="-w" />
+			<Add option="-RT-" />
+			<Add option="-WCR" />
+			<Add option="-DASTYLE_LIB" />
+			<Add option="-DNDEBUG" />
+		</Compiler>
+		<Linker>
+			<Add option="-c" />
+			<Add option="-Gn" />
+			<Add option="-x" />
+			<Add library="cw32" />
+			<Add library="import32" />
+			<Add library="kernel32" />
+		</Linker>
+		<Unit filename="..\..\src-cxx\PrintDir.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

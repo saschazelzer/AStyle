@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Workspace">
+		<Project filename="Borland AStyle.cbp" active="1" />
+		<Project filename="Borland AStyle Java.cbp" />
+		<Project filename="Borland AStyle Sharp.cbp" />
+		<Project filename="Borland Example Dll.cbp" />
+		<Project filename="Borland Example Lib.cbp" />
+		<Project filename="Borland Example Obj.cbp" />
+		<Project filename="Borland Example2 Dll.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>
