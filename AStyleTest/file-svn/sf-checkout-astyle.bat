@@ -3,14 +3,14 @@ REM checkout the files to a working copy
 
 REM do NOT use backslashes in the file:/// statement
 REM do NOT use %USERPROFILE% becaue of the backslashes
-set repos=file:///C:/Users/jp/Projects/TestSvn/Repository
+set repos=https://astyle.svn.sourceforge.net/svnroot/astyle
 set svndir=%repos%/trunk
-set projdir=%USERPROFILE%\Projects\TestSvn\Projects
+set projdir=%USERPROFILE%\Projects
 
 
-if exist  "%projdir%/AStyleDev" (
+if exist  "%projdir%/AStyle" (
 echo -
-echo AStyleDev already checked out
+echo AStyle already checked out
 pause
 exit 100
 )
@@ -18,9 +18,9 @@ exit 100
 REM do NOT use backslashes in the file:/// statement
 echo -
 echo --------------------------
-echo checkout AStyleDev
+echo checkout AStyle
 echo --------------------------
-svn  checkout  "%svndir%/AStyleDev"  "%projdir%/AStyleDev"
+svn  checkout  "%svndir%/AStyle"  "%projdir%/AStyle"
 
 
 echo -

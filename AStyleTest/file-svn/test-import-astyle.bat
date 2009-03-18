@@ -3,7 +3,7 @@ REM create a repository and import the astyle source
 REM global-ignores in config should list unwanted commits
 
 REM do NOT use backslashes in the file:/// statement
-REM do NOT use %USERPROFILE% becaue of the backslashes
+REM do NOT use %USERPROFILE% because of the backslashes
 set repos=file:///C:/Users/jp/Projects/TestSvn/Repository
 set svndir=%repos%/trunk
 

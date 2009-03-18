@@ -3,9 +3,9 @@ REM checkout the files to a working copy
 
 REM do NOT use backslashes in the file:/// statement
 REM do NOT use %USERPROFILE% becaue of the backslashes
-set repos=file:///C:/Users/jp/Projects/TestSvn/Repository
+set repos=https://astyle.svn.sourceforge.net/svnroot/astyle
 set svndir=%repos%/trunk
-set projdir=%USERPROFILE%\Projects\TestSvn\Projects
+set projdir=%USERPROFILE%\Projects
 
 
 if exist  "%projdir%/AStyleDev" (

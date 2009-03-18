@@ -1,8 +1,0 @@
-Subversion Server:
-https://astyle.svn.sourceforge.net
-
-Path to Repository:
-/svnroot/astyle
-
-
-https://astyle.svn.sourceforge.net/svnroot/astyle
