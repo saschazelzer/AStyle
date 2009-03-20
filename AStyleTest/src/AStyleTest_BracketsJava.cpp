@@ -29,7 +29,7 @@ SUITE(JavaBracketOptions)
 	struct javaText
 	{
 		string textStr;
-		const char* text;
+		const char* textIn;
 
 		javaText()
 		{
@@ -49,7 +49,7 @@ SUITE(JavaBracketOptions)
 				"    }\n"
 				"}\n";
 
-			text = textStr.c_str();
+			textIn = textStr.c_str();
 		}
 	};
 
@@ -57,10 +57,9 @@ SUITE(JavaBracketOptions)
 	// AStyle Java Default Bracket Options
 	//-------------------------------------------------------------------------
 
-	TEST(BracketsNone)
+	TEST_FIXTURE(javaText, BracketsNone)
 	{
 		// test default brackets option (do not change)
-		javaText java;
 		char text[] =
 			"\npublic class FooClass\n"
 			"{\n"
@@ -78,15 +77,14 @@ SUITE(JavaBracketOptions)
 			"}\n";
 
 		char options[] = "mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsNoneBlocks)
+	TEST_FIXTURE(javaText, BracketsNoneBlocks)
 	{
 		// test default blocks option, with indent blocks
-		javaText java;
 		char text[] =
 			"\npublic class FooClass\n"
 			"{\n"
@@ -105,16 +103,15 @@ SUITE(JavaBracketOptions)
 			"}\n";
 
 		char options[] = "indent-blocks, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
 
-	TEST(BracketsNoneBrackets)
+	TEST_FIXTURE(javaText, BracketsNoneBrackets)
 	{
 		// test default brackets option, with indent brackets
-		javaText java;
 		char text[] =
 			"\npublic class FooClass\n"
 			"    {\n"
@@ -133,7 +130,7 @@ SUITE(JavaBracketOptions)
 			"    }\n";
 
 		char options[] = "indent-brackets, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
@@ -159,10 +156,9 @@ SUITE(JavaBracketOptions)
 	// AStyle Java Break Bracket Options
 	//-------------------------------------------------------------------------
 
-	TEST(BracketsBreak)
+	TEST_FIXTURE(javaText, BracketsBreak)
 	{
 		// test break brackets option
-		javaText java;
 		char text[] =
 			"\npublic class FooClass\n"
 			"{\n"
@@ -183,15 +179,14 @@ SUITE(JavaBracketOptions)
 			"}\n";
 
 		char options[] = "brackets=break, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsBreakShort)
+	TEST_FIXTURE(javaText, BracketsBreakShort)
 	{
 		// test break brackets short option
-		javaText java;
 		char text[] =
 			"\npublic class FooClass\n"
 			"{\n"
@@ -211,15 +206,14 @@ SUITE(JavaBracketOptions)
 			"    }\n"
 			"}\n";
 		char options[] = "-b, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsBreakBlocks)
+	TEST_FIXTURE(javaText, BracketsBreakBlocks)
 	{
 		// test break brackets option, with indent blocks
-		javaText java;
 		char text[] =
 			"\npublic class FooClass\n"
 			"{\n"
@@ -240,16 +234,15 @@ SUITE(JavaBracketOptions)
 			"}\n";
 
 		char options[] = "brackets=break, indent-blocks, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
 
-	TEST(BracketsBreakBrackets)
+	TEST_FIXTURE(javaText, BracketsBreakBrackets)
 	{
 		// test break brackets option, with indent brackets
-		javaText java;
 		char text[] =
 			"\npublic class FooClass\n"
 			"    {\n"
@@ -270,7 +263,7 @@ SUITE(JavaBracketOptions)
 			"    }\n";
 
 		char options[] = "brackets=break, indent-brackets, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
@@ -295,10 +288,9 @@ SUITE(JavaBracketOptions)
 	// AStyle Java Attach Bracket Options
 	//-------------------------------------------------------------------------
 
-	TEST(BracketsAttach)
+	TEST_FIXTURE(javaText, BracketsAttach)
 	{
 		// test attach brackets option
-		javaText java;
 		char text[] =
 			"\npublic class FooClass {\n"
 			"    private bool var1;\n"
@@ -314,15 +306,14 @@ SUITE(JavaBracketOptions)
 			"}\n";
 
 		char options[] = "brackets=attach, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsAttachShort)
+	TEST_FIXTURE(javaText, BracketsAttachShort)
 	{
 		// test attach brackets short option
-		javaText java;
 		char text[] =
 			"\npublic class FooClass {\n"
 			"    private bool var1;\n"
@@ -337,15 +328,14 @@ SUITE(JavaBracketOptions)
 			"    }\n"
 			"}\n";
 		char options[] = "-a, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsAttachBlocks)
+	TEST_FIXTURE(javaText, BracketsAttachBlocks)
 	{
 		// test attach brackets option, with indent blocks
-		javaText java;
 		char text[] =
 			"\npublic class FooClass {\n"
 			"    private bool var1;\n"
@@ -362,15 +352,14 @@ SUITE(JavaBracketOptions)
 			"}\n";
 
 		char options[] = "brackets=attach, indent-blocks, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsAttachBrackets)
+	TEST_FIXTURE(javaText, BracketsAttachBrackets)
 	{
 		// test attach brackets option, with indent brackets
-		javaText java;
 		char text[] =
 			"\npublic class FooClass {\n"
 			"    private bool var1;\n"
@@ -387,15 +376,14 @@ SUITE(JavaBracketOptions)
 			"    }\n";
 
 		char options[] = "brackets=attach, indent-brackets, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsAttachBreakClosing)
+	TEST_FIXTURE(javaText, BracketsAttachBreakClosing)
 	{
 		// test attach brackets option, with break closing brackets
-		javaText java;
 		char text[] =
 			"\npublic class FooClass {\n"
 			"    private bool var1;\n"
@@ -412,7 +400,7 @@ SUITE(JavaBracketOptions)
 			"}\n";
 
 		char options[] = "brackets=attach, break-closing-brackets, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
@@ -443,10 +431,9 @@ SUITE(JavaBracketOptions)
 	// AStyle Java Linux Bracket Options
 	//-------------------------------------------------------------------------
 
-	TEST(BracketsLinux)
+	TEST_FIXTURE(javaText, BracketsLinux)
 	{
 		// test linux brackets option
-		javaText java;
 		char text[] =
 			"\npublic class FooClass\n"
 			"{\n"
@@ -464,15 +451,14 @@ SUITE(JavaBracketOptions)
 			"}\n";
 
 		char options[] = "brackets=linux, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsLinuxShort)
+	TEST_FIXTURE(javaText, BracketsLinuxShort)
 	{
 		// test linux brackets short option
-		javaText java;
 		char text[] =
 			"\npublic class FooClass\n"
 			"{\n"
@@ -489,15 +475,14 @@ SUITE(JavaBracketOptions)
 			"    }\n"
 			"}\n";
 		char options[] = "-l, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsLinuxBlocks)
+	TEST_FIXTURE(javaText, BracketsLinuxBlocks)
 	{
 		// test linux blocks option, with indent blocks
-		javaText java;
 		char text[] =
 			"\npublic class FooClass\n"
 			"{\n"
@@ -516,15 +501,14 @@ SUITE(JavaBracketOptions)
 			"}\n";
 
 		char options[] = "brackets=linux, indent-blocks, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsLinuxBrackets)
+	TEST_FIXTURE(javaText, BracketsLinuxBrackets)
 	{
 		// test linux brackets option, with indent brackets
-		javaText java;
 		char text[] =
 			"\npublic class FooClass\n"
 			"    {\n"
@@ -543,15 +527,14 @@ SUITE(JavaBracketOptions)
 			"    }\n";
 
 		char options[] = "brackets=linux, indent-brackets, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsLinuxBreakClosing)
+	TEST_FIXTURE(javaText, BracketsLinuxBreakClosing)
 	{
 		// test linux brackets option, with break closing brackets
-		javaText java;
 		char text[] =
 			"\npublic class FooClass\n"
 			"{\n"
@@ -570,7 +553,7 @@ SUITE(JavaBracketOptions)
 			"}\n";
 
 		char options[] = "brackets=linux, break-closing-brackets, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
@@ -595,10 +578,9 @@ SUITE(JavaBracketOptions)
 	// AStyle Java Stroustrup Bracket Options
 	//-------------------------------------------------------------------------
 
-	TEST(BracketsStroustrup)
+	TEST_FIXTURE(javaText, BracketsStroustrup)
 	{
 		// test stroustrup brackets option
-		javaText java;
 		char text[] =
 			"\npublic class FooClass {\n"
 			"    private bool var1;\n"
@@ -615,15 +597,14 @@ SUITE(JavaBracketOptions)
 			"}\n";
 
 		char options[] = "brackets=stroustrup, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsStroustrupShort)
+	TEST_FIXTURE(javaText, BracketsStroustrupShort)
 	{
 		// test stroustrup brackets short option
-		javaText java;
 		char text[] =
 			"\npublic class FooClass {\n"
 			"    private bool var1;\n"
@@ -639,15 +620,14 @@ SUITE(JavaBracketOptions)
 			"    }\n"
 			"}\n";
 		char options[] = "-u, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsStroustrupBlocks)
+	TEST_FIXTURE(javaText, BracketsStroustrupBlocks)
 	{
 		// test stroustrup brackets option, with indent blocks
-		javaText java;
 		char text[] =
 			"\npublic class FooClass {\n"
 			"    private bool var1;\n"
@@ -665,15 +645,14 @@ SUITE(JavaBracketOptions)
 			"}\n";
 
 		char options[] = "brackets=stroustrup, indent-blocks, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsStroustrupBrackets)
+	TEST_FIXTURE(javaText, BracketsStroustrupBrackets)
 	{
 		// test stroustrup brackets option, with indent brackets
-		javaText java;
 		char text[] =
 			"\npublic class FooClass {\n"
 			"    private bool var1;\n"
@@ -691,15 +670,14 @@ SUITE(JavaBracketOptions)
 			"    }\n";
 
 		char options[] = "brackets=stroustrup, indent-brackets, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsStroustrupBreakClosing)
+	TEST_FIXTURE(javaText, BracketsStroustrupBreakClosing)
 	{
 		// test stroustrup brackets option, with brea closing brackets
-		javaText java;
 		char text[] =
 			"\npublic class FooClass {\n"
 			"    private bool var1;\n"
@@ -717,7 +695,7 @@ SUITE(JavaBracketOptions)
 			"}\n";
 
 		char options[] = "brackets=stroustrup, break-closing-brackets, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
@@ -742,36 +720,30 @@ SUITE(JavaBracketOptions)
 	// AStyle Java Other Bracket Options
 	//-------------------------------------------------------------------------
 
-	TEST(BracketsOtherNamespace)
+	TEST_FIXTURE(javaText, BracketsOtherNamespace)
 	{
 		// indent namespaces should NOT affect java formatting
-		javaText java;
-
 		char options[] = "indent-namespaces, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
-		CHECK_EQUAL(java.text, textOut);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+		CHECK_EQUAL(textIn, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsOtherClass)
+	TEST_FIXTURE(javaText, BracketsOtherClass)
 	{
 		// indent classes should NOT affect java formatting
-		javaText java;
-
 		char options[] = "indent-classes, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
-		CHECK_EQUAL(java.text, textOut);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+		CHECK_EQUAL(textIn, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsOtherNamespaceClass)
+	TEST_FIXTURE(javaText, BracketsOtherNamespaceClass)
 	{
 		// indent namespaces and classes should NOT affect java formatting
-		javaText java;
-
 		char options[] = "indent-namespaces, indent-classes, mode=java";
-		char* textOut = AStyleMain(java.text, options, errorHandler, memoryAlloc);
-		CHECK_EQUAL(java.text, textOut);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+		CHECK_EQUAL(textIn, textOut);
 		delete [] textOut;
 	}
 

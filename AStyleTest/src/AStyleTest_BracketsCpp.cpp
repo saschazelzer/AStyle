@@ -29,7 +29,7 @@ SUITE(CppBracketOptions)
 	struct cppText
 	{
 		string textStr;
-		const char* text;
+		const char* textIn;
 
 		cppText()
 		{
@@ -58,7 +58,7 @@ SUITE(CppBracketOptions)
 			    "\n"
 			    "}   // end FooName\n";
 
-			text = textStr.c_str();
+			textIn = textStr.c_str();
 		}
 	};
 
@@ -66,10 +66,9 @@ SUITE(CppBracketOptions)
 // AStyle C++ Default Bracket Options
 //-------------------------------------------------------------------------
 
-	TEST(BracketsNone)
+	TEST_FIXTURE(cppText, BracketsNone)
 	{
 		// test default brackets option (do not change)
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "{\n"
@@ -95,16 +94,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsNoneNamespace)
+	TEST_FIXTURE(cppText, BracketsNoneNamespace)
 	{
 		// test default brackets option (do not change)
 		// indented namespace
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "{\n"
@@ -130,16 +128,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "indent-namespaces";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsNoneClass)
+	TEST_FIXTURE(cppText, BracketsNoneClass)
 	{
 		// test default brackets option (do not change)
 		// indent class blocks
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "{\n"
@@ -165,15 +162,14 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "indent-classes";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsNoneBlocks)
+	TEST_FIXTURE(cppText, BracketsNoneBlocks)
 	{
 		// test default blocks option (do not change brackets)
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "{\n"
@@ -200,15 +196,14 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "indent-blocks";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsNoneNamespaceBlocks)
+	TEST_FIXTURE(cppText, BracketsNoneNamespaceBlocks)
 	{
 		// test default brackets option (do not change brackets)
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "{\n"
@@ -235,16 +230,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "indent-blocks, indent-namespaces";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsNoneBrackets)
+	TEST_FIXTURE(cppText, BracketsNoneBrackets)
 	{
 		// test default brackets option (do not change)
 		// indent brackets
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "{\n"
@@ -271,17 +265,16 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "indent-brackets";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
 
-	TEST(BracketsNoneNamespaceBrackets)
+	TEST_FIXTURE(cppText, BracketsNoneNamespaceBrackets)
 	{
 		// test default brackets option (do not change)
 		// indent brackets, indent namespaces
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "    {\n"
@@ -308,13 +301,13 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "    }   // end FooName\n";
 		char options[] = "indent-brackets, indent-namespaces";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
 
-	TEST(BracketsNoneEmptyBrackets)
+	TEST_FIXTURE(cppText, BracketsNoneEmptyBrackets)
 	{
 		// test default brackets option (do not change)
 		// do not change empty brackets
@@ -340,10 +333,9 @@ SUITE(CppBracketOptions)
 // AStyle C++ Break Bracket Options
 //-------------------------------------------------------------------------
 
-	TEST(BracketsBreak)
+	TEST_FIXTURE(cppText, BracketsBreak)
 	{
 		// test break brackets option
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "{\n"
@@ -372,15 +364,14 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=break";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsBreakShort)
+	TEST_FIXTURE(cppText, BracketsBreakShort)
 	{
 		// test break brackets short option
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "{\n"
@@ -409,16 +400,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "-b";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsBreakNamespace)
+	TEST_FIXTURE(cppText, BracketsBreakNamespace)
 	{
 		// test break brackets option
 		// indented namespace
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "{\n"
@@ -447,16 +437,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=break, indent-namespaces";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsBreakClass)
+	TEST_FIXTURE(cppText, BracketsBreakClass)
 	{
 		// test break brackets option
 		// indent class blocks
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "{\n"
@@ -485,16 +474,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=break, indent-classes";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsBreakBlocks)
+	TEST_FIXTURE(cppText, BracketsBreakBlocks)
 	{
 		// test break brackets option
 		// indent blocks
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "{\n"
@@ -523,16 +511,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=break, indent-blocks";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsBreakNamespaceBlocks)
+	TEST_FIXTURE(cppText, BracketsBreakNamespaceBlocks)
 	{
 		// test break brackets option
 		// indent blocks, indent namespaces
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "{\n"
@@ -561,16 +548,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=break, indent-blocks, indent-namespaces";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsBreakBrackets)
+	TEST_FIXTURE(cppText, BracketsBreakBrackets)
 	{
 		// test break brackets option
 		// indent brackets
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "{\n"
@@ -599,17 +585,16 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=break, indent-brackets";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
 
-	TEST(BracketsBreakNamespaceBrackets)
+	TEST_FIXTURE(cppText, BracketsBreakNamespaceBrackets)
 	{
 		// test break brackets option
 		// indent brackets, indent namespaces
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "    {\n"
@@ -638,7 +623,7 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "    }   // end FooName\n";
 		char options[] = "brackets=break, indent-brackets, indent-namespaces";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
@@ -669,10 +654,9 @@ SUITE(CppBracketOptions)
 // AStyle C++ Attach Bracket Options
 //-------------------------------------------------------------------------
 
-	TEST(BracketsAttach)
+	TEST_FIXTURE(cppText, BracketsAttach)
 	{
 		// test attach brackets option
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName {\n"
 		    "\n"
@@ -695,15 +679,14 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=attach";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsAttachShort)
+	TEST_FIXTURE(cppText, BracketsAttachShort)
 	{
 		// test attach brackets option
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName {\n"
 		    "\n"
@@ -726,16 +709,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "-a";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsAttachNamespace)
+	TEST_FIXTURE(cppText, BracketsAttachNamespace)
 	{
 		// test attach brackets option
 		// indented namespace
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName {\n"
 		    "\n"
@@ -758,16 +740,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=attach, indent-namespaces";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsAttachClass)
+	TEST_FIXTURE(cppText, BracketsAttachClass)
 	{
 		// test attach brackets option
 		// indent class blocks
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName {\n"
 		    "\n"
@@ -790,16 +771,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=attach, indent-classes";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsAttachBlocks)
+	TEST_FIXTURE(cppText, BracketsAttachBlocks)
 	{
 		// test attach brackets option
 		// indent blocks
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName {\n"
 		    "\n"
@@ -823,16 +803,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=attach, indent-blocks";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsAttachNamespaceBlocks)
+	TEST_FIXTURE(cppText, BracketsAttachNamespaceBlocks)
 	{
 		// test attach brackets option
 		// indent blocks, indent namespaces
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName {\n"
 		    "\n"
@@ -856,16 +835,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=attach, indent-blocks, indent-namespaces";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsAttachBrackets)
+	TEST_FIXTURE(cppText, BracketsAttachBrackets)
 	{
 		// test attach brackets option
 		// indent brackets
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName {\n"
 		    "\n"
@@ -889,17 +867,16 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=attach, indent-brackets";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
 
-	TEST(BracketsAttachNamespaceBrackets)
+	TEST_FIXTURE(cppText, BracketsAttachNamespaceBrackets)
 	{
 		// test attach brackets option
 		// indent brackets, indent namespaces
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName {\n"
 		    "\n"
@@ -923,16 +900,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "    }   // end FooName\n";
 		char options[] = "brackets=attach, indent-brackets, indent-namespaces";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
 
-	TEST(BracketsAttachBreakClosing)
+	TEST_FIXTURE(cppText, BracketsAttachBreakClosing)
 	{
 		// test attach brackets option
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName {\n"
 		    "\n"
@@ -956,7 +932,7 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=attach, break-closing-brackets";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
@@ -996,10 +972,9 @@ SUITE(CppBracketOptions)
 // AStyle C++ Linux Bracket Options
 //-------------------------------------------------------------------------
 
-	TEST(BracketsLinux)
+	TEST_FIXTURE(cppText, BracketsLinux)
 	{
 		// test linux brackets option
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "{\n"
@@ -1025,15 +1000,14 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=linux";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsLinuxShort)
+	TEST_FIXTURE(cppText, BracketsLinuxShort)
 	{
 		// test linux brackets option
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "{\n"
@@ -1059,16 +1033,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "-l";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsLinuxNamespace)
+	TEST_FIXTURE(cppText, BracketsLinuxNamespace)
 	{
 		// test linux brackets option
 		// indented namespace
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "{\n"
@@ -1094,16 +1067,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=linux, indent-namespaces";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsLinuxClass)
+	TEST_FIXTURE(cppText, BracketsLinuxClass)
 	{
 		// test linux brackets option
 		// indent class blocks
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "{\n"
@@ -1129,16 +1101,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=linux, indent-classes";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsLinuxBlocks)
+	TEST_FIXTURE(cppText, BracketsLinuxBlocks)
 	{
 		// test linux brackets option
 		// indent blocks
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "{\n"
@@ -1165,16 +1136,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=linux, indent-blocks";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsLinuxNamespaceBlocks)
+	TEST_FIXTURE(cppText, BracketsLinuxNamespaceBlocks)
 	{
 		// test linux brackets option
 		// indent blocks, indent namespaces
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "{\n"
@@ -1201,16 +1171,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=linux, indent-blocks, indent-namespaces";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsLinuxBrackets)
+	TEST_FIXTURE(cppText, BracketsLinuxBrackets)
 	{
 		// test linux brackets option
 		// indent brackets
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "{\n"
@@ -1237,16 +1206,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=linux, indent-brackets";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsLinuxNamespaceBrackets)
+	TEST_FIXTURE(cppText, BracketsLinuxNamespaceBrackets)
 	{
 		// test linux brackets option
 		// indent brackets, indent namespaces
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "    {\n"
@@ -1273,16 +1241,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "    }   // end FooName\n";
 		char options[] = "brackets=linux, indent-brackets, indent-namespaces";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsLinuxBreakClosing)
+	TEST_FIXTURE(cppText, BracketsLinuxBreakClosing)
 	{
 		// test break closing brackets option with linux brackets
 		// effective only with attach or lnux brackets
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName\n"
 		    "{\n"
@@ -1309,7 +1276,7 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=linux, break-closing-brackets";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
@@ -1348,7 +1315,7 @@ SUITE(CppBracketOptions)
 		delete [] textOut;
 	}
 
-	TEST(BracketsLinuxFormatting)
+	TEST_FIXTURE(cppText, BracketsLinuxFormatting)
 	{
 		// test linux brackets option, for non-function top level objects
 		// brackets are attached for function definitions within a class 
@@ -1446,10 +1413,9 @@ SUITE(CppBracketOptions)
 // AStyle C++ Stroustrup Bracket Options
 //-------------------------------------------------------------------------
 
-	TEST(BracketsStroustrup)
+	TEST_FIXTURE(cppText, BracketsStroustrup)
 	{
 		// test stroustrup brackets option
-		cppText cpp;
 		char text[] =
 			"\nnamespace FooName {\n"
 		    "\n"
@@ -1473,15 +1439,14 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=stroustrup";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsStroustrupShort)
+	TEST_FIXTURE(cppText, BracketsStroustrupShort)
 	{
 		// test stroustrup brackets option
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName {\n"
 		    "\n"
@@ -1505,16 +1470,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "-u";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsStroustrupNamespace)
+	TEST_FIXTURE(cppText, BracketsStroustrupNamespace)
 	{
 		// test stroustrup brackets option
 		// indented namespace
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName {\n"
 		    "\n"
@@ -1538,16 +1502,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=stroustrup, indent-namespaces";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsStroustrupClass)
+	TEST_FIXTURE(cppText, BracketsStroustrupClass)
 	{
 		// test stroustrup brackets option
 		// indent class blocks
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName {\n"
 		    "\n"
@@ -1571,16 +1534,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=stroustrup, indent-classes";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsStroustrupBlocks)
+	TEST_FIXTURE(cppText, BracketsStroustrupBlocks)
 	{
 		// test stroustrup brackets option
 		// indent blocks
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName {\n"
 		    "\n"
@@ -1605,16 +1567,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=stroustrup, indent-blocks";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsStroustrupNamespaceBlocks)
+	TEST_FIXTURE(cppText, BracketsStroustrupNamespaceBlocks)
 	{
 		// test stroustrup brackets option
 		// indent blocks, indent namespaces
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName {\n"
 		    "\n"
@@ -1639,16 +1600,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=stroustrup, indent-blocks, indent-namespaces";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsStroustrupBrackets)
+	TEST_FIXTURE(cppText, BracketsStroustrupBrackets)
 	{
 		// test stroustrup brackets option
 		// indent brackets
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName {\n"
 		    "\n"
@@ -1673,16 +1633,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=stroustrup, indent-brackets";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsStroustrupNamespaceBrackets)
+	TEST_FIXTURE(cppText, BracketsStroustrupNamespaceBrackets)
 	{
 		// test stroustrup brackets option
 		// indent brackets, indent namespaces
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName {\n"
 		    "\n"
@@ -1707,16 +1666,15 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "    }   // end FooName\n";
 		char options[] = "brackets=stroustrup, indent-brackets, indent-namespaces";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsStroustrupBreakClosing)
+	TEST_FIXTURE(cppText, BracketsStroustrupBreakClosing)
 	{
 		// test break closing brackets option with stroustrup brackets
 		// effective only with attach, linux, or stroustrup brackets
-		cppText cpp;
 		char text[] =
 		    "\nnamespace FooName {\n"
 		    "\n"
@@ -1741,7 +1699,7 @@ SUITE(CppBracketOptions)
 		    "\n"
 		    "}   // end FooName\n";
 		char options[] = "brackets=stroustrup, break-closing-brackets";
-		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
@@ -1779,7 +1737,7 @@ SUITE(CppBracketOptions)
 		delete [] textOut;
 	}
 
-	TEST(BracketsStroustrupFormatting)
+	TEST_FIXTURE(cppText, BracketsStroustrupFormatting)
 	{
 		// test stroustrup brackets option, for non-function top level objects
 		// brackets are attached for function definitions within a class 

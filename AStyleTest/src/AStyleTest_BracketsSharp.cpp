@@ -29,7 +29,7 @@ SUITE(SharpBracketOptions)
 	struct sharpText
 	{
 		string textStr;
-		const char* text;
+		const char* textIn;
 
 		sharpText()
 		{
@@ -60,7 +60,7 @@ SUITE(SharpBracketOptions)
 				"}\n"
 				"}\n";
 
-			text = textStr.c_str();
+			textIn = textStr.c_str();
 		}
 	};
 
@@ -68,10 +68,9 @@ SUITE(SharpBracketOptions)
 	// AStyle C# Default Bracket Options
 	//-------------------------------------------------------------------------
 
-	TEST(BracketsNone)
+	TEST_FIXTURE(sharpText, BracketsNone)
 	{
 		// test default brackets option (do not change)
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName\n"
 			"{\n"
@@ -103,15 +102,14 @@ SUITE(SharpBracketOptions)
 			"}\n";
 
 		char options[] = "mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsNoneNamespace)
+	TEST_FIXTURE(sharpText, BracketsNoneNamespace)
 	{
 		// test default brackets option, with indented namespace
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName\n"
 			"{\n"
@@ -142,15 +140,14 @@ SUITE(SharpBracketOptions)
 			"    }\n"
 			"}\n";
 		char options[] = "indent-namespaces, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsNoneBlocks)
+	TEST_FIXTURE(sharpText, BracketsNoneBlocks)
 	{
 		// test default blocks option, with indented blocks
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName\n"
 			"{\n"
@@ -182,16 +179,15 @@ SUITE(SharpBracketOptions)
 			"}\n"
 			"}\n";
 		char options[] = "indent-blocks, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
 
-	TEST(BracketsNoneBrackets)
+	TEST_FIXTURE(sharpText, BracketsNoneBrackets)
 	{
 		// test default brackets option, with indent brackets
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName\n"
 			"{\n"
@@ -223,7 +219,7 @@ SUITE(SharpBracketOptions)
 			"    }\n"
 			"}\n";
 		char options[] = "indent-brackets, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
@@ -248,10 +244,9 @@ SUITE(SharpBracketOptions)
 	// AStyle C# Break Bracket Options
 	//-------------------------------------------------------------------------
 
-	TEST(BracketsBreak)
+	TEST_FIXTURE(sharpText, BracketsBreak)
 	{
 		// test break brackets option
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName\n"
 			"{\n"
@@ -286,15 +281,14 @@ SUITE(SharpBracketOptions)
 			"}\n";
 
 		char options[] = "brackets=break, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsBreakShort)
+	TEST_FIXTURE(sharpText, BracketsBreakShort)
 	{
 		// test break brackets short option
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName\n"
 			"{\n"
@@ -329,15 +323,14 @@ SUITE(SharpBracketOptions)
 			"}\n";
 
 		char options[] = "-b, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsBreakNamespace)
+	TEST_FIXTURE(sharpText, BracketsBreakNamespace)
 	{
 		// test break brackets option, with indented namespace
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName\n"
 			"{\n"
@@ -371,15 +364,14 @@ SUITE(SharpBracketOptions)
 			"    }\n"
 			"}\n";
 		char options[] = "brackets=break, indent-namespaces, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsBreakBlocks)
+	TEST_FIXTURE(sharpText, BracketsBreakBlocks)
 	{
 		// test break brackets option, with indent blocks
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName\n"
 			"{\n"
@@ -413,16 +405,15 @@ SUITE(SharpBracketOptions)
 			"}\n"
 			"}\n";
 		char options[] = "brackets=break, indent-blocks, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
 
-	TEST(BracketsBreakBrackets)
+	TEST_FIXTURE(sharpText, BracketsBreakBrackets)
 	{
 		// test break brackets option, with indent brackets
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName\n"
 			"{\n"
@@ -456,7 +447,7 @@ SUITE(SharpBracketOptions)
 			"    }\n"
 			"}\n";
 		char options[] = "brackets=break, indent-brackets, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
@@ -482,10 +473,9 @@ SUITE(SharpBracketOptions)
 	// AStyle C# Attach Bracket Options
 	//-------------------------------------------------------------------------
 
-	TEST(BracketsAttach)
+	TEST_FIXTURE(sharpText, BracketsAttach)
 	{
 		// test attach brackets option
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName {\n"
 			"\n"
@@ -512,15 +502,14 @@ SUITE(SharpBracketOptions)
 			"}\n";
 
 		char options[] = "brackets=attach, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsAttachShort)
+	TEST_FIXTURE(sharpText, BracketsAttachShort)
 	{
 		// test attach brackets short option
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName {\n"
 			"\n"
@@ -547,15 +536,14 @@ SUITE(SharpBracketOptions)
 			"}\n";
 
 		char options[] = "-a, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsAttachNamespace)
+	TEST_FIXTURE(sharpText, BracketsAttachNamespace)
 	{
 		// test attach brackets option, with indented namespace
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName {\n"
 			"\n"
@@ -582,15 +570,14 @@ SUITE(SharpBracketOptions)
 			"}\n";
 
 		char options[] = "brackets=attach, indent-namespaces, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsAttachBlocks)
+	TEST_FIXTURE(sharpText, BracketsAttachBlocks)
 	{
 		// test attach brackets option, with indent blocks
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName {\n"
 			"\n"
@@ -618,16 +605,15 @@ SUITE(SharpBracketOptions)
 			"}\n";
 
 		char options[] = "brackets=attach, indent-blocks, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
 
-	TEST(BracketsAttachBrackets)
+	TEST_FIXTURE(sharpText, BracketsAttachBrackets)
 	{
 		// test attach brackets option, with indent brackets
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName {\n"
 			"\n"
@@ -654,15 +640,14 @@ SUITE(SharpBracketOptions)
 			"    }\n"
 			"}\n";
 		char options[] = "brackets=attach, indent-brackets, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsAttachBreakClosing)
+	TEST_FIXTURE(sharpText, BracketsAttachBreakClosing)
 	{
 		// test attach brackets option, with break closing brackets
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName {\n"
 			"\n"
@@ -690,7 +675,7 @@ SUITE(SharpBracketOptions)
 			"}\n";
 
 		char options[] = "brackets=attach, break-closing-brackets, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
@@ -721,10 +706,9 @@ SUITE(SharpBracketOptions)
 	// AStyle C# Linux Bracket Options
 	//-------------------------------------------------------------------------
 
-	TEST(BracketsLinux)
+	TEST_FIXTURE(sharpText, BracketsLinux)
 	{
 		// test linux brackets option
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName\n"
 			"{\n"
@@ -755,15 +739,14 @@ SUITE(SharpBracketOptions)
 			"}\n";
 
 		char options[] = "brackets=linux, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsLinuxShort)
+	TEST_FIXTURE(sharpText, BracketsLinuxShort)
 	{
 		// test linux brackets short option
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName\n"
 			"{\n"
@@ -794,15 +777,14 @@ SUITE(SharpBracketOptions)
 			"}\n";
 
 		char options[] = "-l, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsLinuxNamespace)
+	TEST_FIXTURE(sharpText, BracketsLinuxNamespace)
 	{
 		// test linux brackets option, with indented namespace
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName\n"
 			"{\n"
@@ -833,15 +815,14 @@ SUITE(SharpBracketOptions)
 			"}\n";
 
 		char options[] = "brackets=linux, indent-namespaces, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsLinuxBlocks)
+	TEST_FIXTURE(sharpText, BracketsLinuxBlocks)
 	{
 		// test linux brackets option, with indent blocks
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName\n"
 			"{\n"
@@ -873,16 +854,15 @@ SUITE(SharpBracketOptions)
 			"}\n";
 
 		char options[] = "brackets=linux, indent-blocks, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
 
-	TEST(BracketsLinuxBrackets)
+	TEST_FIXTURE(sharpText, BracketsLinuxBrackets)
 	{
 		// test linux brackets option, with indent brackets
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName\n"
 			"{\n"
@@ -913,15 +893,14 @@ SUITE(SharpBracketOptions)
 			"    }\n"
 			"}\n";
 		char options[] = "brackets=linux, indent-brackets, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsLinuxBreakClosing)
+	TEST_FIXTURE(sharpText, BracketsLinuxBreakClosing)
 	{
 		// test linux brackets option, with break closing brackets
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName\n"
 			"{\n"
@@ -952,7 +931,7 @@ SUITE(SharpBracketOptions)
 			"}\n"
 			"}\n";
 		char options[] = "brackets=linux, break-closing-brackets, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
@@ -973,12 +952,11 @@ SUITE(SharpBracketOptions)
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
-	TEST(BracketsLinuxFormatting)
+	TEST_FIXTURE(sharpText, BracketsLinuxFormatting)
 	{
 		// test linux brackets option, for non-function top level objects
 		// brackets are attached for arrays, structs, and other top level objects 
 		//     that are not classes or functions.
-		sharpText sharp;
 		char textIn[] =
 			"\nnamespace fooName\n"
 			"{\n"
@@ -1054,10 +1032,9 @@ SUITE(SharpBracketOptions)
 	// AStyle C# Stroustrup Bracket Options
 	//-------------------------------------------------------------------------
 
-	TEST(BracketsStroustrup)
+	TEST_FIXTURE(sharpText, BracketsStroustrup)
 	{
 		// test stroustrup brackets option
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName {\n"
 			"\n"
@@ -1085,15 +1062,14 @@ SUITE(SharpBracketOptions)
 			"}\n";
 
 		char options[] = "brackets=stroustrup, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsStroustrupShort)
+	TEST_FIXTURE(sharpText, BracketsStroustrupShort)
 	{
 		// test stroustrup brackets short option
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName {\n"
 			"\n"
@@ -1121,15 +1097,14 @@ SUITE(SharpBracketOptions)
 			"}\n";
 
 		char options[] = "-u, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsStroustrupNamespace)
+	TEST_FIXTURE(sharpText, BracketsStroustrupNamespace)
 	{
 		// test stroustrup brackets option, with indented namespace
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName {\n"
 			"\n"
@@ -1157,15 +1132,14 @@ SUITE(SharpBracketOptions)
 			"}\n";
 
 		char options[] = "brackets=stroustrup, indent-namespaces, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
-	TEST(BracketsStroustrupBlocks)
+	TEST_FIXTURE(sharpText, BracketsStroustrupBlocks)
 	{
 		// test stroustrup brackets option, with indent blocks
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName {\n"
 			"\n"
@@ -1194,16 +1168,15 @@ SUITE(SharpBracketOptions)
 			"}\n";
 
 		char options[] = "brackets=stroustrup, indent-blocks, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
 
-	TEST(BracketsStroustrupBrackets)
+	TEST_FIXTURE(sharpText, BracketsStroustrupBrackets)
 	{
 		// test stroustrup brackets option, with indent brackets
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName {\n"
 			"\n"
@@ -1231,16 +1204,15 @@ SUITE(SharpBracketOptions)
 			"    }\n"
 			"}\n";
 		char options[] = "brackets=stroustrup, indent-brackets, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
 
 
-	TEST(BracketsStroustrupBreakClosing)
+	TEST_FIXTURE(sharpText, BracketsStroustrupBreakClosing)
 	{
 		// test stroustrup brackets option with break closing brackets
-		sharpText sharp;
 		char text[] =
 			"\nnamespace FooName {\n"
 			"\n"
@@ -1269,7 +1241,7 @@ SUITE(SharpBracketOptions)
 			"}\n";
 
 		char options[] = "brackets=stroustrup, break-closing-brackets, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
@@ -1290,12 +1262,11 @@ SUITE(SharpBracketOptions)
 		delete [] textOut;
 	}
 
-	TEST(BracketsStroustrupFormatting)
+	TEST_FIXTURE(sharpText, BracketsStroustrupFormatting)
 	{
 		// test stroustrup brackets option, for non-function top level objects
 		// brackets are attached for arrays, structs, and other top level objects 
 		//     that are not classes or functions.
-		sharpText sharp;
 		char textIn[] =
 			"\nnamespace fooName\n"
 			"{\n"
@@ -1516,14 +1487,12 @@ SUITE(SharpBracketOptions)
 		delete [] textOut;
 	}
 
-	TEST(BracketsOtherClass)
+	TEST_FIXTURE(sharpText, BracketsOtherClass)
 	{
 		// indent classes should NOT affect C# formatting
-		sharpText sharp;
-
 		char options[] = "indent-classes, keep-one-line-blocks, mode=cs";
-		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
-		CHECK_EQUAL(sharp.text, textOut);
+		char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+		CHECK_EQUAL(textIn, textOut);
 		delete [] textOut;
 	}
 
