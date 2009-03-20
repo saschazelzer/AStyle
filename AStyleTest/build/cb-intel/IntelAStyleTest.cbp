@@ -18,11 +18,10 @@
 					<Add option="-w1" />
 					<Add option="-DASTYLE_LIB" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../UnitTest++/src" />
+					<Add directory="/usr/include/unittest++" />
 				</Compiler>
 				<Linker>
 					<Add library="UnitTest++" />
-					<Add directory="../../../UnitTest++" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -38,18 +37,24 @@
 					<Add option="-DASTYLE_LIB" />
 					<Add option="-DNDEBUG" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../UnitTest++/src" />
+					<Add directory="/usr/include/unittest++" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 					<Add library="UnitTest++" />
-					<Add directory="../../../UnitTest++" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
+		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
+		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />
+		<Unit filename="../../../AStyle/src/ASResource.cpp" />
+		<Unit filename="../../../AStyle/src/astyle.h" />
+		<Unit filename="../../../AStyle/src/astyle_main.cpp" />
+		<Unit filename="../../../AStyle/src/astyle_main.h" />
 		<Unit filename="../../src/AStyleTest_BracketsCpp.cpp" />
 		<Unit filename="../../src/AStyleTest_BracketsJava.cpp" />
 		<Unit filename="../../src/AStyleTest_BracketsSharp.cpp" />
@@ -59,13 +64,6 @@
 		<Unit filename="../../src/AStyleTest_Other.cpp" />
 		<Unit filename="../../src/AStyleTest_Styles.cpp" />
 		<Unit filename="../../src/AStyleTest_Tabs.cpp" />
-		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
-		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
-		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />
-		<Unit filename="../../../AStyle/src/ASResource.cpp" />
-		<Unit filename="../../../AStyle/src/astyle.h" />
-		<Unit filename="../../../AStyle/src/astyle_main.cpp" />
-		<Unit filename="../../../AStyle/src/astyle_main.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />
