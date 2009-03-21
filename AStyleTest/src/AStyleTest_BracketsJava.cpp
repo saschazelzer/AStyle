@@ -567,7 +567,7 @@ SUITE(JavaBracketOptions)
 			"{\n"
 			"    public FooClass() {}\n"
 			"    public FooClass()\n"
-		    "    {}\n"
+			"    {}\n"
 			"}\n";
 		char options[] = "brackets=linux, mode=java";
 		char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -708,7 +708,7 @@ SUITE(JavaBracketOptions)
 			"\npublic class FooClass {\n"
 			"    public FooClass() {}\n"
 			"    public FooClass()\n"
-		    "    {}\n"
+			"    {}\n"
 			"}\n";
 		char options[] = "brackets=stroustrup, mode=java";
 		char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -1074,9 +1074,9 @@ SUITE(JavaBracketOptions)
 			"{\n"
 			"    public Foo()\n"
 			"    {\n"
-            "        new Thread(\"Sizesavingdelay\")\n"
-            "        {\n"
-            "        } .start();\n"
+			"        new Thread(\"Sizesavingdelay\")\n"
+			"        {\n"
+			"        } .start();\n"
 			"    }\n"
 			"}\n";
 		char options[] = "mode=java";
@@ -1094,22 +1094,22 @@ SUITE(JavaBracketOptions)
 		// the following "new Type" array should have an in statement indent
 		// must view the whitespace to see the in statement indent
 		char text[] =
-		"\npublic class ClassUtil implements Constants\n"
-		"{\n"
-		"	static void generateMethod()\n"
-		"	{\n"
-		"		cv.visitMethodInsn(\n"
-		"		    Type.getMethodDescriptor(\n"
-		"		        Type.getType(Object.class),\n"
-		"		        new Type [] {\n"
-		"		            Type.getType(String.class),\n"
-		"		            Type.getType(Object [].class),\n"
-		"		            Type.getType(Boolean.TYPE)\n"
-		"		        }\n"
-		"		    )\n"
-		"		);\n"
-		"	}\n"
-		"}\n";
+			"\npublic class ClassUtil implements Constants\n"
+			"{\n"
+			"	static void generateMethod()\n"
+			"	{\n"
+			"		cv.visitMethodInsn(\n"
+			"		    Type.getMethodDescriptor(\n"
+			"		        Type.getType(Object.class),\n"
+			"		        new Type [] {\n"
+			"		            Type.getType(String.class),\n"
+			"		            Type.getType(Object [].class),\n"
+			"		            Type.getType(Boolean.TYPE)\n"
+			"		        }\n"
+			"		    )\n"
+			"		);\n"
+			"	}\n"
+			"}\n";
 		char options[] = "indent=tab, mode=java";
 		char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);

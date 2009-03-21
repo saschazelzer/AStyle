@@ -31,30 +31,30 @@ SUITE(CppStyleOptions)
 		cppText()
 		{
 			textStr =
-			    "\nnamespace FooName\n"
-			    "{\n"
-			    "\n"
-			    "class FooClass\n"
-			    "{\n"
-			    "private:\n"
-			    "    bool var1;\n"
-			    "    void func1();\n"
-			    "protected:\n"
-			    "    bool var2;\n"
-			    "    void func2();\n"
-			    "};\n"
-			    "\n"
-			    "void FooClass::Foo(bool isFoo)\n"
-			    "{\n"
-			    "    if (isFoo)\n"
-			    "    {\n"
-			    "        bar();\n"
-			    "    }\n"
-			    "    else\n"
-			    "        anotherBar();\n"
-			    "}\n"
-			    "\n"
-			    "}   // end FooName\n";
+				"\nnamespace FooName\n"
+				"{\n"
+				"\n"
+				"class FooClass\n"
+				"{\n"
+				"private:\n"
+				"    bool var1;\n"
+				"    void func1();\n"
+				"protected:\n"
+				"    bool var2;\n"
+				"    void func2();\n"
+				"};\n"
+				"\n"
+				"void FooClass::Foo(bool isFoo)\n"
+				"{\n"
+				"    if (isFoo)\n"
+				"    {\n"
+				"        bar();\n"
+				"    }\n"
+				"    else\n"
+				"        anotherBar();\n"
+				"}\n"
+				"\n"
+				"}   // end FooName\n";
 
 			text = textStr.c_str();
 		}
@@ -65,30 +65,30 @@ SUITE(CppStyleOptions)
 		// test allman style option
 		cppText cpp;
 		char text[] =
-		    "\nnamespace FooName\n"
-		    "{\n"
-		    "\n"
-		    "class FooClass\n"
-		    "{\n"
-		    "private:\n"
-		    "    bool var1;\n"
-		    "    void func1();\n"
-		    "protected:\n"
-		    "    bool var2;\n"
-		    "    void func2();\n"
-		    "};\n"
-		    "\n"
-		    "void FooClass::Foo(bool isFoo)\n"
-		    "{\n"
-		    "    if (isFoo)\n"
-		    "    {\n"
-		    "        bar();\n"
-		    "    }\n"
-		    "    else\n"
-		    "        anotherBar();\n"
-		    "}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo)\n"
+			"    {\n"
+			"        bar();\n"
+			"    }\n"
+			"    else\n"
+			"        anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
 		char options[] = "style=allman";
 		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
@@ -100,30 +100,30 @@ SUITE(CppStyleOptions)
 		// test allman style BSD option
 		cppText cpp;
 		char text[] =
-		    "\nnamespace FooName\n"
-		    "{\n"
-		    "\n"
-		    "class FooClass\n"
-		    "{\n"
-		    "private:\n"
-		    "    bool var1;\n"
-		    "    void func1();\n"
-		    "protected:\n"
-		    "    bool var2;\n"
-		    "    void func2();\n"
-		    "};\n"
-		    "\n"
-		    "void FooClass::Foo(bool isFoo)\n"
-		    "{\n"
-		    "    if (isFoo)\n"
-		    "    {\n"
-		    "        bar();\n"
-		    "    }\n"
-		    "    else\n"
-		    "        anotherBar();\n"
-		    "}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo)\n"
+			"    {\n"
+			"        bar();\n"
+			"    }\n"
+			"    else\n"
+			"        anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
 		char options[] = "style=bsd";
 		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
@@ -136,30 +136,30 @@ SUITE(CppStyleOptions)
 		// test allman style short option
 		cppText cpp;
 		char text[] =
-		    "\nnamespace FooName\n"
-		    "{\n"
-		    "\n"
-		    "class FooClass\n"
-		    "{\n"
-		    "private:\n"
-		    "    bool var1;\n"
-		    "    void func1();\n"
-		    "protected:\n"
-		    "    bool var2;\n"
-		    "    void func2();\n"
-		    "};\n"
-		    "\n"
-		    "void FooClass::Foo(bool isFoo)\n"
-		    "{\n"
-		    "    if (isFoo)\n"
-		    "    {\n"
-		    "        bar();\n"
-		    "    }\n"
-		    "    else\n"
-		    "        anotherBar();\n"
-		    "}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo)\n"
+			"    {\n"
+			"        bar();\n"
+			"    }\n"
+			"    else\n"
+			"        anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
 		char options[] = "-A1";
 		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
@@ -171,25 +171,25 @@ SUITE(CppStyleOptions)
 		// test java style option
 		cppText cpp;
 		char text[] =
-		    "\nnamespace FooName {\n"
-		    "\n"
-		    "class FooClass {\n"
-		    "private:\n"
-		    "    bool var1;\n"
-		    "    void func1();\n"
-		    "protected:\n"
-		    "    bool var2;\n"
-		    "    void func2();\n"
-		    "};\n"
-		    "\n"
-		    "void FooClass::Foo(bool isFoo) {\n"
-		    "    if (isFoo) {\n"
-		    "        bar();\n"
-		    "    } else\n"
-		    "        anotherBar();\n"
-		    "}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\nnamespace FooName {\n"
+			"\n"
+			"class FooClass {\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo) {\n"
+			"    if (isFoo) {\n"
+			"        bar();\n"
+			"    } else\n"
+			"        anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
 		char options[] = "style=java";
 		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
@@ -201,25 +201,25 @@ SUITE(CppStyleOptions)
 		// test java style short option
 		cppText cpp;
 		char text[] =
-		    "\nnamespace FooName {\n"
-		    "\n"
-		    "class FooClass {\n"
-		    "private:\n"
-		    "    bool var1;\n"
-		    "    void func1();\n"
-		    "protected:\n"
-		    "    bool var2;\n"
-		    "    void func2();\n"
-		    "};\n"
-		    "\n"
-		    "void FooClass::Foo(bool isFoo) {\n"
-		    "    if (isFoo) {\n"
-		    "        bar();\n"
-		    "    } else\n"
-		    "        anotherBar();\n"
-		    "}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\nnamespace FooName {\n"
+			"\n"
+			"class FooClass {\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo) {\n"
+			"    if (isFoo) {\n"
+			"        bar();\n"
+			"    } else\n"
+			"        anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
 		char options[] = "-A2";
 		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
@@ -231,28 +231,28 @@ SUITE(CppStyleOptions)
 		// test k&r style option
 		cppText cpp;
 		char text[] =
-		    "\nnamespace FooName\n"
-		    "{\n"
-		    "\n"
-		    "class FooClass\n"
-		    "{\n"
-		    "private:\n"
-		    "    bool var1;\n"
-		    "    void func1();\n"
-		    "protected:\n"
-		    "    bool var2;\n"
-		    "    void func2();\n"
-		    "};\n"
-		    "\n"
-		    "void FooClass::Foo(bool isFoo)\n"
-		    "{\n"
-		    "    if (isFoo) {\n"
-		    "        bar();\n"
-		    "    } else\n"
-		    "        anotherBar();\n"
-		    "}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo) {\n"
+			"        bar();\n"
+			"    } else\n"
+			"        anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
 		char options[] = "style=k&r";
 		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
@@ -264,28 +264,28 @@ SUITE(CppStyleOptions)
 		// test k&r style alternate k/r option
 		cppText cpp;
 		char text[] =
-		    "\nnamespace FooName\n"
-		    "{\n"
-		    "\n"
-		    "class FooClass\n"
-		    "{\n"
-		    "private:\n"
-		    "    bool var1;\n"
-		    "    void func1();\n"
-		    "protected:\n"
-		    "    bool var2;\n"
-		    "    void func2();\n"
-		    "};\n"
-		    "\n"
-		    "void FooClass::Foo(bool isFoo)\n"
-		    "{\n"
-		    "    if (isFoo) {\n"
-		    "        bar();\n"
-		    "    } else\n"
-		    "        anotherBar();\n"
-		    "}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo) {\n"
+			"        bar();\n"
+			"    } else\n"
+			"        anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
 		char options[] = "style=k/r";
 		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
@@ -297,28 +297,28 @@ SUITE(CppStyleOptions)
 		// test k&r style short option
 		cppText cpp;
 		char text[] =
-		    "\nnamespace FooName\n"
-		    "{\n"
-		    "\n"
-		    "class FooClass\n"
-		    "{\n"
-		    "private:\n"
-		    "    bool var1;\n"
-		    "    void func1();\n"
-		    "protected:\n"
-		    "    bool var2;\n"
-		    "    void func2();\n"
-		    "};\n"
-		    "\n"
-		    "void FooClass::Foo(bool isFoo)\n"
-		    "{\n"
-		    "    if (isFoo) {\n"
-		    "        bar();\n"
-		    "    } else\n"
-		    "        anotherBar();\n"
-		    "}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo) {\n"
+			"        bar();\n"
+			"    } else\n"
+			"        anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
 		char options[] = "-A3";
 		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
@@ -331,25 +331,25 @@ SUITE(CppStyleOptions)
 		cppText cpp;
 		char text[] =
 			"\nnamespace FooName {\n"
-		    "\n"
+			"\n"
 			"class FooClass {\n"
-		    "private:\n"
-		    "    bool var1;\n"
-		    "    void func1();\n"
-		    "protected:\n"
-		    "    bool var2;\n"
-		    "    void func2();\n"
-		    "};\n"
-		    "\n"
-		    "void FooClass::Foo(bool isFoo)\n"
-		    "{\n"
-		    "    if (isFoo) {\n"
-		    "        bar();\n"
-		    "    } else\n"
-		    "        anotherBar();\n"
-		    "}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo) {\n"
+			"        bar();\n"
+			"    } else\n"
+			"        anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
 		char options[] = "style=stroustrup";
 		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
@@ -362,25 +362,25 @@ SUITE(CppStyleOptions)
 		cppText cpp;
 		char text[] =
 			"\nnamespace FooName {\n"
-		    "\n"
+			"\n"
 			"class FooClass {\n"
-		    "private:\n"
-		    "    bool var1;\n"
-		    "    void func1();\n"
-		    "protected:\n"
-		    "    bool var2;\n"
-		    "    void func2();\n"
-		    "};\n"
-		    "\n"
-		    "void FooClass::Foo(bool isFoo)\n"
-		    "{\n"
-		    "    if (isFoo) {\n"
-		    "        bar();\n"
-		    "    } else\n"
-		    "        anotherBar();\n"
-		    "}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo) {\n"
+			"        bar();\n"
+			"    } else\n"
+			"        anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
 		char options[] = "-A4";
 		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
@@ -392,30 +392,30 @@ SUITE(CppStyleOptions)
 		// test whitesmith style option
 		cppText cpp;
 		char text[] =
-		    "\nnamespace FooName\n"
-		    "{\n"
-		    "\n"
-		    "class FooClass\n"
-		    "    {\n"
-		    "    private:\n"
-		    "        bool var1;\n"
-		    "        void func1();\n"
-		    "    protected:\n"
-		    "        bool var2;\n"
-		    "        void func2();\n"
-		    "    };\n"
-		    "\n"
-		    "void FooClass::Foo(bool isFoo)\n"
-		    "    {\n"
-		    "    if (isFoo)\n"
-		    "        {\n"
-		    "        bar();\n"
-		    "        }\n"
-		    "    else\n"
-		    "        anotherBar();\n"
-		    "    }\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"    {\n"
+			"    private:\n"
+			"        bool var1;\n"
+			"        void func1();\n"
+			"    protected:\n"
+			"        bool var2;\n"
+			"        void func2();\n"
+			"    };\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"    {\n"
+			"    if (isFoo)\n"
+			"        {\n"
+			"        bar();\n"
+			"        }\n"
+			"    else\n"
+			"        anotherBar();\n"
+			"    }\n"
+			"\n"
+			"}   // end FooName\n";
 		char options[] = "style=whitesmith";
 		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
@@ -427,30 +427,30 @@ SUITE(CppStyleOptions)
 		// test whitesmith style short option
 		cppText cpp;
 		char text[] =
-		    "\nnamespace FooName\n"
-		    "{\n"
-		    "\n"
-		    "class FooClass\n"
-		    "    {\n"
-		    "    private:\n"
-		    "        bool var1;\n"
-		    "        void func1();\n"
-		    "    protected:\n"
-		    "        bool var2;\n"
-		    "        void func2();\n"
-		    "    };\n"
-		    "\n"
-		    "void FooClass::Foo(bool isFoo)\n"
-		    "    {\n"
-		    "    if (isFoo)\n"
-		    "        {\n"
-		    "        bar();\n"
-		    "        }\n"
-		    "    else\n"
-		    "        anotherBar();\n"
-		    "    }\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"    {\n"
+			"    private:\n"
+			"        bool var1;\n"
+			"        void func1();\n"
+			"    protected:\n"
+			"        bool var2;\n"
+			"        void func2();\n"
+			"    };\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"    {\n"
+			"    if (isFoo)\n"
+			"        {\n"
+			"        bar();\n"
+			"        }\n"
+			"    else\n"
+			"        anotherBar();\n"
+			"    }\n"
+			"\n"
+			"}   // end FooName\n";
 		char options[] = "-A5";
 		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
@@ -490,26 +490,26 @@ SUITE(CppStyleOptions)
 		// test banner style option
 		cppText cpp;
 		char text[] =
-		    "\nnamespace FooName {\n"
-		    "\n"
-		    "class FooClass {\n"
-		    "    private:\n"
-		    "        bool var1;\n"
-		    "        void func1();\n"
-		    "    protected:\n"
-		    "        bool var2;\n"
-		    "        void func2();\n"
-		    "    };\n"
-		    "\n"
-		    "void FooClass::Foo(bool isFoo) {\n"
-		    "    if (isFoo) {\n"
-		    "        bar();\n"
-		    "        }\n"
-		    "    else\n"
-		    "        anotherBar();\n"
-		    "    }\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\nnamespace FooName {\n"
+			"\n"
+			"class FooClass {\n"
+			"    private:\n"
+			"        bool var1;\n"
+			"        void func1();\n"
+			"    protected:\n"
+			"        bool var2;\n"
+			"        void func2();\n"
+			"    };\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo) {\n"
+			"    if (isFoo) {\n"
+			"        bar();\n"
+			"        }\n"
+			"    else\n"
+			"        anotherBar();\n"
+			"    }\n"
+			"\n"
+			"}   // end FooName\n";
 		char options[] = "style=banner";
 		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
@@ -521,26 +521,26 @@ SUITE(CppStyleOptions)
 		// test banner style short option
 		cppText cpp;
 		char text[] =
-		    "\nnamespace FooName {\n"
-		    "\n"
-		    "class FooClass {\n"
-		    "    private:\n"
-		    "        bool var1;\n"
-		    "        void func1();\n"
-		    "    protected:\n"
-		    "        bool var2;\n"
-		    "        void func2();\n"
-		    "    };\n"
-		    "\n"
-		    "void FooClass::Foo(bool isFoo) {\n"
-		    "    if (isFoo) {\n"
-		    "        bar();\n"
-		    "        }\n"
-		    "    else\n"
-		    "        anotherBar();\n"
-		    "    }\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\nnamespace FooName {\n"
+			"\n"
+			"class FooClass {\n"
+			"    private:\n"
+			"        bool var1;\n"
+			"        void func1();\n"
+			"    protected:\n"
+			"        bool var2;\n"
+			"        void func2();\n"
+			"    };\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo) {\n"
+			"    if (isFoo) {\n"
+			"        bar();\n"
+			"        }\n"
+			"    else\n"
+			"        anotherBar();\n"
+			"    }\n"
+			"\n"
+			"}   // end FooName\n";
 		char options[] = "-A6";
 		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
@@ -577,30 +577,30 @@ SUITE(CppStyleOptions)
 		// test gnu style option
 		cppText cpp;
 		char text[] =
-		    "\nnamespace FooName\n"
-		    "{\n"
-		    "\n"
-		    "class FooClass\n"
-		    "{\n"
-		    "private:\n"
-		    "  bool var1;\n"
-		    "  void func1();\n"
-		    "protected:\n"
-		    "  bool var2;\n"
-		    "  void func2();\n"
-		    "};\n"
-		    "\n"
-		    "void FooClass::Foo(bool isFoo)\n"
-		    "{\n"
-		    "  if (isFoo)\n"
-		    "    {\n"
-		    "      bar();\n"
-		    "    }\n"
-		    "  else\n"
-		    "    anotherBar();\n"
-		    "}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"  bool var1;\n"
+			"  void func1();\n"
+			"protected:\n"
+			"  bool var2;\n"
+			"  void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"  if (isFoo)\n"
+			"    {\n"
+			"      bar();\n"
+			"    }\n"
+			"  else\n"
+			"    anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
 		char options[] = "style=gnu";
 		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
@@ -612,30 +612,30 @@ SUITE(CppStyleOptions)
 		// test gnu style short option
 		cppText cpp;
 		char text[] =
-		    "\nnamespace FooName\n"
-		    "{\n"
-		    "\n"
-		    "class FooClass\n"
-		    "{\n"
-		    "private:\n"
-		    "  bool var1;\n"
-		    "  void func1();\n"
-		    "protected:\n"
-		    "  bool var2;\n"
-		    "  void func2();\n"
-		    "};\n"
-		    "\n"
-		    "void FooClass::Foo(bool isFoo)\n"
-		    "{\n"
-		    "  if (isFoo)\n"
-		    "    {\n"
-		    "      bar();\n"
-		    "    }\n"
-		    "  else\n"
-		    "    anotherBar();\n"
-		    "}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"  bool var1;\n"
+			"  void func1();\n"
+			"protected:\n"
+			"  bool var2;\n"
+			"  void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"  if (isFoo)\n"
+			"    {\n"
+			"      bar();\n"
+			"    }\n"
+			"  else\n"
+			"    anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
 		char options[] = "-A7";
 		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
@@ -647,28 +647,28 @@ SUITE(CppStyleOptions)
 		// test linux style option
 		cppText cpp;
 		char text[] =
-		    "\nnamespace FooName\n"
-		    "{\n"
-		    "\n"
-		    "class FooClass\n"
-		    "{\n"
-		    "private:\n"
-		    "        bool var1;\n"
-		    "        void func1();\n"
-		    "protected:\n"
-		    "        bool var2;\n"
-		    "        void func2();\n"
-		    "};\n"
-		    "\n"
-		    "void FooClass::Foo(bool isFoo)\n"
-		    "{\n"
-		    "        if (isFoo) {\n"
-		    "                bar();\n"
-		    "        } else\n"
-		    "                anotherBar();\n"
-		    "}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"        bool var1;\n"
+			"        void func1();\n"
+			"protected:\n"
+			"        bool var2;\n"
+			"        void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"        if (isFoo) {\n"
+			"                bar();\n"
+			"        } else\n"
+			"                anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
 		char options[] = "style=linux";
 		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
@@ -680,28 +680,28 @@ SUITE(CppStyleOptions)
 		// test linux style short option
 		cppText cpp;
 		char text[] =
-		    "\nnamespace FooName\n"
-		    "{\n"
-		    "\n"
-		    "class FooClass\n"
-		    "{\n"
-		    "private:\n"
-		    "        bool var1;\n"
-		    "        void func1();\n"
-		    "protected:\n"
-		    "        bool var2;\n"
-		    "        void func2();\n"
-		    "};\n"
-		    "\n"
-		    "void FooClass::Foo(bool isFoo)\n"
-		    "{\n"
-		    "        if (isFoo) {\n"
-		    "                bar();\n"
-		    "        } else\n"
-		    "                anotherBar();\n"
-		    "}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"        bool var1;\n"
+			"        void func1();\n"
+			"protected:\n"
+			"        bool var2;\n"
+			"        void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"        if (isFoo) {\n"
+			"                bar();\n"
+			"        } else\n"
+			"                anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
 		char options[] = "-A8";
 		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
@@ -714,26 +714,26 @@ SUITE(CppStyleOptions)
 		// should be banner style (attached brackets, no block indent)
 		cppText cpp;
 		char text[] =
-		    "\nnamespace FooName {\n"
-		    "\n"
-		    "class FooClass {\n"
-		    "    private:\n"
-		    "        bool var1;\n"
-		    "        void func1();\n"
-		    "    protected:\n"
-		    "        bool var2;\n"
-		    "        void func2();\n"
-		    "    };\n"
-		    "\n"
-		    "void FooClass::Foo(bool isFoo) {\n"
-		    "    if (isFoo) {\n"
-		    "        bar();\n"
-		    "        }\n"
-		    "    else\n"
-		    "        anotherBar();\n"
-		    "    }\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\nnamespace FooName {\n"
+			"\n"
+			"class FooClass {\n"
+			"    private:\n"
+			"        bool var1;\n"
+			"        void func1();\n"
+			"    protected:\n"
+			"        bool var2;\n"
+			"        void func2();\n"
+			"    };\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo) {\n"
+			"    if (isFoo) {\n"
+			"        bar();\n"
+			"        }\n"
+			"    else\n"
+			"        anotherBar();\n"
+			"    }\n"
+			"\n"
+			"}   // end FooName\n";
 		char options[] = "style=banner, brackets=break, indent-blocks";
 		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
@@ -746,30 +746,30 @@ SUITE(CppStyleOptions)
 		// should be gnu style (broken brackets, no bracket indent, indent=2)
 		cppText cpp;
 		char text[] =
-		    "\nnamespace FooName\n"
-		    "{\n"
-		    "\n"
-		    "class FooClass\n"
-		    "{\n"
-		    "private:\n"
-		    "  bool var1;\n"
-		    "  void func1();\n"
-		    "protected:\n"
-		    "  bool var2;\n"
-		    "  void func2();\n"
-		    "};\n"
-		    "\n"
-		    "void FooClass::Foo(bool isFoo)\n"
-		    "{\n"
-		    "  if (isFoo)\n"
-		    "    {\n"
-		    "      bar();\n"
-		    "    }\n"
-		    "  else\n"
-		    "    anotherBar();\n"
-		    "}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"  bool var1;\n"
+			"  void func1();\n"
+			"protected:\n"
+			"  bool var2;\n"
+			"  void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"  if (isFoo)\n"
+			"    {\n"
+			"      bar();\n"
+			"    }\n"
+			"  else\n"
+			"    anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
 		char options[] = "style=gnu, brackets=attach, indent-brackets, indent=spaces";
 		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
@@ -782,26 +782,26 @@ SUITE(CppStyleOptions)
 		// should be banner style with tab indent
 		cppText cpp;
 		char text[] =
-		    "\nnamespace FooName {\n"
-		    "\n"
-		    "class FooClass {\n"
-		    "	private:\n"
-		    "		bool var1;\n"
-		    "		void func1();\n"
-		    "	protected:\n"
-		    "		bool var2;\n"
-		    "		void func2();\n"
-		    "	};\n"
-		    "\n"
-		    "void FooClass::Foo(bool isFoo) {\n"
-		    "	if (isFoo) {\n"
-		    "		bar();\n"
-		    "		}\n"
-		    "	else\n"
-		    "		anotherBar();\n"
-		    "	}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\nnamespace FooName {\n"
+			"\n"
+			"class FooClass {\n"
+			"	private:\n"
+			"		bool var1;\n"
+			"		void func1();\n"
+			"	protected:\n"
+			"		bool var2;\n"
+			"		void func2();\n"
+			"	};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo) {\n"
+			"	if (isFoo) {\n"
+			"		bar();\n"
+			"		}\n"
+			"	else\n"
+			"		anotherBar();\n"
+			"	}\n"
+			"\n"
+			"}   // end FooName\n";
 		char options[] = "style=banner, indent=tab=8";
 		char* textOut = AStyleMain(cpp.text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
@@ -991,7 +991,7 @@ SUITE(JavaStyleOptions)
 			"    private bool var2;\n"
 			"\n"
 			"    public void foo(bool isFoo)\n"
-		    "    {\n"
+			"    {\n"
 			"        if (isFoo) {\n"
 			"            bar();\n"
 			"        } else {\n"
@@ -1154,8 +1154,8 @@ SUITE(SharpStyleOptions)
 				"        }\n"
 				"    }\n"
 				"}\n"
-		    "\n"
-		    "}   // end FooName\n";
+				"\n"
+				"}   // end FooName\n";
 
 			text = textStr.c_str();
 		}
@@ -1186,8 +1186,8 @@ SUITE(SharpStyleOptions)
 			"        }\n"
 			"    }\n"
 			"}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\n"
+			"}   // end FooName\n";
 		char options[] = "style=allman, mode=cs";
 		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
@@ -1219,8 +1219,8 @@ SUITE(SharpStyleOptions)
 			"        }\n"
 			"    }\n"
 			"}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\n"
+			"}   // end FooName\n";
 
 		char options[] = "style=bsd, mode=cs";
 		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
@@ -1247,8 +1247,8 @@ SUITE(SharpStyleOptions)
 			"        }\n"
 			"    }\n"
 			"}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\n"
+			"}   // end FooName\n";
 
 		char options[] = "style=java, mode=cs";
 		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
@@ -1278,8 +1278,8 @@ SUITE(SharpStyleOptions)
 			"        }\n"
 			"    }\n"
 			"}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\n"
+			"}   // end FooName\n";
 
 		char options[] = "style=k&r, mode=cs";
 		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
@@ -1309,8 +1309,8 @@ SUITE(SharpStyleOptions)
 			"        }\n"
 			"    }\n"
 			"}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\n"
+			"}   // end FooName\n";
 
 		char options[] = "style=k/r, mode=cs";
 		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
@@ -1338,8 +1338,8 @@ SUITE(SharpStyleOptions)
 			"        }\n"
 			"    }\n"
 			"}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\n"
+			"}   // end FooName\n";
 
 		char options[] = "style=stroustrup, mode=cs";
 		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
@@ -1372,8 +1372,8 @@ SUITE(SharpStyleOptions)
 			"            }\n"
 			"        }\n"
 			"    }\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\n"
+			"}   // end FooName\n";
 
 		char options[] = "style=whitesmith, mode=cs";
 		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
@@ -1401,8 +1401,8 @@ SUITE(SharpStyleOptions)
 			"            }\n"
 			"        }\n"
 			"    }\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\n"
+			"}   // end FooName\n";
 
 		char options[] = "style=banner, mode=cs";
 		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
@@ -1435,8 +1435,8 @@ SUITE(SharpStyleOptions)
 			"      }\n"
 			"  }\n"
 			"}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\n"
+			"}   // end FooName\n";
 		char options[] = "style=gnu, mode=cs";
 		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
 		CHECK_EQUAL(text, textOut);
@@ -1466,8 +1466,8 @@ SUITE(SharpStyleOptions)
 			"                }\n"
 			"        }\n"
 			"}\n"
-		    "\n"
-		    "}   // end FooName\n";
+			"\n"
+			"}   // end FooName\n";
 
 		char options[] = "style=linux, mode=cs";
 		char* textOut = AStyleMain(sharp.text, options, errorHandler, memoryAlloc);
