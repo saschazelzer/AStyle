@@ -15,6 +15,9 @@
 void  STDCALL errorHandler(int errorNumber, char* errorMessage);
 char* STDCALL memoryAlloc(unsigned long memoryNeeded);
 
+// errorHandler2 functions
+void  STDCALL errorHandler2(int, char*);
+int   getErrorHandler2Calls();
 
 //----------------------------------------------------------------------------
 // AStyle Indent Options
@@ -768,6 +771,276 @@ TEST(IndentNamespacesShort)
 }
 
 //-------------------------------------------------------------------------
+// AStyle Max Instatement Indent
+//-------------------------------------------------------------------------
+
+TEST(MaxInstatementIndent)
+{
+	// test max instatement indent default
+	char text[] =
+		"\nvoid Long_40_Byte_Indent_Function_xxx(bar1,\n"
+		"                                      bar2,\n"
+		"                                      bar3)\n"
+		"{\n"
+		"    char Long_40_Byte_Indent_Array_xx[] = { red,\n"
+		"                                            green,\n"
+		"                                            blue\n"
+		"                                          };\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxInstatementIndentShort)
+{
+	// test max instatement indent short option with a value of zero
+	// actual indent will not be less than 2 * indent length
+	char textIn[] =
+		"\nvoid Long_40_Byte_Indent_Function_xxx(bar1,\n"
+		"                                      bar2,\n"
+		"                                      bar3)\n"
+		"{\n"
+		"    char Long_40_Byte_Indent_Array_xx[] = { red,\n"
+		"                                            green,\n"
+		"                                            blue\n"
+		"                                          };\n"
+		"}\n";
+	char text[] =
+		"\nvoid Long_40_Byte_Indent_Function_xxx(bar1,\n"
+		"        bar2,\n"
+		"        bar3)\n"
+		"{\n"
+		"    char Long_40_Byte_Indent_Array_xx[] = { red,\n"
+		"            green,\n"
+		"            blue\n"
+		"                                          };\n"
+		"}\n";
+	char options[] = "-M4";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxInstatementIndent2)
+{
+	// test max instatement indent with the max value
+	char textIn[] =
+		"\nvoid Long_80_Byte_Indent_Function_xxx1234567890123456789012345678901234567890(bar1,\n"
+		"                                        bar2,\n"
+		"                                        bar3)\n"
+		"{\n"
+		"    char Long_80_Byte_Indent_Array_xx1234567890123456789012345678901234567890[] = { red,\n"
+		"                                            green,\n"
+		"                                            blue\n"
+		"                                          };\n"
+		"}\n";
+	char text[] =
+		"\nvoid Long_80_Byte_Indent_Function_xxx1234567890123456789012345678901234567890(bar1,\n"
+		"                                                                              bar2,\n"
+		"                                                                              bar3)\n"
+		"{\n"
+		"    char Long_80_Byte_Indent_Array_xx1234567890123456789012345678901234567890[] = { red,\n"
+		"                                                                                    green,\n"
+		"                                                                                    blue\n"
+		"                                                                                  };\n"
+		"}\n";
+	char options[] = "max-instatement-indent=80";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxInstatementIndent3)
+{
+	// test max instatement indent with no value
+	// should use the default
+	char text[] =
+		"\nvoid Long_40_Byte_Indent_Function_xxx(bar1,\n"
+		"                                      bar2,\n"
+		"                                      bar3)\n"
+		"{\n"
+		"    char Long_40_Byte_Indent_Array_xx[] = { red,\n"
+		"                                            green,\n"
+		"                                            blue\n"
+		"                                          };\n"
+		"}\n";
+	char options[] = "max-instatement-indent=";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxInstatementIndentError)
+{
+	// test max instatement indent with an invalid value
+	// should call the error handler
+	char text[] =
+		"\nvoid Long_40_Byte_Indent_Function_xxx(bar1,\n"
+		"                                      bar2,\n"
+		"                                      bar3)\n"
+		"{\n"
+		"    char Long_40_Byte_Indent_Array_xx[] = { red,\n"
+		"                                            green,\n"
+		"                                            blue\n"
+		"                                          };\n"
+		"}\n";
+	// use errorHandler2 to verify the error
+	char options[] = "max-instatement-indent=81";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	CHECK_EQUAL(errorsIn + 1, errorsOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Min Conditional Indent
+//-------------------------------------------------------------------------
+
+TEST(MinConditionalIndent)
+{
+	// test min conditional indent default
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (a < b\n"
+		"            || c < d)\n"
+		"        bar++;\n"
+		"\n"
+		"    if (a < b\n"
+		"            || c < d)\n"
+		"    {\n"
+		"        bar++;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MinConditionalIndentShort)
+{
+	// test min conditional indent short option with a value of zero
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (a < b\n"
+		"            || c < d)\n"
+		"        bar++;\n"
+		"\n"
+		"    if (a < b\n"
+		"            || c < d)\n"
+		"    {\n"
+		"        bar++;\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (a < b\n"
+		"        || c < d)\n"
+		"        bar++;\n"
+		"\n"
+		"    if (a < b\n"
+		"        || c < d)\n"
+		"    {\n"
+		"        bar++;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "-m0";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MinConditionalIndent2)
+{
+	// test min conditional indent with a value of 8
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (a < b\n"
+		"            || c < d)\n"
+		"        bar++;\n"
+		"\n"
+		"    if (a < b\n"
+		"            || c < d)\n"
+		"    {\n"
+		"        bar++;\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (a < b\n"
+		"            || c < d)\n"
+		"        bar++;\n"
+		"\n"
+		"    if (a < b\n"
+		"            || c < d)\n"
+		"    {\n"
+		"        bar++;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "min-conditional-indent=8";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MinConditionalIndent3)
+{
+	// test min conditional indent with no value
+	// should use the default
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (a < b\n"
+		"            || c < d)\n"
+		"        bar++;\n"
+		"\n"
+		"    if (a < b\n"
+		"            || c < d)\n"
+		"    {\n"
+		"        bar++;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "min-conditional-indent=";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MinConditionalIndentError)
+{
+	// test min conditional indent with an invalid value
+	// should call the error handler
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (a < b\n"
+		"            || c < d)\n"
+		"        bar++;\n"
+		"\n"
+		"    if (a < b\n"
+		"            || c < d)\n"
+		"    {\n"
+		"        bar++;\n"
+		"    }\n"
+		"}\n";
+	// use errorHandler2 to verify the error
+	char options[] = "min-conditional-indent=41";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	CHECK_EQUAL(errorsIn + 1, errorsOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
 // AStyle Indent Misc
 // Additional tests that are not specific options
 //-------------------------------------------------------------------------
@@ -802,5 +1075,3 @@ TEST(IndentMiscIndentableHeaders)
 
 // TODO: test indent-labels
 // TODO: test indent-preprocessor
-// TODO: test max-instatement-indent
-// TODO: test min-conditional-indent

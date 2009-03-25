@@ -956,7 +956,7 @@ TEST(BreakAllBlocksAfterComment3)
 // Additional tests are in the Brackets tests
 //-------------------------------------------------------------------------
 
-TEST(BracketsBreakClosingNone)
+TEST(BreakClosingBrackets)
 {
 	// test NONE_MODE brackets with break closing headers
 	char textIn[] =
@@ -984,7 +984,35 @@ TEST(BracketsBreakClosingNone)
 	delete [] textOut;
 }
 
-TEST(BracketsBreakClosingBreak)
+TEST(BreakClosingBracketsShort)
+{
+	// test NONE_MODE brackets with break closing headers
+	char textIn[] =
+		"\nvoid FooClass::Foo(bool isFoo) {\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    } else {\n"
+		"        anotherBar();\n"
+		"    }\n"
+		"}\n"
+		"\n";
+	char text[] =
+		"\nvoid FooClass::Foo(bool isFoo) {\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else {\n"
+		"        anotherBar();\n"
+		"    }\n"
+		"}\n"
+		"\n";
+	char options[] = "-y";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakClosingBracketsBreak)
 {
 	// test BREAK_MODE brackets with break closing headers
 	char textIn[] =
@@ -1015,7 +1043,7 @@ TEST(BracketsBreakClosingBreak)
 	delete [] textOut;
 }
 
-TEST(BracketsBreakClosingAttach)
+TEST(BreakClosingBracketsAttach)
 {
 	// test ATTACH_MODE brackets with break closing headers
 	char textIn[] =
@@ -1043,7 +1071,7 @@ TEST(BracketsBreakClosingAttach)
 	delete [] textOut;
 }
 
-TEST(BracketsBreakClosingLinux)
+TEST(BreakClosingBracketsLinux)
 {
 	// test LINUX_MODE brackets with break closing headers
 	char textIn[] =
@@ -1072,7 +1100,7 @@ TEST(BracketsBreakClosingLinux)
 	delete [] textOut;
 }
 
-TEST(BracketsBreakClosingStroustrup)
+TEST(BreakClosingBracketsStroustrup)
 {
 	// test STROUSTRUP_MODE brackets with break closing headers
 	char textIn[] =
@@ -1101,7 +1129,7 @@ TEST(BracketsBreakClosingStroustrup)
 	delete [] textOut;
 }
 
-TEST(BracketsBreakClosingKeepBlocks)
+TEST(BreakClosingBracketsKeepBlocks)
 {
 	// test break closing headers with keep one line blocks
 	// it shouldn't make any difference
@@ -1130,7 +1158,7 @@ TEST(BracketsBreakClosingKeepBlocks)
 	delete [] textOut;
 }
 
-TEST(BracketsBreakClosingElseSans)
+TEST(BreakClosingBracketsElseSans)
 {
 	// test if/else without break closing brackets
 	// else statement should be attached to the closing bracket
@@ -1159,7 +1187,7 @@ TEST(BracketsBreakClosingElseSans)
 	delete [] textOut;
 }
 
-TEST(BracketsBreakClosingCatch)
+TEST(BreakClosingBracketsCatch)
 {
 	// test try/catch with break closing brackets
 	char textIn[] =
@@ -1186,7 +1214,7 @@ TEST(BracketsBreakClosingCatch)
 	delete [] textOut;
 }
 
-TEST(BracketsBreakClosingCatchSans)
+TEST(BreakClosingBracketsCatchSans)
 {
 	// test try/catch without break closing brackets
 	// catch statement should be attached to the closing bracket
@@ -1214,7 +1242,7 @@ TEST(BracketsBreakClosingCatchSans)
 	delete [] textOut;
 }
 
-TEST(BracketsBreakClosingWhile)
+TEST(BreakClosingBracketsWhile)
 {
 	// test do/while with break closing brackets
 	char textIn[] =
@@ -1237,7 +1265,7 @@ TEST(BracketsBreakClosingWhile)
 	delete [] textOut;
 }
 
-TEST(BracketsBreakClosingWhileSans)
+TEST(BreakClosingBracketsWhileSans)
 {
 	// test do/while without break closing brackets
 	// while statement should be attached to the closing bracket
@@ -1265,7 +1293,7 @@ TEST(BracketsBreakClosingWhileSans)
 // AStyle Break Else If
 //-------------------------------------------------------------------------
 
-TEST(BreakElseIf)
+TEST(BreakElseIfs)
 {
 	// test break else/if
 	// else/if statements should be broken
@@ -1335,7 +1363,77 @@ TEST(BreakElseIf)
 	delete [] textOut;
 }
 
-TEST(BreakElseIfSans)
+TEST(BreakElseIfsShort)
+{
+	// test break else/if short options
+	// else/if statements should be broken
+	char textIn[] =
+		"\nvoid foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    } else\n"
+		"        if (isBar) {\n"
+		"            anotherBar();\n"
+		"            } else    if (isBar) {\n"
+		"                anotherBar();\n"
+		"            } else {\n"
+		"                if (isBar) {\n"
+		"                    anotherBar();\n"
+		"                }\n"
+		"            }\n"
+		"\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    } else anotherBar();\n"
+		"    if (isFoo)\n"
+		"        bar();\n"
+		"\n"
+		"#if 0\n"
+		"    foo();\n"
+		"#else\n"
+		"    if (bar)\n"
+		"        fooBar();\n"
+		"#endif\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    } else\n"
+		"        if (isBar) {\n"
+		"            anotherBar();\n"
+		"        } else\n"
+		"            if (isBar) {\n"
+		"                anotherBar();\n"
+		"            } else {\n"
+		"                if (isBar) {\n"
+		"                    anotherBar();\n"
+		"                }\n"
+		"            }\n"
+		"\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    } else\n"
+		"        anotherBar();\n"
+		"    if (isFoo)\n"
+		"        bar();\n"
+		"\n"
+		"#if 0\n"
+		"    foo();\n"
+		"#else\n"
+		"    if (bar)\n"
+		"        fooBar();\n"
+		"#endif\n"
+		"}\n";
+	char options[] = "-e";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakElseIfsSans)
 {
 	// test without break else/if
 	// else/if statements should be joined
@@ -1403,7 +1501,7 @@ TEST(BreakElseIfSans)
 	delete [] textOut;
 }
 
-TEST(BreakElseIfKeepOneLine)
+TEST(BreakElseIfsKeepOneLine)
 {
 	// test break else/if with keep one line statements
 	// else/if statements remain the same with breaking/attaching
@@ -1699,10 +1797,10 @@ TEST(DeleteEmptyLinesBreakBlocksComment)
 }
 
 //-------------------------------------------------------------------------
-// AStyle Pad Operators
+// AStyle Pad Operator
 //-------------------------------------------------------------------------
 
-TEST(PadOperators)
+TEST(PadOperator)
 {
 	// test pad operators
 	// all operators should be tested
@@ -1811,7 +1909,7 @@ TEST(PadOperators)
 	delete [] textOut;
 }
 
-TEST(PadOperatorsShort)
+TEST(PadOperatorShort)
 {
 	// test pad operators short option
 	char textIn[] =
@@ -1830,7 +1928,7 @@ TEST(PadOperatorsShort)
 	delete [] textOut;
 }
 
-TEST(PadOperatorsMisc1)
+TEST(PadOperatorMisc1)
 {
 	// more pad operators tests
 	char textIn[] =
@@ -1877,7 +1975,7 @@ TEST(PadOperatorsMisc1)
 	delete [] textOut;
 }
 
-TEST(PadOperatorsMisc2)
+TEST(PadOperatorMisc2)
 {
 	// test C# ? operator and nullable types
 	char textIn[] =
@@ -1898,7 +1996,7 @@ TEST(PadOperatorsMisc2)
 	delete [] textOut;
 }
 
-TEST(PadOperatorsSans1)
+TEST(PadOperatorSans1)
 {
 	// test pad operators
 	// these operators should NOT be padded
@@ -1945,7 +2043,7 @@ TEST(PadOperatorsSans1)
 	delete [] textOut;
 }
 
-TEST(PadOperatorsSans2)
+TEST(PadOperatorSans2)
 {
 	// test pad operators
 	// overloaded operators should NOT be padded
@@ -1961,7 +2059,7 @@ TEST(PadOperatorsSans2)
 	delete [] textOut;
 }
 
-TEST(PadOperatorsSans3)
+TEST(PadOperatorSans3)
 {
 	// test pad operators
 	// the Java generic <?> should NOT be padded
@@ -1976,7 +2074,7 @@ TEST(PadOperatorsSans3)
 	delete [] textOut;
 }
 
-TEST(PadOperatorsCommaSemiColon)
+TEST(PadOperatorCommaSemiColon)
 {
 	// semi-colons should ALWAYS be padded
 	// commas should be padded with pad-oper, but not in arrays
@@ -2012,12 +2110,412 @@ TEST(PadOperatorsCommaSemiColon)
 	delete [] textOut;
 }
 
-// TODO: test pad-oper with eol comments
-// TODO: test pad-parens-out
-// TODO: test pad-parens-in
-// TODO: test unpad-parens
-// TODO: test keep-one-line-statements
+TEST(PadOperatorComments)
+{
+	// EOL comments remain in the same column if possible
+	// moved comments retain the original spacing
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    c=a+b;      // comment ok\n"
+		"    g=d+e+f;    // comment must move\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    c = a + b;  // comment ok\n"
+		"    g = d + e + f;    // comment must move\n"
+		"}\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
+//-------------------------------------------------------------------------
+// AStyle Pad Paren
+//-------------------------------------------------------------------------
+
+TEST(PadParen)
+{
+	// test pad parens
+	char textIn[] =
+		"\nvoid foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo(a, b))\n"
+		"        bar(a, b);\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo ( bool isFoo )\n"
+		"{\n"
+		"    if ( isFoo ( a, b ) )\n"
+		"        bar ( a, b );\n"
+		"}\n";
+	char options[] = "pad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadParenShort)
+{
+	// test pad parens short option
+	char textIn[] =
+		"\nvoid foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo(a, b))\n"
+		"        bar(a, b);\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo ( bool isFoo )\n"
+		"{\n"
+		"    if ( isFoo ( a, b ) )\n"
+		"        bar ( a, b );\n"
+		"}\n";
+	char options[] = "-P";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadParenComments)
+{
+	// EOL comments remain in the same column if possible
+	// moved comments retain the original spacing
+	char textIn[] =
+		"\nvoid foo(bool isFoo)    // comment ok\n"
+		"{\n"
+		"    if (isFoo(a, b))    // comment must move\n"
+		"        bar(a, b);        // comment ok\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo ( bool isFoo ) // comment ok\n"
+		"{\n"
+		"    if ( isFoo ( a, b ) )    // comment must move\n"
+		"        bar ( a, b );     // comment ok\n"
+		"}\n";
+	char options[] = "pad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Pad Paren Out
+//-------------------------------------------------------------------------
+
+TEST(PadParenOut)
+{
+	// test pad parens out
+	char textIn[] =
+		"\nvoid foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo(a, b))\n"
+		"        bar(a, b);\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo (bool isFoo)\n"
+		"{\n"
+		"    if (isFoo (a, b) )\n"
+		"        bar (a, b);\n"
+		"}\n";
+	char options[] = "pad-paren-out";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadParenOutShort)
+{
+	// test pad parens out short option
+	char textIn[] =
+		"\nvoid foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo(a, b))\n"
+		"        bar(a, b);\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo (bool isFoo)\n"
+		"{\n"
+		"    if (isFoo (a, b) )\n"
+		"        bar (a, b);\n"
+		"}\n";
+	char options[] = "-d";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadParenOutComments)
+{
+	// EOL comments remain in the same column if possible
+	// moved comments retain the original spacing
+	char textIn[] =
+		"\nvoid foo(bool isFoo)  // comment ok\n"
+		"{\n"
+		"    if (isFoo(a, b))  // comment must move\n"
+		"        bar(a, b);      // comment ok\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo (bool isFoo) // comment ok\n"
+		"{\n"
+		"    if (isFoo (a, b) )  // comment must move\n"
+		"        bar (a, b);     // comment ok\n"
+		"}\n";
+	char options[] = "pad-paren-out";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Pad Paren In
+//-------------------------------------------------------------------------
+
+TEST(PadParenIn)
+{
+	// test pad parens in
+	char textIn[] =
+		"\nvoid foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo(a, b))\n"
+		"        bar(a, b);\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo( bool isFoo )\n"
+		"{\n"
+		"    if ( isFoo( a, b ) )\n"
+		"        bar( a, b );\n"
+		"}\n";
+	char options[] = "pad-paren-in";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadParenInShort)
+{
+	// test pad parens in short option
+	char textIn[] =
+		"\nvoid foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo(a, b))\n"
+		"        bar(a, b);\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo( bool isFoo )\n"
+		"{\n"
+		"    if ( isFoo( a, b ) )\n"
+		"        bar( a, b );\n"
+		"}\n";
+	char options[] = "-D";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadParenInComments)
+{
+	// EOL comments remain in the same column if possible
+	// moved comments retain the original spacing
+	char textIn[] =
+		"\nvoid foo(bool isFoo)   // comment ok\n"
+		"{\n"
+		"    if (isFoo(a, b))  // comment must move\n"
+		"        bar(a, b);      // comment ok\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo( bool isFoo ) // comment ok\n"
+		"{\n"
+		"    if ( isFoo( a, b ) )  // comment must move\n"
+		"        bar( a, b );    // comment ok\n"
+		"}\n";
+	char options[] = "pad-paren-in";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Unpad Paren
+//-------------------------------------------------------------------------
+
+TEST(UnpadParen)
+{
+	// test unpad parens
+	char textIn[] =
+		"\nvoid foo ( bool isFoo )\n"
+		"{\n"
+		"    if ( isFoo ( a, b ) )\n"
+		"        bar ( a, b );\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo(a, b))\n"
+		"        bar(a, b);\n"
+		"}\n";
+	char options[] = "unpad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(UnpadParenShort)
+{
+	// test unpad parens short option
+	char textIn[] =
+		"\nvoid foo ( bool isFoo )\n"
+		"{\n"
+		"    if ( isFoo ( a, b ) )\n"
+		"        bar ( a, b );\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo(a, b))\n"
+		"        bar(a, b);\n"
+		"}\n";
+	char options[] = "-U";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(UnpadParenComments)
+{
+	// EOL comments ALWAYS remain in the same column
+	char textIn[] =
+		"\nvoid foo ( bool isFoo ) // comment ok\n"
+		"{\n"
+		"    if ( isFoo ( a, b ) ) // comment ok\n"
+		"        bar ( a, b );     // comment ok\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo(bool isFoo)    // comment ok\n"
+		"{\n"
+		"    if (isFoo(a, b))      // comment ok\n"
+		"        bar(a, b);        // comment ok\n"
+		"}\n";
+	char options[] = "unpad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(UnpadParenPadParen)
+{
+	// test unpad parens with pad parens - should be padded
+	char textIn[] =
+		"\nvoid foo ( bool isFoo )\n"
+		"{\n"
+		"    if ( isFoo ( a, b ) )\n"
+		"        bar ( a, b );\n"
+		"    if (isFoo(a, b))\n"
+		"        bar(a, b);\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo ( bool isFoo )\n"
+		"{\n"
+		"    if ( isFoo ( a, b ) )\n"
+		"        bar ( a, b );\n"
+		"    if ( isFoo ( a, b ) )\n"
+		"        bar ( a, b );\n"
+		"}\n";
+	char options[] = "unpad-paren, pad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(UnpadParenPadParenOut)
+{
+	// test unpad parens with pad parens out - should be padded outside
+	char textIn[] =
+		"\nvoid foo( bool isFoo )\n"
+		"{\n"
+		"    if ( isFoo ( a, b ) )\n"
+		"        bar ( a, b );\n"
+		"    if (isFoo(a, b))\n"
+		"        bar(a, b);\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo (bool isFoo)\n"
+		"{\n"
+		"    if (isFoo (a, b))\n"
+		"        bar (a, b);\n"
+		"    if (isFoo (a, b))\n"
+		"        bar (a, b);\n"
+		"}\n";
+	char options[] = "unpad-paren, pad-paren-out";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(UnpadParenPadIn)
+{
+	// test unpad parens with pad parens in - should be padded inside
+	char textIn[] =
+		"\nvoid foo (bool isFoo)\n"
+		"{\n"
+		"    if ( isFoo ( a, b ) )\n"
+		"        bar ( a, b );\n"
+		"    if (isFoo(a, b))\n"
+		"        bar(a, b);\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo( bool isFoo )\n"
+		"{\n"
+		"    if ( isFoo( a, b ) )\n"
+		"        bar( a, b );\n"
+		"    if ( isFoo( a, b ) )\n"
+		"        bar( a, b );\n"
+		"}\n";
+	char options[] = "unpad-paren, pad-paren-in";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+
+//-------------------------------------------------------------------------
+// AStyle Keep One Line Statements
+//-------------------------------------------------------------------------
+
+TEST(KeepOneLineStatements)
+{
+	// test keep one line statements
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"        isFoo=false; isBar=true;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "keep-one-line-statements";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineStatementsShort)
+{
+	// // test keep one line statements short option
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"        isFoo=false; isBar=true;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "-o";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
 //-------------------------------------------------------------------------
 // AStyle Keep One Line Blocks
@@ -2037,7 +2535,21 @@ TEST(KeepOneLineBlocks)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksWithBreaklseIfs)
+TEST(KeepOneLineBlocksShort)
+{
+	// test keep one line blocks short option
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (!j) { j=1; i=i-10; }\n"
+		"}\n";
+	char options[] = "-O";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocksWithBreakElseIf)
 {
 	// test keep one line blocks and break elseifs
 	char textIn[] =
@@ -2063,7 +2575,7 @@ TEST(KeepOneLineBlocksWithBreaklseIfs)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksWithKeepOneLineStatementsAndBreaklseIfs)
+TEST(KeepOneLineBlocksWithKeepOneLineStatementsAndBreakElseIf)
 {
 	// test keep one line blocks and keep one line statements
 	//     with if statement and break elseifs
@@ -2360,4 +2872,132 @@ TEST(ConvertTabsMisc2)
 	delete [] textOut;
 }
 
-// TODO: test fill-empty-lines
+//-------------------------------------------------------------------------
+// AStyle Fill Empty Lines
+//-------------------------------------------------------------------------
+
+TEST(FillEmptyLines)
+{
+	// test fill empty lines
+	char textIn[] =
+		"\nvoid foo1(bool isFoo)\n"
+		"{\n"
+		"    a = 1;\n"
+		"\n"
+		"    if (isFoo)\n"
+		"        b = 2;\n"
+		"\n"
+		"    c = 3;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo1(bool isFoo)\n"
+		"{\n"
+		"    a = 1;\n"
+		"    \n"
+		"    if (isFoo)\n"
+		"        b = 2;\n"
+		"        \n"
+		"    c = 3;\n"
+		"}\n";
+	char options[] = "fill-empty-lines";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(FillEmptyLinesShort)
+{
+	// test fill empty lines short option
+	char textIn[] =
+		"\nvoid foo1(bool isFoo)\n"
+		"{\n"
+		"    a = 1;\n"
+		"\n"
+		"    if (isFoo)\n"
+		"        b = 2;\n"
+		"\n"
+		"    c = 3;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo1(bool isFoo)\n"
+		"{\n"
+		"    a = 1;\n"
+		"    \n"
+		"    if (isFoo)\n"
+		"        b = 2;\n"
+		"        \n"
+		"    c = 3;\n"
+		"}\n";
+	char options[] = "-E";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(FillEmptyLinesTab)
+{
+	// test fill empty lines with tabs
+	char textIn[] =
+		"\nvoid foo1(bool isFoo)\n"
+		"{\n"
+		"    a = 1;\n"
+		"\n"
+		"    if (isFoo)\n"
+		"        b = 2;\n"
+		"    bool shouldFill = (newOperator != &AS_COLON\n"
+		"                       && newOperator != &AS_PAREN);\n"
+		"                       \n"
+		"    c = 3;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo1(bool isFoo)\n"
+		"{\n"
+		"	a = 1;\n"
+		"	\n"
+		"	if (isFoo)\n"
+		"		b = 2;\n"
+		"	bool shouldFill = (newOperator != &AS_COLON\n"
+		"	                   && newOperator != &AS_PAREN);\n"
+		"	                   \n"
+		"	c = 3;\n"
+		"}\n";
+	char options[] = "fill-empty-lines, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(FillEmptyLinesForceTab)
+{
+	// test fill empty lines with force tabs
+	char textIn[] =
+		"\nvoid foo1(bool isFoo)\n"
+		"{\n"
+		"    a = 1;\n"
+		"\n"
+		"    if (isFoo)\n"
+		"        b = 2;\n"
+		"\n"
+		"    bool shouldFill = (newOperator != &AS_COLON\n"
+		"                       && newOperator != &AS_PAREN);\n"
+		"                       \n"
+		"    c = 3;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo1(bool isFoo)\n"
+		"{\n"
+		"	a = 1;\n"
+		"	\n"
+		"	if (isFoo)\n"
+		"		b = 2;\n"
+		"		\n"
+		"	bool shouldFill = (newOperator != &AS_COLON\n"
+		"					   && newOperator != &AS_PAREN);\n"
+		"					   \n"
+		"	c = 3;\n"
+		"}\n";
+	char options[] = "fill-empty-lines, indent=force-tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}

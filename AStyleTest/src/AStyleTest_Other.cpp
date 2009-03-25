@@ -464,6 +464,7 @@ SUITE(Version_123)
 		CHECK_EQUAL(text, textOut);
 		delete [] textOut;
 	}
+	// TODO: fix astyle for the above problem
 
 	TEST(CSharpLambdaExpressionArrow)
 	{

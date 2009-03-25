@@ -84,6 +84,9 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// global variables
+int errorHandler2Calls;
+
 // run all tests
 int main(int /*argc*/, char** /*argv*/)
 {
@@ -97,14 +100,33 @@ int main(int /*argc*/, char** /*argv*/)
 // Error handler for the Artistic Style formatter
 void  STDCALL errorHandler(int errorNumber, char* errorMessage)
 {
-	cout << "astyle error " << errorNumber << "\n"
-		 << errorMessage << endl;
+	// Use CHECK_EQUAL macro to get the function name displayed
+	ostringstream msg;
+	msg << "astyle error " << errorNumber << ".\n" << errorMessage;
+	CHECK_EQUAL("\"nothing\"\n", msg.str());
+#ifdef _WIN32
+	system("pause");
+#endif
+}
+
+// Error handler 2 just adds to an error count
+// It is used to test error conditions
+void  STDCALL errorHandler2(int, char*)
+{
+	errorHandler2Calls++;
+}
+
+// return errorHandler2Calls global variable
+int getErrorHandler2Calls()
+{
+	return errorHandler2Calls;
 }
 
 // Allocate memory for the Artistic Style formatter
 char* STDCALL memoryAlloc(unsigned long memoryNeeded)
 {
 	// error condition is checked after return from AStyleMain
+	// UnitTest++ will catch an allocation error
 	char* buffer = new(nothrow) char [memoryNeeded];
 	return buffer;
 }
