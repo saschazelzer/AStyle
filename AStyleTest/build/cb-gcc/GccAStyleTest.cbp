@@ -52,6 +52,7 @@
 		<Unit filename="../../../AStyle/src/astyle.h" />
 		<Unit filename="../../../AStyle/src/astyle_main.cpp" />
 		<Unit filename="../../../AStyle/src/astyle_main.h" />
+		<Unit filename="../../src/AStyleTest.h" />
 		<Unit filename="../../src/AStyleTest_BracketsCpp.cpp" />
 		<Unit filename="../../src/AStyleTest_BracketsJava.cpp" />
 		<Unit filename="../../src/AStyleTest_BracketsSharp.cpp" />
