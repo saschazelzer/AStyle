@@ -2,18 +2,7 @@
 // headers
 //----------------------------------------------------------------------------
 
-#include <UnitTest++.h>
-// #include <iostream>  // for cout
-
-#include "astyle.h"
-
-//----------------------------------------------------------------------------
-// declarations
-//----------------------------------------------------------------------------
-
-// AStyleMain callback function declarations
-void  STDCALL errorHandler(int errorNumber, char* errorMessage);
-char* STDCALL memoryAlloc(unsigned long memoryNeeded);
+#include "AStyleTest.h"
 
 //----------------------------------------------------------------------------
 // AStyle version 1.23 TEST functions
@@ -706,6 +695,95 @@ TEST(UTF8WithBOM)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+//----------------------------------------------------------------------------
+// AStyle Input Error Tests
+// Test error reporting conditions in astyle_main
+//----------------------------------------------------------------------------
+
+TEST(NullErrorHandlerPointer)
+{
+	// test error handling for NULL error handler pointer
+	// this cannot call the error handler, check only for NULL return
+	// memory has NOT been allocated for this error
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, NULL, memoryAlloc);
+	CHECK(textOut == NULL);
+}
+
+TEST(NullPointerToSource)
+{
+	// test error handling for NULL pointer to source
+	// memory has NOT been allocated for this error
+	char options[] = "";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(NULL, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	CHECK_EQUAL(errorsIn + 1, errorsOut);
+	CHECK(textOut == NULL);
+}
+
+TEST(NullPointerToOptions)
+{
+	// test error handling for NULL pointer to options
+	// memory has NOT been allocated for this error
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, NULL, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	CHECK_EQUAL(errorsIn + 1, errorsOut);
+	CHECK(textOut == NULL);
+}
+
+TEST(NullPointerToMemoryAlloc)
+{
+	// test error handling for NULL memory allocation pointer
+	// memory has NOT been allocated for this error
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, NULL);
+	int errorsOut = getErrorHandler2Calls();
+	CHECK_EQUAL(errorsIn + 1, errorsOut);
+	CHECK(textOut == NULL);
+}
+
+TEST(InvalidOption)
+{
+	// test error handling for an invalid option
+	// memory HAS been allocated for this error
+	// the source will be formatted without the option
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"	bar();\n"
+		"}\n";
+	char options[] = "invalid-option, indent=tab";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(textIn, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	CHECK_EQUAL(errorsIn + 1, errorsOut);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }

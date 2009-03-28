@@ -2,27 +2,7 @@
 // headers
 //----------------------------------------------------------------------------
 
-#include <UnitTest++.h>
-#include <iostream>  // for cout
-
-#include "astyle.h"
-
-//----------------------------------------------------------------------------
-// declarations
-//----------------------------------------------------------------------------
-
-// AStyleMain callback function declarations
-void  STDCALL errorHandler(int errorNumber, char* errorMessage);
-char* STDCALL memoryAlloc(unsigned long memoryNeeded);
-
-// errorHandler2 functions
-void  STDCALL errorHandler2(int, char*);
-int   getErrorHandler2Calls();
-
-//----------------------------------------------------------------------------
-// AStyle Indent Options
-//----------------------------------------------------------------------------
-
+#include "AStyleTest.h"
 
 //-------------------------------------------------------------------------
 // AStyle Indent Classes
@@ -771,6 +751,191 @@ TEST(IndentNamespacesShort)
 }
 
 //-------------------------------------------------------------------------
+// AStyle Indent Labels
+//-------------------------------------------------------------------------
+
+TEST(IndentLabels)
+{
+	// test indent labels
+	char textIn[] =
+		"\nvoid Foo() {\n"
+		"    while (isFoo) {\n"
+		"        if (isFoo)\n"
+		"            goto error;\n"
+		"        bar1();\n"
+		"error:\n"
+		"        bar2();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo() {\n"
+		"    while (isFoo) {\n"
+		"        if (isFoo)\n"
+		"            goto error;\n"
+		"        bar1();\n"
+		"    error:\n"
+		"        bar2();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "indent-labels";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentLabelsShort)
+{
+	// test indent labels short option
+	char textIn[] =
+		"\nvoid Foo() {\n"
+		"    while (isFoo) {\n"
+		"        if (isFoo)\n"
+		"            goto error;\n"
+		"        bar1();\n"
+		"error:\n"
+		"        bar2();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo() {\n"
+		"    while (isFoo) {\n"
+		"        if (isFoo)\n"
+		"            goto error;\n"
+		"        bar1();\n"
+		"    error:\n"
+		"        bar2();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "-L";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentLabelsSans)
+{
+	// test labels without indent labels option
+	char textIn[] =
+		"\nvoid Foo() {\n"
+		"    while (isFoo) {\n"
+		"        if (isFoo)\n"
+		"            goto error;\n"
+		"        bar1();\n"
+		"    error:\n"
+		"        bar2();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo() {\n"
+		"    while (isFoo) {\n"
+		"        if (isFoo)\n"
+		"            goto error;\n"
+		"        bar1();\n"
+		"error:\n"
+		"        bar2();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+// TODO: THE FOLLOWING TEST FAILS
+//TEST(IndentLabelsSharp)
+//{
+//	// test indent labels for C#
+//	char textIn[] =
+//		"\nvoid Foo() {\n"
+//		"    while (isFoo) {\n"
+//		"        if (isFoo)\n"
+//		"            goto error;\n"
+//		"        bar1();\n"
+//		"error:\n"
+//		"        bar2();\n"
+//		"    }\n"
+//		"}\n";
+//	char text[] =
+//		"\nvoid Foo() {\n"
+//		"    while (isFoo) {\n"
+//		"        if (isFoo)\n"
+//		"            goto error;\n"
+//		"        bar1();\n"
+//		"    error:\n"
+//		"        bar2();\n"
+//		"    }\n"
+//		"}\n";
+//	char options[] = "indent-labels, mode=cs";
+//	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+//	CHECK_EQUAL(text, textOut);
+//	delete [] textOut;
+//}
+
+//-------------------------------------------------------------------------
+// AStyle Indent Preprocessor
+//-------------------------------------------------------------------------
+
+TEST(IndentPreprocessor)
+{
+	// test indent preprocessor
+	char textIn[] =
+		"\n#define Is_Bar(arg,a,b) \\\n"
+		"(Is_Foo((arg), (a)) \\\n"
+		"|| Is_Foo((arg), (b)))\n";
+	char text[] =
+		"\n#define Is_Bar(arg,a,b) \\\n"
+		"    (Is_Foo((arg), (a)) \\\n"
+		"     || Is_Foo((arg), (b)))\n";
+	char options[] = "indent-preprocessor";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocessorShort)
+{
+	// test indent preprocessor short option
+	char textIn[] =
+		"\n#define Is_Bar(arg,a,b) \\\n"
+		"(Is_Foo((arg), (a)) \\\n"
+		"|| Is_Foo((arg), (b)))\n";
+	char text[] =
+		"\n#define Is_Bar(arg,a,b) \\\n"
+		"    (Is_Foo((arg), (a)) \\\n"
+		"     || Is_Foo((arg), (b)))\n";
+	char options[] = "-w";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocessorSans)
+{
+	// test preprocessor statements without indent preprocessor option
+	// they should not change
+	char textIn[] =
+		"\n#define Is_Bar(arg,a,b) \\\n"
+		"  (Is_Foo((arg), (a)) \\\n"
+		"   || Is_Foo((arg), (b)))\n"
+		"\n"
+		"#define Is_Bar(arg,a,b) \\\n"
+		"      (Is_Foo((arg), (a)) \\\n"
+		"             || Is_Foo((arg), (b)))\n";
+	char text[] =
+		"\n#define Is_Bar(arg,a,b) \\\n"
+		"  (Is_Foo((arg), (a)) \\\n"
+		"   || Is_Foo((arg), (b)))\n"
+		"\n"
+		"#define Is_Bar(arg,a,b) \\\n"
+		"      (Is_Foo((arg), (a)) \\\n"
+		"             || Is_Foo((arg), (b)))\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
 // AStyle Max Instatement Indent
 //-------------------------------------------------------------------------
 
@@ -1072,6 +1237,3 @@ TEST(IndentMiscIndentableHeaders)
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
-
-// TODO: test indent-labels
-// TODO: test indent-preprocessor

@@ -2,19 +2,7 @@
 // headers
 //----------------------------------------------------------------------------
 
-#include <UnitTest++.h>
-#include <iostream>  // for cout
-
-#include "astyle.h"
-
-//----------------------------------------------------------------------------
-// declarations
-//----------------------------------------------------------------------------
-
-// AStyleMain callback function declarations
-void  STDCALL errorHandler(int errorNumber, char* errorMessage);
-char* STDCALL memoryAlloc(unsigned long memoryNeeded);
-
+#include "AStyleTest.h"
 
 //----------------------------------------------------------------------------
 // AStyle C++ Style options

@@ -1,7 +1,9 @@
-#include <UnitTest++.h>
-#include <iostream>
+//----------------------------------------------------------------------------
+// headers
+//----------------------------------------------------------------------------
 
-#include "astyle.h"
+#include "AStyleTest.h"
+#include <stdlib.h>
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -98,14 +100,16 @@ int main(int /*argc*/, char** /*argv*/)
 //----------------------------------------------------------------------------
 
 // Error handler for the Artistic Style formatter
+// Pause so the error will be noticed
+// Linux calls "sh -c", not bash
 void  STDCALL errorHandler(int errorNumber, char* errorMessage)
 {
-	// Use CHECK_EQUAL macro to get the function name displayed
-	ostringstream msg;
-	msg << "astyle error " << errorNumber << ".\n" << errorMessage;
-	CHECK_EQUAL("\"nothing\"\n", msg.str());
+	cout << "AStyle error " << errorNumber << ".\n" << errorMessage << endl;
 #ifdef _WIN32
 	system("pause");
+#else
+    cout << "Press ENTER to continue." << endl;
+    system("read x");
 #endif
 }
 
