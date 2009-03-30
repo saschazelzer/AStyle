@@ -123,7 +123,7 @@
 				AdditionalIncludeDirectories="..\..\..\AStyle\src;&quot;..\..\..\UnitTest++\src&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;ASTYLE_LIB"
 				MinimalRebuild="false"
-				BasicRuntimeChecks="3"
+				BasicRuntimeChecks="0"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="false"
 				FloatingPointModel="2"
