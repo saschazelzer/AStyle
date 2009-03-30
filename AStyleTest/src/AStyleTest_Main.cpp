@@ -108,8 +108,8 @@ void  STDCALL errorHandler(int errorNumber, char* errorMessage)
 #ifdef _WIN32
 	system("pause");
 #else
-    cout << "Press ENTER to continue." << endl;
-    system("read x");
+	cout << "Press ENTER to continue." << endl;
+	system("read x");
 #endif
 }
 

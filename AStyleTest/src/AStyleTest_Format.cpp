@@ -2320,6 +2320,170 @@ TEST(PadParenInComments)
 }
 
 //-------------------------------------------------------------------------
+// AStyle Pad Header
+//-------------------------------------------------------------------------
+
+TEST(PadHeader)
+{
+	// test pad header
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(isFoo(a, b))\n"
+		"        bar(a, b);\n"
+		"\n"
+		"    while(a>b)\n"
+		"        fooBar(a, b);\n"
+		"\n"
+		"    nonHeader(a, b);\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo(a, b))\n"
+		"        bar(a, b);\n"
+		"\n"
+		"    while (a>b)\n"
+		"        fooBar(a, b);\n"
+		"\n"
+		"    nonHeader(a, b);\n"
+		"}\n";
+	char options[] = "pad-header";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadHeaderShort)
+{
+	// test header short option
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(isFoo(a, b))\n"
+		"        bar(a, b);\n"
+		"\n"
+		"    while(a>b)\n"
+		"        fooBar(a, b);\n"
+		"\n"
+		"    nonHeader(a, b);\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo(a, b))\n"
+		"        bar(a, b);\n"
+		"\n"
+		"    while (a>b)\n"
+		"        fooBar(a, b);\n"
+		"\n"
+		"    nonHeader(a, b);\n"
+		"}\n";
+	char options[] = "-H";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadHeaderSans)
+{	// test without pad header
+	// headers should remain unchanged
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(isFoo(a, b))\n"
+		"        bar(a, b);\n"
+		"\n"
+		"    while (a>b)\n"
+		"        fooBar(a, b);\n"
+		"\n"
+		"    nonHeader1(a, b);\n"
+		"\n"
+		"    nonHeader2 (a, b);\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(isFoo(a, b))\n"
+		"        bar(a, b);\n"
+		"\n"
+		"    while (a>b)\n"
+		"        fooBar(a, b);\n"
+		"\n"
+		"    nonHeader1(a, b);\n"
+		"\n"
+		"    nonHeader2 (a, b);\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+TEST(PadHeaderUnpadParen)
+{	// test pad header with unpad paren
+	// headers should be padded, others should not
+	// will remove extra padding from headers
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(isFoo(a, b))\n"
+		"        bar(a, b);\n"
+		"\n"
+		"    while  (a>b)\n"
+		"        fooBar(a, b);\n"
+		"\n"
+		"    nonHeader1(a, b);\n"
+		"\n"
+		"    nonHeader2 (a, b);\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo(a, b))\n"
+		"        bar(a, b);\n"
+		"\n"
+		"    while (a>b)\n"
+		"        fooBar(a, b);\n"
+		"\n"
+		"    nonHeader1(a, b);\n"
+		"\n"
+		"    nonHeader2(a, b);\n"
+		"}\n";
+	char options[] = "pad-header, unpad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadHeaderComments)
+{
+	// EOL comments remain in the same column if possible
+	// moved comments retain the original spacing
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(isFoo(a, b)) // comment must move\n"
+		"        bar(a, b);\n"
+		"\n"
+		"    while(a>b)      // comment ok\n"
+		"        fooBar(a, b);\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo(a, b)) // comment must move\n"
+		"        bar(a, b);\n"
+		"\n"
+		"    while (a>b)     // comment ok\n"
+		"        fooBar(a, b);\n"
+		"}\n";
+	char options[] = "pad-header";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
 // AStyle Unpad Paren
 //-------------------------------------------------------------------------
 
@@ -2335,7 +2499,7 @@ TEST(UnpadParen)
 	char text[] =
 		"\nvoid foo(bool isFoo)\n"
 		"{\n"
-		"    if (isFoo(a, b))\n"
+		"    if(isFoo(a, b))\n"
 		"        bar(a, b);\n"
 		"}\n";
 	char options[] = "unpad-paren";
@@ -2356,7 +2520,7 @@ TEST(UnpadParenShort)
 	char text[] =
 		"\nvoid foo(bool isFoo)\n"
 		"{\n"
-		"    if (isFoo(a, b))\n"
+		"    if(isFoo(a, b))\n"
 		"        bar(a, b);\n"
 		"}\n";
 	char options[] = "-U";
@@ -2377,7 +2541,7 @@ TEST(UnpadParenComments)
 	char text[] =
 		"\nvoid foo(bool isFoo)    // comment ok\n"
 		"{\n"
-		"    if (isFoo(a, b))      // comment ok\n"
+		"    if(isFoo(a, b))       // comment ok\n"
 		"        bar(a, b);        // comment ok\n"
 		"}\n";
 	char options[] = "unpad-paren";
@@ -2388,11 +2552,12 @@ TEST(UnpadParenComments)
 
 TEST(UnpadParenPadParen)
 {
-	// test unpad parens with pad parens - should be padded
+	// test unpad parens with pad parens
+	// should be padded but will remove extra padding
 	char textIn[] =
 		"\nvoid foo ( bool isFoo )\n"
 		"{\n"
-		"    if ( isFoo ( a, b ) )\n"
+		"    if  (  isFoo  ( a, b )  )\n"
 		"        bar ( a, b );\n"
 		"    if (isFoo(a, b))\n"
 		"        bar(a, b);\n"
@@ -2413,11 +2578,12 @@ TEST(UnpadParenPadParen)
 
 TEST(UnpadParenPadParenOut)
 {
-	// test unpad parens with pad parens out - should be padded outside
+	// test unpad parens with pad parens out
+	// should be padded outside but will remove extra padding
 	char textIn[] =
 		"\nvoid foo( bool isFoo )\n"
 		"{\n"
-		"    if ( isFoo ( a, b ) )\n"
+		"    if  (  isFoo  ( a, b )  )\n"
 		"        bar ( a, b );\n"
 		"    if (isFoo(a, b))\n"
 		"        bar(a, b);\n"
@@ -2438,11 +2604,12 @@ TEST(UnpadParenPadParenOut)
 
 TEST(UnpadParenPadIn)
 {
-	// test unpad parens with pad parens in - should be padded inside
+	// test unpad parens with pad parens in
+	// should be padded inside but will remove extra padding
 	char textIn[] =
 		"\nvoid foo (bool isFoo)\n"
 		"{\n"
-		"    if ( isFoo ( a, b ) )\n"
+		"    if (  isFoo (  a, b  )  )\n"
 		"        bar ( a, b );\n"
 		"    if (isFoo(a, b))\n"
 		"        bar(a, b);\n"
@@ -2450,9 +2617,9 @@ TEST(UnpadParenPadIn)
 	char text[] =
 		"\nvoid foo( bool isFoo )\n"
 		"{\n"
-		"    if ( isFoo( a, b ) )\n"
+		"    if( isFoo( a, b ) )\n"
 		"        bar( a, b );\n"
-		"    if ( isFoo( a, b ) )\n"
+		"    if( isFoo( a, b ) )\n"
 		"        bar( a, b );\n"
 		"}\n";
 	char options[] = "unpad-paren, pad-paren-in";
@@ -2838,14 +3005,14 @@ TEST(ConvertTabsMisc2)
 	char textIn[] =
 		"\nvoid foo( bool isFoo )\n"
 		"{\n"
-		"    if (	isFoo )\n"
+		"    if(	isFoo )\n"
 		"        bar;\n"
 		"}\n";
 
 	char text[] =
 		"\nvoid foo( bool isFoo )\n"
 		"{\n"
-		"    if ( isFoo )\n"
+		"    if( isFoo )\n"
 		"        bar;\n"
 		"}\n";
 
