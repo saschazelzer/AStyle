@@ -787,3 +787,354 @@ TEST(InvalidOption)
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
+
+//----------------------------------------------------------------------------
+// AStyle Macro formatting
+// Test macros recognized by AStyle
+//----------------------------------------------------------------------------
+
+TEST(wxWidgetsEventHandler)
+{
+	// wxWidgets event handler should be indented
+	char text[] =
+		"\nBEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
+		"    EVT_CLOSE(JP5Frm::WindowClose)\n"
+		"    EVT_PAINT(JP5Frm::WindowPaint)\n"
+		"    EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
+		"    EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
+		"END_EVENT_TABLE()\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MfcMessageMap)
+{
+	// MFC message map should be indented
+	char text[] =
+		"\nBEGIN_MESSAGE_MAP(CMainJPWnd, CFrameWnd)\n"
+		"    ON_WM_CLOSE()\n"
+		"    ON_WM_PAINT()\n"
+		"    ON_COMMAND(IDM_ABOUT, OnAbout)\n"
+		"    ON_COMMAND(IDM_EXIT,  OnExit)\n"
+		"END_MESSAGE_MAP()\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+//----------------------------------------------------------------------------
+// AStyle short options used only by console
+// should get an error unless they have been duplicated by another option
+//----------------------------------------------------------------------------
+
+TEST(SuffixNoneShort)
+{
+	// test suffix=none short option
+	// should get an error unless it has been duplicated by another option
+	// the source will be formatted without the option
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "-n";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	CHECK_EQUAL(errorsIn + 1, errorsOut);
+	CHECK(textOut != NULL);
+	delete [] textOut;
+}
+
+TEST(Recursive1Short)
+{
+	// test recursive short option1
+	// should get an error unless it has been duplicated by another option
+	// the source will be formatted without the option
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "-r";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	CHECK_EQUAL(errorsIn + 1, errorsOut);
+	CHECK(textOut != NULL);
+	delete [] textOut;
+}
+
+TEST(Recursive2Short)
+{
+	// test recursive short option2
+	// should get an error unless it has been duplicated by another option
+	// the source will be formatted without the option
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "-R";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	CHECK_EQUAL(errorsIn + 1, errorsOut);
+	CHECK(textOut != NULL);
+	delete [] textOut;
+}
+
+TEST(ErrorsToStdoutShort)
+{
+	// test errors-to-stdout short option
+	// should get an error unless it has been duplicated by another option
+	// the source will be formatted without the option
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "-X";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	CHECK_EQUAL(errorsIn + 1, errorsOut);
+	CHECK(textOut != NULL);
+	delete [] textOut;
+}
+
+TEST(PreserveDateShort)
+{
+	// test preserve-date short option
+	// should get an error unless it has been duplicated by another option
+	// the source will be formatted without the option
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "-Z";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	CHECK_EQUAL(errorsIn + 1, errorsOut);
+	CHECK(textOut != NULL);
+	delete [] textOut;
+}
+
+TEST(VerboseShort)
+{
+	// test verbose short option
+	// should get an error unless it has been duplicated by another option
+	// the source will be formatted without the option
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "-v";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	CHECK_EQUAL(errorsIn + 1, errorsOut);
+	CHECK(textOut != NULL);
+	delete [] textOut;
+}
+
+TEST(FormattedShort)
+{
+	// test formatted short option
+	// should get an error unless it has been duplicated by another option
+	// the source will be formatted without the option
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "-Q";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	CHECK_EQUAL(errorsIn + 1, errorsOut);
+	CHECK(textOut != NULL);
+	delete [] textOut;
+}
+
+TEST(QuietShort)
+{
+	// test preserve-date short option
+	// should get an error unless it has been duplicated by another option
+	// the source will be formatted without the option
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "-q";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	CHECK_EQUAL(errorsIn + 1, errorsOut);
+	CHECK(textOut != NULL);
+	delete [] textOut;
+}
+
+TEST(VersionShort)
+{
+	// test version short option
+	// should get an error unless it has been duplicated by another option
+	// the source will be formatted without the option
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "-V";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	CHECK_EQUAL(errorsIn + 1, errorsOut);
+	CHECK(textOut != NULL);
+	delete [] textOut;
+}
+
+TEST(Help1Short)
+{
+	// test help short option1
+	// should get an error unless it has been duplicated by another option
+	// the source will be formatted without the option
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "-h";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	CHECK_EQUAL(errorsIn + 1, errorsOut);
+	CHECK(textOut != NULL);
+	delete [] textOut;
+}
+
+TEST(Help2Short)
+{
+	// test help short option2
+	// should get an error unless it has been duplicated by another option
+	// the source will be formatted without the option
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "-?";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	CHECK_EQUAL(errorsIn + 1, errorsOut);
+	CHECK(textOut != NULL);
+	delete [] textOut;
+}
+//----------------------------------------------------------------------------
+// AStyle Quotes
+//----------------------------------------------------------------------------
+
+TEST(Quote)
+{
+	// test quotes
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    char* quote = \"this	is a quote \\\n"
+		"  	quote	continuation  \\\n"
+		"	quote continuation\";\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(QuoteSingle)
+{
+	// test single quotes
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (ch == \'\\r\')\n"
+		"        eolWindows++;\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(QuoteVerbatim)
+{
+	// test C# verbatim quotes
+	// whitespace should not change
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    string program = @\"using System;\n"
+		"class Test {\n"
+		"  void M(DerivedClass d) {\n"
+		"    \n"
+		"  }\n"
+		"}\n"
+		"class BaseClass<T> {\n"
+		"	public T value;\n"
+		"}\n"
+		"class DerivedClass : BaseClass<string> {\n"
+		"			\n"
+		"}\n"
+		";\n"
+		"}\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+//----------------------------------------------------------------------------
+// AStyle Comments
+//----------------------------------------------------------------------------
+
+TEST(CommentsBroken)
+{
+	// comments following broken brackets should be broken
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{   // comment\n"
+		"    if (isFoo())\n"
+		"        bar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    // comment\n"
+		"    if (isFoo())\n"
+		"        bar();\n"
+		"}\n";	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CommentsAttached)
+{
+	// comments following attached brackets should stay attached
+	char text[] =
+		"\nvoid Foo() { // comment\n"
+		"    if (isFoo())\n"
+		"        bar();\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}

@@ -309,6 +309,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\AStyleTest_Pad.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\AStyleTest_Styles.cpp"
 				>
 			</File>
