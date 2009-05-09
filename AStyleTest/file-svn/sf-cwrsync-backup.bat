@@ -74,9 +74,10 @@ echo * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 set today=%date:~4%
 set infile=C:%mirror:~11%
 set outpath=%USERPROFILE%\Backup
-set outfile=mirror-%today:~0,2%-%today:~3,2%
+set outfile=Mirror-%today:~0,2%-%today:~3,2%
 
-7z  a  "%outpath%\%outfile%"  "%infile%" > NUL
+if exist  "%outpath%\%outfile%.*"   del  "%outpath%\%outfile%.*" 
+7z  a  "%outpath%\%outfile%"  "%infile%"
 if errorlevel 1 pause
 
 
