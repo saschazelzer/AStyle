@@ -718,6 +718,68 @@ TEST(BreakAllBlocksShort)
 	delete [] textOut;
 }
 
+TEST(BreakAllBlocksBreakBrackets)
+{
+	// test break all blocks with break brackets
+	char textIn[] =
+		"\nvoid foo() {\n"
+		"    bar1();\n"
+		"    if (isBar) { // comment\n"
+		"        bar2();\n"
+		"        return;\n"
+		"    }\n"
+		"    bar3();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar1();\n"
+		"\n"
+		"    if (isBar)   // comment\n"
+		"    {\n"
+		"        bar2();\n"
+		"        return;\n"
+		"    }\n"
+		"\n"
+		"    bar3();\n"
+		"}\n";
+	char options[] = "break-blocks=all, brackets=break";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakAllBlocksAttachBrackets)
+{
+	// test break all blocks with attach brackets
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar1();\n"
+		"    if (isBar)   // comment\n"
+		"    {\n"
+		"        bar2();\n"
+		"        return;\n"
+		"    }\n"
+		"    bar3();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo() {\n"
+		"    bar1();\n"
+		"\n"
+		"    if (isBar) { // comment\n"
+		"        bar2();\n"
+		"        return;\n"
+		"    }\n"
+		"\n"
+		"    bar3();\n"
+		"}\n";
+	char options[] = "break-blocks=all, brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BreakAllBlocksWithDoWhile)
 {
 	// break all blocks with do-while
@@ -2033,14 +2095,14 @@ TEST(DeleteEmptyLinesBreakBlocksComment1)
 		"\nvoid Foo(bool isFoo)\n"
 		"{\n"
 		"    bar1();\n"
-		"    // comment 1\n"
+		"    // comment1\n"
 		"\n"
 		"    // comment2\n"
 		"    if (isFoo)\n"
 		"        bar2();\n"
 		"\n"
 		"    bar3();\n"
-		"    /* comment 3 */\n"
+		"    /* comment3 */\n"
 		"\n"
 		"    /* comment4 */\n"
 		"    if (isFoo)\n"

@@ -92,7 +92,9 @@ int errorHandler2Calls;
 // run all tests
 int main(int /*argc*/, char** /*argv*/)
 {
-	return UnitTest::RunAllTests();
+	int retval = UnitTest::RunAllTests();
+//	system("pause");		// sometimes needed for debug
+	return retval;
 }
 
 //----------------------------------------------------------------------------
