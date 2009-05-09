@@ -25,8 +25,8 @@
 					<Add option="-fno-exceptions" />
 					<Add option="-DASTYLE_JNI" />
 					<Add option="-DNDEBUG" />
-					<Add directory="/usr/lib/jvm/java-6-sun-1.6.0.10/include" />
-					<Add directory="/usr/lib/jvm/java-6-sun-1.6.0.10/include/linux" />
+					<Add directory="/usr/lib/jvm/java-6-sun-1.6.0.13/include" />
+					<Add directory="/usr/lib/jvm/java-6-sun-1.6.0.13/include/linux" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
