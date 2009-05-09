@@ -175,7 +175,7 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug LeakFinder|Win32"
+			Name="LeakFinder|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
