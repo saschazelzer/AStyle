@@ -1,32 +1,27 @@
 @echo off
 
 set testdata=..\..\TestData\scite
-set astyledir=..\..\AStyle
 
-:: set progdir=%astyledir%\build\cb-borland\bin
-:: set progdir=%astyledir%\build\cb-dmars\bin
-:: set progdir=%astyledir%\build\cb-mingw\bin
-:: set progdir=%astyledir%\build\vs2003\bin
-:: set progdir=%astyledir%\build\vs2005\bin
-set progdir=%astyledir%\build\vs2008\bin
+:: set astyle=..\..\AStyle\build\cb-borland\bin\AStyle
+:: set astyle=..\..\AStyle\build\cb-dmars\bin\AStyle
+:: set astyle=..\..\AStyle\build\cb-mingw\bin\AStyle
+:: set astyle=..\..\AStyle\build\vs2003\bin\AStyle
+:: set astyle=..\..\AStyle\build\vs2005\bin\AStyle
+set astyle=..\..\AStyle\build\vs2008\bin\AStyled
 
+:: set options= -HvRQ
+:: set options= -bCSKBGNLwM50m10yeoOcFpPHUxEvRQ
+REM without indent-blocks or indent-brackets (B or G)
+set options= -gCSKNLwM50m10yeoOcFpPHUxEvRQ
 
-:: %progdir%\AStyle  -h
-:: %progdir%\AStyle  -V
-
-:: set ARTISTIC_STYLE_OPTIONS=.\astylerc
-
-
-set errfile="%USERPROFILE%\Documents\sci-test.txt"
 
 set excludes= --exclude=lua
 
-%progdir%\AStyle  -Rv  %excludes%  "%testdata%\*.cxx"  "%testdata%\*.h"  >  test.txt
+call  libCompile.bat  %astyle%
+echo Formatting SciTE %options%
 
-REM NO indent-blocks
-:: %progdir%\AStyle   -bCSKBNLwM50m10FepPUoOcERv  %excludes%  "%testdata%\*.cxx"  "%testdata%\*.h"  >  test.txt
+%astyle%  %options%  %excludes%  "%testdata%\*.cxx"  "%testdata%\*.h"  >  test.txt
 
 
 echo -
-
 pause

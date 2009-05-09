@@ -1,26 +1,25 @@
 @echo off
 
 set testdata=..\..\TestData
-set astyledir=..\..\AStyle
 
-:: set progdir=%astyledir%\buildcb-borland\bin
-:: set progdir=%astyledir%\buildcb-dmars\bin
-:: set progdir=%astyledir%\buildcb-mingw\bin
-:: set progdir=%astyledir%\buildvs2003\bin
-:: set progdir=%astyledir%\buildvs2005\bin
-set progdir=%astyledir%\buildvs2008\bin
+:: set astyle=..\..\AStyle\build\cb-borland\bin\AStyle
+:: set astyle=..\..\AStyle\build\cb-dmars\bin\AStyle
+:: set astyle=..\..\AStyle\build\cb-mingw\bin\AStyle
+:: set astyle=..\..\AStyle\build\vs2003\bin\AStyle
+:: set astyle=..\..\AStyle\build\vs2005\bin\AStyle
+set astyle=..\..\AStyle\build\vs2008\bin\AStyled
 
-
-:: %progdir%\AStyle  -h
-:: %progdir%\AStyle  -V
-
-:: set ARTISTIC_STYLE_OPTIONS=.\astylerc
+:: set options= -HvRQ
+:: set options= -bCSKBGNLwM50m10yeoOcFpPHUxEvRQ
+REM without indent-blocks or indent-brackets (B or G)
+set options= -gCSKNLwM50m10yeoOcFpPHUxEvRQ
 
 
-:: %progdir%\AStyled  -Rv  "%testdata%\eclipse\*.java"  > test.txt
-REM NO indent-blocks
-%progdir%\AStyled   -CSKBNLwM50m10FepPUoOcERv  "%testdata%\eclipse\*.java"
+call  libCompile.bat  %astyle%
+echo Formatting eclipse %options%
+
+%astyle%  %options%  "%testdata%\eclipse\*.java"
+
 
 echo -
-
 pause

@@ -1,14 +1,14 @@
-@REM compare eclipseOLD to eclipse and display files that are different
+@REM compare CodeBlocksOLD to CodeBlocks and display files that are different
 @echo off
 
 set testdata=%USERPROFILE%\Projects\TestData
 
-set indir=%testdata%\eclipse
-set indirOLD=%testdata%\eclipseOLD
+set indir=%testdata%\jEdit
+set indirOLD=%testdata%\jEditOLD
 
 REM optional statement to run Artistic Style
 set progdir=..\AStyle\_VC-2008\bin
-::%progdir%\AStyle.exe   -R  "%testdata%\eclipse\*.java"
+::%progdir%\AStyle.exe   -R  "%testdata%\jEdit\*.java"
 ::if errorlevel 1 pause
 
 REM name of the output file
@@ -17,7 +17,7 @@ set errfile="test-diff.txt"
 if exist %errfile% del %errfile%
 
 if not exist "%indirOLD%" (
-echo No file "eclipseOLD"
+echo No file "jEditOLD"
 pause
 exit 1
 )

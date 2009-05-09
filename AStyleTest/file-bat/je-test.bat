@@ -1,30 +1,25 @@
 @echo off
 
 set testdata=..\..\TestData
-set astyledir=..\..\AStyle
 
-:: set progdir=%astyledir%\build\cb-borland\bin
-:: set progdir=%astyledir%\build\cb-dmars\bin
-:: set progdir=%astyledir%\build\cb-mingw\bin
-:: set progdir=%astyledir%\build\vs2003\bin
-:: set progdir=%astyledir%\build\vs2005\bin
-set progdir=%astyledir%\build\vs2008\bin
+:: set astyle=..\..\AStyle\build\cb-borland\bin\AStyle
+:: set astyle=..\..\AStyle\build\cb-dmars\bin\AStyle
+:: set astyle=..\..\AStyle\build\cb-mingw\bin\AStyle
+:: set astyle=..\..\AStyle\build\vs2003\bin\AStyle
+:: set astyle=..\..\AStyle\build\vs2005\bin\AStyle
+set astyle=..\..\AStyle\build\vs2008\bin\AStyled
 
-
-:: %progdir%\AStyle  -h
-:: %progdir%\AStyle  -V
-
-:: set ARTISTIC_STYLE_OPTIONS=.\astylerc
+:: set options= -HvRQ
+:: set options= -bCSKBGNLwM50m10yeoOcFpPHUxEvRQ
+REM without indent-blocks or indent-brackets (B or G)
+set options= -bCSKNLwM50m10yeoOcFpPHUxEvRQ
 
 
-%progdir%\AStyle  -vR  "%testdata%\jEdit\*.java"  > test.txt
+call  libCompile.bat  %astyle%
+echo Formatting jEdit %options%
 
-:: %progdir%\AStyle  -CSKBGNLwM50m10yexpPUoOCEvR  "%testdata%\jEdit\*.java" > test.txt
-
-REM removed confilicts with release 1.22, removed oO
-:: %progdir%\AStyle  -CSKNLwM50m10yepPUEvR  "%testdata%\jEdit\*.java" > test.txt
+%astyle%  %options%  "%testdata%\jEdit\*.java"  > test.txt
 
 
 echo -
-
 pause
