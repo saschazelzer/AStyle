@@ -1718,8 +1718,7 @@ TEST_FIXTURE(sharpText, SharpBracketsHorstmann)
 		"{\n"
 		"\n"
 		"public interface FooInterface\n"
-		"{\n"
-		"    int FooGet\n"
+		"{   int FooGet\n"
 		"    {   get;\n"
 		"        set;\n"
 		"    }\n"
@@ -1727,8 +1726,7 @@ TEST_FIXTURE(sharpText, SharpBracketsHorstmann)
 		"}\n"
 		"\n"
 		"public class FooClass\n"
-		"{\n"
-		"    private bool var1;\n"
+		"{   private bool var1;\n"
 		"    private bool var2;\n"
 		"\n"
 		"    public void foo(bool isFoo)\n"
@@ -1756,8 +1754,7 @@ TEST_FIXTURE(sharpText, SharpBracketsHorstmannShort)
 		"{\n"
 		"\n"
 		"public interface FooInterface\n"
-		"{\n"
-		"    int FooGet\n"
+		"{   int FooGet\n"
 		"    {   get;\n"
 		"        set;\n"
 		"    }\n"
@@ -1765,8 +1762,7 @@ TEST_FIXTURE(sharpText, SharpBracketsHorstmannShort)
 		"}\n"
 		"\n"
 		"public class FooClass\n"
-		"{\n"
-		"    private bool var1;\n"
+		"{   private bool var1;\n"
 		"    private bool var2;\n"
 		"\n"
 		"    public void foo(bool isFoo)\n"
@@ -1794,8 +1790,7 @@ TEST_FIXTURE(sharpText, SharpBracketsHorstmannNamespace)
 		"{\n"
 		"\n"
 		"    public interface FooInterface\n"
-		"    {\n"
-		"        int FooGet\n"
+		"    {   int FooGet\n"
 		"        {   get;\n"
 		"            set;\n"
 		"        }\n"
@@ -1803,8 +1798,7 @@ TEST_FIXTURE(sharpText, SharpBracketsHorstmannNamespace)
 		"    }\n"
 		"\n"
 		"    public class FooClass\n"
-		"    {\n"
-		"        private bool var1;\n"
+		"    {   private bool var1;\n"
 		"        private bool var2;\n"
 		"\n"
 		"        public void foo(bool isFoo)\n"
@@ -1831,8 +1825,7 @@ TEST_FIXTURE(sharpText, SharpBracketsHorstmannBlocks)
 		"{\n"
 		"\n"
 		"public interface FooInterface\n"
-		"{\n"
-		"    int FooGet\n"
+		"{   int FooGet\n"
 		"    {   get;\n"
 		"        set;\n"
 		"    }\n"
@@ -1840,8 +1833,7 @@ TEST_FIXTURE(sharpText, SharpBracketsHorstmannBlocks)
 		"}\n"
 		"\n"
 		"public class FooClass\n"
-		"{\n"
-		"    private bool var1;\n"
+		"{   private bool var1;\n"
 		"    private bool var2;\n"
 		"\n"
 		"    public void foo(bool isFoo)\n"
@@ -1865,15 +1857,21 @@ TEST(SharpBracketsHorstmannEmptyBrackets)
 {
 	// test horstmann brackets option
 	// do not change empty brackets
-	char text[] =
+	char textIn[] =
 		"\npublic class FooClass\n"
 		"{\n"
 		"    public FooClass() {}\n"
 		"    public FooClass()\n"
 		"    {}\n"
 		"}\n";
+	char text[] =
+		"\npublic class FooClass\n"
+		"{   public FooClass() {}\n"
+		"    public FooClass()\n"
+		"    {}\n"
+		"}\n";
 	char options[] = "brackets=horstmann, mode=cs";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }

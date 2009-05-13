@@ -1099,8 +1099,7 @@ TEST_FIXTURE(javaText, JavaBracketsHorstmann)
 	// test horstmann brackets option
 	char text[] =
 		"\npublic class FooClass\n"
-		"{\n"
-		"    private bool var1;\n"
+		"{   private bool var1;\n"
 		"    private bool var2;\n"
 		"\n"
 		"    public void foo(bool isFoo)\n"
@@ -1124,8 +1123,7 @@ TEST_FIXTURE(javaText, JavaBracketsHorstmannShort)
 	// test horstmann brackets short option
 	char text[] =
 		"\npublic class FooClass\n"
-		"{\n"
-		"    private bool var1;\n"
+		"{   private bool var1;\n"
 		"    private bool var2;\n"
 		"\n"
 		"    public void foo(bool isFoo)\n"
@@ -1148,8 +1146,7 @@ TEST_FIXTURE(javaText, JavaBracketsHorstmannBlocks)
 	// test horstmann brackets option, with indent blocks
 	char text[] =
 		"\npublic class FooClass\n"
-		"{\n"
-		"    private bool var1;\n"
+		"{   private bool var1;\n"
 		"    private bool var2;\n"
 		"\n"
 		"    public void foo(bool isFoo)\n"
@@ -1174,8 +1171,7 @@ TEST(JavaBracketsHorstmannEmptyBrackets)
 	// do not change empty brackets
 	char text[] =
 		"\npublic class FooClass\n"
-		"{\n"
-		"    public FooClass() {}\n"
+		"{   public FooClass() {}\n"
 		"    public FooClass()\n"
 		"    {}\n"
 		"}\n";

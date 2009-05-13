@@ -1001,7 +1001,6 @@ TEST(ConvertTabsMisc2)
 		"    if(	isFoo )\n"
 		"        bar;\n"
 		"}\n";
-
 	char text[] =
 		"\nvoid foo( bool isFoo )\n"
 		"{\n"
@@ -1015,3 +1014,17 @@ TEST(ConvertTabsMisc2)
 	delete [] textOut;
 }
 
+TEST(ConvertTabsMisc3)
+{
+	// verify that tabs are still present within quotes
+	// should NOT have been replaced when AStyle was run
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    char* quote = \"this	is	a	quote \";\n"
+		"}\n";
+	// just check for the tab characters
+	CHECK_EQUAL('\t', text[37]);
+	CHECK_EQUAL('\t', text[40]);
+	CHECK_EQUAL('\t', text[42]);
+}

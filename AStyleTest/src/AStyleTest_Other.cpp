@@ -8,6 +8,140 @@
 // AStyle version 1.24 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(v124BracketsAttachCommentsMisc1)
+{
+	// attach bracket inside a line end comment
+	// when multi-line comments follow a horstmann bracket
+	char textIn[] =
+		"\nvoid foo2(bool isFoo) /* comment0 */\n"
+		"{   /* comment1\n"
+		"     *\n"
+		"     */\n"
+		"    if(isFoo) /* comment2 */\n"
+		"    {   /* comment3\n"
+		"         *\n"
+		"         */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo2(bool isFoo) { /* comment0 */\n"
+		"    /* comment1\n"
+		"     *\n"
+		"     */\n"
+		"    if(isFoo) { /* comment2 */\n"
+		"        /* comment3\n"
+		"         *\n"
+		"         */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v124BracketsAttachCommentMisc2)
+{
+	// do NOT attach bracket inside a line end comment
+	// when two comments are on the line
+	char text[] =
+		"\nvoid foo() {\n"
+		"    if (isBar())   /* comment0 */ // comment0line\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v124BracketsAttachCommentMisc3)
+{
+	// when a bracket is NOT attached
+	// following horstmann comments should be broken and correctly formatted
+	char textIn[] =
+		"\nvoid foo() {\n"
+		"    if (isBar())   /* comment0 */ // comment0line\n"
+		"    {   /*\n"
+		"         * comment1\n"
+		"         */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo() {\n"
+		"    if (isBar())   /* comment0 */ // comment0line\n"
+		"    {\n"
+		"        /*\n"
+		"         * comment1\n"
+		"         */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v124BracketsAttachCommentMisc4)
+{
+	// attached brackets with following comments
+	// the second comment should be correctly formatted
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"        // comment1\n"
+		"        {\n"
+		"            bar1();\n"
+		"        }\n"
+		"        /*else\n"
+		"        {\n"
+		"            bar2();\n"
+		"        }*/\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo() {\n"
+		"    if (isFoo) {\n"
+		"        // comment1\n"
+		"        {\n"
+		"            bar1();\n"
+		"        }\n"
+		"        /*else\n"
+		"        {\n"
+		"            bar2();\n"
+		"        }*/\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v124BracketsAttachCommentMisc5)
+{
+	// attached brackets with following comments
+	// if NOT attached should not delete a previous comment line
+	char text[] =
+		"\n// -------------\n"
+		"void foo()\n"
+		"// ----------------\n"
+		"{ /* comment1 */\n"
+		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(v124BracketsHorstmannTabs)
 {
 	// test horstmann brackets with tab indents
@@ -55,7 +189,7 @@ TEST(v124BracketsHorstmannArray2)
 {
 	// test horstmann brackets with structs and arrays
 	// no runins
-	char text[] =
+	char textIn[] =
 		"\nstruct runinClass2\n"
 		"{\n"
 		"    bool bar;\n"
@@ -66,8 +200,18 @@ TEST(v124BracketsHorstmannArray2)
 		"    \"Bugs\",\n"
 		"    \"Daffy\",\n"
 		"};\n";
+	char text[] =
+		"\nstruct runinClass2\n"
+		"{   bool bar;\n"
+		"};\n"
+		"\n"
+		"const char *contributors[] =\n"
+		"{\n"
+		"    \"Bugs\",\n"
+		"    \"Daffy\",\n"
+		"};\n";
 	char options[] = "brackets=horstmann";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
@@ -1986,8 +2130,7 @@ TEST(CommentHorstmannNamespaceClassIndentBreak)
 		"\nnamespace FooName\n"
 		"{\n"
 		"    class FooClass\n"
-		"    {\n"
-		"        public:\n"
+		"    {   public:\n"
 		"            /*\n"
 		"             * comment1\n"
 		"             */\n"
@@ -2026,8 +2169,7 @@ TEST(CommentHorstmannNamespaceClassIndentAttach)
 		"\nnamespace FooName\n"
 		"{\n"
 		"    class FooClass\n"
-		"    {\n"
-		"        public:\n"
+		"    {   public:\n"
 		"            /*\n"
 		"             * comment1\n"
 		"             */\n"
@@ -2068,8 +2210,7 @@ TEST(CommentHorstmannNamespaceClassIndentHorstmann)
 		"\nnamespace FooName\n"
 		"{\n"
 		"    class FooClass\n"
-		"    {\n"
-		"        public:\n"
+		"    {   public:\n"
 		"            /*\n"
 		"             * comment1\n"
 		"             */\n"
