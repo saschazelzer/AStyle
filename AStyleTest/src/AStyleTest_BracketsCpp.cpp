@@ -348,6 +348,31 @@ TEST(CppBracketsNoneEmptyBrackets)
 	delete [] textOut;
 }
 
+TEST(CppBracketsNoneExtern)
+{
+	// test default brackets option (do not change)
+	// extern statement should not change its bracket type
+	// and should NOT use in-statement indents
+	char text[] =
+		"\nextern \"C\" {\n"
+		"	extern void foo1() {\n"
+		"		bar1();\n"
+		"	}\n"
+		"}\n"
+		"\n"
+		"extern \"C\"\n"
+		"{\n"
+		"	void foo2()\n"
+		"	{\n"
+		"		bar2();\n"
+		"	}\n"
+		"}\n";
+	char options[] = "indent=tab";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(CppBracketsNoneBreak)
 {
 	// test default brackets option with broken brackets
@@ -1198,6 +1223,45 @@ TEST(CppBracketsBreakEmptyBrackets)
 		"{}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsBreakExtern)
+{
+	// extern statement should not change its bracket type
+	// and should NOT use in-statement indents
+	char textIn[] =
+		"\nextern \"C\" {\n"
+		"	extern void foo1() {\n"
+		"		bar1();\n"
+		"	}\n"
+		"}\n"
+		"\n"
+		"extern \"C\"\n"
+		"{\n"
+		"	void foo2()\n"
+		"	{\n"
+		"		bar2();\n"
+		"	}\n"
+		"}\n";
+	char text[] =
+		"\nextern \"C\" {\n"
+		"	extern void foo1()\n"
+		"	{\n"
+		"		bar1();\n"
+		"	}\n"
+		"}\n"
+		"\n"
+		"extern \"C\"\n"
+		"{\n"
+		"	void foo2()\n"
+		"	{\n"
+		"		bar2();\n"
+		"	}\n"
+		"}\n";
+	char options[] = "indent=tab, brackets=break";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
@@ -2129,10 +2193,9 @@ TEST_FIXTURE(cppText, CppBracketsAttachBreakClosing)
 TEST(CppBracketsAttachEmptyBrackets)
 {
 	// test attach brackets option
-	// attach both brackets
-	char textIn[] =
-		"\nclass FooClass\n"
-		"{\n"
+	// do not change empty brackets
+	char text[] =
+		"\nclass FooClass {\n"
 		"public:\n"
 		"    FooClass() : ed(ed) {}\n"
 		"    FooClass() : ed(ed)\n"
@@ -2142,16 +2205,44 @@ TEST(CppBracketsAttachEmptyBrackets)
 		"FooClass() : ed(ed) {}\n"
 		"FooClass() : ed(ed)\n"
 		"{}\n";
-	char text[] =
-		"\nclass FooClass {\n"
-		"public:\n"
-		"    FooClass() : ed(ed) {}\n"
-		"    FooClass() : ed(ed) {}\n"
-		"};\n"
-		"\n"
-		"FooClass() : ed(ed) {}\n"
-		"FooClass() : ed(ed) {}\n";
 	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsAttachExtern)
+{
+	// extern statement should not change its bracket type
+	// and should NOT use in-statement indents
+	char textIn[] =
+		"\nextern \"C\" {\n"
+		"	extern void foo1() {\n"
+		"		bar1();\n"
+		"	}\n"
+		"}\n"
+		"\n"
+		"extern \"C\"\n"
+		"{\n"
+		"	void foo2()\n"
+		"	{\n"
+		"		bar2();\n"
+		"	}\n"
+		"}\n";
+	char text[] =
+		"\nextern \"C\" {\n"
+		"	extern void foo1() {\n"
+		"		bar1();\n"
+		"	}\n"
+		"}\n"
+		"\n"
+		"extern \"C\"\n"
+		"{\n"
+		"	void foo2() {\n"
+		"		bar2();\n"
+		"	}\n"
+		"}\n";
+	char options[] = "indent=tab, brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -3094,9 +3185,8 @@ TEST_FIXTURE(cppText, CppBracketsLinuxBreakClosing)
 TEST(CppBracketsLinuxEmptyBrackets)
 {
 	// test linux brackets option
-	// attach empty attached brackets
-	// do not change empty broken brackets
-	char textIn[] =
+	// do not change empty brackets
+	char text[] =
 		"\nclass FooClass\n"
 		"{\n"
 		"public:\n"
@@ -3108,18 +3198,46 @@ TEST(CppBracketsLinuxEmptyBrackets)
 		"FooClass() : ed(ed) {}\n"
 		"FooClass() : ed(ed)\n"
 		"{}\n";
-	char text[] =
-		"\nclass FooClass\n"
-		"{\n"
-		"public:\n"
-		"    FooClass() : ed(ed) {}\n"
-		"    FooClass() : ed(ed) {}\n"
-		"};\n"
-		"\n"
-		"FooClass() : ed(ed) {}\n"
-		"FooClass() : ed(ed)\n"
-		"{}\n";
 	char options[] = "brackets=linux";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsLinuxExtern)
+{
+	// extern statement should not change its bracket type
+	// and should NOT use in-statement indents
+	char textIn[] =
+		"\nextern \"C\" {\n"
+		"	extern void foo1() {\n"
+		"		bar1();\n"
+		"	}\n"
+		"}\n"
+		"\n"
+		"extern \"C\"\n"
+		"{\n"
+		"	void foo2()\n"
+		"	{\n"
+		"		bar2();\n"
+		"	}\n"
+		"}\n";
+	char text[] =
+		"\nextern \"C\" {\n"
+		"	extern void foo1()\n"
+		"	{\n"
+		"		bar1();\n"
+		"	}\n"
+		"}\n"
+		"\n"
+		"extern \"C\"\n"
+		"{\n"
+		"	void foo2()\n"
+		"	{\n"
+		"		bar2();\n"
+		"	}\n"
+		"}\n";
+	char options[] = "indent=tab, brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -3328,7 +3446,7 @@ TEST(CppBracketsLinuxFormatting)
 		"    void func1();\n"
 		"private:\n"
 		"    // inline class functions are NOT broken\n"
-		"    void FooClass {\n"
+		"    void FooClass() {\n"
 		"        if (isFoo) {\n"
 		"            bar();\n"
 		"        } else {\n"
@@ -4182,11 +4300,9 @@ TEST_FIXTURE(cppText, CppBracketsStroustrupBreakClosing)
 TEST(CppBracketsStroustrupEmptyBrackets)
 {
 	// test stroustrup brackets option
-	// attach empty attached brackets
-	// do not change empty broken brackets
-	char textIn[] =
-		"\nclass FooClass\n"
-		"{\n"
+	// do not change empty brackets
+	char text[] =
+		"\nclass FooClass {\n"
 		"public:\n"
 		"    FooClass() : ed(ed) {}\n"
 		"    FooClass() : ed(ed)\n"
@@ -4196,17 +4312,46 @@ TEST(CppBracketsStroustrupEmptyBrackets)
 		"FooClass() : ed(ed) {}\n"
 		"FooClass() : ed(ed)\n"
 		"{}\n";
-	char text[] =
-		"\nclass FooClass {\n"
-		"public:\n"
-		"    FooClass() : ed(ed) {}\n"
-		"    FooClass() : ed(ed) {}\n"
-		"};\n"
-		"\n"
-		"FooClass() : ed(ed) {}\n"
-		"FooClass() : ed(ed)\n"
-		"{}\n";
 	char options[] = "brackets=stroustrup";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsStroustrupExtern)
+{
+	// extern statement should not change its bracket type
+	// and should NOT use in-statement indents
+	char textIn[] =
+		"\nextern \"C\" {\n"
+		"	extern void foo1() {\n"
+		"		bar1();\n"
+		"	}\n"
+		"}\n"
+		"\n"
+		"extern \"C\"\n"
+		"{\n"
+		"	void foo2()\n"
+		"	{\n"
+		"		bar2();\n"
+		"	}\n"
+		"}\n";
+	char text[] =
+		"\nextern \"C\" {\n"
+		"	extern void foo1()\n"
+		"	{\n"
+		"		bar1();\n"
+		"	}\n"
+		"}\n"
+		"\n"
+		"extern \"C\"\n"
+		"{\n"
+		"	void foo2()\n"
+		"	{\n"
+		"		bar2();\n"
+		"	}\n"
+		"}\n";
+	char options[] = "indent=tab, brackets=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -4413,7 +4558,7 @@ TEST(CppBracketsStroustrupFormatting)
 		"    void func1();\n"
 		"private:\n"
 		"    // inline class functions are NOT broken\n"
-		"    void FooClass {\n"
+		"    void FooClass() {\n"
 		"        if (isFoo) {\n"
 		"            bar();\n"
 		"        } else {\n"
@@ -5251,6 +5396,43 @@ TEST(CppBracketsHorstmannEmptyBrackets)
 		"{}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsHorstmannExtern)
+{
+	// extern statement should not change its bracket type
+	// and should NOT use in-statement indents
+	char textIn[] =
+		"\nextern \"C\" {\n"
+		"	extern void foo1() {\n"
+		"		bar1();\n"
+		"	}\n"
+		"}\n"
+		"\n"
+		"extern \"C\"\n"
+		"{\n"
+		"	void foo2()\n"
+		"	{\n"
+		"		bar2();\n"
+		"	}\n"
+		"}\n";
+	char text[] =
+		"\nextern \"C\" {\n"
+		"	extern void foo1()\n"
+		"	{	bar1();\n"
+		"	}\n"
+		"}\n"
+		"\n"
+		"extern \"C\"\n"
+		"{\n"
+		"	void foo2()\n"
+		"	{	bar2();\n"
+		"	}\n"
+		"}\n";
+	char options[] = "indent=tab, brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
@@ -6772,6 +6954,7 @@ TEST(CppBracketsOtherNestedNamespaceIndentClassIndentBrackets)
 
 //-------------------------------------------------------------------------
 // AStyle C++ Array Bracket Options
+// NOTE: Array brackets are NOT converted TO or FROM Horstmann style
 //-------------------------------------------------------------------------
 
 TEST(CppBracketsArrayNoneBreak)
@@ -6805,7 +6988,39 @@ TEST(CppBracketsArrayNoneAttach)
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayBreak)
+TEST(CppBracketsArrayNoneHorstmann)
+{
+	// test array formatting with horstmann brackets
+	char text[] =
+		"\nconst char *foo[] =\n"
+		"{   \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayBreakBreak)
+{
+	// test array formatting
+	// should not change a broken bracket
+	char text[] =
+		"\nconst char *foo[] =\n"
+		"{\n"
+		"    \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char options[] = "brackets=break";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayBreakAttach)
 {
 	// test array formatting
 	// should break an attached bracket
@@ -6824,6 +7039,322 @@ TEST(CppBracketsArrayBreak)
 		"};\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayBreakHorstmann)
+{
+	// test array formatting
+	// should NOT change a horstmann bracket
+	char text[] =
+		"\nconst char *foo[] =\n"
+		"{   \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char options[] = "brackets=break";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayAttachBreak)
+{
+	// test array formatting
+	// should attach a broken bracket
+	char textIn[] =
+		"\nconst char *foo[] =\n"
+		"{\n"
+		"    \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char text[] =
+		"\nconst char *foo[] = {\n"
+		"    \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayAttachAttach)
+{
+	// test array formatting
+	// should not change an attached bracket
+	char text[] =
+		"\nconst char *foo[] = {\n"
+		"    \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayAttachHorstmann)
+{
+	// test array formatting
+	// should NOT change a horstmann bracket
+	char text[] =
+		"\nconst char *foo[] =\n"
+		"{   \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayHorstmannBreak)
+{
+	// test array formatting
+	// should NOT change a bracket to horstmann
+	char text[] =
+		"\nconst char *foo[] =\n"
+		"{\n"
+		"    \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayHorstmannAttach)
+{
+	// test array formatting
+	// should NOT change a bracket to horstmann
+	char text[] =
+		"\nconst char *foo[] = {\n"
+		"    \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayHorstmannHorstmann)
+{
+	// test array formatting
+	// should NOT change a horstmann bracket
+	char text[] =
+		"\nconst char *foo[] =\n"
+		"{   \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayNoneInStatement1)
+{
+	// in-statement arrays should remain unchanged
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    char* a[] = { \"one\", \"two\",\n"
+		"                  \"uno\", \"dos\"\n"
+		"                };\n"
+		"};\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayNoneInstatement2)
+{
+	// test array formatting with horstmann brackets
+	// and a non in-statement bracket on the same line
+	char text[] =
+		"\nvoid foo()\n"
+		"{   wxChar* names[] = {\n"
+		"        _T(\"cvt \"),\n"
+		"        NULL\n"
+		"    };\n"
+		"\n"
+		"    bar1();\n"
+		"    bar2();\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayBreakInStatement1)
+{
+	// in-statement arrays should remain unchanged
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    char* a[] = { \"one\", \"two\",\n"
+		"                  \"uno\", \"dos\"\n"
+		"                };\n"
+		"};\n";
+	char options[] = "brackets=break";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayBreakInstatement2)
+{
+	// test array formatting with horstmann brackets
+	// and a non in-statement bracket on the same line
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{   wxChar* names[] = {\n"
+		"        _T(\"cvt \"),\n"
+		"        NULL\n"
+		"    };\n"
+		"\n"
+		"    bar1();\n"
+		"    bar2();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    wxChar* names[] =\n"
+		"    {\n"
+		"        _T(\"cvt \"),\n"
+		"        NULL\n"
+		"    };\n"
+		"\n"
+		"    bar1();\n"
+		"    bar2();\n"
+		"}\n";
+	char options[] = "brackets=break";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayAttachInStatement1)
+{
+	// in-statement arrays should remain unchanged
+	char text[] =
+		"\nvoid foo() {\n"
+		"    char* a[] = { \"one\", \"two\",\n"
+		"                  \"uno\", \"dos\"\n"
+		"                };\n"
+		"};\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayAttachInstatement2)
+{
+	// test array formatting with horstmann brackets
+	// and a non in-statement bracket on the same line
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{   wxChar* names[] = {\n"
+		"        _T(\"cvt \"),\n"
+		"        NULL\n"
+		"    };\n"
+		"\n"
+		"    bar1();\n"
+		"    bar2();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo() {\n"
+		"    wxChar* names[] = {\n"
+		"        _T(\"cvt \"),\n"
+		"        NULL\n"
+		"    };\n"
+		"\n"
+		"    bar1();\n"
+		"    bar2();\n"
+		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayHorstmannInStatement1)
+{
+	// in-statement arrays should remain unchanged
+	char text[] =
+		"\nvoid foo()\n"
+		"{   char* a[] = { \"one\", \"two\",\n"
+		"                  \"uno\", \"dos\"\n"
+		"                };\n"
+		"};\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayHorstmannInstatement2)
+{
+	// test array formatting with horstmann brackets
+	// and a non in-statement bracket on the same line
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    wxChar* names[] = {\n"
+		"        _T(\"cvt \"),\n"
+		"        NULL\n"
+		"    };\n"
+		"\n"
+		"    bar1();\n"
+		"    bar2();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{   wxChar* names[] = {\n"
+		"        _T(\"cvt \"),\n"
+		"        NULL\n"
+		"    };\n"
+		"\n"
+		"    bar1();\n"
+		"    bar2();\n"
+		"}\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayHorstmannInstatement3)
+{
+	// test array formatting with horstmann brackets
+	// and a non in-statement bracket on the same line
+	// be sure it doesn't change
+	char text[] =
+		"\nvoid foo()\n"
+		"{   wxChar* names[] = {\n"
+		"        _T(\"cvt \"),\n"
+		"        NULL\n"
+		"    };\n"
+		"\n"
+		"    bar1();\n"
+		"    bar2();\n"
+		"}\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }

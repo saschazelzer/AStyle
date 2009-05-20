@@ -860,21 +860,15 @@ TEST_FIXTURE(sharpText, SharpBracketsAttachBreakClosing)
 TEST(SharpBracketsAttachEmptyBrackets)
 {
 	// test attach brackets option
-	// attach both brackets
-	char textIn[] =
-		"\npublic class FooClass\n"
-		"{\n"
+	// do not change empty brackets
+	char text[] =
+		"\npublic class FooClass {\n"
 		"    public FooClass() {}\n"
 		"    public FooClass()\n"
 		"    {}\n"
 		"}\n";
-	char text[] =
-		"\npublic class FooClass {\n"
-		"    public FooClass() {}\n"
-		"    public FooClass() {}\n"
-		"}\n";
 	char options[] = "brackets=attach, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
@@ -1214,7 +1208,7 @@ TEST_FIXTURE(sharpText, SharpBracketsLinuxBreakClosing)
 TEST(SharpBracketsLinuxEmptyBrackets)
 {
 	// test linux brackets option
-	// do not change empty broken brackets
+	// do not change empty brackets
 	char text[] =
 		"\npublic class FooClass\n"
 		"{\n"
@@ -1359,11 +1353,13 @@ TEST(SharpBracketsLinuxFormatting)
 		"public class fooClass\n"
 		"{\n"
 		"    public struct Examination {\n"
-		"        public void setDetails(string str1, string str2) {\n"
+		"        public void setDetails(string str1, string str2)\n"
+		"        {\n"
 		"            ExamCode=str1;\n"
 		"        }\n"
 		"\n"
-		"        public string[] getdetails() {\n"
+		"        public string[] getdetails()\n"
+		"        {\n"
 		"            temp=new string[2];\n"
 		"            return temp;\n"
 		"        }\n"
@@ -1625,7 +1621,7 @@ TEST_FIXTURE(sharpText, SharpBracketsStroustrupBreakClosing)
 TEST(SharpBracketsStroustrupEmptyBrackets)
 {
 	// test stroustrup brackets option
-	// do not change empty broken brackets
+	// do not change empty brackets
 	char text[] =
 		"\npublic class FooClass {\n"
 		"    public FooClass() {}\n"
@@ -1667,11 +1663,13 @@ TEST(SharpBracketsStroustrupFormatting)
 		"\nnamespace fooName {\n"
 		"public class fooClass {\n"
 		"    public struct Examination {\n"
-		"        public void setDetails(string str1, string str2) {\n"
+		"        public void setDetails(string str1, string str2)\n"
+		"        {\n"
 		"            ExamCode=str1;\n"
 		"        }\n"
 		"\n"
-		"        public string[] getdetails() {\n"
+		"        public string[] getdetails()\n"
+		"        {\n"
 		"            temp=new string[2];\n"
 		"            return temp;\n"
 		"        }\n"
@@ -1857,13 +1855,6 @@ TEST(SharpBracketsHorstmannEmptyBrackets)
 {
 	// test horstmann brackets option
 	// do not change empty brackets
-	char textIn[] =
-		"\npublic class FooClass\n"
-		"{\n"
-		"    public FooClass() {}\n"
-		"    public FooClass()\n"
-		"    {}\n"
-		"}\n";
 	char text[] =
 		"\npublic class FooClass\n"
 		"{   public FooClass() {}\n"
@@ -1871,7 +1862,7 @@ TEST(SharpBracketsHorstmannEmptyBrackets)
 		"    {}\n"
 		"}\n";
 	char options[] = "brackets=horstmann, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }

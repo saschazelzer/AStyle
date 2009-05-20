@@ -583,21 +583,15 @@ TEST_FIXTURE(javaText, JavaBracketsAttachBreakClosing)
 TEST(JavaBracketsAttachEmptyBrackets)
 {
 	// test attach brackets option
-	// attach both brackets
-	char textIn[] =
-		"\npublic class FooClass\n"
-		"{\n"
+	// do not change empty brackets
+	char text[] =
+		"\npublic class FooClass {\n"
 		"    public FooClass() {}\n"
 		"    public FooClass()\n"
 		"    {}\n"
 		"}\n";
-	char text[] =
-		"\npublic class FooClass {\n"
-		"    public FooClass() {}\n"
-		"    public FooClass() {}\n"
-		"}\n";
 	char options[] = "brackets=attach, mode=java";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
@@ -834,7 +828,7 @@ TEST_FIXTURE(javaText, JavaBracketsLinuxBreakClosing)
 TEST(JavaBracketsLinuxEmptyBrackets)
 {
 	// test linux brackets option
-	// do not change empty broken brackets
+	// do not change empty brackets
 	char text[] =
 		"\npublic class FooClass\n"
 		"{\n"
@@ -1077,7 +1071,7 @@ TEST_FIXTURE(javaText, JavaBracketsStroustrupBreakClosing)
 TEST(JavaBracketsStroustrupEmptyBrackets)
 {
 	// test stroustrup brackets option
-	// do not change empty broken brackets
+	// do not change empty brackets
 	char text[] =
 		"\npublic class FooClass {\n"
 		"    public FooClass() {}\n"

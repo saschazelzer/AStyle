@@ -647,8 +647,8 @@ TEST(v123ExternIndent)
 {
 	// no extra indent when extern is used
 	char text[] =
-		"\nextern void menu_SetConditionalEntry (uint32 menuId,\n"
-		"                                      CondFunc condFunc);\n";
+		"\nextern void foo (bool bar2,\n"
+		"                 bool bar2);\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
@@ -1643,6 +1643,230 @@ TEST(QuoteVerbatim)
 	delete [] textOut;
 }
 
+//----------------------------------------------------------------------------
+// AStyle Enum
+//----------------------------------------------------------------------------
+
+TEST(EnumNamespace1)
+{
+	// test indent of enum in a namespace
+	char text[] =
+		"\nnamespace fooName\n"
+		"{\n"
+		"enum dStyle\n"
+		"{\n"
+		"    OK = 0,\n"
+		"    YES_NO,\n"
+		"};\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(EnumNamespace2)
+{
+	// test indent of enum in a namespace
+	// with in-statement indent
+	char text[] =
+		"\nnamespace fooName\n"
+		"{\n"
+		"enum dStyle { OK = 0,\n"
+		"              YES_NO,\n"
+		"            };\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(EnumNamespaceIndent1)
+{
+	// test indent of enum in an indented namespace
+	char text[] =
+		"\nnamespace fooName\n"
+		"{\n"
+		"    enum dStyle\n"
+		"    {\n"
+		"        OK = 0,\n"
+		"        YES_NO,\n"
+		"    };\n"
+		"}\n";
+	char options[] = "indent-namespaces";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(EnumNamespaceIndent2)
+{
+	// test indent of enum in an indented namespace
+	// with in-statement indent
+	char text[] =
+		"\nnamespace fooName\n"
+		"{\n"
+		"    enum dStyle { OK = 0,\n"
+		"                  YES_NO,\n"
+		"                };\n"
+		"}\n";
+	char options[] = "indent-namespaces";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(EnumClass1)
+{
+	// test indent of enum in a class
+	char text[] =
+		"\nclass fooClass\n"
+		"{\n"
+		"public:\n"
+		"    enum dStyle\n"
+		"    {\n"
+		"        OK = 0,\n"
+		"        YES_NO,\n"
+		"    };\n"
+		"};\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(EnumClass2)
+{
+	// test indent of enum in a class
+	// with in-statement indent
+	char text[] =
+		"\nclass fooClass\n"
+		"{\n"
+		"public:\n"
+		"    enum dStyle { OK = 0,\n"
+		"                  YES_NO,\n"
+		"                };\n"
+		"};\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(EnumClassIndent1)
+{
+	// test indent of enum in an indented class
+	char text[] =
+		"\nclass fooClass\n"
+		"{\n"
+		"    public:\n"
+		"        enum dStyle\n"
+		"        {\n"
+		"            OK = 0,\n"
+		"            YES_NO,\n"
+		"        };\n"
+		"};\n";
+	char options[] = "indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+// TODO: the following enum closing bracket is not aligned
+TEST(EnumClassIndent2)
+{
+	// test indent of enum in an indented class
+	// with in-statement indent
+	char text[] =
+		"\nclass fooClass\n"
+		"{\n"
+		"    public:\n"
+		"        enum dStyle { OK = 0,\n"
+		"                      YES_NO,\n"
+		"                };\n"
+		"};\n";
+	char options[] = "indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+// TODO: the following enum closing bracket is not aligned
+TEST(EnumClassIndent3)
+{
+	// test indent of enum in an indented class
+	// within a #else preprocessor
+	char text[] =
+		"\n#if VERSION(2)\n"
+		"#else\n"
+		"class fooClass\n"
+		"{\n"
+		"    public:\n"
+		"        enum wxPaneState\n"
+		"        {\n"
+		"            optionFloating = 1 << 0,\n"
+		"            optionHidden   = 1 << 1,\n"
+		"    };\n"
+		"};\n"
+		"#endif\n";
+	char options[] = "indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+//----------------------------------------------------------------------------
+// AStyle Preprocessor
+//----------------------------------------------------------------------------
+
+TEST(Preprocessor1)
+{
+	// check indentation
+	// ASFormatter correctly identifying as a COMMND_TYPE bracket
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"#if wxUSE_UNICODE\n"
+		"        if (c < 128)\n"
+		"#else\n"
+		"        if (c < 256)\n"
+		"#endif\n"
+		"        {\n"
+		"            w += 1000;\n"
+		"        }\n"
+		"        else\n"
+		"        {\n"
+		"            w += 2000;\n"
+		"        }\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Preprocessor2)
+{
+	// check indentation
+	// ASFormatter correctly identifying as an ARRAY_TYPE bracket
+	char text[] =
+		"\nstatic SQRegFunction base_funcs[]={\n"
+		"    {_SC(\"seterrorhandler\"),base_seterrorhandler,2, NULL},\n"
+		"    {_SC(\"setdebughook\"),base_setdebughook,2, NULL},\n"
+		"#ifndef NO_GARBAGE_COLLECTOR\n"
+		"    {_SC(\"collectgarbage\"),base_collectgarbage,1, NULL},\n"
+		"#endif\n"
+		"    {0,0}\n"
+		"};\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
 //----------------------------------------------------------------------------
 // AStyle Comments

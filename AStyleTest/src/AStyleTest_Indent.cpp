@@ -142,6 +142,114 @@ TEST(IndentClassesHorstmannSans)
 	delete [] textOut;
 }
 
+TEST(IndentClassesHorstmannLineComment)
+{
+	// test indent class blocks line comment with horstmann brackets
+	// is run-in if class block is indented and does not start in column 1
+	char textIn[] =
+		"\nclass fooClass1\n"
+		"{\n"
+		"    // coment1\n"
+		"    public:\n"
+		"};\n"
+		"\n"
+		"class fooClass2\n"
+		"{\n"
+		"// comment2\n"
+		"    public:\n"
+		"};\n";
+	char text[] =
+		"\nclass fooClass1\n"
+		"{   // coment1\n"
+		"    public:\n"
+		"};\n"
+		"\n"
+		"class fooClass2\n"
+		"{\n"
+		"// comment2\n"
+		"    public:\n"
+		"};\n";
+	char options[] = "indent-classes, brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentClassesHorstmannLineCommentSans)
+{
+	// test without indent class blocks line comment with horstmann brackets
+	// currently are run-in and indented one indent if class block is not indented
+	char textIn[] =
+		"\nclass fooClass1\n"
+		"{\n"
+		"    // coment1\n"
+		"    public:\n"
+		"};\n"
+		"\n"
+		"class fooClass2\n"
+		"{\n"
+		"// comment2\n"
+		"    public:\n"
+		"};\n";
+	char text[] =
+		"\nclass fooClass1\n"
+		"{   // coment1\n"
+		"public:\n"
+		"};\n"
+		"\n"
+		"class fooClass2\n"
+		"{\n"
+		"// comment2\n"
+		"public:\n"
+		"};\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentClassesHorstmannComment)
+{
+	// test indent class blocks comment with horstmann brackets
+	// is run-in if class block is indented and does not start in column 1
+	char textIn[] =
+		"\nclass fooClass1\n"
+		"{\n"
+		"/* coment1 */\n"
+		"public:\n"
+		"};\n";
+	char text[] =
+		"\nclass fooClass1\n"
+		"{   /* coment1 */\n"
+		"    public:\n"
+		"};\n";
+	char options[] = "indent-classes, brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentClassesHorstmannCommentSans)
+{
+	// test without indent class blocks comment with horstmann brackets
+	// currently are run-in and indented one indent if class block is not indented
+	char textIn[] =
+		"\nclass fooClass1\n"
+		"{\n"
+		"/* coment1 */\n"
+		"public:\n"
+		"};\n";
+	char text[] =
+		"\nclass fooClass1\n"
+		"{   /* coment1 */\n"
+		"public:\n"
+		"};\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Indent Switches
 //-------------------------------------------------------------------------
@@ -299,6 +407,126 @@ TEST(IndentSwitchesHorstmannSans)
 	delete [] textOut;
 }
 
+TEST(IndentSwitchesHorstmannLineComment)
+{
+	// test indent switch block line comments with horstmann brackets
+	// should run-in to indented switch blocks
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    switch (foo)\n"
+		"    {\n"
+		"        // comment1\n"
+		"        case 1:\n"
+		"            a += 1;\n"
+		"            break;\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{   switch (foo)\n"
+		"    {   // comment1\n"
+        "        case 1:\n"
+		"            a += 1;\n"
+		"            break;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "indent-switches, brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentSwitchesHorstmannLineCommentSans)
+{
+	// test switch block NOT indented line comments with horstmann brackets
+	// currently is run-in and indented with switch blocks
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    switch (foo)\n"
+		"    {\n"
+		"        // comment1\n"
+		"        case 1:\n"
+		"            a += 1;\n"
+		"            break;\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{   switch (foo)\n"
+		"    {   // comment1\n"
+        "    case 1:\n"
+		"        a += 1;\n"
+		"        break;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentSwitchesHorstmannComment)
+{
+	// test indent switch block comments with horstmann brackets
+	// should run-in to indented switch blocks
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    switch (foo)\n"
+		"    {\n"
+		"        /* comment1 */\n"
+		"        case 1:\n"
+		"            a += 1;\n"
+		"            break;\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{   switch (foo)\n"
+		"    {   /* comment1 */\n"
+        "        case 1:\n"
+		"            a += 1;\n"
+		"            break;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "indent-switches, brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentSwitchesHorstmannCommentSans)
+{
+	// test switch block NOT indented comments with horstmann brackets
+	// currently is run-in and indented with switch blocks
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    switch (foo)\n"
+		"    {\n"
+		"        /* comment1 */\n"
+		"        case 1:\n"
+		"            a += 1;\n"
+		"            break;\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{   switch (foo)\n"
+		"    {   /* comment1 */\n"
+        "    case 1:\n"
+		"        a += 1;\n"
+		"        break;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Indent Cases
 //-------------------------------------------------------------------------
@@ -446,7 +674,7 @@ TEST(IndentCasesMultiple2)
 	delete [] textOut;
 }
 
-TEST(IndentSwitchesCases)
+TEST(IndentCasesSwitches)
 {
 	// test indent case blocks, with indent switch blocks
 	char text[] =
@@ -883,6 +1111,30 @@ TEST(IndentNamespacesShort)
 		"\n"
 		"}   // end FooName\n";
 	char options[] = "-N";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentNamespacesHorstmann)
+{
+	// horstmann brackets should NOT run-in to namespaces
+	char text[] =
+		"\nnamespace FooName1\n"
+		"{\n"
+		"    bool foo;\n"
+		"}\n"
+		"\n"
+		"\nnamespace FooName2\n"
+		"{\n"
+		"    // comment1\n"
+		"}\n"
+		"\n"
+		"\nnamespace FooName3\n"
+		"{\n"
+		"    /* comment2 */\n"
+		"}\n";
+	char options[] = "indent-namespaces, brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;

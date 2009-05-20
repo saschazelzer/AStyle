@@ -692,7 +692,7 @@ TEST(KeepOneLineBlocksShort)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksWithBreakElseIf)
+TEST(KeepOneLineBlocksBreakElseIf)
 {
 	// test keep one line blocks and break elseifs
 	char textIn[] =
@@ -718,7 +718,7 @@ TEST(KeepOneLineBlocksWithBreakElseIf)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksWithKeepOneLineStatementsAndBreakElseIf)
+TEST(KeepOneLineBlocksKeepOneLineStatementsAndBreakElseIf)
 {
 	// test keep one line blocks and keep one line statements
 	//     with if statement and break elseifs
@@ -735,7 +735,7 @@ TEST(KeepOneLineBlocksWithKeepOneLineStatementsAndBreakElseIf)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksWithMultipleBrackets)
+TEST(KeepOneLineBlocksMultipleBrackets)
 {
 	// test keep one line blocks with multiple brackets
 	// NOTE: this is wrong on the next-to-last line
@@ -774,10 +774,10 @@ TEST(KeepOneLineBlocksSans1)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksSansWithMultipleBrackets)
+TEST(KeepOneLineBlocksSansMultipleBrackets)
 {
 	// test without keep one line blocks with multiple brackets
-	// NOTE: this is wrong on the next-to-last line
+	// TODO: this is wrong on the next-to-last line
 	char textIn[] =
 		"\npublic class FooClass\n"
 		"{\n"
@@ -802,6 +802,104 @@ TEST(KeepOneLineBlocksSansWithMultipleBrackets)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocksNoneRunIn)
+{
+	// test none brackets with keep one line blocks and run-in
+	// should not indent the run-in
+	char text[] =
+		"\nvoid foo()\n"
+		"{   if (isFoo)\n"
+		"        {/*ok*/;}\n"
+		"    else {bar();}\n"
+		"}\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocksHorstmannRunIn)
+{
+	// test horstmann brackets with keep one line blocks and run-in
+	// should not indent the run-in
+	char text[] =
+		"\nvoid foo()\n"
+		"{   if (isFoo)\n"
+		"        {/*ok*/;}\n"
+		"    else {bar();}\n"
+		"}\n";
+	char options[] = "keep-one-line-blocks, brackets=horstmann";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocksNoneClosingHeader)
+{
+	// test keep one line blocks followed by a closing header
+	// should not attach header to the one line statement
+	char text[] =
+		"\nvoid foo() {\n"
+		"    if (isFoo)\n"
+		"        {/*ok*/;}\n"
+		"    else {bar();}\n"
+		"}\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocksBreakClosingHeader)
+{
+	// test keep one line blocks followed by a closing header
+	// should not attach header to the one line statement
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"        {/*ok*/;}\n"
+		"    else {bar();}\n"
+		"}\n";
+	char options[] = "keep-one-line-blocks, brackets=break";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocksAttachClosingHeader)
+{
+	// test keep one line blocks followed by a closing header
+	// should not attach header to the one line statement
+	char text[] =
+		"\nvoid foo() {\n"
+		"    if (isFoo)\n"
+		"        {/*ok*/;}\n"
+		"    else {bar();}\n"
+		"}\n";
+	char options[] = "keep-one-line-blocks, brackets=attach";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocksLinuxClosingHeader)
+{
+	// test keep one line blocks followed by a closing header
+	// should not attach header to the one line statement
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"        {/*ok*/;}\n"
+		"    else {bar();}\n"
+		"}\n";
+	char options[] = "keep-one-line-blocks, brackets=linux";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
