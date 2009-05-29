@@ -8,6 +8,77 @@
 // AStyle version 1.24 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(v124PadCommentBeforeTab)
+{
+	// space padding the bracket should NOT pad a comment
+	//     when the commet is preceeded by a tab
+	//     but should delete a space when preceded spaces
+	char textIn[] =
+		"\nvoid foo() {\n"
+		"    if (isBar1){	// comment\n"
+		"        bar1();\n"
+		"    }\n"
+		"    if (isBar2){   // comment\n"
+		"        bar2();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo() {\n"
+		"    if (isBar1) {	// comment\n"
+		"        bar1();\n"
+		"    }\n"
+		"    if (isBar2) {  // comment\n"
+		"        bar2();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v124BracketsBreakPadParen)
+{
+	// break attached brackets with pad-paren
+	// comments should be moved with one padded space
+	char textIn[] =
+		"\nvoid foo() { // comment0\n"
+		"    if ((isFoo())) { // comment1\n"
+		"        bar1();\n"
+		"        bar2(fooBar); // comment2\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"void foo2(){// comment0\n"
+		"    if ((isFoo())){// comment1\n"
+		"        bar1();\n"
+		"        bar2(fooBar);// comment2\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo() // comment0\n"
+		"{\n"
+		"    if ( ( isFoo() ) ) // comment1\n"
+		"    {\n"
+		"        bar1();\n"
+		"        bar2 ( fooBar ); // comment2\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"void foo2() // comment0\n"
+		"{\n"
+		"    if ( ( isFoo() ) ) // comment1\n"
+		"    {\n"
+		"        bar1();\n"
+		"        bar2 ( fooBar ); // comment2\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=break, pad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(v124BracketsAttachCommentsMisc1)
 {
 	// attach bracket inside a line end comment
@@ -122,22 +193,6 @@ TEST(v124BracketsAttachCommentMisc4)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
-	delete [] textOut;
-}
-
-TEST(v124BracketsAttachCommentMisc5)
-{
-	// attached brackets with following comments
-	// if NOT attached should not delete a previous comment line
-	char text[] =
-		"\n// -------------\n"
-		"void foo()\n"
-		"// ----------------\n"
-		"{ /* comment1 */\n"
-		"}\n";
-	char options[] = "brackets=attach";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
@@ -406,8 +461,7 @@ TEST(v124BracketsHorstmannComment5)
 		" * comment1\n"
 		" */\n"
 		"class fooClass\n"
-		"{\n"
-		"    /**\n"
+		"{   /**\n"
 		"     * comment1\n"
 		"     */\n"
 		"}\n"
@@ -419,8 +473,7 @@ TEST(v124BracketsHorstmannComment5)
 		"     * comment1\n"
 		"     */\n"
 		"    class fooClass\n"
-		"    {\n"
-		"        /**\n"
+		"    {   /**\n"
 		"         * comment1\n"
 		"         */\n"
 		"    }\n"
@@ -574,7 +627,7 @@ TEST(v124BracketsHorstmannUnpadParen2)
 		"\nvoid foo()\n"
 		"{   if ( isBar )\n"
 		"    {   ( *_err ) << endl; // comment1\n"
-		"        ( *_err ) << arg;  // comment2\n"
+		"        ( *_err ) << arg; // comment2\n"
 		"    }\n"
 		"}\n";
 	char options[] = ", brackets=horstmann, unpad-paren, pad-paren";
@@ -601,7 +654,7 @@ TEST(v124BracketsHorstmannUnpadParen3)
 		"\nvoid foo()\n"
 		"{	if ( isBar )\n"
 		"	{	( *_err ) << endl; // comment1\n"
-		"		( *_err ) << arg;  // comment2\n"
+		"		( *_err ) << arg; // comment2\n"
 		"	}\n"
 		"}\n";
 	char options[] = ", brackets=horstmann, unpad-paren, pad-paren, indent=tab";
@@ -1078,25 +1131,25 @@ TEST(v123EnumDefinitionPadding)
 	// enum should space pad before the definition
 	// NOTE: the enum is an array type bracket
 	char textIn[] =
-		"\n// should space pad after the brackets\n"
+		"\n// should space pad after the closing bracket\n"
 		"typedef enum tagSQObjectType{\n"
 		"    OT_INTEGER = (_RT_INTEGER),\n"
 		"    OT_BOOL =    (_RT_BOOL),\n"
 		"}SQObjectType;\n"
 		"\n"
-		"// should NOT space pad before a semi-colon\n"
+		"// should NOT space pad before the closing semi-colon\n"
 		"typedef enum tagSQObjectType{\n"
 		"    OT_INTEGER = (_RT_INTEGER),\n"
 		"    OT_BOOL =    (_RT_BOOL),\n"
 		"};";
 	char text[] =
-		"\n// should space pad after the brackets\n"
+		"\n// should space pad after the closing bracket\n"
 		"typedef enum tagSQObjectType {\n"
 		"    OT_INTEGER = (_RT_INTEGER),\n"
 		"    OT_BOOL =    (_RT_BOOL),\n"
 		"} SQObjectType;\n"
 		"\n"
-		"// should NOT space pad before a semi-colon\n"
+		"// should NOT space pad before the closing semi-colon\n"
 		"typedef enum tagSQObjectType {\n"
 		"    OT_INTEGER = (_RT_INTEGER),\n"
 		"    OT_BOOL =    (_RT_BOOL),\n"
@@ -1773,7 +1826,6 @@ TEST(EnumClassIndent1)
 	delete [] textOut;
 }
 
-// TODO: the following enum closing bracket is not aligned
 TEST(EnumClassIndent2)
 {
 	// test indent of enum in an indented class
@@ -1784,7 +1836,7 @@ TEST(EnumClassIndent2)
 		"    public:\n"
 		"        enum dStyle { OK = 0,\n"
 		"                      YES_NO,\n"
-		"                };\n"
+		"                    };\n"
 		"};\n";
 	char options[] = "indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -1792,7 +1844,6 @@ TEST(EnumClassIndent2)
 	delete [] textOut;
 }
 
-// TODO: the following enum closing bracket is not aligned
 TEST(EnumClassIndent3)
 {
 	// test indent of enum in an indented class
@@ -1807,7 +1858,7 @@ TEST(EnumClassIndent3)
 		"        {\n"
 		"            optionFloating = 1 << 0,\n"
 		"            optionHidden   = 1 << 1,\n"
-		"    };\n"
+		"        };\n"
 		"};\n"
 		"#endif\n";
 	char options[] = "indent-classes";
@@ -1854,7 +1905,7 @@ TEST(Preprocessor2)
 	// check indentation
 	// ASFormatter correctly identifying as an ARRAY_TYPE bracket
 	char text[] =
-		"\nstatic SQRegFunction base_funcs[]={\n"
+		"\nstatic SQRegFunction base_funcs[] = {\n"
 		"    {_SC(\"seterrorhandler\"),base_seterrorhandler,2, NULL},\n"
 		"    {_SC(\"setdebughook\"),base_setdebughook,2, NULL},\n"
 		"#ifndef NO_GARBAGE_COLLECTOR\n"
@@ -2451,6 +2502,218 @@ TEST(CommentHorstmannNamespaceClassIndentHorstmann)
 	delete [] textOut;
 }
 
+
+TEST(CommentNamespaceMisc1)
+{
+	// comments should indent with namespaces
+	// comments precede the brackets
+	char textIn[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"class FooClass\n"
+		"/*\n"
+		" * comment1\n"
+		" */\n"
+		"{\n"
+		"public:\n"
+		"void foo()\n"
+		"/*\n"
+		" * comment2\n"
+		" */\n"
+		"{\n"
+		"}\n"
+		"};\n"
+		"}\n";
+	char text[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"    class FooClass\n"
+		"    /*\n"
+		"     * comment1\n"
+		"     */\n"
+		"    {\n"
+		"    public:\n"
+		"        void foo()\n"
+		"        /*\n"
+		"         * comment2\n"
+		"         */\n"
+		"        {\n"
+		"        }\n"
+		"    };\n"
+		"}\n";
+	char options[] = "indent-namespaces";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CommentNamespaceClassMisc2)
+{
+	// comments should indent with namespaces and classes
+	// comments precede the brackets
+	char textIn[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"class FooClass\n"
+		"/*\n"
+		" * comment1\n"
+		" */\n"
+		"{\n"
+		"public:\n"
+		"void foo()\n"
+		"/*\n"
+		" * comment2\n"
+		" */\n"
+		"{\n"
+		"}\n"
+		"};\n"
+		"}\n";
+	char text[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"    class FooClass\n"
+		"    /*\n"
+		"     * comment1\n"
+		"     */\n"
+		"    {\n"
+		"        public:\n"
+		"            void foo()\n"
+		"            /*\n"
+		"             * comment2\n"
+		"             */\n"
+		"            {\n"
+		"            }\n"
+		"    };\n"
+		"}\n";
+	char options[] = "indent-namespaces, indent-classes";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CommentNestedClassMisc3)
+{
+	// comments should indent with classes
+	// comments precede the brackets
+	char text[] =
+		"\nclass A\n"
+		"/*\n"
+		" * comment1\n"
+		" */\n"
+		"{\n"
+		"public:\n"
+		"    int foo1;\n"
+		"    class B\n"
+		"    /*\n"
+		"     * comment1\n"
+		"     */\n"
+		"    {\n"
+		"    public:\n"
+		"        int foo2;\n"
+		"        class C\n"
+		"        /*\n"
+		"         * comment1\n"
+		"         */\n"
+		"        {\n"
+		"        public:\n"
+		"        };\n"
+		"    };\n"
+		"};\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CommentNestedClassMisc4)
+{
+	// comments should indent with classes
+	// comments precede the brackets in indented classes
+	char text[] =
+		"\nclass A\n"
+		"/*\n"
+		" * comment1\n"
+		" */\n"
+		"{\n"
+		"    public:\n"
+		"        int foo1;\n"
+		"        class B\n"
+		"        /*\n"
+		"         * comment1\n"
+		"         */\n"
+		"        {\n"
+		"            public:\n"
+		"                int foo2;\n"
+		"                class C\n"
+		"                /*\n"
+		"                 * comment1\n"
+		"                 */\n"
+		"                {\n"
+		"                    public:\n"
+		"                };\n"
+		"        };\n"
+		"};\n";
+	char options[] = "indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CommentNamespaceClassMisc5)
+{
+	// comments should indent with classes with inheritance
+	// comments precede the brackets
+	char text[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"class FooClass\n"
+		"        : public FooBase\n"
+		"/*\n"
+		" * comment1\n"
+		" */\n"
+		"{\n"
+		"public:\n"
+		"    void foo()\n"
+		"    /*\n"
+		"     * comment2\n"
+		"     */\n"
+		"    {\n"
+		"    }\n"
+		"};\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CommentNamespaceClassMisc6)
+{
+	// comments should indent with classes with inheritance
+	// comments precede the brackets
+	char text[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"    class FooClass\n"
+		"            : public FooBase\n"
+		"    /*\n"
+		"     * comment1\n"
+		"     */\n"
+		"    {\n"
+		"    public:\n"
+		"        void foo()\n"
+		"        /*\n"
+		"         * comment2\n"
+		"         */\n"
+		"        {\n"
+		"        }\n"
+		"    };\n"
+		"}\n";
+	char options[] = "indent-namespaces";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
 //----------------------------------------------------------------------------
 // AStyle Continuation Lines

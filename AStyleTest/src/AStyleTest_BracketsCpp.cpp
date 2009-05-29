@@ -463,13 +463,6 @@ TEST(CppBracketsNoneMisc1)
 		"void foo3() { /* comment3 */\n"
 		"              error = false;\n"
 		"              errorId = 0;\n"
-		"            }\n"
-		"\n"
-		"void foo4() { /* comment4\n"
-		"               *\n"
-		"               */\n"
-		"              error = false;\n"
-		"              errorId = 0;\n"
 		"            }\n";
 	char text[] =
 		"\nvoid foo1() {\n"
@@ -483,14 +476,6 @@ TEST(CppBracketsNoneMisc1)
 		"}\n"
 		"\n"
 		"void foo3() { /* comment3 */\n"
-		"    error = false;\n"
-		"    errorId = 0;\n"
-		"}\n"
-		"\n"
-		"void foo4() {\n"
-		"    /* comment4\n"
-		"     *\n"
-		"     */\n"
 		"    error = false;\n"
 		"    errorId = 0;\n"
 		"}\n";
@@ -760,114 +745,216 @@ TEST(CppBracketsNoneCommentsHorstmann1)
 	delete [] textOut;
 }
 
+TEST(CppBracketsNoneCommentsBreak2)
+{
+	// broken brackets with following comments
+	// mixed tabs and spaces
+	char textIn[] =
+		"\nvoid (foo)\n"
+		"{\n"
+		"	/*\n"
+		"	 * comment1\n"
+		"     */\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"		/*\n"
+		" 	     * comment2\n"
+		"  	     */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid (foo)\n"
+		"{\n"
+		"    /*\n"
+		"     * comment1\n"
+		"     */\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"        /*\n"
+		"         * comment2\n"
+		"         */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
-// TODO: mixed tabs and spaces to default (3 tests)
+TEST(CppBracketsNoneCommentsAttach2)
+{
+	// attached brackets with following comments
+	// mixed tabs and spaces
+	char textIn[] ="\nvoid (foo) {\n"
+				   "	/*\n"
+				   "	 * comment1\n"
+				   "     */\n"
+				   "    if (isFoo) {\n"
+				   "		/*\n"
+				   " 	     * comment2\n"
+				   "  	     */\n"
+				   "        bar();\n"
+				   "    }\n"
+				   "}\n";
+	char text[] ="\nvoid (foo) {\n"
+				 "    /*\n"
+				 "     * comment1\n"
+				 "     */\n"
+				 "    if (isFoo) {\n"
+				 "        /*\n"
+				 "         * comment2\n"
+				 "         */\n"
+				 "        bar();\n"
+				 "    }\n"
+				 "}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
-//TEST(CppBracketsNoneCommentsBreak2)
-//{
-//	// comments following broken brackets should be unchanged
-//	char text[] =
-//		"\nvoid foo1(bool isFoo) /* comment0 */\n"
-//		"{\n"
-//		"    /* comment1 */\n"
-//		"    if(isFoo)\n"
-//		"    {\n"
-//		"        /* comment2 */\n"
-//		"        fooBar();\n"
-//		"    }\n"
-//		"}\n"
-//		"\n"
-//		"void foo2(bool isFoo)\n"
-//		"{\n"
-//		"    /* comment3\n"
-//		"     *\n"
-//		"     */\n"
-//		"    if(isFoo)\n"
-//		"    {\n"
-//		"        /* comment4\n"
-//		"         *\n"
-//		"         */\n"
-//		"        fooBar();\n"
-//		"    }\n"
-//		"}\n";
-//	char options[] = "";
-//	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-//	CHECK_EQUAL(text, textOut);
-//	delete [] textOut;
-//}
-//
-//TEST(CppBracketsNoneCommentsAttach2)
-//{
-//	// comments following attached brackets should be unchanged
-//	// UNLESS they are multi-line
-//	char textIn[] =
-//		"\nvoid foo1(bool isFoo) { /* comment1 */\n"
-//		"    if(isFoo) { /* comment2 */\n"
-//		"        fooBar();\n"
-//		"    }\n"
-//		"}\n"
-//		"\n"
-//		"void foo2(bool isFoo) { /* comment3\n"
-//		"     *\n"
-//		"     */\n"
-//		"    if(isFoo) { /* comment4\n"
-//		"                 *\n"
-//		"                 */\n"
-//		"        fooBar();\n"
-//		"    }\n"
-//		"}\n";
-//	char text[] =
-//		"\nvoid foo1(bool isFoo) { /* comment1 */\n"
-//		"    if(isFoo) { /* comment2 */\n"
-//		"        fooBar();\n"
-//		"    }\n"
-//		"}\n"
-//		"\n"
-//		"void foo2(bool isFoo) {\n"
-//		"    /* comment3\n"
-//		"    *\n"
-//		"    */\n"
-//		"    if(isFoo) {\n"
-//		"        /* comment4\n"
-//		"         *\n"
-//		"         */\n"
-//		"        fooBar();\n"
-//		"    }\n"
-//		"}\n";
-//	char options[] = "";
-//	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-//	CHECK_EQUAL(text, textOut);
-//	delete [] textOut;
-//}
-//
-//TEST(CppBracketsNoneCommentsHorstmann2)
-//{
-//	// comments following horstmann brackets should be unchanged
-//	char text[] =
-//		"\nvoid foo1(bool isFoo) /* comment0 */\n"
-//		"{   /* comment1 */\n"
-//		"    if(isFoo)\n"
-//		"    {   /* comment2 */\n"
-//		"        fooBar();\n"
-//		"    }\n"
-//		"}\n"
-//		"\n"
-//		"void foo2(bool isFoo) /* comment0 */\n"
-//		"{   /* comment3\n"
-//		"     *\n"
-//		"     */\n"
-//		"    if(isFoo)\n"
-//		"    {   /* comment4\n"
-//		"         *\n"
-//		"         */\n"
-//		"        fooBar();\n"
-//		"    }\n"
-//		"}\n";
-//	char options[] = "";
-//	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-//	CHECK_EQUAL(text, textOut);
-//	delete [] textOut;
-//}
+TEST(CppBracketsNoneCommentsHorstmann2)
+{
+	// horstmann brackets with following comments
+	// mixed tabs and spaces
+	char textIn[] =
+		"\nvoid (foo)\n"
+		"{	/*\n"
+		"	 * comment1\n"
+		"     */\n"
+		"    if (isFoo)\n"
+		"    {	/*\n"
+		" 	     * comment2\n"
+		"  	     */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid (foo)\n"
+		"{   /*\n"
+		"     * comment1\n"
+		"     */\n"
+		"    if (isFoo)\n"
+		"    {   /*\n"
+		"         * comment2\n"
+		"         */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsNoneCommentsBreak3)
+{
+	// comments following broken brackets should be unchanged
+	char text[] =
+		"\nvoid foo1(bool isFoo) /* comment0 */\n"
+		"{\n"
+		"    /* comment1 */\n"
+		"    if(isFoo)\n"
+		"    {\n"
+		"        /* comment2 */\n"
+		"        fooBar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"void foo2(bool isFoo)\n"
+		"{\n"
+		"    /* comment3\n"
+		"     *\n"
+		"     */\n"
+		"    if(isFoo)\n"
+		"    {\n"
+		"        /* comment4\n"
+		"         *\n"
+		"         */\n"
+		"        fooBar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsNoneCommentsAttach3)
+{
+	// comments following attached brackets should be unchanged
+	// multi-line comments following attached brackets break
+	//    but are NOT aligned
+	char textIn[] =
+		"\nvoid foo1(bool isFoo) { /* comment1 */\n"
+		"    if(isFoo) { /* comment2 */\n"
+		"        fooBar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"void foo2(bool isFoo) { /* comment3\n"
+		"     *\n"
+		"     */\n"
+		"    if(isFoo) { /* comment4\n"
+		"                 *\n"
+		"                 */\n"
+		"        fooBar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo1(bool isFoo) { /* comment1 */\n"
+		"    if(isFoo) { /* comment2 */\n"
+		"        fooBar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"void foo2(bool isFoo) {\n"
+		"    /* comment3\n"
+		"         *\n"
+		"         */\n"
+		"    if(isFoo) {\n"
+		"        /* comment4\n"
+		"                     *\n"
+		"                     */\n"
+		"        fooBar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsNoneCommentsHorstmann3)
+{
+	// comments following horstmann brackets should be unchanged
+	char text[] =
+		"\nvoid foo1(bool isFoo) /* comment0 */\n"
+		"{   /* comment1 */\n"
+		"    if(isFoo)\n"
+		"    {   /* comment2 */\n"
+		"        fooBar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"void foo2(bool isFoo) /* comment0 */\n"
+		"{   /* comment3\n"
+		"     *\n"
+		"     */\n"
+		"    if(isFoo)\n"
+		"    {   /* comment4\n"
+		"         *\n"
+		"         */\n"
+		"        fooBar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
 //-------------------------------------------------------------------------
 // AStyle C++ Break Bracket Options
@@ -1384,21 +1471,14 @@ TEST(CppBracketsBreakMisc1)
 		"              errorId = 0;\n"
 		"            }\n"
 		"\n"
-		"void foo2() { // comment2\n"
-		"              error = false;\n"
-		"              errorId = 0;\n"
+		"void foo2() {  // comment2\n"
+		"               error = false;\n"
+		"               errorId = 0;\n"
 		"            }\n"
 		"\n"
-		"void foo3() { /* comment3 */\n"
-		"              error = false;\n"
-		"              errorId = 0;\n"
-		"            }\n"
-		"\n"
-		"void foo4() { /* comment4\n"
-		"               *\n"
-		"               */\n"
-		"              error = false;\n"
-		"              errorId = 0;\n"
+		"void foo3() {  /* comment3 */\n"
+		"               error = false;\n"
+		"               errorId = 0;\n"
 		"            }\n";
 	char text[] =
 		"\nvoid foo1()\n"
@@ -1407,23 +1487,14 @@ TEST(CppBracketsBreakMisc1)
 		"    errorId = 0;\n"
 		"}\n"
 		"\n"
-		"void foo2()   // comment2\n"
+		"void foo2()    // comment2\n"
 		"{\n"
 		"    error = false;\n"
 		"    errorId = 0;\n"
 		"}\n"
 		"\n"
-		"void foo3()   /* comment3 */\n"
+		"void foo3()    /* comment3 */\n"
 		"{\n"
-		"    error = false;\n"
-		"    errorId = 0;\n"
-		"}\n"
-		"\n"
-		"void foo4()\n"
-		"{\n"
-		"    /* comment4\n"
-		"     *\n"
-		"     */\n"
 		"    error = false;\n"
 		"    errorId = 0;\n"
 		"}\n";
@@ -1627,116 +1698,115 @@ TEST(CppBracketsBreakCommentsHorstmann1)
 }
 
 
-// TODO: mixed tabs and spaces to broken (3 tests)
 
-//TEST(CppBracketsBreakCommentsBreak2)
-//{
-//	// broken brackets with following comments
-//	// mixed tabs and spaces
-//	char textIn[] =
-//		"\nvoid (foo)\n"
-//		"{\n"
-//		"	/*\n"
-//		"	 * comment1\n"
-//		"     */\n"
-//		"    if (isFoo)\n"
-//		"    {\n"
-//		"		/*\n"
-//		" 	      * comment2\n"
-//		"  	    */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char text[] =
-//		"\nvoid (foo)\n"
-//		"{\n"
-//		"    /*\n"
-//		"     * comment1\n"
-//		"     */\n"
-//		"    if (isFoo)\n"
-//		"    {\n"
-//		"        /*\n"
-//		"         * comment2\n"
-//		"         */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char options[] = "brackets=break";
-//	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-//	CHECK_EQUAL(text, textOut);
-//	delete [] textOut;
-//}
-//
-//TEST(CppBracketsBreakCommentsAttach2)
-//{
-//	// break attached brackets with following comments
-//	// mixed tabs and spaces
-//	char textIn[] ="\nvoid (foo) {\n"
-//		"	/*\n"
-//		"	 * comment1\n"
-//		"     */\n"
-//		"    if (isFoo) {\n"
-//		"		/*\n"
-//		" 	      * comment2\n"
-//		"  	    */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char text[] =
-//		"\nvoid (foo)\n"
-//		"{\n"
-//		"    /*\n"
-//		"     * comment1\n"
-//		"     */\n"
-//		"    if (isFoo)\n"
-//		"    {\n"
-//		"        /*\n"
-//		"         * comment2\n"
-//		"         */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char options[] = "brackets=break";
-//	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-//	CHECK_EQUAL(text, textOut);
-//	delete [] textOut;
-//}
-//
-//TEST(CppBracketsBreakCommentsHorstmann2)
-//{
-//	// break horstmann brackets with following comments
-//	// mixed tabs and spaces
-//	char textIn[] =
-//		"\nvoid (foo)\n"
-//		"{	/*\n"
-//		"	 * comment1\n"
-//		"     */\n"
-//		"    if (isFoo)\n"
-//		"    {	/*\n"
-//		" 	       * comment2\n"
-//		"  	    */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char text[] =
-//		"\nvoid (foo)\n"
-//		"{\n"
-//		"    /*\n"
-//		"     * comment1\n"
-//		"     */\n"
-//		"    if (isFoo)\n"
-//		"    {\n"
-//		"        /*\n"
-//		"         * comment2\n"
-//		"         */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char options[] = "brackets=break";
-//	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-//	CHECK_EQUAL(text, textOut);
-//	delete [] textOut;
-//}
+TEST(CppBracketsBreakCommentsBreak2)
+{
+	// broken brackets with following comments
+	// mixed tabs and spaces
+	char textIn[] =
+		"\nvoid (foo)\n"
+		"{\n"
+		"	/*\n"
+		"	 * comment1\n"
+		"     */\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"		/*\n"
+		" 	     * comment2\n"
+		"  	     */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid (foo)\n"
+		"{\n"
+		"    /*\n"
+		"     * comment1\n"
+		"     */\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"        /*\n"
+		"         * comment2\n"
+		"         */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=break";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsBreakCommentsAttach2)
+{
+	// break attached brackets with following comments
+	// mixed tabs and spaces
+	char textIn[] ="\nvoid (foo) {\n"
+				   "	/*\n"
+				   "	 * comment1\n"
+				   "     */\n"
+				   "    if (isFoo) {\n"
+				   "		/*\n"
+				   " 	     * comment2\n"
+				   "  	     */\n"
+				   "        bar();\n"
+				   "    }\n"
+				   "}\n";
+	char text[] =
+		"\nvoid (foo)\n"
+		"{\n"
+		"    /*\n"
+		"     * comment1\n"
+		"     */\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"        /*\n"
+		"         * comment2\n"
+		"         */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=break";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsBreakCommentsHorstmann2)
+{
+	// break horstmann brackets with following comments
+	// mixed tabs and spaces
+	char textIn[] =
+		"\nvoid (foo)\n"
+		"{	/*\n"
+		"	 * comment1\n"
+		"     */\n"
+		"    if (isFoo)\n"
+		"    {	/*\n"
+		" 	     * comment2\n"
+		"  	     */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid (foo)\n"
+		"{\n"
+		"    /*\n"
+		"     * comment1\n"
+		"     */\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"        /*\n"
+		"         * comment2\n"
+		"         */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=break";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
 TEST(CppBracketsBreakCommentsBreak3)
 {
@@ -1773,18 +1843,19 @@ TEST(CppBracketsBreakCommentsBreak3)
 
 TEST(CppBracketsBreakCommentsAttach3)
 {
-	// comments following attached brackets should stay attached to the line
-	// UNLESS they are multi line
+	// test comments following brackets
+	// multi-line comments following attached brackets break
+	//    but are NOT aligned
 	char textIn[] =
 		"\nvoid foo1(bool isFoo) {   /* comment1 */\n"
-		"    if(isFoo) { /* comment2 */\n"
+		"    if(isFoo) {  /* comment2 */\n"
 		"        fooBar();\n"
 		"    }\n"
 		"}\n"
 		"\n"
 		"void foo2(bool isFoo) { /* comment3\n"
-		"    *\n"
-		"    */\n"
+		"     *\n"
+		"     */\n"
 		"    if(isFoo) { /* comment4\n"
 		"                 *\n"
 		"                 */\n"
@@ -1794,7 +1865,7 @@ TEST(CppBracketsBreakCommentsAttach3)
 	char text[] =
 		"\nvoid foo1(bool isFoo)     /* comment1 */\n"
 		"{\n"
-		"    if(isFoo)   /* comment2 */\n"
+		"    if(isFoo)    /* comment2 */\n"
 		"    {\n"
 		"        fooBar();\n"
 		"    }\n"
@@ -1803,13 +1874,13 @@ TEST(CppBracketsBreakCommentsAttach3)
 		"void foo2(bool isFoo)\n"
 		"{\n"
 		"    /* comment3\n"
-		"    *\n"
-		"    */\n"
+		"         *\n"
+		"         */\n"
 		"    if(isFoo)\n"
 		"    {\n"
 		"        /* comment4\n"
-		"         *\n"
-		"         */\n"
+		"                     *\n"
+		"                     */\n"
 		"        fooBar();\n"
 		"    }\n"
 		"}\n";
@@ -2349,7 +2420,6 @@ TEST(CppBracketsAttachHorstmann)
 TEST(CppBracketsAttachMisc1)
 {
 	// test attach brackets option with the following unusual format
-
 	char textIn[] =
 		"\nvoid foo1() { error = false;\n"
 		"              errorId = 0;\n"
@@ -2361,13 +2431,6 @@ TEST(CppBracketsAttachMisc1)
 		"            }\n"
 		"\n"
 		"void foo3() { /* comment3 */\n"
-		"              error = false;\n"
-		"              errorId = 0;\n"
-		"            }\n"
-		"\n"
-		"void foo4() { /* comment4\n"
-		"               *\n"
-		"               */\n"
 		"              error = false;\n"
 		"              errorId = 0;\n"
 		"            }\n";
@@ -2383,14 +2446,6 @@ TEST(CppBracketsAttachMisc1)
 		"}\n"
 		"\n"
 		"void foo3() { /* comment3 */\n"
-		"    error = false;\n"
-		"    errorId = 0;\n"
-		"}\n"
-		"\n"
-		"void foo4() {\n"
-		"    /* comment4\n"
-		"     *\n"
-		"     */\n"
 		"    error = false;\n"
 		"    errorId = 0;\n"
 		"}\n";
@@ -2582,111 +2637,108 @@ TEST(CppBracketsAttachCommentsHorstmann1)
 	delete [] textOut;
 }
 
+TEST(CppBracketsAttachCommentsBreak2)
+{
+	// attach broken brackets with following comments
+	// mixed tabs and spaces
+	char textIn[] =
+		"\nvoid (foo)\n"
+		"{\n"
+		"	/*\n"
+		"	 * comment1\n"
+		"     */\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"		/*\n"
+		" 	     * comment2\n"
+		"  	     */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid (foo) {\n"
+		"    /*\n"
+		"     * comment1\n"
+		"     */\n"
+		"    if (isFoo) {\n"
+		"        /*\n"
+		"         * comment2\n"
+		"         */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
-// TODO: mixed tabs and spaces to attached (3 tests)
+TEST(CppBracketsAttachCommentsAttach2)
+{
+	// attached brackets with following comments
+	char textIn[] =
+		"\nvoid (foo) {\n"
+		"	/*\n"
+		"	 * comment1\n"
+		"     */\n"
+		"    if (isFoo) {\n"
+		"		/*\n"
+		" 	     * comment2\n"
+		"  	     */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid (foo) {\n"
+		"    /*\n"
+		"     * comment1\n"
+		"     */\n"
+		"    if (isFoo) {\n"
+		"        /*\n"
+		"         * comment2\n"
+		"         */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
-//TEST(CppBracketsAttachCommentsBreak2)
-//{
-//	// attach broken brackets with following comments
-//	// mixed tabs and spaces
-//	char textIn[] =
-//		"\nvoid (foo)\n"
-//		"{\n"
-//		"	/*\n"
-//		"	 * comment1\n"
-//		"     */\n"
-//		"    if (isFoo)\n"
-//		"    {\n"
-//		"		/*\n"
-//		" 	      * comment2\n"
-//		"  	    */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//		char text[] =
-//		"\nvoid (foo) {\n"
-//		"    /*\n"
-//		"     * comment1\n"
-//		"     */\n"
-//		"    if (isFoo) {\n"
-//		"        /*\n"
-//		"         * comment2\n"
-//		"         */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char options[] = "brackets=attach";
-//	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-//	CHECK_EQUAL(text, textOut);
-//	delete [] textOut;
-//}
-//
-//TEST(CppBracketsAttachCommentsAttach2)
-//{
-//	// attached brackets with following comments
-//		char textIn[] =
-//		"\nvoid (foo) {\n"
-//		"	/*\n"
-//		"	 * comment1\n"
-//		"     */\n"
-//		"    if (isFoo) {\n"
-//		"		/*\n"
-//		" 	     * comment2\n"
-//		"  	     */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char text[] =
-//		"\nvoid (foo) {\n"
-//		"    /*\n"
-//		"     * comment1\n"
-//		"     */\n"
-//		"    if (isFoo) {\n"
-//		"        /*\n"
-//		"         * comment2\n"
-//		"         */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char options[] = "brackets=attach";
-//	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-//	CHECK_EQUAL(text, textOut);
-//	delete [] textOut;
-//}
-//
-//TEST(CppBracketsAttachCommentsHorstmann2)
-//{
-//	// attach horstmann brackets with following comments
-//	// mixed tabs and spaces
-//	char textIn[] =
-//		"\nvoid (foo)\n"
-//		"{	/*\n"
-//		"	 * comment1\n"
-//		"     */\n"
-//		"    if (isFoo)\n"
-//		"    {	/*\n"
-//		" 	      * comment2\n"
-//		"  	     */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char text[] =
-//		"\nvoid (foo) {\n"
-//		"    /*\n"
-//		"     * comment1\n"
-//		"     */\n"
-//		"    if (isFoo) {\n"
-//		"        /*\n"
-//		"         * comment2\n"
-//		"         */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char options[] = "brackets=attach";
-//	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-//	CHECK_EQUAL(text, textOut);
-//	delete [] textOut;
-//}
+TEST(CppBracketsAttachCommentsHorstmann2)
+{
+	// attach horstmann brackets with following comments
+	// mixed tabs and spaces
+	char textIn[] =
+		"\nvoid (foo)\n"
+		"{	/*\n"
+		"	 * comment1\n"
+		"     */\n"
+		"    if (isFoo)\n"
+		"    {	/*\n"
+		" 	     * comment2\n"
+		"  	     */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid (foo) {\n"
+		"    /*\n"
+		"     * comment1\n"
+		"     */\n"
+		"    if (isFoo) {\n"
+		"        /*\n"
+		"         * comment2\n"
+		"         */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
 TEST(CppBracketsAttachCommentsBreak3)
 {
@@ -2743,8 +2795,9 @@ TEST(CppBracketsAttachCommentsBreak3)
 
 TEST(CppBracketsAttachCommentsAttach3)
 {
-	// comments following attached brackets should be unchanged
-	// UNLESS they are multi-line
+	// test comments following brackets
+	// multi-line comments following attached brackets break
+	//    but are NOT aligned
 	char textIn[] =
 		"\nvoid foo1(bool isFoo) { /* comment1 */\n"
 		"    if(isFoo) { /* comment2 */\n"
@@ -2770,12 +2823,12 @@ TEST(CppBracketsAttachCommentsAttach3)
 		"\n"
 		"void foo2(bool isFoo) {\n"
 		"    /* comment3\n"
-		"    *\n"
-		"    */\n"
-		"    if(isFoo) {\n"
-		"        /* comment4\n"
 		"         *\n"
 		"         */\n"
+		"    if(isFoo) {\n"
+		"        /* comment4\n"
+		"                     *\n"
+		"                     */\n"
 		"        fooBar();\n"
 		"    }\n"
 		"}\n";
@@ -2834,6 +2887,28 @@ TEST(CppBracketsAttachCommentsHorstmann3)
 	delete [] textOut;
 }
 
+TEST(CppBracketsAttachCommentsHorstmann5)
+{
+	// attached brackets with following comments
+	// if NOT attached the run-in statement should be broken
+	char textIn[] =
+		"\n// -------------\n"
+		"void foo()\n"
+		"// ----------------\n"
+		"{ /* comment1 */\n"
+		"}\n";
+	char text[] =
+		"\n// -------------\n"
+		"void foo()\n"
+		"// ----------------\n"
+		"{\n"
+		"    /* comment1 */\n"
+		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
 //-------------------------------------------------------------------------
 // AStyle C++ Linux Bracket Options
@@ -3347,27 +3422,19 @@ TEST(CppBracketsLinuxHorstmann)
 TEST(CppBracketsLinuxMisc1)
 {
 	// test linux brackets option with the following unusual format
-
 	char textIn[] =
 		"\nvoid foo1() { error = false;\n"
 		"              errorId = 0;\n"
 		"            }\n"
 		"\n"
-		"void foo2() { // comment2\n"
-		"              error = false;\n"
-		"              errorId = 0;\n"
+		"void foo2() {  // comment2\n"
+		"               error = false;\n"
+		"               errorId = 0;\n"
 		"            }\n"
 		"\n"
-		"void foo3() { /* comment3 */\n"
-		"              error = false;\n"
-		"              errorId = 0;\n"
-		"            }\n"
-		"\n"
-		"void foo4() { /* comment4\n"
-		"               *\n"
-		"               */\n"
-		"              error = false;\n"
-		"              errorId = 0;\n"
+		"void foo3() {  /* comment3 */\n"
+		"               error = false;\n"
+		"               errorId = 0;\n"
 		"            }\n";
 	char text[] =
 		"\nvoid foo1()\n"
@@ -3376,23 +3443,14 @@ TEST(CppBracketsLinuxMisc1)
 		"    errorId = 0;\n"
 		"}\n"
 		"\n"
-		"void foo2()   // comment2\n"
+		"void foo2()    // comment2\n"
 		"{\n"
 		"    error = false;\n"
 		"    errorId = 0;\n"
 		"}\n"
 		"\n"
-		"void foo3()   /* comment3 */\n"
+		"void foo3()    /* comment3 */\n"
 		"{\n"
-		"    error = false;\n"
-		"    errorId = 0;\n"
-		"}\n"
-		"\n"
-		"void foo4()\n"
-		"{\n"
-		"    /* comment4\n"
-		"     *\n"
-		"     */\n"
 		"    error = false;\n"
 		"    errorId = 0;\n"
 		"}\n";
@@ -3707,114 +3765,111 @@ TEST(CppBracketsLinuxCommentsHorstmann1)
 	delete [] textOut;
 }
 
+TEST(CppBracketsLinuxCommentsBreak2)
+{
+	// broken brackets with following comments to linux
+	// mixed tabs and spaces
+	char textIn[] =
+		"\nvoid (foo)\n"
+		"{\n"
+		"	/*\n"
+		"	 * comment1\n"
+		"     */\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"		/*\n"
+		" 	     * comment2\n"
+		"  	     */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid (foo)\n"
+		"{\n"
+		"    /*\n"
+		"     * comment1\n"
+		"     */\n"
+		"    if (isFoo) {\n"
+		"        /*\n"
+		"         * comment2\n"
+		"         */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=linux";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
-// TODO: mixed tabs and spaces to horstmann (3 tests)
+TEST(CppBracketsLinuxCommentsAttach2)
+{
+	// attached brackets with following comments to linux
+	// mixed tabs and spaces
+	char textIn[] ="\nvoid (foo) {\n"
+				   "	/*\n"
+				   "	 * comment1\n"
+				   "     */\n"
+				   "    if (isFoo) {\n"
+				   "		/*\n"
+				   " 	     * comment2\n"
+				   "  	     */\n"
+				   "        bar();\n"
+				   "    }\n"
+				   "}\n";
+	char text[] =
+		"\nvoid (foo)\n"
+		"{\n"
+		"    /*\n"
+		"     * comment1\n"
+		"     */\n"
+		"    if (isFoo) {\n"
+		"        /*\n"
+		"         * comment2\n"
+		"         */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=linux";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
-//TEST(CppBracketsLinuxCommentsBreak2)
-//{
-//	// broken brackets with following comments to linux
-//	// mixed tabs and spaces
-//	char textIn[] =
-//		"\nvoid (foo)\n"
-//		"{\n"
-//		"	/*\n"
-//		"	 * comment1\n"
-//		"     */\n"
-//		"    if (isFoo)\n"
-//		"    {\n"
-//		"		/*\n"
-//		" 	      * comment2\n"
-//		"  	    */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char text[] =
-//		"\nvoid (foo)\n"
-//		"{\n"
-//		"    /*\n"
-//		"     * comment1\n"
-//		"     */\n"
-//		"    if (isFoo) {\n"
-//		"        /*\n"
-//		"         * comment2\n"
-//		"         */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char options[] = "brackets=linux";
-//	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-//	CHECK_EQUAL(text, textOut);
-//	delete [] textOut;
-//}
-//
-//TEST(CppBracketsLinuxCommentsAttach2)
-//{
-//	// attached brackets with following comments to linux
-//	// mixed tabs and spaces
-//	char textIn[] ="\nvoid (foo) {\n"
-//		"	/*\n"
-//		"	 * comment1\n"
-//		"     */\n"
-//		"    if (isFoo) {\n"
-//		"		/*\n"
-//		" 	      * comment2\n"
-//		"  	    */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char text[] =
-//		"\nvoid (foo)\n"
-//		"{\n"
-//		"    /*\n"
-//		"     * comment1\n"
-//		"     */\n"
-//		"    if (isFoo) {\n"
-//		"        /*\n"
-//		"         * comment2\n"
-//		"         */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char options[] = "brackets=linux";
-//	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-//	CHECK_EQUAL(text, textOut);
-//	delete [] textOut;
-//}
-//
-//TEST(CppBracketsLinuxCommentsHorstmann2)
-//{
-//	// horstmann brackets with following comments to linux
-//	// mixed tabs and spaces
-//	char textIn[] =
-//		"\nvoid (foo)\n"
-//		"{	/*\n"
-//		"	 * comment1\n"
-//		"     */\n"
-//		"    if (isFoo)\n"
-//		"    {	/*\n"
-//		" 	       * comment2\n"
-//		"  	    */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char text[] =
-//		"\nvoid (foo)\n"
-//		"{\n"
-//		"    /*\n"
-//		"     * comment1\n"
-//		"     */\n"
-//		"    if (isFoo) {\n"
-//		"        /*\n"
-//		"         * comment2\n"
-//		"         */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char options[] = "brackets=linux";
-//	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-//	CHECK_EQUAL(text, textOut);
-//	delete [] textOut;
-//}
+TEST(CppBracketsLinuxCommentsHorstmann2)
+{
+	// horstmann brackets with following comments to linux
+	// mixed tabs and spaces
+	char textIn[] =
+		"\nvoid (foo)\n"
+		"{	/*\n"
+		"	 * comment1\n"
+		"     */\n"
+		"    if (isFoo)\n"
+		"    {	/*\n"
+		" 	     * comment2\n"
+		"  	     */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid (foo)\n"
+		"{\n"
+		"    /*\n"
+		"     * comment1\n"
+		"     */\n"
+		"    if (isFoo) {\n"
+		"        /*\n"
+		"         * comment2\n"
+		"         */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=linux";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
 TEST(CppBracketsLinuxCommentsBreak3)
 {
@@ -3873,17 +3928,18 @@ TEST(CppBracketsLinuxCommentsBreak3)
 
 TEST(CppBracketsLinuxCommentsAttach3)
 {
-	// comments following attached brackets should stay attached to the line
-	// UNLESS they are multi-line
+	// test comments following brackets
+	// multi-line comments following attached brackets break
+	//    but are NOT aligned
 	char textIn[] =
-		"\nvoid foo1(bool isFoo) { /* comment0 */\n"
+		"\nvoid foo1(bool isFoo) {  /* comment0 */\n"
 		"    /* comment1 */\n"
 		"    if(isFoo) { /* comment2 */\n"
 		"        fooBar();\n"
 		"    }\n"
 		"}\n"
 		"\n"
-		"void foo2(bool isFoo) { /* comment3\n"
+		"void foo2(bool isFoo) {  /* comment3\n"
 		"     *\n"
 		"     */\n"
 		"    if(isFoo) { /* comment4\n"
@@ -3893,7 +3949,7 @@ TEST(CppBracketsLinuxCommentsAttach3)
 		"    }\n"
 		"}\n";
 	char text[] =
-		"\nvoid foo1(bool isFoo)   /* comment0 */\n"
+		"\nvoid foo1(bool isFoo)    /* comment0 */\n"
 		"{\n"
 		"    /* comment1 */\n"
 		"    if(isFoo) { /* comment2 */\n"
@@ -3904,12 +3960,12 @@ TEST(CppBracketsLinuxCommentsAttach3)
 		"void foo2(bool isFoo)\n"
 		"{\n"
 		"    /* comment3\n"
-		"    *\n"
-		"    */\n"
-		"    if(isFoo) {\n"
-		"        /* comment4\n"
 		"         *\n"
 		"         */\n"
+		"    if(isFoo) {\n"
+		"        /* comment4\n"
+		"                     *\n"
+		"                     */\n"
 		"        fooBar();\n"
 		"    }\n"
 		"}\n";
@@ -4461,27 +4517,19 @@ TEST(CppBracketsStroustrupHorstmann)
 TEST(CppBracketsStroustrupMisc1)
 {
 	// test stroustrup brackets option with the following unusual format
-
 	char textIn[] =
 		"\nvoid foo1() { error = false;\n"
 		"              errorId = 0;\n"
 		"            }\n"
 		"\n"
-		"void foo2() { // comment2\n"
-		"              error = false;\n"
-		"              errorId = 0;\n"
+		"void foo2() {  // comment2\n"
+		"               error = false;\n"
+		"               errorId = 0;\n"
 		"            }\n"
 		"\n"
-		"void foo3() { /* comment3 */\n"
-		"              error = false;\n"
-		"              errorId = 0;\n"
-		"            }\n"
-		"\n"
-		"void foo4() { /* comment4\n"
-		"               *\n"
-		"               */\n"
-		"              error = false;\n"
-		"              errorId = 0;\n"
+		"void foo3() {  /* comment3 */\n"
+		"               error = false;\n"
+		"               errorId = 0;\n"
 		"            }\n";
 	char text[] =
 		"\nvoid foo1()\n"
@@ -4490,23 +4538,14 @@ TEST(CppBracketsStroustrupMisc1)
 		"    errorId = 0;\n"
 		"}\n"
 		"\n"
-		"void foo2()   // comment2\n"
+		"void foo2()    // comment2\n"
 		"{\n"
 		"    error = false;\n"
 		"    errorId = 0;\n"
 		"}\n"
 		"\n"
-		"void foo3()   /* comment3 */\n"
+		"void foo3()    /* comment3 */\n"
 		"{\n"
-		"    error = false;\n"
-		"    errorId = 0;\n"
-		"}\n"
-		"\n"
-		"void foo4()\n"
-		"{\n"
-		"    /* comment4\n"
-		"     *\n"
-		"     */\n"
 		"    error = false;\n"
 		"    errorId = 0;\n"
 		"}\n";
@@ -4809,114 +4848,111 @@ TEST(CppBracketsStroustrupCommentsHorstmann1)
 	delete [] textOut;
 }
 
+TEST(CppBracketsStroustrupCommentsBreak2)
+{
+	// broken brackets with following comments to stroustrup
+	// mixed tabs and spaces
+	char textIn[] =
+		"\nvoid (foo)\n"
+		"{\n"
+		"	/*\n"
+		"	 * comment1\n"
+		"     */\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"		/*\n"
+		" 	     * comment2\n"
+		"  	     */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid (foo)\n"
+		"{\n"
+		"    /*\n"
+		"     * comment1\n"
+		"     */\n"
+		"    if (isFoo) {\n"
+		"        /*\n"
+		"         * comment2\n"
+		"         */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=stroustrup";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
-// TODO: mixed tabs and spaces to stroustrup (3 tests)
+TEST(CppBracketsStroustrupCommentsAttach2)
+{
+	// attached brackets with following comments to stroustrup
+	// mixed tabs and spaces
+	char textIn[] ="\nvoid (foo) {\n"
+				   "	/*\n"
+				   "	 * comment1\n"
+				   "     */\n"
+				   "    if (isFoo) {\n"
+				   "		/*\n"
+				   " 	     * comment2\n"
+				   "  	     */\n"
+				   "        bar();\n"
+				   "    }\n"
+				   "}\n";
+	char text[] =
+		"\nvoid (foo)\n"
+		"{\n"
+		"    /*\n"
+		"     * comment1\n"
+		"     */\n"
+		"    if (isFoo) {\n"
+		"        /*\n"
+		"         * comment2\n"
+		"         */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=stroustrup";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
-//TEST(CppBracketsStroustrupCommentsBreak2)
-//{
-//	// broken brackets with following comments to stroustrup
-//	// mixed tabs and spaces
-//	char textIn[] =
-//		"\nvoid (foo)\n"
-//		"{\n"
-//		"	/*\n"
-//		"	 * comment1\n"
-//		"     */\n"
-//		"    if (isFoo)\n"
-//		"    {\n"
-//		"		/*\n"
-//		" 	      * comment2\n"
-//		"  	    */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char text[] =
-//		"\nvoid (foo)\n"
-//		"{\n"
-//		"    /*\n"
-//		"     * comment1\n"
-//		"     */\n"
-//		"    if (isFoo) {\n"
-//		"        /*\n"
-//		"         * comment2\n"
-//		"         */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char options[] = "brackets=stroustrup";
-//	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-//	CHECK_EQUAL(text, textOut);
-//	delete [] textOut;
-//}
-//
-//TEST(CppBracketsStroustrupCommentsAttach2)
-//{
-//	// attached brackets with following comments to stroustrup
-//	// mixed tabs and spaces
-//	char textIn[] ="\nvoid (foo) {\n"
-//		"	/*\n"
-//		"	 * comment1\n"
-//		"     */\n"
-//		"    if (isFoo) {\n"
-//		"		/*\n"
-//		" 	      * comment2\n"
-//		"  	    */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char text[] =
-//		"\nvoid (foo)\n"
-//		"{\n"
-//		"    /*\n"
-//		"     * comment1\n"
-//		"     */\n"
-//		"    if (isFoo) {\n"
-//		"        /*\n"
-//		"         * comment2\n"
-//		"         */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char options[] = "brackets=stroustrup";
-//	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-//	CHECK_EQUAL(text, textOut);
-//	delete [] textOut;
-//}
-//
-//TEST(CppBracketsStroustrupCommentsHorstmann2)
-//{
-//	// horstmann brackets with following comments to stroustrup
-//	// mixed tabs and spaces
-//	char textIn[] =
-//		"\nvoid (foo)\n"
-//		"{	/*\n"
-//		"	 * comment1\n"
-//		"     */\n"
-//		"    if (isFoo)\n"
-//		"    {	/*\n"
-//		" 	       * comment2\n"
-//		"  	    */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char text[] =
-//		"\nvoid (foo)\n"
-//		"{\n"
-//		"    /*\n"
-//		"     * comment1\n"
-//		"     */\n"
-//		"    if (isFoo) {\n"
-//		"        /*\n"
-//		"         * comment2\n"
-//		"         */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char options[] = "brackets=stroustrup";
-//	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-//	CHECK_EQUAL(text, textOut);
-//	delete [] textOut;
-//}
+TEST(CppBracketsStroustrupCommentsHorstmann2)
+{
+	// horstmann brackets with following comments to stroustrup
+	// mixed tabs and spaces
+	char textIn[] =
+		"\nvoid (foo)\n"
+		"{	/*\n"
+		"	 * comment1\n"
+		"     */\n"
+		"    if (isFoo)\n"
+		"    {	/*\n"
+		" 	     * comment2\n"
+		"  	     */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid (foo)\n"
+		"{\n"
+		"    /*\n"
+		"     * comment1\n"
+		"     */\n"
+		"    if (isFoo) {\n"
+		"        /*\n"
+		"         * comment2\n"
+		"         */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=stroustrup";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
 TEST(CppBracketsStroustrupCommentsBreak3)
 {
@@ -4975,10 +5011,11 @@ TEST(CppBracketsStroustrupCommentsBreak3)
 
 TEST(CppBracketsStroustrupCommentsAttach3)
 {
-	// comments following attached brackets should stay attached to the line
-	// UNLESS they are multi-line
+	// test comments following brackets
+	// multi-line comments following attached brackets break
+	//    but are NOT aligned
 	char textIn[] =
-		"\nvoid foo1(bool isFoo) { /* comment0 */\n"
+		"\nvoid foo1(bool isFoo) {  /* comment0 */\n"
 		"    /* comment1 */\n"
 		"    if(isFoo) { /* comment2 */\n"
 		"        fooBar();\n"
@@ -4995,7 +5032,7 @@ TEST(CppBracketsStroustrupCommentsAttach3)
 		"    }\n"
 		"}\n";
 	char text[] =
-		"\nvoid foo1(bool isFoo)   /* comment0 */\n"
+		"\nvoid foo1(bool isFoo)    /* comment0 */\n"
 		"{\n"
 		"    /* comment1 */\n"
 		"    if(isFoo) { /* comment2 */\n"
@@ -5006,12 +5043,12 @@ TEST(CppBracketsStroustrupCommentsAttach3)
 		"void foo2(bool isFoo)\n"
 		"{\n"
 		"    /* comment3\n"
-		"    *\n"
-		"    */\n"
-		"    if(isFoo) {\n"
-		"        /* comment4\n"
 		"         *\n"
 		"         */\n"
+		"    if(isFoo) {\n"
+		"        /* comment4\n"
+		"                     *\n"
+		"                     */\n"
 		"        fooBar();\n"
 		"    }\n"
 		"}\n";
@@ -5607,21 +5644,14 @@ TEST(CppBracketsHorstmannMisc1)
 		"              errorId = 0;\n"
 		"            }\n"
 		"\n"
-		"void foo2() { // comment2\n"
-		"              error = false;\n"
-		"              errorId = 0;\n"
+		"void foo2() {  // comment2\n"
+		"               error = false;\n"
+		"               errorId = 0;\n"
 		"            }\n"
 		"\n"
-		"void foo3() { /* comment3 */\n"
-		"              error = false;\n"
-		"              errorId = 0;\n"
-		"            }\n"
-		"\n"
-		"void foo4() { /* comment4\n"
-		"               *\n"
-		"               */\n"
-		"              error = false;\n"
-		"              errorId = 0;\n"
+		"void foo3() {  /* comment3 */\n"
+		"               error = false;\n"
+		"               errorId = 0;\n"
 		"            }\n";
 	char text[] =
 		"\nvoid foo1()\n"
@@ -5629,21 +5659,13 @@ TEST(CppBracketsHorstmannMisc1)
 		"    errorId = 0;\n"
 		"}\n"
 		"\n"
-		"void foo2()   // comment2\n"
+		"void foo2()    // comment2\n"
 		"{   error = false;\n"
 		"    errorId = 0;\n"
 		"}\n"
 		"\n"
-		"void foo3()   /* comment3 */\n"
+		"void foo3()    /* comment3 */\n"
 		"{   error = false;\n"
-		"    errorId = 0;\n"
-		"}\n"
-		"\n"
-		"void foo4()\n"
-		"{   /* comment4\n"
-		"     *\n"
-		"     */\n"
-		"    error = false;\n"
 		"    errorId = 0;\n"
 		"}\n";
 	char options[] = "brackets=horstmann";
@@ -5906,111 +5928,108 @@ TEST(CppBracketsHorstmannCommentsHorstmann1)
 	delete [] textOut;
 }
 
+TEST(CppBracketsHorstmannCommentsBreak2)
+{
+	// broken brackets with following comments to horstmann
+	// mixed tabs and spaces
+	char textIn[] =
+		"\nvoid (foo)\n"
+		"{\n"
+		"	/*\n"
+		"	 * comment1\n"
+		"     */\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"		/*\n"
+		" 	     * comment2\n"
+		"  	     */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid (foo)\n"
+		"{   /*\n"
+		"     * comment1\n"
+		"     */\n"
+		"    if (isFoo)\n"
+		"    {   /*\n"
+		"         * comment2\n"
+		"         */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
-// TODO: mixed tabs and spaces to horstmann (3 tests)
+TEST(CppBracketsHorstmannCommentsAttach2)
+{
+	// attached brackets with following comments to horstmann
+	// mixed tabs and spaces
+	char textIn[] ="\nvoid (foo) {\n"
+				   "	/*\n"
+				   "	 * comment1\n"
+				   "     */\n"
+				   "    if (isFoo) {\n"
+				   "		/*\n"
+				   " 	     * comment2\n"
+				   "  	     */\n"
+				   "        bar();\n"
+				   "    }\n"
+				   "}\n";
+	char text[] =
+		"\nvoid (foo)\n"
+		"{   /*\n"
+		"     * comment1\n"
+		"     */\n"
+		"    if (isFoo)\n"
+		"    {   /*\n"
+		"         * comment2\n"
+		"         */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
-//TEST(CppBracketsHorstmannCommentsBreak2)
-//{
-//	// broken brackets with following comments to horstmann
-//	// mixed tabs and spaces
-//	char textIn[] =
-//		"\nvoid (foo)\n"
-//		"{\n"
-//		"	/*\n"
-//		"	 * comment1\n"
-//		"     */\n"
-//		"    if (isFoo)\n"
-//		"    {\n"
-//		"		/*\n"
-//		" 	      * comment2\n"
-//		"  	    */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char text[] =
-//		"\nvoid (foo)\n"
-//		"{   /*\n"
-//		"     * comment1\n"
-//		"     */\n"
-//		"    if (isFoo)\n"
-//		"    {   /*\n"
-//		"         * comment2\n"
-//		"         */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char options[] = "brackets=horstmann";
-//	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-//	CHECK_EQUAL(text, textOut);
-//	delete [] textOut;
-//}
-//
-//TEST(CppBracketsHorstmannCommentsAttach2)
-//{
-//	// attached brackets with following comments to horstmann
-//	// mixed tabs and spaces
-//	char textIn[] ="\nvoid (foo) {\n"
-//		"	/*\n"
-//		"	 * comment1\n"
-//		"     */\n"
-//		"    if (isFoo) {\n"
-//		"		/*\n"
-//		" 	      * comment2\n"
-//		"  	    */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char text[] =
-//		"\nvoid (foo)\n"
-//		"{   /*\n"
-//		"     * comment1\n"
-//		"     */\n"
-//		"    if (isFoo)\n"
-//		"    {   /*\n"
-//		"         * comment2\n"
-//		"         */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char options[] = "brackets=horstmann";
-//	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-//	CHECK_EQUAL(text, textOut);
-//	delete [] textOut;
-//}
-//
-//TEST(CppBracketsHorstmannCommentsHorstmann2)
-//{
-//	// horstmann brackets with following comments to horstmann
-//	// mixed tabs and spaces
-//	char textIn[] =
-//		"\nvoid (foo)\n"
-//		"{	/*\n"
-//		"	 * comment1\n"
-//		"     */\n"
-//		"    if (isFoo)\n"
-//		"    {	/*\n"
-//		" 	       * comment2\n"
-//		"  	    */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char text[] =
-//		"\nvoid (foo)\n"
-//		"{   /*\n"
-//		"     * comment1\n"
-//		"     */\n"
-//		"    if (isFoo)\n"
-//		"    {   /*\n"
-//		"         * comment2\n"
-//		"         */\n"
-//		"        bar();\n"
-//		"    }\n"
-//		"}\n";
-//	char options[] = "brackets=horstmann";
-//	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-//	CHECK_EQUAL(text, textOut);
-//	delete [] textOut;
-//}
+TEST(CppBracketsHorstmannCommentsHorstmann2)
+{
+	// horstmann brackets with following comments to horstmann
+	// mixed tabs and spaces
+	char textIn[] =
+		"\nvoid (foo)\n"
+		"{	/*\n"
+		"	 * comment1\n"
+		"     */\n"
+		"    if (isFoo)\n"
+		"    {	/*\n"
+		" 	     * comment2\n"
+		"  	     */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid (foo)\n"
+		"{   /*\n"
+		"     * comment1\n"
+		"     */\n"
+		"    if (isFoo)\n"
+		"    {   /*\n"
+		"         * comment2\n"
+		"         */\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
 TEST(CppBracketsHorstmannCommentsBreak3)
 {
@@ -6067,10 +6086,12 @@ TEST(CppBracketsHorstmannCommentsBreak3)
 
 TEST(CppBracketsHorstmannCommentsAttach3)
 {
-	// comments following attached brackets do NOT attach
+	// test comments following brackets
+	// multi-line comments following attached brackets break
+	//    but are NOT aligned
 	char textIn[] =
-		"\nvoid foo1(bool isFoo) { /* comment0 */\n"
-		"    if(isFoo) { /* comment1 */\n"
+		"\nvoid foo1(bool isFoo) {  /* comment0 */\n"
+		"    if(isFoo) {  /* comment1 */\n"
 		"    /* comment2 */\n"
 		"        fooBar();\n"
 		"    }\n"
@@ -6087,8 +6108,8 @@ TEST(CppBracketsHorstmannCommentsAttach3)
 		"    }\n"
 		"}\n";
 	char text[] =
-		"\nvoid foo1(bool isFoo)   /* comment0 */\n"
-		"{   if(isFoo)   /* comment1 */\n"
+		"\nvoid foo1(bool isFoo)    /* comment0 */\n"
+		"{   if(isFoo)    /* comment1 */\n"
 		"    {   /* comment2 */\n"
 		"        fooBar();\n"
 		"    }\n"
@@ -6096,8 +6117,8 @@ TEST(CppBracketsHorstmannCommentsAttach3)
 		"\n"
 		"void foo2(bool isFoo)\n"
 		"{   /* comment3\n"
-		"    *\n"
-		"    */\n"
+		"        *\n"
+		"        */\n"
 		"    if(isFoo)\n"
 		"    {   /* comment4\n"
 		"         *\n"
@@ -6232,7 +6253,6 @@ TEST(CppBracketsOtherNestedClass)
 		"        }\n"
 		"    }\n"
 		"}\n";
-
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
@@ -7046,15 +7066,22 @@ TEST(CppBracketsArrayBreakAttach)
 TEST(CppBracketsArrayBreakHorstmann)
 {
 	// test array formatting
-	// should NOT change a horstmann bracket
-	char text[] =
+	// should break horstmann run-ins
+	char textIn[] =
 		"\nconst char *foo[] =\n"
 		"{   \"foo1\",\n"
 		"    \"foo2\",\n"
 		"    \"foo3\",\n"
 		"};\n";
+	char text[] =
+		"\nconst char *foo[] =\n"
+		"{\n"
+		"    \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
 	char options[] = "brackets=break";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
@@ -7101,15 +7128,21 @@ TEST(CppBracketsArrayAttachAttach)
 TEST(CppBracketsArrayAttachHorstmann)
 {
 	// test array formatting
-	// should NOT change a horstmann bracket
-	char text[] =
+	// should attach a horstmann bracket
+	char textIn[] =
 		"\nconst char *foo[] =\n"
 		"{   \"foo1\",\n"
 		"    \"foo2\",\n"
 		"    \"foo3\",\n"
 		"};\n";
+	char text[] =
+		"\nconst char *foo[] = {\n"
+		"    \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
 	char options[] = "brackets=attach";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
@@ -7117,16 +7150,22 @@ TEST(CppBracketsArrayAttachHorstmann)
 TEST(CppBracketsArrayHorstmannBreak)
 {
 	// test array formatting
-	// should NOT change a bracket to horstmann
-	char text[] =
+	// should horstmann a broken bracket
+	char textIn[] =
 		"\nconst char *foo[] =\n"
 		"{\n"
 		"    \"foo1\",\n"
 		"    \"foo2\",\n"
 		"    \"foo3\",\n"
 		"};\n";
+	char text[] =
+		"\nconst char *foo[] =\n"
+		"{   \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
 	char options[] = "brackets=horstmann";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
@@ -7134,15 +7173,21 @@ TEST(CppBracketsArrayHorstmannBreak)
 TEST(CppBracketsArrayHorstmannAttach)
 {
 	// test array formatting
-	// should NOT change a bracket to horstmann
-	char text[] =
+	// should horstmann an attached bracket
+	char textIn[] =
 		"\nconst char *foo[] = {\n"
 		"    \"foo1\",\n"
 		"    \"foo2\",\n"
 		"    \"foo3\",\n"
 		"};\n";
+	char text[] =
+		"\nconst char *foo[] =\n"
+		"{   \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
 	char options[] = "brackets=horstmann";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
@@ -7311,6 +7356,7 @@ TEST(CppBracketsArrayHorstmannInstatement2)
 {
 	// test array formatting with horstmann brackets
 	// and a non in-statement bracket on the same line
+	// NOTE: currently the array does NOT run-in
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -7324,7 +7370,8 @@ TEST(CppBracketsArrayHorstmannInstatement2)
 		"}\n";
 	char text[] =
 		"\nvoid foo()\n"
-		"{   wxChar* names[] = {\n"
+		"{   wxChar* names[] =\n"
+		"    {\n"
 		"        _T(\"cvt \"),\n"
 		"        NULL\n"
 		"    };\n"
@@ -7342,8 +7389,8 @@ TEST(CppBracketsArrayHorstmannInstatement3)
 {
 	// test array formatting with horstmann brackets
 	// and a non in-statement bracket on the same line
-	// be sure it doesn't change
-	char text[] =
+	// NOTE: currently the array does NOT run-in
+	char textIn[] =
 		"\nvoid foo()\n"
 		"{   wxChar* names[] = {\n"
 		"        _T(\"cvt \"),\n"
@@ -7353,8 +7400,19 @@ TEST(CppBracketsArrayHorstmannInstatement3)
 		"    bar1();\n"
 		"    bar2();\n"
 		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{   wxChar* names[] =\n"
+		"    {\n"
+		"        _T(\"cvt \"),\n"
+		"        NULL\n"
+		"    };\n"
+		"\n"
+		"    bar1();\n"
+		"    bar2();\n"
+		"}\n";
 	char options[] = "brackets=horstmann";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }

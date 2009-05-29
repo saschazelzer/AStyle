@@ -1091,6 +1091,29 @@ TEST(ConvertTabsMisc1)
 
 TEST(ConvertTabsMisc2)
 {
+	// test convert-tabs with comments
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"	/*	comment1\n"
+		"		comment2\n"
+		"	*/\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    /*  comment1\n"
+		"        comment2\n"
+		"    */\n"
+		"}\n";
+	char options[] = "convert-tabs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(ConvertTabsMisc3)
+{
 	// test convert-tabs with unpad-paren and pad-paren-in
 	// should replace the tab after the opening paren
 	char textIn[] =
@@ -1112,7 +1135,32 @@ TEST(ConvertTabsMisc2)
 	delete [] textOut;
 }
 
-TEST(ConvertTabsMisc3)
+TEST(ConvertTabsMisc4)
+{
+	// test convert-tabs with comment continuation
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"	int bar1; /* comment1 */\n"
+		"	int bar2; /* comment2\n"
+		"				 comment3 */\n"
+		"	int bar3; /* comment3 */\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    int bar1; /* comment1 */\n"
+		"    int bar2; /* comment2\n"
+		"                 comment3 */\n"
+		"    int bar3; /* comment3 */\n"
+		"}\n";
+	char options[] = "convert-tabs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(ConvertTabsMisc5)
 {
 	// verify that tabs are still present within quotes
 	// should NOT have been replaced when AStyle was run

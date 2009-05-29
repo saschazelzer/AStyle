@@ -81,6 +81,30 @@ TEST(IndentClassesShort)
 	delete [] textOut;
 }
 
+TEST(IndentClassesEmptyClass)
+{
+	// empty brackets should not receive an extra indent
+	char text[] =
+		"\nclass FooClass\n"
+		"{};\n";
+	char options[] = "indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentClassesEmptyClassSans)
+{
+	// empty brackets should not receive an extra indent
+	char text[] =
+		"\nclass FooClass\n"
+		"{};\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(IndentClassesHorstmann)
 {
 	// test indent class blocks with horstmann brackets
@@ -246,6 +270,58 @@ TEST(IndentClassesHorstmannCommentSans)
 		"};\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentClassesComment)
+{
+	// test comment without indent class blocks
+	// comment is before the opening bracket
+	//     and should NOT receive an extra indent
+	char text[] =
+		"\nclass FooClass\n"
+		"/* PURPOSE:   comment1\n"
+		"              comment2\n"
+		"*/\n"
+		"{\n"
+		"};\n"
+		"\n"
+		"void foo()\n"
+		"/* PURPOSE:   comment3\n"
+		"   RECEIVES:  comment4\n"
+		"   RETURNS:   comment5\n"
+		"*/\n"
+		"{\n"
+		"}\n";
+	char options[] = "indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentClassesCommentSans)
+{
+	// test comment without indent class blocks
+	// comment is before the opening bracket
+	//     and should NOT receive an extra indent
+	char text[] =
+		"\nclass FooClass\n"
+		"/* PURPOSE:   comment1\n"
+		"              comment2\n"
+		"*/\n"
+		"{\n"
+		"};\n"
+		"\n"
+		"void foo()\n"
+		"/* PURPOSE:   comment3\n"
+		"   RECEIVES:  comment4\n"
+		"   RETURNS:   comment5\n"
+		"*/\n"
+		"{\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
@@ -425,8 +501,8 @@ TEST(IndentSwitchesHorstmannLineComment)
 	char text[] =
 		"\nvoid Foo()\n"
 		"{   switch (foo)\n"
-		"    {   // comment1\n"
-        "        case 1:\n"
+		"    {       // comment1\n"
+		"        case 1:\n"
 		"            a += 1;\n"
 		"            break;\n"
 		"    }\n"
@@ -456,7 +532,7 @@ TEST(IndentSwitchesHorstmannLineCommentSans)
 		"\nvoid Foo()\n"
 		"{   switch (foo)\n"
 		"    {   // comment1\n"
-        "    case 1:\n"
+		"    case 1:\n"
 		"        a += 1;\n"
 		"        break;\n"
 		"    }\n"
@@ -485,8 +561,8 @@ TEST(IndentSwitchesHorstmannComment)
 	char text[] =
 		"\nvoid Foo()\n"
 		"{   switch (foo)\n"
-		"    {   /* comment1 */\n"
-        "        case 1:\n"
+		"    {       /* comment1 */\n"
+		"        case 1:\n"
 		"            a += 1;\n"
 		"            break;\n"
 		"    }\n"
@@ -516,7 +592,7 @@ TEST(IndentSwitchesHorstmannCommentSans)
 		"\nvoid Foo()\n"
 		"{   switch (foo)\n"
 		"    {   /* comment1 */\n"
-        "    case 1:\n"
+		"    case 1:\n"
 		"        a += 1;\n"
 		"        break;\n"
 		"    }\n"

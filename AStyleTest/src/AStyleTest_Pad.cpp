@@ -724,7 +724,7 @@ TEST(BreakAllBlocksBreakBrackets)
 	char textIn[] =
 		"\nvoid foo() {\n"
 		"    bar1();\n"
-		"    if (isBar) { // comment\n"
+		"    if (isBar) {  // comment\n"
 		"        bar2();\n"
 		"        return;\n"
 		"    }\n"
@@ -735,7 +735,7 @@ TEST(BreakAllBlocksBreakBrackets)
 		"{\n"
 		"    bar1();\n"
 		"\n"
-		"    if (isBar)   // comment\n"
+		"    if (isBar)    // comment\n"
 		"    {\n"
 		"        bar2();\n"
 		"        return;\n"
@@ -1366,7 +1366,7 @@ TEST(PadOperatorComments)
 		"\nvoid foo()\n"
 		"{\n"
 		"    c = a + b;  // comment ok\n"
-		"    g = d + e + f;    // comment must move\n"
+		"    g = d + e + f; // comment must move\n"
 		"}\n";
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -1433,7 +1433,7 @@ TEST(PadParenComments)
 	char text[] =
 		"\nvoid foo ( bool isFoo ) // comment ok\n"
 		"{\n"
-		"    if ( isFoo ( a, b ) )    // comment must move\n"
+		"    if ( isFoo ( a, b ) ) // comment must move\n"
 		"        bar ( a, b );     // comment ok\n"
 		"}\n";
 	char options[] = "pad-paren";
@@ -1501,7 +1501,7 @@ TEST(PadParenOutComments)
 	char text[] =
 		"\nvoid foo (bool isFoo) // comment ok\n"
 		"{\n"
-		"    if (isFoo (a, b) )  // comment must move\n"
+		"    if (isFoo (a, b) ) // comment must move\n"
 		"        bar (a, b);     // comment ok\n"
 		"}\n";
 	char options[] = "pad-paren-out";
@@ -1569,7 +1569,7 @@ TEST(PadParenInComments)
 	char text[] =
 		"\nvoid foo( bool isFoo ) // comment ok\n"
 		"{\n"
-		"    if ( isFoo( a, b ) )  // comment must move\n"
+		"    if ( isFoo( a, b ) ) // comment must move\n"
 		"        bar( a, b );    // comment ok\n"
 		"}\n";
 	char options[] = "pad-paren-in";
