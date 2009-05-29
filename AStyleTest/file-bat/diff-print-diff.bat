@@ -85,12 +85,12 @@ REM PROCESS - process the file
 REM %1 is the input file path
 set inpath=%~1
 call  set /A  count += 1
-if %count% GTR %total%  goto :EOF
+:: if %count% GTR %total%  goto :EOF
 REM must loop thru remaining files to end
 if "%endprocess%" == "yes" goto :EOF
 REM get response and process
 echo %count% of %total%  %inpath%
-choice /n /c:nmzxcvb
+choice /n /c:nmzxcvbasdfghjklqwertyuiop
 if errorlevel 4 (
 "%winmerge%"  "%indir%\%inpath%"  "%indirOLD%\%inpath%"
 call  set /A  processed += 1

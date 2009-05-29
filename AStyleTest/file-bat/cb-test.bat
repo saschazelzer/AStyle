@@ -9,23 +9,22 @@ set testdata=..\..\TestData
 :: set astyle=..\..\AStyle\build\vs2005\bin\AStyle
 set astyle=..\..\AStyle\build\vs2008\bin\AStyled
 
-<<<<<<< .mine
+REM excludes because of %pythoncode
+REM advprops.h is __WXPYTHON__ at line 192
+REM propgrid.cpp is the macro IMPLEMENT_GET_VALUE
+set exclude1= --exclude=wx\wxscintilla.h --exclude=wx\propgrid\advprops.h --exclude=wx\propgrid\manager.h
+set exclude2= --exclude=wx\propgrid\propgrid.h --exclude=propgrid\propgrid.cpp
+
 set options= -HvRQ
-:: set options= -bCSKBGNLwM50m10yeoOcFpPHUxEvRQ
+:: set options= -bCSKBGNLwM50m10yeoOcFpPHUxE -vRQ
 REM without indent-blocks or indent-brackets (B or G)
-:: set options= -gCSKNLwM50m10yeoOcFpPHUxEvRQ
-=======
-set options= -HvRQ
-:: set options= -CSKBGNLwM50m10yeoOcFpPHUxEvRQ
-REM without indent-blocks or indent-brackets (B or G)
-:: set options= -CSKNLwM50m10yeoOcFpPHUxEvRQ
->>>>>>> .r91
+:: set options= -CSKNLwM50m10yeoOcFpPHUxE -vRQ
 
 
 call  libCompile.bat  %astyle%
 echo Formatting CodeBlocks %options%
 
-%astyle%  %options%  "%testdata%\CodeBlocks\src\*.cpp"  "%testdata%\CodeBlocks\src\*.h" > test.txt
+%astyle%  %options%  %exclude1%%exclude2%  "%testdata%\CodeBlocks\src\*.cpp"  "%testdata%\CodeBlocks\src\*.h" > test.txt
 
 
 echo -

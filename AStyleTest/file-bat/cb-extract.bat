@@ -10,6 +10,11 @@ if exist "%testdata%\CodeBlocks" (
 echo Removing directory CodeBlocks
 rmdir  /s  "%testdata%\CodeBlocks"
 )
+REM remove codeblocks-8.02 if it wasn't renamed
+if exist "%testdata%\codeblocks-8.02" (
+REM echo Removing directory codeblocks-8.02
+rmdir  /s /q  "%testdata%\codeblocks-8.02"
+)
 
 REM uncompress tar.bz to tar
 if not exist "%archives%\codeblocks-*.tar" (
@@ -19,10 +24,10 @@ if errorlevel 2 pause
 
 REM untar
 echo -
-echo Extracting files
-"%PROGRAMFILES%\7-Zip\7z"  x  "%archives%\codeblocks-*.tar"  -o"%testdata%"  *.cpp *.h  -ry > NUL
+echo Extracting CodeBlocks
+::"%PROGRAMFILES%\7-Zip\7z"  x  "%archives%\codeblocks-*.tar"  -o"%testdata%"  *.cpp *.h  -ry > NUL
 REM  all files
-:: "%PROGRAMFILES%\7-Zip\7z"  x  "%archives%\codeblocks-*.tar"  -o"%testdata%"  -ry > NUL
+"%PROGRAMFILES%\7-Zip\7z"  x  "%archives%\codeblocks-*.tar"  -o"%testdata%"  -ry > NUL
 if errorlevel 2 pause
 
 REM rename directory

@@ -87,7 +87,7 @@ REM must loop thru remaining files to end
 if "%endprocess%" == "yes" goto :EOF
 REM get response and process
 echo %count% of %total%  %inpath%
-choice /n /c:nmzxcvb
+choice /n /c:nmzxcvbasdfghjklqwertyuiop
 if errorlevel 4 (
 "%winmerge%"  "%indir%\%inpath%"  "%indir%\%inpath%.orig"
 call  set /A  processed += 1
