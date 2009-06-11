@@ -738,13 +738,12 @@ TEST(KeepOneLineBlocksKeepOneLineStatementsAndBreakElseIf)
 TEST(KeepOneLineBlocksMultipleBrackets)
 {
 	// test keep one line blocks with multiple brackets
-	// NOTE: this is wrong on the next-to-last line
 	char text[] =
 		"\npublic class FooClass\n"
 		"{\n"
 		"    public string FooName { get { return Foo; } set { Foo = value; } }\n"
 		"\n"
-		"            public event EventHandler Cancelled { add { } remove { } }\n"
+		"    public event EventHandler Cancelled { add { } remove { } }\n"
 		"}\n";
 	char options[] = "keep-one-line-blocks, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -768,7 +767,7 @@ TEST(KeepOneLineBlocksSans1)
 		"        });\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=break";
+	char options[] = "brackets=break, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;

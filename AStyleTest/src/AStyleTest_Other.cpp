@@ -8,6 +8,65 @@
 // AStyle version 1.24 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(v124SharpAccessors)
+{
+	// get is preceded by []
+	char text[] =
+		"\npublic static MyApplication Application\n"
+		"{\n"
+		"    [DebuggerStepThrough]\n"
+		"    get\n"
+		"    {\n"
+		"        if (isBar)\n"
+		"            bar();\n"
+		"        return application;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v124SharpNonParenHeaderUnchecked)
+{
+	// 'unchecked' should be recognized as a header, not an array
+	char text[] =
+		"\npublic override void foo()\n"
+		"{\n"
+		"    unchecked {\n"
+		"        if (isBar)\n"
+		"            bar += 1;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v124SharpNonParenHeaderDelegate)
+{
+	// 'delegate' should be recognized as a header, not an array
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    int fooBar = delegate {\n"
+		"        if (isBar1) {\n"
+		"            bar = 1;\n"
+		"        } else if (isBar2) {\n"
+		"            bar = 2;\n"
+		"        } else if (isBar3) {\n"
+		"            bar = 3;\n"
+		"        }\n"
+		"    };\n"
+		"}\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(v124PadCommentBeforeTab)
 {
 	// space padding the bracket should NOT pad a comment
@@ -243,7 +302,6 @@ TEST(v124BracketsHorstmannArray1)
 TEST(v124BracketsHorstmannArray2)
 {
 	// test horstmann brackets with structs and arrays
-	// no runins
 	char textIn[] =
 		"\nstruct runinClass2\n"
 		"{\n"
@@ -261,8 +319,7 @@ TEST(v124BracketsHorstmannArray2)
 		"};\n"
 		"\n"
 		"const char *contributors[] =\n"
-		"{\n"
-		"    \"Bugs\",\n"
+		"{   \"Bugs\",\n"
 		"    \"Daffy\",\n"
 		"};\n";
 	char options[] = "brackets=horstmann";
@@ -1112,19 +1169,17 @@ TEST(v123BreakBlocksWithPreprocessor)
 TEST(v123CSharpBreakBlocksWithKeepOneLineBlocks)
 {
 	// C# do NOT break before a block with keep one line blocks
-	// NOTE: this is wrong on the last line
 	char text[] =
 		"\npublic class FooClass\n"
 		"{\n"
 		"    public bool Foo { get { return Count > 0; } }\n"
-		"    }\n";
+		"}\n";
 
 	char options[] = "break-blocks, keep-one-line-blocks, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
-// TODO: fix astyle for the above problem
 
 TEST(v123EnumDefinitionPadding)
 {
@@ -1871,10 +1926,10 @@ TEST(EnumClassIndent3)
 // AStyle Preprocessor
 //----------------------------------------------------------------------------
 
-TEST(Preprocessor1)
+TEST(PreprocessorCommandType)
 {
 	// check indentation
-	// ASFormatter correctly identifying as a COMMND_TYPE bracket
+	// correctly identifying as a COMMND_TYPE bracket
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -1900,10 +1955,27 @@ TEST(Preprocessor1)
 	delete [] textOut;
 }
 
-TEST(Preprocessor2)
+TEST(PreprocessorMissingOpener)
+{
+	// #else with missing #if
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    int foo = 1;\n"
+		"#else\n"
+		"    int foo = 2;\n"
+		"#endif\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PreprocessorArrayType)
 {
 	// check indentation
-	// ASFormatter correctly identifying as an ARRAY_TYPE bracket
+	// correctly identifying as an ARRAY_TYPE bracket
 	char text[] =
 		"\nstatic SQRegFunction base_funcs[] = {\n"
 		"    {_SC(\"seterrorhandler\"),base_seterrorhandler,2, NULL},\n"
@@ -1914,6 +1986,98 @@ TEST(Preprocessor2)
 		"    {0,0}\n"
 		"};\n";
 	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PreprocessorArrayMissingOpener)
+{
+	// array #else with missing #if
+	char text[] =
+		"\nchar *section_list[] =\n"
+		"{\n"
+		"// #ifdef Q_OS_SOLARIS\n"
+		"    \"1B\", \"SunOS/BSD\",\n"
+		"#else\n"
+		"    \"2\", \"System Calls\",\n"
+		"#endif\n"
+		"    NULL, \"Misc. Reference\",\n"
+		"};\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PreprocessorArrayHorstmannBreak)
+{
+	// check broken brackets to horstmann
+	// should NOT run-in a preprocessor directive
+	char text[] =
+		"\nchar *section_list[] =\n"
+		"{\n"
+		"#ifdef Q_OS_SOLARIS\n"
+		"    // for Solaris\n"
+		"    \"1B\", \"SunOS/BSD\",\n"
+		"#else\n"
+		"    // Other OS\n"
+		"    \"2\", \"System Calls\",\n"
+		"#endif\n"
+		"};\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PreprocessorArrayHorstmannAttach)
+{
+	// check attached brackets to horstmann
+	// should NOT run-in a preprocessor directive
+	char textIn[] =
+		"\nchar *section_list[] = {\n"
+		"#ifdef Q_OS_SOLARIS\n"
+		"    // for Solaris\n"
+		"    \"1B\", \"SunOS/BSD\",\n"
+		"#else\n"
+		"    // Other OS\n"
+		"    \"2\", \"System Calls\",\n"
+		"#endif\n"
+		"};\n";
+	char text[] =
+		"\nchar *section_list[] =\n"
+		"{\n"
+		"#ifdef Q_OS_SOLARIS\n"
+		"    // for Solaris\n"
+		"    \"1B\", \"SunOS/BSD\",\n"
+		"#else\n"
+		"    // Other OS\n"
+		"    \"2\", \"System Calls\",\n"
+		"#endif\n"
+		"};\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PreprocessorArrayHorstmannHorstmann)
+{
+	// check horstmann brackets to horstmann
+	// should NOT run-in a preprocessor directive
+	char text[] =
+		"\nchar *section_list[] =\n"
+		"{\n"
+		"#ifdef Q_OS_SOLARIS\n"
+		"    // for Solaris\n"
+		"    \"1B\", \"SunOS/BSD\",\n"
+		"#else\n"
+		"    // Other OS\n"
+		"    \"2\", \"System Calls\",\n"
+		"#endif\n"
+		"};\n";
+	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;

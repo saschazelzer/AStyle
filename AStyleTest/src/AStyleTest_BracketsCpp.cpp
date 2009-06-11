@@ -1579,7 +1579,7 @@ TEST(CppBracketsBreakLineCommentsAttach)
 
 TEST(CppBracketsBreakLineCommentsHorstmann)
 {
-	// comments following horstmann brackets should NOT be attached
+	// comments following horstmann brackets should be broken
 	char textIn[] =
 		"\nvoid foo(bool isFoo) // comment0\n"
 		"{   // comment1\n"
@@ -2525,7 +2525,7 @@ TEST(CppBracketsAttachLineCommentsAttach)
 
 TEST(CppBracketsAttachLineCommentsHorstmann)
 {
-	// comments following horstmann brackets should NOT be attached
+	// comments following horstmann brackets should be attached
 	char textIn[] =
 		"\nvoid foo(bool isFoo) // comment0\n"
 		"{   // comment1\n"
@@ -5463,8 +5463,7 @@ TEST(CppBracketsHorstmannExtern)
 		"}\n"
 		"\n"
 		"extern \"C\"\n"
-		"{\n"
-		"	void foo2()\n"
+		"{	void foo2()\n"
 		"	{	bar2();\n"
 		"	}\n"
 		"}\n";
@@ -7008,12 +7007,74 @@ TEST(CppBracketsArrayNoneAttach)
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayNoneHorstmann)
+TEST(CppBracketsArrayNoneHorstmann1)
 {
 	// test array formatting with horstmann brackets
 	char text[] =
 		"\nconst char *foo[] =\n"
 		"{   \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayNoneHorstmann2)
+{
+	// test array formatting with multiple brackets
+	// use indent=tab to check in-statement indent
+	char textIn[] =
+		"\nstatic wxString codes[2][4] =\n"
+		"{   {   _T(\"0001101\"),_T(\"0100011\"),\n"
+		"        _T(\"0110001\"),_T(\"0001011\")\n"
+		"    },\n"
+		"    {   _T(\"1110010\"),_T(\"1011100\"),\n"
+		"        _T(\"1001110\"),_T(\"1110100\")\n"
+		"    }\n"
+		"};\n";
+	char text[] =
+		"\nstatic wxString codes[2][4] =\n"
+		"{	{   _T(\"0001101\"),_T(\"0100011\"),\n"
+		"	    _T(\"0110001\"),_T(\"0001011\")\n"
+		"	},\n"
+		"	{   _T(\"1110010\"),_T(\"1011100\"),\n"
+		"	    _T(\"1001110\"),_T(\"1110100\")\n"
+		"	}\n"
+		"};\n";
+	char options[] = "indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayNoneHorstmannLineComments)
+{
+	// test array formatting
+	// should not change horstmann line comment run-ins
+	char text[] =
+		"\nconst char *foo[] =\n"
+		"{   // comment\n"
+		"    \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayNoneHorstmannComments)
+{
+	// test array formatting
+	// should not change horstmann comment run-ins
+	char text[] =
+		"\nconst char *foo[] =\n"
+		"{   /* comment */\n"
+		"    \"foo1\",\n"
 		"    \"foo2\",\n"
 		"    \"foo3\",\n"
 		"};\n";
@@ -7063,7 +7124,7 @@ TEST(CppBracketsArrayBreakAttach)
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayBreakHorstmann)
+TEST(CppBracketsArrayBreakHorstmann1)
 {
 	// test array formatting
 	// should break horstmann run-ins
@@ -7076,6 +7137,88 @@ TEST(CppBracketsArrayBreakHorstmann)
 	char text[] =
 		"\nconst char *foo[] =\n"
 		"{\n"
+		"    \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char options[] = "brackets=break";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayBreakHorstmann2)
+{
+	// test array formatting with multiple brackets
+	// should break horstmann run-ins
+	// use indent=tab to check in-statement indent
+	char textIn[] =
+		"\nstatic wxString codes[2][4] =\n"
+		"{   {   _T(\"0001101\"),_T(\"0100011\"),\n"
+		"        _T(\"0110001\"),_T(\"0001011\")\n"
+		"    },\n"
+		"    {   _T(\"1110010\"),_T(\"1011100\"),\n"
+		"        _T(\"1001110\"),_T(\"1110100\")\n"
+		"    }\n"
+		"};\n";
+	char text[] =
+		"\nstatic wxString codes[2][4] =\n"
+		"{\n"
+		"	{\n"
+		"	    _T(\"0001101\"),_T(\"0100011\"),\n"
+		"	    _T(\"0110001\"),_T(\"0001011\")\n"
+		"	},\n"
+		"	{\n"
+		"	    _T(\"1110010\"),_T(\"1011100\"),\n"
+		"	    _T(\"1001110\"),_T(\"1110100\")\n"
+		"	}\n"
+		"};\n";
+	char options[] = "brackets=break, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayBreakHorstmannLineComments)
+{
+	// test array formatting
+	// should break horstmann line comment run-ins
+	char textIn[] =
+		"\nconst char *foo[] =\n"
+		"{   // comment\n"
+		"    \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char text[] =
+		"\nconst char *foo[] =\n"
+		"{\n"
+		"    // comment\n"
+		"    \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char options[] = "brackets=break";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayBreakHorstmannComments)
+{
+	// test array formatting
+	// should break horstmann comment run-ins
+	char textIn[] =
+		"\nconst char *foo[] =\n"
+		"{   /* comment */\n"
+		"    \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char text[] =
+		"\nconst char *foo[] =\n"
+		"{\n"
+		"    /* comment */\n"
 		"    \"foo1\",\n"
 		"    \"foo2\",\n"
 		"    \"foo3\",\n"
@@ -7125,7 +7268,7 @@ TEST(CppBracketsArrayAttachAttach)
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayAttachHorstmann)
+TEST(CppBracketsArrayAttachHorstmann1)
 {
 	// test array formatting
 	// should attach a horstmann bracket
@@ -7147,10 +7290,112 @@ TEST(CppBracketsArrayAttachHorstmann)
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmannBreak)
+TEST(CppBracketsArrayAttachHorstmann2)
+{
+	// test array formatting with multiple brackets
+	// should break horstmann run-ins
+	// use indent=tab to check in-statement indent
+	char textIn[] =
+		"\nstatic wxString codes[2][4] =\n"
+		"{   {   _T(\"0001101\"),_T(\"0100011\"),\n"
+		"        _T(\"0110001\"),_T(\"0001011\")\n"
+		"    },\n"
+		"    {   _T(\"1110010\"),_T(\"1011100\"),\n"
+		"        _T(\"1001110\"),_T(\"1110100\")\n"
+		"    }\n"
+		"};\n";
+	char text[] =
+		"\nstatic wxString codes[2][4] = {\n"
+		"	{\n"
+		"	    _T(\"0001101\"),_T(\"0100011\"),\n"
+		"	    _T(\"0110001\"),_T(\"0001011\")\n"
+		"	},\n"
+		"	{\n"
+		"	    _T(\"1110010\"),_T(\"1011100\"),\n"
+		"	    _T(\"1001110\"),_T(\"1110100\")\n"
+		"	}\n"
+		"};\n";
+	char options[] = "brackets=attach, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayAttachHorstmannLineComments)
 {
 	// test array formatting
-	// should horstmann a broken bracket
+	// should attach horstmann line comment run-ins
+	char textIn[] =
+		"\nconst char *foo[] =\n"
+		"{   // comment\n"
+		"    \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char text[] =
+		"\nconst char *foo[] = {\n"
+		"    // comment\n"
+		"    \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayAttachHorstmannComments)
+{
+	// test array formatting
+	// should attach horstmann comment run-ins
+	char textIn[] =
+		"\nconst char *foo[] =\n"
+		"{   /* comment */\n"
+		"    \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char text[] =
+		"\nconst char *foo[] = {\n"
+		"    /* comment */\n"
+		"    \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayHorstmannBreak1)
+{
+	// test array formatting
+	// should run-in a broken bracket
+	char textIn[] =
+		"\nconst int foo[] =\n"
+		"{\n"
+		"    FOO1,\n"
+		"    FOO2,\n"
+		"    FOO3,\n"
+		"};\n";
+	char text[] =
+		"\nconst int foo[] =\n"
+		"{   FOO1,\n"
+		"    FOO2,\n"
+		"    FOO3,\n"
+		"};\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayHorstmannBreak2)
+{
+	// test array formatting with quotes
+	// should run-in a broken bracket
 	char textIn[] =
 		"\nconst char *foo[] =\n"
 		"{\n"
@@ -7170,10 +7415,63 @@ TEST(CppBracketsArrayHorstmannBreak)
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmannAttach)
+TEST(CppBracketsArrayHorstmannBreak3)
+{
+	// test array formatting with multiple brackets
+	// should run-in all brackets
+	char textIn[] =
+		"\nstatic wxString codes[2][4] =\n"
+		"{\n"
+		"    {\n"
+		"        _T(\"0001101\"),_T(\"0100011\"),\n"
+		"        _T(\"0110001\"),_T(\"0001011\")\n"
+		"    },\n"
+		"    {\n"
+		"        _T(\"1110010\"),_T(\"1011100\"),\n"
+		"        _T(\"1001110\"),_T(\"1110100\")\n"
+		"    }\n"
+		"};\n";
+	char text[] =
+		"\nstatic wxString codes[2][4] =\n"
+		"{   {   _T(\"0001101\"),_T(\"0100011\"),\n"
+		"        _T(\"0110001\"),_T(\"0001011\")\n"
+		"    },\n"
+		"    {   _T(\"1110010\"),_T(\"1011100\"),\n"
+		"        _T(\"1001110\"),_T(\"1110100\")\n"
+		"    }\n"
+		"};\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayHorstmannAttach1)
 {
 	// test array formatting
-	// should horstmann an attached bracket
+	// should run-in an attached bracket
+	char textIn[] =
+		"\nconst int foo[] = {\n"
+		"    FOO1,\n"
+		"    FOO2,\n"
+		"    FOO3,\n"
+		"};\n";
+	char text[] =
+		"\nconst int foo[] =\n"
+		"{   FOO1,\n"
+		"    FOO2,\n"
+		"    FOO3,\n"
+		"};\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayHorstmannAttach2)
+{
+	// test array formatting with quotes
+	// should run-in an attached bracket
 	char textIn[] =
 		"\nconst char *foo[] = {\n"
 		"    \"foo1\",\n"
@@ -7192,13 +7490,139 @@ TEST(CppBracketsArrayHorstmannAttach)
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmannHorstmann)
+TEST(CppBracketsArrayHorstmannAttach3)
+{
+	// test array formatting with multiple brackets
+	// should run-in all brackets
+	char textIn[] =
+		"\nstatic wxString codes[2][4] = {\n"
+		"    {\n"
+		"        _T(\"0001101\"),_T(\"0100011\"),\n"
+		"        _T(\"0110001\"),_T(\"0001011\")\n"
+		"    },\n"
+		"    {\n"
+		"        _T(\"1110010\"),_T(\"1011100\"),\n"
+		"        _T(\"1001110\"),_T(\"1110100\")\n"
+		"    }\n"
+		"};\n";
+	char text[] =
+		"\nstatic wxString codes[2][4] =\n"
+		"{   {   _T(\"0001101\"),_T(\"0100011\"),\n"
+		"        _T(\"0110001\"),_T(\"0001011\")\n"
+		"    },\n"
+		"    {   _T(\"1110010\"),_T(\"1011100\"),\n"
+		"        _T(\"1001110\"),_T(\"1110100\")\n"
+		"    }\n"
+		"};\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayHorstmannHorstmann1)
 {
 	// test array formatting
 	// should NOT change a horstmann bracket
 	char text[] =
+		"\nconst int foo[] =\n"
+		"{   FOO1,\n"
+		"    FOO2,\n"
+		"    FOO3,\n"
+		"};\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayHorstmannHorstmann2)
+{
+	// test array formatting with quotes
+	// should NOT change a horstmann bracket
+	char text[] =
 		"\nconst char *foo[] =\n"
 		"{   \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+TEST(CppBracketsArrayHorstmannHorstmann3)
+{
+	// test array formatting with multiple brackets
+	// should NOT change a horstmann bracket
+	// use indent=tab to check in-statement indent
+	char textIn[] =
+		"\nstatic wxString codes[2][4] =\n"
+		"{   {   _T(\"0001101\"),_T(\"0100011\"),\n"
+		"        _T(\"0110001\"),_T(\"0001011\")\n"
+		"    },\n"
+		"    {   _T(\"1110010\"),_T(\"1011100\"),\n"
+		"        _T(\"1001110\"),_T(\"1110100\")\n"
+		"    }\n"
+		"};\n";
+	char text[] =
+		"\nstatic wxString codes[2][4] =\n"
+		"{	{   _T(\"0001101\"),_T(\"0100011\"),\n"
+		"	    _T(\"0110001\"),_T(\"0001011\")\n"
+		"	},\n"
+		"	{   _T(\"1110010\"),_T(\"1011100\"),\n"
+		"	    _T(\"1001110\"),_T(\"1110100\")\n"
+		"	}\n"
+		"};\n";
+	char options[] = "brackets=horstmann, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayHorstmannHorstmannLineComments1)
+{
+	// test array formatting
+	// should not change horstmann line comment run-ins
+	char text[] =
+		"\nconst char *foo[] =\n"
+		"{   // comment\n"
+		"    \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayHorstmannHorstmannLineComments2)
+{
+	// test array formatting
+	// should NOT run-in a non-indent line comment
+	char text[] =
+		"\nconst char *foo[] =\n"
+		"{\n"
+		"// comment\n"
+		"    \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayHorstmannHorstmannComments)
+{
+	// test array formatting
+	// should not change horstmann comment run-ins
+	char text[] =
+		"\nconst char *foo[] =\n"
+		"{   /* comment */\n"
+		"    \"foo1\",\n"
 		"    \"foo2\",\n"
 		"    \"foo3\",\n"
 		"};\n";
@@ -7356,7 +7780,6 @@ TEST(CppBracketsArrayHorstmannInstatement2)
 {
 	// test array formatting with horstmann brackets
 	// and a non in-statement bracket on the same line
-	// NOTE: currently the array does NOT run-in
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -7371,8 +7794,7 @@ TEST(CppBracketsArrayHorstmannInstatement2)
 	char text[] =
 		"\nvoid foo()\n"
 		"{   wxChar* names[] =\n"
-		"    {\n"
-		"        _T(\"cvt \"),\n"
+		"    {   _T(\"cvt \"),\n"
 		"        NULL\n"
 		"    };\n"
 		"\n"
@@ -7389,7 +7811,6 @@ TEST(CppBracketsArrayHorstmannInstatement3)
 {
 	// test array formatting with horstmann brackets
 	// and a non in-statement bracket on the same line
-	// NOTE: currently the array does NOT run-in
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{   wxChar* names[] = {\n"
@@ -7403,8 +7824,7 @@ TEST(CppBracketsArrayHorstmannInstatement3)
 	char text[] =
 		"\nvoid foo()\n"
 		"{   wxChar* names[] =\n"
-		"    {\n"
-		"        _T(\"cvt \"),\n"
+		"    {   _T(\"cvt \"),\n"
 		"        NULL\n"
 		"    };\n"
 		"\n"
