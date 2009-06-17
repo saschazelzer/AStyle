@@ -1724,7 +1724,7 @@ TEST(QuoteSingle)
 	delete [] textOut;
 }
 
-TEST(QuoteVerbatim)
+TEST(QuoteVerbatim1)
 {
 	// test C# verbatim quotes
 	// whitespace should not change
@@ -1744,6 +1744,60 @@ TEST(QuoteVerbatim)
 		"			\n"
 		"}\n"
 		";\n"
+		"}\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(QuoteVerbatim2)
+{
+	// test C# verbatim quotes with """" and ""
+	// whitespace should not change
+	char text[] =
+		"\nconst string CodeEmptyResourceSetName = @\"using System.Resources;\n"
+		"class A {\n"
+		"    void B()\n"
+		"    {\n"
+		"        ResourceManager mgr = new ResourceManager(\"\"\"\", GetAssembly());\n"
+		"        mgr.GetString(\"\"TestKey\"\");\n"
+		"    }\n"
+		"}\n"
+		";\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(QuoteEmpty)
+{
+	// test C# empty quotes with """"
+	// whitespace should not change
+	char text[] =
+		"\npublic static string GetString(string key)\n"
+		"{\n"
+		"    return \"\"\"\";\n"
+		"}\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(QuoteMisc)
+{
+	// test C# strange looking quotes with """
+	// whitespace should not change
+	char text[] =
+		"\npublic void TestString()\n"
+		"{\n"
+		"    CheckToken(@\"@\"\"-->\"\"\"\"<--\"\"\", @\"-->\"\"<--\");\n"
+		"    CheckToken(@\"\"\"-->\\\"\"<--\"\"\", \"-->\\\"<--\");\n"
+		"\n"
+		"    CheckToken(@\"\"\"\\U00000041\"\"\", \"\\U00000041\");\n"
+		"    CheckToken(@\"\"\"\\U00010041\"\"\", \"\\U00010041\");\n"
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -1917,6 +1971,63 @@ TEST(EnumClassIndent3)
 		"};\n"
 		"#endif\n";
 	char options[] = "indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+//----------------------------------------------------------------------------
+// AStyle Struct
+//----------------------------------------------------------------------------
+
+TEST(StructBreak)
+{
+	// struct with broken brackets
+	char text[] =
+		"\nstruct\n"
+		"{\n"
+		"    const char *name;\n"
+		"    int id;\n"
+		"} idmTable[] =\n"
+		"{\n"
+		"    {\"IDM_MRUFILE\", IDM_MRUFILE},\n"
+		"    {\"IDM_TOOLS\",   IDM_TOOLS},\n"
+		"};\n";
+	char options[] = "brackets=break";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StructAttach)
+{
+	// struct with attached brackets
+	char text[] =
+		"\nstruct {\n"
+		"    const char *name;\n"
+		"    int id;\n"
+		"} idmTable[] = {\n"
+		"    {\"IDM_MRUFILE\", IDM_MRUFILE},\n"
+		"    {\"IDM_TOOLS\",   IDM_TOOLS},\n"
+		"};\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StructHorstmann)
+{
+	// struct with attached brackets
+	char text[] =
+		"\nstruct\n"
+		"{   const char *name;\n"
+		"    int id;\n"
+		"} idmTable[] =\n"
+		"{   {\"IDM_MRUFILE\", IDM_MRUFILE},\n"
+		"    {\"IDM_TOOLS\",   IDM_TOOLS},\n"
+		"};\n";
+	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;

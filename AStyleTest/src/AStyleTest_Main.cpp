@@ -17,8 +17,8 @@
 #define INIT_LEAK_FINDER
 // additional, use the XML-Output-File to analyse with "MemLeakAnalyse.exe"
 // #define XML_LEAK_FINDER
-#pragma warning(disable: 4100)  // unreferenced formal parameter from leakfinder.h
-#include "leakfinder.h"
+#pragma warning(disable: 4100)  // unreferenced formal parameter from LeakFinder.h
+#include "LeakFinder.h"
 #endif
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

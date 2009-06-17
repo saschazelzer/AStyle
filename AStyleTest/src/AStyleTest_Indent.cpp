@@ -1407,54 +1407,63 @@ TEST(IndentPreprocessorSans)
 
 TEST(MaxInstatementIndent)
 {
-	// test max instatement indent default
-	char text[] =
-		"\nvoid Long_40_Byte_Indent_Function_xxx(bar1,\n"
-		"                                      bar2,\n"
-		"                                      bar3)\n"
+	// test max instatement indent
+	char textIn[] =
+		"\nvoid Long_40_Byte_Indent_Function_xxxxxxxxxxxxxxxx(bar1,\n"
+		"          bar2,\n"
+		"          bar3)\n"
 		"{\n"
-		"    char Long_40_Byte_Indent_Array_xx[] = { red,\n"
-		"                                            green,\n"
-		"                                            blue\n"
-		"                                          };\n"
+		"    char Long_40_Byte_Indent_Array_xxxxxxxxxxxxxxxxxxxxx[] = { red,\n"
+		"            green,\n"
+		"            blue\n"
+		"    };\n"
 		"}\n";
-	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	char text[] =
+		"\nvoid Long_40_Byte_Indent_Function_xxxxxxxxxxxxxxxx(bar1,\n"
+		"                                                   bar2,\n"
+		"                                                   bar3)\n"
+		"{\n"
+		"    char Long_40_Byte_Indent_Array_xxxxxxxxxxxxxxxxxxxxx[] = { red,\n"
+		"                                                               green,\n"
+		"                                                               blue\n"
+		"                                                             };\n"
+		"}\n";
+	char options[] = "max-instatement-indent=60";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
 
 TEST(MaxInstatementIndentShort)
 {
-	// test max instatement indent short option with a value of zero
-	// actual indent will not be less than 2 * indent length
+	// test max instatement indent short option
 	char textIn[] =
-		"\nvoid Long_40_Byte_Indent_Function_xxx(bar1,\n"
-		"                                      bar2,\n"
-		"                                      bar3)\n"
+		"\nvoid Long_40_Byte_Indent_Function_xxxxxxxxxxxxxxxx(bar1,\n"
+		"          bar2,\n"
+		"          bar3)\n"
 		"{\n"
-		"    char Long_40_Byte_Indent_Array_xx[] = { red,\n"
-		"                                            green,\n"
-		"                                            blue\n"
-		"                                          };\n"
-		"}\n";
-	char text[] =
-		"\nvoid Long_40_Byte_Indent_Function_xxx(bar1,\n"
-		"        bar2,\n"
-		"        bar3)\n"
-		"{\n"
-		"    char Long_40_Byte_Indent_Array_xx[] = { red,\n"
+		"    char Long_40_Byte_Indent_Array_xxxxxxxxxxxxxxxxxxxxx[] = { red,\n"
 		"            green,\n"
 		"            blue\n"
-		"                                          };\n"
+		"    };\n"
 		"}\n";
-	char options[] = "-M4";
+	char text[] =
+		"\nvoid Long_40_Byte_Indent_Function_xxxxxxxxxxxxxxxx(bar1,\n"
+		"                                                   bar2,\n"
+		"                                                   bar3)\n"
+		"{\n"
+		"    char Long_40_Byte_Indent_Array_xxxxxxxxxxxxxxxxxxxxx[] = { red,\n"
+		"                                                               green,\n"
+		"                                                               blue\n"
+		"                                                             };\n"
+		"}\n";
+	char options[] = "-M60";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MaxInstatementIndent2)
+TEST(MaxInstatementIndentMax)
 {
 	// test max instatement indent with the max value
 	char textIn[] =
@@ -1483,10 +1492,10 @@ TEST(MaxInstatementIndent2)
 	delete [] textOut;
 }
 
-TEST(MaxInstatementIndent3)
+TEST(MaxInstatementIndentSans)
 {
 	// test max instatement indent with no value
-	// should use the default
+	// should use the default of 40
 	char text[] =
 		"\nvoid Long_40_Byte_Indent_Function_xxx(bar1,\n"
 		"                                      bar2,\n"
@@ -1498,6 +1507,23 @@ TEST(MaxInstatementIndent3)
 		"                                          };\n"
 		"}\n";
 	char options[] = "max-instatement-indent=";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxInstatementIndentMisc1)
+{
+	// test instatement indent greater than max
+	// should use 2 * indent (8)
+	char text[] =
+		"\nvoid InsertClassMethodDlg::DoFillMethodsFor(wxCheckListBox* clb,\n"
+		"        Token* parentToken,\n"
+		"        const wxString& ns,\n"
+		"        bool includePrivate)\n"
+		"{\n"
+		"}\n";
+	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -1587,7 +1613,75 @@ TEST(MinConditionalIndentShort)
 	delete [] textOut;
 }
 
-TEST(MinConditionalIndent2)
+TEST(MinConditionalIndentHorstmann)
+{
+	// test min conditional indent with horstmann brackets
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (a < b\n"
+		"            || c < d)\n"
+		"        bar++;\n"
+		"\n"
+		"    if (a < b\n"
+		"            || c < d)\n"
+		"    {\n"
+		"        bar++;\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{   if (a < b\n"
+		"            || c < d)\n"
+		"        bar++;\n"
+		"\n"
+		"    if (a < b\n"
+		"            || c < d)\n"
+		"    {   bar++;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MinConditionalIndentZero)
+{
+	// test min conditional indent with a value of 0
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (a < b\n"
+		"            || c < d)\n"
+		"        bar++;\n"
+		"\n"
+		"    if (a < b\n"
+		"            || c < d)\n"
+		"    {\n"
+		"        bar++;\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (a < b\n"
+		"        || c < d)\n"
+		"        bar++;\n"
+		"\n"
+		"    if (a < b\n"
+		"        || c < d)\n"
+		"    {\n"
+		"        bar++;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "min-conditional-indent=0";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MinConditionalIndentEight)
 {
 	// test min conditional indent with a value of 8
 	char textIn[] =
@@ -1622,7 +1716,42 @@ TEST(MinConditionalIndent2)
 	delete [] textOut;
 }
 
-TEST(MinConditionalIndent3)
+TEST(MinConditionalIndentTwelve)
+{
+	// test min conditional indent with a value of 12
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (a < b\n"
+		"            || c < d)\n"
+		"        bar++;\n"
+		"\n"
+		"    if (a < b\n"
+		"            || c < d)\n"
+		"    {\n"
+		"        bar++;\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (a < b\n"
+		"                || c < d)\n"
+		"        bar++;\n"
+		"\n"
+		"    if (a < b\n"
+		"                || c < d)\n"
+		"    {\n"
+		"        bar++;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "min-conditional-indent=12";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MinConditionalIndentNoValue)
 {
 	// test min conditional indent with no value
 	// should use the default
@@ -1641,6 +1770,66 @@ TEST(MinConditionalIndent3)
 		"}\n";
 	char options[] = "min-conditional-indent=";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MinConditionalOverMax)
+{
+	// test min conditional indent over max
+	// should use 2 * indent
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (!wxUnsetEnv(the_key))\n"
+		"    {\n"
+		"        Manager::Get()->GetLogManager()->LongLine(noParen,\n"
+		"                                                 _(\"Unsetting environment variable failed.\")));\n"
+		"        EV_DBGLOG(_T(\"EnvVars: Unsetting environment variable failed.\"));\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (!wxUnsetEnv(the_key))\n"
+		"    {\n"
+		"        Manager::Get()->GetLogManager()->LongLine(noParen,\n"
+		"                _(\"Unsetting environment variable failed.\")));\n"
+		"        EV_DBGLOG(_T(\"EnvVars: Unsetting environment variable failed.\"));\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MinConditionalParenOverMax)
+{
+	// test min conditional indent over max with line ending in a paren
+	// should use 2 * indent
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (!wxUnsetEnv(the_key))\n"
+		"    {\n"
+		"        Manager::Get()->GetLogManager()->Log(F(\n"
+		"                                                 _(\"Unsetting environment variable failed.\")));\n"
+		"        EV_DBGLOG(_T(\"EnvVars: Unsetting environment variable failed.\"));\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (!wxUnsetEnv(the_key))\n"
+		"    {\n"
+		"        Manager::Get()->GetLogManager()->Log(F(\n"
+		"                _(\"Unsetting environment variable failed.\")));\n"
+		"        EV_DBGLOG(_T(\"EnvVars: Unsetting environment variable failed.\"));\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }

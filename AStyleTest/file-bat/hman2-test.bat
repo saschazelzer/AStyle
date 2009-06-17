@@ -10,14 +10,16 @@ set testdata=..\..\TestData
 set astyle=..\..\AStyle\build\vs2008\bin\AStyled
 
 REM -----------------------------------
+REM A9 - style=horstmann
+REM -----------------------------------
 REM STYLE
 REM g - brackets=horstmann
 REM t3 -  indent=tab=3  OR  s3 -  iindent=spaces=3
 REM S - indent-switches
-REM U - unpad-paren
-REM H - pad-header
 REM -----------------------------------
 REM ADDITIONAL
+REM U - unpad-paren
+REM H - pad-header
 REM O - keep-one-line-blocks
 REM o - keep-one-line-statements
 REM -----------------------------------
@@ -25,15 +27,15 @@ REM OPTIONAL
 REM p - pad-oper
 REM -----------------------------------
 
-set options= -gs3SUHOo -vRQ
+set options= -A9UHOo -vRQ
 
 call  libCompile.bat  %astyle%
 echo Formatting Horstmann2 %options%
 
 REM C++
-:: %astyle%  %options%  "%testdata%\Horstmann2\*.cpp"  "%testdata%\Horstmann2\*.h"  > test.txt
+%astyle%  %options%  "%testdata%\Horstmann2\*.cpp"  "%testdata%\Horstmann2\*.h"  > test.txt
 REM Java
-%astyle%  %options%  "%testdata%\Horstmann2\*.java"  > test.txt
+:: %astyle%  %options%  "%testdata%\Horstmann2\*.java"  > test.txt
 
 
 echo -

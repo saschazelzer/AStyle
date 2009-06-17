@@ -25,9 +25,9 @@ if errorlevel 2 pause
 REM untar
 echo -
 echo Extracting CodeBlocks
-::"%PROGRAMFILES%\7-Zip\7z"  x  "%archives%\codeblocks-*.tar"  -o"%testdata%"  *.cpp *.h  -ry > NUL
+"%PROGRAMFILES%\7-Zip\7z"  x  "%archives%\codeblocks-*.tar"  -o"%testdata%"  *.cpp *.h  -ry > NUL
 REM  all files
-"%PROGRAMFILES%\7-Zip\7z"  x  "%archives%\codeblocks-*.tar"  -o"%testdata%"  -ry > NUL
+:: "%PROGRAMFILES%\7-Zip\7z"  x  "%archives%\codeblocks-*.tar"  -o"%testdata%"  -ry > NUL
 if errorlevel 2 pause
 
 REM rename directory

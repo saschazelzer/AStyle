@@ -15,7 +15,7 @@ REM propgrid.cpp is the macro IMPLEMENT_GET_VALUE
 set exclude1= --exclude=wx\wxscintilla.h --exclude=wx\propgrid\advprops.h --exclude=wx\propgrid\manager.h
 set exclude2= --exclude=wx\propgrid\propgrid.h --exclude=propgrid\propgrid.cpp
 
-set options= -HvRQ
+set options= -gHvRQ
 :: set options= -bCSKBGNLwM50m10yeoOcFpPHUxE -vRQ
 REM without indent-blocks or indent-brackets (B or G)
 :: set options= -CSKNLwM50m10yeoOcFpPHUxE -vRQ
