@@ -2524,4 +2524,69 @@ TEST(SharpBracketsOtherNewOperator3)
 	delete [] textOut;
 }
 
-// TODO: add tests for sharp array brackets
+//-------------------------------------------------------------------------
+// AStyle C# Array Bracket Options
+//-------------------------------------------------------------------------
+
+TEST(SharpBracketsNoneArray1)
+{
+	// comments preceding array entries should NOT break the line
+	char text[] =
+		"\nstatic readonly\n"
+		"int[][] _stateTable =             { // 0    1    2    3    4\n"
+		"    /* 0: in Code       */ new int[] { 1  , 7  , 0  , 0  , 0  },\n"
+		"    /* 1: after quote   */ new int[] { 2  , 6  , 10 , 0  , 8  },\n"
+		"    /* 2: after d-quote */ new int[] { 3  , 7  , 0  , 0  , 0  }\n"
+		"};\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(SharpBracketsBreakArray1)
+{
+	// comments preceding array entries should NOT break the line
+	char text[] =
+		"\nstatic readonly\n"
+		"int[][] _stateTable =               // 0    1    2    3    4\n"
+		"{\n"
+		"    /* 0: in Code       */ new int[] { 1  , 7  , 0  , 0  , 0  },\n"
+		"    /* 1: after quote   */ new int[] { 2  , 6  , 10 , 0  , 8  },\n"
+		"    /* 2: after d-quote */ new int[] { 3  , 7  , 0  , 0  , 0  }\n"
+		"};\n";
+	char options[] = "brackets=break, mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+TEST(SharpBracketsAttachArray1)
+{
+	// comments preceding array entries should NOT break the line
+	char text[] =
+		"\nstatic readonly\n"
+		"int[][] _stateTable =             { // 0    1    2    3    4\n"
+		"    /* 0: in Code       */ new int[] { 1  , 7  , 0  , 0  , 0  },\n"
+		"    /* 1: after quote   */ new int[] { 2  , 6  , 10 , 0  , 8  },\n"
+		"    /* 2: after d-quote */ new int[] { 3  , 7  , 0  , 0  , 0  }\n"
+		"};\n";
+	char options[] = "brackets=attach, mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+TEST(SharpBracketsHorstmannArray1)
+{
+	// comments preceding array entries should NOT break the line
+	char text[] =
+		"\nstatic readonly\n"
+		"int[][] _stateTable =               // 0    1    2    3    4\n"
+		"{   /* 0: in Code       */ new int[] { 1  , 7  , 0  , 0  , 0  },\n"
+		"    /* 1: after quote   */ new int[] { 2  , 6  , 10 , 0  , 8  },\n"
+		"    /* 2: after d-quote */ new int[] { 3  , 7  , 0  , 0  , 0  }\n"
+		"};\n";
+	char options[] = "brackets=horstmann, mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}

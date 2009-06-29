@@ -8,6 +8,93 @@
 // AStyle version 1.24 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(v124SharpDelegate)
+{
+	// sharp 'delegate' should be recognized as a keyword
+	// the Linux brackets should be attached
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    delegate {\n"
+		"        if (isFoo)\n"
+		"        {\n"
+		"            bar();\n"
+		"        }\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    delegate {\n"
+		"        if (isFoo) {\n"
+		"            bar();\n"
+		"        }\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=linux, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v124JavaInStatementLineCommentClear)
+{
+	// isNonInStatementArray should be cleared when a // follows a }
+	// if not cleared the "? ERROR" line will not be correctly indented
+	char text[] =
+		"\npublic enum KeyboardCommand\n"
+		"{\n"
+		"    TAB_OUT_FORWARD,\n"
+		"    TAB_OUT_BACK\n"
+		"} // this comment\n"
+		"\n"
+		"static class Entry\n"
+		"{\n"
+		"    Entry(PluginJAR jar)\n"
+		"    {\n"
+		"        if (plugin != null)\n"
+		"        {\n"
+		"            status = plugin instanceof EditPlugin.Broken\n"
+		"                     ? ERROR : LOADED;\n"
+		"            clazz = plugin.getClassName();\n"
+		"        }\n"
+		"    }\n"
+		"}\n";
+	char options[] = "mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v124JavaInStatementCommentClear)
+{
+	// isNonInStatementArray should be cleared when a /* follows a }
+	// if not cleared the "? ERROR" line will not be correctly indented
+	char text[] =
+		"\npublic enum KeyboardCommand\n"
+		"{\n"
+		"    TAB_OUT_FORWARD,\n"
+		"    TAB_OUT_BACK\n"
+		"} /* this comment */\n"
+		"\n"
+		"static class Entry\n"
+		"{\n"
+		"    Entry(PluginJAR jar)\n"
+		"    {\n"
+		"        if (plugin != null)\n"
+		"        {\n"
+		"            status = plugin instanceof EditPlugin.Broken\n"
+		"                     ? ERROR : LOADED;\n"
+		"            clazz = plugin.getClassName();\n"
+		"        }\n"
+		"    }\n"
+		"}\n";
+	char options[] = "mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(v124SharpAccessors)
 {
 	// get is preceded by []
@@ -1971,6 +2058,21 @@ TEST(EnumClassIndent3)
 		"};\n"
 		"#endif\n";
 	char options[] = "indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(EnumJava)
+{
+	// test indent of java enum
+	char text[] =
+		"\npublic enum KeyboardCommand\n"
+		"{   NONE,\n"
+		"    TAB_OUT_FORWARD,\n"
+		"    TAB_OUT_BACK\n"
+		"}\n";
+	char options[] = "mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;

@@ -956,6 +956,54 @@ TEST(CppBracketsNoneCommentsHorstmann3)
 	delete [] textOut;
 }
 
+TEST(CppBracketsNoneMultipleCommentsBreak)
+{
+	// multiple comments with broken brackets should remain unchanged
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo) /* comment1 */  // comment2\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsNoneMultipleCommentsAttach)
+{
+	// multiple comments with attached brackets remain unchanged
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo) { /* comment1 */  // comment2\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsNoneMultipleCommentsHorstmann)
+{
+	// multiple comments with horstmann brackets remain unchanged
+	char text[] =
+		"\nvoid foo()\n"
+		"{   if (isFoo) /* comment1 */  // comment2\n"
+		"    {   bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle C++ Break Bracket Options
 //-------------------------------------------------------------------------
@@ -1943,6 +1991,62 @@ TEST(CppBracketsBreakCommentsHorstmann3)
 	delete [] textOut;
 }
 
+TEST(CppBracketsBreakMultipleCommentsBreak)
+{
+	// multiple comments with broken brackets should remain unchanged
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo) /* comment1 */  // comment2\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=break";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsBreakMultipleCommentsAttach)
+{
+	// multiple comments with attached brackets should remain unchanged
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo) { /* comment1 */  // comment2\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=break";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsBreakMultipleCommentsHorstmann)
+{
+	// multiple comments with horstmann brackets should be broken
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{   if (isFoo) /* comment1 */  // comment2\n"
+		"    {   bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo) /* comment1 */  // comment2\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=break";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle C++ Attach Bracket Options
 //-------------------------------------------------------------------------
@@ -2903,6 +3007,67 @@ TEST(CppBracketsAttachCommentsHorstmann5)
 		"// ----------------\n"
 		"{\n"
 		"    /* comment1 */\n"
+		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsAttachMultipleCommentsBreak)
+{
+	// multiple comments with broken brackets should NOT be attached
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo) /* comment1 */  // comment2\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo() {\n"
+		"    if (isFoo) /* comment1 */  // comment2\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsAttachMultipleCommentsAttach)
+{
+	// multiple comments with attached brackets should remain unchanged
+	char text[] =
+		"\nvoid foo() {\n"
+		"    if (isFoo) { /* comment1 */  // comment2\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsAttachMultipleCommentsHorstmann)
+{
+	// multiple comments with horstmann brackets should NOT be attached
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{   if (isFoo) /* comment1 */  // comment2\n"
+		"    {   bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo() {\n"
+		"    if (isFoo) /* comment1 */  // comment2\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -4026,6 +4191,62 @@ TEST(CppBracketsLinuxCommentsHorstmann3)
 	delete [] textOut;
 }
 
+TEST(CppBracketsLinuxMultipleCommentsBreak)
+{
+	// multiple comments with broken brackets should remain unchanged
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo) /* comment1 */  // comment2\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=linux";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsLinuxMultipleCommentsAttach)
+{
+	// multiple comments with attached brackets remain unchanged
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo) { /* comment1 */  // comment2\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=linux";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsLinuxMultipleCommentsHorstmann)
+{
+	// multiple comments with horstmann brackets should NOT be attached
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{   if (isFoo) /* comment1 */  // comment2\n"
+		"    {   bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo) /* comment1 */  // comment2\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=linux";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle C++ Stroustrup Bracket Options
 //-------------------------------------------------------------------------
@@ -5109,6 +5330,62 @@ TEST(CppBracketsStroustrupCommentsHorstmann3)
 	delete [] textOut;
 }
 
+TEST(CppBracketsStroustrupMultipleCommentsBreak)
+{
+	// multiple comments with broken brackets should remain unchanged
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo) /* comment1 */  // comment2\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=stroustrup";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsStroustrupMultipleCommentsAttach)
+{
+	// multiple comments with attached brackets remain unchanged
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo) { /* comment1 */  // comment2\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=stroustrup";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsStroustrupMultipleCommentsHorstmann)
+{
+	// multiple comments with horstmann brackets should NOT be attached
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{   if (isFoo) /* comment1 */  // comment2\n"
+		"    {   bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo) /* comment1 */  // comment2\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=stroustrup";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle C++ Horstmann Bracket Options
 //-------------------------------------------------------------------------
@@ -6160,6 +6437,65 @@ TEST(CppBracketsHorstmannCommentsHorstmann3)
 	delete [] textOut;
 }
 
+
+TEST(CppBracketsHorstmannMultipleCommentsBreak)
+{
+	// multiple comments with broken brackets should be run-in
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo) /* comment1 */  // comment2\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{   if (isFoo) /* comment1 */  // comment2\n"
+		"    {   bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsHorstmannMultipleCommentsAttach)
+{
+	// multiple comments with attached brackets should not be broken
+	char textIn[] =
+		"\nvoid foo() {\n"
+		"    if (isFoo) { /* comment1 */  // comment2\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{   if (isFoo) { /* comment1 */  // comment2\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsHorstmannMultipleCommentsHorstmann)
+{
+	// multiple comments with horstmann brackets should remain unchanged
+	char text[] =
+		"\nvoid foo()\n"
+		"{   if (isFoo) /* comment1 */  // comment2\n"
+		"    {   bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
 //-------------------------------------------------------------------------
 // AStyle C++ Other Bracket Options

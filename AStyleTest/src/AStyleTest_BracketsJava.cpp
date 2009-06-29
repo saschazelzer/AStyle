@@ -217,6 +217,77 @@ TEST(JavaBracketsNoneHorstmann)
 	delete [] textOut;
 }
 
+TEST(JavaBracketsNoneEnumConstructorBreak)
+{
+	// test defzult brackets option with an enum constructor
+	char text[] =
+		"\npublic enum Scope\n"
+		"{\n"
+		"    global, view, editpane;\n"
+		"\n"
+		"    public static Scope fromString(String s)\n"
+		"    {\n"
+		"        Scope[] scopes = values();\n"
+		"        for (Scope scope: scopes)\n"
+		"        {\n"
+		"            if (scope.toString().equals(s))\n"
+		"                return scope;\n"
+		"        }\n"
+		"\n"
+		"        return global;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(JavaBracketsNoneEnumConstructorAttach)
+{
+	// test default brackets option with an enum constructor
+	char text[] =
+		"\npublic enum Scope {\n"
+		"    global, view, editpane;\n"
+		"\n"
+		"    public static Scope fromString(String s) {\n"
+		"        Scope[] scopes = values();\n"
+		"        for (Scope scope: scopes) {\n"
+		"            if (scope.toString().equals(s))\n"
+		"                return scope;\n"
+		"        }\n"
+		"\n"
+		"        return global;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+TEST(JavaBracketsNoneEnumConstructorHorstmann)
+{
+	// test default brackets option with an enum constructor
+	char text[] =
+		"\npublic enum Scope\n"
+		"{   global, view, editpane;\n"
+		"\n"
+		"    public static Scope fromString(String s)\n"
+		"    {   Scope[] scopes = values();\n"
+		"        for (Scope scope: scopes)\n"
+		"        {   if (scope.toString().equals(s))\n"
+		"                return scope;\n"
+		"        }\n"
+		"\n"
+		"        return global;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Java Break Bracket Options
 //-------------------------------------------------------------------------
@@ -459,6 +530,46 @@ TEST(JavaBracketsBreakHorstmann)
 	delete [] textOut;
 }
 
+TEST(JavaBracketsBreakEnumConstructor)
+{
+	// test break brackets option with an enum constructor
+	char textIn[] =
+		"\npublic enum Scope {\n"
+		"    global, view, editpane;\n"
+		"\n"
+		"    public static Scope fromString(String s) {\n"
+		"        Scope[] scopes = values();\n"
+		"        for (Scope scope: scopes) {\n"
+		"            if (scope.toString().equals(s))\n"
+		"                return scope;\n"
+		"        }\n"
+		"\n"
+		"        return global;\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\npublic enum Scope\n"
+		"{\n"
+		"    global, view, editpane;\n"
+		"\n"
+		"    public static Scope fromString(String s)\n"
+		"    {\n"
+		"        Scope[] scopes = values();\n"
+		"        for (Scope scope: scopes)\n"
+		"        {\n"
+		"            if (scope.toString().equals(s))\n"
+		"                return scope;\n"
+		"        }\n"
+		"\n"
+		"        return global;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=break, mode=java";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Java Attach Bracket Options
 //-------------------------------------------------------------------------
@@ -686,6 +797,46 @@ TEST(JavaBracketsAttachHorstmann)
 		"        bar();\n"
 		"    } else {\n"
 		"        anotherBar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=attach, mode=java";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(JavaBracketsAttachEnumConstructor)
+{
+	// test attach brackets option with an enum constructor
+	char textIn[] =
+		"\npublic enum Scope\n"
+		"{\n"
+		"    global, view, editpane;\n"
+		"\n"
+		"    public static Scope fromString(String s)\n"
+		"    {\n"
+		"        Scope[] scopes = values();\n"
+		"        for (Scope scope: scopes)\n"
+		"        {\n"
+		"            if (scope.toString().equals(s))\n"
+		"                return scope;\n"
+		"        }\n"
+		"\n"
+		"        return global;\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\npublic enum Scope {\n"
+		"    global, view, editpane;\n"
+		"\n"
+		"    public static Scope fromString(String s) {\n"
+		"        Scope[] scopes = values();\n"
+		"        for (Scope scope: scopes) {\n"
+		"            if (scope.toString().equals(s))\n"
+		"                return scope;\n"
+		"        }\n"
+		"\n"
+		"        return global;\n"
 		"    }\n"
 		"}\n";
 	char options[] = "brackets=attach, mode=java";
@@ -942,6 +1093,47 @@ TEST(JavaBracketsLinuxHorstmann)
 	delete [] textOut;
 }
 
+TEST(JavaBracketsLinuxEnumConstructor)
+{
+	// test linux brackets option with an enum constructor
+	char textIn[] =
+		"\npublic enum Scope\n"
+		"{\n"
+		"    global, view, editpane;\n"
+		"\n"
+		"    public static Scope fromString(String s)\n"
+		"    {\n"
+		"        Scope[] scopes = values();\n"
+		"        for (Scope scope: scopes)\n"
+		"        {\n"
+		"            if (scope.toString().equals(s))\n"
+		"                return scope;\n"
+		"        }\n"
+		"\n"
+		"        return global;\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\npublic enum Scope {\n"
+		"    global, view, editpane;\n"
+		"\n"
+		"    public static Scope fromString(String s)\n"
+		"    {\n"
+		"        Scope[] scopes = values();\n"
+		"        for (Scope scope: scopes) {\n"
+		"            if (scope.toString().equals(s))\n"
+		"                return scope;\n"
+		"        }\n"
+		"\n"
+		"        return global;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=linux, mode=java";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Java Stroustrup Bracket Options
 //-------------------------------------------------------------------------
@@ -1080,6 +1272,47 @@ TEST(JavaBracketsStroustrupEmptyBrackets)
 		"}\n";
 	char options[] = "brackets=stroustrup, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(JavaBracketsStroustrupEnumConstructor)
+{
+	// test stroustrup brackets option with an enum constructor
+	char textIn[] =
+		"\npublic enum Scope\n"
+		"{\n"
+		"    global, view, editpane;\n"
+		"\n"
+		"    public static Scope fromString(String s)\n"
+		"    {\n"
+		"        Scope[] scopes = values();\n"
+		"        for (Scope scope: scopes)\n"
+		"        {\n"
+		"            if (scope.toString().equals(s))\n"
+		"                return scope;\n"
+		"        }\n"
+		"\n"
+		"        return global;\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\npublic enum Scope {\n"
+		"    global, view, editpane;\n"
+		"\n"
+		"    public static Scope fromString(String s)\n"
+		"    {\n"
+		"        Scope[] scopes = values();\n"
+		"        for (Scope scope: scopes) {\n"
+		"            if (scope.toString().equals(s))\n"
+		"                return scope;\n"
+		"        }\n"
+		"\n"
+		"        return global;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=stroustrup, mode=java";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
@@ -1272,6 +1505,46 @@ TEST(JavaBracketsHorstmannHorstmann)
 		"}\n";
 	char options[] = "brackets=horstmann, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(JavaBracketsHorstmannEnumConstructor)
+{
+	// test horstmann brackets option with an enum constructor
+	char textIn[] =
+		"\npublic enum Scope\n"
+		"{\n"
+		"    global, view, editpane;\n"
+		"\n"
+		"    public static Scope fromString(String s)\n"
+		"    {\n"
+		"        Scope[] scopes = values();\n"
+		"        for (Scope scope: scopes)\n"
+		"        {\n"
+		"            if (scope.toString().equals(s))\n"
+		"                return scope;\n"
+		"        }\n"
+		"\n"
+		"        return global;\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\npublic enum Scope\n"
+		"{   global, view, editpane;\n"
+		"\n"
+		"    public static Scope fromString(String s)\n"
+		"    {   Scope[] scopes = values();\n"
+		"        for (Scope scope: scopes)\n"
+		"        {   if (scope.toString().equals(s))\n"
+		"                return scope;\n"
+		"        }\n"
+		"\n"
+		"        return global;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=horstmann, mode=java";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
@@ -1652,7 +1925,6 @@ TEST(JavaBracketsOtherNewOperator2)
 TEST(JavaBracketsArray1)
 {
 	// the following "new Type" array should have an in statement indent
-	// must view the whitespace to see the in statement indent
 	char text[] =
 		"\npublic class ClassUtil implements Constants\n"
 		"{\n"
@@ -1676,4 +1948,84 @@ TEST(JavaBracketsArray1)
 	delete [] textOut;
 }
 
-// TODO: add more tests for java array brackets
+TEST(JavaBracketsArray2)
+{
+	// single line blocks should not be broken
+	char text[] =
+		"\npublic OSTask[] getOSTasks()\n"
+		"{\n"
+		"    return new OSTask[] { /* comment */ };\n"
+		"}\n";
+	char options[] = "mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(JavaBracketsNoneArray3)
+{
+	// the single line block "{io.toString()}" should not be broken
+	char text[] =
+		"\npublic void foo()\n"
+		"{\n"
+		"    catch (IOException io)\n"
+		"    {\n"
+		"        VFSManager.error(comp,directory,new String[]\n"
+		"                         {io.toString()});\n"
+		"    }\n"
+		"}\n";
+	char options[] = "mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(JavaBracketsBreakArray3)
+{
+	// the single line block "{io.toString()}" should not be broken
+	char text[] =
+		"\npublic void foo()\n"
+		"{\n"
+		"    catch (IOException io)\n"
+		"    {\n"
+		"        VFSManager.error(comp,directory,new String[]\n"
+		"                         {io.toString()});\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=break, mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(JavaBracketsAttachArray3)
+{
+	// the single line block "{io.toString()}" should not be broken
+	char text[] =
+		"\npublic void foo() {\n"
+		"    catch (IOException io) {\n"
+		"        VFSManager.error(comp,directory,new String[]\n"
+		"                         {io.toString()});\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=attach, mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(JavaBracketsHorstmannArray3)
+{
+	// the single line block "{io.toString()}" should not be broken
+	char text[] =
+		"\npublic void foo()\n"
+		"{   catch (IOException io)\n"
+		"    {   VFSManager.error(comp,directory,new String[]\n"
+		"                         {io.toString()});\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=horstmann, mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
