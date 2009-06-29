@@ -28,7 +28,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="AStyle" />
+					<Add option="-Wl,--add-stdcall-alias" />
 					<Add directory="bin" />
 				</Linker>
 				<ExtraCommands>
