@@ -40,6 +40,7 @@ cd  "%projdir%"
 md  DistBase\astyle\doc
 cd  DistBase\astyle\doc
 for %%v in (astyle.html
+            download.html
             index.html
             install.html
             license.html
@@ -172,7 +173,7 @@ REM Windows includes an executable in the bin directory
 cd  "%projdir%"
 md  DistWindows\astyle\bin
 cd  DistWindows\astyle\bin
-xcopy "%projdir%\_VC-2008\bin\AStyle.exe"  /q
+xcopy "%projdir%\build\vs2008\bin\AStyle.exe"  /q
 if errorlevel 2 pause
 echo executable copied
 
@@ -188,8 +189,8 @@ attrib -h /s "%projdir%\build\%%v\*.*"
 REM copy the files
 xcopy "%projdir%\build\%%v\AStyle.sln"  /q
 if errorlevel 2 pause
-xcopy "%projdir%\build\%%v\AStyle.suo"  /q
-if errorlevel 2 pause
+:: xcopy "%projdir%\build\%%v\AStyle.suo"  /q
+:: if errorlevel 2 pause
 xcopy "%projdir%\build\%%v\AStyle.vcproj"  /q
 if errorlevel 2 pause
 )

@@ -22,10 +22,10 @@ if %builddir:~19,6% == vs2005  set sdk=v2.0.50727
 
 
 REM check if release or debug
-if %inpath:~-1% == e (
+if %inpath:~-6% == AStyle (
 echo Building Release
 ) else (
-if %inpath:~-1% == d (
+if %inpath:~-7% == AStyled (
 echo Building Debug
 set config=Debug
 ) else (
