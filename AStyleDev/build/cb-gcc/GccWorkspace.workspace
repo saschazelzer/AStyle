@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="GCC Workspace">
-		<Project filename="GccAStyle.cbp" />
-		<Project filename="GccAStyleJava.cbp" active="1" />
+		<Project filename="GccAStyle.cbp" active="1" />
+		<Project filename="GccAStyleJava.cbp" />
 		<Project filename="GccAStyleSharp.cbp" />
 		<Project filename="GccExampleA.cbp" />
 		<Project filename="GccExampleO.cbp" />
