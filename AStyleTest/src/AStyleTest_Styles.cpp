@@ -287,35 +287,94 @@ TEST_FIXTURE(cppStyleText, CppStyleAllmanBracketIndent)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleAllmanTab)
+TEST(CppStyleAllmanSpaceIndent)
+{
+	// test allman style with space indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"      if (isFoo\n"
+		"                  && isBar)\n"
+		"      {\n"
+		"            bar();\n"
+		"      }\n"
+		"      else\n"
+		"            anotherBar();\n"
+		"}\n";
+	char options[] = "style=allman, indent=spaces=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleAllmanTab)
 {
 	// test allman style with tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
 	char text[] =
-		"\nnamespace FooName\n"
+		"\nvoid Foo(bool isFoo)\n"
 		"{\n"
-		"\n"
-		"class FooClass\n"
-		"{\n"
-		"private:\n"
-		"	bool var1;\n"
-		"	void func1();\n"
-		"protected:\n"
-		"	bool var2;\n"
-		"	void func2();\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"{\n"
-		"	if (isFoo)\n"
+		"	if (isFoo\n"
+		"	        && isBar)\n"
 		"	{\n"
 		"		bar();\n"
 		"	}\n"
 		"	else\n"
 		"		anotherBar();\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
+		"}\n";
 	char options[] = "style=allman, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleAllmanTabIndent)
+{
+	// test allman style with tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"	if (isFoo\n"
+		"	            && isBar)\n"
+		"	{\n"
+		"		bar();\n"
+		"	}\n"
+		"	else\n"
+		"		anotherBar();\n"
+		"}\n";
+	char options[] = "style=allman, indent=tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -347,6 +406,37 @@ TEST(CppStyleAllmanForceTab)
 		"		anotherBar();\n"
 		"}\n";
 	char options[] = "style=allman, indent=force-tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleAllmanForceTabIndent)
+{
+	// test allman style with force tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"	if (isFoo\n"
+		"			&& isBar)\n"
+		"	{\n"
+		"		bar();\n"
+		"	}\n"
+		"	else\n"
+		"		anotherBar();\n"
+		"}\n";
+	char options[] = "style=allman, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -500,30 +590,85 @@ TEST_FIXTURE(cppStyleText, CppStyleJavaBracketIndent)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleJavaTab)
+TEST(CppStyleJavaSpaceIndent)
 {
-	// test java style option
+	// test java style option with space indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
 	char text[] =
-		"\nnamespace FooName {\n"
-		"\n"
-		"class FooClass {\n"
-		"private:\n"
-		"	bool var1;\n"
-		"	void func1();\n"
-		"protected:\n"
-		"	bool var2;\n"
-		"	void func2();\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo) {\n"
-		"	if (isFoo) {\n"
+		"\nvoid Foo(bool isFoo) {\n"
+		"      if (isFoo\n"
+		"                  && isBar) {\n"
+		"            bar();\n"
+		"      } else\n"
+		"            anotherBar();\n"
+		"}\n";
+	char options[] = "style=java, indent=spaces=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleJavaTab)
+{
+	// test java style option with tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo) {\n"
+		"	if (isFoo\n"
+		"	        && isBar) {\n"
 		"		bar();\n"
 		"	} else\n"
 		"		anotherBar();\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
+		"}\n";
 	char options[] = "style=java, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleJavaTabIndent)
+{
+	// test java style option with tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo) {\n"
+		"	if (isFoo\n"
+		"	            && isBar) {\n"
+		"		bar();\n"
+		"	} else\n"
+		"		anotherBar();\n"
+		"}\n";
+	char options[] = "style=java, indent=tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -552,6 +697,34 @@ TEST(CppStyleJavaForceTab)
 		"		anotherBar();\n"
 		"}\n";
 	char options[] = "style=java, indent=force-tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleJavaForceTabIndent)
+{
+	// test java style option with force tab
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo) {\n"
+		"	if (isFoo\n"
+		"			&& isBar) {\n"
+		"		bar();\n"
+		"	} else\n"
+		"		anotherBar();\n"
+		"}\n";
+	char options[] = "style=java, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -752,33 +925,88 @@ TEST_FIXTURE(cppStyleText, CppStyleKRBracketIndent)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleKRTab)
+TEST(CppStyleKRSpaceIndent)
+{
+	// test k&r style option with space indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"      if (isFoo\n"
+		"                  && isBar) {\n"
+		"            bar();\n"
+		"      } else\n"
+		"            anotherBar();\n"
+		"}\n";
+	char options[] = "style=k&r, indent=spaces=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleKRTab)
 {
 	// test k&r style option with tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
 	char text[] =
-		"\nnamespace FooName\n"
+		"\nvoid Foo(bool isFoo)\n"
 		"{\n"
-		"\n"
-		"class FooClass\n"
-		"{\n"
-		"private:\n"
-		"	bool var1;\n"
-		"	void func1();\n"
-		"protected:\n"
-		"	bool var2;\n"
-		"	void func2();\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"{\n"
-		"	if (isFoo) {\n"
+		"	if (isFoo\n"
+		"	        && isBar) {\n"
 		"		bar();\n"
 		"	} else\n"
 		"		anotherBar();\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
+		"}\n";
 	char options[] = "style=k&r, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleKRTabIndent)
+{
+	// test k&r style option with tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"	if (isFoo\n"
+		"	            && isBar) {\n"
+		"		bar();\n"
+		"	} else\n"
+		"		anotherBar();\n"
+		"}\n";
+	char options[] = "style=k&r, indent=tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -813,6 +1041,34 @@ TEST(CppStyleKRForceTab)
 	delete [] textOut;
 }
 
+TEST(CppStyleKRForceTabIndent)
+{
+	// test k&r style option with force tab
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"	if (isFoo\n"
+		"			&& isBar) {\n"
+		"		bar();\n"
+		"	} else\n"
+		"		anotherBar();\n"
+		"}\n";
+	char options[] = "style=k&r, indent=force-tab=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
 TEST_FIXTURE(cppStyleText, CppStyleStroustrup)
 {
@@ -966,31 +1222,89 @@ TEST_FIXTURE(cppStyleText, CppStyleStroustrupBracketIndent)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleStroustrupTab)
+TEST(CppStyleStroustrupSpaceIndent)
+{
+	// test stroustrup style option with space indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"      if (isFoo\n"
+		"                  && isBar) {\n"
+		"            bar();\n"
+		"      } else\n"
+		"            anotherBar();\n"
+		"}\n";
+	char options[] = "style=stroustrup, indent=spaces=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleStroustrupTab)
 {
 	// test stroustrup style option with tab indent
-	char text[] =
-		"\nnamespace FooName {\n"
-		"\n"
-		"class FooClass {\n"
-		"private:\n"
-		"	bool var1;\n"
-		"	void func1();\n"
-		"protected:\n"
-		"	bool var2;\n"
-		"	void func2();\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
+	// default indent is 5
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
 		"{\n"
-		"	if (isFoo) {\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"	if (isFoo\n"
+		"	          && isBar) {\n"
 		"		bar();\n"
 		"	} else\n"
 		"		anotherBar();\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
+		"}\n";
 	char options[] = "style=stroustrup, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleStroustrupTabIndent)
+{
+	// test stroustrup style option with tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"	if (isFoo\n"
+		"	            && isBar) {\n"
+		"		bar();\n"
+		"	} else\n"
+		"		anotherBar();\n"
+		"}\n";
+	char options[] = "style=stroustrup, indent=tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -1020,6 +1334,35 @@ TEST(CppStyleStroustrupForceTab)
 		"		anotherBar();\n"
 		"}\n";
 	char options[] = "style=stroustrup, indent=force-tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleStroustrupForceTabIndent)
+{
+	// test stroustrup style option with force tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"	if (isFoo\n"
+		"			&& isBar) {\n"
+		"		bar();\n"
+		"	} else\n"
+		"		anotherBar();\n"
+		"}\n";
+	char options[] = "style=stroustrup, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -1164,35 +1507,94 @@ TEST_FIXTURE(cppStyleText, CppStyleWhitesmithBlockIndent)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleWhitesmithTab)
+TEST(CppStyleWhitesmithSpaceIndent)
 {
 	// test whitesmith style option with tab indent
-	char text[] =
-		"\nnamespace FooName\n"
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
 		"{\n"
-		"\n"
-		"class FooClass\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"      {\n"
+		"      if (isFoo\n"
+		"                  && isBar)\n"
+		"            {\n"
+		"            bar();\n"
+		"            }\n"
+		"      else\n"
+		"            anotherBar();\n"
+		"      }\n";
+	char options[] = "style=whitesmith, indent=spaces=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleWhitesmithTab)
+{
+	// test whitesmith style option with tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
 		"	{\n"
-		"	private:\n"
-		"		bool var1;\n"
-		"		void func1();\n"
-		"	protected:\n"
-		"		bool var2;\n"
-		"		void func2();\n"
-		"	};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"	{\n"
-		"	if (isFoo)\n"
+		"	if (isFoo\n"
+		"	        && isBar)\n"
 		"		{\n"
 		"		bar();\n"
 		"		}\n"
 		"	else\n"
 		"		anotherBar();\n"
-		"	}\n"
-		"\n"
-		"}   // end FooName\n";
+		"	}\n";
 	char options[] = "style=whitesmith, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleWhitesmithTabIndent)
+{
+	// test whitesmith style option with tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"	{\n"
+		"	if (isFoo\n"
+		"	            && isBar)\n"
+		"		{\n"
+		"		bar();\n"
+		"		}\n"
+		"	else\n"
+		"		anotherBar();\n"
+		"	}\n";
+	char options[] = "style=whitesmith, indent=tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -1224,6 +1626,37 @@ TEST(CppStyleWhitesmithForceTab)
 		"		anotherBar();\n"
 		"	}\n";
 	char options[] = "style=whitesmith, indent=force-tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleWhitesmithForceTabIndent)
+{
+	// test whitesmith style option with force tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"	{\n"
+		"	if (isFoo\n"
+		"			&& isBar)\n"
+		"		{\n"
+		"		bar();\n"
+		"		}\n"
+		"	else\n"
+		"		anotherBar();\n"
+		"	}\n";
+	char options[] = "style=whitesmith, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -1378,31 +1811,88 @@ TEST_FIXTURE(cppStyleText, CppStyleBannerBlockIndent)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleBannerTab)
+TEST(CppStyleBannerSpaceIndent)
 {
 	// test banner style option with tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
 	char text[] =
-		"\nnamespace FooName {\n"
-		"\n"
-		"class FooClass {\n"
-		"	private:\n"
-		"		bool var1;\n"
-		"		void func1();\n"
-		"	protected:\n"
-		"		bool var2;\n"
-		"		void func2();\n"
-		"	};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo) {\n"
-		"	if (isFoo) {\n"
+		"\nvoid Foo(bool isFoo) {\n"
+		"      if (isFoo\n"
+		"                  && isBar) {\n"
+		"            bar();\n"
+		"            }\n"
+		"      else\n"
+		"            anotherBar();\n"
+		"      }\n";
+	char options[] = "style=banner, indent=spaces=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleBannerTab)
+{
+	// test banner style option with tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo) {\n"
+		"	if (isFoo\n"
+		"	        && isBar) {\n"
 		"		bar();\n"
 		"		}\n"
 		"	else\n"
 		"		anotherBar();\n"
-		"	}\n"
-		"\n"
-		"}   // end FooName\n";
+		"	}\n";
 	char options[] = "style=banner, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleBannerTabIndent)
+{
+	// test banner style option with tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo) {\n"
+		"	if (isFoo\n"
+		"	            && isBar) {\n"
+		"		bar();\n"
+		"		}\n"
+		"	else\n"
+		"		anotherBar();\n"
+		"	}\n";
+	char options[] = "style=banner, indent=tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -1432,6 +1922,35 @@ TEST(CppStyleBannerForceTab)
 		"		anotherBar();\n"
 		"	}\n";
 	char options[] = "style=banner, indent=force-tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleBannerForceTabIndent)
+{
+	// test banner style option with force tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo) {\n"
+		"	if (isFoo\n"
+		"			&& isBar) {\n"
+		"		bar();\n"
+		"		}\n"
+		"	else\n"
+		"		anotherBar();\n"
+		"	}\n";
+	char options[] = "style=banner, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -1599,35 +2118,95 @@ TEST_FIXTURE(cppStyleText, CppStyleGnuBracketIndent)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleGnuTab)
+TEST(CppStyleGnuSpaceIndent)
+{
+	// test gnu style option with space indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"   if (isFoo\n"
+		"         && isBar)\n"
+		"      {\n"
+		"         bar();\n"
+		"      }\n"
+		"   else\n"
+		"      anotherBar();\n"
+		"}\n";
+	char options[] = "style=gnu, indent=spaces=3";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleGnuTab)
 {
 	// test gnu style option with tab indent
+	// default indent is 2
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
 	char text[] =
-		"\nnamespace FooName\n"
+		"\nvoid Foo(bool isFoo)\n"
 		"{\n"
-		"\n"
-		"class FooClass\n"
-		"{\n"
-		"private:\n"
-		"	bool var1;\n"
-		"	void func1();\n"
-		"protected:\n"
-		"	bool var2;\n"
-		"	void func2();\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"{\n"
-		"	if (isFoo)\n"
+		"	if (isFoo\n"
+		"	    && isBar)\n"
 		"		{\n"
 		"			bar();\n"
 		"		}\n"
 		"	else\n"
 		"		anotherBar();\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
+		"}\n";
 	char options[] = "style=gnu, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleGnuTabIndent)
+{
+	// test gnu style option with tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"	if (isFoo\n"
+		"	      && isBar)\n"
+		"		{\n"
+		"			bar();\n"
+		"		}\n"
+		"	else\n"
+		"		anotherBar();\n"
+		"}\n";
+	char options[] = "style=gnu, indent=tab=3";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -1659,6 +2238,37 @@ TEST(CppStyleGnuForceTab)
 		"		anotherBar();\n"
 		"}\n";
 	char options[] = "style=gnu, indent=force-tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleGnuForceTabIndent)
+{
+	// test gnu style option with force tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"	if (isFoo\n"
+		"			&& isBar)\n"
+		"		{\n"
+		"			bar();\n"
+		"		}\n"
+		"	else\n"
+		"		anotherBar();\n"
+		"}\n";
+	char options[] = "style=gnu, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -1827,33 +2437,90 @@ TEST_FIXTURE(cppStyleText, CppStyleLinuxBracketIndent)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleLinuxTab)
+TEST(CppStyleLinuxSpaceIndent)
+{
+	// test linux style option with space indent
+	// default indent is 8
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"      if (isFoo\n"
+		"                  && isBar) {\n"
+		"            bar();\n"
+		"      } else\n"
+		"            anotherBar();\n"
+		"}\n";
+	char options[] = "style=linux, indent=spaces=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleLinuxTab)
 {
 	// test linux style option with tab indent
+	// default indent is 8
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
 	char text[] =
-		"\nnamespace FooName\n"
+		"\nvoid Foo(bool isFoo)\n"
 		"{\n"
-		"\n"
-		"class FooClass\n"
-		"{\n"
-		"private:\n"
-		"	bool var1;\n"
-		"	void func1();\n"
-		"protected:\n"
-		"	bool var2;\n"
-		"	void func2();\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"{\n"
-		"	if (isFoo) {\n"
+		"	if (isFoo\n"
+		"	                && isBar) {\n"
 		"		bar();\n"
 		"	} else\n"
 		"		anotherBar();\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
+		"}\n";
 	char options[] = "style=linux, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleLinuxTabIndent)
+{
+	// test linux style option with tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"	if (isFoo\n"
+		"	            && isBar) {\n"
+		"		bar();\n"
+		"	} else\n"
+		"		anotherBar();\n"
+		"}\n";
+	char options[] = "style=linux, indent=tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -1883,6 +2550,35 @@ TEST(CppStyleLinuxForceTab)
 		"		anotherBar();\n"
 		"}\n";
 	char options[] = "style=linux, indent=force-tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleLinuxForceTabIndent)
+{
+	// test linux style option with force tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"	if (isFoo\n"
+		"			&& isBar) {\n"
+		"		bar();\n"
+		"	} else\n"
+		"		anotherBar();\n"
+		"}\n";
+	char options[] = "style=linux, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -2053,38 +2749,93 @@ TEST_FIXTURE(cppStyleText, CppStyleHorstmannBracketIndent)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleHorstmannTab)
+TEST(CppStyleHorstmannSpaceIndent)
 {
 	// test horstmann style option with tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
 	char text[] =
-		"\nnamespace FooName\n"
+		"\nvoid Foo(bool isFoo)\n"
+		"{     if (isFoo\n"
+		"                  && isBar)\n"
+		"      {     bar();\n"
+		"      }\n"
+		"      else\n"
+		"            anotherBar();\n"
+		"}\n";
+	char options[] = "style=horstmann, indent=spaces=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleHorstmannTab)
+{
+	// test horstmann style option with tab indent
+	// default indent is 3
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
 		"{\n"
-		"\n"
-		"class FooClass\n"
-		"{\n"
-		"private:\n"
-		"	bool var1;\n"
-		"	void func1();\n"
-		"protected:\n"
-		"	bool var2;\n"
-		"	void func2();\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"{	if (isFoo)\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{	if (isFoo\n"
+		"	      && isBar)\n"
 		"	{	bar();\n"
 		"	}\n"
 		"	else\n"
 		"		anotherBar();\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
+		"}\n";
 	char options[] = "style=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
 
+TEST(CppStyleHorstmannTabIndent)
+{
+	// test horstmann style option with tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{	if (isFoo\n"
+		"	            && isBar)\n"
+		"	{	bar();\n"
+		"	}\n"
+		"	else\n"
+		"		anotherBar();\n"
+		"}\n";
+	char options[] = "style=horstmann, indent=tab=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
 TEST(CppStyleHorstmannForceTab)
 {
@@ -2110,6 +2861,35 @@ TEST(CppStyleHorstmannForceTab)
 		"		anotherBar();\n"
 		"}\n";
 	char options[] = "style=horstmann, indent=force-tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyleHorstmannForceTabIndent)
+{
+	// test horstmann style option with tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{	if (isFoo\n"
+		"			&& isBar)\n"
+		"	{	bar();\n"
+		"	}\n"
+		"	else\n"
+		"		anotherBar();\n"
+		"}\n";
+	char options[] = "style=horstmann, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;

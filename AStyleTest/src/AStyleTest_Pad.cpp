@@ -1170,6 +1170,45 @@ TEST(PadOperatorShort)
 	delete [] textOut;
 }
 
+TEST(PadOperatorReturn)
+{
+	// operators following a "return" statement should be padded
+	// a "return" is the same as an assignment operator
+	// but do not pad a pointer dereference or "address of"
+	char textIn[] =
+		"\nint foo()\n"
+		"{\n"
+		"    // should pad\n"
+		"    return a*b;\n"
+		"    return a&b;\n"
+		"    return (a*b);\n"
+		"    return (a&b);\n"
+		"    // should NOT pad\n"
+		"    return *p;\n"
+		"    return &p;\n"
+		"    return (*p);\n"
+		"    return (&p);\n"
+		"}\n";
+	char text[] =
+		"\nint foo()\n"
+		"{\n"
+		"    // should pad\n"
+		"    return a * b;\n"
+		"    return a & b;\n"
+		"    return (a * b);\n"
+		"    return (a & b);\n"
+		"    // should NOT pad\n"
+		"    return *p;\n"
+		"    return &p;\n"
+		"    return (*p);\n"
+		"    return (&p);\n"
+		"}\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(PadOperatorMisc1)
 {
 	// more pad operators tests
@@ -1240,6 +1279,43 @@ TEST(PadOperatorMisc2)
 
 TEST(PadOperatorSans1)
 {
+	// do not pad a pointer dereference or "address of"
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    // should pad\n"
+		"    x = a*b;\n"
+		"    x = (a*b);\n"
+		"    x = a&b;\n"
+		"    x = (a&b);\n"
+		"    // should NOT pad\n"
+		"    x = *p;\n"
+		"    x = &p;\n"
+		"    x = (*p);\n"
+		"    x = (&p);\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    // should pad\n"
+		"    x = a * b;\n"
+		"    x = (a * b);\n"
+		"    x = a & b;\n"
+		"    x = (a & b);\n"
+		"    // should NOT pad\n"
+		"    x = *p;\n"
+		"    x = &p;\n"
+		"    x = (*p);\n"
+		"    x = (&p);\n"
+		"}\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperatorSans2)
+{
 	// test pad operators
 	// these operators should NOT be padded
 	char text[] =
@@ -1285,7 +1361,7 @@ TEST(PadOperatorSans1)
 	delete [] textOut;
 }
 
-TEST(PadOperatorSans2)
+TEST(PadOperatorSans3)
 {
 	// test pad operators
 	// overloaded operators should NOT be padded
@@ -1301,7 +1377,7 @@ TEST(PadOperatorSans2)
 	delete [] textOut;
 }
 
-TEST(PadOperatorSans3)
+TEST(PadOperatorSans4)
 {
 	// test pad operators
 	// the Java generic <?> should NOT be padded
