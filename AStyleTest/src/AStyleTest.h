@@ -6,6 +6,7 @@
 //-------------------------------------------------------------------------
 
 #include <UnitTest++.h>
+#include <stdlib.h>
 #include <iostream>  // for cout
 
 #include "astyle.h"

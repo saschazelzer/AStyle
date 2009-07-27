@@ -11,7 +11,7 @@ set astyledir=..\..\AStyle
 set progdir=%astyledir%\build\vs2008\bin
 
 
-%progdir%\AStyle  -V
+%progdir%\AStyled  -V
 
 
 echo -

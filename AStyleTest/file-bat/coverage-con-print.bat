@@ -3,11 +3,11 @@ REM Run gcov to print the coverage report
 REM AStylec must be run to create the *.gcno files
 
 REM this is the source file to display
-set filename=ASFormatter
+set filename=astyle_main
 
 set mingwdir=C:\Programs\MinGW\bin
 
-cd  ..\build\cb-mingw\objc\AStyle\src
+cd  ..\build\cb-mingw\objConc\AStyle\src
 
 REM check for the graph file created by the compile
 if not exist *.gcno  (

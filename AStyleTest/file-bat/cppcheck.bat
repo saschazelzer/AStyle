@@ -2,11 +2,13 @@
 
 set progdir=%PROGRAMFILES%\cppcheck
 
-:: "%progdir%\cppcheck" -h
+:: "%progdir%\cppcheck"  --version
 
-"%progdir%\cppcheck" -a -q -f --style ..\..\AStyle\src
+:: "%progdir%\cppcheck"  --help
 
-:: "%progdir%\cppcheck" -a -q -f --style --unused-functions ..\..\AStyleWin\src
+:: "%progdir%\cppcheck" -a -q -f --style --unused-functions ..\..\AStyle\src
+
+"%progdir%\cppcheck" -a -q -f --style --unused-functions ..\..\AStyleWin\src
 
 
 echo -

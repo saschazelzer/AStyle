@@ -13,15 +13,18 @@ REM  c - convert-tabs
 REM  v - verbose
 REM Q - formatted
 
-set options= -TbCOvQ
-set optionsh= -TlCOvQ
+set options= -TbCOvQ --options=none
+set optionsh= -TlCOvQ --options=none
 
-echo Formatting AStyleTest  source%options%  headers%optionsh%
+echo Formatting AStyleTest
+echo source%options%  headers%optionsh%
 echo -
 
 AStyle  %options%  ..\src\*.cpp
 echo -
 AStyle  %optionsh%  ..\src\*.h 
+echo -
+AStyle  %options%  ..\srccon\*.cpp 
 
 echo -
 echo * * * *  end of format  * * * *
