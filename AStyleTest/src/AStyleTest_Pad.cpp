@@ -1213,15 +1213,15 @@ TEST(PadOperatorMisc1)
 {
 	// more pad operators tests
 	char textIn[] =
-		"\nvoid foo(pdfColour& a, pdfColour &b)\n"
+		"\nbool operator== (fooBar& a, fooBar &b);\n"
+		"bool operator== (fooBar* a, fooBar *b);\n"
+		"\n"
+		"void foo(pdfColour& a, pdfColour &b)\n"
 		"{\n"
 		"    xxx=new yyy(zzz,_(\"XXX\"),_T(\"YYY\"));\n"
 		"\n"
 		"    while (*p=='x'||*p=='y')\n"
 		"        ++p;\n"
-		"\n"
-		"    bool operator== (fooBar& a, fooBar &b);\n"
-		"    bool operator== (fooBar* a, fooBar *b);\n"
 		"\n"
 		"    if (*sl==s) *sl=t;\n"
 		"\n"
@@ -1232,15 +1232,15 @@ TEST(PadOperatorMisc1)
 		"    return &end;\n"
 		"}\n";
 	char text[] =
-		"\nvoid foo(pdfColour& a, pdfColour &b)\n"
+		"\nbool operator== (fooBar& a, fooBar &b);\n"
+		"bool operator== (fooBar* a, fooBar *b);\n"
+		"\n"
+		"void foo(pdfColour& a, pdfColour &b)\n"
 		"{\n"
 		"    xxx = new yyy(zzz, _(\"XXX\"), _T(\"YYY\"));\n"
 		"\n"
 		"    while (*p == 'x' || *p == 'y')\n"
 		"        ++p;\n"
-		"\n"
-		"    bool operator== (fooBar& a, fooBar &b);\n"
-		"    bool operator== (fooBar* a, fooBar *b);\n"
 		"\n"
 		"    if (*sl == s) *sl = t;\n"
 		"\n"
@@ -1257,6 +1257,71 @@ TEST(PadOperatorMisc1)
 }
 
 TEST(PadOperatorMisc2)
+{
+	// more pad operators tests
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (len>cap||cap>3*(len+8))\n"
+		"        len=1;\n"
+		"    wxChar c[2] = { j>>0&0xFF, j>>8&0xFF };\n"
+		"    curpos=(curpos+8)&0xfff8;\n"
+		"    recalc(h+2*m, v+1);\n"
+		"    xxx=((Index>=0)&(Index<GetResourcesCount()));\n"
+		"\n"
+		"    setForce(GetGravityFactor()*-9.8f);\n"
+		"    setForce(GetGravityFactor()*+9.8f);\n"
+		"    setForce(GetGravityFactor()*9.8f);\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (len > cap || cap > 3 * (len + 8))\n"
+		"        len = 1;\n"
+		"    wxChar c[2] = { j >> 0 & 0xFF, j >> 8 & 0xFF };\n"
+		"    curpos = (curpos + 8) & 0xfff8;\n"
+		"    recalc(h + 2 * m, v + 1);\n"
+		"    xxx = ((Index >= 0) & (Index < GetResourcesCount()));\n"
+		"\n"
+		"    setForce(GetGravityFactor() * -9.8f);\n"
+		"    setForce(GetGravityFactor() * +9.8f);\n"
+		"    setForce(GetGravityFactor() * 9.8f);\n"
+		"}\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperatorMisc3)
+{
+	// pad operators with <> separated by && or ||
+	// it is not a template
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (age<3.0f&&age>0.0f)\n"
+		"        setValue(age/3.0f);\n"
+		"\n"
+		"    if (age<3.0f||age>0.0f)\n"
+		"        setValue(age/3.0f);\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (age < 3.0f && age > 0.0f)\n"
+		"        setValue(age / 3.0f);\n"
+		"\n"
+		"    if (age < 3.0f || age > 0.0f)\n"
+		"        setValue(age / 3.0f);\n"
+		"}\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperatorMisc4)
 {
 	// test C# ? operator and nullable types
 	char textIn[] =
@@ -1378,6 +1443,29 @@ TEST(PadOperatorSans3)
 }
 
 TEST(PadOperatorSans4)
+{
+	// test pad operators
+	// these operators should NOT be padded
+	char text[] =
+		"\nvoid* foo(char* bar1, char& bar2,)\n"
+		"{\n"
+		"    UInt32*  arr1;\n"
+		"    if (input1 < 0x80)\n"
+		"        *length1 = 1;\n"
+		"    if (input2 < 0x80)\n"
+		"        length2 = &length1;\n"
+		"    Connect(&bar3);\n"
+		"    while (*++Name)\n"
+		"        Name = &Bar;\n"
+		"    return (void*) &s[0];\n"
+		"}\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperatorSans5)
 {
 	// test pad operators
 	// the Java generic <?> should NOT be padded
@@ -1721,7 +1809,8 @@ TEST(PadHeaderShort)
 }
 
 TEST(PadHeaderSans)
-{	// test without pad header
+{
+	// test without pad header
 	// headers should remain unchanged
 	char textIn[] =
 		"\nvoid foo()\n"
@@ -1755,7 +1844,8 @@ TEST(PadHeaderSans)
 	delete [] textOut;
 }
 TEST(PadHeaderUnpadParen)
-{	// test pad header with unpad paren
+{
+	// test pad header with unpad paren
 	// headers should be padded, others should not
 	// will remove extra padding from headers
 	char textIn[] =

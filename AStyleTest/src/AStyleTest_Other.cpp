@@ -202,7 +202,7 @@ TEST(v124BracketsBreakPadParen)
 		"    }\n"
 		"}\n";
 	char text[] =
-		"\nvoid foo() // comment0\n"
+		"\nvoid foo()   // comment0\n"
 		"{\n"
 		"    if ( ( isFoo() ) ) // comment1\n"
 		"    {\n"
@@ -2179,6 +2179,24 @@ TEST(PreprocessorMissingOpener)
 		"    int foo = 2;\n"
 		"#endif\n"
 		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PreprocessorWxWidgetsMacro)
+{
+	// preprocessor should NOT be indented
+	char text[] =
+		"\nBEGIN_EVENT_TABLE(ClassWizardDlg, wxDialog)\n"
+		"    EVT_BUTTON(XRCID(\"btnCommonDir\"), ClassWizardDlg::OnCommonDirClick)\n"
+		"#ifdef LOGGING\n"
+		"    EVT_CHECKBOX(XRCID(\"chkLowerCase\"), ClassWizardDlg::OnLowerCaseClick)\n"
+		"    EVT_BUTTON(XRCID(\"btnIncludeDir\"), ClassWizardDlg::OnIncludeDirClick)\n"
+		"#endif\n"
+		"    EVT_BUTTON(XRCID(\"btnImplDir\"), ClassWizardDlg::OnImplDirClick)\n"
+		"END_EVENT_TABLE()\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);

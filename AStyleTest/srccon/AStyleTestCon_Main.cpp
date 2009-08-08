@@ -155,9 +155,8 @@ string getCurrentDirectory()
 		currentDirectory = currdir;
 	else
 		gotDirectory = false;
-	
 #else
-	char *currdir = getenv("PWD");
+	char* currdir = getenv("PWD");
 	if (currdir != NULL)
 		currentDirectory = currdir;
 	else
@@ -179,12 +178,6 @@ string getCurrentDirectory()
 //	return separator;
 //}
 
-//size_t min(size_t a, size_t b)
-//// returns the minimum of two values
-//{
-//	return (a < b ? a : b);
-//}
-
 void removeOptionsFile(const string& optionsFileName)
 // remove a test options file
 {
@@ -195,8 +188,8 @@ void removeOptionsFile(const string& optionsFileName)
 }
 
 void systemPause(const string& message)
-// accept keyboadr input to continue
-// assures a console messageis noticed
+// accept keyboard input to continue
+// assures a console message is noticed
 {
 	cout << message << endl;
 #ifdef _WIN32

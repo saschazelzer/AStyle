@@ -9,32 +9,41 @@ set config=Release
 set sdk=v3.5
 
 REM extract the build directory from the input path
-set builddir=%inpath:~0,25%
+set vsdir=%inpath:~0,25%
+set builddir=%inpath:~3%
+
+if %inpath:~0,3% == ..\  (
+set vsdir=%inpath:~0,22%
+set builddir=%inpath:~3%
+)
+
+set builddir=%builddir:~13%
+:: echo %vsdir%
 :: echo %builddir%
+:: pause
 
 REM check directory for Visual Studio
-:: echo %builddir:~19,6%
-if not %builddir:~19,2% == vs  (
-echo No Build %inpath:~19%
+if not %builddir:~0,2% == vs  (
+echo No Build %builddir%
 goto :END
 )
-if %builddir:~19,6% == vs2005  set sdk=v2.0.50727
+if %builddir:~0,6% == vs2005  set sdk=v2.0.50727
 
 
 REM check if release or debug
-if %inpath:~-6% == AStyle (
+if %builddir:~-6% == AStyle (
 echo Building Release
 ) else (
-if %inpath:~-7% == AStyled (
+if %builddir:~-7% == AStyled (
 echo Building Debug
 set config=Debug
 ) else (
-echo No Build %inpath:~19%
+echo No Build %builddir%
 goto :END
 )
 )
 
-%WINDIR%\Microsoft.NET\Framework\%sdk%\MSBuild  "/property:Configuration=%config%"  "%builddir%\AStyle.sln"  > NUL
+%WINDIR%\Microsoft.NET\Framework\%sdk%\MSBuild  "/property:Configuration=%config%"  "%vsdir%\AStyle.sln"  > NUL
 if %ERRORLEVEL% NEQ 0 (
 echo errors on compile
 pause

@@ -1652,6 +1652,35 @@ TEST(CppBracketsBreakLineCommentsHorstmann)
 	delete [] textOut;
 }
 
+TEST(CppBracketsBreakLineCommentsClosingHeader)
+{
+	// test comment alignment when a closing header is broken from a closing bracket
+	char textIn[] =
+		"\nvoid foo() {     // comment0\n"
+		"    if (isFoo) { // comment1\n"
+		"        bar1();  // comment2\n"
+		"    } else {     // comment3\n"
+		"        bar2();  // comment4\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()       // comment0\n"
+		"{\n"
+		"    if (isFoo)   // comment1\n"
+		"    {\n"
+		"        bar1();  // comment2\n"
+		"    }\n"
+		"    else         // comment3\n"
+		"    {\n"
+		"        bar2();  // comment4\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=break";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(CppBracketsBreakCommentsBreak1)
 {
 	// broken brackets should not change
@@ -2644,6 +2673,35 @@ TEST(CppBracketsAttachLineCommentsHorstmann)
 		"    if (isFoo) {\n"
 		"        // comment2\n"
 		"        fooBar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsAttachLineCommentsClosingHeader)
+{
+	// test comment alignment when a closing header is attached to a closing bracket
+	char textIn[] =
+		"\nvoid foo()       // comment0\n"
+		"{\n"
+		"    if (isFoo)   // comment1\n"
+		"    {\n"
+		"        bar1();  // comment2\n"
+		"    }\n"
+		"    else         // comment3\n"
+		"    {\n"
+		"        bar2();  // comment4\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo() {     // comment0\n"
+		"    if (isFoo) { // comment1\n"
+		"        bar1();  // comment2\n"
+		"    } else {     // comment3\n"
+		"        bar2();  // comment4\n"
 		"    }\n"
 		"}\n";
 	char options[] = "brackets=attach";
@@ -3826,6 +3884,36 @@ TEST(CppBracketsLinuxLineCommentsHorstmann)
 	delete [] textOut;
 }
 
+TEST(CppBracketsLinuxLineCommentsClosingHeader)
+{
+	// test comment alignment when a closing header is attached to a closing bracket
+	char textIn[] =
+		"\nvoid foo()       // comment0\n"
+		"{\n"
+		"    if (isFoo)   // comment1\n"
+		"    {\n"
+		"        bar1();  // comment2\n"
+		"    }\n"
+		"    else         // comment3\n"
+		"    {\n"
+		"        bar2();  // comment4\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()       // comment0\n"
+		"{\n"
+		"    if (isFoo) { // comment1\n"
+		"        bar1();  // comment2\n"
+		"    } else {     // comment3\n"
+		"        bar2();  // comment4\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=linux";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(CppBracketsLinuxCommentsBreak1)
 {
 	// broken brackets with following comments to linux
@@ -4957,6 +5045,36 @@ TEST(CppBracketsStroustrupLineCommentsHorstmann)
 		"    if (isFoo) {\n"
 		"        // comment2\n"
 		"        fooBar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=stroustrup";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsStroustrupLineCommentsClosingHeader)
+{
+	// test comment alignment when a closing header is attached to a closing bracket
+	char textIn[] =
+		"\nvoid foo()       // comment0\n"
+		"{\n"
+		"    if (isFoo)   // comment1\n"
+		"    {\n"
+		"        bar1();  // comment2\n"
+		"    }\n"
+		"    else         // comment3\n"
+		"    {\n"
+		"        bar2();  // comment4\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()       // comment0\n"
+		"{\n"
+		"    if (isFoo) { // comment1\n"
+		"        bar1();  // comment2\n"
+		"    } else {     // comment3\n"
+		"        bar2();  // comment4\n"
 		"    }\n"
 		"}\n";
 	char options[] = "brackets=stroustrup";
@@ -6111,6 +6229,33 @@ TEST(CppBracketsHorstmannLineCommentsHorstmann)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsHorstmannLineCommentsClosingHeader)
+{
+	// test comment alignment when a closing header is attached to a closing bracket
+	char textIn[] =
+		"\nvoid foo()       // comment0\n"
+		"{\n"
+		"    if (isFoo) { // comment1\n"
+		"        bar1();  // comment2\n"
+		"    } else {     // comment3\n"
+		"        bar2();  // comment4\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()       // comment0\n"
+		"{   if (isFoo)   // comment1\n"
+		"    {   bar1();  // comment2\n"
+		"    }\n"
+		"    else         // comment3\n"
+		"    {   bar2();  // comment4\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }

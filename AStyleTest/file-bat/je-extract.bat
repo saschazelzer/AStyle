@@ -22,9 +22,9 @@ REM untar
 echo -
 echo Extracting jEdit
 REM  java files
-:: "%PROGRAMFILES%\7-Zip\7z"  x  "%archives%\jedit4.3*.tar"  -o"%testdata%"  *.java  -ry > NUL
+"%PROGRAMFILES%\7-Zip\7z"  x  "%archives%\jedit4.3*.tar"  -o"%testdata%"  *.java  -ry > NUL
 REM  all files
-"%PROGRAMFILES%\7-Zip\7z"  x  "%archives%\jedit4.3*.tar"  -o"%testdata%"  -ry > NUL
+:: "%PROGRAMFILES%\7-Zip\7z"  x  "%archives%\jedit4.3*.tar"  -o"%testdata%"  -ry > NUL
 if errorlevel 2 pause
 
 

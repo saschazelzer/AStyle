@@ -1113,6 +1113,28 @@ TEST(ConvertTabsMisc2)
 
 TEST(ConvertTabsMisc3)
 {
+	// test convert-tabs with line comments and tabbed output
+	// should NOT convert the leading tabs in a non-indent comment
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"//	comment1	comment1a\n"
+		" //	comment2	comment2a\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"//	comment1 comment1a\n"
+		"//	comment2    comment2a\n"
+		"}\n";
+	char options[] = "convert-tabs, --indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(ConvertTabsMisc4)
+{
 	// test convert-tabs with unpad-paren and pad-paren-in
 	// should replace the tab after the opening paren
 	char textIn[] =
@@ -1134,7 +1156,7 @@ TEST(ConvertTabsMisc3)
 	delete [] textOut;
 }
 
-TEST(ConvertTabsMisc4)
+TEST(ConvertTabsMisc5)
 {
 	// test convert-tabs with comment continuation
 	char textIn[] =
@@ -1159,7 +1181,7 @@ TEST(ConvertTabsMisc4)
 	delete [] textOut;
 }
 
-TEST(ConvertTabsMisc5)
+TEST(ConvertTabsMisc6)
 {
 	// verify that tabs are still present within quotes
 	// should NOT have been replaced when AStyle was run
@@ -1187,10 +1209,12 @@ TEST(AlignPointerType)
 		"    const string *bar;     // comment\n"
 		"    const string   *bar;   // comment\n"
 		"    const string  * bar;   // comment\n"
+		"    const string*bar;      // comment\n"
 		"    const string& bar;     // comment\n"
 		"    const string &bar;     // comment\n"
 		"    const string    &bar;  // comment\n"
 		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
 		"}\n";
 	char text[] =
 		"\nstring foo(const string* bar)   // comment\n"
@@ -1199,10 +1223,12 @@ TEST(AlignPointerType)
 		"    const string* bar;     // comment\n"
 		"    const string*   bar;   // comment\n"
 		"    const string*   bar;   // comment\n"
+		"    const string* bar;     // comment\n"
 		"    const string& bar;     // comment\n"
 		"    const string& bar;     // comment\n"
 		"    const string&    bar;  // comment\n"
 		"    const string&    bar;  // comment\n"
+		"    const string& bar;     // comment\n"
 		"}\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -1231,10 +1257,61 @@ TEST(AlignPointerTypeShort)
 	delete [] textOut;
 }
 
+TEST(AlignPointerTypeFromCentered)
+{
+	// test align pointer=type when input is centered
+	// a space is deleted in certain circumstances
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const string * bar;     // remove space\n"
+		"    const string  * bar;    // don't remove\n"
+		"    const string *  bar;    // don't remove\n"
+		"    const string* bar;      // don't remove\n"
+		"    const string *bar;      // don't remove\n"
+		"\n"
+		"    const string ** bar;    // remove space\n"
+		"    const string  ** bar;   // don't remove\n"
+		"    const string **  bar;   // don't remove\n"
+		"    const string** bar;     // don't remove\n"
+		"    const string **bar;     // don't remove\n"
+		"\n"
+		"    const string & bar;     // remove space\n"
+		"    const string  & bar;    // don't remove\n"
+		"    const string &  bar;    // don't remove\n"
+		"    const string& bar;      // don't remove\n"
+		"    const string &bar;      // don't remove\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const string* bar;      // remove space\n"
+		"    const string*   bar;    // don't remove\n"
+		"    const string*   bar;    // don't remove\n"
+		"    const string* bar;      // don't remove\n"
+		"    const string* bar;      // don't remove\n"
+		"\n"
+		"    const string** bar;     // remove space\n"
+		"    const string**   bar;   // don't remove\n"
+		"    const string**   bar;   // don't remove\n"
+		"    const string** bar;     // don't remove\n"
+		"    const string** bar;     // don't remove\n"
+		"\n"
+		"    const string& bar;      // remove space\n"
+		"    const string&   bar;    // don't remove\n"
+		"    const string&   bar;    // don't remove\n"
+		"    const string& bar;      // don't remove\n"
+		"    const string& bar;      // don't remove\n"
+		"}\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointerTypeTabs)
 {
-	// test align pointer=type
-	// with tab separators
+	// test with tab separators
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -1259,7 +1336,6 @@ TEST(AlignPointerTypeTabs)
 
 TEST(AlignPointerTypeAddressOf)
 {
-	// test align pointer=type
 	// "address of" operator should NOT be separated from the name
 	char text[] =
 		"\nvoid foo()\n"
@@ -1267,6 +1343,8 @@ TEST(AlignPointerTypeAddressOf)
 		"    if (bar1 == &AS_BAR1\n"
 		"            || bar2 == &AS_BAR2)   // comment\n"
 		"        return;\n"
+		"    return &x;\n"
+		"    return (&x);\n"
 		"}\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -1276,12 +1354,26 @@ TEST(AlignPointerTypeAddressOf)
 
 TEST(AlignPointerTypeDereference)
 {
-	// test align pointer=type
 	// dereference should NOT be separated from the name
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
 		"    TRxtra (*prevWordH);   // comment\n"
+		"    if (fileName.empty())\n"
+		"        *traceOutF << lineNum << endl;\n"
+		"    else\n"
+		"        *traceOutF << fileName << endl;\n"
+		"    RegisterImage((char**)xpm_data_ptrs[i]);\n"
+		"    if (i > *maxcol) *maxcol = i;\n"
+		"    *newVec = **iter;\n"
+		"    (info.*entryFunc[j])(value);\n"
+		"    bool gtr = (*a)->IsLarger(**b);\n"
+		"    return *this;\n"
+		"    return (*this);\n"
+		"    if (*doc) delete *doc;\n"
+		"\n"
+		"    if(prev) next = next;\n"
+		"    else *chain = next;\n"
 		"}\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -1291,7 +1383,6 @@ TEST(AlignPointerTypeDereference)
 
 TEST(AlignPointerTypePointerToPointer)
 {
-	// test align pointer=type
 	// test double pointer
 	char textIn[] =
 		"\nint main(int argc, char **argv)\n"
@@ -1301,6 +1392,7 @@ TEST(AlignPointerTypePointerToPointer)
 		"    char**    bar1;\n"
 		"    char	**	bar1;\n"
 		"    char		**		bar1;\n"
+		"    char**bar1;\n"
 		"}\n";
 	char text[] =
 		"\nint main(int argc, char** argv)\n"
@@ -1310,6 +1402,7 @@ TEST(AlignPointerTypePointerToPointer)
 		"    char**    bar1;\n"
 		"    char**		bar1;\n"
 		"    char**				bar1;\n"
+		"    char** bar1;\n"
 		"}\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -1317,9 +1410,37 @@ TEST(AlignPointerTypePointerToPointer)
 	delete [] textOut;
 }
 
+TEST(AlignPointerTypeCatch)
+{
+	// 'catch' statement is a reference, not an operator
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    try {\n"
+		"        wxBufferedInputStream fb(fs);\n"
+		"    }\n"
+		"    catch (cbException&ex) {\n"
+		"        ex.ShowErrorMessage(true);\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    try {\n"
+		"        wxBufferedInputStream fb(fs);\n"
+		"    }\n"
+		"    catch (cbException& ex) {\n"
+		"        ex.ShowErrorMessage(true);\n"
+		"    }\n"
+		"}\n";
+	char options[] = "align-pointer=type, pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointerTypeAndOperator)
 {
-	// test align pointer=type
 	// should not unpad && operator
 	char text[] =
 		"\nvoid foo()\n"
@@ -1340,7 +1461,6 @@ TEST(AlignPointerTypeAndOperator)
 
 TEST(AlignPointerTypeSans1)
 {
-	// test align pointer=type
 	// these are not pointers
 	char text[] =
 		"\nvoid foo()\n"
@@ -1348,8 +1468,8 @@ TEST(AlignPointerTypeSans1)
 		"    a *= b;\n"
 		"    a &= b;\n"
 		"    a && b;\n"
-		"    x = a * b;\n"     // without the equal sign it is a pointer
-		"    x = a & b;\n"     // without the equal sign it is a reference
+		"    x = a * b;\n"
+		"    x = a & b;\n"
 		"}\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -1359,7 +1479,6 @@ TEST(AlignPointerTypeSans1)
 
 TEST(AlignPointerTypeSans2)
 {
-	// test align pointer=type
 	// these should be padded as operators
 	char textIn[] =
 		"\nvoid foo()\n"
@@ -1367,8 +1486,16 @@ TEST(AlignPointerTypeSans2)
 		"    a*=b;\n"
 		"    a&=b;\n"
 		"    a&&b;\n"
-		"    x=a*b;\n"     // without the equal sign it is a pointer
-		"    x=a&b;\n"     // without the equal sign it is a reference
+		"    x=a*b;\n"
+		"    x=a&b;\n"
+		"    if (len*tab>longest) bar();\n"
+		"    SetWidth(width()+(pixels*indentAmt));\n"
+		"    if (m_Flags&flLocal) return;\n"
+		"    Link(m_y+.5*h-.5*m_fontSize);\n"
+		"    if ((Flags&flVariable)&&(Flags&flId))\n"
+		"        bar();\n"
+		"    out_html(change_to_size(i*j));\n"
+		"    if (i>*maxcol) *maxcol=i;\n"
 		"}\n";
 	char text[] =
 		"\nvoid foo()\n"
@@ -1376,8 +1503,16 @@ TEST(AlignPointerTypeSans2)
 		"    a *= b;\n"
 		"    a &= b;\n"
 		"    a && b;\n"
-		"    x = a * b;\n"     // without the equal sign it is a pointer
-		"    x = a & b;\n"     // without the equal sign it is a reference
+		"    x = a * b;\n"
+		"    x = a & b;\n"
+		"    if (len * tab > longest) bar();\n"
+		"    SetWidth(width() + (pixels * indentAmt));\n"
+		"    if (m_Flags & flLocal) return;\n"
+		"    Link(m_y + .5 * h - .5 * m_fontSize);\n"
+		"    if ((Flags & flVariable) && (Flags & flId))\n"
+		"        bar();\n"
+		"    out_html(change_to_size(i * j));\n"
+		"    if (i > *maxcol) *maxcol = i;\n"
 		"}\n";
 	char options[] = "align-pointer=type, pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -1385,20 +1520,271 @@ TEST(AlignPointerTypeSans2)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypeSans3)
+TEST(AlignPointerCenter)
 {
 	// test align pointer=type
-	// these are dereferences, do not align
-	char text[] =
-		"\nint foo()\n"
+	char textIn[] =
+		"\nstring foo(const string *bar)   // comment\n"
 		"{\n"
-		"    return *this;\n"
-		"    return (*this);\n"
+		"    const string* bar;     // comment\n"
+		"    const string *bar;     // comment\n"
+		"    const string   *bar;   // comment\n"
+		"    const string  * bar;   // comment\n"
+		"    const string*bar;      // comment\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string * bar)  // comment\n"
+		"{\n"
+		"    const string * bar;    // comment\n"
+		"    const string * bar;    // comment\n"
+		"    const string *  bar;   // comment\n"
+		"    const string *  bar;   // comment\n"
+		"    const string * bar;    // comment\n"
+		"    const string & bar;    // comment\n"
+		"    const string & bar;    // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string & bar;    // comment\n"
+		"}\n";
+	char options[] = "align-pointer=center";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerCenterShort)
+{
+	// test align pointer=center short option
+	char textIn[] =
+		"\nstring foo(const string *bar)\n"
+		"{\n"
+		"    const string* bar;\n"
+		"    const string *bar;\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string * bar)\n"
+		"{\n"
+		"    const string * bar;\n"
+		"    const string * bar;\n"
+		"}\n";
+	char options[] = "-k2";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerCenterTabs)
+{
+	// test with tab separators
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const char	*bar;\n"
+		"    const char		*bar;\n"
+		"    const char*		bar;\n"
+		"    const char		*		bar;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const char	* bar;\n"
+		"    const char	*	bar;\n"
+		"    const char	*	bar;\n"
+		"    const char		*		bar;\n"
+		"}\n";
+	char options[] = "align-pointer=center";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerCenterAddressOf)
+{
+	// "address of" operator should NOT be separated from the name
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (bar1 == &AS_BAR1\n"
+		"            || bar2 == &AS_BAR2)   // comment\n"
+		"        return;\n"
 		"    return &x;\n"
 		"    return (&x);\n"
 		"}\n";
-	char options[] = "align-pointer=type";
+	char options[] = "align-pointer=center";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerCenterDereference)
+{
+	// dereference should NOT be separated from the name
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    TRxtra (*prevWordH);   // comment\n"
+		"    if (fileName.empty())\n"
+		"        *traceOutF << lineNum << endl;\n"
+		"    else\n"
+		"        *traceOutF << fileName << endl;\n"
+		"    RegisterImage((char**)xpm_data_ptrs[i]);\n"
+		"    if (i > *maxcol) *maxcol = i;\n"
+		"    *newVec = **iter;\n"
+		"    (info.*entryFunc[j])(value);\n"
+		"    bool gtr = (*a)->IsLarger(**b);\n"
+		"    return *this;\n"
+		"    return (*this);\n"
+		"    if (*doc) delete *doc;\n"
+		"\n"
+		"    if(prev) next = next;\n"
+		"    else *chain = next;\n"
+		"}\n";
+	char options[] = "align-pointer=center";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerCenterPointerToPointer)
+{
+	// test double pointer
+	char textIn[] =
+		"\nint main(int argc, char **argv)\n"
+		"{\n"
+		"    char    **bar1;\n"
+		"    char  **  bar1;\n"
+		"    char**    bar1;\n"
+		"    char	**	bar1;\n"
+		"    char		**		bar1;\n"
+		"    char**bar1;\n"
+		"}\n";
+	char text[] =
+		"\nint main(int argc, char ** argv)\n"
+		"{\n"
+		"    char  **  bar1;\n"
+		"    char  **  bar1;\n"
+		"    char  **  bar1;\n"
+		"    char	**	bar1;\n"
+		"    char		**		bar1;\n"
+		"    char ** bar1;\n"
+		"}\n";
+	char options[] = "align-pointer=center";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerCenterCatch)
+{
+	// 'catch' statement is a reference, not an operator
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    try {\n"
+		"        wxBufferedInputStream fb(fs);\n"
+		"    }\n"
+		"    catch (cbException&ex) {\n"
+		"        ex.ShowErrorMessage(true);\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    try {\n"
+		"        wxBufferedInputStream fb(fs);\n"
+		"    }\n"
+		"    catch (cbException & ex) {\n"
+		"        ex.ShowErrorMessage(true);\n"
+		"    }\n"
+		"}\n";
+	char options[] = "align-pointer=center";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerCenterAndOperator)
+{
+	// should not unpad && operator
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo() && isBar())   // comment\n"
+		"        return;\n"
+		"    if (isFoo && isBar)   // comment\n"
+		"        return;\n"
+		"    if (isFoo\n"
+		"            && isBar1)   // comment\n"
+		"        return;\n"
+		"}\n";
+	char options[] = "align-pointer=center";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerCenterSans1)
+{
+	// these are not pointers
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    a *= b;\n"
+		"    a &= b;\n"
+		"    a && b;\n"
+		"    x = a * b;\n"
+		"    x = a & b;\n"
+		"}\n";
+	char options[] = "align-pointer=center";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerCenterSans2)
+{
+	// these should be padded as operators
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    a*=b;\n"
+		"    a&=b;\n"
+		"    a&&b;\n"
+		"    x=a*b;\n"
+		"    x=a&b;\n"
+		"    if (len*tab>longest) bar();\n"
+		"    SetWidth(width()+(pixels*indentAmt));\n"
+		"    if (m_Flags&flLocal) return;\n"
+		"    Link(m_y+.5*h-.5*m_fontSize);\n"
+		"    if ((Flags&flVariable)&&(Flags&flId))\n"
+		"        bar();\n"
+		"    out_html(change_to_size(i*j));\n"
+		"    if (i>*maxcol) *maxcol=i;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    a *= b;\n"
+		"    a &= b;\n"
+		"    a && b;\n"
+		"    x = a * b;\n"
+		"    x = a & b;\n"
+		"    if (len * tab > longest) bar();\n"
+		"    SetWidth(width() + (pixels * indentAmt));\n"
+		"    if (m_Flags & flLocal) return;\n"
+		"    Link(m_y + .5 * h - .5 * m_fontSize);\n"
+		"    if ((Flags & flVariable) && (Flags & flId))\n"
+		"        bar();\n"
+		"    out_html(change_to_size(i * j));\n"
+		"    if (i > *maxcol) *maxcol = i;\n"
+		"}\n";
+	char options[] = "align-pointer=center, pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
@@ -1413,10 +1799,12 @@ TEST(AlignPointerName)
 		"    const string *bar;     // comment\n"
 		"    const string   *bar;   // comment\n"
 		"    const string  * bar;   // comment\n"
+		"    const string*bar;      // comment\n"
 		"    const string& bar;     // comment\n"
 		"    const string &bar;     // comment\n"
 		"    const string    &bar;  // comment\n"
 		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
 		"}\n";
 	char text[] =
 		"\nstring foo(const string *bar)   // comment\n"
@@ -1425,10 +1813,12 @@ TEST(AlignPointerName)
 		"    const string *bar;     // comment\n"
 		"    const string   *bar;   // comment\n"
 		"    const string   *bar;   // comment\n"
+		"    const string *bar;     // comment\n"
 		"    const string &bar;     // comment\n"
 		"    const string &bar;     // comment\n"
 		"    const string    &bar;  // comment\n"
 		"    const string    &bar;  // comment\n"
+		"    const string &bar;     // comment\n"
 		"}\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -1451,7 +1841,59 @@ TEST(AlignPointerNameShort)
 		"    const string *bar;\n"
 		"    const string *bar;\n"
 		"}\n";
-	char options[] = "-k2";
+	char options[] = "-k3";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNameFromCentered)
+{
+	// test align pointer=name when input is centered
+	// a space is deleted in certain circumstances
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const string * bar;     // remove space\n"
+		"    const string  * bar;    // don't remove\n"
+		"    const string *  bar;    // don't remove\n"
+		"    const string* bar;      // don't remove\n"
+		"    const string *bar;      // don't remove\n"
+		"\n"
+		"    const string ** bar;    // remove space\n"
+		"    const string  ** bar;   // don't remove\n"
+		"    const string **  bar;   // don't remove\n"
+		"    const string** bar;     // don't remove\n"
+		"    const string **bar;     // don't remove\n"
+		"\n"
+		"    const string & bar;     // remove space\n"
+		"    const string  & bar;    // don't remove\n"
+		"    const string &  bar;    // don't remove\n"
+		"    const string& bar;      // don't remove\n"
+		"    const string &bar;      // don't remove\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const string *bar;      // remove space\n"
+		"    const string   *bar;    // don't remove\n"
+		"    const string   *bar;    // don't remove\n"
+		"    const string *bar;      // don't remove\n"
+		"    const string *bar;      // don't remove\n"
+		"\n"
+		"    const string **bar;     // remove space\n"
+		"    const string   **bar;   // don't remove\n"
+		"    const string   **bar;   // don't remove\n"
+		"    const string **bar;     // don't remove\n"
+		"    const string **bar;     // don't remove\n"
+		"\n"
+		"    const string &bar;      // remove space\n"
+		"    const string   &bar;    // don't remove\n"
+		"    const string   &bar;    // don't remove\n"
+		"    const string &bar;      // don't remove\n"
+		"    const string &bar;      // don't remove\n"
+		"}\n";
+	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -1459,8 +1901,7 @@ TEST(AlignPointerNameShort)
 
 TEST(AlignPointerNameTabs)
 {
-	// test align pointer=name
-	// with tab separators
+	// test with tab separators
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -1485,7 +1926,6 @@ TEST(AlignPointerNameTabs)
 
 TEST(AlignPointerNameAddressOf)
 {
-	// test align pointer=name
 	// "address of" operator should NOT be separated from the name
 	char text[] =
 		"\nvoid foo()\n"
@@ -1493,6 +1933,8 @@ TEST(AlignPointerNameAddressOf)
 		"    if (bar1 == &AS_BAR1\n"
 		"            || bar2 == &AS_BAR2)   // comment\n"
 		"        return;\n"
+		"    return &x;\n"
+		"    return (&x);\n"
 		"}\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -1502,12 +1944,26 @@ TEST(AlignPointerNameAddressOf)
 
 TEST(AlignPointerNameDereference)
 {
-	// test align pointer=name
 	// dereference should NOT be separated from the name
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
 		"    TRxtra (*prevWordH);   // comment\n"
+		"    if (fileName.empty())\n"
+		"        *traceOutF << lineNum << endl;\n"
+		"    else\n"
+		"        *traceOutF << fileName << endl;\n"
+		"    RegisterImage((char**)xpm_data_ptrs[i]);\n"
+		"    if (i > *maxcol) *maxcol = i;\n"
+		"    *newVec = **iter;\n"
+		"    (info.*entryFunc[j])(value);\n"
+		"    bool gtr = (*a)->IsLarger(**b);\n"
+		"    return *this;\n"
+		"    return (*this);\n"
+		"    if (*doc) delete *doc;\n"
+		"\n"
+		"    if(prev) next = next;\n"
+		"    else *chain = next;\n"
 		"}\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -1517,7 +1973,6 @@ TEST(AlignPointerNameDereference)
 
 TEST(AlignPointerNamePointerToPointer)
 {
-	// test align pointer=name
 	// test double pointer
 	char textIn[] =
 		"\nint main(int argc, char** argv)\n"
@@ -1543,9 +1998,37 @@ TEST(AlignPointerNamePointerToPointer)
 	delete [] textOut;
 }
 
+TEST(AlignPointerNameCatch)
+{
+	// 'catch' statement is a reference, not an operator
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    try {\n"
+		"        wxBufferedInputStream fb(fs);\n"
+		"    }\n"
+		"    catch (cbException&ex) {\n"
+		"        ex.ShowErrorMessage(true);\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    try {\n"
+		"        wxBufferedInputStream fb(fs);\n"
+		"    }\n"
+		"    catch (cbException &ex) {\n"
+		"        ex.ShowErrorMessage(true);\n"
+		"    }\n"
+		"}\n";
+	char options[] = "align-pointer=name, pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointerNameAndOperator)
 {
-	// test align pointer=name
 	// should not unpad && operator
 	char text[] =
 		"\nvoid foo()\n"
@@ -1566,7 +2049,6 @@ TEST(AlignPointerNameAndOperator)
 
 TEST(AlignPointerNameSans1)
 {
-	// test align pointer=name
 	// these are not pointers
 	char text[] =
 		"\nvoid foo()\n"
@@ -1574,8 +2056,8 @@ TEST(AlignPointerNameSans1)
 		"    a *= b;\n"
 		"    a &= b;\n"
 		"    a && b;\n"
-		"    x = a * b;\n"     // without the equal sign it is a pointer
-		"    x = a & b;\n"     // without the equal sign it is a reference
+		"    x = a * b;\n"
+		"    x = a & b;\n"
 		"}\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -1585,7 +2067,6 @@ TEST(AlignPointerNameSans1)
 
 TEST(AlignPointerNameSans2)
 {
-	// test align pointer=name
 	// these should be padded as operators
 	char textIn[] =
 		"\nvoid foo()\n"
@@ -1593,8 +2074,16 @@ TEST(AlignPointerNameSans2)
 		"    a*=b;\n"
 		"    a&=b;\n"
 		"    a&&b;\n"
-		"    x=a*b;\n"     // without the equal sign it is a pointer
-		"    x=a&b;\n"     // without the equal sign it is a reference
+		"    x=a*b;\n"
+		"    x=a&b;\n"
+		"    if (len*tab>longest) bar();\n"
+		"    SetWidth(width()+(pixels*indentAmt));\n"
+		"    if (m_Flags&flLocal) return;\n"
+		"    Link(m_y+.5*h-.5*m_fontSize);\n"
+		"    if ((Flags&flVariable)&&(Flags&flId))\n"
+		"        bar();\n"
+		"    out_html(change_to_size(i*j));\n"
+		"    if (i>*maxcol) *maxcol=i;\n"
 		"}\n";
 	char text[] =
 		"\nvoid foo()\n"
@@ -1602,8 +2091,16 @@ TEST(AlignPointerNameSans2)
 		"    a *= b;\n"
 		"    a &= b;\n"
 		"    a && b;\n"
-		"    x = a * b;\n"     // without the equal sign it is a pointer
-		"    x = a & b;\n"     // without the equal sign it is a reference
+		"    x = a * b;\n"
+		"    x = a & b;\n"
+		"    if (len * tab > longest) bar();\n"
+		"    SetWidth(width() + (pixels * indentAmt));\n"
+		"    if (m_Flags & flLocal) return;\n"
+		"    Link(m_y + .5 * h - .5 * m_fontSize);\n"
+		"    if ((Flags & flVariable) && (Flags & flId))\n"
+		"        bar();\n"
+		"    out_html(change_to_size(i * j));\n"
+		"    if (i > *maxcol) *maxcol = i;\n"
 		"}\n";
 	char options[] = "align-pointer=name, pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
