@@ -1044,7 +1044,6 @@ TEST(BreakAllBlocksAfterComment3)
 
 TEST(PadOperator)
 {
-	// test pad operators
 	// all operators should be tested
 	// test sequence is the same as ASResource::buildOperators
 	char textIn[] =
@@ -1381,7 +1380,6 @@ TEST(PadOperatorSans1)
 
 TEST(PadOperatorSans2)
 {
-	// test pad operators
 	// these operators should NOT be padded
 	char text[] =
 		"\nclass FooClass\n"
@@ -1428,7 +1426,6 @@ TEST(PadOperatorSans2)
 
 TEST(PadOperatorSans3)
 {
-	// test pad operators
 	// overloaded operators should NOT be padded
 	char text[] =
 		"\nclass Foo {\n"
@@ -1444,7 +1441,6 @@ TEST(PadOperatorSans3)
 
 TEST(PadOperatorSans4)
 {
-	// test pad operators
 	// these operators should NOT be padded
 	char text[] =
 		"\nvoid* foo(char* bar1, char& bar2,)\n"
@@ -1467,7 +1463,17 @@ TEST(PadOperatorSans4)
 
 TEST(PadOperatorSans5)
 {
-	// test pad operators
+	// this template should NOT be padded
+	char text[] =
+		"\ntypedef foo<void(whatever *const)> callback;\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperatorSans6)
+{
 	// the Java generic <?> should NOT be padded
 	char text[] =
 		"\npublic Class<?> Foo(Class<?> _class)\n"

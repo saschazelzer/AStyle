@@ -6,9 +6,9 @@ set progdir=%PROGRAMFILES%\cppcheck
 
 :: "%progdir%\cppcheck"  --help
 
-:: "%progdir%\cppcheck" -a -q -f --style --unused-functions ..\..\AStyle\src
+"%progdir%\cppcheck" -a -q -f --style --unused-functions ..\..\AStyle\src
 
-"%progdir%\cppcheck" -a -q -f --style --unused-functions ..\..\AStyleWin\src
+:: "%progdir%\cppcheck" -a -q -f --style --unused-functions ..\..\AStyleWin\src
 
 
 echo -

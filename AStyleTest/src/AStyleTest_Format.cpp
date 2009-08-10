@@ -1520,9 +1520,9 @@ TEST(AlignPointerTypeSans2)
 	delete [] textOut;
 }
 
-TEST(AlignPointerCenter)
+TEST(AlignPointerMiddle)
 {
-	// test align pointer=type
+	// test align pointer=middle
 	char textIn[] =
 		"\nstring foo(const string *bar)   // comment\n"
 		"{\n"
@@ -1551,15 +1551,15 @@ TEST(AlignPointerCenter)
 		"    const string  &  bar;  // comment\n"
 		"    const string & bar;    // comment\n"
 		"}\n";
-	char options[] = "align-pointer=center";
+	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerCenterShort)
+TEST(AlignPointerMiddleShort)
 {
-	// test align pointer=center short option
+	// test align pointer=middle short option
 	char textIn[] =
 		"\nstring foo(const string *bar)\n"
 		"{\n"
@@ -1578,7 +1578,7 @@ TEST(AlignPointerCenterShort)
 	delete [] textOut;
 }
 
-TEST(AlignPointerCenterTabs)
+TEST(AlignPointerMiddleTabs)
 {
 	// test with tab separators
 	char textIn[] =
@@ -1597,13 +1597,13 @@ TEST(AlignPointerCenterTabs)
 		"    const char	*	bar;\n"
 		"    const char		*		bar;\n"
 		"}\n";
-	char options[] = "align-pointer=center";
+	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerCenterAddressOf)
+TEST(AlignPointerMiddleAddressOf)
 {
 	// "address of" operator should NOT be separated from the name
 	char text[] =
@@ -1615,13 +1615,13 @@ TEST(AlignPointerCenterAddressOf)
 		"    return &x;\n"
 		"    return (&x);\n"
 		"}\n";
-	char options[] = "align-pointer=center";
+	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerCenterDereference)
+TEST(AlignPointerMiddleDereference)
 {
 	// dereference should NOT be separated from the name
 	char text[] =
@@ -1644,13 +1644,13 @@ TEST(AlignPointerCenterDereference)
 		"    if(prev) next = next;\n"
 		"    else *chain = next;\n"
 		"}\n";
-	char options[] = "align-pointer=center";
+	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerCenterPointerToPointer)
+TEST(AlignPointerMiddlePointerToPointer)
 {
 	// test double pointer
 	char textIn[] =
@@ -1673,13 +1673,13 @@ TEST(AlignPointerCenterPointerToPointer)
 		"    char		**		bar1;\n"
 		"    char ** bar1;\n"
 		"}\n";
-	char options[] = "align-pointer=center";
+	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerCenterCatch)
+TEST(AlignPointerMiddleCatch)
 {
 	// 'catch' statement is a reference, not an operator
 	char textIn[] =
@@ -1702,13 +1702,13 @@ TEST(AlignPointerCenterCatch)
 		"        ex.ShowErrorMessage(true);\n"
 		"    }\n"
 		"}\n";
-	char options[] = "align-pointer=center";
+	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerCenterAndOperator)
+TEST(AlignPointerMiddleAndOperator)
 {
 	// should not unpad && operator
 	char text[] =
@@ -1722,13 +1722,13 @@ TEST(AlignPointerCenterAndOperator)
 		"            && isBar1)   // comment\n"
 		"        return;\n"
 		"}\n";
-	char options[] = "align-pointer=center";
+	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerCenterSans1)
+TEST(AlignPointerMiddleSans1)
 {
 	// these are not pointers
 	char text[] =
@@ -1740,13 +1740,13 @@ TEST(AlignPointerCenterSans1)
 		"    x = a * b;\n"
 		"    x = a & b;\n"
 		"}\n";
-	char options[] = "align-pointer=center";
+	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerCenterSans2)
+TEST(AlignPointerMiddleSans2)
 {
 	// these should be padded as operators
 	char textIn[] =
@@ -1783,7 +1783,7 @@ TEST(AlignPointerCenterSans2)
 		"    out_html(change_to_size(i * j));\n"
 		"    if (i > *maxcol) *maxcol = i;\n"
 		"}\n";
-	char options[] = "align-pointer=center, pad-oper";
+	char options[] = "align-pointer=middle, pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;

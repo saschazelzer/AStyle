@@ -9,15 +9,14 @@ set config=Release
 set sdk=v3.5
 
 REM extract the build directory from the input path
-set vsdir=%inpath:~0,25%
-set builddir=%inpath:~3%
-
-if %inpath:~0,3% == ..\  (
 set vsdir=%inpath:~0,22%
-set builddir=%inpath:~3%
+set builddir=%inpath:~16%
+
+if %inpath:~0,6% == ..\..\  (
+set vsdir=%inpath:~0,25%
+set builddir=%inpath:~19%
 )
 
-set builddir=%builddir:~13%
 :: echo %vsdir%
 :: echo %builddir%
 :: pause
@@ -31,6 +30,7 @@ if %builddir:~0,6% == vs2005  set sdk=v2.0.50727
 
 
 REM check if release or debug
+REM NOTE: the case of the == must match!
 if %builddir:~-6% == AStyle (
 echo Building Release
 ) else (
