@@ -1580,6 +1580,37 @@ TEST_FIXTURE(javaText, JavaBracketsOtherNamespaceClass)
 	delete [] textOut;
 }
 
+TEST(JavaBracketsOtherClassContinuationAttached)
+{
+	// test with class continuaton and attached brackets
+	char text[] =
+		"\npublic class Foo\n"
+		"    extends Bar1\n"
+		"    implements Bar2 {\n"
+		"    private int FOO = 1;\n"
+		"}\n";
+	char options[] = "mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(JavaBracketsOtherClassContinuationBroken)
+{
+	// test with class continuaton and broken brackets
+	char text[] =
+		"\npublic class Foo\n"
+		"    extends Bar1\n"
+		"    implements Bar2\n"
+		"{\n"
+		"    private int FOO = 1;\n"
+		"}\n";
+	char options[] = "mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(JavaBracketsOtherInterface)
 {
 	// test default brackets option (do not change)

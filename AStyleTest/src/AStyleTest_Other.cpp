@@ -3062,7 +3062,7 @@ TEST(CommentNamespaceClassMisc5)
 		"\nnamespace FooName\n"
 		"{\n"
 		"class FooClass\n"
-		"        : public FooBase\n"
+		"    : public FooBase\n"
 		"/*\n"
 		" * comment1\n"
 		" */\n"
@@ -3090,7 +3090,7 @@ TEST(CommentNamespaceClassMisc6)
 		"\nnamespace FooName\n"
 		"{\n"
 		"    class FooClass\n"
-		"            : public FooBase\n"
+		"        : public FooBase\n"
 		"    /*\n"
 		"     * comment1\n"
 		"     */\n"
@@ -3105,6 +3105,23 @@ TEST(CommentNamespaceClassMisc6)
 		"    };\n"
 		"}\n";
 	char options[] = "indent-namespaces";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CommentBeforeStatementMisc7)
+{
+	// comments before a statement should not be broken
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isBar) {\n"
+		"        /*bool result =*/ Bar();\n"
+		"        return;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;

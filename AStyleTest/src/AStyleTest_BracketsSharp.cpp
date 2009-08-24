@@ -1981,6 +1981,35 @@ TEST_FIXTURE(sharpText, SharpBracketsOtherClass)
 	delete [] textOut;
 }
 
+TEST(SharpBracketsOtherClassContinuationAttached)
+{
+	// test with class continuation and attached brackets
+	char text[] =
+		"\npublic interface Foo\n"
+		"    : Bar {\n"
+		"}\n"
+		"\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(SharpBracketsOtherClassContinuationBroken)
+{
+	// test with class continuation and broken brackets
+	char text[] =
+		"\npublic interface Foo\n"
+		"    : Bar\n"
+		"{\n"
+		"}\n"
+		"\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(SharpBracketsOtherWhere)
 {
 	// test a method that contains a where statement
@@ -2049,8 +2078,8 @@ TEST(SharpBracketsOtherWhereClass)
 	// test a class that contains a where statement
 	char text[] =
 		"\npublic sealed class Foo<A, B> : FooBar\n"
-		"        where A : Bar1\n"
-		"        where B : Bar2\n"
+		"    where A : Bar1\n"
+		"    where B : Bar2\n"
 		"{\n"
 		"    int a;\n"
 		"    int b;\n"
@@ -2074,8 +2103,8 @@ TEST(SharpBracketsOtherWhereClassBlocks)
 	// test a class that contains a where statement, with indent blocks
 	char text[] =
 		"\npublic sealed class Foo<A, B> : FooBar\n"
-		"        where A : Bar1\n"
-		"        where B : Bar2\n"
+		"    where A : Bar1\n"
+		"    where B : Bar2\n"
 		"{\n"
 		"    int a;\n"
 		"    int b;\n"
@@ -2099,8 +2128,8 @@ TEST(SharpBracketsOtherWhereClassBrackets)
 	// test a class that contains a where statement, with indent brackets
 	char text[] =
 		"\npublic sealed class Foo<A, B> : FooBar\n"
-		"        where A : Bar1\n"
-		"        where B : Bar2\n"
+		"    where A : Bar1\n"
+		"    where B : Bar2\n"
 		"    {\n"
 		"    int a;\n"
 		"    int b;\n"
@@ -2124,7 +2153,7 @@ TEST(SharpBracketsOtherWhereClassClass)
 	// test a class that contains a where statement, with two 'class' statements
 	char text[] =
 		"\npublic class Foo<T> : FooBar1<T>, FooBar2\n"
-		"        where T : class\n"
+		"    where T : class\n"
 		"{\n"
 		"    Bar();\n"
 		"}\n";

@@ -5851,8 +5851,8 @@ TEST(CppBracketsHorstmannExtern)
 		"	}\n"
 		"}\n";
 	char text[] =
-		"\nextern \"C\" {\n"
-		"	extern void foo1()\n"
+		"\nextern \"C\"\n"
+		"{	extern void foo1()\n"
 		"	{	bar1();\n"
 		"	}\n"
 		"}\n"
@@ -6645,6 +6645,37 @@ TEST(CppBracketsHorstmannMultipleCommentsHorstmann)
 //-------------------------------------------------------------------------
 // AStyle C++ Other Bracket Options
 //-------------------------------------------------------------------------
+
+TEST(CppBracketsOtherClassContinuationAttached)
+{
+	// test with class continuaton and attached brackets
+	char text[] =
+		"\nclass Foo :\n"
+		"    public Bar {\n"
+		"public:\n"
+		"    Foo(T *in);\n"
+		"};\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsOtherClassContinuationBoken)
+{
+	// test with class continuaton and broken brackets
+	char text[] =
+		"\nclass Foo :\n"
+		"    public Bar\n"
+		"{\n"
+		"public:\n"
+		"    Foo(T *in);\n"
+		"};\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
 TEST(CppBracketsOtherConstIndent)
 {

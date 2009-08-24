@@ -773,6 +773,29 @@ TEST(KeepOneLineBlocksSans1)
 	delete [] textOut;
 }
 
+TEST(KeepOneLineBlocksSans2)
+{
+	// test without keep one line blocks
+	// test attach bracket inside comment on single line block
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())     // comment\n"
+		"        { return false; }\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo()) {   // comment\n"
+		"        return false;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=linux";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(KeepOneLineBlocksSansMultipleBrackets)
 {
 	// test without keep one line blocks with multiple brackets
@@ -899,6 +922,152 @@ TEST(KeepOneLineBlocksLinuxClosingHeader)
 		"}\n";
 	char options[] = "keep-one-line-blocks, brackets=linux";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Add Brackets
+//-------------------------------------------------------------------------
+
+TEST(AddBrackets)
+{
+	// test add brackets
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"        return false;\n"
+		"\n"
+		"    for (int i = 0; i <= 12; ++i)\n"
+		"        bar &= ::FooBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo()) {\n"
+		"        return false;\n"
+		"    }\n"
+		"\n"
+		"    for (int i = 0; i <= 12; ++i) {\n"
+		"        bar &= ::FooBar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "add-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddBracketsShort)
+{
+	// test add brackets short option
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"        return false;\n"
+		"\n"
+		"    for (int i = 0; i <= 12; ++i)\n"
+		"        bar &= ::FooBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo()) {\n"
+		"        return false;\n"
+		"    }\n"
+		"\n"
+		"    for (int i = 0; i <= 12; ++i) {\n"
+		"        bar &= ::FooBar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "-{";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddBracketsElseIf)
+{
+	// test add brackets for "else if" statements
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"        return false;\n"
+		"    else if (isFoo())\n"
+		"        return false;\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo()) {\n"
+		"        return false;\n"
+		"    }\n"
+		"    else if (isFoo()) {\n"
+		"        return false;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "add-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddBracketsCpp)
+{
+	// test add brackets for C++ headers
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"        return false;\n"
+		"\n"
+		"    if (isFoo())\n"
+		"        return false;\n"
+		"    else\n"
+		"        return true;\n"
+		"\n"
+		"    for (int i = 0; i <= 12; ++i)\n"
+		"        bar &= ::FooBar();\n"
+		"\n"
+		"    while (isFoo)\n"
+		"        bar();\n"
+		"\n"
+		"    do\n"
+		"        bar();\n"
+		"    while (isFoo);\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo()) {\n"
+		"        return false;\n"
+		"    }\n"
+		"\n"
+		"    if (isFoo()) {\n"
+		"        return false;\n"
+		"    }\n"
+		"    else {\n"
+		"        return true;\n"
+		"    }\n"
+		"\n"
+		"    for (int i = 0; i <= 12; ++i) {\n"
+		"        bar &= ::FooBar();\n"
+		"    }\n"
+		"\n"
+		"    while (isFoo) {\n"
+		"        bar();\n"
+		"    }\n"
+		"\n"
+		"    do {\n"
+		"        bar();\n"
+		"    }\n"
+		"    while (isFoo);\n"
+		"}\n";
+	char options[] = "add-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
