@@ -938,19 +938,12 @@ TEST(AddBrackets)
 		"{\n"
 		"    if (isFoo())\n"
 		"        return false;\n"
-		"\n"
-		"    for (int i = 0; i <= 12; ++i)\n"
-		"        bar &= ::FooBar();\n"
 		"}\n";
 	char text[] =
 		"\nvoid Foo()\n"
 		"{\n"
 		"    if (isFoo()) {\n"
 		"        return false;\n"
-		"    }\n"
-		"\n"
-		"    for (int i = 0; i <= 12; ++i) {\n"
-		"        bar &= ::FooBar();\n"
 		"    }\n"
 		"}\n";
 	char options[] = "add-brackets";
@@ -967,19 +960,12 @@ TEST(AddBracketsShort)
 		"{\n"
 		"    if (isFoo())\n"
 		"        return false;\n"
-		"\n"
-		"    for (int i = 0; i <= 12; ++i)\n"
-		"        bar &= ::FooBar();\n"
 		"}\n";
 	char text[] =
 		"\nvoid Foo()\n"
 		"{\n"
 		"    if (isFoo()) {\n"
 		"        return false;\n"
-		"    }\n"
-		"\n"
-		"    for (int i = 0; i <= 12; ++i) {\n"
-		"        bar &= ::FooBar();\n"
 		"    }\n"
 		"}\n";
 	char options[] = "-{";
@@ -988,36 +974,10 @@ TEST(AddBracketsShort)
 	delete [] textOut;
 }
 
-TEST(AddBracketsElseIf)
-{
-	// test add brackets for "else if" statements
-	char textIn[] =
-		"\nvoid Foo()\n"
-		"{\n"
-		"    if (isFoo())\n"
-		"        return false;\n"
-		"    else if (isFoo())\n"
-		"        return false;\n"
-		"}\n";
-	char text[] =
-		"\nvoid Foo()\n"
-		"{\n"
-		"    if (isFoo()) {\n"
-		"        return false;\n"
-		"    }\n"
-		"    else if (isFoo()) {\n"
-		"        return false;\n"
-		"    }\n"
-		"}\n";
-	char options[] = "add-brackets";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
-	delete [] textOut;
-}
 
-TEST(AddBracketsCpp)
+TEST(AddBracketsAll)
 {
-	// test add brackets for C++ headers
+	// test add brackets for all headers
 	char textIn[] =
 		"\nvoid Foo()\n"
 		"{\n"
@@ -1067,6 +1027,500 @@ TEST(AddBracketsCpp)
 		"    while (isFoo);\n"
 		"}\n";
 	char options[] = "add-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddBracketsElseIf)
+{
+	// test add brackets for "else if" statements
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"        return false;\n"
+		"    else if (isFoo())\n"
+		"        return false;\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo()) {\n"
+		"        return false;\n"
+		"    }\n"
+		"    else if (isFoo()) {\n"
+		"        return false;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "add-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddBracketsSharp)
+{
+	// test add brackets for C# headers
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    foreach (int i in fibarray)\n"
+		"        System.Console.WriteLine(i);\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    foreach (int i in fibarray) {\n"
+		"        System.Console.WriteLine(i);\n"
+		"    }\n"
+		"}\n";
+	char options[] = "add-brackets, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddBracketsSingleLine)
+{
+	// add brackets to one line statements
+	// should break the statements
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo()) return false;\n"
+		"\n"
+		"    if (isFoo()) return false; else return true;\n"
+		"\n"
+		"    for (int i = 0; i <= 12; ++i) bar &= ::FooBar();\n"
+		"\n"
+		"    while (isFoo) bar();\n"
+		"\n"
+		"    do bar(); while (isFoo);\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo()) {\n"
+		"        return false;\n"
+		"    }\n"
+		"\n"
+		"    if (isFoo()) {\n"
+		"        return false;\n"
+		"    }\n"
+		"    else {\n"
+		"        return true;\n"
+		"    }\n"
+		"\n"
+		"    for (int i = 0; i <= 12; ++i) {\n"
+		"        bar &= ::FooBar();\n"
+		"    }\n"
+		"\n"
+		"    while (isFoo) {\n"
+		"        bar();\n"
+		"    }\n"
+		"\n"
+		"    do {\n"
+		"        bar();\n"
+		"    }\n"
+		"    while (isFoo);\n"
+		"}\n";
+	char options[] = "add-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddBracketsSingleLineKeepOneLiners)
+{
+	// add brackets to one line statements with keep one liners
+	// should NOT keep one line blocks with added brackets
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo()) return false;\n"
+		"\n"
+		"    if (isFoo()) return false; else return true;\n"
+		"\n"
+		"    for (int i = 0; i <= 12; ++i) bar &= ::FooBar();\n"
+		"\n"
+		"    while (isFoo) bar();\n"
+		"\n"
+		"    do bar(); while (isFoo);\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo()) {\n"
+		"        return false;\n"
+		"    }\n"
+		"\n"
+		"    if (isFoo()) {\n"
+		"        return false;\n"
+		"    } else {\n"
+		"        return true;\n"
+		"    }\n"
+		"\n"
+		"    for (int i = 0; i <= 12; ++i) {\n"
+		"        bar &= ::FooBar();\n"
+		"    }\n"
+		"\n"
+		"    while (isFoo) {\n"
+		"        bar();\n"
+		"    }\n"
+		"\n"
+		"    do {\n"
+		"        bar();\n"
+		"    } while (isFoo);\n"
+		"}\n";
+	char options[] = "add-brackets, keep-one-line-blocks, keep-one-line-statements";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddBracketsBreak)
+{
+	// test add brackets for broken brackets
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"        return false;\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"    {\n"
+		"        return false;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "add-brackets, brackets=break";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddBracketsAttach)
+{
+	// test add brackets for attached brackets
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"        return false;\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo()) {\n"
+		"        return false;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "add-brackets, brackets=linux";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddBracketsHorstmann)
+{
+	// test add brackets for horstmann brakets
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"        return false;\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{   if (isFoo())\n"
+		"    {   return false;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "add-brackets, brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Add One Line Brackets
+// Must also have keep-one-line-blocks
+//-------------------------------------------------------------------------
+
+TEST(AddOneLineBrackets)
+{
+	// test add one line brackets
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"        return false;\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"        { return false; }\n"
+		"}\n";
+	char options[] = "add-one-line-brackets, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddOneLineBracketsShort)
+{
+	// test add one line brackets short option
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"        return false;\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"        { return false; }\n"
+		"}\n";
+	char options[] = "-!O";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+
+TEST(AddOneLineBracketsAll)
+{
+	// test add one line brackets for all headers
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"        return false;\n"
+		"\n"
+		"    if (isFoo())\n"
+		"        return false;\n"
+		"    else\n"
+		"        return true;\n"
+		"\n"
+		"    for (int i = 0; i <= 12; ++i)\n"
+		"        bar &= ::FooBar();\n"
+		"\n"
+		"    while (isFoo)\n"
+		"        bar();\n"
+		"\n"
+		"    do\n"
+		"        bar();\n"
+		"    while (isFoo);\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"        { return false; }\n"
+		"\n"
+		"    if (isFoo())\n"
+		"        { return false; }\n"
+		"    else\n"
+		"        { return true; }\n"
+		"\n"
+		"    for (int i = 0; i <= 12; ++i)\n"
+		"        { bar &= ::FooBar(); }\n"
+		"\n"
+		"    while (isFoo)\n"
+		"        { bar(); }\n"
+		"\n"
+		"    do\n"
+		"        { bar(); }\n"
+		"    while (isFoo);\n"
+		"}\n";
+	char options[] = "add-one-line-brackets, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddOneLineBracketsElseIf)
+{
+	// test add one line brackets for "else if" statements
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"        return false;\n"
+		"    else if (isFoo())\n"
+		"        return false;\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"        { return false; }\n"
+		"    else if (isFoo())\n"
+		"        { return false; }\n"
+		"}\n";
+	char options[] = "add-one-line-brackets, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddOneLineBracketsSharp)
+{
+	// test add one line brackets for C# headers
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    foreach (int i in fibarray)\n"
+		"        System.Console.WriteLine(i);\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    foreach (int i in fibarray)\n"
+		"        { System.Console.WriteLine(i); }\n"
+		"}\n";
+	char options[] = "add-one-line-brackets, keep-one-line-blocks, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddOneLineBracketsSingleLine)
+{
+	// add one line brackets to one line statements
+	// should keep the one line statements
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo()) return false;\n"
+		"\n"
+		"    if (isFoo()) return false; else return true;\n"
+		"\n"
+		"    for (int i = 0; i <= 12; ++i) bar &= ::FooBar();\n"
+		"\n"
+		"    while (isFoo) bar();\n"
+		"\n"
+		"    do bar(); while (isFoo);\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo()) { return false; }\n"
+		"\n"
+		"    if (isFoo()) { return false; }\n"
+		"    else { return true; }\n"
+		"\n"
+		"    for (int i = 0; i <= 12; ++i) { bar &= ::FooBar(); }\n"
+		"\n"
+		"    while (isFoo) { bar(); }\n"
+		"\n"
+		"    do { bar(); }\n"
+		"    while (isFoo);\n"
+		"}\n";
+	char options[] = "add-one-line-brackets, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddOneLineBracketsSingleLineKeepOneLiners)
+{
+	// add one line brackets to one line statements with keep one liners
+	// should keep the one liners
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo()) return false;\n"
+		"\n"
+		"    if (isFoo()) return false; else return true;\n"
+		"\n"
+		"    for (int i = 0; i <= 12; ++i) bar &= ::FooBar();\n"
+		"\n"
+		"    while (isFoo) bar();\n"
+		"\n"
+		"    do bar(); while (isFoo);\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo()) { return false; }\n"
+		"\n"
+		"    if (isFoo()) { return false; } else { return true; }\n"
+		"\n"
+		"    for (int i = 0; i <= 12; ++i) { bar &= ::FooBar(); }\n"
+		"\n"
+		"    while (isFoo) { bar(); }\n"
+		"\n"
+		"    do { bar(); } while (isFoo);\n"
+		"}\n";
+	char options[] = "add-one-line-brackets, keep-one-line-blocks, keep-one-line-statements";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddOneLineBracketsBreak)
+{
+	// test add one line brackets for broken brackets
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"        return false;\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"        { return false; }\n"
+		"}\n";
+	char options[] = "add-one-line-brackets, keep-one-line-blocks, brackets=break";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddOneLineBracketsAttach)
+{
+	// test add one line brackets for attached brackets
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"        return false;\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"        { return false; }\n"
+		"}\n";
+	char options[] = "add-one-line-brackets, keep-one-line-blocks, brackets=linux";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddOneLineBracketsHorstmann)
+{
+	// test add one line brackets for horstmann brakets
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"        return false;\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{   if (isFoo())\n"
+		"        { return false; }\n"
+		"}\n";
+	char options[] = "add-one-line-brackets, keep-one-line-blocks, brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
