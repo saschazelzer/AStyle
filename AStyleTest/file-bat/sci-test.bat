@@ -9,10 +9,11 @@ set testdata=..\..\TestData\scite
 :: set astyle=..\..\AStyle\build\vs2005\bin\AStyle
 set astyle=..\..\AStyle\build\vs2008\bin\AStyled
 
-:: set options= -HvRQ
-:: set options= -bCSKBGNLwM50m10yeoOcFpPHUxEvRQ
-REM without indent-blocks or indent-brackets (B or G)
-set options= -gCSKNLwM50m10yeoOcFpPHUxEvRQ
+set options= -vRQ
+REM with indent-blocks (B), add-brackets (j), break-blocks=all (F)
+:: set options= -CSKBGNLwM50m10yejoOcFpPHUxE -vRQ
+REM with indent-brackets (G), add-one-line-brackets (J), break-blocks (f)
+:: set options= -CSKGNLwM50m10yeJoOcfpPHUxE -vRQ
 
 
 set excludes= --exclude=lua
