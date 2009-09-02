@@ -8,6 +8,53 @@
 // AStyle version 1.24 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(v124BreakOneLineBloksComment1)
+{
+	// comment should be moved to the previous line
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"    { bar(); } // comment\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"        bar();    // comment\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v124BreakOneLineBloksComment2)
+{
+	// comment should be moved to the previous line
+	// option keep-one-line-statements is used
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"    { bar(); } // comment\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"        bar();    // comment\n"
+		"    }\n"
+		"}\n";
+	char options[] = "keep-one-line-statements";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(v124SharpDelegate)
 {
 	// sharp 'delegate' should be recognized as a keyword
@@ -1432,6 +1479,26 @@ TEST(UTF8WithBOM)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+//----------------------------------------------------------------------------
+// AStyle Virgin Line Tests
+//----------------------------------------------------------------------------
+
+TEST(VirginLine)
+{
+	// test bracket on second line
+	// linux bracket should not attach
+	char text[] =
+		"void Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"        bar();\n"
+		"}\n";
+	char options[] = "brackets=linux";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }

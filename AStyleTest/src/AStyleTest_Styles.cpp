@@ -5,8 +5,7 @@
 #include "AStyleTest.h"
 
 //----------------------------------------------------------------------------
-// AStyle C++ Style options
-// Additional tests are in the Brackets tests
+// AStyle C++ text for style tests
 //----------------------------------------------------------------------------
 
 struct cppStyleText
@@ -45,6 +44,11 @@ struct cppStyleText
 		textIn = textStr.c_str();
 	}
 };
+
+//----------------------------------------------------------------------------
+// AStyle C++ Allman Style
+// Additional tests are in the Brackets tests
+//----------------------------------------------------------------------------
 
 TEST_FIXTURE(cppStyleText, CppStyleAllman)
 {
@@ -442,6 +446,11 @@ TEST(CppStyleAllmanForceTabIndent)
 	delete [] textOut;
 }
 
+//----------------------------------------------------------------------------
+// AStyle C++ Java Style
+// Additional tests are in the Brackets tests
+//----------------------------------------------------------------------------
+
 TEST_FIXTURE(cppStyleText, CppStyleJava)
 {
 	// test java style option
@@ -729,6 +738,11 @@ TEST(CppStyleJavaForceTabIndent)
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
+
+//----------------------------------------------------------------------------
+// AStyle C++ K & R Style
+// Additional tests are in the Brackets tests
+//----------------------------------------------------------------------------
 
 TEST_FIXTURE(cppStyleText, CppStyleKR)
 {
@@ -1070,6 +1084,11 @@ TEST(CppStyleKRForceTabIndent)
 	delete [] textOut;
 }
 
+//----------------------------------------------------------------------------
+// AStyle C++ Stroustrup Style
+// Additional tests are in the Brackets tests
+//----------------------------------------------------------------------------
+
 TEST_FIXTURE(cppStyleText, CppStyleStroustrup)
 {
 	// test stroustrup style option
@@ -1368,6 +1387,11 @@ TEST(CppStyleStroustrupForceTabIndent)
 	delete [] textOut;
 }
 
+
+//----------------------------------------------------------------------------
+// AStyle C++ Whitesmith Style
+// Additional tests are in the Brackets tests
+//----------------------------------------------------------------------------
 
 TEST_FIXTURE(cppStyleText, CppStyleWhitesmith)
 {
@@ -1689,6 +1713,11 @@ TEST(CppStyleWhitesmithSwitchBlockIndent)
 	delete [] textOut;
 }
 
+//----------------------------------------------------------------------------
+// AStyle C++ Banner Style
+// Additional tests are in the Brackets tests
+//----------------------------------------------------------------------------
+
 TEST_FIXTURE(cppStyleText, CppStyleBanner)
 {
 	// test banner style option
@@ -1979,6 +2008,11 @@ TEST(CppStyleBanerSwitchBlockIndent)
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
+
+//----------------------------------------------------------------------------
+// AStyle C++ Gnu Style
+// Additional tests are in the Brackets tests
+//----------------------------------------------------------------------------
 
 TEST_FIXTURE(cppStyleText, CppStyleGnu)
 {
@@ -2274,6 +2308,11 @@ TEST(CppStyleGnuForceTabIndent)
 	delete [] textOut;
 }
 
+//----------------------------------------------------------------------------
+// AStyle C++ Linux Style
+// Additional tests are in the Brackets tests
+//----------------------------------------------------------------------------
+
 TEST_FIXTURE(cppStyleText, CppStyleLinux)
 {
 	// test linux style option
@@ -2439,8 +2478,7 @@ TEST_FIXTURE(cppStyleText, CppStyleLinuxBracketIndent)
 
 TEST(CppStyleLinuxSpaceIndent)
 {
-	// test linux style option with space indent
-	// default indent is 8
+	// test linux style option with space indent of 6
 	char textIn[] =
 		"\nvoid Foo(bool isFoo)\n"
 		"{\n"
@@ -2456,7 +2494,7 @@ TEST(CppStyleLinuxSpaceIndent)
 		"\nvoid Foo(bool isFoo)\n"
 		"{\n"
 		"      if (isFoo\n"
-		"                  && isBar) {\n"
+		"          && isBar) {\n"
 		"            bar();\n"
 		"      } else\n"
 		"            anotherBar();\n"
@@ -2486,7 +2524,7 @@ TEST(CppStyleLinuxTab)
 		"\nvoid Foo(bool isFoo)\n"
 		"{\n"
 		"	if (isFoo\n"
-		"	                && isBar) {\n"
+		"	    && isBar) {\n"
 		"		bar();\n"
 		"	} else\n"
 		"		anotherBar();\n"
@@ -2515,7 +2553,7 @@ TEST(CppStyleLinuxTabIndent)
 		"\nvoid Foo(bool isFoo)\n"
 		"{\n"
 		"	if (isFoo\n"
-		"	            && isBar) {\n"
+		"	    && isBar) {\n"
 		"		bar();\n"
 		"	} else\n"
 		"		anotherBar();\n"
@@ -2544,7 +2582,7 @@ TEST(CppStyleLinuxForceTab)
 		"\nvoid Foo(bool isFoo)\n"
 		"{\n"
 		"	if (isFoo\n"
-		"			&& isBar) {\n"
+		"	    && isBar) {\n"
 		"		bar();\n"
 		"	} else\n"
 		"		anotherBar();\n"
@@ -2573,7 +2611,7 @@ TEST(CppStyleLinuxForceTabIndent)
 		"\nvoid Foo(bool isFoo)\n"
 		"{\n"
 		"	if (isFoo\n"
-		"			&& isBar) {\n"
+		"	    && isBar) {\n"
 		"		bar();\n"
 		"	} else\n"
 		"		anotherBar();\n"
@@ -2583,6 +2621,40 @@ TEST(CppStyleLinuxForceTabIndent)
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
+
+TEST(CppStyleLinuxMinConditionalIndent)
+{
+	// test linux style option with min conditional indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"        if (isFoo\n"
+		"                && isBar) {\n"
+		"                bar();\n"
+		"        } else\n"
+		"                anotherBar();\n"
+		"}\n";
+	char options[] = "style=linux, min-conditional-indent=8";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+//----------------------------------------------------------------------------
+// AStyle C++ Horstmann Style
+// Additional tests are in the Brackets tests
+//----------------------------------------------------------------------------
 
 TEST_FIXTURE(cppStyleText, CppStyleHorstmann)
 {
@@ -2920,13 +2992,421 @@ TEST(CppStyleHorstmannSwitchBlockIndent)
 }
 
 //----------------------------------------------------------------------------
-// AStyle Other Style options
-// Test other tests in ASFormatter::fixOptionVariableConflicts()
-// These may not be preefined style tests
+// AStyle C++ 1TBS Style
 // Additional tests are in the Brackets tests
 //----------------------------------------------------------------------------
 
-TEST_FIXTURE(cppStyleText, CppStylePrecedence1)
+TEST_FIXTURE(cppStyleText, CppStyle1TBS)
+{
+	// test 1tbs style option
+	char text[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"\n"
+		"class FooClass\n"
+		"{\n"
+		"private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};\n"
+		"\n"
+		"void FooClass::Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    } else {\n"
+		"        anotherBar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"}   // end FooName\n";
+	char options[] = "style=1tbs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST_FIXTURE(cppStyleText, CppStyle1TBSAlt)
+{
+	// test 1tbs style alternate otbs option
+	char text[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"\n"
+		"class FooClass\n"
+		"{\n"
+		"private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};\n"
+		"\n"
+		"void FooClass::Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    } else {\n"
+		"        anotherBar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"}   // end FooName\n";
+	char options[] = "style=otbs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST_FIXTURE(cppStyleText, CppStyle1TBSShort)
+{
+	// test 1tbs style short option
+	char text[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"\n"
+		"class FooClass\n"
+		"{\n"
+		"private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};\n"
+		"\n"
+		"void FooClass::Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    } else {\n"
+		"        anotherBar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"}   // end FooName\n";
+	char options[] = "-A10";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST_FIXTURE(cppStyleText, CppStyle1TBSBrackets)
+{
+	// test 1tbs style option with brackets option
+	// the brackets should NOT change
+	char text[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"\n"
+		"class FooClass\n"
+		"{\n"
+		"private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};\n"
+		"\n"
+		"void FooClass::Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    } else {\n"
+		"        anotherBar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"}   // end FooName\n";
+	char options[] = "style=1tbs, brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST_FIXTURE(cppStyleText, CppStyle1TBSBlockIndent)
+{
+	// test 1tbs style option with indent blocks
+	// blocks should NOT be indented
+	char text[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"\n"
+		"class FooClass\n"
+		"{\n"
+		"private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};\n"
+		"\n"
+		"void FooClass::Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    } else {\n"
+		"        anotherBar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"}   // end FooName\n";
+	char options[] = "style=1tbs, indent-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST_FIXTURE(cppStyleText, CppStyle1TBSBracketIndent)
+{
+	// test 1tbs style option with indent brackets
+	// brackets shoud NOT be indented
+	char text[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"\n"
+		"class FooClass\n"
+		"{\n"
+		"private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};\n"
+		"\n"
+		"void FooClass::Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    } else {\n"
+		"        anotherBar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"}   // end FooName\n";
+	char options[] = "style=1tbs, indent-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyle1TBSSpaceIndent)
+{
+	// test 1tbs style option with space indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"      if (isFoo\n"
+		"                  && isBar) {\n"
+		"            bar();\n"
+		"      } else {\n"
+		"            anotherBar();\n"
+		"      }\n"
+		"}\n";
+	char options[] = "style=1tbs, indent=spaces=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyle1TBSTab)
+{
+	// test 1tbs style option with tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"	if (isFoo\n"
+		"	        && isBar) {\n"
+		"		bar();\n"
+		"	} else {\n"
+		"		anotherBar();\n"
+		"	}\n"
+		"}\n";
+	char options[] = "style=1tbs, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyle1TBSTabIndent)
+{
+	// test 1tbs style option with tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"	if (isFoo\n"
+		"	            && isBar) {\n"
+		"		bar();\n"
+		"	} else {\n"
+		"		anotherBar();\n"
+		"	}\n"
+		"}\n";
+	char options[] = "style=1tbs, indent=tab=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyle1TBSForceTab)
+{
+	// test 1tbs style option with force tab
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"	if (isFoo\n"
+		"			&& isBar) {\n"
+		"		bar();\n"
+		"	} else {\n"
+		"		anotherBar();\n"
+		"	}\n"
+		"}\n";
+	char options[] = "style=1tbs, indent=force-tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyle1TBSForceTabIndent)
+{
+	// test 1tbs style option with force tab
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"	if (isFoo\n"
+		"			&& isBar) {\n"
+		"		bar();\n"
+		"	} else {\n"
+		"		anotherBar();\n"
+		"	}\n"
+		"}\n";
+	char options[] = "style=1tbs, indent=force-tab=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppStyle1TBSAddOneLineBrackets)
+{
+	// test 1tbs style option with add one line brackets
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar) {\n"
+		"        bar();\n"
+		"    } else\n"
+		"        { anotherBar(); }\n"
+		"}\n";
+	char options[] = "style=1tbs, add-one-line-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+//----------------------------------------------------------------------------
+// AStyle Other Style tests
+// Additional tests are in the Brackets tests
+//----------------------------------------------------------------------------
+
+TEST(CppStylePrecedence1)
+{
+	// add-one-line-brackets implies keep-one-line-blocks
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"        { bar(); }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"        { bar(); }\n"
+		"    else\n"
+		"        { anotherBar(); }\n"
+		"}\n";
+	char options[] = "style=1tbs, add-one-line-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST_FIXTURE(cppStyleText, CppStylePrecedence2)
 {
 	// cannot have both block indent and bracket indent
 	// default to block indent
@@ -2961,7 +3441,7 @@ TEST_FIXTURE(cppStyleText, CppStylePrecedence1)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStylePrecedence2)
+TEST_FIXTURE(cppStyleText, CppStylePrecedence3)
 {
 	// cannot have both horstmann brackets and bracket indent
 	// default to horstmann brackets
@@ -2993,7 +3473,7 @@ TEST_FIXTURE(cppStyleText, CppStylePrecedence2)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStylePrecedence3)
+TEST_FIXTURE(cppStyleText, CppStylePrecedence4)
 {
 	// CAN have both horstmann brackets and block indent
 	char text[] =
@@ -3025,7 +3505,7 @@ TEST_FIXTURE(cppStyleText, CppStylePrecedence3)
 }
 
 //----------------------------------------------------------------------------
-// AStyle Java Style options
+// AStyle Java Style
 // Additional tests are in the Brackets tests
 //----------------------------------------------------------------------------
 
@@ -3083,32 +3563,6 @@ TEST_FIXTURE(javaStyleText, JavaStyleAllman)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaStyleText, JavaStyleAllmanBSD)
-{
-	// test allman style BSD option
-	char text[] =
-		"\npublic class FooClass\n"
-		"{\n"
-		"    private bool var1;\n"
-		"    private bool var2;\n"
-		"\n"
-		"    public void foo(bool isFoo)\n"
-		"    {\n"
-		"        if (isFoo)\n"
-		"        {\n"
-		"            bar();\n"
-		"        }\n"
-		"        else\n"
-		"            anotherBar();\n"
-		"    }\n"
-		"}\n";
-
-	char options[] = "style=bsd, mode=java";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
-	delete [] textOut;
-}
-
 TEST_FIXTURE(javaStyleText, JavaStyleJava)
 {
 	// test java style option
@@ -3150,30 +3604,6 @@ TEST_FIXTURE(javaStyleText, JavaStyleKR)
 		"}\n";
 
 	char options[] = "style=k&r, mode=java";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
-	delete [] textOut;
-}
-
-TEST_FIXTURE(javaStyleText, JavaStyleKRAlt)
-{
-	// test k&r style option
-	char text[] =
-		"\npublic class FooClass\n"
-		"{\n"
-		"    private bool var1;\n"
-		"    private bool var2;\n"
-		"\n"
-		"    public void foo(bool isFoo)\n"
-		"    {\n"
-		"        if (isFoo) {\n"
-		"            bar();\n"
-		"        } else\n"
-		"            anotherBar();\n"
-		"    }\n"
-		"}\n";
-
-	char options[] = "style=k/r, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -3325,8 +3755,33 @@ TEST_FIXTURE(javaStyleText, JavaStyleHorstmann)
 	delete [] textOut;
 }
 
+TEST_FIXTURE(javaStyleText, JavaStyle1TBS)
+{
+	// test 1tbs style option
+	char text[] =
+		"\npublic class FooClass\n"
+		"{\n"
+		"    private bool var1;\n"
+		"    private bool var2;\n"
+		"\n"
+		"    public void foo(bool isFoo)\n"
+		"    {\n"
+		"        if (isFoo) {\n"
+		"            bar();\n"
+		"        } else {\n"
+		"            anotherBar();\n"
+		"        }\n"
+		"    }\n"
+		"}\n";
+
+	char options[] = "style=1tbs, mode=java";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 //----------------------------------------------------------------------------
-// AStyle C# Style options
+// AStyle C# Style
 // Additional tests are in the Brackets tests
 //----------------------------------------------------------------------------
 
@@ -3393,37 +3848,6 @@ TEST_FIXTURE(sharpStyleText, SharpStyleAllman)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpStyleText, SharpStyleAllmanBSD)
-{
-	// test allman style BSD option
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"public class FooClass\n"
-		"{\n"
-		"    private bool var1;\n"
-		"    private bool var2;\n"
-		"\n"
-		"    public void foo(bool isFoo)\n"
-		"    {\n"
-		"        if (isFoo)\n"
-		"        {\n"
-		"            bar();\n"
-		"        }\n"
-		"        else\n"
-		"            anotherBar();\n"
-		"    }\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
-
-	char options[] = "style=bsd, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
-	delete [] textOut;
-}
-
 TEST_FIXTURE(sharpStyleText, SharpStyleJava)
 {
 	// test java style option
@@ -3474,35 +3898,6 @@ TEST_FIXTURE(sharpStyleText, SharpStyleKR)
 		"}   // end FooName\n";
 
 	char options[] = "style=k&r, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
-	delete [] textOut;
-}
-
-TEST_FIXTURE(sharpStyleText, SharpStyleKRAlt)
-{
-	// test k&r style option
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"public class FooClass\n"
-		"{\n"
-		"    private bool var1;\n"
-		"    private bool var2;\n"
-		"\n"
-		"    public void foo(bool isFoo)\n"
-		"    {\n"
-		"        if (isFoo) {\n"
-		"            bar();\n"
-		"        } else\n"
-		"            anotherBar();\n"
-		"    }\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
-
-	char options[] = "style=k/r, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -3680,3 +4075,33 @@ TEST_FIXTURE(sharpStyleText, SharpStyleHorstmann)
 	delete [] textOut;
 }
 
+
+TEST_FIXTURE(sharpStyleText, SharpStyle1TBS)
+{
+	// test 1tbs style option
+	char text[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"\n"
+		"public class FooClass\n"
+		"{\n"
+		"    private bool var1;\n"
+		"    private bool var2;\n"
+		"\n"
+		"    public void foo(bool isFoo)\n"
+		"    {\n"
+		"        if (isFoo) {\n"
+		"            bar();\n"
+		"        } else {\n"
+		"            anotherBar();\n"
+		"        }\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"}   // end FooName\n";
+
+	char options[] = "style=1tbs, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
