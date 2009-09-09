@@ -1147,7 +1147,7 @@ TEST(AddBracketsSharp)
 		"        System.Console.WriteLine(i);\n"
 		"\n"
 		"    if (isFoo)\n"
-        "        bar(delegate { fooBar* = null; });\n"
+		"        bar(delegate { fooBar* = null; });\n"
 		"}\n";
 	char text[] =
 		"\nvoid Foo()\n"
@@ -1179,7 +1179,7 @@ TEST(AddBracketsKeepOneLiners)
 		"\n"
 		"    if (isFoo())\n"
 		"        return false;\n"
-        "    else\n"
+		"    else\n"
 		"        return true;\n"
 		"\n"
 		"    for (int i = 0; i <= 12; ++i)\n"
@@ -1602,7 +1602,7 @@ TEST(AddOneLineBracketsSharp)
 		"        System.Console.WriteLine(i);\n"
 		"\n"
 		"    if (isFoo)\n"
-        "        bar(delegate { fooBar* = null; });\n"
+		"        bar(delegate { fooBar* = null; });\n"
 		"}\n";
 	char text[] =
 		"\nvoid Foo()\n"

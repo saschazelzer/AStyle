@@ -429,7 +429,7 @@ TEST(CppBracketsNoneLinux)
 	delete [] textOut;
 }
 
-TEST(CppBracketsNoneHorstmann)
+TEST(CppBracketsNoneHorstmann1)
 {
 	// test default brackets option with horstmann brackets
 	char text[] =
@@ -439,6 +439,22 @@ TEST(CppBracketsNoneHorstmann)
 		"    }\n"
 		"    else\n"
 		"    {   anotherBar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsNoneHorstmann2)
+{
+	// test default brackets option with horstmann brackets
+	// and 2 brackets on the same line
+	char text[] =
+		"\nvoid foo()\n"
+		"{   if(isFoo) {\n"
+		"        bar();\n"
 		"    }\n"
 		"}\n";
 	char options[] = "";

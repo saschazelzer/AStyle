@@ -1613,6 +1613,23 @@ TEST(wxWidgetsEventHandler)
 	delete [] textOut;
 }
 
+TEST(wxWidgetsEventHandlerNonIndentComment)
+{
+	// wxWidgets event handler should be indented
+	// but not the comments
+	char text[] =
+		"\nBEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
+		"//    EVT_CLOSE(JP5Frm::WindowClose)\n"
+		"    EVT_PAINT(JP5Frm::WindowPaint)\n"
+		"    EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
+		"//    EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
+		"END_EVENT_TABLE()\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(MfcMessageMap)
 {
 	// MFC message map should be indented
