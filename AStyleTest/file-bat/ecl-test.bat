@@ -11,7 +11,7 @@ set astyle=..\..\AStyle\build\vs2008\bin\AStyled
 
 set options= -vRQ
 REM with indent-blocks (B), add-brackets (j), break-blocks=all (F)
-:: set options= -CSKBGNLwM50m10yejoOcFpPHUxE -vRQ
+:: set options= -CSKBNLwM50m10yejoOcFpPHUxE -vRQ
 REM with indent-brackets (G), add-one-line-brackets (J), break-blocks (f)
 :: set options= -CSKGNLwM50m10yeJoOcfpPHUxE -vRQ
 
