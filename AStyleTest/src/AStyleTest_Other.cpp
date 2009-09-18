@@ -4071,3 +4071,252 @@ TEST(ContinuationForceTabInlineTab2)
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
+
+//----------------------------------------------------------------------------
+// AStyle SQL
+//----------------------------------------------------------------------------
+
+TEST(SQL)
+{
+	// standard SQL statements
+	char text[] =
+		"\nEXEC SQL INCLUDE sqlca;\n"
+		"\n"
+		"void Connect()\n"
+		"{\n"
+		"    EXEC SQL BEGIN DECLARE SECTION;\n"
+		"        char userid[64];\n"
+		"        char password[64];\n"
+		"        char *DBname = \"@ug\";\n"
+		"    EXEC SQL END DECLARE SECTION;\n"
+		"\n"
+		"    EXEC SQL CONECT :userid IDENTIFIED BY :password;\n"
+		"}\n"
+		"\n"
+		"void Insert_Branch()\n"
+		"{\n"
+		"    EXEC SQL INSERT\n"
+		"             INTO   branch (branch_id, branch_name, branch_addr,\n"
+		"                            branch_city, branch_phone)\n"
+		"             VALUES (:bid, :bname, :baddr:baddr_ind);\n"
+		"\n"
+		"    EXEC SQL COMMIT WORK;\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(SQLComment)
+{
+	// SQL statements with comment
+	char text[] =
+		"\nvoid Insert_Branch()\n"
+		"{\n"
+		"    EXEC SQL INSERT\n"
+		"             /*\n"
+		"              *\n"
+		"              */\n"
+		"             INTO   branch (branch_id, branch_name, branch_addr,\n"
+		"                            branch_city, branch_phone)\n"
+		"             VALUES (:bid, :bname, :baddr:baddr_ind);\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(SQLLineComment)
+{
+	// SQL statements with line comment
+	char text[] =
+		"\nvoid Insert_Branch()\n"
+		"{\n"
+		"    EXEC SQL INSERT\n"
+		"             //\n"
+		"             INTO   branch (branch_id, branch_name, branch_addr,\n"
+		"                            branch_city, branch_phone)\n"
+		"             VALUES (:bid, :bname, :baddr:baddr_ind);\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(SQLNonIndentingTabs)
+{
+	// SQL statements with non-indenting tabs
+	char textIn[] =
+		"\nvoid Insert_Branch()\n"
+		"{\n"
+		"  	 	  EXEC SQL INSERT\n"
+		"	           INTO   branch (branch_id, branch_name, branch_addr,\n"
+		"	 	  	   		  branch_city, branch_phone)\n"
+		"    	       VALUES (:bid, :bname, :baddr:baddr_ind);\n"
+		"}\n";
+	char text[] =
+		"\nvoid Insert_Branch()\n"
+		"{\n"
+		"    EXEC SQL INSERT\n"
+		"         INTO   branch (branch_id, branch_name, branch_addr,\n"
+		"                branch_city, branch_phone)\n"
+		"         VALUES (:bid, :bname, :baddr:baddr_ind);\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(SQLNonHangingIndent)
+{
+	// SQL statements with a non-hanging indent
+	// should format as a block
+	char textIn[] =
+		"\nvoid Insert_Branch()\n"
+		"{\n"
+		"          EXEC SQL INSERT\n"
+		"      INTO   branch (branch_id, branch_name, branch_addr,\n"
+		"             branch_city, branch_phone)\n"
+		"      VALUES (:bid, :bname, :baddr:baddr_ind);\n"
+		"}\n";
+	char text[] =
+		"\nvoid Insert_Branch()\n"
+		"{\n"
+		"    EXEC SQL INSERT\n"
+		"    INTO   branch (branch_id, branch_name, branch_addr,\n"
+		"       branch_city, branch_phone)\n"
+		"    VALUES (:bid, :bname, :baddr:baddr_ind);\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(SQLLowerCaseExtraSpaces)
+{
+	// SQL statements in lower case with extra spaces
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"      Exec   Sql SELECT BLP_PIN_TYPE\n"
+		"                 INTO :m_Pin_Type;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    Exec   Sql SELECT BLP_PIN_TYPE\n"
+		"               INTO :m_Pin_Type;\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(SQLEndOfLine)
+{
+	// SQL statements with EXEC SQL at end of line
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    EXEC SQL\n"
+		"         SELECT BLP_PIN_TYPE\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(SQLBreakAfterSemi)
+{
+	// SQL statements should break line after the semi-colon
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    {\n"
+		"        EXEC SQL SELECT BLP_PIN_TYPE,\n"
+		"             INTO :m_Pin_Type;}\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    {\n"
+		"        EXEC SQL SELECT BLP_PIN_TYPE,\n"
+		"             INTO :m_Pin_Type;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(SQLSwitch)
+{
+	// SQL statements in switch
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    switch (foo)\n"
+		"    {\n"
+		"    case 1:\n"
+		"        EXEC SQL SELECT BLP_PIN_TYPE\n"
+		"             INTO :m_Pin_Type;\n"
+		"\n"
+		"    case 2:\n"
+		"    {\n"
+		"        EXEC SQL SELECT BLP_PIN_TYPE\n"
+		"             INTO :m_Pin_Type;\n"
+		"    }\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(SQLSwitchIndentCase)
+{
+	// SQL statements in switch with indent case
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    switch (foo)\n"
+		"    {\n"
+		"    case 1:\n"
+		"        EXEC SQL SELECT BLP_PIN_TYPE\n"
+		"             INTO :m_Pin_Type;\n"
+		"\n"
+		"    case 2:\n"
+		"        {\n"
+		"            EXEC SQL SELECT BLP_PIN_TYPE\n"
+		"                 INTO :m_Pin_Type;\n"
+		"        }\n"
+		"    }\n"
+		"}\n";
+	char options[] = "indent-cases";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(SQLBracketsHorstmann)
+{
+	// SQL statements in horstmann brackets
+	char text[] =
+		"\nvoid foo()\n"
+		"{   EXEC SQL SELECT BLP_PIN_TYPE\n"
+		"             INTO :m_Pin_Type;\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}

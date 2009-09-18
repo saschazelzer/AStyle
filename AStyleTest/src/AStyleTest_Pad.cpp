@@ -2457,3 +2457,50 @@ TEST(FillEmptyLinesForceTab)
 	delete [] textOut;
 }
 
+TEST(FillEmptyLinesEventTable)
+{
+	// test fill empty lines in an event table
+	char textIn[] =
+		"\nBEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
+		"    EVT_PAINT(JP5Frm::WindowPaint)\n"
+		"\n"
+		"\n"
+		"    EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
+		"END_EVENT_TABLE()\n";
+	char text[] =
+		"\nBEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
+		"    EVT_PAINT(JP5Frm::WindowPaint)\n"
+		"    \n"
+		"    \n"
+		"    EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
+		"END_EVENT_TABLE()\n";
+	char options[] = "fill-empty-lines";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(FillEmptyLinesSQL)
+{
+	// test fill empty lines in an SQL statement
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    EXEC SQL INSERT\n"
+		"             INTO   branch (branch_id)\n"
+		"\n"
+		"             VALUES (:bid, :bname, :baddr:baddr_ind);\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    EXEC SQL INSERT\n"
+		"             INTO   branch (branch_id)\n"
+		"    \n"
+		"             VALUES (:bid, :bname, :baddr:baddr_ind);\n"
+		"}\n";
+	char options[] = "fill-empty-lines";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
