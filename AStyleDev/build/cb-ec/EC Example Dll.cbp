@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Embarcadero Example Dll" />
+		<Option pch_mode="0" />
+		<Option default_target="ExampleD" />
+		<Option compiler="embarcadero_compiler_62" />
+		<Build>
+			<Target title="AStyleD">
+				<Option output="bin\AStyle" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objDll" />
+				<Option type="3" />
+				<Option compiler="embarcadero_compiler_62" />
+				<Compiler>
+					<Add option="-w" />
+					<Add option="-v-" />
+					<Add option="-O2" />
+					<Add option="-DASTYLE_LIB" />
+					<Add option="-DNDEBUG" />
+				</Compiler>
+				<Linker>
+					<Add option="-c" />
+					<Add option="-Gn" />
+					<Add option="-x" />
+					<Add option="-Gi" />
+					<Add library="cw32" />
+					<Add library="import32" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="cmd /c del  bin\*.tds" />
+				</ExtraCommands>
+			</Target>
+			<Target title="ExampleD">
+				<Option output="bin\ExampleD.exe" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="..\" />
+				<Option object_output="objDll" />
+				<Option deps_output="dep" />
+				<Option type="1" />
+				<Option compiler="embarcadero_compiler_62" />
+				<Option projectCompilerOptionsRelation="1" />
+				<Option projectLinkerOptionsRelation="1" />
+				<Option projectIncludeDirsRelation="1" />
+				<Option projectResourceIncludeDirsRelation="1" />
+				<Option projectLibDirsRelation="1" />
+				<Compiler>
+					<Add option="-w" />
+					<Add option="-v-" />
+					<Add option="-O2" />
+					<Add option="-WCR" />
+					<Add option="-DNDEBUG" />
+				</Compiler>
+				<Linker>
+					<Add option="-c" />
+					<Add option="-Gn" />
+					<Add option="-x" />
+					<Add library="cw32" />
+					<Add library="import32" />
+					<Add library="kernel32" />
+					<Add library="AStyle" />
+					<Add directory="bin" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="cmd /c del  bin\*.tds" />
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<VirtualTargets>
+			<Add alias="All" targets="AStyleD;ExampleD;" />
+		</VirtualTargets>
+		<Unit filename="..\..\src-c\Example.cpp">
+			<Option target="ExampleD" />
+		</Unit>
+		<Unit filename="..\..\..\AStyle\src\ASBeautifier.cpp">
+			<Option target="AStyleD" />
+		</Unit>
+		<Unit filename="..\..\..\AStyle\src\ASEnhancer.cpp">
+			<Option target="AStyleD" />
+		</Unit>
+		<Unit filename="..\..\..\AStyle\src\ASFormatter.cpp">
+			<Option target="AStyleD" />
+		</Unit>
+		<Unit filename="..\..\..\AStyle\src\ASResource.cpp">
+			<Option target="AStyleD" />
+		</Unit>
+		<Unit filename="..\..\..\AStyle\src\astyle.h">
+			<Option target="AStyleD" />
+		</Unit>
+		<Unit filename="..\..\..\AStyle\src\astyle_main.cpp">
+			<Option target="AStyleD" />
+		</Unit>
+		<Unit filename="..\..\..\AStyle\src\astyle_main.h">
+			<Option target="AStyleD" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
