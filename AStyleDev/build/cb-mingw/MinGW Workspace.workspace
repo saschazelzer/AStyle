@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
-	<Workspace title="Workspace">
+	<Workspace title="MinGW Workspace">
 		<Project filename="MinGW AStyle.cbp" active="1" />
 		<Project filename="MinGW AStyle Java.cbp" />
 		<Project filename="MinGW AStyle Sharp.cbp" />
