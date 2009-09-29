@@ -9,13 +9,13 @@ set testdata=..\..\TestData
 :: set astyle=..\..\AStyle\build\vs2005\bin\AStyle
 set astyle=..\..\AStyle\build\vs2008\bin\AStyled
 
-set options= -gjOvRQ
-REM with indent-blocks (B), add-brackets (j), break-blocks=all (F)
-:: set options= -CSKBNLwM50m10yejoOcFpPHUxE -vRQ
-REM with indent-brackets (G), add-one-line-brackets (J), break-blocks (f)
-:: set options= -CSKGNLwM50m10yeJoOcfpPHUxE -vRQ
-
 set excludes= --exclude=TestPrograms
+
+set options= -vRQ
+REM indent-blocks (B), add-brackets (j), break-blocks=all (F), align-pointer=type (k1)
+:: set options= -CSKBNLwM50m10yejoOcFpPHUxEk1 -vRQ
+REM indent-brackets (G), add-one-line-brackets (J), break-blocks (f), align-pointer=middle (k2)
+:: set options= -CSKGNLwM50m10yeJoOcfpPHUxEk2 -vRQ
 
 
 call  libCompile.bat  %astyle%
