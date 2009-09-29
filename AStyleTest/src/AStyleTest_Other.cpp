@@ -4203,12 +4203,22 @@ TEST(SQLLowerCaseExtraSpaces)
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{\n"
+		"      exec  sql   begin   declare   section;\n"
+		"      char userid[64];\n"
+		"      char password[64];\n"
+		"      exeC  SqL   End   Declare  Section;\n"
+		"\n"
 		"      Exec   Sql SELECT BLP_PIN_TYPE\n"
 		"                 INTO :m_Pin_Type;\n"
 		"}\n";
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
+		"    exec  sql   begin   declare   section;\n"
+		"        char userid[64];\n"
+		"        char password[64];\n"
+		"    exeC  SqL   End   Declare  Section;\n"
+		"\n"
 		"    Exec   Sql SELECT BLP_PIN_TYPE\n"
 		"               INTO :m_Pin_Type;\n"
 		"}\n";

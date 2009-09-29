@@ -2308,6 +2308,77 @@ TEST(AlignPointerTypeDereference)
 	delete [] textOut;
 }
 
+TEST(AlignPointerTypeCast1)
+{
+	// cast should not be space padded
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const string *bar;          // comment0\n"
+		"    foo = (RefNode **) bar();   // comment1\n"
+		"    foo = (RefNode *) bar();    // comment2\n"
+		"    foo = ( RefNode ** ) bar(); // comment1\n"
+		"    foo = ( RefNode * ) bar();  // comment2\n"
+		"    foo = const_cast<RefNode **>(bar()); // comment3\n"
+		"    foo = const_cast<RefNode *>(bar());  // comment4\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const string* bar;          // comment0\n"
+		"    foo = (RefNode**) bar();    // comment1\n"
+		"    foo = (RefNode*) bar();     // comment2\n"
+		"    foo = ( RefNode** ) bar();  // comment1\n"
+		"    foo = ( RefNode* ) bar();   // comment2\n"
+		"    foo = const_cast<RefNode**>(bar());  // comment3\n"
+		"    foo = const_cast<RefNode*>(bar());   // comment4\n"
+		"}\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerTypeCast2)
+{
+	// cast should not be space padded
+	char textIn[] =
+		"\nvoid foo(void *, void *);\n"
+		"void foo(void *fooBar, void * fooBar);\n";
+	char text[] =
+		"\nvoid foo(void*, void*);\n"
+		"void foo(void* fooBar, void* fooBar);\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerTypeConvertTabs)
+{
+	// test tab conversion on type
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    wxListBox	*channel;\n"
+		"    wxTextCtrl	*filename;\n"
+		"    char		*	stamp;\n"
+		"    void			*userData;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    wxListBox*   channel;\n"
+		"    wxTextCtrl*  filename;\n"
+		"    char*           stamp;\n"
+		"    void*            userData;\n"
+		"}\n";
+	char options[] = "align-pointer=type, convert-tabs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointerTypePointerToPointer)
 {
 	// test double pointer
@@ -2469,8 +2540,8 @@ TEST(AlignPointerMiddle)
 		"{\n"
 		"    const string * bar;    // comment\n"
 		"    const string * bar;    // comment\n"
-		"    const string *  bar;   // comment\n"
-		"    const string *  bar;   // comment\n"
+		"    const string  * bar;   // comment\n"
+		"    const string  * bar;   // comment\n"
 		"    const string * bar;    // comment\n"
 		"    const string & bar;    // comment\n"
 		"    const string & bar;    // comment\n"
@@ -2559,7 +2630,7 @@ TEST(AlignPointerMiddleDereference)
 		"        *traceOutF << lineNum << endl;\n"
 		"    else\n"
 		"        *traceOutF << fileName << endl;\n"
-		"    RegisterImage((char**)xpm_data_ptrs[i]);\n"
+		"    RegisterImage((char **)xpm_data_ptrs[i]);\n"
 		"    if (i > *maxcol) *maxcol = i;\n"
 		"    *newVec = **iter;\n"
 		"    (info.*entryFunc[j])(value);\n"
@@ -2573,6 +2644,77 @@ TEST(AlignPointerMiddleDereference)
 		"}\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddleCast1)
+{
+	// cast should be space padded
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const string* bar;          // comment0\n"
+		"    foo = (RefNode**) bar();    // comment1\n"
+		"    foo = (RefNode*) bar();     // comment2\n"
+		"    foo = ( RefNode** ) bar();  // comment1\n"
+		"    foo = ( RefNode* ) bar();   // comment2\n"
+		"    foo = const_cast<RefNode**>(bar());  // comment3\n"
+		"    foo = const_cast<RefNode*>(bar());   // comment4\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const string * bar;         // comment0\n"
+		"    foo = (RefNode **) bar();   // comment1\n"
+		"    foo = (RefNode *) bar();    // comment2\n"
+		"    foo = ( RefNode ** ) bar(); // comment1\n"
+		"    foo = ( RefNode * ) bar();  // comment2\n"
+		"    foo = const_cast<RefNode **>(bar()); // comment3\n"
+		"    foo = const_cast<RefNode *>(bar());  // comment4\n"
+		"}\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddleCast2)
+{
+	// cast should be space padded
+	char textIn[] =
+		"\nvoid foo(void*, void*);\n"
+		"void foo(void*fooBar, void* fooBar);\n";
+	char text[] =
+		"\nvoid foo(void *, void *);\n"
+		"void foo(void * fooBar, void * fooBar);\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddleConvertTabs)
+{
+	// test tab conversion on type
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    wxListBox*	channel;\n"
+		"    wxTextCtrl	*filename;\n"
+		"    char		*	stamp;\n"
+		"    void*			userData;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    wxListBox * channel;\n"
+		"    wxTextCtrl * filename;\n"
+		"    char      *     stamp;\n"
+		"    void      *     userData;\n"
+		"}\n";
+	char options[] = "align-pointer=middle, convert-tabs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
@@ -2880,7 +3022,7 @@ TEST(AlignPointerNameDereference)
 		"        *traceOutF << lineNum << endl;\n"
 		"    else\n"
 		"        *traceOutF << fileName << endl;\n"
-		"    RegisterImage((char**)xpm_data_ptrs[i]);\n"
+		"    RegisterImage((char **)xpm_data_ptrs[i]);\n"
 		"    if (i > *maxcol) *maxcol = i;\n"
 		"    *newVec = **iter;\n"
 		"    (info.*entryFunc[j])(value);\n"
@@ -2894,6 +3036,77 @@ TEST(AlignPointerNameDereference)
 		"}\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNameCast1)
+{
+	// cast should be space padded
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const string* bar;          // comment0\n"
+		"    foo = (RefNode**) bar();    // comment1\n"
+		"    foo = (RefNode*) bar();     // comment2\n"
+		"    foo = ( RefNode** ) bar();  // comment1\n"
+		"    foo = ( RefNode* ) bar();   // comment2\n"
+		"    foo = const_cast<RefNode**>(bar());  // comment3\n"
+		"    foo = const_cast<RefNode*>(bar());   // comment4\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const string *bar;          // comment0\n"
+		"    foo = (RefNode **) bar();   // comment1\n"
+		"    foo = (RefNode *) bar();    // comment2\n"
+		"    foo = ( RefNode ** ) bar(); // comment1\n"
+		"    foo = ( RefNode * ) bar();  // comment2\n"
+		"    foo = const_cast<RefNode **>(bar()); // comment3\n"
+		"    foo = const_cast<RefNode *>(bar());  // comment4\n"
+		"}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNameCast2)
+{
+	// cast should be space padded
+	char textIn[] =
+		"\nvoid foo(void*, void*);\n"
+		"void foo(void*fooBar, void* fooBar);\n";
+	char text[] =
+		"\nvoid foo(void *, void *);\n"
+		"void foo(void *fooBar, void *fooBar);\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNameConvertTabs)
+{
+	// test tab conversion on type
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    wxListBox*	channel;\n"
+		"    wxTextCtrl*	filename;\n"
+		"    char		*	stamp;\n"
+		"    void*			userData;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    wxListBox  *channel;\n"
+		"    wxTextCtrl *filename;\n"
+		"    char           *stamp;\n"
+		"    void           *userData;\n"
+		"}\n";
+	char options[] = "align-pointer=name, convert-tabs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
@@ -3038,29 +3251,35 @@ TEST(AlignPointerNameSans2)
 TEST(AlignPointerShortLowerLimit)
 {
 	// test error handling for the short option lower limit
-	// this cannot call the error handler, check only for NULL return
-	// memory has NOT been allocated for this error
+	// should call the error handler
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
 		"    bar();\n"
 		"}\n";
+	// use errorHandler2 to verify the error
 	char options[] = "-k0";
-	char* textOut = AStyleMain(text, options, NULL, memoryAlloc);
-	CHECK(textOut == NULL);
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	CHECK_EQUAL(errorsIn + 1, errorsOut);
+	delete [] textOut;
 }
 
 TEST(AlignPointerShortUpperLimit)
 {
 	// test error handling for the short option upper limit
-	// this cannot call the error handler, check only for NULL return
-	// memory has NOT been allocated for this error
+	// should call the error handler
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
 		"    bar();\n"
 		"}\n";
-	char options[] = "-k2";
-	char* textOut = AStyleMain(text, options, NULL, memoryAlloc);
-	CHECK(textOut == NULL);
+	// use errorHandler2 to verify the error
+	char options[] = "-k4";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	CHECK_EQUAL(errorsIn + 1, errorsOut);
+	delete [] textOut;
 }
