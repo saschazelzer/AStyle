@@ -61,9 +61,6 @@
 				</Linker>
 			</Target>
 		</Build>
-		<VirtualTargets>
-			<Add alias="All" targets="Debug;Release;Coverage;" />
-		</VirtualTargets>
 		<Compiler>
 			<Add option="-fexceptions" />
 		</Compiler>
