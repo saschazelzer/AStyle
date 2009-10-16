@@ -8,6 +8,27 @@
 // AStyle version 1.24 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(v124ElseAttachedToLineComment)
+{
+	// else should not be attached to a line coment
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if ( x == 'G')\n"
+		"        y = 1;\n"
+		"    else\n"
+		"//  if ( x == 'W')\n"
+		"//      y= 3;\n"
+		"//  else\n"
+		"        if ( x == 'H')\n"
+		"            y = 4;\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(v124BreakOneLineBloksComment1)
 {
 	// comment should be moved to the previous line
@@ -2045,6 +2066,23 @@ TEST(EnumNamespaceIndent2)
 		"                };\n"
 		"}\n";
 	char options[] = "indent-namespaces";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(EnumClassTypeSafe)
+{
+	// type safe enum class should be formatted as an enum
+	char text[] =
+		"\nenum class Day\n"
+		"{\n"
+		"    NoDays=0,\n"
+		"    Sunday=1,\n"
+		"    Monday,\n"
+		"    FirstDay = Day::Sunday\n"
+		"};\n";
+	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;

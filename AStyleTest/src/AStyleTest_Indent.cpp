@@ -1402,6 +1402,85 @@ TEST(IndentPreprocessorSans)
 }
 
 //-------------------------------------------------------------------------
+// AStyle Column one comment
+//-------------------------------------------------------------------------
+
+TEST(IndentCol1Comment)
+{
+	// test indent column one comment
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    // comment 1\n"
+		"// comment 2\n"
+		" // comment 3\n"
+		"   // comment 4\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    // comment 1\n"
+		"    // comment 2\n"
+		"    // comment 3\n"
+		"    // comment 4\n"
+		"}\n";
+	char options[] = "indent-col1-comments";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentCol1CommentShort)
+{
+	// test indent column one comment short option
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    // comment 1\n"
+		"// comment 2\n"
+		" // comment 3\n"
+		"   // comment 4\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    // comment 1\n"
+		"    // comment 2\n"
+		"    // comment 3\n"
+		"    // comment 4\n"
+		"}\n";
+	char options[] = "-Y";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentCol1CommentSans)
+{
+	// test without indent column one comment
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    // comment 1\n"
+		"// comment 2\n"
+		" // comment 3\n"
+		"   // comment 4\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    // comment 1\n"
+		"// comment 2\n"
+		"// comment 3\n"
+		"    // comment 4\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
 // AStyle Max Instatement Indent
 //-------------------------------------------------------------------------
 
