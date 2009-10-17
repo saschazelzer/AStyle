@@ -14,10 +14,10 @@ echo * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 echo CodeBlocks_%today%
 
 REM checkout codeblocks to TEMP
-"%progdir%\svn"  checkout  "svn://svn.berlios.de/codeblocks/trunk"  "%TEMP%\CodeBlocks_%today%"
+:: "%progdir%\svn"  checkout  "svn://svn.berlios.de/codeblocks/trunk"  "%TEMP%\CodeBlocks_%today%"
 
 REM "%progdir%\svn"  checkout  --revision {2007-07-05} "svn://svn.berlios.de/codeblocks/trunk"  "%TEMP%\CodeBlocks"
-REM "%progdir%\svn"  checkout  --revision 4346 "svn://svn.berlios.de/codeblocks/trunk"  "%TEMP%\CodeBlocks"
+"%progdir%\svn"  checkout  --revision 5859 "svn://svn.berlios.de/codeblocks/trunk"  "%TEMP%\CodeBlocks"
 
 echo -
 pause

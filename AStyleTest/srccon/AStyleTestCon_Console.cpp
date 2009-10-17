@@ -461,7 +461,6 @@ TEST(processOptionsConsoleOptions)
 	optionsIn.push_back("--suffix=none");
 	optionsIn.push_back("--suffix=.old");
 	optionsIn.push_back("--recursive");
-	optionsIn.push_back("--preserve-date");
 	optionsIn.push_back("--verbose");
 	optionsIn.push_back("--formatted");
 	optionsIn.push_back("--quiet");
@@ -480,7 +479,6 @@ TEST(processOptionsConsoleOptions)
 	CHECK(g_console->noBackup);
 	CHECK_EQUAL(string(".old"), g_console->origSuffix);
 	CHECK(g_console->isRecursive);
-	CHECK(g_console->preserveDate);
 	CHECK(g_console->isVerbose);
 	CHECK(g_console->isFormattedOnly);
 	CHECK(g_console->isQuiet);
@@ -542,7 +540,6 @@ TEST(processOptionsConsoleOptionsShort)
 	optionsIn.push_back("-n");	// suffix=none
 	optionsIn.push_back("-r");	// recursive
 	optionsIn.push_back("-R");	// recursive
-	optionsIn.push_back("-Z");	// preserve-date
 	optionsIn.push_back("-v");	// verbose
 	optionsIn.push_back("-Q");	// formatted
 	optionsIn.push_back("-q");	// quiet
@@ -560,7 +557,6 @@ TEST(processOptionsConsoleOptionsShort)
 
 	CHECK(g_console->noBackup);
 	CHECK(g_console->isRecursive);
-	CHECK(g_console->preserveDate);
 	CHECK(g_console->isVerbose);
 	CHECK(g_console->isFormattedOnly);
 	CHECK(g_console->isQuiet);
