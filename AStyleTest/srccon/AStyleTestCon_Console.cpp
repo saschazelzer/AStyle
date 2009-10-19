@@ -718,6 +718,55 @@ TEST(processOptionsVersionOptionShort)
 }
 
 //----------------------------------------------------------------------------
+// AStyle test file encoding
+//----------------------------------------------------------------------------
+
+TEST(encodingUTF16BE)
+// test encoding with UTF-16BE BOM
+{
+	createConsoleGlobalObject();
+	int encoding = g_console->getFileEncoding("\xFE\xFF  ");
+	CHECK_EQUAL(UTF_16BE, encoding);
+	deleteConsoleGlobalObject();
+}
+
+TEST(encodingUTF16LE)
+// test encoding with UTF-16LE BOM
+{
+	createConsoleGlobalObject();
+	int encoding = g_console->getFileEncoding("\xFF\xFE  ");
+	CHECK_EQUAL(UTF_16LE, encoding);
+	deleteConsoleGlobalObject();
+}
+
+TEST(encodingUTF32BE)
+// test encoding with UTF-32BE BOM
+{
+	createConsoleGlobalObject();
+	int encoding = g_console->getFileEncoding("\x00\x00\xFE\xFF");
+	CHECK_EQUAL(UTF_32BE, encoding);
+	deleteConsoleGlobalObject();
+}
+
+TEST(encodingUTF32LE)
+// test encoding with UTF-32LE BOM
+{
+	createConsoleGlobalObject();
+	int encoding = g_console->getFileEncoding("\xFF\xFE\x00\x00");
+	CHECK_EQUAL(UTF_32LE, encoding);
+	deleteConsoleGlobalObject();
+}
+
+TEST(encodingZeroLineLength)
+// test encoding with first line of zero length
+{
+	createConsoleGlobalObject();
+	int encoding = g_console->getFileEncoding("");
+	CHECK_EQUAL(ENCODING_OK, encoding);
+	deleteConsoleGlobalObject();
+}
+
+//----------------------------------------------------------------------------
 // AStyle test getFilePaths(), wildcmp(), and fileName vector
 //----------------------------------------------------------------------------
 
