@@ -23,9 +23,11 @@ echo -
 
 %prog%  %options%  ..\src\*.cpp
 echo -
-%prog%  %optionsh%  ..\src\*.h 
+%prog%  %optionsh%  ..\src\*.h
 echo -
-%prog%  %options%  ..\srccon\*.cpp 
+%prog%  %options%  ..\srccon\*.cpp
+echo -
+%prog%  %options%  ..\srccon\*.h
 
 echo -
 echo * * * *  end of format  * * * *

@@ -4111,6 +4111,62 @@ TEST(ContinuationForceTabInlineTab2)
 }
 
 //----------------------------------------------------------------------------
+// C++ operators << and >>
+//----------------------------------------------------------------------------
+
+TEST(AlignmentOperatorCout)
+{
+	// Alignment of the operator<<
+	char text[] =
+		"\nvoid foo(std::ostream& os)\n"
+		"{\n"
+		"    os << \"Foo\"\n"
+		"       << \"Bar\"\n"
+		"       << std::endl;\n"
+		"\n"
+		"    cout << \"Foo\"\n"
+		"         << \"Bar\"\n"
+		"         << std::endl;\n"
+		"\n"
+		"    helpText << wxT(\"text1\")\n"
+		"             << wxT(\"text2\")\n"
+		"             << wxT(\"text3\");\n"
+		"\n"
+		"    int i = 0;\n"
+		"    if (i)\n"
+		"        i = 0;\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignmentOperatorCin)
+{
+	// Alignment of the operator<<
+	char text[] =
+		"\nvoid foo(std::istream& someinputstream)\n"
+		"{\n"
+		"    someinputstream >> \"Foo\"\n"
+		"                    >> \"Bar\"\n"
+		"                    >> std::endl;\n"
+		"\n"
+		"    cin >> \"Foo\"\n"
+		"        >> \"Bar\"\n"
+		"        >> std::endl;\n"
+		"\n"
+		"    int i = 0;\n"
+		"    if (i)\n"
+		"        i = 0;\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+//----------------------------------------------------------------------------
 // AStyle SQL
 //----------------------------------------------------------------------------
 
