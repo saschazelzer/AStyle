@@ -373,6 +373,25 @@ TEST(CppBracketsNoneExtern)
 	delete [] textOut;
 }
 
+TEST(CppBracketsNoneAssembler)
+{
+	// assembler statement should be formatted
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    _asm\n"
+		"    {\n"
+		"        mov eax, fs:[0x8]\n"
+		"        mov dx, 0xD007\n"
+		"        out dx, al\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(CppBracketsNoneBreak)
 {
 	// test default brackets option with broken brackets
@@ -1412,6 +1431,33 @@ TEST(CppBracketsBreakExtern)
 		"	}\n"
 		"}\n";
 	char options[] = "indent=tab, brackets=break";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsBreakAssembler)
+{
+	// assembler statement should be formatted
+	char textIn[] =
+		"\nvoid foo() {\n"
+		"    _asm {\n"
+		"        mov eax, fs:[0x8]\n"
+		"        mov dx, 0xD007\n"
+		"        out dx, al\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    _asm\n"
+		"    {\n"
+		"        mov eax, fs:[0x8]\n"
+		"        mov dx, 0xD007\n"
+		"        out dx, al\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -2463,6 +2509,33 @@ TEST(CppBracketsAttachExtern)
 		"	}\n"
 		"}\n";
 	char options[] = "indent=tab, brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsAttachAssembler)
+{
+	// assembler statement should be formatted
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    _asm\n"
+		"    {\n"
+		"        mov eax, fs:[0x8]\n"
+		"        mov dx, 0xD007\n"
+		"        out dx, al\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo() {\n"
+		"    _asm {\n"
+		"        mov eax, fs:[0x8]\n"
+		"        mov dx, 0xD007\n"
+		"        out dx, al\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -3552,6 +3625,34 @@ TEST(CppBracketsLinuxExtern)
 		"	}\n"
 		"}\n";
 	char options[] = "indent=tab, brackets=linux";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsLinuxAssembler)
+{
+	// assembler statement should be formatted
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    _asm\n"
+		"    {\n"
+		"        mov eax, fs:[0x8]\n"
+		"        mov dx, 0xD007\n"
+		"        out dx, al\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    _asm {\n"
+		"        mov eax, fs:[0x8]\n"
+		"        mov dx, 0xD007\n"
+		"        out dx, al\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -4738,6 +4839,34 @@ TEST(CppBracketsStroustrupExtern)
 	delete [] textOut;
 }
 
+TEST(CppBracketsStroustrupAssembler)
+{
+	// assembler statement should be formatted
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    _asm\n"
+		"    {\n"
+		"        mov eax, fs:[0x8]\n"
+		"        mov dx, 0xD007\n"
+		"        out dx, al\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    _asm {\n"
+		"        mov eax, fs:[0x8]\n"
+		"        mov dx, 0xD007\n"
+		"        out dx, al\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=stroustrup";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(CppBracketsStroustrupBreak)
 {
 	// test stroustrup brackets option with broken brackets
@@ -5879,6 +6008,32 @@ TEST(CppBracketsHorstmannExtern)
 		"	}\n"
 		"}\n";
 	char options[] = "indent=tab, brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsHorstmannAssembler)
+{
+	// assembler statement should be formatted
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    _asm {\n"
+		"        mov eax, fs:[0x8]\n"
+		"        mov dx, 0xD007\n"
+		"        out dx, al\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{   _asm\n"
+		"    {   mov eax, fs:[0x8]\n"
+		"        mov dx, 0xD007\n"
+		"        out dx, al\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;

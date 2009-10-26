@@ -1463,6 +1463,20 @@ TEST(PadOperatorSans4)
 
 TEST(PadOperatorSans5)
 {
+	// embedded assembler should not be padded (the colon)
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    _asm mov eax, fs:[0x8]\n"
+		"}\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperatorSans6)
+{
 	// this template should NOT be padded
 	char text[] =
 		"\ntypedef foo<void(whatever *const)> callback;\n";
@@ -1472,7 +1486,7 @@ TEST(PadOperatorSans5)
 	delete [] textOut;
 }
 
-TEST(PadOperatorSans6)
+TEST(PadOperatorSans7)
 {
 	// the Java generic <?> should NOT be padded
 	char text[] =

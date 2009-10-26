@@ -2290,6 +2290,28 @@ TEST(PreprocessorCommandType)
 	delete [] textOut;
 }
 
+TEST(PreprocessorAssembler)
+{
+	// can have preprocessor in a assembler block
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    __asm {\n"
+		"        mov eax, fs:[0x8]\n"
+		"#ifdef _WIN32\n"
+		"        mov dx, 0xD007\n"
+		"#else\n"
+		"        mov dx, 0xD008\n"
+		"#endif\n"
+		"        out dx, al\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(PreprocessorMissingOpener)
 {
 	// #else with missing #if
@@ -4418,6 +4440,96 @@ TEST(SQLBracketsHorstmann)
 		"\nvoid foo()\n"
 		"{   EXEC SQL SELECT BLP_PIN_TYPE\n"
 		"             INTO :m_Pin_Type;\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+//----------------------------------------------------------------------------
+// AStyle Assembler
+//----------------------------------------------------------------------------
+
+TEST(Assembler1)
+{
+	// embedded assembler
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    asm (\"\n"
+		"         movl -4(%ebp), %eax	; comment1\n"
+		"         sarl %ebx				; comment2\n"
+		"         \");\n"
+		"\n"
+		"    if (foo()) {\n"
+		"        asm(\"int3\"); /*trap*/\n"
+		"    }\n"
+		"\n"
+		"    if (bar())\n"
+		"        { asm(\"int3\"); }\n"
+		"}\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Assembler2)
+{
+	// embedded assembler
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    asm (\"sar1 %1\n"
+		"         movl %1, %0\": \"=r\"(res[i]) :\"r\" (res[i]), \"memory\");\n"
+		"\n"
+		"    __asm__ (\"sarl %0\"\n"
+		"             : \"=r\" (res[i]) :\"r\" (num[i]), \"r\" (num[i]): \"memory\");\n"
+		"\n"
+		"    asm (\"addl %%ebx, %%eax;\"\n"
+		"         : \"=a\" (add)\n"
+		"         : \"a\" (arg1), \"b\" (arg2) );\n"
+		"\n"
+		"    __asm__ (\"addl %%ebx, %%eax;\" : \"=a\" (add) : \"a\" (arg1), \"b\" (arg2));\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AssemblerMS1)
+{
+	// microsoft specific embedded assembler
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    _asm mov eax, fs:[0x8]\n"
+		"    __asm push edp\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AssemblerMS2)
+{
+	// microsoft specific embedded assembler
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    _asm {\n"
+		"        mov eax, fs:[0x8]\n"
+		"        mov dx, 0xD007\n"
+		"        out dx, al\n"
+		"    }\n"
+		"\n"
+		"    __asm {\n"
+		"        mov eax, fs:[0x8]\n"
+		"        mov dx, 0xD007\n"
+		"        out dx, al\n"
+		"    }\n"
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);

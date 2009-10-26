@@ -2126,6 +2126,171 @@ TEST(ConvertTabsMisc6)
 //-------------------------------------------------------------------------
 // AStyle Align Pointer
 //-------------------------------------------------------------------------
+TEST(AlignPointerNone)
+{
+	// pointers and references should not be changed
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string* bar;     // comment\n"
+		"    const string *bar;     // comment\n"
+		"    const string   *bar;   // comment\n"
+		"    const string  * bar;   // comment\n"
+		"    const string*bar;      // comment\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNoneTabs)
+{
+	// test with tab separators
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const char	*bar;\n"
+		"    const char		*bar;\n"
+		"    const char*		bar;\n"
+		"    const char		*		bar;\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNoneAddressOf)
+{
+	// "address of" operator should NOT be changed
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (bar1 == &AS_BAR1\n"
+		"            || bar2 == &AS_BAR2)   // comment\n"
+		"        return;\n"
+		"    return &x;\n"
+		"    return (&x);\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNoneDereference)
+{
+	// dereference should NOT be changed
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    TRxtra (*prevWordH);   // comment\n"
+		"    if (fileName.empty())\n"
+		"        *traceOutF << lineNum << endl;\n"
+		"    else\n"
+		"        *traceOutF << fileName << endl;\n"
+		"    RegisterImage((char**)xpm_data_ptrs[i]);\n"
+		"    if (i > *maxcol) *maxcol = i;\n"
+		"    *newVec = **iter;\n"
+		"    (info.*entryFunc[j])(value);\n"
+		"    bool gtr = (*a)->IsLarger(**b);\n"
+		"    return *this;\n"
+		"    return (*this);\n"
+		"    if (*doc) delete *doc;\n"
+		"\n"
+		"    if(prev) next = next;\n"
+		"    else *chain = next;\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNoneCast1)
+{
+	// cast should not be changed
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const string *bar;          // comment0\n"
+		"    foo = (RefNode **) bar();   // comment1\n"
+		"    foo = (RefNode *) bar();    // comment2\n"
+		"    foo = ( RefNode ** ) bar(); // comment1\n"
+		"    foo = ( RefNode * ) bar();  // comment2\n"
+		"    foo = const_cast<RefNode **>(bar()); // comment3\n"
+		"    foo = const_cast<RefNode *>(bar());  // comment4\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNoneCast2)
+{
+	// cast should not be changed
+	char text[] =
+		"\nvoid foo(void *, void *);\n"
+		"void foo(void *fooBar, void * fooBar);\n"
+		"void foo(void **, void**);\n"
+		"void foo(wxCommandEvent &);\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNoneConvertTabs)
+{
+	// test tab conversion
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    wxListBox	*channel;\n"
+		"    wxTextCtrl	*filename;\n"
+		"    char		*	stamp;\n"
+		"    void			*userData;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    wxListBox   *channel;\n"
+		"    wxTextCtrl  *filename;\n"
+		"    char        *   stamp;\n"
+		"    void            *userData;\n"
+		"}\n";
+	char options[] = "convert-tabs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNonePointerToPointer)
+{
+	// test double pointer
+	char text[] =
+		"\nint main(int argc, char **argv)\n"
+		"{\n"
+		"    char    **bar1;\n"
+		"    char  **  bar1;\n"
+		"    char**    bar1;\n"
+		"    char	**	bar1;\n"
+		"    char		**		bar1;\n"
+		"    char**bar1;\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointerType)
 {
 	// test align pointer=type
