@@ -49,7 +49,8 @@
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -64,9 +65,10 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="AStyled.lib"
 				OutputFile="..\debug\Example2D.exe"
-				LinkIncremental="2"
+				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\debug"
 				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(ProjectDir)$(ConfigurationName)\$(TargetName).pdb"
 				SubSystem="1"
 				TargetMachine="0"
 			/>
@@ -90,6 +92,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Removing $(TargetName).lib and $(TargetName).exp"
+				CommandLine="cmd /c  del  $(TargetDir)$(TargetName).lib  $(TargetDir)$(TargetName).exp"
 			/>
 		</Configuration>
 		<Configuration
@@ -127,6 +131,7 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
 				DebugInformationFormat="3"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -169,6 +174,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Removing $(TargetName).lib and $(TargetName).exp"
+				CommandLine="cmd /c  del  $(TargetDir)$(TargetName).lib  $(TargetDir)$(TargetName).exp"
 			/>
 		</Configuration>
 	</Configurations>

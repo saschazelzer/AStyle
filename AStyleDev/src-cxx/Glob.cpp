@@ -39,7 +39,7 @@ int wildcmp(const char *wild, const char *data)
 }
 
 
-int main(int argc, char* argv[])
+int main(int, char**)
 {
     const char *wild = "bl?h.*";
     const char *data[] =
