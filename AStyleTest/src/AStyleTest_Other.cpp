@@ -4188,6 +4188,23 @@ TEST(AlignmentOperatorCin)
 	delete [] textOut;
 }
 
+TEST(AlignmentOperatorCoutBeginLine)
+{
+	// Alignment of the operator<< when it begins the line
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    Context->m_EventsConnectingCode\n"
+		"            << _T(\"Connect(\")\n"
+		"            << m_EventArray[i].Type\n"
+		"            << _T(\");\") << endl;\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 //----------------------------------------------------------------------------
 // AStyle SQL
 //----------------------------------------------------------------------------
@@ -4465,6 +4482,9 @@ TEST(Assembler1)
 		"        asm(\"int3\"); /*trap*/\n"
 		"    }\n"
 		"\n"
+		"    int data;\n"
+		"    asm volatile (\"mcr\t\" \"14, 0, %0, c1, c0\"::\"r\" (data));\n"
+		"\n"
 		"    if (bar())\n"
 		"        { asm(\"int3\"); }\n"
 		"}\n";
@@ -4530,6 +4550,84 @@ TEST(AssemblerMS2)
 		"        mov dx, 0xD007\n"
 		"        out dx, al\n"
 		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+//----------------------------------------------------------------------------
+// AStyle Multiple assignments
+//----------------------------------------------------------------------------
+
+TEST(MultipleAssignments)
+{
+	// multiple assignments are aligned on the previous word
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bool bName  = false,\n"
+		"         bFile  = true,\n"
+		"         bSize  = true,\n"
+		"         bWidth = false;\n"
+		"\n"
+		"    m_x = (D*E - B*F) / G,\n"
+		"    m_y = (A*F - C*E) / G,\n"
+		"    m_z = (A*G - F*B) / G;\n"
+		"\n"
+		"    double rstep = Red() / size, rf = 0,\n"
+		"           gstep = Green() / size, gf = 0,\n"
+		"           bstep = Blue() / size, bf = 0;\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MultipleAssignmentsComments)
+{
+	// multiple assignments are aligned on the previous word
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bool bName   =  false,   // comment1\n"
+		"         bFile   =  true,    // comment2\n"
+		"         bSize   =  true,    // comment3\n"
+		"         bWidth  =  false;   // comment4\n"
+		"\n"
+		"    bool bName   =  false,   /* comment1 */\n"
+		"         bFile   =  true,    /* comment2 */\n"
+		"         bSize   =  true,    /* comment3 */\n"
+		"         bWidth  =  false;   /* comment4 */\n"
+		"\n"
+		"    bool bName   =  /* comment1 */ false,\n"
+		"         bFile   =  /* comment2 */  true,\n"
+		"         bSize   = true  /* comment3 */,\n"
+		"         bWidth  = false /* comment3 */;\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MultipleAssignmentsSans)
+{
+	// these are not multiple assignments
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    // functions are not multiple assignments\n"
+		"    int code = GetCode(m_Header,\n"
+		"                       m_Code,\n"
+		"                       m_Language,\n"
+		"                       false);\n"
+		"\n"
+		"    // arrays are not multiple assignments\n"
+		"    bar[] = \"one\",\n"
+		"            \"two\";\n"
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);

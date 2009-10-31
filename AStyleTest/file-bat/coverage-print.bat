@@ -21,10 +21,10 @@ exit 100
 )
 
 REM use the source file name to print the report
-"%mingwdir%\gcov"  ASFormatter
+"%mingwdir%\gcov"  ASBeautifier
 
 REM open the coverage file in SciTE
-start "%PROGRAMFILES%\SciTE\SciTE"  %USERPROFILE%\Projects\AStyle\src\ASFormatter.cpp.gcov
+start "%PROGRAMFILES%\SciTE\SciTE"  %USERPROFILE%\Projects\AStyle\src\ASBeautifier.cpp.gcov
 
 
 echo -

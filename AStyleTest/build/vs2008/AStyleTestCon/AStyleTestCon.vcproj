@@ -68,6 +68,7 @@
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="bin;&quot;..\..\..\..\UnitTest++\Debug&quot;"
 				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(ProjectDir)$(ConfigurationName)\$(TargetName).pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -225,6 +226,7 @@
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="bin;&quot;..\..\..\..\UnitTest++\Debug&quot;;&quot;..\..\..\..\LeakFinder-RC9\Debug_VC9&quot;"
 				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(ProjectDir)$(ConfigurationName)\$(TargetName).pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>

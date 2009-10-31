@@ -67,6 +67,7 @@
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\..\..\LeakFinder-RC9\Debug_VC9"
 				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(ProjectDir)$(ConfigurationName)\$(TargetName).pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>

@@ -68,6 +68,7 @@
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="bin;&quot;..\..\..\..\UnitTest++\Debug&quot;"
 				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(ProjectDir)$(ConfigurationName)\$(TargetName).pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -91,6 +92,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Removing $(TargetName).lib and $(TargetName).exp"
+				CommandLine="cmd /c  del  $(TargetDir)$(TargetName).lib  $(TargetDir)$(TargetName).exp"
 			/>
 		</Configuration>
 		<Configuration
@@ -172,6 +175,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Removing $(TargetName).lib and $(TargetName).exp"
+				CommandLine="cmd /c  del  $(TargetDir)$(TargetName).lib  $(TargetDir)$(TargetName).exp"
 			/>
 		</Configuration>
 		<Configuration
@@ -226,6 +231,7 @@
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="bin;&quot;..\..\..\..\UnitTest++\Debug&quot;;&quot;..\..\..\..\LeakFinder-RC9\Debug_VC9&quot;"
 				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(ProjectDir)$(ConfigurationName)\$(TargetName).pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -249,6 +255,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Removing $(TargetName).lib and $(TargetName).exp"
+				CommandLine="cmd /c  del  $(TargetDir)$(TargetName).lib  $(TargetDir)$(TargetName).exp"
 			/>
 		</Configuration>
 	</Configurations>
