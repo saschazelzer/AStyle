@@ -326,6 +326,226 @@ TEST(IndentClassesCommentSans)
 	delete [] textOut;
 }
 
+TEST(IndentClassesStruct)
+{
+	// struct with access modifiers should have extra indent
+	// struct WITHOUT should NOT have extra indent
+	char text[] =
+		"\nstruct FooClass1\n"
+		"{\n"
+		"    private:\n"
+		"        bool var1;\n"
+		"    protected:\n"
+		"        bool var2;\n"
+		"};\n"
+		"\n"
+		"struct FooClass2\n"
+		"{\n"
+		"    bool var1;\n"
+		"    bool var2;\n"
+		"};\n";
+	char options[] = "indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentClassesStructComment)
+{
+	// struct with comments containing access modifiers
+	// should NOT have extra indent
+	char text[] =
+		"\nstruct FooClass2\n"
+		"{\n"
+		"    // private:\n"
+		"    bool var1;\n"
+		"    /* public:\n"
+		"    */\n"
+		"    bool var2;\n"
+		"};\n";
+	char options[] = "indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentClassesStructSansLeadingModifier)
+{
+	// struct without a leading access modifier
+	char text[] =
+		"\nstruct FooClass2\n"
+		"{\n"
+		"        bool var1;\n"
+		"\n"
+		"    protected:\n"
+		"        bool var2;\n"
+		"};\n";
+	char options[] = "indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentClassesStructBrackets)
+{
+	// struct containing non-struct brackets
+	char text[] =
+		"\nstruct FooClass2\n"
+		"{\n"
+		"        bool publicFoo()\n"
+		"        {\n"
+		"            bool var1;\n"
+		"        }\n"
+		"    private:\n"
+		"        bool var2;\n"
+		"};\n";
+	char options[] = "indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentClassesStructHorstmann)
+{
+	// struct containing horstmann brackets
+	char textIn[] =
+		"\nstruct FooClass1\n"
+		"{\n"
+		"    protected:\n"
+		"        bool var1;\n"
+		"};\n"
+		"\n"
+		"struct FooClass2\n"
+		"{\n"
+		"        bool var1;\n"
+		"\n"
+		"    private:\n"
+		"        bool var2;\n"
+		"};\n";
+	char text[] =
+		"\nstruct FooClass1\n"
+		"{   protected:\n"
+		"        bool var1;\n"
+		"};\n"
+		"\n"
+		"struct FooClass2\n"
+		"{       bool var1;\n"
+		"\n"
+		"    private:\n"
+		"        bool var2;\n"
+		"};\n";
+	char options[] = "indent-classes, brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentClassesStructHorstmannSans)
+{
+	// struct containing horstmann brackets without indent-classes
+	char textIn[] =
+		"\nstruct FooClass1\n"
+		"{\n"
+		"    protected:\n"
+		"        bool var1;\n"
+		"};\n"
+		"\n"
+		"struct FooClass2\n"
+		"{\n"
+		"        bool var1;\n"
+		"\n"
+		"    private:\n"
+		"        bool var2;\n"
+		"};\n";
+	char text[] =
+		"\nstruct FooClass1\n"
+		"{\n"
+		"protected:\n"
+		"    bool var1;\n"
+		"};\n"
+		"\n"
+		"struct FooClass2\n"
+		"{   bool var1;\n"
+		"\n"
+		"private:\n"
+		"    bool var2;\n"
+		"};\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentClassesStructUnmatchedBrackets)
+{
+	// struct with unmatched brackets should not cause an abort
+	char textIn[] =
+		"\nstruct FooClass2\n"
+		"{\n"
+		"    bool var1;\n"
+		"    bool var2;\n"
+		"    bool unmached() {\n"
+		"};\n";
+	char text[] =
+		"\nstruct FooClass2\n"
+		"{\n"
+		"    bool var1;\n"
+		"    bool var2;\n"
+		"    bool unmached() {\n"
+		"    };\n";
+	char options[] = "indent-classes";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentClassesStructSans)
+{
+	// struct without indent-classes should have not extra indent
+	char text[] =
+		"\nstruct FooClass1\n"
+		"{\n"
+		"private:\n"
+		"    bool var1;\n"
+		"protected:\n"
+		"    bool var2;\n"
+		"};\n"
+		"\n"
+		"struct FooClass2\n"
+		"{\n"
+		"    bool var1;\n"
+		"    bool var2;\n"
+		"};\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentClassesNestedStruct)
+{
+	// test indent with nested structs
+	char text[] =
+		"\nstruct RefTable\n"
+		"{\n"
+		"        struct RefNode0 {\n"
+		"            SQObjectPtr obj;\n"
+		"        };\n"
+		"        RefTable1();\n"
+		"        struct RefNode1 {\n"
+		"            protected:\n"
+		"                SQObjectPtr obj;\n"
+		"        };\n"
+		"        RefTable2();\n"
+		"    private:\n"
+		"        RefNode* _nodes;\n"
+		"};\n";
+	char options[] = "indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Indent Switches
 //-------------------------------------------------------------------------

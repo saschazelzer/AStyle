@@ -4205,6 +4205,22 @@ TEST(AlignmentOperatorCoutBeginLine)
 	delete [] textOut;
 }
 
+
+TEST(AlignmentOperatorCout2)
+{
+	// Alignment of the operator<<
+	char text[] =
+		"\nstd::ostream& operator<<(std::ostream& os)\n"
+		"{\n"
+		"    os << foo\n"
+		"       << std::endl;\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 //----------------------------------------------------------------------------
 // AStyle SQL
 //----------------------------------------------------------------------------
