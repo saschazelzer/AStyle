@@ -6,14 +6,17 @@
 
 import linecache
 
+bad_line_numbers = 0
+
 # -----------------------------------------------------------------------------
 
 def process_file():
 	"""Read ASBeautifier and process the lines."""
+	global bad_line_numbers
 	file_path = "../../AStyle/src/ASBeautifier.cpp"
 	class_lines1 = [74, 107]		# line numbers for class constructor
-	class_lines2 = [270, 342]		# line numbers for class init() function
-	copy_lines = [114, 226]		# line numbers for copy constructor
+	class_lines2 = [273, 348]		# line numbers for class init() function
+	copy_lines = [114, 229]		# line numbers for copy constructor
 	copy_excludes = [126, 135]	# line numbers to exclude in copy constructor
 	lines = 0							# line count
 	class_variables = []				# variables in the class constructor
@@ -25,6 +28,9 @@ def process_file():
 	verify_line_numbers(file_path, class_lines2)
 	verify_line_numbers(file_path, copy_lines)
 	verify_line_numbers(file_path, copy_excludes)
+	if bad_line_numbers > 0:
+		return
+	
 		
 	for line_in in file_in:
 		lines += 1
@@ -171,15 +177,19 @@ def remove_class_duplicates(class_variables):
 # -----------------------------------------------------------------------------
 
 def verify_line_numbers(file_path, copy_lines):
+	"""Check that the ASBeautifier line numbers are valid"""
+	global bad_line_numbers
 	cache_line = linecache.getline(file_path, copy_lines[0])
 	extract_word(cache_line)
 	if (cache_line.find('{') == -1
 	and cache_line.find("tempStacks") == -1):
 		print "bad beginning line: " + str(copy_lines[0])
+		bad_line_numbers += 1
 	cache_line = linecache.getline(file_path, copy_lines[1])
 	extract_word(cache_line)
 	if cache_line.find('}') == -1:
 		print "bad ending line: " + str(copy_lines[1])
+		bad_line_numbers += 1
 
 # -----------------------------------------------------------------------------
 
