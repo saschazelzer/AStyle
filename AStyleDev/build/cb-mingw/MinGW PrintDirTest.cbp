@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="MinGW PrintDirTest" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="PrintDirTest Win32">
+				<Option output="bin\MinGW PrintDirW" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objPrintDirTestW\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="..\*" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-fno-rtti" />
+					<Add option="-fno-exceptions" />
+					<Add option="-DNDEBUG" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+			<Target title="PrintDirTest POSIX">
+				<Option output="bin\MinGW PrintDirP" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objPrintDirTestP\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="..\*" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-fno-rtti" />
+					<Add option="-fno-exceptions" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DMINGW_POSIX" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="..\..\src-cxx\PrintDirTest.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

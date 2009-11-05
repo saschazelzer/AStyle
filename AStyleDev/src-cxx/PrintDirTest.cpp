@@ -16,9 +16,10 @@ int  wildcmp(const char *wild, const char *data);
 void error(const char *why, const char* what);
 
 // Windows specific functions
-#ifdef _WIN32
+// MinGW can also do POSIX
+#if defined(_WIN32) && !defined(MINGW_POSIX)
 #include <windows.h>  // for FindFirstFile and FindNextFile
-
+char* g_type = "Win32";
 void getFileNames(const string &directory, const string &wildcard, vector<string> &filename)
 {
     vector<string> subDirectory;    // sub directories of directory
@@ -76,7 +77,7 @@ void getFileNames(const string &directory, const string &wildcard, vector<string
 #else
 #include <dirent.h>
 #include <sys/stat.h>
-
+char* g_type = "POSIX";
 void getFileNames(const string &directory, const string &wildcard, vector<string> &filename)
 {
     struct dirent *entry;           // entry from readdir()
@@ -94,11 +95,11 @@ void getFileNames(const string &directory, const string &wildcard, vector<string
     {
         // get file status
         string entryFilepath = directory + '/' + entry->d_name;
-        lstat(entryFilepath.c_str(), &statbuf);
+        stat(entryFilepath.c_str(), &statbuf);
         // want only files and directories
         if (!(S_ISREG(statbuf.st_mode) || S_ISDIR(statbuf.st_mode)))
             continue;
-        // skip hidden or read only ??????????????????????????? need read only
+        // skip hidden or read only
         if (entry->d_name[0] == '.' || !(statbuf.st_mode & S_IWUSR))
             continue;
         // save sub directory if doing recursive
@@ -252,6 +253,7 @@ int main(int argc, char *argv[])
             {
                 cout << "only file name " << filename.back() << endl;
             }
+			cout << "type       " <<  g_type << endl;
         }
     }
 
