@@ -20,7 +20,7 @@
 				<Option projectLibDirsRelation="1" />
 				<Compiler>
 					<Add option="-O3" />
-					<Add option="-W" />
+					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
@@ -42,7 +42,7 @@
 				<Option projectResourceIncludeDirsRelation="1" />
 				<Option projectLibDirsRelation="1" />
 				<Compiler>
-					<Add option="-W" />
+					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
 				</Compiler>
@@ -59,7 +59,7 @@
 				<Option projectResourceIncludeDirsRelation="1" />
 				<Option projectLibDirsRelation="1" />
 				<Compiler>
-					<Add option="-W" />
+					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-pg" />
 					<Add option="-g" />

@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Embarcadero AStyle Java" />
+		<Option title="EC AStyle Java" />
 		<Option pch_mode="0" />
 		<Option compiler="embarcadero_compiler_62" />
 		<Build>
@@ -15,8 +15,8 @@
 					<Add option="-w" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLE_JNI" />
-					<Add directory="C:\Program Files\Java\jdk1.6.0_11\include" />
-					<Add directory="C:\Program Files\Java\jdk1.6.0_11\include\win32" />
+					<Add directory="C:\Program Files\Java\jdk1.6.0_17\include" />
+					<Add directory="C:\Program Files\Java\jdk1.6.0_17\include\win32" />
 				</Compiler>
 				<Linker>
 					<Add option="-c" />

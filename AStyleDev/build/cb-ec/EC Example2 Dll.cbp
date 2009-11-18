@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Embarcadero Example2 Dll" />
+		<Option title="EC Example2 Dll" />
 		<Option pch_mode="0" />
 		<Option default_target="Example2D" />
 		<Option compiler="embarcadero_compiler_62" />

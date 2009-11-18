@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="Intel Workspace">
-		<Project filename="IntelAStyle.cbp" active="1" />
-		<Project filename="IntelAStyleJava.cbp" />
+		<Project filename="IntelAStyle.cbp" />
+		<Project filename="IntelAStyleJava.cbp" active="1" />
 		<Project filename="IntelAStyleSharp.cbp" />
 		<Project filename="IntelExampleA.cbp" />
 		<Project filename="IntelExampleO.cbp" />

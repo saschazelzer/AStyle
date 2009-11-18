@@ -97,8 +97,8 @@
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLE_LIB" />
 					<Add option="-DASTYLE_JNI" />
-					<Add directory="/usr/lib/jvm/java-6-sun-1.6.0.13/include" />
-					<Add directory="/usr/lib/jvm/java-6-sun-1.6.0.13/include/linux" />
+					<Add directory="/usr/lib/jvm/java-6-sun-1.6.0.16/include" />
+					<Add directory="/usr/lib/jvm/java-6-sun-1.6.0.16/include/linux" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
