@@ -1,7 +1,14 @@
+// AStyleTestCon tests the ASConsole class only. This class is used only in
+// the console build. It also tests the parseOption function for options used
+// by only by the console build (e.g. recursive, preserve-date, verbose). It 
+// does not explicitely test the ASStreamIterator class or any other part
+// of the program.
+
 //----------------------------------------------------------------------------
 // headers
 //----------------------------------------------------------------------------
 
+#include <time.h>
 #include "AStyleTestCon.h"
 
 //----------------------------------------------------------------------------
@@ -18,27 +25,23 @@ TEST(processOptionsExcludeVector)
 	excludesIn.push_back("--exclude=../test/prog1.cpp");
 	excludesIn.push_back("--exclude=../test\\prog2.cpp");
 	excludesIn.push_back("--exclude=../test/prog3.cpp");
+	excludesIn.push_back("--exclude=prog4.cpp");
+	excludesIn.push_back("--exclude=/prog5.cpp");
+	excludesIn.push_back("--exclude=\\prog6.cpp");
 	excludesIn.push_back("--exclude=../testdir1/");
 	excludesIn.push_back("--exclude=..\\testdir2");
 	excludesIn.push_back("--exclude=../testdir3\\");
+	excludesIn.push_back("--exclude=testdir4");
+	excludesIn.push_back("--exclude=/testdir5");
+	excludesIn.push_back("--exclude=\\testdir6");
 
-#ifdef _WIN32
+	// build vector for checking results
 	vector<string> excludes;
-	excludes.push_back("..\\test\\prog1.cpp");
-	excludes.push_back("..\\test\\prog2.cpp");
-	excludes.push_back("..\\test\\prog3.cpp");
-	excludes.push_back("..\\testdir1");
-	excludes.push_back("..\\testdir2");
-	excludes.push_back("..\\testdir3");
-#else
-	vector<string> excludes;
-	excludes.push_back("../test/prog1.cpp");
-	excludes.push_back("../test/prog2.cpp");
-	excludes.push_back("../test/prog3.cpp");
-	excludes.push_back("../testdir1");
-	excludes.push_back("../testdir2");
-	excludes.push_back("../testdir3");
-#endif
+	for (size_t i = 0; i < excludesIn.size(); i++)
+	{
+		excludes.push_back(excludesIn[i].substr(10));
+		g_console->standardizePath(excludes[i], true);
+	}
 
 	// build argv array of pointers for input
 	char** argv = buildArgv(excludesIn);
@@ -100,13 +103,9 @@ TEST(processOptionsFileNameVector)
 	vector<string> fileNameIn;
 	fileNameIn.push_back("../..\\..\\srccon/*.cpp");
 
-#ifdef _WIN32
-	vector<string> fileName;
-	fileName.push_back("..\\..\\..\\srccon\\*.cpp");
-#else
 	vector<string> fileName;
 	fileName.push_back("../../../srccon/*.cpp");
-#endif
+	g_console->standardizePath(fileName.back());
 
 	// build argv array of pointers for input
 	char** argv = buildArgv(fileNameIn);
@@ -188,15 +187,11 @@ TEST(processOptionsFileOptionsVector)
 	fileOptions.push_back("indent-classes");
 	fileOptions.push_back("-K");
 
-	// write the file
-#ifdef _MSC_VER
-	string optionsFileName = "../../../srccon/astylerc.txt";
-#else
-	string optionsFileName = "../../srccon/astylerc.txt";
-#endif
+	// write the options file
+	string optionsFileName = getTestDirectory() + "/astylerc.txt";
 	g_console->standardizePath(optionsFileName);
 
-	if (!writeOptionsFile(fileIn, optionsFileName))
+	if (!writeOptionsFile(optionsFileName, fileIn))
 		return;
 
 	// build argv array of pointers for input
@@ -218,6 +213,64 @@ TEST(processOptionsFileOptionsVector)
 		CHECK_EQUAL(fileOptions[i], g_console->fileOptionsVector[i]);
 
 	removeOptionsFile(optionsFileName);
+	delete [] argv;
+	deleteConsoleGlobalObject();
+}
+
+TEST(processOptionsFileOptionsVectorEnvVar)
+// test processOptions for fileOptionsVector 
+//     with ARTISTIC_STYLE_OPTIONS enviromnent variable
+{
+	createConsoleGlobalObject();
+	char fileIn[] =
+		"--style=allman\n"
+		"-OoP\n"
+		"--indent-classes\n";
+
+	vector<string> fileOptions;
+	fileOptions.push_back("--style=allman");
+	fileOptions.push_back("-OoP");
+	fileOptions.push_back("--indent-classes");
+
+	// set the new environment variable
+	string envFilePath =  getTestDirectory() + "/astylexx";
+	string envValue = "ARTISTIC_STYLE_OPTIONS=" + envFilePath;
+	g_console->standardizePath(envFilePath);
+	g_console->standardizePath(envValue);
+	int isError = putenv(const_cast<char*>(envValue.c_str()));
+	if (isError)
+	{
+		systemPause("Could not set ARTISTIC_STYLE_OPTIONS environment variable");
+		return;
+	}
+
+	// write the options file
+	if (!writeOptionsFile(envFilePath.c_str(), fileIn))
+		return;
+
+	// build argv array of pointers for input
+	vector<string> optionsIn;
+	char** argv = buildArgv(optionsIn);
+	int argc = optionsIn.size() + 1;
+
+	// build and test the vector optionsVector
+	ASFormatter formatter;
+	int processReturn = g_console->processOptions(argc, argv, formatter);
+
+	CHECK(processReturn == CONTINUE);
+	CHECK_EQUAL(fileOptions.size(), g_console->fileOptionsVector.size());
+
+	// use min size in case the vectors are not equal
+	size_t iMax = min(fileOptions.size(),g_console->fileOptionsVector.size());
+	for (size_t i = 0; i < iMax; i++)
+		CHECK_EQUAL(fileOptions[i], g_console->fileOptionsVector[i]);
+
+	// clear the environment variable
+	string envClear = "ARTISTIC_STYLE_OPTIONS=";
+	putenv(const_cast<char*>(envClear.c_str()));
+
+	// cleanup
+	removeOptionsFile(envFilePath);
 	delete [] argv;
 	deleteConsoleGlobalObject();
 }
@@ -246,13 +299,15 @@ TEST(processOptionsFileOptionsVectorHome)
 #endif
 	if (env == NULL)
 	{
-		systemPause("could not get $HOME directory");
+		systemPause("Could not get $HOME directory");
 		return;
 	}
+
+	// write the options file
 	string optionsFileName = string(env) + name;
 	g_console->standardizePath(optionsFileName);
 
-	if (!writeOptionsFile(fileIn, optionsFileName))
+	if (!writeOptionsFile(optionsFileName, fileIn))
 		return;
 
 	// build argv array of pointers for input
@@ -297,13 +352,13 @@ TEST(processOptionsFileOptionsVectorNone)
 #endif
 	if (env == NULL)
 	{
-		systemPause("could not get $HOME directory");
+		systemPause("Could not get $HOME directory");
 		return;
 	}
 	string optionsFileName = string(env) + name;
 	g_console->standardizePath(optionsFileName);
 
-	if (!writeOptionsFile(fileIn, optionsFileName))
+	if (!writeOptionsFile(optionsFileName, fileIn))
 		return;
 
 	// build argv array of pointers for input
@@ -318,6 +373,51 @@ TEST(processOptionsFileOptionsVectorNone)
 
 	CHECK(processReturn == CONTINUE);
 	CHECK(g_console->fileOptionsVector.size() == 0);
+
+	removeOptionsFile(optionsFileName);
+	delete [] argv;
+	deleteConsoleGlobalObject();
+}
+
+TEST(processOptionsFileOptionsVectorNoLineEnd)
+// test processOptions for fileOptionsVector with --options=###
+//    and NO final line end
+{
+	createConsoleGlobalObject();
+	char fileIn[] =
+		"--style=allman\n"
+		"-OoP\n"
+		"--indent-classes";		// *** no final line end ***
+
+	vector<string> fileOptions;
+	fileOptions.push_back("--style=allman");
+	fileOptions.push_back("-OoP");
+	fileOptions.push_back("--indent-classes");
+
+	// write the options file
+	string optionsFileName = getTestDirectory() + "/astylerc";
+	g_console->standardizePath(optionsFileName);
+
+	if (!writeOptionsFile(optionsFileName, fileIn))
+		return;
+
+	// build argv array of pointers for input
+	vector<string> optionsIn;
+	optionsIn.push_back("--options=" + optionsFileName);
+	char** argv = buildArgv(optionsIn);
+	int argc = optionsIn.size() + 1;
+
+	// build and test the vector optionsVector
+	ASFormatter formatter;
+	int processReturn = g_console->processOptions(argc, argv, formatter);
+
+	CHECK(processReturn == CONTINUE);
+	CHECK_EQUAL(fileOptions.size(), g_console->fileOptionsVector.size());
+
+	// use min size in case the vectors are not equal
+	size_t iMax = min(fileOptions.size(),g_console->fileOptionsVector.size());
+	for (size_t i = 0; i < iMax; i++)
+		CHECK_EQUAL(fileOptions[i], g_console->fileOptionsVector[i]);
 
 	removeOptionsFile(optionsFileName);
 	delete [] argv;
@@ -346,15 +446,11 @@ TEST(processOptionsFileOptionsVectorError)
 	fileOptions.push_back("--indent-invalid");
 	fileOptions.push_back("--indent-classes");
 
-	// write the file
-#ifdef _MSC_VER
-	string optionsFileName = "../../../srccon/astylerc.txt";
-#else
-	string optionsFileName = "../../srccon/astylerc.txt";
-#endif
+	// write options the file
+	string optionsFileName = getTestDirectory() + "/astylerc.txt";
 	g_console->standardizePath(optionsFileName);
 
-	if (!writeOptionsFile(fileIn, optionsFileName))
+	if (!writeOptionsFile(optionsFileName, fileIn))
 		return;
 
 	// build argv array of pointers for input
@@ -465,6 +561,7 @@ TEST(processOptionsConsoleOptions)
 	optionsIn.push_back("--formatted");
 	optionsIn.push_back("--quiet");
 	optionsIn.push_back("--errors-to-stdout");
+	optionsIn.push_back("--preserve-date");
 
 	// build argv array of pointers for input
 	char** argv = buildArgv(optionsIn);
@@ -483,6 +580,45 @@ TEST(processOptionsConsoleOptions)
 	CHECK(g_console->isFormattedOnly);
 	CHECK(g_console->isQuiet);
 	CHECK(_err == &cout);
+	CHECK(g_console->preserveDate);
+
+	delete [] argv;
+	_err = &cerr;
+	deleteConsoleGlobalObject();
+}
+
+TEST(processOptionsConsoleOptionsShort)
+// test processOptions for short console options
+{
+	createConsoleGlobalObject();
+
+	vector<string> optionsIn;
+	optionsIn.push_back("-n");	// suffix=none
+	optionsIn.push_back("-r");	// recursive
+	optionsIn.push_back("-R");	// recursive
+	optionsIn.push_back("-v");	// verbose
+	optionsIn.push_back("-Q");	// formatted
+	optionsIn.push_back("-q");	// quiet
+	optionsIn.push_back("-X");	// errors-to-stdout
+	optionsIn.push_back("-Z");	// preserve-date
+
+	// build argv array of pointers for input
+	char** argv = buildArgv(optionsIn);
+	int argc = optionsIn.size() + 1;
+
+	// build and test the vector optionsVector
+	ASFormatter formatter;
+	int processReturn = g_console->processOptions(argc, argv, formatter);
+
+	CHECK(processReturn == CONTINUE);
+
+	CHECK(g_console->noBackup);
+	CHECK(g_console->isRecursive);
+	CHECK(g_console->isVerbose);
+	CHECK(g_console->isFormattedOnly);
+	CHECK(g_console->isQuiet);
+	CHECK(_err == &cout);
+	CHECK(g_console->preserveDate);
 
 	delete [] argv;
 	_err = &cerr;
@@ -527,42 +663,6 @@ TEST(processOptionsConsoleOptionsError)
 
 	delete [] argv;
 	delete msgOut;
-	_err = &cerr;
-	deleteConsoleGlobalObject();
-}
-
-TEST(processOptionsConsoleOptionsShort)
-// test processOptions for short console options
-{
-	createConsoleGlobalObject();
-
-	vector<string> optionsIn;
-	optionsIn.push_back("-n");	// suffix=none
-	optionsIn.push_back("-r");	// recursive
-	optionsIn.push_back("-R");	// recursive
-	optionsIn.push_back("-v");	// verbose
-	optionsIn.push_back("-Q");	// formatted
-	optionsIn.push_back("-q");	// quiet
-	optionsIn.push_back("-X");	// errors-to-stdout
-
-	// build argv array of pointers for input
-	char** argv = buildArgv(optionsIn);
-	int argc = optionsIn.size() + 1;
-
-	// build and test the vector optionsVector
-	ASFormatter formatter;
-	int processReturn = g_console->processOptions(argc, argv, formatter);
-
-	CHECK(processReturn == CONTINUE);
-
-	CHECK(g_console->noBackup);
-	CHECK(g_console->isRecursive);
-	CHECK(g_console->isVerbose);
-	CHECK(g_console->isFormattedOnly);
-	CHECK(g_console->isQuiet);
-	CHECK(_err == &cout);
-
-	delete [] argv;
 	_err = &cerr;
 	deleteConsoleGlobalObject();
 }
@@ -718,6 +818,206 @@ TEST(processOptionsVersionOptionShort)
 }
 
 //----------------------------------------------------------------------------
+// AStyle test --suffix option
+//----------------------------------------------------------------------------
+
+struct testSuffix
+{
+	vector<string> fileNames;
+
+	// build fileNames vector and write the output files
+	testSuffix()
+	{
+		char textIn[] =
+			"\nvoid foo()\n"
+			"{\n"
+			"bar();\n"
+			"}\n";
+
+		cleanTestDirectory(getTestDirectory());
+		createConsoleGlobalObject();
+		fileNames.push_back(getTestDirectory() + "/suffix1.cpp");
+
+		for (size_t i = 0; i < fileNames.size(); i++)
+		{
+			g_console->standardizePath(fileNames[i]);
+			createTestFile(fileNames[i], textIn);
+		}
+	}
+
+	~testSuffix()
+	{
+		deleteConsoleGlobalObject();
+	}
+};
+
+TEST_FIXTURE(testSuffix, suffixNone)
+// test suffix=none option on files
+{
+	assert(g_console != NULL);
+
+	// initialize variables
+	g_console->isQuiet = true;		// change this to see results
+	g_console->noBackup = true;		// test variable
+
+	// initialize objects
+	ASFormatter formatter;
+	g_console->fileNameVector.push_back(getTestDirectory() + "/*.cpp");
+	g_console->standardizePath(g_console->fileNameVector.back());
+
+	// process entries in the fileNameVector
+	g_console->processFiles(formatter);
+
+	// all files should be formatted
+	CHECK_EQUAL((int)fileNames.size(), g_console->filesFormatted++);
+
+	// check for .orig file on disk
+	for (size_t i = 0; i < fileNames.size(); i++)
+	{
+		string origFileName = fileNames[0] + ".orig";
+		struct stat stBuf;
+		// display error if file is present
+		if (stat(origFileName.c_str(), &stBuf) != -1)
+			CHECK_EQUAL("\"no file\"", origFileName.c_str());
+	}
+}
+
+TEST_FIXTURE(testSuffix, suffixDotOld)
+// test suffix=.old option on files (with dot)
+{
+	assert(g_console != NULL);
+
+	// initialize variables
+	g_console->isQuiet = true;			// change this to see results
+	g_console->origSuffix = ".old"; 	// test variable (with dot)
+
+	// initialize objects
+	ASFormatter formatter;
+	g_console->fileNameVector.push_back(getTestDirectory() + "/*.cpp");
+	g_console->standardizePath(g_console->fileNameVector.back());
+
+	// process entries in the fileNameVector
+	g_console->processFiles(formatter);
+
+	// all files should be formatted
+	CHECK(fileNames.size() > 0);
+	CHECK_EQUAL((int)fileNames.size(), g_console->filesFormatted++);
+
+	// check for .old file on disk
+	for (size_t i = 0; i < fileNames.size(); i++)
+	{
+		string origFileName = fileNames[0] + ".old";
+		struct stat stBuf;
+		// display error if file is not present
+		if (stat(origFileName.c_str(), &stBuf) == -1)
+			CHECK_EQUAL(origFileName.c_str(), "\"no file\"");
+	}
+}
+
+TEST_FIXTURE(testSuffix, suffixXXX)
+// test suffix=xxx option on files (no dot)
+{
+	assert(g_console != NULL);
+
+	// initialize variables
+	g_console->isQuiet = true;			// change this to see results
+	g_console->origSuffix = "xxx"; 		// test variable (no dot)
+
+	// initialize objects
+	ASFormatter formatter;
+	g_console->fileNameVector.push_back(getTestDirectory() + "/*.cpp");
+	g_console->standardizePath(g_console->fileNameVector.back());
+
+	// process entries in the fileNameVector
+	g_console->processFiles(formatter);
+
+	// all files should be formatted
+	CHECK(fileNames.size() > 0);
+	CHECK_EQUAL((int)fileNames.size(), g_console->filesFormatted++);
+
+	// check for xxx file on disk
+	for (size_t i = 0; i < fileNames.size(); i++)
+	{
+		string origFileName = fileNames[0] + "xxx";
+		struct stat stBuf;
+		// display error if file is not present
+		if (stat(origFileName.c_str(), &stBuf) == -1)
+			CHECK_EQUAL(origFileName.c_str(), "\"no file\"");
+	}
+}
+
+//----------------------------------------------------------------------------
+// AStyle test getCurrentDirectory function
+//----------------------------------------------------------------------------
+
+TEST(getCurrentDirectory)
+// test getCurrentDirectory function
+{
+	createConsoleGlobalObject();
+	g_console->noBackup = true;
+	g_console->isQuiet = true;
+
+	char textIn[] = "void foo(){}\n";
+
+	// a file without a path will call the g_console->getCurrentDirectory
+	string testFile = "testGetCurrentDirectory.cpp";
+	string testFilePath = getCurrentDirectory() + '/' + testFile;
+	g_console->standardizePath(testFilePath);
+
+	// write the output file
+	ofstream fout(testFilePath.c_str(), ios::binary | ios::trunc);
+	if (!fout)
+	{
+		systemPause("Could not open output file: " + testFilePath);
+		return;
+	}
+	fout << textIn;
+	fout.close();
+
+	// initialize objects
+	ASFormatter formatter;
+	g_console->fileNameVector.push_back(testFile);
+	g_console->standardizePath(g_console->fileNameVector.back());
+
+	// process entries in the fileNameVector
+	g_console->processFiles(formatter);
+
+	CHECK_EQUAL(testFilePath, g_console->fileName[0]);
+
+	// remove test file
+	errno = 0;
+	remove(testFilePath.c_str());
+	if (errno)
+	{
+		perror("errno message");
+		systemPause("Cannot remove getCurrentDirectory file: " + testFile);
+	}
+	deleteConsoleGlobalObject();
+}
+
+//----------------------------------------------------------------------------
+// AStyle test stringEndsWith function
+//----------------------------------------------------------------------------
+
+TEST(stringEndsWith)
+{
+	createConsoleGlobalObject();
+
+	bool result1 = g_console->stringEndsWith("fileName.cpp", string(".cpp"));
+	CHECK(result1);
+	bool result2 = g_console->stringEndsWith("fileName.cpp", string(".xxx"));
+	CHECK(!result2);
+	bool result3 = g_console->stringEndsWith("fileNamenoextension", string("noextension"));
+	CHECK(result3);
+	bool result4 = g_console->stringEndsWith("wholename", string("wholename"));
+	CHECK(result4);
+	bool result5 = g_console->stringEndsWith("long", string("xlong"));
+	CHECK(!result5);
+
+	deleteConsoleGlobalObject();
+}
+
+//----------------------------------------------------------------------------
 // AStyle test file encoding
 //----------------------------------------------------------------------------
 
@@ -766,232 +1066,176 @@ TEST(encodingZeroLineLength)
 	deleteConsoleGlobalObject();
 }
 
-//----------------------------------------------------------------------------
-// AStyle test getFilePaths(), wildcmp(), and fileName vector
-//----------------------------------------------------------------------------
-
-struct testFilePaths
+struct testEncoding
 {
-	string fileDirectoryIn;
-	vector<string> fileNameOut;
+	vector<string> fileNames;
 
-	testFilePaths()
+	// build fileNames vector and write the output files
+	testEncoding()
 	{
-		// wildcards will need a valid file name and path
-#ifdef _MSC_VER
-		fileDirectoryIn = "../../../srccon/";
-#else
-		fileDirectoryIn = "../../srccon/";
-#endif
-		fileNameOut.push_back(fileDirectoryIn + "AStyleTestCon_Console.cpp");
-		fileNameOut.push_back(fileDirectoryIn + "AStyleTestCon_Main.cpp");
+		char textIn[] = "this text will not be readable";
+		int textsize = sizeof(textIn);
+		char textBOM[50];
 
-		for (size_t i = 0; i < fileNameOut.size(); i++)
-			g_console->standardizePath(fileNameOut[i]);
+		cleanTestDirectory(getTestDirectory());
+		createConsoleGlobalObject();
+		// NOTE: some string functions don't work with NULLs (e.g. length())
+		// UTF-16BE
+		memcpy(textBOM, "\xFE\xFF", 2);
+		memcpy(textBOM+2, textIn, sizeof(textIn));
+		fileNames.push_back(getTestDirectory() + "/UTF-16BE.cpp");
+		createTestFile(fileNames.back(), textBOM, textsize);
+		// UTF-16LE
+		memcpy(textBOM, "\xFF\xFE", 2);
+		memcpy(textBOM+2, textIn, sizeof(textIn));
+		fileNames.push_back(getTestDirectory() + "/UTF-16LE.cpp");
+		createTestFile(fileNames.back(), textBOM, textsize);
+		// UTF-32BE
+		memcpy(textBOM, "\x00\x00\xFE\xFF", 4);
+		memcpy(textBOM+4, textIn, sizeof(textIn));
+		fileNames.push_back(getTestDirectory() + "/UTF-32BE.cpp");
+		createTestFile(fileNames.back(), textBOM, textsize);
+		// UTF-32LE
+		memcpy(textBOM, "\xFF\xFE\x00\x00", 4);
+		memcpy(textBOM+4, textIn, sizeof(textIn));
+		fileNames.push_back(getTestDirectory() + "/UTF-32LE.cpp");
+		createTestFile(fileNames.back(), textBOM, textsize);
+	}
+
+	~testEncoding()
+	{
+		deleteConsoleGlobalObject();
 	}
 };
 
-TEST_FIXTURE(testFilePaths, getFilePaths1)
-// test fileName vector and getFilePaths with *.cpp
+TEST_FIXTURE(testEncoding, encodingFileTest)
+// test rejection of UTF-16 and UTF-32 files
 {
-	createConsoleGlobalObject();
-	// do not display directories
-	g_console->isQuiet = true;
+	assert(g_console != NULL);
 
 	// initialize variables
+	g_console->isQuiet = true;		// change this to see results
+
+	// initialize objects
 	ASFormatter formatter;
-	string fileNameIn = fileDirectoryIn + "*.cpp";
-	g_console->standardizePath(fileNameIn);
+	g_console->fileNameVector.push_back(getTestDirectory() + "/*.cpp");
+	g_console->standardizePath(g_console->fileNameVector.back());
 
-	// build and test the fileName vector
-	g_console->getFilePaths(fileNameIn);
+	// process entries in the fileNameVector
+	g_console->processFiles(formatter);
 
-	CHECK_EQUAL(fileNameOut.size(), g_console->fileName.size());
-
-	// use min size in case the vectors are not equal
-	size_t iMax = min(fileNameOut.size(), g_console->fileName.size());
-	for (size_t i = 0; i < iMax; i++)
-		CHECK_EQUAL(fileNameOut[i], g_console->fileName[i]);
-
-	deleteConsoleGlobalObject();
+	// all files should be unformatted
+	CHECK_EQUAL((int)fileNames.size() , g_console->filesUnchanged++);
 }
 
-TEST_FIXTURE(testFilePaths, getFilePaths2)
-// test fileName vector and getFilePaths with *.c??
+//----------------------------------------------------------------------------
+// AStyle test preserve-date option
+//----------------------------------------------------------------------------
+
+struct testPreserveDate
 {
-	createConsoleGlobalObject();
-	// do not display directories
-	g_console->isQuiet = true;
+	vector<string> fileNames;
+	struct utimbuf ut;
 
-	// initialize variables
-	ASFormatter formatter;
-	string fileNameIn = fileDirectoryIn + "*.c??";
-	g_console->standardizePath(fileNameIn);
+	// build fileNames vector and write the output files with an old date
+	testPreserveDate()
+	{
+		char textIn[] =
+			"\nvoid foo()\n"
+			"{\n"
+			"bar();\n"
+			"}\n";
 
-	// build and test the fileName vector
-	g_console->getFilePaths(fileNameIn);
+		// Jan 1, 2008
+		struct tm t;
+		t.tm_mday  = 1;
+		t.tm_mon   = 0;
+		t.tm_year  = 108;
+		t.tm_hour  = 0;
+		t.tm_min   = 0;
+		t.tm_sec   = 0;
+		t.tm_isdst = 0;
+		ut.actime = ut.modtime = mktime(&t);
 
-	CHECK_EQUAL(fileNameOut.size(), g_console->fileName.size());
+		cleanTestDirectory(getTestDirectory());
+		createConsoleGlobalObject();
+		fileNames.push_back(getTestDirectory() + "/PreserveDate1.cpp");
+		fileNames.push_back(getTestDirectory() + "/PreserveDate2.cpp");
 
-	// use min size in case the vectors are not equal
-	size_t iMax = min(fileNameOut.size(), g_console->fileName.size());
-	for (size_t i = 0; i < iMax; i++)
-		CHECK_EQUAL(fileNameOut[i], g_console->fileName[i]);
+		// write files and change the date
+		for (size_t i = 0; i < fileNames.size(); i++)
+		{
+			g_console->standardizePath(fileNames[i]);
+			createTestFile(fileNames[i], textIn);
+			utime(fileNames[i].c_str(), &ut);
+		}
+	}
 
-	deleteConsoleGlobalObject();
-}
+	~testPreserveDate()
+	{
+		deleteConsoleGlobalObject();
+	}
 
-TEST_FIXTURE(testFilePaths, getFilePaths3)
-// test fileName vector and getFilePaths with AStyleTest*.cpp
+	// get the date from time_t
+	string getMDY(time_t dateIn)
+	{
+		string date = ctime(&dateIn);
+		string dateMDY = date.erase(11,9);	// remove the time
+		// cout << dateMDY << endl;
+		return dateMDY;
+	}
+};
+
+TEST_FIXTURE(testPreserveDate, preserveDate)
+// test formatting with preserve-date option
 {
-	createConsoleGlobalObject();
-	// do not display directories
-	g_console->isQuiet = true;
+	assert(g_console != NULL);
+	g_console->isQuiet = true;		// change this to see results
+	g_console->noBackup = true;
+	g_console->preserveDate = true;
 
-	// initialize variables
+	// initialize objects
 	ASFormatter formatter;
-	string fileNameIn = fileDirectoryIn + "AStyleTestCon*.cpp";
-	g_console->standardizePath(fileNameIn);
+	g_console->fileNameVector.push_back(getTestDirectory() + "/*.cpp");
+	g_console->standardizePath(g_console->fileNameVector.back());
 
-	// build and test the fileName vector
-	g_console->getFilePaths(fileNameIn);
+	// process entries in the fileNameVector
+	g_console->processFiles(formatter);
 
-	CHECK_EQUAL(fileNameOut.size(), g_console->fileName.size());
-
-	// use min size in case the vectors are not equal
-	size_t iMax = min(fileNameOut.size(), g_console->fileName.size());
-	for (size_t i = 0; i < iMax; i++)
-		CHECK_EQUAL(fileNameOut[i], g_console->fileName[i]);
-
-	deleteConsoleGlobalObject();
+	// loop thru fileNames vector checking the dates
+	// difference is added in preserveFileDate() in astyle_main
+	struct stat s;
+	for (size_t i = 0; i < fileNames.size(); i++)
+	{
+		stat(fileNames[i].c_str(), &s);
+		CHECK_EQUAL(10, difftime(s.st_mtime, ut.modtime));
+	}
 }
 
-TEST_FIXTURE(testFilePaths, getFilePaths4)
-// test fileName vector and getFilePaths with *.c*
-// * at the end WITH remaining data allows complete coverage of wildcmp function
+TEST_FIXTURE(testPreserveDate, preserveDateSans)
+// test formatting without preserve-date option
 {
-	createConsoleGlobalObject();
-	// do not display directories
-	g_console->isQuiet = true;
+	assert(g_console != NULL);
+	g_console->isQuiet = true;		// change this to see results
+	g_console->noBackup = true;
+	g_console->preserveDate = false;
 
-	// initialize variables
+	// initialize objects
 	ASFormatter formatter;
-	string fileNameIn = fileDirectoryIn + "*.c*";
-	g_console->standardizePath(fileNameIn);
+	g_console->fileNameVector.push_back(getTestDirectory() + "/*.cpp");
+	g_console->standardizePath(g_console->fileNameVector.back());
 
-	// build and test the fileName vector
-	g_console->getFilePaths(fileNameIn);
+	// process entries in the fileNameVector
+	g_console->processFiles(formatter);
 
-	CHECK_EQUAL(fileNameOut.size(), g_console->fileName.size());
-
-	// use min size in case the vectors are not equal
-	size_t iMax = min(fileNameOut.size(), g_console->fileName.size());
-	for (size_t i = 0; i < iMax; i++)
-		CHECK_EQUAL(fileNameOut[i], g_console->fileName[i]);
-
-	deleteConsoleGlobalObject();
+	// loop thru fileNames vector checking the dates
+	string currMDY = getMDY(time(NULL));
+	struct stat s;
+	for (size_t i = 0; i < fileNames.size(); i++)
+	{
+		stat(fileNames[i].c_str(), &s);
+		string fileMDY = getMDY(s.st_mtime);
+		CHECK_EQUAL(currMDY, fileMDY);
+	}
 }
 
-TEST_FIXTURE(testFilePaths, getFilePaths5)
-// test fileName vector and getFilePaths with *.cpp*
-// * at the end WITHOUT remaining data allows complete coverage of wildcmp function
-{
-	createConsoleGlobalObject();
-	// do not display directories
-	g_console->isQuiet = true;
-
-	// initialize variables
-	ASFormatter formatter;
-	string fileNameIn = fileDirectoryIn + "*.cpp*";
-	g_console->standardizePath(fileNameIn);
-
-	// build and test the fileName vector
-	g_console->getFilePaths(fileNameIn);
-
-	CHECK_EQUAL(fileNameOut.size(), g_console->fileName.size());
-
-	// use min size in case the vectors are not equal
-	size_t iMax = min(fileNameOut.size(), g_console->fileName.size());
-	for (size_t i = 0; i < iMax; i++)
-		CHECK_EQUAL(fileNameOut[i], g_console->fileName[i]);
-
-	deleteConsoleGlobalObject();
-}
-
-TEST_FIXTURE(testFilePaths, getFilePathsSingleFile1)
-// test fileName vector and getFilePaths with a single file
-// the file includes a path
-{
-	createConsoleGlobalObject();
-
-	// initialize variables
-	ASFormatter formatter;
-	string fileNameIn = "../../directory/filein.cpp";
-	g_console->standardizePath(fileNameIn);
-
-	// build and test the fileName vector
-	g_console->getFilePaths(fileNameIn);
-
-	CHECK_EQUAL((size_t)1, g_console->fileName.size());
-	CHECK_EQUAL(fileNameIn, g_console->fileName[0]);
-
-	deleteConsoleGlobalObject();
-}
-
-TEST_FIXTURE(testFilePaths, getFilePathsSingleFile2)
-// test fileName vector and getFilePaths with a single file
-// the file does NOT include a path
-{
-	createConsoleGlobalObject();
-
-	// get current directory
-	string fileDirectoryIn = getCurrentDirectory();
-	if (fileDirectoryIn.length() == 0)
-		return;
-
-	// initialize variables
-	ASFormatter formatter;
-	string fileNameIn = "filein.cpp";
-
-	// build and test the fileName vector
-	g_console->getFilePaths(fileNameIn);
-
-	// the vector should have the current directory attached
-	CHECK_EQUAL((size_t)1, g_console->fileName.size());
-	string consoleFileName = fileDirectoryIn + '/' + fileNameIn;
-	g_console->standardizePath(consoleFileName);
-	CHECK_EQUAL(consoleFileName, g_console->fileName[0]);
-
-	deleteConsoleGlobalObject();
-}
-
-TEST_FIXTURE(testFilePaths, getFilePathsError)
-// test fileName vector and getFilePaths with bad path
-{
-	createConsoleGlobalObject();
-	// do not display directories
-	g_console->isQuiet = true;
-	// do not display error message
-	_err = new stringstream;
-
-	// initialize variables
-	ASFormatter formatter;
-	string fileNameIn = fileDirectoryIn + "AStyleError*";
-	g_console->standardizePath(fileNameIn);
-
-	// build and test the fileName vector
-	g_console->getFilePaths(fileNameIn);
-
-	CHECK(g_console->fileName.size() == 0);
-
-	delete _err;
-	_err = &cerr;
-	deleteConsoleGlobalObject();
-}
-
-// TODO: test recursive option into subdirectories
-// TODO: test recursive option with excludes
-// TODO: test file removes and renames
-// TODO: test stringEndsWith function
-// TODO: test waitForRemove function
-// TODO: test exclude date?

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="GccAStyleTest">
-		<Project filename="GccAStyleTestCon.cbp" />
 		<Project filename="GccAStyleTest.cbp" active="1" />
+		<Project filename="GccAStyleTestCon.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

@@ -5,15 +5,18 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleTestCon", "AStyleTest
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		LeakFinder|Win32 = LeakFinder|Win32
 		Debug|Win32 = Debug|Win32
+		LeakFinder|Win32 = LeakFinder|Win32
+		Print|Win32 = Print|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.LeakFinder|Win32.ActiveCfg = LeakFinder|Win32
-		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.LeakFinder|Win32.Build.0 = LeakFinder|Win32
 		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Debug|Win32.ActiveCfg = Debug|Win32
 		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Debug|Win32.Build.0 = Debug|Win32
+		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.LeakFinder|Win32.ActiveCfg = LeakFinder|Win32
+		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.LeakFinder|Win32.Build.0 = LeakFinder|Win32
+		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Print|Win32.ActiveCfg = Print|Win32
+		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Print|Win32.Build.0 = Print|Win32
 		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Release|Win32.ActiveCfg = Release|Win32
 		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection

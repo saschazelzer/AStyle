@@ -2,14 +2,13 @@
 <CodeLite_Project Name="AStyleTestCon" InternalType="UnitTest++">
   <Plugins>
     <Plugin Name="qmake">
-      <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
+      <![CDATA[00030001N0005Debug0000000000000001N0005Print0000000000000001N0007Release000000000000]]>
     </Plugin>
   </Plugins>
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
     <File Name="../../srccon/AStyleTestCon.h"/>
-    <File Name="../../srccon/AStyleTestCon_Console.cpp"/>
     <File Name="../../srccon/AStyleTestCon_Main.cpp"/>
     <File Name="../../../AStyle/src/ASBeautifier.cpp"/>
     <File Name="../../../AStyle/src/ASEnhancer.cpp"/>
@@ -18,6 +17,8 @@
     <File Name="../../../AStyle/src/astyle.h"/>
     <File Name="../../../AStyle/src/astyle_main.cpp"/>
     <File Name="../../../AStyle/src/astyle_main.h"/>
+    <File Name="../../srccon/AStyleTestCon_Console1.cpp"/>
+    <File Name="../../srccon/AStyleTestCon_Console2.cpp"/>
   </VirtualDirectory>
   <Dependencies Name="Release"/>
   <Dependencies Name="Debug"/>
@@ -33,6 +34,40 @@
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="bin/$(ProjectName)d" IntermediateDirectory="./DebugCon" Command="bin/$(ProjectName)d" CommandArguments="" WorkingDirectory="" PauseExecWhenProcTerminates="yes"/>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="">
+        <PostConnectCommands></PostConnectCommands>
+        <StartupCommands></StartupCommands>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <CleanCommand></CleanCommand>
+        <BuildCommand></BuildCommand>
+        <PreprocessFileCommand></PreprocessFileCommand>
+        <SingleFileCommand></SingleFileCommand>
+        <MakefileGenerationCommand></MakefileGenerationCommand>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory></WorkingDirectory>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild></CustomPostBuild>
+        <CustomPreBuild>
+
+</CustomPreBuild>
+      </AdditionalRules>
+    </Configuration>
+    <Configuration Name="Print" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g -W -Wall" Required="yes">
+        <IncludePath Value="../../../AStyle/src"/>
+        <IncludePath Value="/usr/include/unittest++"/>
+        <Preprocessor Value="ASTYLE_NO_MAIN"/>
+        <Preprocessor Value="ASTYLECON_PRINT"/>
+      </Compiler>
+      <Linker Options="" Required="yes">
+        <Library Value="libUnitTest++.a"/>
+      </Linker>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="bin/$(ProjectName)p" IntermediateDirectory="./PrintCon" Command="bin/$(ProjectName)p" CommandArguments="" WorkingDirectory="" PauseExecWhenProcTerminates="yes"/>
       <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="">
         <PostConnectCommands></PostConnectCommands>
         <StartupCommands></StartupCommands>
@@ -99,4 +134,5 @@
       <ResourceCompiler Options=""/>
     </GlobalSettings>
   </Settings>
+  <Dependencies Name="Print"/>
 </CodeLite_Project>
