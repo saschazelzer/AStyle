@@ -1,6 +1,6 @@
 // AStyleTestCon tests the ASConsole class only. This class is used only in
 // the console build. It also tests the parseOption function for options used
-// by only by the console build (e.g. recursive, preserve-date, verbose). It 
+// by only by the console build (e.g. recursive, preserve-date, verbose). It
 // does not explicitely test the ASStreamIterator class or any other part
 // of the program.
 
@@ -383,7 +383,7 @@ TEST_FIXTURE(testRecursive, recursiveSans)
 
 	// process entries in the fileNameVector
 	g_console->processFiles(formatter);
-	
+
 	// delete sub directory files from the fileName vector
 	size_t searchStart = getTestDirectory().length() + 1;
 	for (int i = 0; i < (int) fileNames.size(); i++)
@@ -462,7 +462,7 @@ TEST_FIXTURE(testRecursive, recursiveExcludeErrors)
 
 	// process entries in the fileNameVector
 	g_console->processFiles(formatter);
-	 
+
 	// display error message if not rejected
 	string errMsg1 = "Unmatched exclude ecursive1.cpp";
 	size_t result1 = msgOut->str().find(errMsg1);
@@ -532,6 +532,456 @@ TEST_FIXTURE(testRecursive, recursiveHiddenFiles)
 	SetFileAttributes(fileOut2w.c_str(), FILE_ATTRIBUTE_NORMAL);
 	SetFileAttributes(fileOut3w.c_str(), FILE_ATTRIBUTE_NORMAL);
 #endif
+}
+
+//----------------------------------------------------------------------------
+// AStyle line ends formatted
+// tests if a line end change formats the file
+// the file output is checked in AStyleTest
+//----------------------------------------------------------------------------
+
+struct testLineEndsFormatted
+{
+	vector<string> fileNames;
+
+	string textLinuxStr;
+	string textWindowsStr;
+	string textMacOldStr;
+	const char* textLinux;
+	const char* textWindows;
+	const char* textMacOld;
+
+	string fileLinux;
+	string fileWindows;
+	string fileMacOld;
+
+	// build fileNames vector and write the output files
+	testLineEndsFormatted()
+	{
+		textLinuxStr =			// has macold line ends
+			"\rvoid foo()\r"
+			"{\r"
+			"    bar()\r"
+			"}\r";
+		textWindowsStr =		// has linux line ends
+			"\nvoid foo()\n"
+			"{\n"
+			"    bar()\n"
+			"}\n";
+		textMacOldStr =			// has windows line ends
+			"\r\nvoid foo()\r\n"
+			"{\r\n"
+			"    bar()\r\n"
+			"}\r\n";
+
+		cleanTestDirectory(getTestDirectory());
+		createConsoleGlobalObject();
+
+		// build text strings
+		textLinux = textLinuxStr.c_str();
+		textWindows = textWindowsStr.c_str();
+		textMacOld = textMacOldStr.c_str();
+
+		// create test files
+		fileLinux = getTestDirectory() + "/textLinux.cpp";
+		g_console->standardizePath(fileLinux);
+		createTestFile(fileLinux, textLinux);
+		fileWindows = getTestDirectory() + "/textWindows.cpp";
+		g_console->standardizePath(fileWindows);
+		createTestFile(fileWindows, textWindows);
+		fileMacOld = getTestDirectory() + "/textMac.cpp";
+		g_console->standardizePath(fileMacOld);
+		createTestFile(fileMacOld, textMacOld);
+	}
+
+	~testLineEndsFormatted()
+	{
+		deleteConsoleGlobalObject();
+	}
+};
+
+TEST_FIXTURE(testLineEndsFormatted, lineEndWindowsFormatted)
+// test if lineend=windows formats the file
+{
+	assert(g_console != NULL);
+	g_console->isQuiet = true;
+
+	// initialize objects
+	ASFormatter formatter;
+	g_console->fileNameVector.push_back(fileWindows);
+	g_console->standardizePath(g_console->fileNameVector.back());
+
+	// build argv array of options
+	vector<string> optionsIn;
+	optionsIn.push_back("--lineend=windows");
+	char** argv = buildArgv(optionsIn);
+	int argc = optionsIn.size() + 1;
+	int processReturn = g_console->processOptions(argc, argv, formatter);
+	CHECK(processReturn == CONTINUE);
+	CHECK_EQUAL(optionsIn.size(), g_console->optionsVector.size());
+
+	// process entries in the fileNameVector
+	g_console->processFiles(formatter);
+
+	// check for .orig file
+	string origFileName = fileWindows + ".orig";
+	struct stat stBuf;
+	// display error if file is not present
+	if (stat(origFileName.c_str(), &stBuf) == -1)
+		CHECK_EQUAL(origFileName.c_str(), "\"no file\"");
+}
+
+TEST_FIXTURE(testLineEndsFormatted, lineEndLinuxFormatted)
+// test if lineend=linux formats the file
+{
+	assert(g_console != NULL);
+	g_console->isQuiet = true;
+
+	// initialize objects
+	ASFormatter formatter;
+	g_console->fileNameVector.push_back(fileLinux);
+	g_console->standardizePath(g_console->fileNameVector.back());
+
+	// build argv array of options
+	vector<string> optionsIn;
+	optionsIn.push_back("--lineend=linux");
+	char** argv = buildArgv(optionsIn);
+	int argc = optionsIn.size() + 1;
+	int processReturn = g_console->processOptions(argc, argv, formatter);
+	CHECK(processReturn == CONTINUE);
+	CHECK_EQUAL(optionsIn.size(), g_console->optionsVector.size());
+
+	// process entries in the fileNameVector
+	g_console->processFiles(formatter);
+
+	// check for .orig file
+	string origFileName = fileLinux + ".orig";
+	struct stat stBuf;
+	// display error if file is not present
+	if (stat(origFileName.c_str(), &stBuf) == -1)
+		CHECK_EQUAL(origFileName.c_str(), "\"no file\"");
+}
+
+TEST_FIXTURE(testLineEndsFormatted, lineEndMacOldFormatted)
+// test if lineend=macold formats the file
+{
+	assert(g_console != NULL);
+	g_console->isQuiet = true;
+
+	// initialize objects
+	ASFormatter formatter;
+	g_console->fileNameVector.push_back(fileMacOld);
+	g_console->standardizePath(g_console->fileNameVector.back());
+
+	// build argv array of options
+	vector<string> optionsIn;
+	optionsIn.push_back("--lineend=macold");
+	char** argv = buildArgv(optionsIn);
+	int argc = optionsIn.size() + 1;
+	int processReturn = g_console->processOptions(argc, argv, formatter);
+	CHECK(processReturn == CONTINUE);
+	CHECK_EQUAL(optionsIn.size(), g_console->optionsVector.size());
+
+	// process entries in the fileNameVector
+	g_console->processFiles(formatter);
+
+	// check for .orig file
+	string origFileName = fileMacOld + ".orig";
+	struct stat stBuf;
+	// display error if file is not present
+	if (stat(origFileName.c_str(), &stBuf) == -1)
+		CHECK_EQUAL(origFileName.c_str(), "\"no file\"");
+}
+
+//----------------------------------------------------------------------------
+// AStyle line ends unchanged
+// tests if an unchanged line end leaves the file unchanged
+// the file output is checked in AStyleTest
+//----------------------------------------------------------------------------
+
+struct testLineEndsUnchanged
+{
+	vector<string> fileNames;
+
+	string textLinuxStr;
+	string textWindowsStr;
+	string textMacOldStr;
+	const char* textLinux;
+	const char* textWindows;
+	const char* textMacOld;
+
+	string fileLinux;
+	string fileWindows;
+	string fileMacOld;
+
+	// build fileNames vector and write the output files
+	testLineEndsUnchanged()
+	{
+		textLinuxStr =			// has linux line ends
+			"\nvoid foo()\n"
+			"{\n"
+			"    bar()\n"
+			"}\n";
+		textWindowsStr =		// has windows line ends
+			"\r\nvoid foo()\r\n"
+			"{\r\n"
+			"    bar()\r\n"
+			"}\r\n";
+		textMacOldStr =			// has macold line ends
+			"\rvoid foo()\r"
+			"{\r"
+			"    bar()\r"
+			"}\r";
+
+		cleanTestDirectory(getTestDirectory());
+		createConsoleGlobalObject();
+
+		// build text strings
+		textLinux = textLinuxStr.c_str();
+		textWindows = textWindowsStr.c_str();
+		textMacOld = textMacOldStr.c_str();
+
+		// create test files
+		fileLinux = getTestDirectory() + "/textLinux.cpp";
+		g_console->standardizePath(fileLinux);
+		createTestFile(fileLinux, textLinux);
+		fileWindows = getTestDirectory() + "/textWindows.cpp";
+		g_console->standardizePath(fileWindows);
+		createTestFile(fileWindows, textWindows);
+		fileMacOld = getTestDirectory() + "/textMac.cpp";
+		g_console->standardizePath(fileMacOld);
+		createTestFile(fileMacOld, textMacOld);
+	}
+
+	~testLineEndsUnchanged()
+	{
+		deleteConsoleGlobalObject();
+	}
+};
+
+TEST_FIXTURE(testLineEndsUnchanged, lineEndWindowsUnchanged)
+// test if lineend=windows leaves the file unchanged
+{
+	assert(g_console != NULL);
+	g_console->isQuiet = true;
+
+	// initialize objects
+	ASFormatter formatter;
+	g_console->fileNameVector.push_back(fileWindows);
+	g_console->standardizePath(g_console->fileNameVector.back());
+
+	// build argv array of options
+	vector<string> optionsIn;
+	optionsIn.push_back("--lineend=windows");
+	char** argv = buildArgv(optionsIn);
+	int argc = optionsIn.size() + 1;
+	int processReturn = g_console->processOptions(argc, argv, formatter);
+	CHECK(processReturn == CONTINUE);
+	CHECK_EQUAL(optionsIn.size(), g_console->optionsVector.size());
+
+	// process entries in the fileNameVector
+	g_console->processFiles(formatter);
+
+	// check for .orig file
+	string origFileName = fileWindows + ".orig";
+	struct stat stBuf;
+	// display error if file is present
+	if (stat(origFileName.c_str(), &stBuf) != -1)
+		CHECK_EQUAL( "\"no file\"", origFileName.c_str());
+}
+
+TEST_FIXTURE(testLineEndsUnchanged, lineEndLinuxUnchanged)
+// test if lineend=linux leaves the file unchanged
+{
+	assert(g_console != NULL);
+	g_console->isQuiet = true;
+
+	// initialize objects
+	ASFormatter formatter;
+	g_console->fileNameVector.push_back(fileLinux);
+	g_console->standardizePath(g_console->fileNameVector.back());
+
+	// build argv array of options
+	vector<string> optionsIn;
+	optionsIn.push_back("--lineend=linux");
+	char** argv = buildArgv(optionsIn);
+	int argc = optionsIn.size() + 1;
+	int processReturn = g_console->processOptions(argc, argv, formatter);
+	CHECK(processReturn == CONTINUE);
+	CHECK_EQUAL(optionsIn.size(), g_console->optionsVector.size());
+
+	// process entries in the fileNameVector
+	g_console->processFiles(formatter);
+
+	// check for .orig file
+	string origFileName = fileLinux + ".orig";
+	struct stat stBuf;
+	// display error if file is present
+	if (stat(origFileName.c_str(), &stBuf) != -1)
+		CHECK_EQUAL( "\"no file\"", origFileName.c_str());
+}
+
+TEST_FIXTURE(testLineEndsUnchanged, lineEndMacOldUnchanged)
+// test if lineend=macold leaves the file unchanged
+{
+	assert(g_console != NULL);
+	g_console->isQuiet = true;
+
+	// initialize objects
+	ASFormatter formatter;
+	g_console->fileNameVector.push_back(fileMacOld);
+	g_console->standardizePath(g_console->fileNameVector.back());
+
+	// build argv array of options
+	vector<string> optionsIn;
+	optionsIn.push_back("--lineend=macold");
+	char** argv = buildArgv(optionsIn);
+	int argc = optionsIn.size() + 1;
+	int processReturn = g_console->processOptions(argc, argv, formatter);
+	CHECK(processReturn == CONTINUE);
+	CHECK_EQUAL(optionsIn.size(), g_console->optionsVector.size());
+
+	// process entries in the fileNameVector
+	g_console->processFiles(formatter);
+
+	// check for .orig file
+	string origFileName = fileMacOld + ".orig";
+	struct stat stBuf;
+	// display error if file is present
+	if (stat(origFileName.c_str(), &stBuf) != -1)
+		CHECK_EQUAL( "\"no file\"", origFileName.c_str());
+}
+
+//----------------------------------------------------------------------------
+// AStyle default line ends
+// tests if default line end leaves the file unchanged
+// the file output is checked in AStyleTest
+//----------------------------------------------------------------------------
+
+struct testLineEndsDefault
+{
+	vector<string> fileNames;
+
+	string textLinuxStr;
+	string textWindowsStr;
+	string textMacOldStr;
+	const char* textLinux;
+	const char* textWindows;
+	const char* textMacOld;
+
+	string fileLinux;
+	string fileWindows;
+	string fileMacOld;
+
+	// build fileNames vector and write the output files
+	testLineEndsDefault()
+	{
+		textLinuxStr =			// has linux line ends
+			"\nvoid foo()\n"
+			"{\n"
+			"    bar()\n"
+			"}\n";
+		textWindowsStr =		// has windows line ends
+			"\r\nvoid foo()\r\n"
+			"{\r\n"
+			"    bar()\r\n"
+			"}\r\n";
+		textMacOldStr =			// has macold line ends
+			"\rvoid foo()\r"
+			"{\r"
+			"    bar()\r"
+			"}\r";
+
+		cleanTestDirectory(getTestDirectory());
+		createConsoleGlobalObject();
+
+		// build text strings
+		textLinux = textLinuxStr.c_str();
+		textWindows = textWindowsStr.c_str();
+		textMacOld = textMacOldStr.c_str();
+
+		// create test files
+		fileLinux = getTestDirectory() + "/textLinux.cpp";
+		g_console->standardizePath(fileLinux);
+		createTestFile(fileLinux, textLinux);
+		fileWindows = getTestDirectory() + "/textWindows.cpp";
+		g_console->standardizePath(fileWindows);
+		createTestFile(fileWindows, textWindows);
+		fileMacOld = getTestDirectory() + "/textMac.cpp";
+		g_console->standardizePath(fileMacOld);
+		createTestFile(fileMacOld, textMacOld);
+	}
+
+	~testLineEndsDefault()
+	{
+		deleteConsoleGlobalObject();
+	}
+};
+
+TEST_FIXTURE(testLineEndsDefault, lineEndWindowsDefault)
+// test if default line end leaves a windows file unchanged
+{
+	assert(g_console != NULL);
+	g_console->isQuiet = true;
+
+	// initialize objects
+	ASFormatter formatter;
+	g_console->fileNameVector.push_back(fileWindows);
+	g_console->standardizePath(g_console->fileNameVector.back());
+
+	// process entries in the fileNameVector
+	g_console->processFiles(formatter);
+
+	// check for .orig file
+	string origFileName = fileWindows + ".orig";
+	struct stat stBuf;
+	// display error if file is present
+	if (stat(origFileName.c_str(), &stBuf) != -1)
+		CHECK_EQUAL( "\"no file\"", origFileName.c_str());
+}
+
+TEST_FIXTURE(testLineEndsDefault, lineEndLinuxDefault)
+// test if default line end leaves a linux file unchanged
+{
+	assert(g_console != NULL);
+	g_console->isQuiet = true;
+
+	// initialize objects
+	ASFormatter formatter;
+	g_console->fileNameVector.push_back(fileLinux);
+	g_console->standardizePath(g_console->fileNameVector.back());
+
+	// process entries in the fileNameVector
+	g_console->processFiles(formatter);
+
+	// check for .orig file
+	string origFileName = fileLinux + ".orig";
+	struct stat stBuf;
+	// display error if file is present
+	if (stat(origFileName.c_str(), &stBuf) != -1)
+		CHECK_EQUAL( "\"no file\"", origFileName.c_str());
+}
+
+TEST_FIXTURE(testLineEndsDefault, lineEndMacOldDefault)
+// test if default line end leaves a macold file unchanged
+{
+	assert(g_console != NULL);
+	g_console->isQuiet = true;
+
+	// initialize objects
+	ASFormatter formatter;
+	g_console->fileNameVector.push_back(fileMacOld);
+	g_console->standardizePath(g_console->fileNameVector.back());
+
+	// process entries in the fileNameVector
+	g_console->processFiles(formatter);
+
+	// check for .orig file
+	string origFileName = fileMacOld + ".orig";
+	struct stat stBuf;
+	// display error if file is present
+	if (stat(origFileName.c_str(), &stBuf) != -1)
+		CHECK_EQUAL( "\"no file\"", origFileName.c_str());
 }
 
 //----------------------------------------------------------------------------
@@ -610,7 +1060,7 @@ TEST_FIXTURE(testPrint, printWildcard)
 }
 
 TEST_FIXTURE(testPrint, printWildcardExclude)
-// test print wildcard with an exclude 
+// test print wildcard with an exclude
 {
 	assert(g_console != NULL);
 

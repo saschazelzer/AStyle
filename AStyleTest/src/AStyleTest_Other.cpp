@@ -4650,3 +4650,4 @@ TEST(MultipleAssignmentsSans)
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
+

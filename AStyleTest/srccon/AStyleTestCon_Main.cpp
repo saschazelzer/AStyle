@@ -1,6 +1,6 @@
 // AStyleTestCon tests the ASConsole class only. This class is used only in
 // the console build. It also tests the parseOption function for options used
-// by only by the console build (e.g. recursive, preserve-date, verbose). It 
+// by only by the console build (e.g. recursive, preserve-date, verbose). It
 // does not explicitely test the ASStreamIterator class or any other part
 // of the program.
 
@@ -118,8 +118,8 @@ void cleanTestDirectory(const string &directory)
 	// open directory stream
 	DIR *dp = opendir(directory.c_str());
 	if (errno)
-    {
-        perror("errno message");
+	{
+		perror("errno message");
 		systemPause("Cannot open directory for clean: " + directory);
 		return;
 	}
@@ -145,26 +145,26 @@ void cleanTestDirectory(const string &directory)
 		{
 			string subDirectoryPath = directory + '/' + entry->d_name;
 			cleanTestDirectory(subDirectoryPath);
-            rmdir(subDirectoryPath.c_str());
-            if (errno)
-            {
-                perror("errno message");
+			rmdir(subDirectoryPath.c_str());
+			if (errno)
+			{
+				perror("errno message");
 				systemPause("Cannot remove directory for clean: " + subDirectoryPath);
 				return;
-            }
+			}
 			continue;
 		}
 
 		// remove the file
 		if (S_ISREG(statbuf.st_mode))
 		{
-            string filePathName = directory + '/' + entry->d_name;
-            remove(filePathName.c_str());
-            if (errno)
-            {
-                perror("errno message");
-                systemPause("Cannot remove file for clean: " + filePathName);
-            }
+			string filePathName = directory + '/' + entry->d_name;
+			remove(filePathName.c_str());
+			if (errno)
+			{
+				perror("errno message");
+				systemPause("Cannot remove file for clean: " + filePathName);
+			}
 		}
 	}
 	closedir(dp);
@@ -195,7 +195,7 @@ void createTestDirectory(const string &dirName)
 	CreateDirectory(dirName.c_str(), NULL);
 #else
 	mkdir(dirName.c_str(), 00770);
-    chmod(dirName.c_str(), 00770);
+	chmod(dirName.c_str(), 00770);
 #endif
 	// clean a pre-existing directory
 	cleanTestDirectory(dirName);
@@ -208,8 +208,8 @@ void createTestFile(const string& testFilePath, const char* testFileText, int si
 	// verify test directory
 	string testDir = getTestDirectory();
 	if (testFilePath.compare(0, testDir.length(), testDir) != 0
-		|| !(testFilePath[testDir.length()] == '/'
-			|| testFilePath[testDir.length()] == '\\'))
+			|| !(testFilePath[testDir.length()] == '/'
+				 || testFilePath[testDir.length()] == '\\'))
 	{
 		systemPause("File not written to test directory: " + testFilePath);
 		return;

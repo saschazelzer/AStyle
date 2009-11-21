@@ -3448,3 +3448,135 @@ TEST(AlignPointerShortUpperLimit)
 	CHECK_EQUAL(errorsIn + 1, errorsOut);
 	delete [] textOut;
 }
+
+//----------------------------------------------------------------------------
+// AStyle line ends
+//----------------------------------------------------------------------------
+
+struct testLineEnds
+{
+	string textLinuxStr;
+	string textWindowsStr;
+	string textMacOldStr;
+	const char* textLinux;
+	const char* textWindows;
+	const char* textMacOld;
+
+	testLineEnds()
+	{
+		textLinuxStr =
+			"\nvoid foo()\n"
+			"{\n"
+			"    bar()\n"
+			"}\n";
+		textWindowsStr =
+			"\r\nvoid foo()\r\n"
+			"{\r\n"
+			"    bar()\r\n"
+			"}\r\n";
+		textMacOldStr =
+			"\rvoid foo()\r"
+			"{\r"
+			"    bar()\r"
+			"}\r";
+		textLinux = textLinuxStr.c_str();
+		textWindows = textWindowsStr.c_str();
+		textMacOld = textMacOldStr.c_str();
+	}
+};
+
+TEST_FIXTURE(testLineEnds, defaultLinux)
+{
+	// test default Linux line ends
+	char options[] = "";
+	char* textOut = AStyleMain(textLinux, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(textLinux, textOut);
+	delete [] textOut;
+}
+
+TEST_FIXTURE(testLineEnds, defaultWindows)
+{
+	// test default Windows line ends
+	char options[] = "";
+	char* textOut = AStyleMain(textWindows, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(textWindows, textOut);
+	delete [] textOut;
+}
+
+TEST_FIXTURE(testLineEnds, defaultMacOld)
+{
+	// test default MacOld line ends
+	char options[] = "";
+	char* textOut = AStyleMain(textMacOld, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(textMacOld, textOut);
+	delete [] textOut;
+}
+
+TEST_FIXTURE(testLineEnds, defaultBadWindows)
+{
+	// test default Windows with line end characters reversed
+	// should be converted to Windows
+	char textBadWindows[] =
+		"\n\rvoid foo()\n\r"
+		"{\n\r"
+		"    bar()\n\r"
+		"}\n\r";
+	char options[] = "";
+	char* textOut = AStyleMain(textBadWindows, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(textWindows, textOut);
+	delete [] textOut;
+}
+
+TEST_FIXTURE(testLineEnds, lineEndWindows)
+{
+	// lineend=windowsx should output Windows line ends
+	char options[] = "lineend=windows";
+	char* textOut = AStyleMain(textLinux, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(textWindows, textOut);
+	delete [] textOut;
+}
+
+TEST_FIXTURE(testLineEnds, lineEndWindowsShort)
+{
+	// test lineend=windows short option
+	char options[] = "-z1";
+	char* textOut = AStyleMain(textLinux, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(textWindows, textOut);
+	delete [] textOut;
+}
+
+TEST_FIXTURE(testLineEnds, lineEndLinux)
+{
+	// lineend=linux should output Linux line ends
+	char options[] = "lineend=linux";
+	char* textOut = AStyleMain(textWindows, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(textLinux, textOut);
+	delete [] textOut;
+}
+
+TEST_FIXTURE(testLineEnds, lineEndLinuxShort)
+{
+	// test lineend=linux short option
+	char options[] = "-z2";
+	char* textOut = AStyleMain(textWindows, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(textLinux, textOut);
+	delete [] textOut;
+}
+
+TEST_FIXTURE(testLineEnds, lineEndMacOld)
+{
+	// lineend=macold should output MacOld line ends
+	char options[] = "lineend=macold";
+	char* textOut = AStyleMain(textWindows, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(textMacOld, textOut);
+	delete [] textOut;
+}
+
+TEST_FIXTURE(testLineEnds, lineEndMacOldShort)
+{
+	// test lineend=macold short option
+	char options[] = "-z3";
+	char* textOut = AStyleMain(textWindows, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(textMacOld, textOut);
+	delete [] textOut;
+}

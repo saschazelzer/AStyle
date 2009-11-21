@@ -1,6 +1,6 @@
 // AStyleTestCon tests the ASConsole class only. This class is used only in
 // the console build. It also tests the parseOption function for options used
-// by only by the console build (e.g. recursive, preserve-date, verbose). It 
+// by only by the console build (e.g. recursive, preserve-date, verbose). It
 // does not explicitely test the ASStreamIterator class or any other part
 // of the program.
 
@@ -218,7 +218,7 @@ TEST(processOptionsFileOptionsVector)
 }
 
 TEST(processOptionsFileOptionsVectorEnvVar)
-// test processOptions for fileOptionsVector 
+// test processOptions for fileOptionsVector
 //     with ARTISTIC_STYLE_OPTIONS enviromnent variable
 {
 	createConsoleGlobalObject();
