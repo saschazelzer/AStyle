@@ -1,8 +1,8 @@
 @echo off
 
-set progdir=%PROGRAMFILES%\Cppcheck 1.37
+set progdir=%PROGRAMFILES%\Cppcheck
 
-:: "%progdir%\cppcheck"  --version
+"%progdir%\cppcheck"  --version
 
 :: "%progdir%\cppcheck"  --help
 

@@ -1,31 +1,35 @@
-#! /usr/bin/env python
-
+#! /usr/bin/python
 # Check libSVN.bat to projects.bat to verify all .svn directories are backed up.
 
 import sys
 import os
 
+# global variables ------------------------------------------------------------
+
+print_variables = False			# print the variables in the lists
+
 # -----------------------------------------------------------------------------
 
 def process_files():
 	"""Read project and libSVN files and check the directories."""
-	
-	projects_path = "C:\Users\jp\Batch\projects.bat"
-	libsvn_path = "C:\Users\jp\Batch\libSVN.bat"
-	
+
+	projects_path = get_batch_directory() + "/projects.bat"
+	libsvn_path = get_batch_directory() + "/libSVN.bat"
+
 	projects_directories = []	# directories in projects.bat
-	libsvn_directories = []		# directories in  libSVN.bat 
-	
-	projects_directories = get_directories(projects_path)
-	libsvn_directories = get_directories(libsvn_path)
-	
-	projects_directories = correct_projects_directories(projects_directories)
+	libsvn_directories = []		# directories in  libSVN.bat
+
+	get_directories(projects_directories, projects_path)
+	get_directories(libsvn_directories, libsvn_path)
+
+	correct_projects_directories(projects_directories)
 	projects_directories.sort()
 	libsvn_directories.sort()
 	find_diffs(projects_directories, libsvn_directories)
 
-	# print projects_directories
-	# print libsvn_directories
+	if print_variables:
+		print projects_directories
+		print libsvn_directories
 
 # -----------------------------------------------------------------------------
 
@@ -36,7 +40,7 @@ def correct_projects_directories(projects_directories):
 	projects_directories.append("AStyle\\build")
 	projects_directories.append("AStyleDev")
 	projects_directories.append("AStyleDev\\build")
-	projects_directories.append("AStyleTest")	
+	projects_directories.append("AStyleTest")
 	projects_directories.append("AStyleTest\\build")
 	projects_directories.append("AStyleTest\\build\\vs2008")
 	projects_directories.append("AStyleWeb")
@@ -51,7 +55,7 @@ def correct_projects_directories(projects_directories):
 	return projects_directories
 
 # -----------------------------------------------------------------------------
-	
+
 def extract_word(line):
 	"""Extract the first word in a line."""
 	line = line.strip()
@@ -80,7 +84,7 @@ def find_diffs(projects_directories, libsvn_directories):
 	j = 0
 
 	print "Checking libSVN.bat directories to projects.bat."
-	
+
 	total_variables = len(projects_directories)
 	if len(libsvn_directories) > total_variables:
 		total_variables = len(libsvn_directories)
@@ -113,13 +117,22 @@ def find_diffs(projects_directories, libsvn_directories):
 
 # -----------------------------------------------------------------------------
 
-def get_directories(file_path):
+def get_batch_directory():
+	"""Get the AStyle/src directory for the os environment"""
+	if os.name == "nt":
+		return os.getenv("USERPROFILE") + "/batch"
+	else:
+		return os.getenv("HOME") + "/batch"
+
+
+# -----------------------------------------------------------------------------
+
+def get_directories(directories, file_path):
 	"""Read the batch file, find the 'for' statements, and save the directories."""
-	
-	directories = [] 
+
 	file_in = open(file_path, 'r')
 	for_statement = 0
-		
+
 	for line_in in file_in:
 		line = line_in.strip()
 		if len(line) == 0:
@@ -149,7 +162,6 @@ def get_directories(file_path):
 			continue
 
 	file_in.close()
-	return directories
 
 # -----------------------------------------------------------------------------
 
@@ -169,12 +181,14 @@ def is_svn_directory(directory_name):
 
 # make the module executable
 if __name__ == "__main__":
-	if os.name == "nt":
+	if os.name != "nt":
+		print "This test is for Windows only"
+	else:
 		process_files()
 		# pause if script is not run from SciTE (argv[1] = 'scite')
-		if len(sys.argv) == 1:
-			raw_input("\nPress Enter to continue . . .")
-	else:
-		print "This test is for Windows only"
-
+		if  len(sys.argv) == 1:
+			print
+			os.system("pause")
+			# raw_input("\nPress Enter to continue . . .")
+		
 # -----------------------------------------------------------------------------

@@ -1,6 +1,5 @@
-#! /usr/bin/env python
-
-# Check ASBeautifier constructor and copy constructor to class variables 
+#! /usr/bin/python
+# Check ASBeautifier constructor and copy constructor to class variables
 #     in the header file to verify all variables are initialized and copied.
 
 import sys
@@ -8,40 +7,29 @@ import os
 
 # global variables ------------------------------------------------------------
 
-header_lines = [0,0]			# line numbers for header
-class_lines = [0,0]			# line numbers for class constructor
-class_lines_init = [0,0]		# line numbers for class init() function
-copy_lines = [0,0]			# line numbers for copy constructor
-copy_brackets  = 0			#  unmatched brackets in the copy constructor
-
-header_total = 0				# total variables for header
-class_total = 0				# total variables for class constructor
-class_total_init = 0			# total variables for class init() function
-copy_total = 0				# total variables for copy constructor
-class_duplicates = 0			# total number of class duplicates removed
+print_detail = False				# print line numbers and total variables
+print_variables = False			# print the variables in the lists
 
 # -----------------------------------------------------------------------------
 
 def process_files():
 	"""Main processing function."""
 
-	global header_lines, class_lines, class_lines_init , copy_lines
-	global header_total, class_total, class_total_init , copy_total, class_duplicates
-	header_variables = []			# variables in astyle.h
-	class_variables = []				# variables in the class constructor
-	copy_variables = []				# variables in the copy constructor
+	header_variables = []		# variables in astyle.h
+	class_variables = []			# variables in the class constructor
+	copy_variables = []			# variables in the copy constructor
 	header_path = get_source_directory() + "/astyle.h"
 	beautifier_path = get_source_directory() + "/ASBeautifier.cpp"
 
-	header_variables = get_header_variables(header_path)
-	class_variables = get_constructor_variables(beautifier_path)
-	class_variables += get_initializer_variables(beautifier_path)
-	copy_variables = get_copy_variables(beautifier_path)
+	get_header_variables(header_variables, header_path)
+	get_constructor_variables(class_variables, beautifier_path)
+	get_initializer_variables(class_variables, beautifier_path)
+	get_copy_variables(copy_variables, beautifier_path)
 	header_variables.sort()
 	class_variables.sort()
 	copy_variables.sort()
-	class_variables = remove_class_duplicates(class_variables)
-	
+	remove_class_duplicates(class_variables)
+
 	print "Checking ASBeautifier header to class constructor and copy constructor."
 	total_variables = len(header_variables)
 	print "There are {0} variables in the header list.".format(total_variables)
@@ -49,15 +37,10 @@ def process_files():
 	find_class_diffs(header_variables, class_variables)
 	find_copy_diffs(header_variables, copy_variables)
 
-	# print "{0} {1} header".format(header_lines, header_total)
-	# print "{0} {1} copy constructor".format(copy_lines, copy_total)
-	# print "{0} {1} class constructor".format(class_lines, class_total)
-	# print "{0} {1} class initializer".format(class_lines_init, class_total_init)
-	# print "   -{0} class duplicates".format(class_duplicates)
-
-	# print header_variables
-	# print class_variables
-	# print copy_variables
+	if print_variables:
+		print header_variables
+		print class_variables
+		print copy_variables
 
 # -----------------------------------------------------------------------------
 
@@ -178,12 +161,12 @@ def find_copy_diffs(header_variables, copy_variables):
 
 # -----------------------------------------------------------------------------
 
-def get_constructor_variables(beautifier_path):
+def get_constructor_variables(class_variables, beautifier_path):
 	"""Read the ASBeautifier file and save the class constuctor variables."""
 
-	global class_lines, class_total
-	variables = []
-	lines = 0
+	class_lines = [0,0]		# line numbers for class constructor
+	class_total = 0			# total variables for class constructor
+	lines = 0					# current input line number
 	file_in = open(beautifier_path, 'r')
 
 	# get class constructor lines
@@ -215,24 +198,27 @@ def get_constructor_variables(beautifier_path):
 				variable_name = line[0:first_space].strip()
 		if len(variable_name) == 0:
 			continue
-		variables.append(variable_name)
+		class_variables.append(variable_name)
+		class_total += 1
 		if variable_name == "indentLength":
-			variables.append("indentString")
-			variables.append("minConditionalIndent")
+			class_variables.append("indentString")
+			class_variables.append("minConditionalIndent")
+			class_total += 2
 
 	file_in.close()
-	class_total = len(variables)
-	return variables
+	if print_detail:
+		print "{0} {1} class constructor".format(class_lines, class_total)
 
 # -----------------------------------------------------------------------------
 
-def get_copy_variables(beautifier_path):
+def get_copy_variables(copy_variables, beautifier_path):
 	"""Read the ASBeautifier file and save the copy constuctor variables."""
 
-	global copy_lines, copy_brackets, copy_total
-	variables = []
+	copy_lines = [0,0]			# line numbers for copy constructor
+	copy_total = 0				# total variables for copy constructor
+	copy_brackets  = 0			#  unmatched brackets in the copy constructor
+	lines = 0						# current input line number
 	file_in = open(beautifier_path, 'r')
-	lines = 0
 
 	for line_in in file_in:
 		lines += 1
@@ -256,7 +242,7 @@ def get_copy_variables(beautifier_path):
 		if line.find('}') != -1:
 			copy_brackets -= 1
 		if  copy_brackets == 0:
-			header_lines[1] = lines
+			copy_lines[1] = lines
 			break
 		# get the variable name
 		first_space = line.find(' ')
@@ -266,21 +252,22 @@ def get_copy_variables(beautifier_path):
 		# value-of variables are duplicates
 		if variable_name[0] == '*':
 			continue
-		variables.append(variable_name)
+		copy_variables.append(variable_name)
+		copy_total += 1
 
 	file_in.close()
-	copy_total = len(variables)
-	return variables
+	if print_detail:
+		print "{0} {1} copy constructor".format(copy_lines, copy_total)
 
 # -----------------------------------------------------------------------------
 
-def get_header_variables(header_path):
+def get_header_variables(header_variables, header_path):
 	"""Read the header file and save the ASBeautifier variables."""
 
-	global header_lines, header_total
-	variables = []
+	header_lines = [0,0]		# line numbers for header
+	header_total = 0			# total variables for header
+	lines = 0					# current input line number
 	file_in = open(header_path, 'r')
-	lines = 0
 
 	for line_in in file_in:
 		lines += 1
@@ -314,7 +301,7 @@ def get_header_variables(header_path):
 			continue
 		# get the variable name
 		semi_colon = line.find(';');
-		if semi_colon == -1: 
+		if semi_colon == -1:
 			continue
 		last_space = line[:semi_colon].rfind(' ')
 		if last_space == -1:
@@ -322,20 +309,21 @@ def get_header_variables(header_path):
 		variable_name = line[last_space:semi_colon].strip()
 		if variable_name[0] == '*':
 			variable_name = variable_name[1:]
-		variables.append(variable_name)
+		header_variables.append(variable_name)
+		header_total += 1
 
 	file_in.close()
-	header_total = len(variables)
-	return variables
+	if print_detail:
+		print "{0} {1} header".format(header_lines, header_total)
 
 # -----------------------------------------------------------------------------
 
-def get_initializer_variables(beautifier_path):
+def get_initializer_variables(class_variables, beautifier_path):
 	"""Read the ASBeautifier file and save the class initializer variables."""
 
-	global class_lines_init, class_total_init
-	variables = []
-	lines_init = 0
+	class_lines_init = [0,0]		# line numbers for class init() function
+	class_total_init = 0			# total variables for class init() function
+	lines_init = 0					# current input line number
 	file_in_init = open(beautifier_path, 'r')
 
 	# get class initializer lines
@@ -367,27 +355,29 @@ def get_initializer_variables(beautifier_path):
 				variable_name = line[:first_space].strip()
 		if len(variable_name) == 0:
 			continue
-		variables.append(variable_name)
+		class_variables.append(variable_name)
+		class_total_init += 1
 
 	file_in_init.close()
-	class_total_init = len(variables)
-	return variables
+	if print_detail:
+		print "{0} {1} class initializer".format(class_lines_init, class_total_init)
+
 
 # -----------------------------------------------------------------------------
 
 def get_source_directory():
 	"""Get the AStyle/src directory for the os environment"""
-	
-	if os.name == "nt":
-		return os.getenv("USERPROFILE") + "/Projects/AStyle/src"
-	else:
-		return os.getenv("HOME") + "/Projects/AStyle/src"
-	
+	#~ if os.name == "nt":
+		#~ return os.getenv("USERPROFILE") + "/Projects/AStyle/src"
+	#~ else:
+		#~ return os.getenv("HOME") + "/Projects/AStyle/src"
+	return "../../AStyle/src"
+
 # -----------------------------------------------------------------------------
 
 def remove_class_duplicates(class_variables):
 	"""Remove duplicates in class variables list."""
-	global class_duplicates
+	class_duplicates = 0		# total number of class duplicates removed
 	i = 1
 	while i < len(class_variables):
 		if class_variables[i - 1] == class_variables[i]:
@@ -395,7 +385,8 @@ def remove_class_duplicates(class_variables):
 			class_duplicates += 1
 			continue
 		i +=1
-	return class_variables
+	if print_detail:
+		print " -{0} class duplicates".format(class_duplicates)
 
 # -----------------------------------------------------------------------------
 
@@ -403,7 +394,10 @@ def remove_class_duplicates(class_variables):
 if __name__ == "__main__":
 	process_files()
 	# pause if script is not run from SciTE (argv[1] = 'scite')
-	if len(sys.argv) == 1:
-		raw_input("\nPress Enter to continue . . .")
+	if (os.name == "nt"
+	and len(sys.argv) == 1):
+		print
+		os.system("pause")
+		# raw_input("\nPress Enter to continue . . .")
 
 # -----------------------------------------------------------------------------

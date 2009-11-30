@@ -1,6 +1,5 @@
-#! /usr/bin/env python
-
-# Check ASBeautifier protected variables to verify all variables are 
+#! /usr/bin/python
+# Check ASBeautifier protected variables to verify all variables are
 # replaced in the activeBeautifierStack.
 
 import sys
@@ -8,39 +7,40 @@ import os
 
 # global variables ------------------------------------------------------------
 
-first_header_line = 0		# start line in astyle.h
-first_beautifier_line = 0		# start line in ASBeautifier.cpp
+print_detail = False				# print line numbers and total variables
+print_variables = False			# print the variables in the lists
 
 # -----------------------------------------------------------------------------
 
 def process_files():
-	"""Read astyle.h and ASBeautifier.cpp files and check variables."""
-	
-	header_variables = []			# variables in astyle.h
-	beautifier_variables = []		# variables in ASBeautifier.cpp 
-	
+	"""Read astyle.h and ASBeautifier.cpp files and check protected variables."""
+
+	header_variables = []			# protected variables in astyle.h
+	beautifier_variables = []		# activeBeautifierStack variables in ASBeautifier.cpp
+
 	header_path = get_source_directory() + "/astyle.h"
 	beautifier_path = get_source_directory() + "/ASBeautifier.cpp"
-	
-	header_variables = get_header_variables(header_path)
-	beautifier_variables = get_beautifier_variables(beautifier_path)
-	
+
+	get_header_variables(header_variables, header_path)
+	get_beautifier_variables(beautifier_variables, beautifier_path)
+
 	header_variables.sort()
 	beautifier_variables.sort()
 	find_diffs(header_variables, beautifier_variables)
 
-	# print header_variables
-	# print beautifier_variables
+	if print_variables:
+		print header_variables
+		print beautifier_variables
 
 # -----------------------------------------------------------------------------
 
 def find_diffs(header_variables, beautifier_variables):
 	"""Find differences in variable lists."""
-	
+
 	diffs = 0
 	i = 0
 	j = 0
-	
+
 	print "Checking ASBeautifier protected variables to activeBeautifierStack."
 
 	total_variables = len(header_variables)
@@ -69,7 +69,7 @@ def find_diffs(header_variables, beautifier_variables):
 		diffs += 1
 		j += 1
 		continue
-		
+
 	if diffs == 0:
 		print "There are NO diffs in the variables!!!"
 	else:
@@ -77,14 +77,14 @@ def find_diffs(header_variables, beautifier_variables):
 
 # -----------------------------------------------------------------------------
 
-def get_beautifier_variables(beautifier_path):
-	"""Read the beautifier file and save the variable updatess."""
-	
-	global first_beautifier_line
-	variables = []
+def get_beautifier_variables(beautifier_variables, beautifier_path):
+	"""Read the beautifier file and save the variable updates."""
+
+	beautifier_lines = [0,0]		# line numbers for activeBeautifierStack
+	beautifier_total = 0			# total variables activeBeautifierStack
+	lines = 0						# current input line number
 	file_in = open(beautifier_path, 'r')
-	lines = 0
-		
+
 	for line_in in file_in:
 		lines += 1
 		line = line_in.strip()
@@ -93,11 +93,13 @@ def get_beautifier_variables(beautifier_path):
 		if line[:2] == "//":
 			continue
 		# start here for 20 lines
-		if line.find("activeBeautifierStack->back()->") == -1:
+		if (beautifier_lines[0] == 0
+		and line.find("activeBeautifierStack->back()->") != -1):
+			beautifier_lines[0] = lines
+		if beautifier_lines[0] == 0:
 			continue
-		if first_beautifier_line == 0:
-			first_beautifier_line = lines
-		if lines > first_beautifier_line + 20:
+		if line[0:6] == "return":
+			beautifier_lines[1] = lines
 			break
 		# bypass the variable type
 		assignment = line.find('=')
@@ -106,21 +108,23 @@ def get_beautifier_variables(beautifier_path):
 		# get the variable name
 		variable_name = line[assignment+1:-1].strip()
 		# print variable_name
-		variables.append(variable_name)
+		beautifier_variables.append(variable_name)
+		beautifier_total += 1
 
 	file_in.close()
-	return variables
+	if print_detail:
+		print "{0} {1} activeBeautifierStack".format(beautifier_lines, beautifier_total)
 
 # -----------------------------------------------------------------------------
 
-def get_header_variables(header_path):
+def get_header_variables(header_variables, header_path):
 	"""Read the header file and save the protected variables."""
-	
-	global first_header_line
-	variables = []
+
+	header_lines = [0,0]		# line numbers for header
+	header_total = 0			# total variables for header
+	lines = 0					# current input line number
 	file_in = open(header_path, 'r')
-	lines = 0
-	
+
 	for line_in in file_in:
 		lines += 1
 		line = line_in.strip()
@@ -128,11 +132,12 @@ def get_header_variables(header_path):
 			continue
 		# start between the following lines
 		if line.find("// variables set by ASFormatter") != -1:
-			first_header_line = lines
+			header_lines[0] = lines
 			continue
-		if first_header_line == 0:
+		if header_lines[0] == 0:
 			continue
 		if line.find("private:") != -1:
+			header_lines[1] = lines -1
 			break
 		if line[:2] == "//":
 			continue
@@ -143,20 +148,22 @@ def get_header_variables(header_path):
 		# get the variable name
 		variable_name = line[last_space:-1].strip()
 		# print variable_name
-		variables.append(variable_name)
-		
+		header_variables.append(variable_name)
+		header_total += 1
+
 	file_in.close()
-	return variables
+	if print_detail:
+		print "{0} {1} header protected".format(header_lines, header_total)
 
 # -----------------------------------------------------------------------------
 
 def get_source_directory():
 	"""Get the AStyle/src directory for the os environment"""
-	
-	if os.name == "nt":
-		return os.getenv("USERPROFILE") + "/Projects/AStyle/src"
-	else:
-		return os.getenv("HOME") + "/Projects/AStyle/src"
+	#~ if os.name == "nt":
+		#~ return os.getenv("USERPROFILE") + "/Projects/AStyle/src"
+	#~ else:
+		#~ return os.getenv("HOME") + "/Projects/AStyle/src"
+	return "../../AStyle/src"
 
 # -----------------------------------------------------------------------------
 
@@ -164,7 +171,10 @@ def get_source_directory():
 if __name__ == "__main__":
 	process_files()
 	# pause if script is not run from SciTE (argv[1] = 'scite')
-	if len(sys.argv) == 1:
-		raw_input("\nPress Enter to continue . . .")
+	if (os.name == "nt"
+	and len(sys.argv) == 1):
+		print
+		os.system("pause")
+		# raw_input("\nPress Enter to continue . . .")
 
 # -----------------------------------------------------------------------------
