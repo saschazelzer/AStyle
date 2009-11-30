@@ -1,19 +1,22 @@
 @color 0B
 @echo off
 
-REM copy or move Artistic Style .orig files to a backup directory
+REM copy or move Artistic Style backup files to a backup directory
 
 REM CHANGE THE FOLLOWING 4 VARIABLES
 REM indir is the input top level directory containing the .orig files
 REM outdir is the output top level directory containing the moved files
-set indir=%USERPROFILE%\Documents\Visual Studio 2005\Projects\TestData\CodeBlocks\src
-set outdir=%USERPROFILE%\Documents\Visual Studio 2005\Projects\TestData\CodeBlocks\backup
+REM fileext is the backup file extension
+REM copyfiles is COPY or MOVE the files
+
+set indir=%USERPROFILE%\Projects\TestData\CodeBlocks\src
+set outdir=%USERPROFILE%\Projects\TestData\CodeBlocks\backup
 set fileext=.orig
 REM USE ONE OF THE FOLLOWING TO COPY OR MOVE THE FILES
 set copyfiles=COPY
 :: set copyfiles=MOVE
 
-REM display distribution
+REM display the variables
 echo -
 echo %copyfiles% Artistic Style backup files
 echo FROM %indir%

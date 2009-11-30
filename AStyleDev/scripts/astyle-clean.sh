@@ -1,16 +1,15 @@
 #!/bin/bash
-# copy or move Artistic Style .orig files to a backup directory
+# copy or move Artistic Style backup files to a backup directory
 
 # CHANGE THE FOLLOWING 4 VARIABLES
 # $indir is the input top level directory containing the .orig files
 # $outdir is the output top level directory containing the moved files
 # $fileext is the backup file extension
-# $TEMP is a work directory for temporary files
+# $copyfiles is COPY (cp) or MOVE (mv) the files
 # spaces ARE allowed in directory and file name (for Cygwin on Windows)
 
-# CHANGE THE FOLLOWING 4 VARIABLES
-indir="$HOME/testData/codeblocks/src"
-outdir="$HOME/testData/codeblocks/backup"
+indir="$HOME/Projects/testData/codeblocks/src"
+outdir="$HOME/Projects/testData/codeblocks/backup"
 fileext=".orig"
 # USE ONE OF THE FOLLOWING TO COPY OR MOVE THE FILES
 copyfiles=cp
@@ -25,7 +24,7 @@ echo
 
 # validate input directory
 if [ ! -d "$indir" ] ; then
-	echo "input directory does not exist!"
+	echo "Input directory does not exist!"
 	echo
 	exit
 fi
