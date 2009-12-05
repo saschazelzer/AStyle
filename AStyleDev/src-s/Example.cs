@@ -71,14 +71,12 @@ public class Example
         char[] fileIn = new char[readSize];
 
         // read file data
-        try
-        {
+        try {
             FileStream file = new FileStream(fileName, FileMode.Open);
             StreamReader streamIn = new StreamReader(file);
             // use ReadBlock to preserve the current line endings
             int charsIn = streamIn.ReadBlock(fileIn, 0, readSize);
-            while (charsIn != 0)
-            {
+            while (charsIn != 0) {
                 bufferIn.Append(fileIn, 0, charsIn);
                 charsIn = streamIn.ReadBlock(fileIn, 0, readSize);
             }

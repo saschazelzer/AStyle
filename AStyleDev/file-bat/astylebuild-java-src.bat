@@ -1,22 +1,16 @@
 @echo off
 REM build the AStyle Release Java Configuration using the AStyle project file
-REM copy the output to the AStyleDev folder
+REM copy the output to the AStyleDev/test-j(x)  folder
 
 set astyle=..\..\AStyle\build\vs2008
-set bindir=..\build\vs2008\bin
+set bindir1=..\src-j
+set bindir2=..\src-jx
 set errors=no
 set called=no
 
 REM the following batch file is needed for VS2005
 REM and change the build directory to buildvs2005
 REM call "%VS80COMNTOOLS%\vsvars32.bat"
-
-REM if called from a compile, the directory structure is different
-if not exist astylebuild-java.bat (
-set called=yes
-set astyle=..\..\%astyle%
-set bindir=..\..\%bindir%
-)
 
 echo BUILDING ASTYLE JAVA
 %windir%\microsoft.net\framework\v3.5\msbuild  /nologo  "/property:Configuration=Release Java"  "%astyle%\AStyle.sln"
@@ -26,10 +20,9 @@ REM don't copy if compile errors
 if not %errors%==yes (
 echo -
 echo COPYING
-if not exist "%bindir%"  mkdir "%bindir%"
-xcopy "%astyle%\bin\AStylej.dll"  "%bindir%\"  /y /q
+xcopy "%astyle%\bin\AStylej.dll"  "%bindir1%\"  /y /q
 if %ERRORLEVEL% NEQ 0  set errors=yes
-xcopy "%astyle%\bin\AStylej.lib"  "%bindir%\"  /y /q
+xcopy "%astyle%\bin\AStylej.dll"  "%bindir2%\"  /y /q
 if %ERRORLEVEL% NEQ 0  set errors=yes
 )
 

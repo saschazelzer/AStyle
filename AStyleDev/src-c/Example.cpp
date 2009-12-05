@@ -21,16 +21,16 @@ using namespace std;
 
 // functions to call AStyleMain
 extern "C"
-    char* STDCALL  AStyleMain(const char* pSourceIn,
-                              const char* pOptions,
-                              void(STDCALL *fpError)(int, char*),
-                              char*(STDCALL *fpAlloc)(unsigned long));
+char* STDCALL  AStyleMain(const char* pSourceIn,
+                          const char* pOptions,
+                          void(STDCALL *fpError)(int, char*),
+                          char*(STDCALL *fpAlloc)(unsigned long));
 void  STDCALL ASErrorHandler(int errorNumber, char* errorMessage);
 char* STDCALL ASMemoryAlloc(unsigned long memoryNeeded);
 
 // other functions
 extern "C"
-    char* STDCALL  AStyleGetVersion();
+char* STDCALL  AStyleGetVersion();
 void error(const char *why, const char* what = "");
 char* getText(const char* fileName);
 void  setText(const char* textOut, const char* fileName);
@@ -83,7 +83,7 @@ int main(int, char **)
 // Error handler for the Artistic Style formatter
 void  STDCALL ASErrorHandler(int errorNumber, char* errorMessage)
 {
-    cout << "astyle error " << errorNumber << "\n" 
+    cout << "astyle error " << errorNumber << "\n"
          << errorMessage << endl;
 }
 
