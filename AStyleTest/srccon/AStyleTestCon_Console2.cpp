@@ -629,6 +629,8 @@ TEST_FIXTURE(testLineEndsFormatted, lineEndWindowsFormatted)
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
 		CHECK_EQUAL(origFileName.c_str(), "\"no file\"");
+
+	delete [] argv;
 }
 
 TEST_FIXTURE(testLineEndsFormatted, lineEndLinuxFormatted)
@@ -660,6 +662,8 @@ TEST_FIXTURE(testLineEndsFormatted, lineEndLinuxFormatted)
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
 		CHECK_EQUAL(origFileName.c_str(), "\"no file\"");
+
+	delete [] argv;
 }
 
 TEST_FIXTURE(testLineEndsFormatted, lineEndMacOldFormatted)
@@ -691,6 +695,8 @@ TEST_FIXTURE(testLineEndsFormatted, lineEndMacOldFormatted)
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
 		CHECK_EQUAL(origFileName.c_str(), "\"no file\"");
+
+	delete [] argv;
 }
 
 //----------------------------------------------------------------------------
@@ -788,6 +794,8 @@ TEST_FIXTURE(testLineEndsUnchanged, lineEndWindowsUnchanged)
 	// display error if file is present
 	if (stat(origFileName.c_str(), &stBuf) != -1)
 		CHECK_EQUAL( "\"no file\"", origFileName.c_str());
+
+	delete [] argv;
 }
 
 TEST_FIXTURE(testLineEndsUnchanged, lineEndLinuxUnchanged)
@@ -819,6 +827,8 @@ TEST_FIXTURE(testLineEndsUnchanged, lineEndLinuxUnchanged)
 	// display error if file is present
 	if (stat(origFileName.c_str(), &stBuf) != -1)
 		CHECK_EQUAL( "\"no file\"", origFileName.c_str());
+
+	delete [] argv;
 }
 
 TEST_FIXTURE(testLineEndsUnchanged, lineEndMacOldUnchanged)
@@ -850,6 +860,8 @@ TEST_FIXTURE(testLineEndsUnchanged, lineEndMacOldUnchanged)
 	// display error if file is present
 	if (stat(origFileName.c_str(), &stBuf) != -1)
 		CHECK_EQUAL( "\"no file\"", origFileName.c_str());
+
+	delete [] argv;
 }
 
 //----------------------------------------------------------------------------

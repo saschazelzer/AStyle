@@ -63,7 +63,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="UnitTest++.vsnet2008.lib"
+				AdditionalDependencies="AStyleConLibd.lib UnitTest++.vsnet2008.lib"
 				OutputFile="bin\$(ProjectName)d.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="bin;&quot;..\..\..\..\UnitTest++\Debug&quot;"
@@ -143,7 +143,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="UnitTest++.vsnet2008.lib"
+				AdditionalDependencies="AStyleConLib.lib UnitTest++.vsnet2008.lib"
 				OutputFile="bin\$(ProjectName).exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="bin;&quot;..\..\..\..\UnitTest++\Release&quot;"
@@ -221,7 +221,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="UnitTest++.vsnet2008.lib LeakFinder_VC9.lib"
+				AdditionalDependencies="AStyleConLibd.lib UnitTest++.vsnet2008.lib LeakFinder_VC9.lib"
 				OutputFile="bin\$(ProjectName)dl.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="bin;&quot;..\..\..\..\UnitTest++\Debug&quot;;&quot;..\..\..\..\LeakFinder-RC9\Debug_VC9&quot;"
@@ -299,7 +299,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="UnitTest++.vsnet2008.lib"
+				AdditionalDependencies="AStyleConLibd.lib UnitTest++.vsnet2008.lib"
 				OutputFile="bin\$(ProjectName)p.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="bin;&quot;..\..\..\..\UnitTest++\Debug&quot;"
@@ -340,26 +340,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\..\..\AStyle\src\ASBeautifier.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\AStyle\src\ASEnhancer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\AStyle\src\ASFormatter.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\AStyle\src\ASResource.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\AStyle\src\astyle_main.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\AStyleTest_LeakFinder.cpp"
 				>
 			</File>
@@ -382,23 +362,9 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\..\..\AStyle\src\astyle.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\AStyle\src\astyle_main.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\srccon\AStyleTestCon.h"
 				>
 			</File>
-		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
-			>
 		</Filter>
 	</Files>
 	<Globals>

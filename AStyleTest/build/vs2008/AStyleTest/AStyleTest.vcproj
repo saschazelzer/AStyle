@@ -43,7 +43,7 @@
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
 				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;&quot;..\..\..\..\UnitTest++\src&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;ASTYLE_LIB"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -63,7 +63,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="UnitTest++.vsnet2008.lib"
+				AdditionalDependencies="AStyleLibd.lib UnitTest++.vsnet2008.lib"
 				OutputFile="bin\$(ProjectName)d.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="bin;&quot;..\..\..\..\UnitTest++\Debug&quot;"
@@ -124,9 +124,8 @@
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
 				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;&quot;..\..\..\..\UnitTest++\src&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;ASTYLE_LIB"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				MinimalRebuild="false"
-				BasicRuntimeChecks="0"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="false"
 				FloatingPointModel="2"
@@ -181,7 +180,7 @@
 		</Configuration>
 		<Configuration
 			Name="LeakFinder|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			OutputDirectory="$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="2"
@@ -204,7 +203,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				EnableIntrinsicFunctions="false"
 				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;&quot;..\..\..\..\UnitTest++\src&quot;;&quot;..\..\..\..\LeakFinder-RC9&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;ASTYLE_LIB;LEAK_FINDER"
 				MinimalRebuild="false"
@@ -269,26 +267,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\..\..\AStyle\src\ASBeautifier.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\AStyle\src\ASEnhancer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\AStyle\src\ASFormatter.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\AStyle\src\ASResource.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\AStyle\src\astyle_main.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\AStyleTest_BracketsCpp.cpp"
 				>
 			</File>
@@ -339,23 +317,9 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\..\..\AStyle\src\astyle.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\AStyle\src\astyle_main.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\AStyleTest.h"
 				>
 			</File>
-		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
-			>
 		</Filter>
 	</Files>
 	<Globals>
