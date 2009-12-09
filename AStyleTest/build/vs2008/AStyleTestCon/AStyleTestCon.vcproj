@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)debug"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="2"
@@ -64,9 +64,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="AStyleConLibd.lib UnitTest++.vsnet2008.lib"
-				OutputFile="bin\$(ProjectName)d.exe"
+				OutputFile="$(OutDir)\$(ProjectName)d.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="bin;&quot;..\..\..\..\UnitTest++\Debug&quot;"
+				AdditionalLibraryDirectories="..\bin;&quot;..\..\..\..\UnitTest++\Debug&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(ProjectDir)$(ConfigurationName)\$(TargetName).pdb"
 				SubSystem="1"
@@ -96,7 +96,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="2"
@@ -144,9 +144,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="AStyleConLib.lib UnitTest++.vsnet2008.lib"
-				OutputFile="bin\$(ProjectName).exe"
+				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="bin;&quot;..\..\..\..\UnitTest++\Release&quot;"
+				AdditionalLibraryDirectories="..\bin;&quot;..\..\..\..\UnitTest++\Release&quot;"
 				GenerateDebugInformation="false"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -177,7 +177,7 @@
 		</Configuration>
 		<Configuration
 			Name="LeakFinder|Win32"
-			OutputDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="2"
@@ -222,9 +222,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="AStyleConLibd.lib UnitTest++.vsnet2008.lib LeakFinder_VC9.lib"
-				OutputFile="bin\$(ProjectName)dl.exe"
+				OutputFile="$(OutDir)\$(ProjectName)dl.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="bin;&quot;..\..\..\..\UnitTest++\Debug&quot;;&quot;..\..\..\..\LeakFinder-RC9\Debug_VC9&quot;"
+				AdditionalLibraryDirectories="..\bin;&quot;..\..\..\..\UnitTest++\Debug&quot;;&quot;..\..\..\..\LeakFinder-RC9\Debug_VC9&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(ProjectDir)$(ConfigurationName)\$(TargetName).pdb"
 				SubSystem="1"
@@ -254,7 +254,7 @@
 		</Configuration>
 		<Configuration
 			Name="Print|Win32"
-			OutputDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="2"
@@ -300,9 +300,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="AStyleConLibd.lib UnitTest++.vsnet2008.lib"
-				OutputFile="bin\$(ProjectName)p.exe"
+				OutputFile="$(OutDir)\$(ProjectName)p.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="bin;&quot;..\..\..\..\UnitTest++\Debug&quot;"
+				AdditionalLibraryDirectories="..\bin;&quot;..\..\..\..\UnitTest++\Debug&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(ProjectDir)$(ConfigurationName)\$(TargetName).pdb"
 				SubSystem="1"

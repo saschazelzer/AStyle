@@ -1,12 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleTestCon", "AStyleTestCon.vcproj", "{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleTestCon", "AStyleTestCon\AStyleTestCon.vcproj", "{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8563FBDA-FEDC-4233-B585-EBDA55E1C599} = {8563FBDA-FEDC-4233-B585-EBDA55E1C599}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleConLib", "AStyleConLib.vcproj", "{8563FBDA-FEDC-4233-B585-EBDA55E1C599}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleConLib", "AStyleTestCon\AStyleConLib.vcproj", "{8563FBDA-FEDC-4233-B585-EBDA55E1C599}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

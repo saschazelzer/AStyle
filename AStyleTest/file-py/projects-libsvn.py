@@ -42,7 +42,6 @@ def correct_projects_directories(projects_directories):
 	projects_directories.append("AStyleDev\\build")
 	projects_directories.append("AStyleTest")
 	projects_directories.append("AStyleTest\\build")
-	projects_directories.append("AStyleTest\\build\\vs2008")
 	projects_directories.append("AStyleWeb")
 	projects_directories.append("AStyleWeb\\build")
 	# add directories not backed up by projects.bat
