@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="PrintDirTest"
-	ProjectGUID="{4DF899F1-5FC0-4773-847F-E04A200B6182}"
+	ProjectGUID="{16EB0E79-07BC-4CB8-9B54-CDC06BD495CC}"
 	RootNamespace="PrintDirTest"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
@@ -18,8 +18,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="Debug"
-			IntermediateDirectory="Debug"
+			OutputDirectory="$(SolutionDir)debug"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="2"
 			>
@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="..\debug\PrintDirTest.exe"
+				OutputFile="$(OutDir)\PrintDirTestd.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(ProjectDir)$(ConfigurationName)\$(TargetName).pdb"
@@ -96,8 +96,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="Release"
-			IntermediateDirectory="Release"
+			OutputDirectory="$(SolutionDir)bin"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="2"
 			>
@@ -137,7 +137,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="..\bin\PrintDirTest.exe"
+				OutputFile="$(OutDir)\PrintDirTest.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="1"

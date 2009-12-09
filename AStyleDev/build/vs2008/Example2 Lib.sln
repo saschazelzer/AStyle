@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example2 Lib", "Example2 Lib.vcproj", "{5B73A0A3-C559-4B5A-9856-DC780B8DF27D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example2 Lib", "Example2Lib\Example2 Lib.vcproj", "{5B73A0A3-C559-4B5A-9856-DC780B8DF27D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

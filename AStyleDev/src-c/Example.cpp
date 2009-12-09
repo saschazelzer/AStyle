@@ -114,7 +114,7 @@ char* getText(const char* fileName)
 
     // get length of buffer
     in.seekg(0, ifstream::end);
-    int bufferSizeIn = in.tellg();
+    size_t bufferSizeIn = static_cast<size_t>(in.tellg());
     in.seekg(0, ifstream::beg);
 
     // allocate memory
@@ -129,7 +129,7 @@ char* getText(const char* fileName)
     in.close();
 
     // get actual size - will be smaller than buffer size
-    int textSizeIn = in.gcount();
+    size_t textSizeIn = static_cast<size_t>(in.gcount());
     bufferIn[textSizeIn] = '\0';
 
     return bufferIn;

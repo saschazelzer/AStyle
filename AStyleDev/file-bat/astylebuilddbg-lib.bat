@@ -3,7 +3,7 @@ REM build the AStyle Debug Lib Configuration using the AStyle project file
 REM copy the output to the AStyleDev folder
 
 set astyle=..\..\AStyle\build\vs2008
-set bindir=..\build\vs2008\debug
+set bindir=..\build\vs2008\bin
 set errors=no
 set called=no
 
