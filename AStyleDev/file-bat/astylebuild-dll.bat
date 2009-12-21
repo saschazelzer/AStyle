@@ -2,14 +2,15 @@
 REM build the AStyle Release Dll Configuration using the AStyle project file
 REM copy the output to the AStyleDev folder
 
-set astyle=..\..\AStyle\build\vs2008
-set bindir=..\build\vs2008\bin
+REM %1 should be the Visual Studio release date
+set astyle=..\..\AStyle\build\%1
+set bindir=..\build\%1\bin
+set sdk=no
+if %1 == vs2005  set sdk=v2.0.50727
+if %1 == vs2008  set sdk=v3.5
+if %1 == vs2010  set sdk=v4.0.21006
 set errors=no
 set called=no
-
-REM the following batch file is needed for VS2005
-REM and change the build directory to buildvs2005
-REM call "%VS80COMNTOOLS%\vsvars32.bat"
 
 REM if called from a compile, the directory structure is different
 if not exist astylebuild-dll.bat (
@@ -19,7 +20,7 @@ set bindir=..\..\%bindir%
 )
 
 echo BUILDING ASTYLE DLL
-%windir%\microsoft.net\framework\v3.5\msbuild  /nologo  "/property:Configuration=Release Dll"  "%astyle%\AStyle.sln"
+%windir%\microsoft.net\framework\%sdk%\msbuild  /nologo  "/property:Configuration=Release"  "%astyle%\AStyleDll.sln"
 if %ERRORLEVEL% NEQ 0  set errors=yes
 
 REM don't copy if compile errors
@@ -34,7 +35,9 @@ if %ERRORLEVEL% NEQ 0  set errors=yes
 )
 
 if %errors%==yes (
-echo -
+if %sdk%==no (
+echo Invalid call parameter %1.
+)
 echo * * * *  ERRORS IN PROCESSING SCRIPT  * * * *
 )
 

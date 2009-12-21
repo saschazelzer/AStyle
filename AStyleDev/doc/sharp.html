@@ -1,150 +1,145 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <title>Artistic Style C#</title>
     <meta http-equiv="Content-Language" content="en-us" />
     <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
-
     <link href="styles.css" rel="stylesheet" type="text/css" />
     <link href="highlight-typical.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
 
-    <h1>Artistic Style Developer Information</h1>
+    <h1>
+        Artistic Style Developer Information</h1>
+
     <h2 class="large">
         Calling Artistic Style from a C# Program</h2>
-    <p>&nbsp;</p>
+
+    <p>
+        &nbsp;</p>
     <p class="noindent">
         Artistic Style can be compiled as a shared library (DLL) and called from a C# program.</p>
-        
     <p class="noindent">
-                A compiled C# program can be run on any platform. Artistic Style, however, is a C++ program and must 
-        be compiled on the platform on which it will run. Once this is done Artistic Style can be called 
-        from a C# program. </p>
+        A compiled C# program can be run on any platform. Artistic Style, however, is a C++ program and must be compiled
+        on the platform on which it will run. Once this is done Artistic Style can be called from a C# program.
+    </p>
 
-        <h3>Compile Options</h3>
+    <h3>
+        Compile Options</h3>
 
-            <p>To compile Artistic Style for use with a C# program the compile option ASTYLE_LIB
-            must be defined. Then it will accept the files and options
-            as parameters from a function call instead of the command line. It is the responsibility of the calling program
-                to read
-            the source files and accept the options from the user via a Graphical User Interface (GUI). These are then
-            passed via the function call described below. After the source files
-            are formatted they will be returned to the calling program, which must then save the source
-            file and take other appropriate action.</p>
+    <p>
+        To compile Artistic Style for use with a C# program the compile option ASTYLE_LIB must be defined. Then it will
+        accept the files and options as parameters from a function call instead of the command line. It is the responsibility
+        of the calling program to read the source files and accept the options from the user via a Graphical User Interface
+        (GUI). These are then passed via the function call described below. After the source files are formatted they
+        will be returned to the calling program, which must then save the source file and take other appropriate action.</p>
 
+    <h3>
+        AStyleMain Method</h3>
 
-        <h3>AStyleMain Method</h3>
+    <p>
+        This function is called to format the source code.</p>
 
+    <h4>
+        Syntax</h4>
 
-            <p>This function is called to format the source code.</p>
-
-            <h4>Syntax</h4>
-
-            <div class="code">
-                <pre><span class="hl sym">[</span><span class="hl kwd">DllImport</span><span class="hl sym">(</span><span class="hl str">&quot;astyle&quot;</span><span class="hl sym">,</span> CallingConvention <span class="hl sym">=</span> CallingConvention<span class="hl sym">.</span>StdCall<span class="hl sym">)]</span>
+    <div class="code">
+        <pre><span class="hl sym">[</span><span class="hl kwd">DllImport</span><span class="hl sym">(</span><span class="hl str">&quot;astyle&quot;</span><span
+            class="hl sym">,</span> CallingConvention <span class="hl sym">=</span> CallingConvention<span class="hl sym">.</span>StdCall<span
+                class="hl sym">)]</span>
 <span class="hl kwa">private static</span> extern IntPtr AStyleMain
 <span class="hl sym">(</span>
-    <span class="hl sym">[</span><span class="hl kwd">MarshalAs</span><span class="hl sym">(</span>UnmanagedType<span class="hl sym">.</span>LPStr<span class="hl sym">)]</span> String sIn<span class="hl sym">,</span>
-    <span class="hl sym">[</span><span class="hl kwd">MarshalAs</span><span class="hl sym">(</span>UnmanagedType<span class="hl sym">.</span>LPStr<span class="hl sym">)]</span> String sOptions<span class="hl sym">,</span>
+    <span class="hl sym">[</span><span class="hl kwd">MarshalAs</span><span class="hl sym">(</span>UnmanagedType<span
+        class="hl sym">.</span>LPStr<span class="hl sym">)]</span> String sIn<span class="hl sym">,</span>
+    <span class="hl sym">[</span><span class="hl kwd">MarshalAs</span><span class="hl sym">(</span>UnmanagedType<span
+        class="hl sym">.</span>LPStr<span class="hl sym">)]</span> String sOptions<span class="hl sym">,</span>
     AStyleErrorDelgate errorFunc<span class="hl sym">,</span>
     AStyleMemAllocDelgate memAllocFunc
- <span class="hl sym">);</span>
+<span class="hl sym">);</span>
 </pre>
-            </div>
+    </div>
 
-            <h4>Parameters</h4>
+    <h4>
+        Parameters</h4>
 
+    <p>
+        <i>sIn</i><br />A C# string containing the source file to be formatted.</p>
+    <p>
+        <i>sOptions</i><br />A C# string containing the formatting options. They should be in the same format as in the
+        default options file. The options may be set apart by new-lines, tabs or spaces. The long options do not need
+        the "--" prefix.</p>
+    <p>
+        For a C# file the file mode option "mode=cs" must be included. Otherwise the default mode of C/C++ is used.</p>
+    <p>
+        <i>errorFunc</i><br />A delegate containing the error handling function. If there are errors in the parameters
+        sIn or sOptions, this function is called. It should display an error message and then either abort or continue
+        the program depending on the error. The first parameter is a number identifying the error. The second parameter
+        is a pointer to a standard error message.</p>
+    <p>
+        Error messages numbered 100-199 are errors that prevent the file from being formatted. A NULL pointer is returned
+        to the calling program. Error messages numbered 200-299 are errors that do NOT prevent the file from being formatted.
+        A valid pointer and a formatted file are returned. This will occur if an invalid option is sent to AStyleMain.
+        The calling program has the option of accepting or rejecting the formatted file.</p>
+    <p>
+        <i>memAllocFunc</i><br />A delegate to the memory allocation function. The calling program must allocate memory
+        for the output source file. This function will be called when the memory is needed. The parameter is the amount
+        of memory that should be allocated.</p>
+    <p>
+        Memory should be allocated using Marshal.AllocHGlobal. With this method, if there is an allocation exception,
+        a NULL pointer will be sent to AStyleMain. Artistic Style will generate an error message and return a NULL pointer
+        from the AStyleMain function. The calling program can handle the exception at this point rather than in the memory
+        allocation function. See the following example program for the procedure.</p>
+    <p>
+        The calling program is responsible for freeing the allocated memory when it is no longer required.</p>
 
-                <p><i>sIn</i><br />
-                 A C# string containing the source file to be formatted.</p>
+    <h4>
+        Return Value</h4>
 
-                <p><i>sOptions</i><br />
-                 A C# string containing the formatting options. They should be in the same format as in
-                the default options file. The options may be set apart by new-lines, tabs or
-                spaces. The long options do not need the "--" prefix.</p>
+    <p>
+        If the function succeeds, the return value is an IntPtr to the formatted source code. The IntPtr should be converted
+        to a C# string using Marshal.PtrToStringAnsi.</p>
+    <p>
+        If the function fails, the return value is NULL. Before the NULL is returned, an error message will be sent to
+        the error handling function.</p>
+    <p>
+        This function typically fails for one of the following reasons:</p>
+    <ul>
+        <li>an invalid parameter value, usually a NULL pointer.</li>
+        <li>the memory allocation function (memAllocFunc) returns a NULL.</li>
+    </ul>
 
-                <p>For a C# file the file mode option "mode=cs" must be included. Otherwise the default mode of
-                    C/C++ is used.</p>
+    <h4>
+        Remarks</h4>
 
-                <p><i>errorFunc</i><br />
-                 A delegate containing the error handling function. If there are errors in the parameters
-                    sIn or sOptions, this function is called. It should display an error
-                message and then either abort or continue the program depending on the error.
-                The first parameter is a number identifying the error. The second
-                parameter is a pointer to a standard error message.</p>
+    <p>
+        The calling program is responsible for freeing the memory allocated by memAllocFunc when it is no longer needed.</p>
+    <p>
+        The call to AStyleMain should be placed in a try/catch block that contains a DllNotFoundException to handle a
+        missing shared library and an EntryPointNotFoundException to handle not finding the entry point. It should also
+        allow for a NULL return value from Artistic Style.</p>
 
-                <p>
-                    Error messages numbered 100-199 are errors that prevent the file from being
-                formatted. A NULL pointer is returned to the calling program. Error
-                messages numbered 200-299 are errors that do NOT prevent the file from being
-                formatted. A valid pointer and a formatted file are returned. This will
-                occur if an invalid option is sent to AStyleMain. The calling program has the
-                option of accepting or rejecting the formatted file.</p>
+    <h3>
+        Callback Methods</h3>
 
-                <p><i>memAllocFunc</i><br />
-                 A delegate to the memory allocation function. The calling program must allocate
-                memory for the output source file. This function will be called when the
-                memory is needed. The parameter is the amount of memory that should be
-                allocated.</p>
-                
-                <p>Memory should be allocated using Marshal.AllocHGlobal. With this method,
-                if there is an allocation exception, a NULL pointer will be sent to AStyleMain. Artistic Style will generate an error message
-                and return a NULL pointer from the AStyleMain function. The calling program can
-                handle the exception at this point rather than in the memory allocation function.
-                See the following example program for the procedure.</p>
+    <p>
+        Callback methods must be delegated for the call to AStyleMain.
+    </p>
 
-                <p>The calling program is responsible for freeing the allocated memory when it is
-                no longer required.</p>
+    <h4>
+        Syntax</h4>
 
-
-            <h4>Return Value</h4>
-
-
-                <p>If the function succeeds, the return value is an IntPtr to the formatted source
-                code. The 
-                    IntPtr should be converted to a C# string using Marshal.PtrToStringAnsi.</p>
-
-                <p>If the function fails, the return value is NULL. Before the NULL is returned, an error message will 
-                    be sent to the error handling function.</p>
-
-                <p>This function typically fails for one of the following reasons:</p>
-                
-                <ul>
-                    <li>an invalid parameter value, usually a NULL pointer.</li>
-
-                    <li>the memory allocation function (memAllocFunc) returns a NULL.</li>
-                </ul>
-
-
-            <h4>Remarks</h4>
-
-
-                <p>The calling program is responsible for freeing the memory allocated by
-                memAllocFunc when it is no longer needed.</p>
-                
-    <p>The call to AStyleMain should be placed in a try/catch block
-                that contains a DllNotFoundException to handle a missing shared library
-                and an EntryPointNotFoundException to handle not finding the entry point. It should also 
-        allow for a NULL return value from Artistic Style.</p>    
-                
-    <h3>Callback Methods</h3>
-
-            <p>
-                Callback methods must be delegated for the call to AStyleMain.
-            </p>
-            <h4>
-                Syntax</h4>
-                        <div class="code">
-                <pre><span class="hl slc">// AStyleMain callbacks</span>
-<span class="hl kwa">private delegate</span> IntPtr <span class="hl kwd">AStyleMemAllocDelgate</span><span class="hl sym">(</span><span class="hl kwb">int</span> size<span class="hl sym">);</span>
+    <div class="code">
+        <pre><span class="hl slc">// AStyleMain callbacks</span>
+<span class="hl kwa">private delegate</span> IntPtr <span class="hl kwd">AStyleMemAllocDelgate</span><span class="hl sym">(</span><span
+    class="hl kwb">int</span> size<span class="hl sym">);</span>
 <span class="hl kwa">private delegate</span> <span class="hl kwb">void</span> AStyleErrorDelgate
 <span class="hl sym">(</span>
     <span class="hl kwb">int</span> errorNum<span class="hl sym">,</span>
-    <span class="hl sym">[</span><span class="hl kwd">MarshalAs</span><span class="hl sym">(</span>UnmanagedType<span class="hl sym">.</span>LPStr<span class="hl sym">)]</span> String error
+    <span class="hl sym">[</span><span class="hl kwd">MarshalAs</span><span class="hl sym">(</span>UnmanagedType<span
+        class="hl sym">.</span>LPStr<span class="hl sym">)]</span> String error
 <span class="hl sym">);</span>
 
 <span class="hl slc">// AStyleMain Delegates</span>
@@ -154,77 +149,84 @@
 <span class="hl slc">/// Declare callback functions</span>
 <span class="hl kwa">public</span> <span class="hl kwd">AStyleInterface</span><span class="hl sym">()</span>
 <span class="hl sym">{</span>
-    AStyleMemAlloc <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">AStyleMemAllocDelgate</span><span class="hl sym">(</span>OnAStyleMemAlloc<span class="hl sym">);</span>
-    AStyleError <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">AStyleErrorDelgate</span><span class="hl sym">(</span>OnAStyleError<span class="hl sym">);</span>
+    AStyleMemAlloc <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">AStyleMemAllocDelgate</span><span
+        class="hl sym">(</span>OnAStyleMemAlloc<span class="hl sym">);</span>
+    AStyleError <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">AStyleErrorDelgate</span><span
+        class="hl sym">(</span>OnAStyleError<span class="hl sym">);</span>
 <span class="hl sym">}</span>
 </pre>
-            </div>
- 
-            <h4>Remarks</h4>
-    <p>The methods OnAStyleMemAlloc and OnAStyleError contain the memory allocation and error handling 
-        methods. These methods must be written to allocate the required memory and process any errors 
-        returned from AStyleMain. The delegates AStyleMemAllocDelgate and AStyleErrorDelgate are used in the 
-        call to AStyleMain. The delegates are similar to C++ function pointers, but are type safe.</p>
-            
-    <p><i>AStyleErrorDelgate</i><br />
-        OnAStyleError is called if there are errors in the string parameters in the call to AStyleMain. It 
-        should display an error message and then either abort or continue the program depending on the 
-        error. The first parameter is a number identifying the error. The second parameter is a pointer to a 
-        standard error message.</p>
+    </div>
+
+    <h4>
+        Remarks</h4>
+
     <p>
-        Error messages numbered 100-199 are errors that prevent the file from being formatted. A NULL 
-        pointer is returned to the calling program. Error messages numbered 200-299 are errors that do NOT 
-        prevent the file from being formatted. A valid string containing a formatted file is returned. This 
-        will occur if an invalid option is sent to AStyleMain. The calling program has the option of 
-        accepting or rejecting the formatted file.</p>
+        The methods OnAStyleMemAlloc and OnAStyleError contain the memory allocation and error handling methods. These
+        methods must be written to allocate the required memory and process any errors returned from AStyleMain. The delegates
+        AStyleMemAllocDelgate and AStyleErrorDelgate are used in the call to AStyleMain. The delegates are similar to
+        C++ function pointers, but are type safe.</p>
+    <p>
+        <i>AStyleErrorDelgate</i><br />OnAStyleError is called if there are errors in the string parameters in the call
+        to AStyleMain. It should display an error message and then either abort or continue the program depending on the
+        error. The first parameter is a number identifying the error. The second parameter is a pointer to a standard
+        error message.</p>
+    <p>
+        Error messages numbered 100-199 are errors that prevent the file from being formatted. A NULL pointer is returned
+        to the calling program. Error messages numbered 200-299 are errors that do NOT prevent the file from being formatted.
+        A valid string containing a formatted file is returned. This will occur if an invalid option is sent to AStyleMain.
+        The calling program has the option of accepting or rejecting the formatted file.</p>
+    <p>
+        <i>AStyleMemAllocDelgate</i><br />OnAStyleMemAlloc is the memory allocation method. The program must allocate
+        memory for the output source file. This function will be called when the memory is needed. The parameter is the
+        amount of memory that should be allocated. The return value to Artistic Style is an IntPtr to the new allocated
+        memory. The&nbsp; IntPtr should be converted to a C# string using Marshal.PtrToStringAnsi.</p>
+    <p>
+        The calling program is responsible for freeing the memory allocated by memAllocFunc when it is no longer needed.</p>
 
-    <p><i>AStyleMemAllocDelgate</i><br />
-        OnAStyleMemAlloc is the memory allocation method. The program must allocate memory for the output 
-        source file. This function will be called when the memory is needed. The parameter is the amount of 
-        memory that should be allocated. The return value to Artistic Style is an IntPtr to the new 
-        allocated memory. The&nbsp; IntPtr should be converted to a C# string using Marshal.PtrToStringAnsi.</p>
-    <p>The calling program is responsible for freeing the memory allocated by
-                memAllocFunc when it is no longer needed.</p>
+    <h3>
+        AStyleGetVersion Method</h3>
 
-    <h3>AStyleGetVersion Method</h3>
+    <p>
+        This function is called to get the Artistic Style version number.
+    </p>
 
-            <p>
-                This function is called to get the Artistic Style version number.
-                    </p>
-            <h4>
-                Syntax</h4>
-                        <div class="code">
-                <pre><span class="hl sym">[</span><span class="hl kwd">DllImport</span><span class="hl sym">(</span><span class="hl str">&quot;astyle&quot;</span><span class="hl sym">,</span> CallingConvention <span class="hl sym">=</span> CallingConvention<span class="hl sym">.</span>StdCall<span class="hl sym">)]</span>
+    <h4>
+        Syntax</h4>
+
+    <div class="code">
+        <pre><span class="hl sym">[</span><span class="hl kwd">DllImport</span><span class="hl sym">(</span><span class="hl str">&quot;astyle&quot;</span><span
+            class="hl sym">,</span> CallingConvention <span class="hl sym">=</span> CallingConvention<span class="hl sym">.</span>StdCall<span
+                class="hl sym">)]</span>
 <span class="hl kwa">private static</span> extern IntPtr <span class="hl kwd">AStyleGetVersion</span><span class="hl sym">();</span>
 </pre>
-            </div>
-            <h4>
-                Return Value</h4>
+    </div>
 
-                <p>The return value is an IntPtr to the Artistic Style version number. The 
-                    IntPtr should be converted to a C# string using Marshal.PtrToStringAnsi.</p>
- 
-            <h4>Remarks</h4>
-                <p>The call to AStyleGetVersion should be placed in a try/catch block
-                that contains a DllNotFoundException to handle a missing shared library
-                and an EntryPointNotFoundException to handle not finding the entry point.</p>
+    <h4>
+        Return Value</h4>
 
+    <p>
+        The return value is an IntPtr to the Artistic Style version number. The IntPtr should be converted to a C# string
+        using Marshal.PtrToStringAnsi.</p>
 
-            <h3>Example</h3>
+    <h4>
+        Remarks</h4>
 
+    <p>
+        The call to AStyleGetVersion should be placed in a try/catch block that contains a DllNotFoundException to handle
+        a missing shared library and an EntryPointNotFoundException to handle not finding the entry point.</p>
 
-                <p>The following example formats source files by calling the Artistic Style
-                formatter. It is a console application but the procedure for a GUI is the
-                same. The two classes can be copied and pasted into a source files. The 
-                Artistic Style source code must be compiled as a shared library (DLL) using 
-                the option ASTYLE_LIB. The shared library must be copied to the directory 
-                that contains the C# executable (it is loaded from the current directory).</p>
+    <h3>
+        Example</h3>
+
+    <p>
+        The following example formats source files by calling the Artistic Style formatter. It is a console application
+        but the procedure for a GUI is the same. The two classes can be copied and pasted into a source files. The Artistic
+        Style source code must be compiled as a shared library (DLL) using the option ASTYLE_LIB. The shared library must
+        be copied to the directory that contains the C# executable (it is loaded from the current directory).</p>
     <p>
         &nbsp;</p>
-
-
-<div class="code">
-<pre> 
+    <div class="code">
+        <pre> 
 <span class="hl slc">// Example.cs</span>
 
 <span class="hl kwa">using</span> System<span class="hl sym">;</span>
@@ -351,13 +353,13 @@
 
 <span class="hl sym">}</span>   <span class="hl slc">// class Example</span>
 
-</pre>
-</div>
 
-<p>&nbsp;</p>
-   
-<div class="code">
-       <pre>
+</pre>
+    </div>
+    <p>
+        &nbsp;</p>
+    <div class="code">
+        <pre>
 
 <span class="hl slc">// AStyleInterface.cs</span>
 
@@ -455,18 +457,19 @@
 
 <span class="hl sym">}</span>   <span class="hl slc">// class AStyleInterface</span>
 
+
 </pre>
-</div>
+    </div>
+    <p>
+        &nbsp;</p>
 
-    <p>&nbsp;</p>
-
-    <center style="margin-left:-0.4in;">
-    <a href="http://sourceforge.net/projects/astyle"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=2319&type=16" 
-    width="150" height="40" border="0" alt="Get Artistic Style at SourceForge.net. Fast, secure and Free Open Source software downloads" /></a>
+    <center style="margin-left: -0.4in;">
+        <a href="http://sourceforge.net/projects/astyle">
+            <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=2319&type=16" width="150" height="40" border="0" alt="Get Artistic Style at SourceForge.net." /></a>
     </center>
 
-    <p>&nbsp;</p>
-
+    <p>
+        &nbsp;</p>
 </body>
 
 </html>

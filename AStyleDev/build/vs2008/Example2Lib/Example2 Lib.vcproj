@@ -26,7 +26,7 @@
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="Running target pre-build steps"
-				CommandLine="if not exist ..\bin\AStyleLibd.lib  call ..\..\..\file-bat\astylebuilddbg-lib.bat"
+				CommandLine="if not exist ..\debug\AStyleLibd.lib  call ..\..\..\file-bat\astylebuilddbg-lib.bat vs2008"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -66,7 +66,7 @@
 				AdditionalDependencies="AStyleLibd.lib"
 				OutputFile="$(OutDir)\Example2Ld.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\bin"
+				AdditionalLibraryDirectories="..\debug"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(ProjectDir)$(ConfigurationName)\$(TargetName).pdb"
 				SubSystem="1"
@@ -107,7 +107,7 @@
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="Running target pre-build steps"
-				CommandLine="if not exist ..\bin\AStyleLib.lib  call ..\..\..\file-bat\astylebuild-lib.bat"
+				CommandLine="if not exist ..\bin\AStyleLib.lib  call ..\..\..\file-bat\astylebuild-lib.bat vs2008"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
