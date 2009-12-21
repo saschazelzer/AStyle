@@ -3451,6 +3451,7 @@ TEST(AlignPointerShortUpperLimit)
 
 //----------------------------------------------------------------------------
 // AStyle line ends
+// there are other tests in AStyleTestCon
 //----------------------------------------------------------------------------
 
 struct testLineEnds
@@ -3524,59 +3525,5 @@ TEST_FIXTURE(testLineEnds, defaultBadWindows)
 	char options[] = "";
 	char* textOut = AStyleMain(textBadWindows, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(textWindows, textOut);
-	delete [] textOut;
-}
-
-TEST_FIXTURE(testLineEnds, lineEndWindows)
-{
-	// lineend=windowsx should output Windows line ends
-	char options[] = "lineend=windows";
-	char* textOut = AStyleMain(textLinux, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(textWindows, textOut);
-	delete [] textOut;
-}
-
-TEST_FIXTURE(testLineEnds, lineEndWindowsShort)
-{
-	// test lineend=windows short option
-	char options[] = "-z1";
-	char* textOut = AStyleMain(textLinux, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(textWindows, textOut);
-	delete [] textOut;
-}
-
-TEST_FIXTURE(testLineEnds, lineEndLinux)
-{
-	// lineend=linux should output Linux line ends
-	char options[] = "lineend=linux";
-	char* textOut = AStyleMain(textWindows, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(textLinux, textOut);
-	delete [] textOut;
-}
-
-TEST_FIXTURE(testLineEnds, lineEndLinuxShort)
-{
-	// test lineend=linux short option
-	char options[] = "-z2";
-	char* textOut = AStyleMain(textWindows, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(textLinux, textOut);
-	delete [] textOut;
-}
-
-TEST_FIXTURE(testLineEnds, lineEndMacOld)
-{
-	// lineend=macold should output MacOld line ends
-	char options[] = "lineend=macold";
-	char* textOut = AStyleMain(textWindows, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(textMacOld, textOut);
-	delete [] textOut;
-}
-
-TEST_FIXTURE(testLineEnds, lineEndMacOldShort)
-{
-	// test lineend=macold short option
-	char options[] = "-z3";
-	char* textOut = AStyleMain(textWindows, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(textMacOld, textOut);
 	delete [] textOut;
 }

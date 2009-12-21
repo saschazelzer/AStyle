@@ -64,9 +64,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="AStyleLibd.lib UnitTest++.vsnet2008.lib"
-				OutputFile="$(OutDir)\$(ProjectName)d.exe"
+				OutputFile="$(OutDir)\AStyleTestd.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\bin;&quot;..\..\..\..\UnitTest++\Debug&quot;"
+				AdditionalLibraryDirectories="..\debug;&quot;..\..\..\..\UnitTest++\Debug&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(ProjectDir)$(ConfigurationName)\$(TargetName).pdb"
 				SubSystem="1"
@@ -121,7 +121,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
 				EnableIntrinsicFunctions="false"
 				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;&quot;..\..\..\..\UnitTest++\src&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
@@ -145,7 +144,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="AStyleLib.lib UnitTest++.vsnet2008.lib"
-				OutputFile="$(OutDir)\$(ProjectName).exe"
+				OutputFile="$(OutDir)\AStyleTest.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\bin;&quot;..\..\..\..\UnitTest++\Release&quot;"
 				GenerateDebugInformation="false"
@@ -180,7 +179,7 @@
 		</Configuration>
 		<Configuration
 			Name="LeakFinder|Win32"
-			OutputDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)debug"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="2"
@@ -224,10 +223,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="UnitTest++.vsnet2008.lib LeakFinder_VC9.lib"
-				OutputFile="bin\$(ProjectName)dl.exe"
+				AdditionalDependencies="AStyleLibd.lib UnitTest++.vsnet2008.lib LeakFinder_VC9.lib"
+				OutputFile="$(OutDir)\AStyleTestdl.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\bin;&quot;..\..\..\..\UnitTest++\Debug&quot;;&quot;..\..\..\..\LeakFinder-RC9\Debug_VC9&quot;"
+				AdditionalLibraryDirectories="..\debug;&quot;..\..\..\..\UnitTest++\Debug&quot;;&quot;..\..\..\..\LeakFinder-RC9\Debug_VC9&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(ProjectDir)$(ConfigurationName)\$(TargetName).pdb"
 				SubSystem="1"

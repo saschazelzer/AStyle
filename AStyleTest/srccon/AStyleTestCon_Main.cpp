@@ -40,6 +40,7 @@ int main(int /*argc*/, char** /*argv*/)
 
 char** buildArgv(const vector<string>& argIn)
 // build an array of pointers to be used as argv variable in function calls
+// the calling program must delete[] argv
 // argc will equal (argIn.size() + 1)
 {
 	// build argv array of pointers for input
@@ -53,6 +54,19 @@ char** buildArgv(const vector<string>& argIn)
 //	for (int i = 0; i < argc; i++)
 //		cout << argv[i] << endl;
 	return argv;
+}
+
+int buildFileNameVector(string fileToProcess, vector<string>& fileNameVector, ASFormatter& formatter)
+// build the g_console FileNameVector for testing
+// the return should be checked for "CONTINUE"
+{
+	// build argv array of pointers for input
+	fileNameVector.push_back(getTestDirectory() + fileToProcess);
+	char** argv = buildArgv(fileNameVector);
+	int argc = fileNameVector.size() + 1;
+	int processReturn = g_console->processOptions(argc, argv, formatter);
+	delete[] argv;
+	return processReturn;
 }
 
 #ifdef _WIN32

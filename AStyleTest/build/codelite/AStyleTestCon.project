@@ -21,13 +21,13 @@
     <File Name="../../srccon/AStyleTestCon_Console2.cpp"/>
   </VirtualDirectory>
   <Dependencies Name="Release"/>
-  <Dependencies Name="Debug"/>
+  <Dependencies Name="Print"/>
   <Settings Type="Executable">
     <Configuration Name="Debug" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-g -W -Wall" Required="yes">
         <IncludePath Value="../../../AStyle/src"/>
         <IncludePath Value="/usr/include/unittest++"/>
-        <Preprocessor Value="ASTYLE_NO_MAIN"/>
+        <Preprocessor Value="ASTYLE_CONLIB"/>
       </Compiler>
       <Linker Options="" Required="yes">
         <Library Value="libUnitTest++.a"/>
@@ -60,7 +60,7 @@
       <Compiler Options="-g -W -Wall" Required="yes">
         <IncludePath Value="../../../AStyle/src"/>
         <IncludePath Value="/usr/include/unittest++"/>
-        <Preprocessor Value="ASTYLE_NO_MAIN"/>
+        <Preprocessor Value="ASTYLE_CONLIB"/>
         <Preprocessor Value="ASTYLECON_PRINT"/>
       </Compiler>
       <Linker Options="" Required="yes">
@@ -94,7 +94,7 @@
       <Compiler Options="-W -Wall" Required="yes">
         <IncludePath Value="../../../AStyle/src"/>
         <IncludePath Value="/usr/include/unittest++"/>
-        <Preprocessor Value="ASTYLE_NO_MAIN"/>
+        <Preprocessor Value="ASTYLE_CONLIB"/>
         <Preprocessor Value="NDEBUG"/>
       </Compiler>
       <Linker Options="-s" Required="yes">
@@ -134,5 +134,5 @@
       <ResourceCompiler Options=""/>
     </GlobalSettings>
   </Settings>
-  <Dependencies Name="Print"/>
+  <Dependencies Name="Debug"/>
 </CodeLite_Project>

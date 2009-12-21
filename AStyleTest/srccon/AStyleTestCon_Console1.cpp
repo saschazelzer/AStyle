@@ -50,14 +50,16 @@ TEST(processOptionsExcludeVector)
 	// build and test the vector excludeVector
 	ASFormatter formatter;
 	int processReturn = g_console->processOptions(argc, argv, formatter);
-
 	CHECK(processReturn == CONTINUE);
-	CHECK_EQUAL(excludesIn.size(), g_console->excludeVector.size());
+
+	// check excludeVector
+	vector<string> excludeVector = g_console->getExcludeVector();
+	CHECK_EQUAL(excludesIn.size(), excludeVector.size());
 
 	// use min size in case the vectors are not equal
-	size_t iMax = min(excludesIn.size(), g_console->excludeVector.size());
+	size_t iMax = min(excludesIn.size(), excludeVector.size());
 	for (size_t i = 0; i < iMax; i++)
-		CHECK_EQUAL(excludes[i], g_console->excludeVector[i]);
+		CHECK_EQUAL(excludes[i], excludeVector[i]);
 
 	delete [] argv;
 	deleteConsoleGlobalObject();
@@ -83,14 +85,16 @@ TEST(processOptionsExcludeHitsVector)
 	// build and test the vector excludeHitsVector
 	ASFormatter formatter;
 	int processReturn = g_console->processOptions(argc, argv, formatter);
-
 	CHECK(processReturn == CONTINUE);
-	CHECK_EQUAL(excludesIn.size(), g_console->excludeHitsVector.size());
+
+	// check excludeHitsVector
+	vector<bool> excludeHitsVector = g_console->getExcludeHitsVector();
+	CHECK_EQUAL(excludesIn.size(), excludeHitsVector.size());
 
 	// use min size in case the vectors are not equal
-	size_t iMax = min(excludesIn.size(), g_console->excludeHitsVector.size());
+	size_t iMax = min(excludesIn.size(), excludeHitsVector.size());
 	for (size_t i = 0; i < iMax; i++)
-		CHECK(!g_console->excludeHitsVector[i]);
+		CHECK(!excludeHitsVector[i]);
 
 	delete [] argv;
 	deleteConsoleGlobalObject();
@@ -111,17 +115,18 @@ TEST(processOptionsFileNameVector)
 	char** argv = buildArgv(fileNameIn);
 	int argc = fileNameIn.size() + 1;
 
-	// build and test the vector excludeVector
+	// build and test the vector fileNameVector
 	ASFormatter formatter;
 	int processReturn = g_console->processOptions(argc, argv, formatter);
 
 	CHECK(processReturn == CONTINUE);
-	CHECK_EQUAL(fileName.size(), g_console->fileNameVector.size());
+	vector<string> fileNameVector = g_console->getFileNameVector();
+	CHECK_EQUAL(fileName.size(), fileNameVector.size());
 
 	// use min size in case the vectors are not equal
-	size_t iMax = min(fileName.size(), g_console->fileNameVector.size());
+	size_t iMax = min(fileName.size(), fileNameVector.size());
 	for (size_t i = 0; i < iMax; i++)
-		CHECK_EQUAL(fileName[i], g_console->fileNameVector[i]);
+		CHECK_EQUAL(fileName[i], fileNameVector[i]);
 
 	delete [] argv;
 	deleteConsoleGlobalObject();
@@ -145,14 +150,15 @@ TEST(processOptionsOptionsVector)
 	// build and test the vector optionsVector
 	ASFormatter formatter;
 	int processReturn = g_console->processOptions(argc, argv, formatter);
-
 	CHECK(processReturn == CONTINUE);
-	CHECK_EQUAL(optionsIn.size(), g_console->optionsVector.size());
+
+	vector<string> optionsVector = g_console->getOptionsVector();
+	CHECK_EQUAL(optionsIn.size(), optionsVector.size());
 
 	// use min size in case the vectors are not equal
-	size_t iMax = min(optionsIn.size(), g_console->optionsVector.size());
+	size_t iMax = min(optionsIn.size(), optionsVector.size());
 	for (size_t i = 0; i < iMax; i++)
-		CHECK_EQUAL(optionsIn[i], g_console->optionsVector[i]);
+		CHECK_EQUAL(optionsIn[i], optionsVector[i]);
 
 	delete [] argv;
 	deleteConsoleGlobalObject();
@@ -203,14 +209,15 @@ TEST(processOptionsFileOptionsVector)
 	// build and test the vector optionsVector
 	ASFormatter formatter;
 	int processReturn = g_console->processOptions(argc, argv, formatter);
-
 	CHECK(processReturn == CONTINUE);
-	CHECK_EQUAL(fileOptions.size(), g_console->fileOptionsVector.size());
+
+	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
+	CHECK_EQUAL(fileOptions.size(), fileOptionsVector.size());
 
 	// use min size in case the vectors are not equal
-	size_t iMax = min(fileOptions.size(),g_console->fileOptionsVector.size());
+	size_t iMax = min(fileOptions.size(), fileOptionsVector.size());
 	for (size_t i = 0; i < iMax; i++)
-		CHECK_EQUAL(fileOptions[i], g_console->fileOptionsVector[i]);
+		CHECK_EQUAL(fileOptions[i], fileOptionsVector[i]);
 
 	removeOptionsFile(optionsFileName);
 	delete [] argv;
@@ -256,14 +263,15 @@ TEST(processOptionsFileOptionsVectorEnvVar)
 	// build and test the vector optionsVector
 	ASFormatter formatter;
 	int processReturn = g_console->processOptions(argc, argv, formatter);
-
 	CHECK(processReturn == CONTINUE);
-	CHECK_EQUAL(fileOptions.size(), g_console->fileOptionsVector.size());
+
+	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
+	CHECK_EQUAL(fileOptions.size(), fileOptionsVector.size());
 
 	// use min size in case the vectors are not equal
-	size_t iMax = min(fileOptions.size(),g_console->fileOptionsVector.size());
+	size_t iMax = min(fileOptions.size(), fileOptionsVector.size());
 	for (size_t i = 0; i < iMax; i++)
-		CHECK_EQUAL(fileOptions[i], g_console->fileOptionsVector[i]);
+		CHECK_EQUAL(fileOptions[i], fileOptionsVector[i]);
 
 	// clear the environment variable
 	string envClear = "ARTISTIC_STYLE_OPTIONS=";
@@ -318,14 +326,15 @@ TEST(processOptionsFileOptionsVectorHome)
 	// build and test the vector optionsVector
 	ASFormatter formatter;
 	int processReturn = g_console->processOptions(argc, argv, formatter);
-
 	CHECK(processReturn == CONTINUE);
-	CHECK_EQUAL(fileOptions.size(), g_console->fileOptionsVector.size());
+
+	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
+	CHECK_EQUAL(fileOptions.size(), fileOptionsVector.size());
 
 	// use min size in case the vectors are not equal
-	size_t iMax = min(fileOptions.size(),g_console->fileOptionsVector.size());
+	size_t iMax = min(fileOptions.size(), fileOptionsVector.size());
 	for (size_t i = 0; i < iMax; i++)
-		CHECK_EQUAL(fileOptions[i], g_console->fileOptionsVector[i]);
+		CHECK_EQUAL(fileOptions[i], fileOptionsVector[i]);
 
 	removeOptionsFile(optionsFileName);
 	delete [] argv;
@@ -370,9 +379,10 @@ TEST(processOptionsFileOptionsVectorNone)
 	// build and test the vector optionsVector
 	ASFormatter formatter;
 	int processReturn = g_console->processOptions(argc, argv, formatter);
-
 	CHECK(processReturn == CONTINUE);
-	CHECK(g_console->fileOptionsVector.size() == 0);
+
+	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
+	CHECK(fileOptionsVector.size() == 0);
 
 	removeOptionsFile(optionsFileName);
 	delete [] argv;
@@ -410,14 +420,15 @@ TEST(processOptionsFileOptionsVectorNoLineEnd)
 	// build and test the vector optionsVector
 	ASFormatter formatter;
 	int processReturn = g_console->processOptions(argc, argv, formatter);
-
 	CHECK(processReturn == CONTINUE);
-	CHECK_EQUAL(fileOptions.size(), g_console->fileOptionsVector.size());
+
+	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
+	CHECK_EQUAL(fileOptions.size(), fileOptionsVector.size());
 
 	// use min size in case the vectors are not equal
-	size_t iMax = min(fileOptions.size(),g_console->fileOptionsVector.size());
+	size_t iMax = min(fileOptions.size(), fileOptionsVector.size());
 	for (size_t i = 0; i < iMax; i++)
-		CHECK_EQUAL(fileOptions[i], g_console->fileOptionsVector[i]);
+		CHECK_EQUAL(fileOptions[i], fileOptionsVector[i]);
 
 	removeOptionsFile(optionsFileName);
 	delete [] argv;
@@ -469,12 +480,13 @@ TEST(processOptionsFileOptionsVectorError)
 	CHECK_EQUAL(errMsg, outMsg);
 
 	// a vector containing the options should still be built
-	CHECK_EQUAL(fileOptions.size(), g_console->fileOptionsVector.size());
+	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
+	CHECK_EQUAL(fileOptions.size(), fileOptionsVector.size());
 
 	// use min size in case the vectors are not equal
-	size_t iMax = min(fileOptions.size(),g_console->fileOptionsVector.size());
+	size_t iMax = min(fileOptions.size(), fileOptionsVector.size());
 	for (size_t i = 0; i < iMax; i++)
-		CHECK_EQUAL(fileOptions[i], g_console->fileOptionsVector[i]);
+		CHECK_EQUAL(fileOptions[i], fileOptionsVector[i]);
 
 	removeOptionsFile(optionsFileName);
 	delete [] argv;
@@ -573,14 +585,14 @@ TEST(processOptionsConsoleOptions)
 
 	CHECK(processReturn == CONTINUE);
 
-	CHECK(g_console->noBackup);
-	CHECK_EQUAL(string(".old"), g_console->origSuffix);
-	CHECK(g_console->isRecursive);
-	CHECK(g_console->isVerbose);
-	CHECK(g_console->isFormattedOnly);
-	CHECK(g_console->isQuiet);
+	CHECK(g_console->getNoBackup());
+	CHECK_EQUAL(string(".old"), g_console->getOrigSuffix());
+	CHECK(g_console->getIsRecursive());
+	CHECK(g_console->getIsVerbose());
+	CHECK(g_console->getIsFormattedOnly());
+	CHECK(g_console->getIsQuiet());
 	CHECK(_err == &cout);
-	CHECK(g_console->preserveDate);
+	CHECK(g_console->getPreserveDate());
 
 	delete [] argv;
 	_err = &cerr;
@@ -612,13 +624,13 @@ TEST(processOptionsConsoleOptionsShort)
 
 	CHECK(processReturn == CONTINUE);
 
-	CHECK(g_console->noBackup);
-	CHECK(g_console->isRecursive);
-	CHECK(g_console->isVerbose);
-	CHECK(g_console->isFormattedOnly);
-	CHECK(g_console->isQuiet);
+	CHECK(g_console->getNoBackup());
+	CHECK(g_console->getIsRecursive());
+	CHECK(g_console->getIsVerbose());
+	CHECK(g_console->getIsFormattedOnly());
+	CHECK(g_console->getIsQuiet());
 	CHECK(_err == &cout);
-	CHECK(g_console->preserveDate);
+	CHECK(g_console->getPreserveDate());
 
 	delete [] argv;
 	_err = &cerr;
@@ -655,11 +667,12 @@ TEST(processOptionsConsoleOptionsError)
 	CHECK_EQUAL(errMsg, outMsg);
 
 	// a vector containing the options should still be built
-	CHECK_EQUAL(optionsIn.size(), g_console->optionsVector.size());
+	vector<string> optionsVector = g_console->getOptionsVector();
+	CHECK_EQUAL(optionsIn.size(), optionsVector.size());
 	// use min size in case the vectors are not equal
-	size_t iMax = min(optionsIn.size(), g_console->optionsVector.size());
+	size_t iMax = min(optionsIn.size(), optionsVector.size());
 	for (size_t i = 0; i < iMax; i++)
-		CHECK_EQUAL(optionsIn[i], g_console->optionsVector[i]);
+		CHECK_EQUAL(optionsIn[i], optionsVector[i]);
 
 	delete [] argv;
 	delete msgOut;
@@ -857,19 +870,20 @@ TEST_FIXTURE(testSuffix, suffixNone)
 	assert(g_console != NULL);
 
 	// initialize variables
-	g_console->isQuiet = true;		// change this to see results
-	g_console->noBackup = true;		// test variable
+	g_console->setIsQuiet(true);		// change this to see results
+	g_console->setNoBackup(true);		// test variable
 
-	// initialize objects
+	// build the fileNameVector
 	ASFormatter formatter;
-	g_console->fileNameVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->standardizePath(g_console->fileNameVector.back());
+	vector<string> fileNameVector;
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles(formatter);
 
 	// all files should be formatted
-	CHECK_EQUAL((int)fileNames.size(), g_console->filesFormatted++);
+	CHECK_EQUAL((int)fileNames.size(), g_console->getFilesFormatted());
 
 	// check for .orig file on disk
 	for (size_t i = 0; i < fileNames.size(); i++)
@@ -888,20 +902,21 @@ TEST_FIXTURE(testSuffix, suffixDotOld)
 	assert(g_console != NULL);
 
 	// initialize variables
-	g_console->isQuiet = true;			// change this to see results
-	g_console->origSuffix = ".old"; 	// test variable (with dot)
+	g_console->setIsQuiet(true);		// change this to see results
+	g_console->setOrigSuffix(".old"); 	// test variable (with dot)
 
-	// initialize objects
+	// build the fileNameVector
 	ASFormatter formatter;
-	g_console->fileNameVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->standardizePath(g_console->fileNameVector.back());
+	vector<string> fileNameVector;
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles(formatter);
 
 	// all files should be formatted
 	CHECK(fileNames.size() > 0);
-	CHECK_EQUAL((int)fileNames.size(), g_console->filesFormatted++);
+	CHECK_EQUAL((int)fileNames.size(), g_console->getFilesFormatted());
 
 	// check for .old file on disk
 	for (size_t i = 0; i < fileNames.size(); i++)
@@ -920,20 +935,21 @@ TEST_FIXTURE(testSuffix, suffixXXX)
 	assert(g_console != NULL);
 
 	// initialize variables
-	g_console->isQuiet = true;			// change this to see results
-	g_console->origSuffix = "xxx"; 		// test variable (no dot)
+	g_console->setIsQuiet(true);		// change this to see results
+	g_console->setOrigSuffix("xxx"); 	// test variable (no dot)
 
-	// initialize objects
+	// build the fileNameVector
 	ASFormatter formatter;
-	g_console->fileNameVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->standardizePath(g_console->fileNameVector.back());
+	vector<string> fileNameVector;
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles(formatter);
 
 	// all files should be formatted
 	CHECK(fileNames.size() > 0);
-	CHECK_EQUAL((int)fileNames.size(), g_console->filesFormatted++);
+	CHECK_EQUAL((int)fileNames.size(), g_console->getFilesFormatted());
 
 	// check for xxx file on disk
 	for (size_t i = 0; i < fileNames.size(); i++)
@@ -954,14 +970,14 @@ TEST(getCurrentDirectory)
 // test getCurrentDirectory function
 {
 	createConsoleGlobalObject();
-	g_console->noBackup = true;
-	g_console->isQuiet = true;
+	g_console->setNoBackup(true);
+	g_console->setIsQuiet(true);		// change this to see results
 
 	char textIn[] = "void foo(){}\n";
 
 	// a file without a path will call the g_console->getCurrentDirectory
-	string testFile = "testGetCurrentDirectory.cpp";
-	string testFilePath = getCurrentDirectory() + '/' + testFile;
+	string testFile = "/testGetCurrentDirectory.cpp";
+	string testFilePath = getCurrentDirectory() + testFile;
 	g_console->standardizePath(testFilePath);
 
 	// write the output file
@@ -974,15 +990,21 @@ TEST(getCurrentDirectory)
 	fout << textIn;
 	fout.close();
 
-	// initialize objects
+	// build the fileNameVector
+	// cannot use buildFileNameVector() function for getCurrentDirectory()
 	ASFormatter formatter;
-	g_console->fileNameVector.push_back(testFile);
-	g_console->standardizePath(g_console->fileNameVector.back());
+	vector<string> fileNameVector;
+	fileNameVector.push_back(testFilePath);
+	char** argv = buildArgv(fileNameVector);
+	int argc = fileNameVector.size() + 1;
+	int processReturn = g_console->processOptions(argc, argv, formatter);
+	CHECK(processReturn == CONTINUE);
+	delete[] argv;
 
 	// process entries in the fileNameVector
 	g_console->processFiles(formatter);
-
-	CHECK_EQUAL(testFilePath, g_console->fileName[0]);
+	vector<string> fileName = g_console->getFileName();
+	CHECK_EQUAL(testFilePath, fileName[0]);
 
 	// remove test file
 	errno = 0;
@@ -1021,51 +1043,6 @@ TEST(stringEndsWith)
 // AStyle test file encoding
 //----------------------------------------------------------------------------
 
-TEST(encodingUTF16BE)
-// test encoding with UTF-16BE BOM
-{
-	createConsoleGlobalObject();
-	int encoding = g_console->getFileEncoding("\xFE\xFF  ");
-	CHECK_EQUAL(UTF_16BE, encoding);
-	deleteConsoleGlobalObject();
-}
-
-TEST(encodingUTF16LE)
-// test encoding with UTF-16LE BOM
-{
-	createConsoleGlobalObject();
-	int encoding = g_console->getFileEncoding("\xFF\xFE  ");
-	CHECK_EQUAL(UTF_16LE, encoding);
-	deleteConsoleGlobalObject();
-}
-
-TEST(encodingUTF32BE)
-// test encoding with UTF-32BE BOM
-{
-	createConsoleGlobalObject();
-	int encoding = g_console->getFileEncoding("\x00\x00\xFE\xFF");
-	CHECK_EQUAL(UTF_32BE, encoding);
-	deleteConsoleGlobalObject();
-}
-
-TEST(encodingUTF32LE)
-// test encoding with UTF-32LE BOM
-{
-	createConsoleGlobalObject();
-	int encoding = g_console->getFileEncoding("\xFF\xFE\x00\x00");
-	CHECK_EQUAL(UTF_32LE, encoding);
-	deleteConsoleGlobalObject();
-}
-
-TEST(encodingZeroLineLength)
-// test encoding with first line of zero length
-{
-	createConsoleGlobalObject();
-	int encoding = g_console->getFileEncoding("");
-	CHECK_EQUAL(ENCODING_OK, encoding);
-	deleteConsoleGlobalObject();
-}
-
 struct testEncoding
 {
 	vector<string> fileNames;
@@ -1100,6 +1077,15 @@ struct testEncoding
 		memcpy(textBOM+4, textIn, sizeof(textIn));
 		fileNames.push_back(getTestDirectory() + "/UTF-32LE.cpp");
 		createTestFile(fileNames.back(), textBOM, textsize);
+		// no encoding
+		memcpy(textBOM, textIn, sizeof(textIn));
+		fileNames.push_back(getTestDirectory() + "/NoEncoding.cpp");
+		createTestFile(fileNames.back(), textBOM, textsize);
+		// zero length line
+		memcpy(textBOM, "\n", 4);
+		memcpy(textBOM+1, textIn, sizeof(textIn));
+		fileNames.push_back(getTestDirectory() + "/ZeroLength.cpp");
+		createTestFile(fileNames.back(), textBOM, textsize);
 	}
 
 	~testEncoding()
@@ -1108,24 +1094,73 @@ struct testEncoding
 	}
 };
 
+TEST_FIXTURE(testEncoding, encodingUTF16BE)
+// test encoding with UTF-16BE BOM
+{
+	ifstream in(fileNames[0].c_str(), ios::binary);
+	int encoding = g_console->getFileEncoding(in);
+	CHECK_EQUAL(UTF_16BE, encoding);
+}
+
+TEST_FIXTURE(testEncoding, encodingUTF16LE)
+// test encoding with UTF-16LE BOM
+{
+	ifstream in(fileNames[1].c_str(), ios::binary);
+	int encoding = g_console->getFileEncoding(in);
+	CHECK_EQUAL(UTF_16LE, encoding);
+}
+
+TEST_FIXTURE(testEncoding, encodingUTF32BE)
+// test encoding with UTF-32BE BOM
+{
+	ifstream in(fileNames[2].c_str(), ios::binary);
+	int encoding = g_console->getFileEncoding(in);
+	CHECK_EQUAL(UTF_32BE, encoding);
+}
+
+TEST_FIXTURE(testEncoding, encodingUTF32LE)
+// test encoding with UTF-32LE BOM
+{
+	ifstream in(fileNames[3].c_str(), ios::binary);
+	int encoding = g_console->getFileEncoding(in);
+	CHECK_EQUAL(UTF_32LE, encoding);
+}
+
+TEST_FIXTURE(testEncoding, encodingNone)
+// test encoding with no encoding
+{
+	ifstream in(fileNames[4].c_str(), ios::binary);
+	int encoding = g_console->getFileEncoding(in);
+	CHECK_EQUAL(ENCODING_OK, encoding);
+}
+
+TEST_FIXTURE(testEncoding, encodingZeroLength)
+// test encoding with no encoding
+{
+	ifstream in(fileNames[5].c_str(), ios::binary);
+	int encoding = g_console->getFileEncoding(in);
+	CHECK_EQUAL(ENCODING_OK, encoding);
+}
+
 TEST_FIXTURE(testEncoding, encodingFileTest)
 // test rejection of UTF-16 and UTF-32 files
 {
 	assert(g_console != NULL);
 
 	// initialize variables
-	g_console->isQuiet = true;		// change this to see results
+	g_console->setIsQuiet(true);		// change this to see results
 
-	// initialize objects
+	// build the fileNameVector
 	ASFormatter formatter;
-	g_console->fileNameVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->standardizePath(g_console->fileNameVector.back());
+	vector<string> fileNameVector;
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles(formatter);
 
 	// all files should be unformatted
-	CHECK_EQUAL((int)fileNames.size() , g_console->filesUnchanged++);
+	CHECK_EQUAL((int)fileNames.size(), g_console->getFilesUnchanged());
 }
 
 //----------------------------------------------------------------------------
@@ -1190,14 +1225,15 @@ TEST_FIXTURE(testPreserveDate, preserveDate)
 // test formatting with preserve-date option
 {
 	assert(g_console != NULL);
-	g_console->isQuiet = true;		// change this to see results
-	g_console->noBackup = true;
-	g_console->preserveDate = true;
+	g_console->setIsQuiet(true);		// change this to see results
+	g_console->setNoBackup(true);
+	g_console->setPreserveDate(true);
 
-	// initialize objects
+	// build the fileNameVector
 	ASFormatter formatter;
-	g_console->fileNameVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->standardizePath(g_console->fileNameVector.back());
+	vector<string> fileNameVector;
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles(formatter);
@@ -1216,14 +1252,15 @@ TEST_FIXTURE(testPreserveDate, preserveDateSans)
 // test formatting without preserve-date option
 {
 	assert(g_console != NULL);
-	g_console->isQuiet = true;		// change this to see results
-	g_console->noBackup = true;
-	g_console->preserveDate = false;
+	g_console->setIsQuiet(true);		// change this to see results
+	g_console->setNoBackup(true);
+	g_console->setPreserveDate(false);
 
-	// initialize objects
+	// build the fileNameVector
 	ASFormatter formatter;
-	g_console->fileNameVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->standardizePath(g_console->fileNameVector.back());
+	vector<string> fileNameVector;
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles(formatter);

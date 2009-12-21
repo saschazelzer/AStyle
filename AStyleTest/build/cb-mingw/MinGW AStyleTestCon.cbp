@@ -15,7 +15,7 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
-					<Add option="-DASTYLECON_TEST" />
+					<Add option="-DASTYLE_CONLIB" />
 					<Add directory="..\..\..\AStyle\src" />
 					<Add directory="..\..\..\UnitTest++\src" />
 				</Compiler>
@@ -32,7 +32,7 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
-					<Add option="-DASTYLECON_TEST" />
+					<Add option="-DASTYLE_CONLIB" />
 					<Add option="-DNDEBUG" />
 					<Add directory="..\..\..\AStyle\src" />
 					<Add directory="..\..\..\UnitTest++\src" />
@@ -53,7 +53,7 @@
 					<Add option="-Wall" />
 					<Add option="-fprofile-arcs" />
 					<Add option="-ftest-coverage" />
-					<Add option="-DASTYLECON_TEST" />
+					<Add option="-DASTYLE_CONLIB" />
 					<Add option="-DASTYLECON_PRINT" />
 					<Add directory="..\..\..\AStyle\src" />
 					<Add directory="..\..\..\UnitTest++\src" />
@@ -73,7 +73,7 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
-					<Add option="-DASTYLECON_TEST" />
+					<Add option="-DASTYLE_CONLIB" />
 					<Add option="-DASTYLECON_PRINT" />
 					<Add directory="..\..\..\AStyle\src" />
 					<Add directory="..\..\..\UnitTest++\src" />

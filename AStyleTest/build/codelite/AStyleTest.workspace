@@ -3,7 +3,7 @@
   <Project Name="AStyleTest" Path="AStyleTest.project" Active="No"/>
   <Project Name="AStyleTestCon" Path="AStyleTestCon.project" Active="Yes"/>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug" Selected="no">
+    <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Project Name="AStyleTest" ConfigName="Debug"/>
       <Project Name="AStyleTestCon" ConfigName="Debug"/>
     </WorkspaceConfiguration>
@@ -11,7 +11,7 @@
       <Project Name="AStyleTest" ConfigName="Release"/>
       <Project Name="AStyleTestCon" ConfigName="Release"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Print" Selected="yes">
+    <WorkspaceConfiguration Name="Print" Selected="no">
       <Project Name="AStyleTestCon" ConfigName="Print"/>
       <Project Name="AStyleTest" ConfigName="Debug"/>
     </WorkspaceConfiguration>
