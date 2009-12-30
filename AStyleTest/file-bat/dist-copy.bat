@@ -173,28 +173,48 @@ REM Windows includes an executable in the bin directory
 cd  "%projdir%"
 md  DistWindows\astyle\bin
 cd  DistWindows\astyle\bin
-xcopy "%projdir%\build\vs2008\bin\AStyle.exe"  /q
+xcopy "%projdir%\build\vs2008\binstatic\AStyle.exe"  /q
 if errorlevel 2 pause
 echo executable copied
 
-REM build directory
+REM build\vs2003 directory
 cd  "%projdir%\build"
-for %%v in (vs2003
-            vs2005
-            vs2008) do (
+for %%v in (vs2003) do (
 md  "%projdir%\DistWindows\astyle\build\%%v"
 cd  "%projdir%\DistWindows\astyle\build\%%v"
-REM remove hidden file attributes
-attrib -h /s "%projdir%\build\%%v\*.*"
 REM copy the files
 xcopy "%projdir%\build\%%v\AStyle.sln"  /q
 if errorlevel 2 pause
-:: xcopy "%projdir%\build\%%v\AStyle.suo"  /q
-:: if errorlevel 2 pause
 xcopy "%projdir%\build\%%v\AStyle.vcproj"  /q
 if errorlevel 2 pause
 )
-echo build files copied
+echo build\vs2003 copied
+
+REM build directory
+cd  "%projdir%\build"
+for %%v in (vs2005
+            vs2008
+			vs2010) do (
+md  "%projdir%\DistWindows\astyle\build\%%v"
+cd  "%projdir%\DistWindows\astyle\build\%%v"
+REM copy the files
+xcopy "%projdir%\build\%%v\*.sln"  /q
+if errorlevel 2 pause
+for %%w in (AStyle
+            AStyleDll
+			AStyleJava
+			AStyleLib
+			AStyleStatic) do (
+md  "%projdir%\DistWindows\astyle\build\%%v\%%w"
+xcopy "%projdir%\build\%%v\%%w\*.vc*proj"  %%w\  /q
+if errorlevel 2 pause
+if /i  %%v GEQ vs2010 (
+xcopy "%projdir%\build\%%v\%%w\*.filters"  %%w\  /q
+if errorlevel 2 pause
+)
+)
+echo build\%%v copied
+)
 
 
 echo -

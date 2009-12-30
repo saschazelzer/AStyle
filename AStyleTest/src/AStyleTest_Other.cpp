@@ -8,6 +8,95 @@
 // AStyle version 1.24 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(v124AddBracketsHorstmannNestedIfStatements)
+{
+	// add on line brackets to nested "if" statements
+	// with keep one line brackets
+	// should not break the statement (a variable was not reset)
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isBar1)\n"
+		"        if (isBar2) return true;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{   if (isBar1)\n"
+		"        if (isBar2) { return true; }\n"
+		"}\n";
+	char options[] = "add-brackets, brackets=horstmann, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v124ClassHorstmannComment)
+{
+	// handle special case of horstmann comment in a class statement
+	char text[] =
+		"\nclass Foo\n"
+		"{   /*enum ResolutionFlags {\n"
+		"           NoFlag = 0,\n"
+		"           HadTypedef = 1,\n"
+		"           HadAlias = 2\n"
+		"         };*/\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v124ClassIndentHorstmannComment)
+{
+	// handle special case of horstmann comment in an indented class statement
+	char text[] =
+		"\nclass Foo\n"
+		"{   /*enum ResolutionFlags {\n"
+		"           NoFlag = 0,\n"
+		"           HadTypedef = 1,\n"
+		"           HadAlias = 2\n"
+		"         };*/\n"
+		"}\n";
+	char options[] = "indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v124AppendAttachedBracketInsideCommentsLineBreak)
+{
+	// should not insert an empty line after appending a bracket inside comments
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{   switch(req) {\n"
+		"    case REQ_if:   // groff(7) \"IF\"\n"
+		"    {   /* .if c anything\n"
+		"         * .if N anything\n"
+		"         */\n"
+		"        c = c + j;\n"
+		"        break;\n"
+		"    }\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo() {\n"
+		"    switch(req) {\n"
+		"    case REQ_if: { // groff(7) \"IF\"\n"
+		"        /* .if c anything\n"
+		"         * .if N anything\n"
+		"         */\n"
+		"        c = c + j;\n"
+		"        break;\n"
+		"    }\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(v124ElseAttachedToLineComment)
 {
 	// else should not be attached to a line coment
@@ -666,7 +755,7 @@ TEST(v124BracketsHorstmannComment5)
 		"         */\n"
 		"    }\n"
 		"}\n";
-	char text1[] =
+	char text[] =
 		"\nnamespace fooName\n"
 		"{\n"
 		"/**\n"
@@ -678,7 +767,30 @@ TEST(v124BracketsHorstmannComment5)
 		"     */\n"
 		"}\n"
 		"}\n";
-	char text2[] =
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v124BracketsHorstmannComment6)
+{
+	// test horstmann brackets with following comment
+	// the comment on unattached lines should be correctly indented
+	char textIn[] =
+		"\nnamespace fooName\n"
+		"{\n"
+		"    /**\n"
+		"     * comment1\n"
+		"     */\n"
+		"    class fooClass\n"
+		"    {\n"
+		"        /**\n"
+		"         * comment1\n"
+		"         */\n"
+		"    }\n"
+		"}\n";
+	char text[] =
 		"\nnamespace fooName\n"
 		"{\n"
 		"    /**\n"
@@ -690,17 +802,13 @@ TEST(v124BracketsHorstmannComment5)
 		"         */\n"
 		"    }\n"
 		"}\n";
-	char options1[] = "brackets=horstmann";
-	char* textOut = AStyleMain(textIn, options1, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text1, textOut);
-	delete [] textOut;
-	char options2[] = "brackets=horstmann, indent-namespaces";
-	textOut = AStyleMain(textIn, options2, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text2, textOut);
+	char options[] = "brackets=horstmann, indent-namespaces";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124BracketsHorstmannComment6)
+TEST(v124BracketsHorstmannComment7)
 {
 	// test horstmann brackets with comment following line comment
 	// the comment should NOT be attached to the previous line
@@ -4574,12 +4682,12 @@ TEST(AssemblerMS2)
 }
 
 //----------------------------------------------------------------------------
-// AStyle Multiple assignments
+// AStyle Multiple Varables separated by commas
 //----------------------------------------------------------------------------
 
-TEST(MultipleAssignments)
+TEST(MultipleVariableAssignments)
 {
-	// multiple assignments are aligned on the previous word
+	// multiple assignments are aligned on the first variable
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -4602,9 +4710,9 @@ TEST(MultipleAssignments)
 	delete [] textOut;
 }
 
-TEST(MultipleAssignmentsComments)
+TEST(MultipleVariableAssignmentsComments)
 {
-	// multiple assignments are aligned on the previous word
+	// multiple assignments are aligned on the first variable
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -4629,7 +4737,7 @@ TEST(MultipleAssignmentsComments)
 	delete [] textOut;
 }
 
-TEST(MultipleAssignmentsSans)
+TEST(MultipleVariableAssignmentsSans)
 {
 	// these are not multiple assignments
 	char text[] =
@@ -4651,3 +4759,148 @@ TEST(MultipleAssignmentsSans)
 	delete [] textOut;
 }
 
+
+TEST(MultipleVariable)
+{
+	// multiple variables are aligned on first variable
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    int var1,\n"
+		"        var2,   // comment1\n"
+		"        var3;   /* comment2 */\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MultipleVariableMultipleStatementsPerLine)
+{
+	// multiple variables with multiple statements per line
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    wxString m_bar1, m_bar2,\n"
+		"             m_bar3, m_bar4,\n"
+		"             m_bar5, m_bar6;\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MultipleVariableClassInitializer1)
+{
+	// class initializers are aligned on first variable
+	char text[] =
+		"\nFoo::Foo()\n"
+		"    : m_bar1(0),\n"
+		"      m_bar2(this, id),\n"
+		"      m_bar3(0)\n"
+		"{\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MultipleVariableClassInitializer2)
+{
+	// class initializers are aligned on first variable
+	// colon on previous line
+	char text[] =
+		"\nFoo::Foo() :\n"
+		"    m_bar1(0),\n"
+		"    m_bar2(this, id),\n"
+		"    m_bar3(0)\n"
+		"{\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MultipleVariableClassInitializer3)
+{
+	// class initializers are aligned on first variable
+	// multiple variables per line
+	char text[] =
+		"\nFoo::Foo()\n"
+		"    : m_bar1(0), m_bar2(0),\n"
+		"      m_bar3(0), m_bar4(0), m_bar5(0),\n"
+		"      m_bar6(-100), m_bar7(50)\n"
+		"{\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MultipleVariableClassInitializer4)
+{
+	// class initializers are aligned on first variable
+	// last line with brackets should be indented
+	char text[] =
+		"\nFooBar(int width = 1, int style = wxSOLID,\n"
+		"       int cap = wxCAP_ROUND)\n"
+		"    : m_bar1(0), m_bar2(0),\n"
+		"      m_bar3(0), m_bar4(0),\n"
+		"      m_bar5(0), m_bar6(NULL) {}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MultipleVariableClassInitializer5)
+{
+	// class initializers are aligned on first variable
+	// this checks if the variables have been reset
+	char text[] =
+		"\nFoo1::Foo1()\n"
+		"    : bar1(cmd),\n"
+		"      bar2(driver),\n"
+		"{}\n"
+		"\n"
+		"Foo2::Foo2()\n"
+		"    : bar3(branch),\n"
+		"      bar4(tree)\n"
+		"{}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MultipleVariableMisc1)
+{
+	// this checks if the inStatementIndentStack is correctly popped
+	char text[] =
+		"\nListBoxImpl::ListBoxImpl()\n"
+		"    : unicodeMode(false),\n"
+		"      desiredVisibleRows(5)\n"
+		"{\n"
+		"}\n"
+		"\n"
+		"void ListBoxImpl::Create (Window &parent,\n"
+		"                          int lineHeight_) {\n"
+		"    lineHeight =  lineHeight_;\n"
+		"}\n"
+		"\n"
+		"long Platform::SendScintilla(WindowID w,\n"
+		"                             unsigned long wParam,\n"
+		"                             long lParam) {\n"
+		"    wxScintilla* sci = (wxScintilla*)w;\n"
+		"    return sci->SendMsg(msg, wParam, lParam);\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}

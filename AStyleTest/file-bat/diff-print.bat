@@ -31,7 +31,7 @@ REM DIRECTORY is called outside the FOR loop so the variables will be resolved
 FINDSTR "^directory"  "%infile%" > %tempfile%
 for /f "tokens=2*" %%v in (%tempfile%)  do  call :DIRECTORY %%v %%w %%x
 
-REM read infile to find the totals (with a comma) ine and set the total variables
+REM read infile to find the totals (with a comma) line and set the total variables
 FINDSTR "formatted, unchanged,"  "%infile%" > %tempfile%
 for /f "tokens=1,3" %%v in (%tempfile%)  do  (
 call  set /A  total = %%v

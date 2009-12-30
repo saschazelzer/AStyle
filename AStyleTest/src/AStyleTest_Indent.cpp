@@ -1335,6 +1335,56 @@ TEST(IndentBracketsBlocks)
 	delete [] textOut;
 }
 
+TEST(IndentBracketsHorstmannComments)
+{
+	// test indent brackets with Horstmann comments
+	// will probably not be used, but it needs to work
+	char textIn[] =
+		"\nbool foo()\n"
+		"{   while (confs)\n"
+		"    {   /*Replace all '|' with '_'.\n"
+		"         * This is vital.\n"
+		"         */\n"
+		"        ConfigName = Attribute(name);\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nbool foo()\n"
+		"    {   while (confs)\n"
+		"        {   /*Replace all '|' with '_'.\n"
+		"             * This is vital.\n"
+		"             */\n"
+		"        ConfigName = Attribute(name);\n"
+		"        }\n"
+		"    }\n";
+	char options[] = "indent-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentBracketsArrays)
+{
+	// test indent brackets with arrays
+	char text[] =
+		"\nconst int cmdLineDesc[] =\n"
+		"    {\n"
+		"        { CMD_LINE_SWITCH1 },\n"
+		"        { CMD_LINE_SWITCH2 },\n"
+		"\n"
+		"        { CMD_LINE_SWITCH3 },\n"
+		"        { CMD_LINE_SWITCH4 },\n"
+		"\n"
+		"        { CMD_LINE_SWITCH5 },\n"
+		"        { CMD_LINE_SWITCH6 },\n"
+		"        { CMD_LINE_NONE }\n"
+		"    };\n";
+	char options[] = "indent-brackets";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Indent Namespaces
 // Additional tests are in the Brackets tests

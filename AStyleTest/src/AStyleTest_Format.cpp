@@ -2206,6 +2206,10 @@ TEST(AlignPointerNoneDereference)
 		"\n"
 		"    if(prev) next = next;\n"
 		"    else *chain = next;\n"
+		"\n"
+		"    for (tp::iterator it = p.begin(); it != p.end(); ++it) {\n"
+		"        fill( m, **it );\n"
+		"    }\n"
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -2466,6 +2470,10 @@ TEST(AlignPointerTypeDereference)
 		"\n"
 		"    if(prev) next = next;\n"
 		"    else *chain = next;\n"
+		"\n"
+		"    for (tp::iterator it = p.begin(); it != p.end(); ++it) {\n"
+		"        fill( m, **it );\n"
+		"    }\n"
 		"}\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -2806,6 +2814,10 @@ TEST(AlignPointerMiddleDereference)
 		"\n"
 		"    if(prev) next = next;\n"
 		"    else *chain = next;\n"
+		"\n"
+		"    for (tp::iterator it = p.begin(); it != p.end(); ++it) {\n"
+		"        fill( m, **it );\n"
+		"    }\n"
 		"}\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -3198,6 +3210,10 @@ TEST(AlignPointerNameDereference)
 		"\n"
 		"    if(prev) next = next;\n"
 		"    else *chain = next;\n"
+		"\n"
+		"    for (tp::iterator it = p.begin(); it != p.end(); ++it) {\n"
+		"        fill( m, **it );\n"
+		"    }\n"
 		"}\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);

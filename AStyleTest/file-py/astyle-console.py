@@ -117,7 +117,10 @@ def get_constructor_variables(class_variables, formatter_path):
 		else:
 			first_space = line.find(' ')
 			if first_space != -1:
-				variable_name = line[0:first_space].strip()
+				variable_name = line[:first_space].strip()
+			first_sqbr = variable_name.find('[')
+			if first_sqbr != -1:
+				variable_name = variable_name[:first_sqbr].strip()
 		if len(variable_name) == 0:
 			continue
 		class_variables.append(variable_name)
@@ -202,6 +205,9 @@ def get_header_variables(header_variables, header_path):
 		if last_space == -1:
 			continue
 		variable_name = line[last_space:semi_colon].strip()
+		first_sqbr = variable_name.find('[')
+		if first_sqbr != -1:
+			variable_name = variable_name[:first_sqbr].strip()
 		if variable_name[0] == '*':
 			variable_name = variable_name[1:]
 		header_variables.append(variable_name)

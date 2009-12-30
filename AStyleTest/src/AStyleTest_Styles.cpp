@@ -3443,28 +3443,27 @@ TEST_FIXTURE(cppStyleText, CppStylePrecedence2)
 
 TEST_FIXTURE(cppStyleText, CppStylePrecedence3)
 {
-	// cannot have both horstmann brackets and bracket indent
-	// default to horstmann brackets
+	// CAN have both horstmann brackets and bracket indent
 	char text[] =
 		"\nnamespace FooName\n"
 		"{\n"
 		"\n"
 		"class FooClass\n"
-		"{   private:\n"
+		"    {   private:\n"
 		"        bool var1;\n"
 		"        void func1();\n"
 		"    protected:\n"
 		"        bool var2;\n"
 		"        void func2();\n"
-		"};\n"
+		"    };\n"
 		"\n"
 		"void FooClass::Foo(bool isFoo)\n"
-		"{   if (isFoo)\n"
-		"    {   bar();\n"
-		"    }\n"
+		"    {   if (isFoo)\n"
+		"        {   bar();\n"
+		"        }\n"
 		"    else\n"
 		"        anotherBar();\n"
-		"}\n"
+		"    }\n"
 		"\n"
 		"}   // end FooName\n";
 	char options[] = "brackets=horstmann, indent-brackets, indent-classes";

@@ -547,6 +547,24 @@ TEST(CppBracketsNoneMisc2)
 	delete [] textOut;
 }
 
+TEST(CppBracketsNoneMisc3)
+{
+	// test default brackets option with a macro
+	// bracket type will be incorrectly classified as an array
+	// but should not break at the semi colon
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    YY_RULE_SETUP\n"
+		"    { BEGIN(list); return CONT; }\n"
+		"    YY_BREAK\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(CppBracketsNoneHorstmannIndent1)
 {
 	// test default brackets option with horstmann brackets
@@ -1643,6 +1661,23 @@ TEST(CppBracketsBreakMisc2)
 	delete [] textOut;
 }
 
+TEST(CppBracketsBreakMisc3)
+{
+	// test break brackets option with a macro
+	// bracket type will be incorrectly classified as an array
+	// but should not break at the semi colon
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    YY_RULE_SETUP\n"
+		"    { BEGIN(list); return CONT; }\n"
+		"    YY_BREAK\n"
+		"}\n";
+	char options[] = "brackets=break";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 TEST(CppBracketsBreakLineCommentsBreak)
 {
 	// comments following broken brackets should be unchanged
@@ -2699,6 +2734,23 @@ TEST(CppBracketsAttachMisc2)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsAttachMisc3)
+{
+	// test attach brackets option with a macro
+	// bracket type will be incorrectly classified as an array
+	// but should not break at the semi colon
+	char text[] =
+		"\nvoid foo() {\n"
+		"    YY_RULE_SETUP\n"
+		"    { BEGIN(list); return CONT; }\n"
+		"    YY_BREAK\n"
+		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
@@ -3823,6 +3875,24 @@ TEST(CppBracketsLinuxMisc2)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsLinuxMisc3)
+{
+	// test linux brackets option with a macro
+	// bracket type will be incorrectly classified as an array
+	// but should not break at the semi colon
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    YY_RULE_SETUP\n"
+		"    { BEGIN(list); return CONT; }\n"
+		"    YY_BREAK\n"
+		"}\n";
+	char options[] = "brackets=linux";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
@@ -5036,6 +5106,24 @@ TEST(CppBracketsStroustrupMisc2)
 	delete [] textOut;
 }
 
+TEST(CppBracketsStroustrupMisc3)
+{
+	// test stroustrup brackets option with a macro
+	// bracket type will be incorrectly classified as an array
+	// but should not break ay the semi colon
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    YY_RULE_SETUP\n"
+		"    { BEGIN(list); return CONT; }\n"
+		"    YY_BREAK\n"
+		"}\n";
+	char options[] = "brackets=stroustrup";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(CppBracketsStroustrupFormatting)
 {
 	// test stroustrup brackets option, for non-function top level objects
@@ -5890,29 +5978,29 @@ TEST_FIXTURE(cppText, CppBracketsHorstmannNamespaceBlocks)
 TEST_FIXTURE(cppText, CppBracketsHorstmannBrackets)
 {
 	// test horstmann brackets option
-	// indent brackets, will NOT indent brackets
+	// indent brackets
 	char text[] =
 		"\nnamespace FooName\n"
 		"{\n"
 		"\n"
 		"class FooClass\n"
-		"{\n"
+		"    {\n"
 		"private:\n"
 		"    bool var1;\n"
 		"    void func1();\n"
 		"protected:\n"
 		"    bool var2;\n"
 		"    void func2();\n"
-		"};\n"
+		"    };\n"
 		"\n"
 		"void FooClass::Foo(bool isFoo)\n"
-		"{   if (isFoo)\n"
-		"    {   bar();\n"
-		"    }\n"
+		"    {   if (isFoo)\n"
+		"        {   bar();\n"
+		"        }\n"
 		"    else\n"
-		"    {   anotherBar();\n"
+		"        {   anotherBar();\n"
+		"        }\n"
 		"    }\n"
-		"}\n"
 		"\n"
 		"}   // end FooName\n";
 	char options[] = "brackets=horstmann, indent-brackets";
@@ -5924,31 +6012,31 @@ TEST_FIXTURE(cppText, CppBracketsHorstmannBrackets)
 TEST_FIXTURE(cppText, CppBracketsHorstmannNamespaceBrackets)
 {
 	// test horstmann brackets option
-	// indent brackets, indent namespaces, will NOT indent brackets
+	// indent brackets, indent namespaces
 	char text[] =
 		"\nnamespace FooName\n"
-		"{\n"
+		"    {\n"
 		"\n"
 		"    class FooClass\n"
-		"    {\n"
+		"        {\n"
 		"    private:\n"
 		"        bool var1;\n"
 		"        void func1();\n"
 		"    protected:\n"
 		"        bool var2;\n"
 		"        void func2();\n"
-		"    };\n"
+		"        };\n"
 		"\n"
 		"    void FooClass::Foo(bool isFoo)\n"
-		"    {   if (isFoo)\n"
-		"        {   bar();\n"
-		"        }\n"
+		"        {   if (isFoo)\n"
+		"            {   bar();\n"
+		"            }\n"
 		"        else\n"
-		"        {   anotherBar();\n"
+		"            {   anotherBar();\n"
+		"            }\n"
 		"        }\n"
-		"    }\n"
 		"\n"
-		"}   // end FooName\n";
+		"    }   // end FooName\n";
 	char options[] = "brackets=horstmann, indent-brackets, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
@@ -6261,6 +6349,23 @@ TEST(CppBracketsHorstmannMisc2)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsHorstmannMisc3)
+{
+	// test horstmann brackets option with a macro
+	// bracket type will be incorrectly classified as an array
+	// but should not break ay the semi colon
+	char text[] =
+		"\nvoid foo()\n"
+		"{   YY_RULE_SETUP\n"
+		"    { BEGIN(list); return CONT; }\n"
+		"    YY_BREAK\n"
+		"}\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
