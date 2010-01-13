@@ -17,7 +17,7 @@
 					<Add option="-no-multibyte-chars" />
 					<Add option="-vec-report0" />
 					<Add option="-w1" />
-					<Add option="-DASTYLECON_TEST" />
+					<Add option="-DASTYLECON_LIB" />
 					<Add directory="../../../AStyle/src" />
 					<Add directory="/usr/include/unittest++" />
 				</Compiler>
@@ -36,7 +36,7 @@
 					<Add option="-no-multibyte-chars" />
 					<Add option="-vec-report0" />
 					<Add option="-w1" />
-					<Add option="-DASTYLECON_TEST" />
+					<Add option="-DASTYLECON_LIB" />
 					<Add option="-DNDEBUG" />
 					<Add directory="../../../AStyle/src" />
 					<Add directory="/usr/include/unittest++" />
@@ -57,7 +57,7 @@
 					<Add option="-no-multibyte-chars" />
 					<Add option="-vec-report0" />
 					<Add option="-w1" />
-					<Add option="-DASTYLECON_TEST" />
+					<Add option="-DASTYLECON_LIB" />
 					<Add option="-DASTYLECON_PRINT" />
 					<Add directory="../../../AStyle/src" />
 					<Add directory="/usr/include/unittest++" />

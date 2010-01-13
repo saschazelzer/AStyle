@@ -22,12 +22,13 @@
   </VirtualDirectory>
   <Dependencies Name="Release"/>
   <Dependencies Name="Print"/>
+  <Dependencies Name="Debug"/>
   <Settings Type="Executable">
     <Configuration Name="Debug" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-g -W -Wall" Required="yes">
+      <Compiler Options="-g -W -Wall" Required="yes" PreCompiledHeader="">
         <IncludePath Value="../../../AStyle/src"/>
         <IncludePath Value="/usr/include/unittest++"/>
-        <Preprocessor Value="ASTYLE_CONLIB"/>
+        <Preprocessor Value="ASTYLECON_LIB"/>
       </Compiler>
       <Linker Options="" Required="yes">
         <Library Value="libUnitTest++.a"/>
@@ -35,32 +36,31 @@
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="bin/$(ProjectName)d" IntermediateDirectory="./DebugCon" Command="bin/$(ProjectName)d" CommandArguments="" WorkingDirectory="" PauseExecWhenProcTerminates="yes"/>
       <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="">
-        <PostConnectCommands></PostConnectCommands>
-        <StartupCommands></StartupCommands>
+        <PostConnectCommands/>
+        <StartupCommands/>
       </Debugger>
       <PreBuild/>
       <PostBuild/>
       <CustomBuild Enabled="no">
-        <CleanCommand></CleanCommand>
-        <BuildCommand></BuildCommand>
-        <PreprocessFileCommand></PreprocessFileCommand>
-        <SingleFileCommand></SingleFileCommand>
-        <MakefileGenerationCommand></MakefileGenerationCommand>
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
         <ThirdPartyToolName>None</ThirdPartyToolName>
-        <WorkingDirectory></WorkingDirectory>
+        <WorkingDirectory/>
       </CustomBuild>
       <AdditionalRules>
-        <CustomPostBuild></CustomPostBuild>
-        <CustomPreBuild>
-
-</CustomPreBuild>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
       </AdditionalRules>
     </Configuration>
     <Configuration Name="Print" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-g -W -Wall" Required="yes">
+      <Compiler Options="-g -W -Wall" Required="yes" PreCompiledHeader="">
         <IncludePath Value="../../../AStyle/src"/>
         <IncludePath Value="/usr/include/unittest++"/>
-        <Preprocessor Value="ASTYLE_CONLIB"/>
+        <Preprocessor Value="ASTYLECON_LIB"/>
         <Preprocessor Value="ASTYLECON_PRINT"/>
       </Compiler>
       <Linker Options="" Required="yes">
@@ -69,32 +69,31 @@
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="bin/$(ProjectName)p" IntermediateDirectory="./PrintCon" Command="bin/$(ProjectName)p" CommandArguments="" WorkingDirectory="" PauseExecWhenProcTerminates="yes"/>
       <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="">
-        <PostConnectCommands></PostConnectCommands>
-        <StartupCommands></StartupCommands>
+        <PostConnectCommands/>
+        <StartupCommands/>
       </Debugger>
       <PreBuild/>
       <PostBuild/>
       <CustomBuild Enabled="no">
-        <CleanCommand></CleanCommand>
-        <BuildCommand></BuildCommand>
-        <PreprocessFileCommand></PreprocessFileCommand>
-        <SingleFileCommand></SingleFileCommand>
-        <MakefileGenerationCommand></MakefileGenerationCommand>
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
         <ThirdPartyToolName>None</ThirdPartyToolName>
-        <WorkingDirectory></WorkingDirectory>
+        <WorkingDirectory/>
       </CustomBuild>
       <AdditionalRules>
-        <CustomPostBuild></CustomPostBuild>
-        <CustomPreBuild>
-
-</CustomPreBuild>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
       </AdditionalRules>
     </Configuration>
     <Configuration Name="Release" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-W -Wall" Required="yes">
+      <Compiler Options="-W -Wall" Required="yes" PreCompiledHeader="">
         <IncludePath Value="../../../AStyle/src"/>
         <IncludePath Value="/usr/include/unittest++"/>
-        <Preprocessor Value="ASTYLE_CONLIB"/>
+        <Preprocessor Value="ASTYLECON_LIB"/>
         <Preprocessor Value="NDEBUG"/>
       </Compiler>
       <Linker Options="-s" Required="yes">
@@ -103,25 +102,24 @@
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="bin/$(ProjectName)" IntermediateDirectory="./ReleaseCon" Command="bin/$(ProjectName)" CommandArguments="" WorkingDirectory="" PauseExecWhenProcTerminates="yes"/>
       <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="">
-        <PostConnectCommands></PostConnectCommands>
-        <StartupCommands></StartupCommands>
+        <PostConnectCommands/>
+        <StartupCommands/>
       </Debugger>
       <PreBuild/>
       <PostBuild/>
       <CustomBuild Enabled="no">
-        <CleanCommand></CleanCommand>
-        <BuildCommand></BuildCommand>
-        <PreprocessFileCommand></PreprocessFileCommand>
-        <SingleFileCommand></SingleFileCommand>
-        <MakefileGenerationCommand></MakefileGenerationCommand>
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
         <ThirdPartyToolName>None</ThirdPartyToolName>
-        <WorkingDirectory></WorkingDirectory>
+        <WorkingDirectory/>
       </CustomBuild>
       <AdditionalRules>
-        <CustomPostBuild></CustomPostBuild>
-        <CustomPreBuild>
-
-</CustomPreBuild>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
       </AdditionalRules>
     </Configuration>
     <GlobalSettings>
@@ -134,5 +132,4 @@
       <ResourceCompiler Options=""/>
     </GlobalSettings>
   </Settings>
-  <Dependencies Name="Debug"/>
 </CodeLite_Project>

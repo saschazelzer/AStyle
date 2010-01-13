@@ -1,0 +1,308 @@
+#! /usr/bin/python
+# Library files for AStyle test modules.
+# Extract files in the TestArchives directory to the TestData directory.
+# The 7zip program is called to extract the archives.
+# The only function called externally is extract_project().
+# Executed as stand-alone it will run a series of tests.
+
+import glob
+import libastyle		#local directory
+import os
+import shutil
+import subprocess
+import sys
+import time
+
+# global variables ------------------------------------------------------------
+
+# select one of the following
+# use sourceOnly for speed
+# sourceOnly = True
+sourceOnly = False
+
+# -----------------------------------------------------------------------------
+
+def extract_project(project):
+	"""Call the procedure to extract the requested project.
+	   The main processing procedure called by other functions.
+	"""
+	if project == libastyle.CODEBLOCKS:
+		extract_codeblocks()
+	elif project == libastyle.CODELITE:
+		extract_codelite()
+	elif project == libastyle.JEDIT:
+		extract_jedit()
+	elif project == libastyle.KDEVELOP:
+		extract_kdevelop()
+	elif project == libastyle.SHARPDEVELOP:
+		extract_sharpdevelop()
+	elif project == libastyle.TEST:
+		extract_codeblocks()
+	else:
+		system_exit("Bad extract_files project id: " + str(project))
+
+# -----------------------------------------------------------------------------
+
+def call_7zip(filepath, outdir, fileext):
+	"""Call 7zip to extract an archive.
+	"""
+	filepath = filepath.replace('\\', '/')
+	prtfile = strip_directory_prefix(filepath)
+	print "extract " + prtfile
+	exepath = libastyle.get_7zip_path()
+	extract = [exepath, "x", "-ry", "-o" + outdir, filepath]
+	if sourceOnly:
+		extract += fileext
+	filename = "extract.txt"
+	outfile = open(filename, 'w')
+	try:
+		subprocess.check_call(extract, stdout=outfile)
+	except subprocess.CalledProcessError as e:
+		system_exit("Bad 7zip return: " + str(e.returncode))
+	except OSError:
+		system_exit("Cannot find executable: " + extract[0])
+	outfile.close()
+	os.remove(filename)
+
+# -----------------------------------------------------------------------------
+
+def check_rename_ok(globpath, destination):
+	"""Check that there is one and only one matching file.
+	   More than one means the old file was not completely removed.
+	   The file must be manually removed before continuing.
+	   This is a problem on Windows only.
+	   Returns the directory path of the one file.
+	"""
+	dirs = glob.glob(globpath)
+	if len(dirs) == 0:
+		system_exit("No directory to rename")
+	if len(dirs) == 1:
+		return dirs[0]
+	# try to remove the old directory one more time
+	for directory in dirs:
+		if directory[-len(destination):] == destination:
+			print "remove retry"
+			shutil.rmtree(directory, True)
+	dirs = glob.glob(globpath)	
+	if len(dirs) > 1:
+		system_exit(str(dirs) + "\nCannot rename directory")
+	return dirs[0]
+
+# -----------------------------------------------------------------------------
+
+def extract_codeblocks():
+	"""Extract CodeBlocks files from archive to test directory.
+	"""
+	remove_test_directory("[Cc]ode[Bb]locks*")
+	# temporary patch
+	if os.name == "nt":
+		extract_test_tar("codeblocks*.bz2", "codeblocks*.tar", ["*.cpp", "*.h"])
+	else:
+		extract_test_tar("codeblocks*.gz", "codeblocks*.tar", ["*.cpp", "*.h"])
+	rename_test_directory("codeblocks*", "CodeBlocks")
+
+# -----------------------------------------------------------------------------
+
+def extract_codelite():
+	"""Extract CodeLite files from archive to test directory.
+	"""
+	remove_test_directory("[Cc]ode[Ll]ite*")
+	extract_test_tar("codelite*.gz", "codelite*.tar", ["*.cpp", "*.cxx", "*.h"])
+	rename_test_directory("codelite*", "CodeLite")
+
+# -----------------------------------------------------------------------------
+
+def extract_jedit():
+	"""Extract jEdit files from archive to test directory.
+	"""
+	remove_test_directory("j[Ee]dit*")
+	remove_test_directory("build-support")
+	extract_test_tar("jedit*.bz2", "jedit*.tar", ["*.java"])
+
+# -----------------------------------------------------------------------------
+
+def extract_kdevelop():
+	"""Extract KDevelop files from archive to test directory.
+	"""
+	remove_test_directory("[Kk][Dd]evelop*")
+	extract_test_tar("kdevelop*.gz", "hpO5ya.tar", ["*.cpp", "*.h"])
+	rename_test_directory("kdevelop*", "KDevelop")
+
+# -----------------------------------------------------------------------------
+
+def extract_sharpdevelop():
+	"""Extract SharpDevelop files from archive to test directory.
+	"""
+	remove_test_directory("[Sh]harp[Dd]evelop*")
+	extract_test_zip("SharpDevelop*.zip", "SharpDevelop", ["*.cs"])
+
+# -----------------------------------------------------------------------------
+
+def extract_test_tar(pattern, tarpattern, fileext):
+	"""Extract a tarball given the search pattern.
+	   If necessary, the tarball will be extracted first.
+	   There must be one and only one matching file.
+	   arg 1- search pattern for the compressed file.
+	   arg 2- serach pattern for the tarball.
+	   arg 3- a list of search patterns for the source files.
+	"""
+	arcdir = libastyle.get_archive_directory(True)
+	testdir = libastyle.get_test_directory(True)
+	# check for existing tarball
+	files = glob.glob(arcdir + tarpattern)
+	if len(files) == 1:
+		call_7zip(files[0], testdir, fileext)
+		return
+	# extract the tarball
+	files = glob.glob(arcdir + pattern)
+	if len(files) == 0:
+		system_exit("No file to extract: " + pattern)
+	if len(files) > 1:
+		system_exit(str(files) + "\nToo many files to extract")
+	call_7zip(files[0], arcdir, [])
+	# extract files from the tarball
+	files = glob.glob(arcdir + tarpattern)
+	if len(files) == 0:
+		system_exit("No tarball to extract: " + tarpattern)
+	if len(files) > 1:
+		system_exit(str(files) + "\nToo many tarballs to extract")
+	call_7zip(files[0], testdir, fileext)
+
+# -----------------------------------------------------------------------------
+
+def extract_test_zip(pattern, dirname, fileext):
+	"""Extract a compressed zip given the search pattern.
+	   There must be one and only one matching file.
+	   arg 1- search pattern for the compressed file.
+	   arg 2- name of the output top-level directory.
+	   arg 3- a list of search patterns for the source files.
+	"""
+	arcdir = libastyle.get_archive_directory(True)
+	testdir = libastyle.get_test_directory(True)
+	# extract thezip
+	files = glob.glob(arcdir + pattern)
+	if len(files) == 0:
+		system_exit("No zip to extract")
+	if len(files) > 1:
+		system_exit(str(files) + "\nToo many zips to extract")
+	call_7zip(files[0], testdir + dirname, fileext)
+
+# -----------------------------------------------------------------------------
+
+def remove_test_directory(pattern):
+	"""Find and remove pre-existing directory trees.
+	   Also removes intermediate files from an aborted extract.
+	"""
+	testdir = libastyle.get_test_directory(True)
+	files = glob.glob(testdir + pattern)
+	for file in files:
+		file = file.replace('\\', '/')
+		prtfile = strip_directory_prefix(file)
+		print "remove " + prtfile
+		shutil.rmtree(file, True)
+		# this is a problem with Windows only
+		if os.path.isdir(file):
+			print "Directory not removed: " + file
+
+# -----------------------------------------------------------------------------
+
+def rename_test_directory(source, destination):
+	"""Rename a directory in the test directory.
+	   There must be one and only one matching directory.
+	"""
+	testdir = libastyle.get_test_directory(True)
+	globpath = testdir + source
+	dir = check_rename_ok(globpath, destination)
+	dir = dir.replace('\\', '/')
+	prtdir = strip_directory_prefix(dir)
+	print "rename " + prtdir
+	destpath = testdir + destination
+	shutil.move(dir, destpath)
+
+# -----------------------------------------------------------------------------
+
+def strip_directory_prefix(directory):
+	"""Strip the prefix from a directory or file for printing.
+	"""
+	prefix = libastyle.get_project_directory(True)
+	start = len(prefix)
+	if start > len(directory): start = 0
+	return directory[start:]
+
+# -----------------------------------------------------------------------------
+
+def system_exit(message):
+	"""Accept keyboard input to assure a message is noticed.
+	"""
+	if len(message.strip()) > 0:
+		libastyle.set_error_color()
+		print message
+	# pause if script is not run from SciTE (argv[1] = 'scite')
+	if libastyle.is_executed_from_console():
+		if os.name == "nt":
+			os.system("pause");
+		else:
+			raw_input("Press Enter to end . . .\n")
+	sys.exit()
+
+# -----------------------------------------------------------------------------
+
+def test_all_compressed():
+	"""Test extracts for all compressed files.
+	"""
+	starttime = time.time()
+	print "TEST COMPRESSED"
+	arcdir = libastyle.get_archive_directory()
+	files = glob.glob(arcdir  + "/*.tar")
+	for file in files:
+		file = file.replace('\\', '/')
+		print "remove tar " + file
+		os.remove(file)
+	extract_project(libastyle.CODEBLOCKS)
+	extract_project(libastyle.CODELITE)
+	extract_project(libastyle.JEDIT)
+	extract_project(libastyle.KDEVELOP)
+	extract_project(libastyle.SHARPDEVELOP)
+	stoptime = time.time()
+	test_print_time(starttime, stoptime)
+
+# -----------------------------------------------------------------------------
+
+def test_all_tarballs():
+	"""Test extracts for all tarballs.
+	    Assumes tarballs are present in the archive.
+	"""
+	starttime = time.time()
+	print "TEST TARBALLS"
+	extract_project(libastyle.CODEBLOCKS)
+	extract_project(libastyle.CODELITE)
+	extract_project(libastyle.JEDIT)
+	extract_project(libastyle.KDEVELOP)
+	# no tarball for SHARPDEVELOP
+	stoptime = time.time()
+	test_print_time(starttime, stoptime)
+
+# -----------------------------------------------------------------------------
+
+def test_print_time(starttime, stoptime):
+	"""Print run time for the test.
+	"""
+	runtime = int(stoptime - starttime + 0.5)
+	min = runtime / 60
+	sec = runtime % 60
+	if min == 0:
+		print "{0} seconds".format(sec)
+	else:
+		print "{0} min {1} seconds".format(min, sec)
+
+# -----------------------------------------------------------------------------
+
+# make the module executable
+# run tests if executed as stand-alone
+if __name__ == "__main__":
+	libastyle.set_text_color()
+	test_all_compressed()
+	test_all_tarballs()
+	system_exit("")
+
+# -----------------------------------------------------------------------------

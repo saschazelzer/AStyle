@@ -2,6 +2,7 @@
 # Check ASBeautifier constructor and copy constructor to class variables
 #     in the header file to verify all variables are initialized and copied.
 
+import libastyle		#local directory
 import sys
 import os
 
@@ -21,6 +22,7 @@ def process_files():
 	header_path = get_source_directory() + "/astyle.h"
 	beautifier_path = get_source_directory() + "/ASBeautifier.cpp"
 
+	libastyle.set_text_color()
 	get_header_variables(header_variables, header_path)
 	get_constructor_variables(class_variables, beautifier_path)
 	get_initializer_variables(class_variables, beautifier_path)
@@ -373,11 +375,11 @@ def get_initializer_variables(class_variables, beautifier_path):
 
 def get_source_directory():
 	"""Get the AStyle/src directory for the os environment"""
-	#~ if os.name == "nt":
-		#~ return os.getenv("USERPROFILE") + "/Projects/AStyle/src"
-	#~ else:
-		#~ return os.getenv("HOME") + "/Projects/AStyle/src"
-	return "../../AStyle/src"
+	if os.name == "nt":
+		sourcedir = os.getenv("USERPROFILE") + "/Projects/AStyle/src"
+	else:
+		sourcedir = os.getenv("HOME") + "/Projects/AStyle/src"
+	return sourcedir
 
 # -----------------------------------------------------------------------------
 
@@ -400,10 +402,10 @@ def remove_class_duplicates(class_variables):
 if __name__ == "__main__":
 	process_files()
 	# pause if script is not run from SciTE (argv[1] = 'scite')
-	if (os.name == "nt"
-	and len(sys.argv) == 1):
-		print
-		os.system("pause")
-		# raw_input("\nPress Enter to continue . . .")
+	if len(sys.argv) == 1:
+		if os.name == "nt":
+			os.system("pause");
+		else:
+			raw_input("\nPress Enter to end . . .\n")
 
 # -----------------------------------------------------------------------------

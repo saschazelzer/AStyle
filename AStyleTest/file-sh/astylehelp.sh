@@ -7,3 +7,6 @@ exedir=$HOME/astyle/bin
 
 # display help
 $exedir/astyle -h
+
+echo
+read -sn1 -p "Press Enter to end . . ."

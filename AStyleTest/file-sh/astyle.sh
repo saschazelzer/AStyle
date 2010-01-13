@@ -22,3 +22,6 @@ cp  --preserve $srcdir/*.h     $testdir/recurse
 
 $exedir/astyle  --style="k&r"  "$testdir/*.cpp"  "$testdir/*.h"
 # $exedir/astyle  $opts  "$HOME/CodeBlocks/*.cpp"  "$HOME/CodeBlocks/*.h"
+
+echo
+read -sn1 -p "Press Enter to end . . ."

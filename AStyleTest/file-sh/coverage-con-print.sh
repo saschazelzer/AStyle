@@ -10,12 +10,14 @@ cd  ../build/cb-gcc/objConc/AStyle/src
 # check for the graph file created by the compile
 if [ ! -f $filename.gcno ]; then
 echo Must compile astylec to create the .gcno graph files!
+read -sn1 -p "Press Enter to end . . ."
 exit 100
 fi
 
 # check for the data file created by running the program
 if [ ! -f $filename.gcda ]; then
 echo Must run astylec to create the .gcda data files!
+read -sn1 -p "Press Enter to end . . ."
 exit 100
 fi
 
@@ -29,3 +31,4 @@ scite  $filename.cpp.gcov
 echo
 echo end of gcov
 echo
+read -sn1 -p "Press Enter to end . . ."

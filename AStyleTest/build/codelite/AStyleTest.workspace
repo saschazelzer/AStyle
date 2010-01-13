@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CodeLite_Workspace Name="AStyleTest" Database="./AStyleTest.tags">
-  <Project Name="AStyleTest" Path="AStyleTest.project" Active="No"/>
-  <Project Name="AStyleTestCon" Path="AStyleTestCon.project" Active="Yes"/>
+  <Project Name="AStyleTest" Path="AStyleTest.project" Active="Yes"/>
+  <Project Name="AStyleTestCon" Path="AStyleTestCon.project" Active="No"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Project Name="AStyleTest" ConfigName="Debug"/>

@@ -1,6 +1,7 @@
 #! /usr/bin/python
 # Check libSVN.bat to projects.bat to verify all .svn directories are backed up.
 
+import libastyle		#local directory
 import sys
 import os
 
@@ -15,13 +16,12 @@ def process_files():
 
 	projects_path = get_batch_directory() + "/projects.bat"
 	libsvn_path = get_batch_directory() + "/libSVN.bat"
-
 	projects_directories = []	# directories in projects.bat
 	libsvn_directories = []		# directories in  libSVN.bat
 
+	libastyle.set_text_color()
 	get_directories(projects_directories, projects_path)
 	get_directories(libsvn_directories, libsvn_path)
-
 	correct_projects_directories(projects_directories)
 	projects_directories.sort()
 	libsvn_directories.sort()
@@ -121,7 +121,7 @@ def get_batch_directory():
 	if os.name == "nt":
 		return os.getenv("USERPROFILE") + "/batch"
 	else:
-		return os.getenv("HOME") + "/batch"
+		return os.getenv("HOME") + "/bin"
 
 
 # -----------------------------------------------------------------------------
@@ -181,13 +181,15 @@ def is_svn_directory(directory_name):
 # make the module executable
 if __name__ == "__main__":
 	if os.name != "nt":
-		print "This test is for Windows only"
+		libastyle.set_text_color()
+		print "This test is for Windows only!"
 	else:
 		process_files()
-		# pause if script is not run from SciTE (argv[1] = 'scite')
-		if  len(sys.argv) == 1:
-			print
-			os.system("pause")
-			# raw_input("\nPress Enter to continue . . .")
-		
+	# pause if script is not run from SciTE (argv[1] = 'scite')
+	if len(sys.argv) == 1:
+		if os.name == "nt":
+			os.system("pause");
+		else:
+			raw_input("\nPress Enter to end . . .\n")
+
 # -----------------------------------------------------------------------------

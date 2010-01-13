@@ -7,34 +7,34 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin\astyletestcond" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objCond\" />
+				<Option output="bin/astyletestcond" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objCond/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
-					<Add option="-DASTYLECON_TEST" />
-					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="\usr\include\unittest++" />
+					<Add option="-DASTYLECON_LIB" />
+					<Add directory="../../../AStyle/src" />
+					<Add directory="/usr/include/unittest++" />
 				</Compiler>
 				<Linker>
 					<Add library="UnitTest++" />
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin\astyletestcon" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objCon\" />
+				<Option output="bin/astyletestcon" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objCon/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
-					<Add option="-DASTYLECON_TEST" />
+					<Add option="-DASTYLECON_LIB" />
 					<Add option="-DNDEBUG" />
-					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="\usr\include\unittest++" />
+					<Add directory="../../../AStyle/src" />
+					<Add directory="/usr/include/unittest++" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -42,19 +42,20 @@
 				</Linker>
 			</Target>
 			<Target title="Coverage">
-				<Option output="bin\astyletestconc" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objConc\" />
+				<Option output="bin/astyletestconc" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objConc/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-pg" />
 					<Add option="-fprofile-arcs" />
 					<Add option="-ftest-coverage" />
-					<Add option="-DASTYLECON_TEST" />
+					<Add option="-DASTYLECON_LIB" />
 					<Add option="-DASTYLECON_PRINT" />
-					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="\usr\include\unittest++" />
+					<Add directory="../../../AStyle/src" />
+					<Add directory="/usr/include/unittest++" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg" />
@@ -63,18 +64,18 @@
 				</Linker>
 			</Target>
 			<Target title="Print">
-				<Option output="bin\astyletestconp" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objConp\" />
+				<Option output="bin/astyletestconp" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objConp/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
-					<Add option="-DASTYLECON_TEST" />
+					<Add option="-DASTYLECON_LIB" />
 					<Add option="-DASTYLECON_PRINT" />
-					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="\usr\include\unittest++" />
+					<Add directory="../../../AStyle/src" />
+					<Add directory="/usr/include/unittest++" />
 				</Compiler>
 				<Linker>
 					<Add library="UnitTest++" />
@@ -84,17 +85,17 @@
 		<Compiler>
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="..\..\srccon\AStyleTestCon.h" />
-		<Unit filename="..\..\srccon\AStyleTestCon_Console1.cpp" />
-		<Unit filename="..\..\srccon\AStyleTestCon_Console2.cpp" />
-		<Unit filename="..\..\srccon\AStyleTestCon_Main.cpp" />
-		<Unit filename="..\..\..\AStyle\src\ASBeautifier.cpp" />
-		<Unit filename="..\..\..\AStyle\src\ASEnhancer.cpp" />
-		<Unit filename="..\..\..\AStyle\src\ASFormatter.cpp" />
-		<Unit filename="..\..\..\AStyle\src\ASResource.cpp" />
-		<Unit filename="..\..\..\AStyle\src\astyle.h" />
-		<Unit filename="..\..\..\AStyle\src\astyle_main.cpp" />
-		<Unit filename="..\..\..\AStyle\src\astyle_main.h" />
+		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
+		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
+		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />
+		<Unit filename="../../../AStyle/src/ASResource.cpp" />
+		<Unit filename="../../../AStyle/src/astyle.h" />
+		<Unit filename="../../../AStyle/src/astyle_main.cpp" />
+		<Unit filename="../../../AStyle/src/astyle_main.h" />
+		<Unit filename="../../srccon/AStyleTestCon.h" />
+		<Unit filename="../../srccon/AStyleTestCon_Console1.cpp" />
+		<Unit filename="../../srccon/AStyleTestCon_Console2.cpp" />
+		<Unit filename="../../srccon/AStyleTestCon_Main.cpp" />
 		<Extensions>
 			<envvars />
 			<code_completion />
