@@ -8,9 +8,6 @@ import re				# regular expressions
 import subprocess
 import sys
 
-if os.name == "nt": import msvcrt		# Windows only for getch()
-else: import tty, termios						# Linux only for getch()
-
 # -----------------------------------------------------------------------------
 
 def call_diff_program(filepath):
@@ -22,9 +19,9 @@ def call_diff_program(filepath):
 	try:
 		subprocess.check_call(diff)
 	except subprocess.CalledProcessError as e:
-		system_exit("Bad diff return: " + str(e.returncode))
+		libastyle.system_exit("Bad diff return: " + str(e.returncode))
 	except OSError:
-		system_exit("Cannot find executable: " + diff[0])
+		libastyle.system_exit("Cannot find executable: " + diff[0])
 
 # -----------------------------------------------------------------------------
 
@@ -42,9 +39,9 @@ def diff_formatted_files(files, totformat):
 		numin += 1
 		stripfile = strip_test_directory_prefix(file)
 		print "{0} of {1} {2}".format(numin, totformat, stripfile)
-		ch = getch()		# local function
+		ch = libastyle.getch()
 		if ch == '\000' or ch == '\xe0':
-			ch = getch()
+			ch = libastyle.getch()
 		if ch == 'n' or ch == 'm': continue
 		if ch == 'z' : break
 		processed += 1
@@ -64,7 +61,7 @@ def extract_directory_from_line(line):
 	directory = pathsplit[0]
 	# verify result
 	if directory == "":
-		system_exit("Cannot extract directory from line: " + line)
+		libastyle.system_exit("Cannot extract directory from line: " + line)
 	return directory
 
 # -----------------------------------------------------------------------------
@@ -77,7 +74,7 @@ def get_astyle_totals(filename):
 	   Return 3 - Runtime minutes
 	   Return 4 - Runtime seconds
 	"""
-	infile = open(filename, 'rb')
+	infile = open_filein(filename, 'rb')
 	infile.seek(-100, os.SEEK_END)
 	for line in infile:
 		# use regular expressions to search the lines
@@ -92,30 +89,12 @@ def get_astyle_totals(filename):
 				seconds = int(totline[6])
 			else:
 				minutes = 0
-				if re.search('.', totline[4]) == None:
+				if totline[4].find('.') == -1:
 					seconds = int(totline[4])
 				else:
 					seconds = float(totline[4])
 			return (formatted, unchanged, minutes, seconds)
-	system_exit("Could Not find total line in libtest")
-
-# -----------------------------------------------------------------------------
-
-def getch():
-	"""getch() for Windows and Linux.
-	   This won't work unless run from a terminal.
-	"""
-	if os.name == "nt":
-		ch = msvcrt.getch()
-	else:
-		fd = sys.stdin.fileno()
-		old_settings = termios.tcgetattr(fd)
-		try:
-			tty.setraw(sys.stdin.fileno())
-			ch = sys.stdin.read(1)
-		finally:
-			termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-	return ch
+	libastyle.system_exit("Could Not find total line in libtest")
 
 # -----------------------------------------------------------------------------
 
@@ -123,7 +102,7 @@ def  get_formatted_files(filename):
 	"""Get a list of formatted files from the astyle output.
 	   Returns a list of the formatted files.
 	"""
-	infile = open(filename, 'rb')
+	infile = open_filein(filename, 'rb')
 	formatted = []
 
 	for line in infile:
@@ -144,6 +123,18 @@ def  get_formatted_files(filename):
 	infile.close()
 	return formatted
 
+# -----------------------------------------------------------------------------
+
+def open_filein(filename, mode):
+	"""Open an input file and handle the error.
+	   Arguments are the same as for the python 'open' statement.
+	"""
+	try:
+		infile = open(filename, mode)
+	except IOError:
+		libastyle.system_exit("Cannot open input file: " + filename)
+	return infile
+	
 # -----------------------------------------------------------------------------
 
 def strip_test_directory_prefix(file):
@@ -169,7 +160,6 @@ def test_all_functions():
 		# calls extract_directory_from_line()
 	diff_formatted_files(files, 2)
 		# calls call_diff_program() 
-		# calls getch() 
 		# calls strip_test_directory_prefix() 
 	get_astyle_totals(testfile)
 	# end tests -------------------------------------------
@@ -199,25 +189,9 @@ def test_file_write(filename):
 
 # -----------------------------------------------------------------------------
 
-def system_exit(message):
-	"""Accept keyboard input to assure a message is noticed.
-	"""
-	if len(message.strip()) > 0:
-		libastyle.set_error_color()
-		print message
-	# pause if script is run from the console
-	if libastyle.is_executed_from_console():
-		if os.name == "nt":
-			os.system("pause");
-		else:
-			raw_input("Press Enter to end . . .\n")
-	sys.exit()
-
-# -----------------------------------------------------------------------------
-
 # make the module executable
 if __name__ == "__main__":
 	test_all_functions()
-	system_exit("")
+	libastyle.system_exit()
 
 # -----------------------------------------------------------------------------

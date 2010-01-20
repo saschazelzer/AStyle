@@ -25,9 +25,6 @@ def process_files():
 	get_header_variables(header_variables, header_path)
 	get_constructor_variables(class_variables, formatter_path)
 	get_initializer_variables(class_variables, formatter_path)
-	header_variables.sort()
-	class_variables.sort()
-	remove_class_duplicates(class_variables)
 
 	print "Checking ASFormatter header to class constructor."
 	total_variables = len(header_variables)
@@ -79,32 +76,24 @@ def convert_class_functions(line):
 
 def find_class_diffs(header_variables, class_variables):
 	"""Find differences in header and class variables lists."""
-	diffs = 0
-	i = 0
-	j = 0
+	# A set is an unordered collection with no duplicate elements
+	# converting to a 'set' will remove duplicates
+	missing_header =  set(class_variables) - set(header_variables)
+	missing_class = set(header_variables) - set(class_variables)
 
-	# print "Checking ASFormatter header variables to class constructor."
-	while i < len(header_variables):
-		if ( j >= len(class_variables)
-		or header_variables[i] < class_variables[j]):
-			print "missing class: " + header_variables[i]
-			diffs += 1
-			i += 1
-			continue
-		if header_variables[i] > class_variables[j]:
-			print "missing header: " + class_variables[j]
-			diffs += 1
-			j +=1
-			continue
-		i += 1
-		j += 1
+	if len(missing_header) > 0:
+		missing_header = list(missing_header)
+		missing_header.sort()
+		print str(len(missing_header)) + " missing header variables:"
+		print missing_header
 
-	# get extra class_variables
-	while j < len(class_variables):
-		print "missing header: " + class_variables[j]
-		diffs += 1
-		j += 1
-		continue
+	if len(missing_class) > 0:
+		missing_class = list(missing_class)
+		missing_class.sort()
+		print str(len(missing_class)) + " missing class variables:"
+		print missing_class
+
+	diffs= len(missing_header) + len(missing_class)
 	if diffs == 0:
 		print "There are NO diffs in the class constructor variables!!!"
 	else:
@@ -126,7 +115,7 @@ def get_constructor_variables(class_variables, formatter_path):
 		line = line_in.strip()
 		if len(line) == 0:
 			continue
-		if line[:2] == "//":
+		if line.startswith("//"):
 			continue
 		# start between the following lines
 		if line.find("ASFormatter::ASFormatter()") != -1:
@@ -174,7 +163,7 @@ def get_header_variables(header_variables, header_path):
 		line = line_in.strip()
 		if len(line) == 0:
 			continue
-		if line[:2] == "//":
+		if line.startswith("//"):
 			continue
 
 		# start between the following lines
@@ -201,7 +190,7 @@ def get_header_variables(header_variables, header_path):
 		or line.find(')') != -1):
 			continue
 		# bypass static variables
-		if line[:6] == "static":
+		if line.startswith("static"):
 			continue
 		# get the variable name
 		semi_colon = line.find(';');
@@ -278,29 +267,9 @@ def get_source_directory():
 
 # -----------------------------------------------------------------------------
 
-def remove_class_duplicates(class_variables):
-	"""Remove duplicates in class variables list."""
-	class_duplicates = 0			# total number of class duplicates removed
-	i = 1
-	while i < len(class_variables):
-		if class_variables[i - 1] == class_variables[i]:
-			class_variables.remove(class_variables[i])
-			class_duplicates += 1
-			continue
-		i +=1
-	if print_detail:
-		print " -{0} class duplicates".format(class_duplicates)
-
-# -----------------------------------------------------------------------------
-
 # make the module executable
 if __name__ == "__main__":
 	process_files()
-	# pause if script is not run from SciTE (argv[1] = 'scite')
-	if len(sys.argv) == 1:
-		if os.name == "nt":
-			os.system("pause");
-		else:
-			raw_input("\nPress Enter to end . . .\n")
+	libastyle.system_exit()
 
 # -----------------------------------------------------------------------------

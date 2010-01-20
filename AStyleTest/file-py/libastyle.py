@@ -7,69 +7,74 @@ import os
 import subprocess
 import sys
 
+if os.name == "nt": import msvcrt		# Windows only for getch()
+else: import tty, termios						# Linux only for getch()
+
 # global variables ------------------------------------------------------------
 
-# test projects
-CODEBLOCKS = 0
-CODELITE = 1
-JEDIT = 2
-KDEVELOP = 3
-SHARPDEVELOP  = 4
-TEST = 5
-
+# test project IDs
+# use these to avoid spelling problems
+CODEBLOCKS   = "CodeBlocks"
+CODELITE     = "CodeLite"
+JEDIT        = "jEdit"
+KDEVELOP     = "KDevelop"
+SHARPDEVELOP = "SharpDevelop"
+TEST         = "TestProject"
+		
 # compile configurations
-DEBUG = 0
-RELEASE = 1
-
-# change the following to the desired configuration
-config = DEBUG
+# use these to avoid spelling problems
+DEBUG   = "debug"
+RELEASE = "release"
+STATIC  = "static"
 
 # -----------------------------------------------------------------------------
 
-def build_astyle_executable():
+def build_astyle_executable(config):
 	"""Build the astyle executable.
 	"""
 	if config == DEBUG:
 		print "Building AStyle Debug"
-	else:
+	elif config == RELEASE:
 		print "Building AStyle Release"
-	astylepath = get_astyle_path()
+	elif config == STATIC and os.name == "nt":
+		print "Building AStyle Static"
+	else:
+		system_exit("Bad arg in build_astyle_executable(): " + config)
+	astylepath = get_astyleexe_path(config)
 	if os.name == "nt":
 		# must have the extension for this
 		if not astylepath.endswith(".exe"):
 			astylepath += ".exe"
-		compile_astyle_windows(astylepath)
+		compile_astyle_windows(astylepath, config)
 	else:
-		compile_astyle_linux(astylepath)
+		compile_astyle_linux(astylepath, config)
 
 # -----------------------------------------------------------------------------
 
-def compile_astyle_linux(astylepath):
+def compile_astyle_linux(astylepath, config):
 	"""Compile the astyle executable for Linux.
 	"""
-	savedir = os.getcwd()
 	# get makefile directory
 	sep = astylepath.find("bin")
 	if sep == -1:
 		message = "Cannot find bin directory: " + filepath
 		system_exit(message)
-	os.chdir(astylepath[:sep])
+	makedir = astylepath[:sep]
 	if config == DEBUG:
 		build = ["make", "debug"]
 	else:
 		build = ["make", "release"]
-	buildfile = savedir  + "/build.txt"
+	buildfile = get_file_py_directory(True)  + "build.txt"
 	outfile = open(buildfile, 'w')
-	retval = subprocess.call(build, stdout=outfile)
+	retval = subprocess.call(build, cwd=makedir, stdout=outfile)
 	if retval:
 		system_exit("Bad build return: " + str(retval))
 	outfile.close()
 	os.remove(buildfile)
-	os.chdir(savedir)
 
 # -----------------------------------------------------------------------------
 
-def compile_astyle_windows(astylepath):
+def compile_astyle_windows(astylepath, config):
 	"""Compile the astyle executable for Windows.
 	"""
 	sdk = "v3.5"
@@ -83,6 +88,8 @@ def compile_astyle_windows(astylepath):
 			+ "/MSBuild.exe")
 	if config == DEBUG:
 		configProp = "/property:Configuration=Debug"
+	elif config == STATIC:
+		configProp = "/property:Configuration=Static"
 	else:
 		configProp = "/property:Configuration=Release"
 	slnpath = (get_home_directory()
@@ -127,26 +134,44 @@ def get_astyle_directory(endsep=False):
 	"""Get the AStyle directory for the os environment.
 	   endsep = True will add an ending separator.
 	"""
-	homedir = get_home_directory()
+	if endsep != True and endsep != False:
+		system_exit("Bad arg in get_astyle_directory(): " + endsep)
+	astyledir = get_home_directory() + "/Projects/AStyle"
+	if endsep: astyledir += '/'
+	return astyledir
+
+# -----------------------------------------------------------------------------
+
+def get_astyleexe_directory(config, endsep=False):
+	"""Get the AStyle executable directory for the os environment.
+	   endsep = True will add an ending separator.
+	"""
+	if config != DEBUG and config != RELEASE and config != STATIC:
+		system_exit("Bad arg in get_astyleexe_directory(): " + config)
+	homedir = get_astyle_directory()
 	if os.name == "nt":
-		subpath = "/Projects/AStyle/build/vs2008/bin"
+		subpath = "/build/vs2008/bin"
 		if config == DEBUG:
 			subpath = subpath.replace("bin", "debug")
+		elif  config == STATIC:
+			subpath = subpath.replace("bin", "binstatic")
 	else:
-		subpath = "/Projects/AStyle/build/gcc/bin"
+		subpath = "/build/gcc/bin"
 	astylepath = homedir + subpath
 	if endsep: astylepath += '/'
 	return astylepath
 
 # -----------------------------------------------------------------------------
 
-def get_astyle_path(endexe=False):
+def get_astyleexe_path(config, endexe=False):
 	"""Get the AStyle executable path for the os environment
 	   endexe = True will add an ending '.exe' to Windows.
 	"""
-	astyledir = get_astyle_directory(True)
+	if config != DEBUG and config != RELEASE and config != STATIC:
+		system_exit("Bad arg in get_astyle_path(): " + config)
+	astyledir = get_astyleexe_directory(config, True)
 	if os.name == "nt":
-		if config == DEBUG: 
+		if config == DEBUG:
 			progname = "AStyled"
 		else:
 			progname = "AStyle"
@@ -158,6 +183,24 @@ def get_astyle_path(endexe=False):
 			progname = "astyle"
 	astylepath = astyledir + progname
 	return astylepath
+
+# -----------------------------------------------------------------------------
+
+def getch():
+	"""getch() for Windows and Linux.
+	   This won't work unless run from a terminal.
+	"""
+	if os.name == "nt":
+		ch = msvcrt.getch()
+	else:
+		fd = sys.stdin.fileno()
+		old_settings = termios.tcgetattr(fd)
+		try:
+			tty.setraw(sys.stdin.fileno())
+			ch = sys.stdin.read(1)
+		finally:
+			termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+	return ch
 
 # -----------------------------------------------------------------------------
 
@@ -241,28 +284,6 @@ def get_project_filepaths(project):
 
 # -----------------------------------------------------------------------------
 
-def get_project_name(project):
-	"""Get the project name.
-	   Argument must be one of the global variables.
-	   Returns the project name.
-	"""
-	if project == CODEBLOCKS:
-		return "CodeBlocks"
-	elif project == CODELITE:
-		return "CodeLite"
-	elif project == JEDIT:
-		return "jEdit"
-	elif project == KDEVELOP:
-		return "KDevelop"
-	elif project == SHARPDEVELOP:
-		return "SharpDevelop"
-	elif project == TEST:
-		return "TestProject"
-	else:
-		system_exit("Bad get_project_name() project id: " + project)
-
-# -----------------------------------------------------------------------------
-
 def get_test_directory(endsep=False):
 	"""Get the test directory for the os environment.
 	   endsep = True will add an ending separator.
@@ -277,11 +298,11 @@ def is_executed_from_console():
 	"""Check if this run is from a console or from SciTE.
 	   If run from SciTE the first arg will be 'scite'.
 	"""
-	if (len(sys.argv) > 1 
+	if (len(sys.argv) > 1
 	and sys.argv[1].lower() == "scite"):
 		return False
 	return True
-		
+
 # -----------------------------------------------------------------------------
 
 def set_error_color():
@@ -317,18 +338,16 @@ def set_text_color():
 
 # -----------------------------------------------------------------------------
 
-def system_exit(message):
+def system_exit(message=''):
 	"""Accept keyboard input to assure a message is noticed.
 	"""
 	if len(message.strip()) > 0:
-		libastyle.set_error_color()
+		set_error_color()
 		print message
 	# pause if script is run from the console
 	if is_executed_from_console():
-		if os.name == "nt":
-			os.system("pause");
-		else:
-			raw_input("Press Enter to end . . .\n")
+		print "\nPress any key to end . . ."
+		getch()
 	sys.exit()
 
 # -----------------------------------------------------------------------------
@@ -336,17 +355,17 @@ def system_exit(message):
 def test_all_functions():
 	"""Test all functions for syntax.
 	"""
-	build_astyle_executable()		# calls compile_astyle_linux() or ..._windows()
+	build_astyle_executable(RELEASE)		# calls compile_astyle_linux() or ..._windows()
 	get_7zip_path()
 	get_archive_directory()
 	get_astyle_directory()
-	get_astyle_path()
+	get_astyleexe_directory(RELEASE)
+	get_astyleexe_path(RELEASE)
 	get_diff_path()
 	get_file_py_directory()
 	get_home_directory()
 	get_project_directory()
-	get_project_filepaths(SHARPDEVELOP)
-	get_project_name(SHARPDEVELOP)
+	get_project_filepaths(TEST)
 	get_test_directory()
 	is_executed_from_console()
 	set_error_color()
@@ -360,4 +379,4 @@ def test_all_functions():
 if __name__ == "__main__":
 	set_text_color()
 	test_all_functions()
-	system_exit("")
+	system_exit()

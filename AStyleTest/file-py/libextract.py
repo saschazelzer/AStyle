@@ -17,8 +17,8 @@ import time
 
 # select one of the following
 # use sourceOnly for speed
-# sourceOnly = True
-sourceOnly = False
+sourceOnly = True
+# sourceOnly = False
 
 # -----------------------------------------------------------------------------
 
@@ -39,7 +39,7 @@ def extract_project(project):
 	elif project == libastyle.TEST:
 		extract_codeblocks()
 	else:
-		system_exit("Bad extract_files project id: " + str(project))
+		libastyle.system_exit("Bad extract_files project id: " + str(project))
 
 # -----------------------------------------------------------------------------
 
@@ -52,15 +52,12 @@ def call_7zip(filepath, outdir, fileext):
 	exepath = libastyle.get_7zip_path()
 	extract = [exepath, "x", "-ry", "-o" + outdir, filepath]
 	if sourceOnly:
-		extract += fileext
+		extract.extend(fileext)
 	filename = "extract.txt"
 	outfile = open(filename, 'w')
-	try:
-		subprocess.check_call(extract, stdout=outfile)
-	except subprocess.CalledProcessError as e:
-		system_exit("Bad 7zip return: " + str(e.returncode))
-	except OSError:
-		system_exit("Cannot find executable: " + extract[0])
+	retval = subprocess.call(extract, stdout=outfile)
+	if retval:
+		libastyle.system_exit("Bad 7zip return: " + str(retval))
 	outfile.close()
 	os.remove(filename)
 
@@ -75,7 +72,7 @@ def check_rename_ok(globpath, destination):
 	"""
 	dirs = glob.glob(globpath)
 	if len(dirs) == 0:
-		system_exit("No directory to rename")
+		libastyle.system_exit("No directory to rename")
 	if len(dirs) == 1:
 		return dirs[0]
 	# try to remove the old directory one more time
@@ -85,7 +82,7 @@ def check_rename_ok(globpath, destination):
 			shutil.rmtree(directory, True)
 	dirs = glob.glob(globpath)	
 	if len(dirs) > 1:
-		system_exit(str(dirs) + "\nCannot rename directory")
+		libastyle.system_exit(str(dirs) + "\nCannot rename directory")
 	return dirs[0]
 
 # -----------------------------------------------------------------------------
@@ -156,16 +153,16 @@ def extract_test_tar(pattern, tarpattern, fileext):
 	# extract the tarball
 	files = glob.glob(arcdir + pattern)
 	if len(files) == 0:
-		system_exit("No file to extract: " + pattern)
+		libastyle.system_exit("No file to extract: " + pattern)
 	if len(files) > 1:
-		system_exit(str(files) + "\nToo many files to extract")
+		libastyle.system_exit(str(files) + "\nToo many files to extract")
 	call_7zip(files[0], arcdir, [])
 	# extract files from the tarball
 	files = glob.glob(arcdir + tarpattern)
 	if len(files) == 0:
-		system_exit("No tarball to extract: " + tarpattern)
+		libastyle.system_exit("No tarball to extract: " + tarpattern)
 	if len(files) > 1:
-		system_exit(str(files) + "\nToo many tarballs to extract")
+		libastyle.system_exit(str(files) + "\nToo many tarballs to extract")
 	call_7zip(files[0], testdir, fileext)
 
 # -----------------------------------------------------------------------------
@@ -182,9 +179,9 @@ def extract_test_zip(pattern, dirname, fileext):
 	# extract thezip
 	files = glob.glob(arcdir + pattern)
 	if len(files) == 0:
-		system_exit("No zip to extract")
+		libastyle.system_exit("No zip to extract")
 	if len(files) > 1:
-		system_exit(str(files) + "\nToo many zips to extract")
+		libastyle.system_exit(str(files) + "\nToo many zips to extract")
 	call_7zip(files[0], testdir + dirname, fileext)
 
 # -----------------------------------------------------------------------------
@@ -228,22 +225,6 @@ def strip_directory_prefix(directory):
 	start = len(prefix)
 	if start > len(directory): start = 0
 	return directory[start:]
-
-# -----------------------------------------------------------------------------
-
-def system_exit(message):
-	"""Accept keyboard input to assure a message is noticed.
-	"""
-	if len(message.strip()) > 0:
-		libastyle.set_error_color()
-		print message
-	# pause if script is not run from SciTE (argv[1] = 'scite')
-	if libastyle.is_executed_from_console():
-		if os.name == "nt":
-			os.system("pause");
-		else:
-			raw_input("Press Enter to end . . .\n")
-	sys.exit()
 
 # -----------------------------------------------------------------------------
 
@@ -303,6 +284,6 @@ if __name__ == "__main__":
 	libastyle.set_text_color()
 	test_all_compressed()
 	test_all_tarballs()
-	system_exit("")
+	libastyle.system_exit()
 
 # -----------------------------------------------------------------------------

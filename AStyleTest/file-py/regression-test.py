@@ -23,7 +23,7 @@ import time
 #   KDEVELOP
 #  SHARPDEVELOP
 # TEST
-project = libastyle.SHARPDEVELOP
+project = libastyle.TEST
 
 # select one of the following
 options = ""
@@ -32,8 +32,8 @@ options = ""
 # indent-blocks (G), add-one-line-brackets (J), break-blocks (f), align-pointer=middle (k2)
 # options = "-CSKGNLwM50m10yeJoOcfpPHUxEk2"
 
-# executable for test
-astyleexe1 = "astyle23"
+# executables for test
+astyleexe1 = "astyled"
 astyleexe2 = "astyled"
 
 # select one of the following to unarchive files
@@ -48,9 +48,10 @@ def process_files():
 	#initialization
 	starttime = time.time()
 	libastyle.set_text_color()
-	print "Testing " +  libastyle.get_project_name(project)
+	print "Testing " +  project
+	print
 	os.chdir(libastyle.get_file_py_directory())
-	libastyle.build_astyle_executable()
+	libastyle.build_astyle_executable(get_astyle_config())
 	verify_astyle_executables(astyleexe1, astyleexe2)
 	filepaths = libastyle.get_project_filepaths(project)
 	testfile = "test.txt"
@@ -88,17 +89,29 @@ def call_artistic_style(astyle, testfile):
 	try:
 		subprocess.check_call(astyle, stdout=outfile)
 	except subprocess.CalledProcessError as e:
-		system_exit("Bad astyle return: " + str(e.returncode))
+		libastyle.system_exit("Bad astyle return: " + str(e.returncode))
 	except OSError:
-		system_exit("Cannot find executable: " + astyle[0])
+		libastyle.system_exit("Cannot find executable: " + astyle[0])
 	outfile.close()
+
+# -----------------------------------------------------------------------------
+
+def get_astyle_config():
+	"""Get the build configuration from the executalbe name.
+	"""
+	config = libastyle.DEBUG
+	if (astyleexe1.lower() == "astyle"
+	or astyleexe2.lower() == "astyle"):
+		config = libastyle.RELEASE
+	return config
 
 # -----------------------------------------------------------------------------
 
 def get_astyle_path(astyleexe):
 	"""Get the astyle executable path.
 	"""
-	astylepath = libastyle.get_astyle_directory(True) + astyleexe
+	config = get_astyle_config()
+	astylepath = libastyle.get_astyleexe_directory(config, True) + astyleexe
 	return astylepath
 
 # -----------------------------------------------------------------------------
@@ -123,7 +136,7 @@ def print_formatting_message(args, project):
 	"""Print the formatting message at the start of a test.
 	   Input is the command list used to call astyle.
 	"""
-	print "Formatting " +  libastyle.get_project_name(project),
+	print "Formatting " +  project,
 	# print args starting with a '-'
 	for arg in args:
 		if arg[0] == '-':
@@ -175,22 +188,6 @@ def set_astyle_args(filepath, astyleexe):
 
 # -----------------------------------------------------------------------------
 
-def system_exit(message):
-	"""Accept keyboard input to assure a message is noticed.
-	"""
-	if len(message.strip()) > 0:
-		libastyle.set_error_color()
-		print message
-	# pause if script is not run from SciTE (argv[1] = 'scite')
-	if libastyle.is_executed_from_console():
-		if os.name == "nt":
-			os.system("pause");
-		else:
-			raw_input("Press Enter to end . . .\n")
-	sys.exit()
-
-# -----------------------------------------------------------------------------
-
 def verify_astyle_executables(exe1, exe2):
 	"""Verify that the astyle test executables are available.
 	"""
@@ -199,13 +196,13 @@ def verify_astyle_executables(exe1, exe2):
 	and not exe1path.endswith(".exe")):
 			exe1path += ".exe"
 	if not os.path.exists(exe1path):
-		system_exit("Cannot find executable: " + exe1path)
+		libastyle.system_exit("Cannot find executable: " + exe1path)
 	exe2path = get_astyle_path(exe2)
 	if (os.name == "nt"
 	and not exe2path.endswith(".exe")):
 		exe2path += ".exe"
 	if not os.path.exists(exe2path):
-		system_exit("Cannot find executable: " + exe2path)
+		libastyle.system_exit("Cannot find executable: " + exe2path)
 
 # -----------------------------------------------------------------------------
 
@@ -214,13 +211,13 @@ def verify_formatted_files(numformat, totformat):
 	"""
 	if totformat != numformat:
 		message = "files != report ({0},{1})".format(numformat, totformat)
-		system_exit(message)
+		libastyle.system_exit(message)
 
 # -----------------------------------------------------------------------------
 
 # make the module executable
 if __name__ == "__main__":
 	process_files()
-	system_exit("")
+	libastyle.system_exit()
 
 # -----------------------------------------------------------------------------

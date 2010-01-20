@@ -31,22 +31,6 @@ def extract_project():
 
 # -----------------------------------------------------------------------------
 
-def system_exit(message):
-	"""Accept keyboard input to assure a message is noticed.
-	"""
-	if len(message.strip()) > 0:
-		libastyle.set_error_color()
-		print message
-	# pause if script is run from the console
-	if libastyle.is_executed_from_console():
-		if os.name == "nt":
-			os.system("pause");
-		else:
-			raw_input("Press Enter to end . . .\n")
-	sys.exit()
-
-# -----------------------------------------------------------------------------
-
 def print_run_time(starttime, stoptime):
 	"""Print run time for the test.
 	"""
@@ -64,6 +48,6 @@ def print_run_time(starttime, stoptime):
 if __name__ == "__main__":
 	libastyle.set_text_color()
 	extract_project()
-	system_exit("")
+	libastyle.system_exit()
 
 # -----------------------------------------------------------------------------

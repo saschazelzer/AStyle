@@ -23,8 +23,11 @@ def process_files():
 	get_directories(projects_directories, projects_path)
 	get_directories(libsvn_directories, libsvn_path)
 	correct_projects_directories(projects_directories)
-	projects_directories.sort()
-	libsvn_directories.sort()
+	
+	print "Checking projects.bat directories to libSVN.bat."
+	total_variables = len(projects_directories)
+	print "There are {0} directories in the projects directories.".format(total_variables)
+
 	find_diffs(projects_directories, libsvn_directories)
 
 	if print_variables:
@@ -78,37 +81,24 @@ def extract_word(line):
 
 def find_diffs(projects_directories, libsvn_directories):
 	"""Find differences in directory lists."""
-	diffs = 0
-	i = 0
-	j = 0
+	# A set is an unordered collection with no duplicate elements
+	# converting to a 'set' will remove duplicates
+	missing_projects =  set(libsvn_directories) - set(projects_directories)
+	missing_libsvn = set(projects_directories) - set(libsvn_directories)
 
-	print "Checking libSVN.bat directories to projects.bat."
+	if len(missing_projects) > 0:
+		missing_projects = list(missing_projects)
+		missing_projects.sort()
+		print str(len(missing_projects)) + " missing projects directories:"
+		print missing_projects
 
-	total_variables = len(projects_directories)
-	if len(libsvn_directories) > total_variables:
-		total_variables = len(libsvn_directories)
-	print "There are {0} directories in the list.".format(total_variables)
+	if len(missing_libsvn) > 0:
+		missing_libsvn = list(missing_libsvn)
+		missing_libsvn.sort()
+		print str(len(missing_libsvn)) + " missing libSVN directories:"
+		print missing_libsvn
 
-	while i < len(projects_directories):
-		if ( j >= len(libsvn_directories)
-		or projects_directories[i] < libsvn_directories[j]):
-			print "missing libSVN: " + projects_directories[i]
-			diffs += 1
-			i += 1
-			continue
-		if projects_directories[i] > libsvn_directories[j]:
-			print "missing projects: " + libsvn_directories[j]
-			diffs += 1
-			j +=1
-			continue
-		i += 1
-		j += 1
-	# get extra libsvn_directories
-	while j < len(libsvn_directories):
-		print "missing projects: " + libsvn_directories[j]
-		diffs += 1
-		j += 1
-		continue
+	diffs= len(missing_projects) + len(missing_libsvn)
 	if diffs == 0:
 		print "There are NO diffs in the directories!!!"
 	else:
@@ -185,11 +175,6 @@ if __name__ == "__main__":
 		print "This test is for Windows only!"
 	else:
 		process_files()
-	# pause if script is not run from SciTE (argv[1] = 'scite')
-	if len(sys.argv) == 1:
-		if os.name == "nt":
-			os.system("pause");
-		else:
-			raw_input("\nPress Enter to end . . .\n")
+	libastyle.system_exit()
 
 # -----------------------------------------------------------------------------

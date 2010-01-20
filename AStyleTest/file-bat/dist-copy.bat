@@ -96,6 +96,10 @@ md  "%projdir%\DistLinux\astyle\build\%%v"
 cd  "%projdir%\DistLinux\astyle\build\%%v"
 xcopy "%projdir%\build\%%v\Makefile"  /q
 if errorlevel 2 pause
+	if %%v == intel (
+	xcopy "%projdir%\build\%%v\make.sh"  /q
+	if errorlevel 2 pause
+	)
 )
 echo build files copied
 
@@ -203,8 +207,7 @@ if errorlevel 2 pause
 for %%w in (AStyle
             AStyleDll
 			AStyleJava
-			AStyleLib
-			AStyleStatic) do (
+			AStyleLib) do (
 md  "%projdir%\DistWindows\astyle\build\%%v\%%w"
 xcopy "%projdir%\build\%%v\%%w\*.vc*proj"  %%w\  /q
 if errorlevel 2 pause

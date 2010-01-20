@@ -26,7 +26,12 @@ def process_files():
 	get_beautifier_variables(beautifier_variables, beautifier_path)
 	header_variables.sort()
 	beautifier_variables.sort()
-	find_diffs(header_variables, beautifier_variables)
+	
+	print "Checking ASBeautifier protected variables to activeBeautifierStack."
+	total_variables = len(header_variables)
+	print "There are {0} protected variables in the header list.".format(total_variables)
+
+	find_class_diffs(header_variables, beautifier_variables)
 
 	if print_variables:
 		print header_variables
@@ -34,46 +39,30 @@ def process_files():
 
 # -----------------------------------------------------------------------------
 
-def find_diffs(header_variables, beautifier_variables):
-	"""Find differences in variable lists."""
+def find_class_diffs(header_variables, beautifier_variables):
+	"""Find differences in header and class variables lists."""
+	# A set is an unordered collection with no duplicate elements
+	# converting to a 'set' will remove duplicates
+	missing_header =  set(beautifier_variables) - set(header_variables)
+	missing_class = set(header_variables) - set(beautifier_variables)
 
-	diffs = 0
-	i = 0
-	j = 0
+	if len(missing_header) > 0:
+		missing_header = list(missing_header)
+		missing_header.sort()
+		print str(len(missing_header)) + " missing protected header variables:"
+		print missing_header
 
-	print "Checking ASBeautifier protected variables to activeBeautifierStack."
+	if len(missing_class) > 0:
+		missing_class = list(missing_class)
+		missing_class.sort()
+		print str(len(missing_class)) + " missing activeBeautifierStack beautifier variables:"
+		print missing_class
 
-	total_variables = len(header_variables)
-	if len(beautifier_variables) > total_variables:
-		total_variables = len(beautifier_variables)
-	print "There are {0} variables in the list.".format(total_variables)
-
-	while i < len(header_variables):
-		if ( j >= len(beautifier_variables)
-		or header_variables[i] < beautifier_variables[j]):
-			print "missing beautifier: " + header_variables[i]
-			diffs += 1
-			i += 1
-			continue
-		if header_variables[i] > beautifier_variables[j]:
-			print "missing header: " + beautifier_variables[j]
-			diffs += 1
-			j +=1
-			continue
-		i += 1
-		j += 1
-
-	# get extra beautifier_variables
-	while j < len(beautifier_variables):
-		print "missing header: " + beautifier_variables[j]
-		diffs += 1
-		j += 1
-		continue
-
+	diffs= len(missing_header) + len(missing_class)
 	if diffs == 0:
-		print "There are NO diffs in the variables!!!"
+		print "There are NO diffs in the activeBeautifierStack variables!!!"
 	else:
-		print "There are {0} diffs in the variables.".format(diffs)
+		print "There are {0} diffs in the activeBeautifierStack variables.".format(diffs)
 
 # -----------------------------------------------------------------------------
 
@@ -90,7 +79,7 @@ def get_beautifier_variables(beautifier_variables, beautifier_path):
 		line = line_in.strip()
 		if len(line) == 0:
 			continue
-		if line[:2] == "//":
+		if line.startswith("//"):
 			continue
 		# start here for 20 lines
 		if (beautifier_lines[0] == 0
@@ -98,7 +87,7 @@ def get_beautifier_variables(beautifier_variables, beautifier_path):
 			beautifier_lines[0] = lines
 		if beautifier_lines[0] == 0:
 			continue
-		if line[0:6] == "return":
+		if line.startswith("return"):
 			beautifier_lines[1] = lines
 			break
 		# bypass the variable type
@@ -139,7 +128,7 @@ def get_header_variables(header_variables, header_path):
 		if line.find("private:") != -1:
 			header_lines[1] = lines -1
 			break
-		if line[:2] == "//":
+		if line.startswith("//"):
 			continue
 		# bypass the variable type
 		last_space = line.rfind(' ')
@@ -170,11 +159,6 @@ def get_source_directory():
 # make the module executable
 if __name__ == "__main__":
 	process_files()
-	# pause if script is not run from SciTE (argv[1] = 'scite')
-	if len(sys.argv) == 1:
-		if os.name == "nt":
-			os.system("pause");
-		else:
-			raw_input("\nPress Enter to end . . .\n")
+	libastyle.system_exit()
 
 # -----------------------------------------------------------------------------

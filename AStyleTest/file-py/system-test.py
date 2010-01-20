@@ -38,6 +38,10 @@ options = "-CSKGNLwM50m10yeJoOcfpPHUxEk2"
 # test number to start with (usually 1)
 start = 1
 
+# executable for test
+astyleexe = "astyled"
+#astyleexe = "astyle"
+
 # select one of the following to unarchive files
 extractfiles = True
 #extractfiles = False
@@ -56,11 +60,12 @@ def process_files():
 	#initialization
 	starttime = time.time()
 	libastyle.set_text_color()
-	print "Testing " +  libastyle.get_project_name(project)
+	print "Testing " +  project
+	print
 	os.chdir(libastyle.get_file_py_directory())
 	filepaths = libastyle.get_project_filepaths(project)
 	index = set_test_start(brackets)
-	libastyle.build_astyle_executable()
+	libastyle.build_astyle_executable(get_astyle_config())
 	if extractfiles:
 		print "Extracting files"
 		libextract.extract_project(project)
@@ -93,9 +98,9 @@ def call_artistic_style(astyle, testfile):
 	try:
 		subprocess.check_call(astyle, stdout=outfile)
 	except subprocess.CalledProcessError as e:
-		system_exit("Bad astyle return: " + str(e.returncode))
+		libastyle.system_exit("Bad astyle return: " + str(e.returncode))
 	except OSError:
-		system_exit("Cannot find executable: " + astyle[0])
+		libastyle.system_exit("Cannot find executable: " + astyle[0])
 	outfile.close()
 
 # -----------------------------------------------------------------------------
@@ -128,6 +133,16 @@ def copy_formatted_files(files, testfile, index):
 		print "copying " + strip_directory_prefix(file)
 		shutil.copy(file, testdir)
 		shutil.copy(file + ".orig", testdir)
+
+# -----------------------------------------------------------------------------
+
+def get_astyle_config():
+	"""Get the build configuration from the executalbe name.
+	"""
+	config = libastyle.DEBUG
+	if astyleexe.lower() == "astyle":
+		config = libastyle.RELEASE
+	return config
 
 # -----------------------------------------------------------------------------
 
@@ -165,7 +180,7 @@ def print_formatting_message(args, project):
 	"""Print the formatting message at the start of a test.
 	   Input is the command list used to call astyle.
 	"""
-	print "Formatting " +  libastyle.get_project_name(project),
+	print "Formatting " +  project,
 	# print args starting with a '-'
 	for arg in args:
 		if arg[0] == '-':
@@ -178,7 +193,7 @@ def print_run_total(errors, errtests, starttime):
 	"""Print total information for the entire run.
 	"""
 	print
-	print "-----------------------------------------"
+	print '-' * 50
 	if errors == 0: libastyle.set_ok_color()
 	else: libastyle.set_error_color()
 	if errors == 0:
@@ -199,25 +214,24 @@ def print_run_total(errors, errtests, starttime):
 
 # -----------------------------------------------------------------------------
 
-def print_test_header(brackets, i):
+def print_test_header(brackets, index):
 	"""Print header information for a test.
 	"""
-	print "\n-----------------------------------------\n"
-	print "TEST {0} OF {1}".format(i+1, len(brackets))
+	testNo = index + 1
+	print '\n' + ('-' * 50) + '\n'
+	print "TEST {0} OF {1}".format(testNo, len(brackets))
 	print brackets
-	print brackets[:i+1]
+	print brackets[:testNo]
 
 # -----------------------------------------------------------------------------
 
 def remove_test_directories(brackets, index):
 	"""Remove test directories for this run.
 	"""
-	i = index
-	while i < len(brackets):
+	for i in range(index, len(brackets)):
 		testdir = get_test_directory_name(i)
 		if os.path.exists(testdir):
 			shutil.rmtree(testdir)
-		i += 1
 
 # -----------------------------------------------------------------------------
 
@@ -225,7 +239,7 @@ def set_astyle_args(filepath, brackets, index):
 	"""Set args for calling artistic style.
 	"""
 	# set astyle executable
-	args = [libastyle.get_astyle_path()]
+	args = [libastyle.get_astyleexe_path(get_astyle_config())]
 	# set filepaths
 	for file in filepath:
 		args.append(file)
@@ -274,34 +288,18 @@ def strip_directory_prefix(directory):
 
 # -----------------------------------------------------------------------------
 
-def system_exit(message):
-	"""Accept keyboard input to assure a message is noticed.
-	"""
-	if len(message.strip()) > 0:
-		libastyle.set_error_color()
-		print message
-	# pause if script is run from the console
-	if libastyle.is_executed_from_console():
-		if os.name == "nt":
-			os.system("pause");
-		else:
-			raw_input("Press Enter to end . . .\n")
-	sys.exit()
-
-# -----------------------------------------------------------------------------
-
 def verify_formatted_files(numformat, totformat):
 	"""Check that the formatted files list equals the astyle report total.
 	"""
 	if totformat != numformat:
 		message = "files != report ({0},{1})".format(numformat, totformat)
-		system_exit(message)
+		libastyle.system_exit(message)
 
 # -----------------------------------------------------------------------------
 
 # make the module executable
 if __name__ == "__main__":
 	process_files()
-	system_exit("")
+	libastyle.system_exit()
 
 # -----------------------------------------------------------------------------
