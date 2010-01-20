@@ -1,6 +1,6 @@
 @echo off
 REM build the AStyle Debug Lib Configuration using the AStyle project file
-REM copy the output to the AStyleDev folder
+REM copy the output to the AStyleDev\build\%1\bin folder
 
 REM %1 should be the Visual Studio release date
 set astyle=..\..\AStyle\build\%1

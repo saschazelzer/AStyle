@@ -6,8 +6,7 @@
 */
 
 class AStyleInterface
-{
-    /**
+{   /**
     *  Call the AStyleMain function in Artistic Style.
     *  @param   textIn   A string containing the source code to be formatted.
     *  @param   options  A string of options to Artistic Style.
@@ -15,13 +14,14 @@ class AStyleInterface
     *           or an empty string on error.
     */
     public String formatSource(String textIn, String options)
-    {
-        // Return the allocated string
+    {   // Return the allocated string
         // Memory space is allocated by OnAStyleMemAlloc, a callback function from AStyle
         String textOut = new String("");
-        try {
-            textOut = AStyleMain(textIn, options);
-        } catch (UnsatisfiedLinkError e) {
+        try
+        {   textOut = AStyleMain(textIn, options);
+        }
+        catch (UnsatisfiedLinkError e)
+        {
 //            System.out.println(e.getMessage());
             System.out.println("cannot call function AStyleMain");
         }
@@ -34,11 +34,12 @@ class AStyleInterface
     *           or an empty string on error.
     */
     public String getVersion()
-    {
-        String version = new String();
-        try {
-            version = AStyleGetVersion();
-        } catch (UnsatisfiedLinkError e) {
+    {   String version = new String();
+        try
+        {   version = AStyleGetVersion();
+        }
+        catch (UnsatisfiedLinkError e)
+        {
 //            System.out.println(e.getMessage());
             System.out.println("cannot call function GetVersion");
         }
@@ -53,14 +54,15 @@ class AStyleInterface
     * But the exception must be handled when a function is called.
     */
     static
-    {
-        // load shared library from the classpath
+    {   // load shared library from the classpath
         String astylePath = System.getProperty("java.class.path")
                             + System.getProperty("file.separator")
                             + System.mapLibraryName("astylej");
-        try {
-            System.load(astylePath);
-        } catch (UnsatisfiedLinkError e) {
+        try
+        {   System.load(astylePath);
+        }
+        catch (UnsatisfiedLinkError e)
+        {
 //            System.out.println(e.getMessage());
             System.out.println("cannot load library " + astylePath);
         }
@@ -94,8 +96,7 @@ class AStyleInterface
     *  @param  errorMessage  The error message from Artistic Style.
     */
     private void ErrorHandler(int errorNumber, String errorMessage)
-    {
-        System.out.println("astyle error "
+    {   System.out.println("astyle error "
                            + String.valueOf(errorNumber)
                            + " - " + errorMessage);
     }

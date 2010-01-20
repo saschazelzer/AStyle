@@ -1,6 +1,6 @@
 @echo off
 REM build the AStyle Release Java Configuration using the AStyle project file
-REM copy the output to the AStyleDev/test-j(x)  folder
+REM copy the output to the AStyleDev/test-j(x) folder
 
 set astyle=..\..\AStyle\build\vs2008
 set bindir1=..\src-j
@@ -13,7 +13,7 @@ REM and change the build directory to buildvs2005
 REM call "%VS80COMNTOOLS%\vsvars32.bat"
 
 echo BUILDING ASTYLE JAVA
-%windir%\microsoft.net\framework\v3.5\msbuild  /nologo  "/property:Configuration=Release Java"  "%astyle%\AStyle.sln"
+%windir%\microsoft.net\framework\v3.5\msbuild  /nologo  "/property:Configuration=Release"  "%astyle%\AStyleJava.sln"
 if %ERRORLEVEL% NEQ 0  set errors=yes
 
 REM don't copy if compile errors

@@ -37,8 +37,7 @@ void  setText(const char* textOut, const char* fileName);
 
 
 int main(int, char **)
-{
-    // options to pass to AStyle
+{   // options to pass to AStyle
     char fileName[][FPS] = { "../test-c/ASBeautifier.cpp",
                              "../test-c/ASFormatter.cpp" ,
                              "../test-c/astyle.h"
@@ -51,8 +50,8 @@ int main(int, char **)
     cout << "\nArtistic Style " << version << endl;
 
     // process the input files
-    for (size_t i = 0; i < arraySize; i++) {
-        // get the text to format
+    for (size_t i = 0; i < arraySize; i++)
+    {   // get the text to format
         char* textIn = getText(fileName[i]);
 
         // call the Artistic Style formatting function
@@ -62,8 +61,8 @@ int main(int, char **)
                                    ASMemoryAlloc);
         // NULL pointer is an error - restore the original file
         // an error message has been displayed by the error handler
-        if (textOut == NULL) {
-            cout << "cannot format " << fileName[i] << endl;
+        if (textOut == NULL)
+        {   cout << "cannot format " << fileName[i] << endl;
             return 0;
         }
 
@@ -82,23 +81,20 @@ int main(int, char **)
 
 // Error handler for the Artistic Style formatter
 void  STDCALL ASErrorHandler(int errorNumber, char* errorMessage)
-{
-    cout << "astyle error " << errorNumber << "\n"
+{   cout << "astyle error " << errorNumber << "\n"
          << errorMessage << endl;
 }
 
 // Allocate memory for the Artistic Style formatter
 char* STDCALL ASMemoryAlloc(unsigned long memoryNeeded)
-{
-    // error condition is checked after return from AStyleMain
+{   // error condition is checked after return from AStyleMain
     char* buffer = new(nothrow) char [memoryNeeded];
     return buffer;
 }
 
 // Error message function for this example
 void error(const char *why, const char* what)
-{
-    cout << why << ' ' << what << endl;
+{   cout << why << ' ' << what << endl;
     cout << "The program has terminated!" << endl;
     exit(1);
 }
@@ -106,8 +102,7 @@ void error(const char *why, const char* what)
 // get the text to be formatted
 // usually the text would be obtained from an edit control
 char* getText(const char* fileName)
-{
-    // open input file
+{   // open input file
     ifstream in(fileName);
     if (!in)
         error("Could not open input file", fileName);
@@ -119,8 +114,8 @@ char* getText(const char* fileName)
 
     // allocate memory
     char* bufferIn = new(nothrow) char [bufferSizeIn];
-    if (bufferIn == NULL) {
-        in.close();
+    if (bufferIn == NULL)
+    {   in.close();
         error("Memory allocation failure on input");
     }
 
@@ -138,8 +133,7 @@ char* getText(const char* fileName)
 // return the formatted text
 // usually the text would be returned to a GUI
 void setText(const char* bufferOut, const char* fileName)
-{
-    // create a backup file
+{   // create a backup file
     char origFileName[FPS+5];
     strcpy(origFileName, fileName);
     strcat(origFileName, ".orig");

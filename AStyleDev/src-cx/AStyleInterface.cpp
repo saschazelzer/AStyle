@@ -6,8 +6,7 @@
 * The constructor sets the variable default values.
 **/
 AStyleInterface::AStyleInterface()
-{
-    // predefined style options
+{   // predefined style options
     predefinedStyle = STYLE_NONE;           // --style=?
 
     // tabs/spaces options
@@ -16,33 +15,41 @@ AStyleInterface::AStyleInterface()
 
     // brackets options
     bracketFormatMode    = BRACKETS_NONE;   // --brackets= none, break, attach, linux
-    breakClosingBrackets = false;           // --brackets=break-closing
 
     // indentation options
     classIndent        = false;             // --indent-classes
     switchIndent       = false;             // --indent-switches
     caseIndent         = false;             // --indent-cases
-    blockIndent        = false;             // --indent-blocks
     bracketIndent      = false;             // --indent-brackets
+    blockIndent        = false;             // --indent-blocks
     namespaceIndent    = false;             // --indent-namespaces
     labelIndent        = false;             // --indent-labels
     preprocessorIndent = false;             // --indent-preprocessor
+    col1CommentIndent  = false;             // --indent-col1-comments
     maxInStatementIndent = 40;              // --max-instatement-indent=#
     minConditionalIndent = indentLength * 2;  // --min-conditional-indent=#
 
-    // formatting options
+    // padding options
     breakHeaderBlocks  = false;             // --break-blocks, --break-blocks=all
     breakClosingBlocks = false;             // --break-blocks=all
-    breakElseIfs       = false;             // --break-elseifs
-    deleteEmptyLines   = false;             // --delete-empty-lines
     padOperators       = false;             // --pad=oper
     padParensOutside   = false;             // --pad=paren, --pad=paren-out
     padParensInside    = false;             // --pad=paren, --pad=paren-in
+    padHeaders         = false;             // --pad-header
     unpadParens        = false;             // --unpad=paren
-    breakOneLineStatements = true;          // --one-line=keep-statements
-    breakOneLineBlocks     = true;          // --one-line=keep-blocks
-    convertTabs        = false;             // --convert-tabs
+    deleteEmptyLines   = false;             // --delete-empty-lines
     fillEmptyLines     = false;             // --fill-empty-lines
+
+    // formatting options
+    breakCloseBrackets = false;             // -- break-closing-brackets
+    breakElseIfs       = false;             // --break-elseifs
+    addBrackets        = false;             // --add-brackets
+    addOneLineBrackets = false;             // --add-one-line-brackets
+    breakOneLineStmts  = true;              // --one-line=keep-statements
+    breakOneLineBlocks = true;              // --one-line=keep-blocks
+    convertTabs        = false;             // --convert-tabs
+    alignPointers      = ALIGN_NONE;        // --align-pointer= none, type, middle, name
+
 
     // file mode option
     fileMode = FILEMODE_CPP;                // --mode=?
@@ -61,8 +68,7 @@ AStyleInterface::AStyleInterface()
 * @param  errorMessage   The error message to be displayed.
 */
 void AStyleInterface::displayErrorMessage(std::string errorMessage)
-{
-    std::cout << errorMessage << std::endl;
+{   std::cout << errorMessage << std::endl;
 }
 
 /**
@@ -75,14 +81,13 @@ void AStyleInterface::displayErrorMessage(std::string errorMessage)
 * @return    A string containing the options for Artistic Style.
 */
 std::string AStyleInterface::getOptions() const
-{
-    std::string options;                     // options to Artistic Style
+{   std::string options;                     // options to Artistic Style
     options.reserve(50);
     std::string separator = "\n";            // can be new-line, tab, space, or comma
 
     // predefined style will override other options
-    if (predefinedStyle != STYLE_NONE) {
-        if (predefinedStyle == STYLE_ALLMAN)
+    if (predefinedStyle != STYLE_NONE)
+    {   if (predefinedStyle == STYLE_ALLMAN)
             options.append("style=allman");
         else if (predefinedStyle == STYLE_JAVA)
             options.append("style=java");
@@ -104,15 +109,16 @@ std::string AStyleInterface::getOptions() const
         options.append(separator);
     }
     // begin indent check
-    if (indentType == INDENT_SPACES) {             // space is the default
-        if (!(indentLength == defaultIndentLength
+    if (indentType == INDENT_SPACES)               // space is the default
+    {   if (!(indentLength == defaultIndentLength
                 || predefinedStyle == STYLE_GNU
-                || predefinedStyle == STYLE_LINUX)) {
-            options.append("indent=spaces=" + intToString(indentLength));
+                || predefinedStyle == STYLE_LINUX))
+        {   options.append("indent=spaces=" + intToString(indentLength));
             options.append(separator);
         }
-    } else if (indentType == INDENT_TABS) {         // tab is not the default
-        // check conditions to use default tab setting
+    }
+    else if (indentType == INDENT_TABS)             // tab is not the default
+    {   // check conditions to use default tab setting
         if (indentLength == defaultIndentLength
                 && predefinedStyle != STYLE_GNU
                 && predefinedStyle != STYLE_LINUX)
@@ -120,17 +126,19 @@ std::string AStyleInterface::getOptions() const
         else
             options.append("indent=tab=" + intToString(indentLength));
         options.append(separator);
-    } else if (indentType == INDENT_FTABS) {
-        options.append("indent=force-tab=" + intToString(indentLength));
+    }
+    else if (indentType == INDENT_FTABS)
+    {   options.append("indent=force-tab=" + intToString(indentLength));
         options.append(separator);
-    } else {
-        options.append("invalid-indentType="       // force an error message
+    }
+    else
+    {   options.append("invalid-indentType="       // force an error message
                        + intToString(indentType));
         options.append(separator);
     }
     // end indent check
-    if (bracketFormatMode != BRACKETS_NONE) {
-        if (bracketFormatMode == BRACKETS_ATTACH)
+    if (bracketFormatMode != BRACKETS_NONE)
+    {   if (bracketFormatMode == BRACKETS_ATTACH)
             options.append("brackets=attach");
         else if (bracketFormatMode == BRACKETS_BREAK)
             options.append("brackets=break");
@@ -143,111 +151,115 @@ std::string AStyleInterface::getOptions() const
                            + intToString(bracketFormatMode));
         options.append(separator);
     }
-    if (classIndent) {
-        options.append("indent-classes");
+    if (classIndent)
+    {   options.append("indent-classes");
         options.append(separator);
     }
-    if (switchIndent) {
-        options.append("indent-switches");
+    if (switchIndent)
+    {   options.append("indent-switches");
         options.append(separator);
     }
-    if (caseIndent) {
-        options.append("indent-cases");
+    if (caseIndent)
+    {   options.append("indent-cases");
         options.append(separator);
     }
-    if (bracketIndent) {
-        options.append("indent-brackets");
+    if (bracketIndent)
+    {   options.append("indent-brackets");
         options.append(separator);
     }
-    if (blockIndent) {
-        options.append("indent-blocks");
+    if (blockIndent)
+    {   options.append("indent-blocks");
         options.append(separator);
     }
-    if (namespaceIndent) {
-        options.append("indent-namespaces");
+    if (namespaceIndent)
+    {   options.append("indent-namespaces");
         options.append(separator);
     }
-    if (labelIndent) {
-        options.append("indent-labels");
+    if (labelIndent)
+    {   options.append("indent-labels");
         options.append(separator);
     }
-    if (preprocessorIndent) {
-        options.append("indent-preprocessor");
+    if (preprocessorIndent)
+    {   options.append("indent-preprocessor");
         options.append(separator);
     }
-    if (maxInStatementIndent != defaultMaxInStatementIndent) {
-        options.append("max-instatement-indent="
+    if (maxInStatementIndent != defaultMaxInStatementIndent)
+    {   options.append("max-instatement-indent="
                        + intToString(maxInStatementIndent));
         options.append(separator);
     }
-    if (minConditionalIndent != defaultMinConditionalIndent) {
-        options.append("min-conditional-indent="
+    if (minConditionalIndent != defaultMinConditionalIndent)
+    {   options.append("min-conditional-indent="
                        + intToString(minConditionalIndent));
         options.append(separator);
     }
     // begin break-blocks check
-    if (breakClosingBlocks) {
-        options.append("break-blocks=all");
+    if (breakClosingBlocks)
+    {   options.append("break-blocks=all");
         options.append(separator);
-    } else if (breakHeaderBlocks) {
-        options.append("break-blocks");
+    }
+    else if (breakHeaderBlocks)
+    {   options.append("break-blocks");
         options.append(separator);
     }
     // end break-blocks check
-    if (breakClosingBrackets) {
-        options.append("break-closing-brackets");
+    if (breakCloseBrackets)
+    {   options.append("break-closing-brackets");
         options.append(separator);
     }
-    if (breakElseIfs) {
-        options.append("break-elseifs");
+    if (breakElseIfs)
+    {   options.append("break-elseifs");
         options.append(separator);
     }
-    if (deleteEmptyLines) {
-        options.append("delete-empty-lines");
+    if (deleteEmptyLines)
+    {   options.append("delete-empty-lines");
         options.append(separator);
     }
-    if (padOperators) {
-        options.append("pad-oper");
+    if (padOperators)
+    {   options.append("pad-oper");
         options.append(separator);
     }
     // begin pad parens check
-    if (padParensOutside && padParensInside) {
-        options.append("pad-paren");
+    if (padParensOutside && padParensInside)
+    {   options.append("pad-paren");
         options.append(separator);
-    } else if (padParensOutside) {
-        options.append("pad-paren-out");
+    }
+    else if (padParensOutside)
+    {   options.append("pad-paren-out");
         options.append(separator);
-    } else if (padParensInside) {
-        options.append("pad-paren-in");
+    }
+    else if (padParensInside)
+    {   options.append("pad-paren-in");
         options.append(separator);
     }
     // end pad parens check
-    if (unpadParens) {
-        options.append("unpad-paren");
+    if (unpadParens)
+    {   options.append("unpad-paren");
         options.append(separator);
     }
-    if (! breakOneLineStatements) {          // default = true
-        options.append("keep-one-line-statements");
+    if (! breakOneLineStmts)                // default = true
+    {   options.append("keep-one-line-statements");
         options.append(separator);
     }
-    if (! breakOneLineBlocks) {              // default = true
-        options.append("keep-one-line-blocks");
+    if (! breakOneLineBlocks)               // default = true
+    {   options.append("keep-one-line-blocks");
         options.append(separator);
     }
-    if (convertTabs) {
-        options.append("convert-tabs");
+    if (convertTabs)
+    {   options.append("convert-tabs");
         options.append(separator);
     }
-    if (fillEmptyLines) {
-        options.append("fill-empty-lines");
+    if (fillEmptyLines)
+    {   options.append("fill-empty-lines");
         options.append(separator);
     }
 
     // add the file mode, default is C++
-    if (fileMode == FILEMODE_CPP) {
-        if (options.length() > 0)                  // delete the last separator
+    if (fileMode == FILEMODE_CPP)
+    {   if (options.length() > 0)                  // delete the last separator
             options.erase(options.length() - 1);
-    } else if (fileMode == FILEMODE_JAVA)
+    }
+    else if (fileMode == FILEMODE_JAVA)
         options.append("mode=java");
     else if (fileMode == FILEMODE_SHARP)
         options.append("mode=cs");
@@ -265,8 +277,7 @@ std::string AStyleInterface::getOptions() const
 * @param  intValue  The int to be converted.
 */
 std::string AStyleInterface::intToString(int intValue)
-{
-    std::ostringstream stringValue;
+{   std::ostringstream stringValue;
     stringValue << intValue;
     return stringValue.str();
 }
@@ -277,11 +288,10 @@ std::string AStyleInterface::intToString(int intValue)
 * @param  fileName   The name of the file, path may be included.
 */
 void AStyleInterface::setFileMode(std::string fileName)
-{
-    fileMode = FILEMODE_CPP;            // set the default
+{   fileMode = FILEMODE_CPP;            // set the default
     size_t i = fileName.find_last_of('.');
-    if (i != std::string::npos) {
-        std::string fileExtension = fileName.substr(i);
+    if (i != std::string::npos)
+    {   std::string fileExtension = fileName.substr(i);
         if (fileExtension == ".java")
             fileMode = FILEMODE_JAVA;
         else if (fileExtension == ".cs")
@@ -295,8 +305,7 @@ void AStyleInterface::setFileMode(std::string fileName)
 * This will not be used by an actual program.
 */
 void AStyleInterface::setTestOptions()
-{
-    // predefined Style options
+{   // predefined Style options
     // will have precedence over conflicting options
 //    predefinedStyle = STYLE_ALLMAN;
 
@@ -311,28 +320,35 @@ void AStyleInterface::setTestOptions()
     classIndent          = true;
     switchIndent         = true;
     caseIndent           = true;
-    blockIndent          = true;
     bracketIndent        = true;
+    blockIndent          = true;
     namespaceIndent      = true;
     labelIndent          = true;
     preprocessorIndent   = true;
+    col1CommentIndent    = true;
     maxInStatementIndent = 50;
     minConditionalIndent = 10;
 
-    // formatting options
+    // padding options
     breakHeaderBlocks    = true;
     breakClosingBlocks   = true;
-    breakClosingBrackets = true;
-    breakElseIfs         = true;
-    deleteEmptyLines     = true;
     padOperators         = true;
     padParensOutside     = true;
     padParensInside      = true;
+    padHeaders           = true;
     unpadParens          = true;
-    breakOneLineStatements = false;
-    breakOneLineBlocks     = false;
-    convertTabs          = true;
+    deleteEmptyLines     = true;
     fillEmptyLines       = true;
+
+    // formatting options
+    breakCloseBrackets   = true;
+    breakElseIfs         = true;
+    addBrackets          = true;
+    addOneLineBrackets   = true;
+    breakOneLineStmts    = false;
+    breakOneLineBlocks   = false;
+    convertTabs          = true;
+    alignPointers        = ALIGN_TYPE;
 
     // generate some errors
     /*    predefinedStyle    = (AStyleInterface::PredefinedStyle) 10;
@@ -353,8 +369,7 @@ void AStyleInterface::setTestOptions()
 * @return  A pointer to the formatted source from Artistic Style.
 */
 char* AStyleInterface::formatSource(const char* textIn)
-{
-    std::string options = getOptions();
+{   std::string options = getOptions();
 //	displayErrorMessage("--------------------");
 //	displayErrorMessage(options);
 //	displayErrorMessage("--------------------");
@@ -373,8 +388,7 @@ char* AStyleInterface::formatSource(const char* textIn)
 * @return  A char pointer to the formatted source from Artistic Style.
 */
 char* AStyleInterface::formatSource(const char* textIn, const char* fileName)
-{
-    // set file mode before formatting source
+{   // set file mode before formatting source
     setFileMode(fileName);
     char* textOut = formatSource(textIn);
     return textOut;
@@ -388,8 +402,7 @@ char* AStyleInterface::formatSource(const char* textIn, const char* fileName)
 * @return  A char pointer to the formatted source from Artistic Style.
 */
 char* AStyleInterface::formatSource(const char* textIn, FileMode fileModeArg)
-{
-    // set file mode before formatting source
+{   // set file mode before formatting source
     fileMode = fileModeArg;
     char* textOut = formatSource(textIn);
     return textOut;
@@ -405,8 +418,7 @@ char* AStyleInterface::formatSource(const char* textIn, FileMode fileModeArg)
 * @param  errorMessage  The error message from Artistic Style.
 */
 void STDCALL AStyleInterface::errorHandler(int errorNumber, char* errorMessage)
-{
-    displayErrorMessage(std::string("astyle error "
+{   displayErrorMessage(std::string("astyle error "
                                     + intToString(errorNumber)
                                     + "\n" + errorMessage));
 }
@@ -420,8 +432,7 @@ void STDCALL AStyleInterface::errorHandler(int errorNumber, char* errorMessage)
 * @param  memoryNeeded  The amount of memory needed by Artistic Style.
 */
 char* STDCALL AStyleInterface::memoryAlloc(unsigned long memoryNeeded)
-{
-    // error condition should be checked by calling procedure
+{   // error condition should be checked by calling procedure
     char* buffer = new(std::nothrow) char [memoryNeeded];
     return buffer;
 }

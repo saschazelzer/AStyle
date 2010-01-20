@@ -12,8 +12,8 @@
 #endif
 
 // external functions calls in Artistic Style shared or static library
-extern "C" {
-    char* STDCALL  AStyleGetVersion();
+extern "C"
+{   char* STDCALL  AStyleGetVersion();
     char* STDCALL  AStyleMain(const char* textIn,
                               const char* options,
                               void(STDCALL *errorHandler)(int, char*),
@@ -35,7 +35,8 @@ public:
                        BRACKETS_ATTACH,
                        BRACKETS_BREAK,
                        BRACKETS_LINUX,
-                       BRACKETS_STROUSTRUP
+                       BRACKETS_STROUSTRUP,
+                       BRACKETS_HORSTMANN
                      };
 
     // indentType valid indent types
@@ -53,8 +54,16 @@ public:
                             STYLE_WHITESMITH,
                             STYLE_BANNER,
                             STYLE_GNU,
-                            STYLE_LINUX
+                            STYLE_LINUX,
+                            STYLE_HORSTMANN,
+                            STYLE_1TBS
                           };
+
+    enum PointerAlign { ALIGN_NONE,
+                        ALIGN_TYPE,
+                        ALIGN_MIDDLE,
+                        ALIGN_NAME
+                      };
 
     // fileMode variable file modes
     enum FileMode { FILEMODE_CPP,
@@ -95,23 +104,30 @@ private:
     bool namespaceIndent;               // --indent-namespaces
     bool labelIndent;                   // --indent-labels
     bool preprocessorIndent;            // --indent-preprocessor
+    bool col1CommentIndent;             // --indent-col1-comments
     int  maxInStatementIndent;          // --max-instatement-indent=#
     int  minConditionalIndent;          // --min-conditional-indent=#
 
-    // formatting options
+    // padding options
     bool breakHeaderBlocks;             // --break-blocks, --break-blocks=all
     bool breakClosingBlocks;            // --break-blocks=all
-    bool breakClosingBrackets;          // --break-closing-brackets
-    bool breakElseIfs;                  // --break-elseifs
-    bool deleteEmptyLines;              // --delete-empty-lines
     bool padOperators;                  // --pad-oper
     bool padParensOutside;              // --pad-paren, --pad-paren-out
     bool padParensInside;               // --pad-paren, --pad-paren-in
+    bool padHeaders;                    // --pad-header
     bool unpadParens;                   // --unpad-paren
-    bool breakOneLineStatements;        // --keep-one-line-statements
+    bool deleteEmptyLines;              // --delete-empty-lines
+    bool fillEmptyLines;                // --fill-empty-lines
+
+    // formatting options
+    bool breakCloseBrackets;            // --break-closing-brackets
+    bool breakElseIfs;                  // --break-elseifs
+    bool addBrackets;                   // --add-brackets
+    bool addOneLineBrackets;            // --add-one-line-brackets
+    bool breakOneLineStmts;             // --keep-one-line-statements
     bool breakOneLineBlocks;            // --keep-one-line-blocks
     bool convertTabs;                   // --convert-tabs
-    bool fillEmptyLines;                // --fill-empty-lines
+    PointerAlign alignPointers;         // --align-pointer= none, type, middle, name
 
     // file mode option
     FileMode fileMode;                  // --mode=?

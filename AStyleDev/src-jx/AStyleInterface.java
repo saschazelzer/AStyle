@@ -8,20 +8,7 @@ import java.util.*;
  */
 
 public class AStyleInterface
-{
-    // bracketFormatMode valid bracket modes
-    public static final int BRACKETS_NONE       = 0;
-    public static final int BRACKETS_ATTACH     = 1;
-    public static final int BRACKETS_BREAK      = 2;
-    public static final int BRACKETS_LINUX      = 3;
-    public static final int BRACKETS_STROUSTRUP = 4;
-
-    // indentType valid indent types
-    public static final int INDENT_SPACES = 0;
-    public static final int INDENT_TABS   = 1;
-    public static final int INDENT_FTABS  = 2;
-
-    // predefinedStyle valid predefined styles
+{   // predefinedStyle valid predefined styles
     public static final int STYLE_NONE       = 0;
     public static final int STYLE_ALLMAN     = 1;
     public static final int STYLE_JAVA       = 2;
@@ -31,6 +18,27 @@ public class AStyleInterface
     public static final int STYLE_BANNER     = 6;
     public static final int STYLE_GNU        = 7;
     public static final int STYLE_LINUX      = 8;
+    public static final int STYLE_HORSTMANN  = 9;
+    public static final int STYLE_1TBS       = 10;
+
+    // bracketFormatMode valid bracket modes
+    public static final int BRACKETS_NONE       = 0;
+    public static final int BRACKETS_ATTACH     = 1;
+    public static final int BRACKETS_BREAK      = 2;
+    public static final int BRACKETS_LINUX      = 3;
+    public static final int BRACKETS_STROUSTRUP = 4;
+    public static final int BRACKETS_HORSTMANN  = 5;
+
+    // indentType valid indent types
+    public static final int INDENT_SPACES = 0;
+    public static final int INDENT_TABS   = 1;
+    public static final int INDENT_FTABS  = 2;
+
+    // alignPointers valid pointer alignments
+    public static final int ALIGN_NONE     = 0;
+    public static final int ALIGN_TYPE     = 1;
+    public static final int ALIGN_MIDDLE   = 2;
+    public static final int ALIGN_NAME     = 3;
 
     // fileMode variable file modes
     public static final int FILEMODE_CPP   = 0;
@@ -60,23 +68,30 @@ public class AStyleInterface
     private boolean namespaceIndent    = false;     // --indent-namespaces
     private boolean labelIndent        = false;     // --indent-labels
     private boolean preprocessorIndent = false;     // --indent-preprocessor
+    private boolean col1CommentIndent  = false;     // --indent-col1-comments
     private int maxInStatementIndent   = 40;        // --max-instatement-indent=#
     private int minConditionalIndent   = 8;         // --min-conditional-indent=#
 
+    // padding options
+    private boolean breakHeaderBlocks   = false;    // --break-blocks, --break-blocks=all
+    private boolean breakClosingBlocks  = false;    // --break-blocks=all
+    private boolean padOperators        = false;    // --pad-oper
+    private boolean padParensOutside    = false;    // --pad-paren, --pad-paren-out
+    private boolean padParensInside     = false;    // --pad-paren, --pad-paren-in
+    private boolean padHeaders          = false;    // --pad-header
+    private boolean unpadParens         = false;    // --unpad-paren
+    private boolean deleteEmptyLines    = false;    // --delete-empty-lines
+    private boolean fillEmptyLines      = false;    // --fill-empty-lines
+
     // formatting options
-    private boolean breakHeaderBlocks  = false;     // --break-blocks, --break-blocks=all
-    private boolean breakClosingBlocks = false;     // --break-blocks=all
-    private boolean breakClosingBrackets = false;   // --break-closing-brackets
-    private boolean breakElseIfs       = false;     // --break-elseifs
-    private boolean deleteEmptyLines   = false;     // --delete-empty-lines
-    private boolean padOperators       = false;     // --pad-oper
-    private boolean padParensOutside   = false;     // --pad-paren, --pad-paren-out
-    private boolean padParensInside    = false;     // --pad-paren, --pad-paren-in
-    private boolean unpadParens        = false;     // --unpad-paren
-    private boolean breakOneLineStatements = true;  // --keep-one-line-statements
-    private boolean breakOneLineBlocks     = true;  // --keep-one-line-blocks
-    private boolean convertTabs        = false;     // --convert-tabs
-    private boolean fillEmptyLines     = false;     // --fill-empty-lines
+    private boolean breakCloseBrackets   = false;   // --break-closing-brackets
+    private boolean breakElseIfs         = false;   // --break-elseifs
+    private boolean addBrackets          = false;   // --add-brackets
+    private boolean addOneLineBrackets   = false;   // --add-one-line-brackets
+    private boolean breakOneLineStmts    = true;    // --keep-one-line-statements
+    private boolean breakOneLineBlocks   = true;    // --keep-one-line-blocks
+    private boolean convertTabs          = false;   // --convert-tabs
+    private int     alignPointers        = ALIGN_NONE; // align-pointer= none, type, middle, name
 
     // file mode option
     private int     fileMode = FILEMODE_CPP;        // --mode=?
@@ -91,8 +106,7 @@ public class AStyleInterface
     * A static constructor loads the native Artistic Style library.
     **/
     public AStyleInterface()
-    {
-        // save integer default values
+    {   // save integer default values
         defaultIndentLength         = indentLength;
         defaultMaxInStatementIndent = maxInStatementIndent;
         defaultMinConditionalIndent = minConditionalIndent;
@@ -106,8 +120,7 @@ public class AStyleInterface
      * @param  errorMessage   The error message to be displayed.
       */
     private static void displayErrorMessage(String errorMessage)
-    {
-        System.out.println(errorMessage);
+    {   System.out.println(errorMessage);
     }
 
     /**
@@ -120,13 +133,12 @@ public class AStyleInterface
     * @return    A String containing the options for Artistic Style.
     **/
     public String getOptions()
-    {
-        StringBuffer options =  new StringBuffer(50);  // options to Artistic Style
+    {   StringBuffer options =  new StringBuffer(50);  // options to Artistic Style
         String separator = "\n";                       // can be new-line, tab, space, or comma
 
         // predefined style will override other options
-        if (predefinedStyle != STYLE_NONE) {
-            if (predefinedStyle == STYLE_ALLMAN)
+        if (predefinedStyle != STYLE_NONE)
+        {   if (predefinedStyle == STYLE_ALLMAN)
                 options.append("style=allman");
             else if (predefinedStyle == STYLE_JAVA)
                 options.append("style=java");
@@ -142,21 +154,26 @@ public class AStyleInterface
                 options.append("style=gnu");
             else if (predefinedStyle == STYLE_LINUX)
                 options.append("style=linux");
+            else if (predefinedStyle == STYLE_HORSTMANN)
+                options.append("style=horstmann");
+            else if (predefinedStyle == STYLE_1TBS)
+                options.append("style=1tbs");
             else
                 options.append("predefinedStyle="      // force an error message
                                + String.valueOf(predefinedStyle));
             options.append(separator);
         }
         // begin indent check
-        if (indentType == INDENT_SPACES) {             // space is the default
-            if (!(indentLength == defaultIndentLength
+        if (indentType == INDENT_SPACES)               // space is the default
+        {   if (!(indentLength == defaultIndentLength
                     || predefinedStyle == STYLE_GNU
-                    || predefinedStyle == STYLE_LINUX)) {
-                options.append("indent=spaces=" + String.valueOf(indentLength));
+                    || predefinedStyle == STYLE_LINUX))
+            {   options.append("indent=spaces=" + String.valueOf(indentLength));
                 options.append(separator);
             }
-        } else if (indentType == INDENT_TABS) {        // tab is not the default
-            // check conditions to use default tab setting
+        }
+        else if (indentType == INDENT_TABS)            // tab is not the default
+        {   // check conditions to use default tab setting
             if (indentLength == defaultIndentLength
                     && predefinedStyle != STYLE_GNU
                     && predefinedStyle != STYLE_LINUX)
@@ -164,134 +181,171 @@ public class AStyleInterface
             else
                 options.append("indent=tab=" + String.valueOf(indentLength));
             options.append(separator);
-        } else if (indentType == INDENT_FTABS) {
-            options.append("indent=force-tab=" + String.valueOf(indentLength));
+        }
+        else if (indentType == INDENT_FTABS)
+        {   options.append("indent=force-tab=" + String.valueOf(indentLength));
             options.append(separator);
-        } else {
-            options.append("indentType="               // force an error message
+        }
+        else
+        {   options.append("indentType="               // force an error message
                            + String.valueOf(indentType));
             options.append(separator);
         }
         // end indent check
-        if (bracketFormatMode != BRACKETS_NONE) {
-            if (bracketFormatMode == BRACKETS_ATTACH)
+        if (bracketFormatMode != BRACKETS_NONE)
+        {   if (bracketFormatMode == BRACKETS_ATTACH)
                 options.append("brackets=attach");
             else if (bracketFormatMode == BRACKETS_BREAK)
                 options.append("brackets=break");
             else if (bracketFormatMode == BRACKETS_LINUX)
                 options.append("brackets=linux");
             else if (bracketFormatMode == BRACKETS_STROUSTRUP)
-                options.append("brackets=linux");
+                options.append("brackets=stroustrup");
+            else if (bracketFormatMode == BRACKETS_HORSTMANN)
+                options.append("brackets=horstmann");
             else
                 options.append("bracketFormatMode="    // force an error message
                                + String.valueOf(bracketFormatMode));
             options.append(separator);
         }
-        if (classIndent) {
-            options.append("indent-classes");
+        if (classIndent)
+        {   options.append("indent-classes");
             options.append(separator);
         }
-        if (switchIndent) {
-            options.append("indent-switches");
+        if (switchIndent)
+        {   options.append("indent-switches");
             options.append(separator);
         }
-        if (caseIndent) {
-            options.append("indent-cases");
+        if (caseIndent)
+        {   options.append("indent-cases");
             options.append(separator);
         }
-        if (bracketIndent) {
-            options.append("indent-brackets");
+        if (bracketIndent)
+        {   options.append("indent-brackets");
             options.append(separator);
         }
-        if (blockIndent) {
-            options.append("indent-blocks");
+        if (blockIndent)
+        {   options.append("indent-blocks");
             options.append(separator);
         }
-        if (namespaceIndent) {
-            options.append("indent-namespaces");
+        if (namespaceIndent)
+        {   options.append("indent-namespaces");
             options.append(separator);
         }
-        if (labelIndent) {
-            options.append("indent-labels");
+        if (labelIndent)
+        {   options.append("indent-labels");
             options.append(separator);
         }
-        if (preprocessorIndent) {
-            options.append("indent-preprocessor");
+        if (preprocessorIndent)
+        {   options.append("indent-preprocessor");
             options.append(separator);
         }
-        if (maxInStatementIndent != defaultMaxInStatementIndent) {
-            options.append("max-instatement-indent="
+        if (col1CommentIndent)
+        {   options.append("indent-col1-comments");
+            options.append(separator);
+        }
+        if (maxInStatementIndent != defaultMaxInStatementIndent)
+        {   options.append("max-instatement-indent="
                            + String.valueOf(maxInStatementIndent));
             options.append(separator);
         }
-        if (minConditionalIndent != defaultMinConditionalIndent) {
-            options.append("min-conditional-indent="
+        if (minConditionalIndent != defaultMinConditionalIndent)
+        {   options.append("min-conditional-indent="
                            + String.valueOf(minConditionalIndent));
             options.append(separator);
         }
         // begin break-blocks check
-        if (breakClosingBlocks) {
-            options.append("break-blocks=all");
+        if (breakClosingBlocks)
+        {   options.append("break-blocks=all");
             options.append(separator);
-        } else if (breakHeaderBlocks) {
-            options.append("break-blocks");
+        }
+        else if (breakHeaderBlocks)
+        {   options.append("break-blocks");
             options.append(separator);
         }
         // end break-blocks check
-        if (breakClosingBrackets) {
-            options.append("break-closing-brackets");
-            options.append(separator);
-        }
-        if (breakElseIfs) {
-            options.append("break-elseifs");
-            options.append(separator);
-        }
-        if (deleteEmptyLines) {
-            options.append("delete-empty-lines");
-            options.append(separator);
-        }
-        if (padOperators) {
-            options.append("pad-oper");
+        if (padOperators)
+        {   options.append("pad-oper");
             options.append(separator);
         }
         // begin pad parens check
-        if (padParensOutside && padParensInside) {
-            options.append("pad-paren");
+        if (padParensOutside && padParensInside)
+        {   options.append("pad-paren");
             options.append(separator);
-        } else if (padParensOutside) {
-            options.append("pad-paren-out");
+        }
+        else if (padParensOutside)
+        {   options.append("pad-paren-out");
             options.append(separator);
-        } else if (padParensInside) {
-            options.append("pad-paren-in");
+        }
+        else if (padParensInside)
+        {   options.append("pad-paren-in");
             options.append(separator);
         }
         // end pad parens check
-        if (unpadParens) {
-            options.append("unpad-paren");
+        if (padHeaders)
+        {   options.append("pad-header");
             options.append(separator);
         }
-        if (! breakOneLineStatements) {        // default = true
-            options.append("keep-one-line-statements");
+        if (unpadParens)
+        {   options.append("unpad-paren");
             options.append(separator);
         }
-        if (! breakOneLineBlocks) {            // default = true
-            options.append("keep-one-line-blocks");
+        if (deleteEmptyLines)
+        {   options.append("delete-empty-lines");
             options.append(separator);
         }
-        if (convertTabs) {
-            options.append("convert-tabs");
+        if (fillEmptyLines)
+        {   options.append("fill-empty-lines");
             options.append(separator);
         }
-        if (fillEmptyLines) {
-            options.append("fill-empty-lines");
+        if (breakCloseBrackets)
+        {   options.append("break-closing-brackets");
             options.append(separator);
         }
-
+        if (breakElseIfs)
+        {   options.append("break-elseifs");
+            options.append(separator);
+        }
+        if (addBrackets)
+        {   options.append("add-brackets");
+            options.append(separator);
+        }
+        if (addOneLineBrackets)
+        {   options.append("add-one-line-brackets");
+            options.append(separator);
+        }
+        if (! breakOneLineStmts)               // default = true
+        {   options.append("keep-one-line-statements");
+            options.append(separator);
+        }
+        if (! breakOneLineBlocks)              // default = true
+        {   options.append("keep-one-line-blocks");
+            options.append(separator);
+        }
+        if (convertTabs)
+        {   options.append("convert-tabs");
+            options.append(separator);
+        }
+        // begin align pointers check
+        if (alignPointers == ALIGN_TYPE)
+        {   options.append("align-pointer=type");
+            options.append(separator);
+        }
+        else if (alignPointers == ALIGN_MIDDLE)
+        {   options.append("align-pointer=middle");
+            options.append(separator);
+        }
+        else if (alignPointers == ALIGN_NAME)
+        {   options.append("align-pointer=name");
+            options.append(separator);
+        }
+        // end align pointers check
         // add the file mode, default is C++
-        if (fileMode == FILEMODE_CPP) {
-            if (options.length() > 0)          // delete the last separator
+        if (fileMode == FILEMODE_CPP)
+        {   if (options.length() > 0)          // delete the last separator
                 options.deleteCharAt(options.length()-1);
-        } else if (fileMode == FILEMODE_JAVA)
+        }
+        else if (fileMode == FILEMODE_JAVA)
             options.append("mode=java");
         else if (fileMode == FILEMODE_SHARP)
             options.append("mode=cs");
@@ -308,8 +362,7 @@ public class AStyleInterface
     * @param  fileName   The name of the file, path may be included.
     */
     public void setFileMode(String fileName)
-    {
-        fileMode = FILEMODE_CPP;
+    {   fileMode = FILEMODE_CPP;
         if (fileName.endsWith(".java"))
             fileMode = FILEMODE_JAVA;
         else if (fileName.endsWith(".cs"))
@@ -322,8 +375,7 @@ public class AStyleInterface
     * Calls the private setTestOptionsX().
     */
     public void setTestOptions()
-    {
-        setTestOptionsX();
+    {   setTestOptionsX();
     }
 
     /**
@@ -332,17 +384,16 @@ public class AStyleInterface
     * This will not be used by an actual program.
     */
     private void setTestOptionsX()
-    {
-        // predefined Style options
+    {   // predefined Style options
         // will have precedence over conflicting options
-//        predefinedStyle = STYLE_JAVA;
+        predefinedStyle = STYLE_NONE;
 
         // tabs / spaces options
         indentLength = 3;
         indentType   = INDENT_TABS;
 
         // brackets option
-        bracketFormatMode = BRACKETS_ATTACH;
+        bracketFormatMode = BRACKETS_NONE;
 
         // fileMode option - FILEMODE_JAVA is required for Java files
         fileMode = FILEMODE_JAVA;
@@ -351,28 +402,35 @@ public class AStyleInterface
         classIndent          = true;
         switchIndent         = true;
         caseIndent           = true;
-        blockIndent          = true;
         bracketIndent        = true;
+        blockIndent          = true;
         namespaceIndent      = true;
         labelIndent          = true;
         preprocessorIndent   = true;
+        col1CommentIndent    = true;
         maxInStatementIndent = 50;
         minConditionalIndent = 10;
 
-        // formatting options
+        // padding options
         breakHeaderBlocks    = true;
         breakClosingBlocks   = true;
-        breakClosingBrackets = true;
-        breakElseIfs         = true;
-        deleteEmptyLines     = true;
         padOperators         = true;
         padParensOutside     = true;
         padParensInside      = true;
+        padHeaders           = true;
         unpadParens          = true;
-        breakOneLineStatements = false;
-        breakOneLineBlocks     = false;
-        convertTabs          = true;
+        deleteEmptyLines     = true;
         fillEmptyLines       = true;
+
+        // formatting options
+        breakCloseBrackets   = true;
+        breakElseIfs         = true;
+        addBrackets          = true;
+        addOneLineBrackets   = true;
+        breakOneLineStmts    = false;
+        breakOneLineBlocks   = false;
+        convertTabs          = true;
+        alignPointers        = ALIGN_TYPE;
 
         // generate some errors
         /*  predefinedStyle   = 10;
@@ -392,16 +450,16 @@ public class AStyleInterface
     * But the exception must be handled when a function is called.
     */
     static
-    {
-        // load shared library from the classpath
+    {   // load shared library from the classpath
         String astylePath = System.getProperty("java.class.path")
                             + System.getProperty("file.separator")
                             + System.mapLibraryName("astylej");
-        try {
-            System.load(astylePath);
+        try
+        {   System.load(astylePath);
 //        System.loadLibrary("astyle");
-        } catch (UnsatisfiedLinkError e) {
-            displayErrorMessage(e.getMessage() +
+        }
+        catch (UnsatisfiedLinkError e)
+        {   displayErrorMessage(e.getMessage() +
                                 "\nThe native library cannot be loaded!");
         }
     }
@@ -413,15 +471,16 @@ public class AStyleInterface
     * @return  A String containing the formatted source from Artistic Style.
     */
     public String formatSource(String textIn)
-    {
-        String options = getOptions();
+    {   String options = getOptions();
 //        displayErrorMessage("--------------------\n"
 //                            + options + "\n"
 //                            + "--------------------" );
         String textOut = new String("");
-        try {
-            textOut = AStyleMain(textIn, options);
-        } catch (UnsatisfiedLinkError e) {
+        try
+        {   textOut = AStyleMain(textIn, options);
+        }
+        catch (UnsatisfiedLinkError e)
+        {
 //            System.out.println(e.getMessage());
             System.out.println("cannot call function AStyleMain");
         }
@@ -436,8 +495,7 @@ public class AStyleInterface
     * @return  A String containing the formatted source from Artistic Style.
     */
     public String formatSource(String textIn, String fileName)
-    {
-        // set file mode before formatting source
+    {   // set file mode before formatting source
         setFileMode(fileName);
         String textOut = formatSource(textIn);
         return textOut;
@@ -451,8 +509,7 @@ public class AStyleInterface
     * @return  A String containing the formatted source from Artistic Style.
     */
     public String formatSource(String textIn, int fileModeArg)
-    {
-        // set file mode before formatting source
+    {   // set file mode before formatting source
         fileMode = fileModeArg;
         String textOut = formatSource(textIn);
         return textOut;
@@ -464,11 +521,12 @@ public class AStyleInterface
     *           or an empty string on error.
     */
     public String getVersion()
-    {
-        String version = new String();
-        try {
-            version = AStyleGetVersion();
-        } catch (UnsatisfiedLinkError e) {
+    {   String version = new String();
+        try
+        {   version = AStyleGetVersion();
+        }
+        catch (UnsatisfiedLinkError e)
+        {
 //            System.out.println(e.getMessage());
             System.out.println("cannot call function GetVersion");
         }
@@ -502,8 +560,7 @@ public class AStyleInterface
     * @param  errorMessage  The error message from Artistic Style.
     */
     private void ErrorHandler(int errorNumber, String errorMessage)
-    {
-        displayErrorMessage("astyle error "
+    {   displayErrorMessage("astyle error "
                             + String.valueOf(errorNumber)
                             + " - "  + errorMessage);
     }

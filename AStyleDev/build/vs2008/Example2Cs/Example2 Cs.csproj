@@ -46,7 +46,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PreBuildEvent>if not exist ..\bin\AStyle.dll  call ..\..\..\file-bat\astylebuild-dll.bat
+    <PreBuildEvent>if not exist ..\bin\AStyle.dll  call ..\..\..\file-bat\astylebuild-dll.bat  vs2008
 </PreBuildEvent>
   </PropertyGroup>
 </Project>
