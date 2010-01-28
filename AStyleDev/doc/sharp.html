@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Language" content="en-us" />
     <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
     <link href="styles.css" rel="stylesheet" type="text/css" />
-    <link href="highlight-typical.css" rel="stylesheet" type="text/css" />
+    <link href="moe.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -133,13 +133,11 @@
 
     <div class="code">
         <pre><span class="hl slc">// AStyleMain callbacks</span>
-<span class="hl kwa">private delegate</span> IntPtr <span class="hl kwd">AStyleMemAllocDelgate</span><span class="hl sym">(</span><span
-    class="hl kwb">int</span> size<span class="hl sym">);</span>
+<span class="hl kwa">private delegate</span> IntPtr <span class="hl kwd">AStyleMemAllocDelgate</span><span class="hl sym">(</span><span class="hl kwb">int</span> size<span class="hl sym">);</span>
 <span class="hl kwa">private delegate</span> <span class="hl kwb">void</span> AStyleErrorDelgate
 <span class="hl sym">(</span>
     <span class="hl kwb">int</span> errorNum<span class="hl sym">,</span>
-    <span class="hl sym">[</span><span class="hl kwd">MarshalAs</span><span class="hl sym">(</span>UnmanagedType<span
-        class="hl sym">.</span>LPStr<span class="hl sym">)]</span> String error
+    <span class="hl sym">[</span><span class="hl kwd">MarshalAs</span><span class="hl sym">(</span>UnmanagedType<span class="hl sym">.</span>LPStr<span class="hl sym">)]</span> String error
 <span class="hl sym">);</span>
 
 <span class="hl slc">// AStyleMain Delegates</span>
@@ -148,11 +146,8 @@
 
 <span class="hl slc">/// Declare callback functions</span>
 <span class="hl kwa">public</span> <span class="hl kwd">AStyleInterface</span><span class="hl sym">()</span>
-<span class="hl sym">{</span>
-    AStyleMemAlloc <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">AStyleMemAllocDelgate</span><span
-        class="hl sym">(</span>OnAStyleMemAlloc<span class="hl sym">);</span>
-    AStyleError <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">AStyleErrorDelgate</span><span
-        class="hl sym">(</span>OnAStyleError<span class="hl sym">);</span>
+<span class="hl sym">{</span>   AStyleMemAlloc <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">AStyleMemAllocDelgate</span><span class="hl sym">(</span>OnAStyleMemAlloc<span class="hl sym">);</span>
+    AStyleError <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">AStyleErrorDelgate</span><span class="hl sym">(</span>OnAStyleError<span class="hl sym">);</span>
 <span class="hl sym">}</span>
 </pre>
     </div>
@@ -238,11 +233,9 @@
 <span class="hl slc">/// are in a test-s directory. The option mode=cs must be included</span>
 <span class="hl slc">/// for C# files.</span>
 <span class="hl kwa">public class</span> Example
-<span class="hl sym">{</span>
-    <span class="hl slc">/// Main function for Example</span>
+<span class="hl sym">{</span>   <span class="hl slc">/// Main function for Example</span>
     <span class="hl kwa">public static</span> <span class="hl kwb">void</span> <span class="hl kwd">Main</span><span class="hl sym">(</span><span class="hl kwb">string</span><span class="hl sym">[]</span> args<span class="hl sym">)</span>
-    <span class="hl sym">{</span>
-        <span class="hl slc">// files to pass to AStyle</span>
+    <span class="hl sym">{</span>   <span class="hl slc">// files to pass to AStyle</span>
         String<span class="hl sym">[]</span> fileName <span class="hl sym">=  {</span> <span class="hl str">&quot;../test-s/FileUtility.cs&quot;</span><span class="hl sym">,</span>
                                <span class="hl str">&quot;../test-s/MainClass.cs&quot;</span> <span class="hl sym">,</span>
                                <span class="hl str">&quot;../test-s/StringParser.cs&quot;</span> <span class="hl sym">,</span>
@@ -259,18 +252,18 @@
         <span class="hl slc">// does not need to terminate on an error</span>
         String version <span class="hl sym">=</span> AStyle<span class="hl sym">.</span><span class="hl kwd">GetVersion</span><span class="hl sym">();</span>
         <span class="hl kwa">if</span> <span class="hl sym">(</span>version <span class="hl sym">!=</span> String<span class="hl sym">.</span>Empty<span class="hl sym">)</span>
-            Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span> <span class="hl sym">(</span><span class="hl str">&quot;AStyle Version &quot;</span> <span class="hl sym">+</span> version<span class="hl sym">);</span>
+            Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span> <span class="hl sym">(</span><span class="hl str">&quot;</span><span class="hl esc">\n</span><span class="hl str">AStyle Version &quot;</span> <span class="hl sym">+</span> version<span class="hl sym">);</span>
 
         <span class="hl slc">// process the files</span>
-        <span class="hl kwa">for</span> <span class="hl sym">(</span><span class="hl kwb">int</span> i <span class="hl sym">=</span> <span class="hl num">0</span><span class="hl sym">;</span> i <span class="hl sym">&lt;</span> fileName<span class="hl sym">.</span>Length<span class="hl sym">;</span> i<span class="hl sym">++) {</span>
-            <span class="hl slc">// get the text to format</span>
+        <span class="hl kwa">for</span> <span class="hl sym">(</span><span class="hl kwb">int</span> i <span class="hl sym">=</span> <span class="hl num">0</span><span class="hl sym">;</span> i <span class="hl sym">&lt;</span> fileName<span class="hl sym">.</span>Length<span class="hl sym">;</span> i<span class="hl sym">++)</span>
+        <span class="hl sym">{</span>   <span class="hl slc">// get the text to format</span>
             String textIn <span class="hl sym">=</span> <span class="hl kwd">GetText</span><span class="hl sym">(</span>fileName<span class="hl sym">[</span>i<span class="hl sym">]);</span>
 
             <span class="hl slc">// call the Artistic Style formatting function</span>
             <span class="hl slc">// does not need to terminate on an error</span>
             String textOut <span class="hl sym">=</span> AStyle<span class="hl sym">.</span><span class="hl kwd">FormatSource</span><span class="hl sym">(</span>textIn<span class="hl sym">,</span> options<span class="hl sym">);</span>
-            <span class="hl kwa">if</span> <span class="hl sym">(</span>textOut <span class="hl sym">==</span> String<span class="hl sym">.</span>Empty<span class="hl sym">) {</span>
-                Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span><span class="hl str">&quot;cannot format &quot;</span>  <span class="hl sym">+</span> fileName<span class="hl sym">[</span>i<span class="hl sym">]);</span>
+            <span class="hl kwa">if</span> <span class="hl sym">(</span>textOut <span class="hl sym">==</span> String<span class="hl sym">.</span>Empty<span class="hl sym">)</span>
+            <span class="hl sym">{</span>   Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span><span class="hl str">&quot;cannot format &quot;</span>  <span class="hl sym">+</span> fileName<span class="hl sym">[</span>i<span class="hl sym">]);</span>
                 <span class="hl kwa">continue</span><span class="hl sym">;</span>
             <span class="hl sym">}</span>
 
@@ -284,8 +277,7 @@
 
     <span class="hl slc">///  Error message function for this example.</span>
     <span class="hl kwa">private static</span> <span class="hl kwb">void</span> <span class="hl kwd">Error</span><span class="hl sym">(</span>String why<span class="hl sym">,</span> String what<span class="hl sym">)</span>
-    <span class="hl sym">{</span>
-        Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span>why <span class="hl sym">+</span> <span class="hl str">' '</span> <span class="hl sym">+</span> what<span class="hl sym">);</span>
+    <span class="hl sym">{</span>   Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span>why <span class="hl sym">+</span> <span class="hl str">' '</span> <span class="hl sym">+</span> what<span class="hl sym">);</span>
         Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl sym">);</span>
         Environment<span class="hl sym">.</span><span class="hl kwd">Exit</span><span class="hl sym">(</span><span class="hl num">1</span><span class="hl sym">);</span>
     <span class="hl sym">}</span>
@@ -293,33 +285,33 @@
     <span class="hl slc">///  Get the text to be formatted.</span>
     <span class="hl slc">///  Usually the text would be obtained from an edit control.</span>
     <span class="hl kwa">private static</span> String <span class="hl kwd">GetText</span><span class="hl sym">(</span><span class="hl kwb">string</span> fileName<span class="hl sym">)</span>
-    <span class="hl sym">{</span>
-        <span class="hl slc">// create input buffers</span>
+    <span class="hl sym">{</span>   <span class="hl slc">// create input buffers</span>
         <span class="hl kwb">int</span> readSize <span class="hl sym">=</span> <span class="hl num">1024</span><span class="hl sym">;</span>
         StringBuilder bufferIn <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">StringBuilder</span><span class="hl sym">(</span>readSize<span class="hl sym">);</span>
         <span class="hl kwb">char</span><span class="hl sym">[]</span> fileIn <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwb">char</span><span class="hl sym">[</span>readSize<span class="hl sym">];</span>
 
         <span class="hl slc">// read file data</span>
         <span class="hl kwa">try</span>
-        <span class="hl sym">{</span>
-            FileStream file <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">FileStream</span><span class="hl sym">(</span>fileName<span class="hl sym">,</span> FileMode<span class="hl sym">.</span>Open<span class="hl sym">);</span>
+        <span class="hl sym">{</span>   FileStream file <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">FileStream</span><span class="hl sym">(</span>fileName<span class="hl sym">,</span> FileMode<span class="hl sym">.</span>Open<span class="hl sym">);</span>
             StreamReader streamIn <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">StreamReader</span><span class="hl sym">(</span>file<span class="hl sym">);</span>
             <span class="hl slc">// use ReadBlock to preserve the current line endings</span>
             <span class="hl kwb">int</span> charsIn <span class="hl sym">=</span> streamIn<span class="hl sym">.</span><span class="hl kwd">ReadBlock</span><span class="hl sym">(</span>fileIn<span class="hl sym">,</span> <span class="hl num">0</span><span class="hl sym">,</span> readSize<span class="hl sym">);</span>
             <span class="hl kwa">while</span> <span class="hl sym">(</span>charsIn <span class="hl sym">!=</span> <span class="hl num">0</span><span class="hl sym">)</span>
-            <span class="hl sym">{</span>
-                bufferIn<span class="hl sym">.</span><span class="hl kwd">Append</span><span class="hl sym">(</span>fileIn<span class="hl sym">,</span> <span class="hl num">0</span><span class="hl sym">,</span> charsIn<span class="hl sym">);</span>
+            <span class="hl sym">{</span>   bufferIn<span class="hl sym">.</span><span class="hl kwd">Append</span><span class="hl sym">(</span>fileIn<span class="hl sym">,</span> <span class="hl num">0</span><span class="hl sym">,</span> charsIn<span class="hl sym">);</span>
                 charsIn <span class="hl sym">=</span> streamIn<span class="hl sym">.</span><span class="hl kwd">ReadBlock</span><span class="hl sym">(</span>fileIn<span class="hl sym">,</span> <span class="hl num">0</span><span class="hl sym">,</span> readSize<span class="hl sym">);</span>
             <span class="hl sym">}</span>
             streamIn<span class="hl sym">.</span><span class="hl kwd">Close</span><span class="hl sym">();</span>
-        <span class="hl sym">}</span> <span class="hl kwa">catch</span> <span class="hl sym">(</span>DirectoryNotFoundException e<span class="hl sym">) {</span>
-            Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span>e<span class="hl sym">.</span><span class="hl kwd">ToString</span><span class="hl sym">());</span>
+        <span class="hl sym">}</span>
+        <span class="hl kwa">catch</span> <span class="hl sym">(</span>DirectoryNotFoundException e<span class="hl sym">)</span>
+        <span class="hl sym">{</span>   Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span>e<span class="hl sym">.</span><span class="hl kwd">ToString</span><span class="hl sym">());</span>
             <span class="hl kwd">Error</span><span class="hl sym">(</span><span class="hl str">&quot;Cannot find directory&quot;</span><span class="hl sym">,</span> fileName<span class="hl sym">);</span>
-        <span class="hl sym">}</span> <span class="hl kwa">catch</span> <span class="hl sym">(</span>FileNotFoundException e<span class="hl sym">) {</span>
-            Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span>e<span class="hl sym">.</span><span class="hl kwd">ToString</span><span class="hl sym">());</span>
+        <span class="hl sym">}</span>
+        <span class="hl kwa">catch</span> <span class="hl sym">(</span>FileNotFoundException e<span class="hl sym">)</span>
+        <span class="hl sym">{</span>   Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span>e<span class="hl sym">.</span><span class="hl kwd">ToString</span><span class="hl sym">());</span>
             <span class="hl kwd">Error</span><span class="hl sym">(</span><span class="hl str">&quot;Cannot find file&quot;</span><span class="hl sym">,</span> fileName<span class="hl sym">);</span>
-        <span class="hl sym">}</span> <span class="hl kwa">catch</span> <span class="hl sym">(</span>Exception e<span class="hl sym">) {</span>
-            Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span>e<span class="hl sym">.</span><span class="hl kwd">ToString</span><span class="hl sym">());</span>
+        <span class="hl sym">}</span>
+        <span class="hl kwa">catch</span> <span class="hl sym">(</span>Exception e<span class="hl sym">)</span>
+        <span class="hl sym">{</span>   Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span>e<span class="hl sym">.</span><span class="hl kwd">ToString</span><span class="hl sym">());</span>
             <span class="hl kwd">Error</span><span class="hl sym">(</span><span class="hl str">&quot;Error reading file&quot;</span><span class="hl sym">,</span> fileName<span class="hl sym">);</span>
         <span class="hl sym">}</span>
 
@@ -327,24 +319,24 @@
     <span class="hl sym">}</span>
 
     <span class="hl slc">///  Return the formatted text.</span>
-    <span class="hl slc">///  Usually the text would be returned to  an edit control.</span>
+    <span class="hl slc">///  Usually the text would be returned to an edit control.</span>
     <span class="hl kwa">private static</span> <span class="hl kwb">void</span> <span class="hl kwd">SetText</span><span class="hl sym">(</span>String textOut<span class="hl sym">,</span> String fileName<span class="hl sym">)</span>
-    <span class="hl sym">{</span>
-        <span class="hl slc">// create a backup file</span>
+    <span class="hl sym">{</span>   <span class="hl slc">// create a backup file</span>
         String origFileName <span class="hl sym">=</span> fileName <span class="hl sym">+</span>  <span class="hl str">&quot;.orig&quot;</span><span class="hl sym">;</span>
         File<span class="hl sym">.</span><span class="hl kwd">Delete</span><span class="hl sym">(</span>origFileName<span class="hl sym">);</span>                  <span class="hl slc">// remove a pre-existing file</span>
         FileInfo outFile <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">FileInfo</span><span class="hl sym">(</span>fileName<span class="hl sym">);</span>
         outFile<span class="hl sym">.</span><span class="hl kwd">MoveTo</span><span class="hl sym">(</span>origFileName<span class="hl sym">);</span>
 
         <span class="hl slc">// write the output file - same name as input</span>
-        <span class="hl kwa">try</span> <span class="hl sym">{</span>
-            <span class="hl kwb">char</span><span class="hl sym">[]</span> bufferOut <span class="hl sym">=</span> textOut<span class="hl sym">.</span><span class="hl kwd">ToCharArray</span><span class="hl sym">();</span>
+        <span class="hl kwa">try</span>
+        <span class="hl sym">{</span>   <span class="hl kwb">char</span><span class="hl sym">[]</span> bufferOut <span class="hl sym">=</span> textOut<span class="hl sym">.</span><span class="hl kwd">ToCharArray</span><span class="hl sym">();</span>
             FileStream file <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">FileStream</span><span class="hl sym">(</span>fileName<span class="hl sym">,</span> FileMode<span class="hl sym">.</span>Create<span class="hl sym">);</span>
             StreamWriter streamOut <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">StreamWriter</span><span class="hl sym">(</span>file<span class="hl sym">);</span>
             streamOut<span class="hl sym">.</span><span class="hl kwd">Write</span><span class="hl sym">(</span>bufferOut<span class="hl sym">,</span> <span class="hl num">0</span><span class="hl sym">,</span> bufferOut<span class="hl sym">.</span>Length<span class="hl sym">);</span>
             streamOut<span class="hl sym">.</span><span class="hl kwd">Close</span><span class="hl sym">();</span>
-        <span class="hl sym">}</span> <span class="hl kwa">catch</span> <span class="hl sym">(</span>Exception e<span class="hl sym">) {</span>
-            Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span>e<span class="hl sym">.</span><span class="hl kwd">ToString</span><span class="hl sym">());</span>
+        <span class="hl sym">}</span>
+        <span class="hl kwa">catch</span> <span class="hl sym">(</span>Exception e<span class="hl sym">)</span>
+        <span class="hl sym">{</span>   Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span>e<span class="hl sym">.</span><span class="hl kwd">ToString</span><span class="hl sym">());</span>
             <span class="hl kwd">Error</span><span class="hl sym">(</span><span class="hl str">&quot;Error writing file&quot;</span><span class="hl sym">,</span> fileName<span class="hl sym">);</span>
         <span class="hl sym">}</span>
 
@@ -368,8 +360,7 @@
 
 <span class="hl slc">/// AStyleInterface contains methods to call the Artistic Style formatter.</span>
 <span class="hl kwa">public class</span> AStyleInterface
-<span class="hl sym">{</span>
-    <span class="hl slc">// Cannot use String as a return value because Mono runtime will attempt to</span>
+<span class="hl sym">{</span>   <span class="hl slc">// Cannot use String as a return value because Mono runtime will attempt to</span>
     <span class="hl slc">// free the returned pointer resulting in a runtime crash.</span>
     <span class="hl sym">[</span><span class="hl kwd">DllImport</span><span class="hl sym">(</span><span class="hl str">&quot;astyle&quot;</span><span class="hl sym">,</span> CallingConvention <span class="hl sym">=</span> CallingConvention<span class="hl sym">.</span>StdCall<span class="hl sym">)]</span>
     <span class="hl kwa">private static</span> extern IntPtr AStyleMain
@@ -399,28 +390,28 @@
 
     <span class="hl slc">/// Declare callback functions</span>
     <span class="hl kwa">public</span> <span class="hl kwd">AStyleInterface</span><span class="hl sym">()</span>
-    <span class="hl sym">{</span>
-        AStyleMemAlloc <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">AStyleMemAllocDelgate</span><span class="hl sym">(</span>OnAStyleMemAlloc<span class="hl sym">);</span>
+    <span class="hl sym">{</span>   AStyleMemAlloc <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">AStyleMemAllocDelgate</span><span class="hl sym">(</span>OnAStyleMemAlloc<span class="hl sym">);</span>
         AStyleError <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">AStyleErrorDelgate</span><span class="hl sym">(</span>OnAStyleError<span class="hl sym">);</span>
     <span class="hl sym">}</span>
 
     <span class="hl slc">/// Call the AStyleMain function in Artistic Style.</span>
     <span class="hl slc">/// An empty string is returned on error.</span>
     <span class="hl kwa">public</span> String <span class="hl kwd">FormatSource</span><span class="hl sym">(</span>String textIn<span class="hl sym">,</span> String options<span class="hl sym">)</span>
-    <span class="hl sym">{</span>
-        <span class="hl slc">// Return the allocated string</span>
+    <span class="hl sym">{</span>   <span class="hl slc">// Return the allocated string</span>
         <span class="hl slc">// Memory space is allocated by OnAStyleMemAlloc, a callback function from AStyle</span>
         String sTextOut <span class="hl sym">=</span> String<span class="hl sym">.</span>Empty<span class="hl sym">;</span>
-        <span class="hl kwa">try</span> <span class="hl sym">{</span>
-            IntPtr pText <span class="hl sym">=</span> <span class="hl kwd">AStyleMain</span><span class="hl sym">(</span>textIn<span class="hl sym">,</span> options<span class="hl sym">,</span> AStyleError<span class="hl sym">,</span> AStyleMemAlloc<span class="hl sym">);</span>
-            <span class="hl kwa">if</span> <span class="hl sym">(</span>pText <span class="hl sym">!=</span> IntPtr<span class="hl sym">.</span>Zero<span class="hl sym">) {</span>
-                sTextOut <span class="hl sym">=</span> Marshal<span class="hl sym">.</span><span class="hl kwd">PtrToStringAnsi</span><span class="hl sym">(</span>pText<span class="hl sym">);</span>
+        <span class="hl kwa">try</span>
+        <span class="hl sym">{</span>   IntPtr pText <span class="hl sym">=</span> <span class="hl kwd">AStyleMain</span><span class="hl sym">(</span>textIn<span class="hl sym">,</span> options<span class="hl sym">,</span> AStyleError<span class="hl sym">,</span> AStyleMemAlloc<span class="hl sym">);</span>
+            <span class="hl kwa">if</span> <span class="hl sym">(</span>pText <span class="hl sym">!=</span> IntPtr<span class="hl sym">.</span>Zero<span class="hl sym">)</span>
+            <span class="hl sym">{</span>   sTextOut <span class="hl sym">=</span> Marshal<span class="hl sym">.</span><span class="hl kwd">PtrToStringAnsi</span><span class="hl sym">(</span>pText<span class="hl sym">);</span>
                 Marshal<span class="hl sym">.</span><span class="hl kwd">FreeHGlobal</span><span class="hl sym">(</span>pText<span class="hl sym">);</span>
             <span class="hl sym">}</span>
-        <span class="hl sym">}</span> <span class="hl kwa">catch</span> <span class="hl sym">(</span>DllNotFoundException e<span class="hl sym">) {</span>
-            Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span>e<span class="hl sym">.</span><span class="hl kwd">ToString</span><span class="hl sym">());</span>
-        <span class="hl sym">}</span> <span class="hl kwa">catch</span> <span class="hl sym">(</span>EntryPointNotFoundException e<span class="hl sym">) {</span>
-            Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span>e<span class="hl sym">.</span><span class="hl kwd">ToString</span><span class="hl sym">());</span>
+        <span class="hl sym">}</span>
+        <span class="hl kwa">catch</span> <span class="hl sym">(</span>DllNotFoundException e<span class="hl sym">)</span>
+        <span class="hl sym">{</span>   Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span>e<span class="hl sym">.</span><span class="hl kwd">ToString</span><span class="hl sym">());</span>
+        <span class="hl sym">}</span>
+        <span class="hl kwa">catch</span> <span class="hl sym">(</span>EntryPointNotFoundException e<span class="hl sym">)</span>
+        <span class="hl sym">{</span>   Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span>e<span class="hl sym">.</span><span class="hl kwd">ToString</span><span class="hl sym">());</span>
         <span class="hl sym">}</span>
         <span class="hl kwa">return</span> sTextOut<span class="hl sym">;</span>
     <span class="hl sym">}</span>
@@ -428,31 +419,30 @@
     <span class="hl slc">/// Get the Artistic Style version number.</span>
     <span class="hl slc">/// An empty string is returned on error.</span>
     <span class="hl kwa">public</span> String <span class="hl kwd">GetVersion</span><span class="hl sym">()</span>
-    <span class="hl sym">{</span>
-        String sVersion <span class="hl sym">=</span> String<span class="hl sym">.</span>Empty<span class="hl sym">;</span>
-        <span class="hl kwa">try</span> <span class="hl sym">{</span>
-            IntPtr  pVersion <span class="hl sym">=</span> <span class="hl kwd">AStyleGetVersion</span><span class="hl sym">();</span>
-            <span class="hl kwa">if</span> <span class="hl sym">(</span>pVersion <span class="hl sym">!=</span> IntPtr<span class="hl sym">.</span>Zero<span class="hl sym">) {</span>
-                sVersion <span class="hl sym">=</span> Marshal<span class="hl sym">.</span><span class="hl kwd">PtrToStringAnsi</span><span class="hl sym">(</span>pVersion<span class="hl sym">);</span>
+    <span class="hl sym">{</span>   String sVersion <span class="hl sym">=</span> String<span class="hl sym">.</span>Empty<span class="hl sym">;</span>
+        <span class="hl kwa">try</span>
+        <span class="hl sym">{</span>   IntPtr  pVersion <span class="hl sym">=</span> <span class="hl kwd">AStyleGetVersion</span><span class="hl sym">();</span>
+            <span class="hl kwa">if</span> <span class="hl sym">(</span>pVersion <span class="hl sym">!=</span> IntPtr<span class="hl sym">.</span>Zero<span class="hl sym">)</span>
+            <span class="hl sym">{</span>   sVersion <span class="hl sym">=</span> Marshal<span class="hl sym">.</span><span class="hl kwd">PtrToStringAnsi</span><span class="hl sym">(</span>pVersion<span class="hl sym">);</span>
             <span class="hl sym">}</span>
-        <span class="hl sym">}</span> <span class="hl kwa">catch</span> <span class="hl sym">(</span>DllNotFoundException e<span class="hl sym">) {</span>
-            Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span>e<span class="hl sym">.</span><span class="hl kwd">ToString</span><span class="hl sym">());</span>
-        <span class="hl sym">}</span> <span class="hl kwa">catch</span> <span class="hl sym">(</span>EntryPointNotFoundException e<span class="hl sym">) {</span>
-            Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span>e<span class="hl sym">.</span><span class="hl kwd">ToString</span><span class="hl sym">());</span>
+        <span class="hl sym">}</span>
+        <span class="hl kwa">catch</span> <span class="hl sym">(</span>DllNotFoundException e<span class="hl sym">)</span>
+        <span class="hl sym">{</span>   Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span>e<span class="hl sym">.</span><span class="hl kwd">ToString</span><span class="hl sym">());</span>
+        <span class="hl sym">}</span>
+        <span class="hl kwa">catch</span> <span class="hl sym">(</span>EntryPointNotFoundException e<span class="hl sym">)</span>
+        <span class="hl sym">{</span>   Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span>e<span class="hl sym">.</span><span class="hl kwd">ToString</span><span class="hl sym">());</span>
         <span class="hl sym">}</span>
         <span class="hl kwa">return</span> sVersion<span class="hl sym">;</span>
     <span class="hl sym">}</span>
 
     <span class="hl slc">// Allocate the memory for the Artistic Style return string.</span>
     <span class="hl kwa">private</span> IntPtr <span class="hl kwd">OnAStyleMemAlloc</span><span class="hl sym">(</span><span class="hl kwb">int</span> size<span class="hl sym">)</span>
-    <span class="hl sym">{</span>
-        <span class="hl kwa">return</span> Marshal<span class="hl sym">.</span><span class="hl kwd">AllocHGlobal</span><span class="hl sym">(</span>size<span class="hl sym">);</span>
+    <span class="hl sym">{</span>   <span class="hl kwa">return</span> Marshal<span class="hl sym">.</span><span class="hl kwd">AllocHGlobal</span><span class="hl sym">(</span>size<span class="hl sym">);</span>
     <span class="hl sym">}</span>
 
     <span class="hl slc">// Display errors from Artistic Style .</span>
     <span class="hl kwa">private</span> <span class="hl kwb">void</span> <span class="hl kwd">OnAStyleError</span><span class="hl sym">(</span><span class="hl kwb">int</span> errorNumber<span class="hl sym">,</span> String errorMessage<span class="hl sym">)</span>
-    <span class="hl sym">{</span>
-        Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span><span class="hl str">&quot;astyle error &quot;</span> <span class="hl sym">+</span> errorNumber <span class="hl sym">+</span> <span class="hl str">&quot; - &quot;</span> <span class="hl sym">+</span> errorMessage<span class="hl sym">);</span>
+    <span class="hl sym">{</span>   Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span><span class="hl str">&quot;astyle error &quot;</span> <span class="hl sym">+</span> errorNumber <span class="hl sym">+</span> <span class="hl str">&quot; - &quot;</span> <span class="hl sym">+</span> errorMessage<span class="hl sym">);</span>
     <span class="hl sym">}</span>
 
 <span class="hl sym">}</span>   <span class="hl slc">// class AStyleInterface</span>

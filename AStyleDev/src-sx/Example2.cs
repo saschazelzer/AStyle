@@ -94,7 +94,7 @@ public class Example2
     }
 
     ///  Return the formatted text.
-    ///  Usually the text would be returned to  an edit control.
+    ///  Usually the text would be returned to an edit control.
     private static void SetText(String textOut, String fileName)
     {   // create a backup file
         String origFileName = fileName +  ".orig";

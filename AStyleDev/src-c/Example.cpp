@@ -131,7 +131,7 @@ char* getText(const char* fileName)
 }
 
 // return the formatted text
-// usually the text would be returned to a GUI
+// usually the text would be returned to an edit control
 void setText(const char* bufferOut, const char* fileName)
 {   // create a backup file
     char origFileName[FPS+5];

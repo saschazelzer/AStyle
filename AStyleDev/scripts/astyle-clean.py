@@ -75,7 +75,8 @@ def process_backup_files(dirpath, filenames):
 	processed = 0		# number of files processed
 	for file in filenames:
 		# bypass if not the correct file extension
-		if not file[-len(g_fileext):] == g_fileext: continue
+		if not file.endswith(g_fileext): 
+			continue
 		# process the file
 		filepath = os.path.join(dirpath, file)
 		outpath = g_outdir + os.path.join(dirpath[len(g_indir):], file)

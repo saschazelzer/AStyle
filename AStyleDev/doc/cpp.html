@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Language" content="en-us" />
     <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
     <link href="styles.css" rel="stylesheet" type="text/css" />
-    <link href="highlight-ide-msvs2008.css" rel="stylesheet" type="text/css" />
+    <link href="ide-anjuta.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -44,14 +44,10 @@
 
     <div class="code">
         <pre><span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
-    <span class="hl kwb">char</span><span class="hl sym">*</span> STDCALL  <span class="hl kwd">AStyleMain</span><span
-        class="hl sym">(</span><span class="hl kwb">const char</span><span class="hl sym">*</span> pSourceIn<span class="hl sym">,</span>
-                              <span class="hl kwb">const char</span><span class="hl sym">*</span> pOptions<span class="hl sym">,</span>
-                              <span class="hl kwb">void</span><span class="hl sym">(</span>STDCALL <span class="hl sym">*</span>fpError<span
-                                  class="hl sym">)(</span><span class="hl kwb">int</span><span class="hl sym">,</span> <span class="hl kwb">char</span><span
-                                      class="hl sym">*),</span>
-                              <span class="hl kwb">char</span><span class="hl sym">*(</span>STDCALL <span class="hl sym">*</span>fpAlloc<span
-                                  class="hl sym">)(</span><span class="hl kwb">unsigned long</span><span class="hl sym">));</span>
+<span class="hl kwb">char</span><span class="hl sym">*</span> STDCALL  <span class="hl kwd">AStyleMain</span><span class="hl sym">(</span><span class="hl kwb">const char</span><span class="hl sym">*</span> pSourceIn<span class="hl sym">,</span>
+                          <span class="hl kwb">const char</span><span class="hl sym">*</span> pOptions<span class="hl sym">,</span>
+                          <span class="hl kwb">void</span><span class="hl sym">(</span>STDCALL <span class="hl sym">*</span>fpError<span class="hl sym">)(</span><span class="hl kwb">int</span><span class="hl sym">,</span> <span class="hl kwb">char</span><span class="hl sym">*),</span>
+                          <span class="hl kwb">char</span><span class="hl sym">*(</span>STDCALL <span class="hl sym">*</span>fpAlloc<span class="hl sym">)(</span><span class="hl kwb">unsigned long</span><span class="hl sym">));</span>
 </pre>
     </div>
 
@@ -124,8 +120,7 @@
 
     <div class="code">
         <pre><span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
-    <span class="hl kwb">char</span><span class="hl sym">*</span> STDCALL  <span class="hl kwd">AStyleGetVersion</span><span
-        class="hl sym">();</span>
+<span class="hl kwb">char</span><span class="hl sym">*</span> STDCALL  <span class="hl kwd">AStyleGetVersion</span><span class="hl sym">();</span>
 </pre>
     </div>
 
@@ -177,24 +172,23 @@
 <span class="hl dir"></span>
 <span class="hl slc">// functions to call AStyleMain</span>
 <span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
-    <span class="hl kwb">char</span><span class="hl sym">*</span> STDCALL  <span class="hl kwd">AStyleMain</span><span class="hl sym">(</span><span class="hl kwb">const char</span><span class="hl sym">*</span> pSourceIn<span class="hl sym">,</span>
-                              <span class="hl kwb">const char</span><span class="hl sym">*</span> pOptions<span class="hl sym">,</span>
-                              <span class="hl kwb">void</span><span class="hl sym">(</span>STDCALL <span class="hl sym">*</span>fpError<span class="hl sym">)(</span><span class="hl kwb">int</span><span class="hl sym">,</span> <span class="hl kwb">char</span><span class="hl sym">*),</span>
-                              <span class="hl kwb">char</span><span class="hl sym">*(</span>STDCALL <span class="hl sym">*</span>fpAlloc<span class="hl sym">)(</span><span class="hl kwb">unsigned long</span><span class="hl sym">));</span>
+<span class="hl kwb">char</span><span class="hl sym">*</span> STDCALL  <span class="hl kwd">AStyleMain</span><span class="hl sym">(</span><span class="hl kwb">const char</span><span class="hl sym">*</span> pSourceIn<span class="hl sym">,</span>
+                          <span class="hl kwb">const char</span><span class="hl sym">*</span> pOptions<span class="hl sym">,</span>
+                          <span class="hl kwb">void</span><span class="hl sym">(</span>STDCALL <span class="hl sym">*</span>fpError<span class="hl sym">)(</span><span class="hl kwb">int</span><span class="hl sym">,</span> <span class="hl kwb">char</span><span class="hl sym">*),</span>
+                          <span class="hl kwb">char</span><span class="hl sym">*(</span>STDCALL <span class="hl sym">*</span>fpAlloc<span class="hl sym">)(</span><span class="hl kwb">unsigned long</span><span class="hl sym">));</span>
 <span class="hl kwb">void</span>  STDCALL <span class="hl kwd">ASErrorHandler</span><span class="hl sym">(</span><span class="hl kwb">int</span> errorNumber<span class="hl sym">,</span> <span class="hl kwb">char</span><span class="hl sym">*</span> errorMessage<span class="hl sym">);</span>
 <span class="hl kwb">char</span><span class="hl sym">*</span> STDCALL <span class="hl kwd">ASMemoryAlloc</span><span class="hl sym">(</span><span class="hl kwb">unsigned long</span> memoryNeeded<span class="hl sym">);</span>
 
 <span class="hl slc">// other functions</span>
 <span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
-    <span class="hl kwb">char</span><span class="hl sym">*</span> STDCALL  <span class="hl kwd">AStyleGetVersion</span><span class="hl sym">();</span>
+<span class="hl kwb">char</span><span class="hl sym">*</span> STDCALL  <span class="hl kwd">AStyleGetVersion</span><span class="hl sym">();</span>
 <span class="hl kwb">void</span> <span class="hl kwd">error</span><span class="hl sym">(</span><span class="hl kwb">const char</span> <span class="hl sym">*</span>why<span class="hl sym">,</span> <span class="hl kwb">const char</span><span class="hl sym">*</span> what <span class="hl sym">=</span> <span class="hl str">&quot;&quot;</span><span class="hl sym">);</span>
 <span class="hl kwb">char</span><span class="hl sym">*</span> <span class="hl kwd">getText</span><span class="hl sym">(</span><span class="hl kwb">const char</span><span class="hl sym">*</span> fileName<span class="hl sym">);</span>
 <span class="hl kwb">void</span>  <span class="hl kwd">setText</span><span class="hl sym">(</span><span class="hl kwb">const char</span><span class="hl sym">*</span> textOut<span class="hl sym">,</span> <span class="hl kwb">const char</span><span class="hl sym">*</span> fileName<span class="hl sym">);</span>
 
 
 <span class="hl kwb">int</span> <span class="hl kwd">main</span><span class="hl sym">(</span><span class="hl kwb">int</span><span class="hl sym">,</span> <span class="hl kwb">char</span> <span class="hl sym">**)</span>
-<span class="hl sym">{</span>
-    <span class="hl slc">// options to pass to AStyle</span>
+<span class="hl sym">{</span>   <span class="hl slc">// options to pass to AStyle</span>
     <span class="hl kwb">char</span> fileName<span class="hl sym">[][</span>FPS<span class="hl sym">] = {</span> <span class="hl str">&quot;../test-c/ASBeautifier.cpp&quot;</span><span class="hl sym">,</span>
                              <span class="hl str">&quot;../test-c/ASFormatter.cpp&quot;</span> <span class="hl sym">,</span>
                              <span class="hl str">&quot;../test-c/astyle.h&quot;</span>
@@ -207,8 +201,8 @@
     cout <span class="hl sym">&lt;&lt;</span> <span class="hl str">&quot;</span><span class="hl esc">\n</span><span class="hl str">Artistic Style &quot;</span> <span class="hl sym">&lt;&lt;</span> version <span class="hl sym">&lt;&lt;</span> endl<span class="hl sym">;</span>
 
     <span class="hl slc">// process the input files</span>
-    <span class="hl kwa">for</span> <span class="hl sym">(</span><span class="hl kwb">size_t</span> i <span class="hl sym">=</span> <span class="hl num">0</span><span class="hl sym">;</span> i <span class="hl sym">&lt;</span> arraySize<span class="hl sym">;</span> i<span class="hl sym">++) {</span>
-        <span class="hl slc">// get the text to format</span>
+    <span class="hl kwa">for</span> <span class="hl sym">(</span><span class="hl kwb">size_t</span> i <span class="hl sym">=</span> <span class="hl num">0</span><span class="hl sym">;</span> i <span class="hl sym">&lt;</span> arraySize<span class="hl sym">;</span> i<span class="hl sym">++)</span>
+    <span class="hl sym">{</span>   <span class="hl slc">// get the text to format</span>
         <span class="hl kwb">char</span><span class="hl sym">*</span> textIn <span class="hl sym">=</span> <span class="hl kwd">getText</span><span class="hl sym">(</span>fileName<span class="hl sym">[</span>i<span class="hl sym">]);</span>
 
         <span class="hl slc">// call the Artistic Style formatting function</span>
@@ -218,8 +212,8 @@
                                    ASMemoryAlloc<span class="hl sym">);</span>
         <span class="hl slc">// NULL pointer is an error - restore the original file</span>
         <span class="hl slc">// an error message has been displayed by the error handler</span>
-        <span class="hl kwa">if</span> <span class="hl sym">(</span>textOut <span class="hl sym">==</span> NULL<span class="hl sym">) {</span>
-            cout <span class="hl sym">&lt;&lt;</span> <span class="hl str">&quot;cannot format &quot;</span> <span class="hl sym">&lt;&lt;</span> fileName<span class="hl sym">[</span>i<span class="hl sym">] &lt;&lt;</span> endl<span class="hl sym">;</span>
+        <span class="hl kwa">if</span> <span class="hl sym">(</span>textOut <span class="hl sym">==</span> NULL<span class="hl sym">)</span>
+        <span class="hl sym">{</span>   cout <span class="hl sym">&lt;&lt;</span> <span class="hl str">&quot;cannot format &quot;</span> <span class="hl sym">&lt;&lt;</span> fileName<span class="hl sym">[</span>i<span class="hl sym">] &lt;&lt;</span> endl<span class="hl sym">;</span>
             <span class="hl kwa">return</span> <span class="hl num">0</span><span class="hl sym">;</span>
         <span class="hl sym">}</span>
 
@@ -238,23 +232,20 @@
 
 <span class="hl slc">// Error handler for the Artistic Style formatter</span>
 <span class="hl kwb">void</span>  STDCALL <span class="hl kwd">ASErrorHandler</span><span class="hl sym">(</span><span class="hl kwb">int</span> errorNumber<span class="hl sym">,</span> <span class="hl kwb">char</span><span class="hl sym">*</span> errorMessage<span class="hl sym">)</span>
-<span class="hl sym">{</span>
-    cout <span class="hl sym">&lt;&lt;</span> <span class="hl str">&quot;astyle error &quot;</span> <span class="hl sym">&lt;&lt;</span> errorNumber <span class="hl sym">&lt;&lt;</span> <span class="hl str">&quot;</span><span class="hl esc">\n</span><span class="hl str">&quot;</span>
+<span class="hl sym">{</span>   cout <span class="hl sym">&lt;&lt;</span> <span class="hl str">&quot;astyle error &quot;</span> <span class="hl sym">&lt;&lt;</span> errorNumber <span class="hl sym">&lt;&lt;</span> <span class="hl str">&quot;</span><span class="hl esc">\n</span><span class="hl str">&quot;</span>
          <span class="hl sym">&lt;&lt;</span> errorMessage <span class="hl sym">&lt;&lt;</span> endl<span class="hl sym">;</span>
 <span class="hl sym">}</span>
 
 <span class="hl slc">// Allocate memory for the Artistic Style formatter</span>
 <span class="hl kwb">char</span><span class="hl sym">*</span> STDCALL <span class="hl kwd">ASMemoryAlloc</span><span class="hl sym">(</span><span class="hl kwb">unsigned long</span> memoryNeeded<span class="hl sym">)</span>
-<span class="hl sym">{</span>
-    <span class="hl slc">// error condition is checked after return from AStyleMain</span>
+<span class="hl sym">{</span>   <span class="hl slc">// error condition is checked after return from AStyleMain</span>
     <span class="hl kwb">char</span><span class="hl sym">*</span> buffer <span class="hl sym">=</span> <span class="hl kwa">new</span><span class="hl sym">(</span>nothrow<span class="hl sym">)</span> <span class="hl kwb">char</span> <span class="hl sym">[</span>memoryNeeded<span class="hl sym">];</span>
     <span class="hl kwa">return</span> buffer<span class="hl sym">;</span>
 <span class="hl sym">}</span>
 
 <span class="hl slc">// Error message function for this example</span>
 <span class="hl kwb">void</span> <span class="hl kwd">error</span><span class="hl sym">(</span><span class="hl kwb">const char</span> <span class="hl sym">*</span>why<span class="hl sym">,</span> <span class="hl kwb">const char</span><span class="hl sym">*</span> what<span class="hl sym">)</span>
-<span class="hl sym">{</span>
-    cout <span class="hl sym">&lt;&lt;</span> why <span class="hl sym">&lt;&lt;</span> <span class="hl str">' '</span> <span class="hl sym">&lt;&lt;</span> what <span class="hl sym">&lt;&lt;</span> endl<span class="hl sym">;</span>
+<span class="hl sym">{</span>   cout <span class="hl sym">&lt;&lt;</span> why <span class="hl sym">&lt;&lt;</span> <span class="hl str">' '</span> <span class="hl sym">&lt;&lt;</span> what <span class="hl sym">&lt;&lt;</span> endl<span class="hl sym">;</span>
     cout <span class="hl sym">&lt;&lt;</span> <span class="hl str">&quot;The program has terminated!&quot;</span> <span class="hl sym">&lt;&lt;</span> endl<span class="hl sym">;</span>
     <span class="hl kwd">exit</span><span class="hl sym">(</span><span class="hl num">1</span><span class="hl sym">);</span>
 <span class="hl sym">}</span>
@@ -262,21 +253,20 @@
 <span class="hl slc">// get the text to be formatted</span>
 <span class="hl slc">// usually the text would be obtained from an edit control</span>
 <span class="hl kwb">char</span><span class="hl sym">*</span> <span class="hl kwd">getText</span><span class="hl sym">(</span><span class="hl kwb">const char</span><span class="hl sym">*</span> fileName<span class="hl sym">)</span>
-<span class="hl sym">{</span>
-    <span class="hl slc">// open input file</span>
+<span class="hl sym">{</span>   <span class="hl slc">// open input file</span>
     ifstream <span class="hl kwd">in</span><span class="hl sym">(</span>fileName<span class="hl sym">);</span>
     <span class="hl kwa">if</span> <span class="hl sym">(!</span>in<span class="hl sym">)</span>
         <span class="hl kwd">error</span><span class="hl sym">(</span><span class="hl str">&quot;Could not open input file&quot;</span><span class="hl sym">,</span> fileName<span class="hl sym">);</span>
 
     <span class="hl slc">// get length of buffer</span>
     in<span class="hl sym">.</span><span class="hl kwd">seekg</span><span class="hl sym">(</span><span class="hl num">0</span><span class="hl sym">,</span> ifstream<span class="hl sym">::</span>end<span class="hl sym">);</span>
-    <span class="hl kwb">int</span> bufferSizeIn <span class="hl sym">=</span> in<span class="hl sym">.</span><span class="hl kwd">tellg</span><span class="hl sym">();</span>
+    <span class="hl kwb">size_t</span> bufferSizeIn <span class="hl sym">=</span> <span class="hl kwa">static_cast</span><span class="hl sym">&lt;</span><span class="hl kwb">size_t</span><span class="hl sym">&gt;(</span>in<span class="hl sym">.</span><span class="hl kwd">tellg</span><span class="hl sym">());</span>
     in<span class="hl sym">.</span><span class="hl kwd">seekg</span><span class="hl sym">(</span><span class="hl num">0</span><span class="hl sym">,</span> ifstream<span class="hl sym">::</span>beg<span class="hl sym">);</span>
 
     <span class="hl slc">// allocate memory</span>
     <span class="hl kwb">char</span><span class="hl sym">*</span> bufferIn <span class="hl sym">=</span> <span class="hl kwa">new</span><span class="hl sym">(</span>nothrow<span class="hl sym">)</span> <span class="hl kwb">char</span> <span class="hl sym">[</span>bufferSizeIn<span class="hl sym">];</span>
-    <span class="hl kwa">if</span> <span class="hl sym">(</span>bufferIn <span class="hl sym">==</span> NULL<span class="hl sym">) {</span>
-        in<span class="hl sym">.</span><span class="hl kwd">close</span><span class="hl sym">();</span>
+    <span class="hl kwa">if</span> <span class="hl sym">(</span>bufferIn <span class="hl sym">==</span> NULL<span class="hl sym">)</span>
+    <span class="hl sym">{</span>   in<span class="hl sym">.</span><span class="hl kwd">close</span><span class="hl sym">();</span>
         <span class="hl kwd">error</span><span class="hl sym">(</span><span class="hl str">&quot;Memory allocation failure on input&quot;</span><span class="hl sym">);</span>
     <span class="hl sym">}</span>
 
@@ -285,17 +275,16 @@
     in<span class="hl sym">.</span><span class="hl kwd">close</span><span class="hl sym">();</span>
 
     <span class="hl slc">// get actual size - will be smaller than buffer size</span>
-    <span class="hl kwb">int</span> textSizeIn <span class="hl sym">=</span> in<span class="hl sym">.</span><span class="hl kwd">gcount</span><span class="hl sym">();</span>
+    <span class="hl kwb">size_t</span> textSizeIn <span class="hl sym">=</span> <span class="hl kwa">static_cast</span><span class="hl sym">&lt;</span><span class="hl kwb">size_t</span><span class="hl sym">&gt;(</span>in<span class="hl sym">.</span><span class="hl kwd">gcount</span><span class="hl sym">());</span>
     bufferIn<span class="hl sym">[</span>textSizeIn<span class="hl sym">] =</span> <span class="hl str">'\0'</span><span class="hl sym">;</span>
 
     <span class="hl kwa">return</span> bufferIn<span class="hl sym">;</span>
 <span class="hl sym">}</span>
 
 <span class="hl slc">// return the formatted text</span>
-<span class="hl slc">// usually the text would be returned to a GUI</span>
+<span class="hl slc">// usually the text would be returned to an edit control</span>
 <span class="hl kwb">void</span> <span class="hl kwd">setText</span><span class="hl sym">(</span><span class="hl kwb">const char</span><span class="hl sym">*</span> bufferOut<span class="hl sym">,</span> <span class="hl kwb">const char</span><span class="hl sym">*</span> fileName<span class="hl sym">)</span>
-<span class="hl sym">{</span>
-    <span class="hl slc">// create a backup file</span>
+<span class="hl sym">{</span>   <span class="hl slc">// create a backup file</span>
     <span class="hl kwb">char</span> origFileName<span class="hl sym">[</span>FPS<span class="hl sym">+</span><span class="hl num">5</span><span class="hl sym">];</span>
     <span class="hl kwd">strcpy</span><span class="hl sym">(</span>origFileName<span class="hl sym">,</span> fileName<span class="hl sym">);</span>
     <span class="hl kwd">strcat</span><span class="hl sym">(</span>origFileName<span class="hl sym">,</span> <span class="hl str">&quot;.orig&quot;</span><span class="hl sym">);</span>
