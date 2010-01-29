@@ -6,8 +6,8 @@ set srcdir1=..\src-j
 set srcdir2=..\src-jx
 
 
-%progdir%\AStyle  -g  %srcdir1%\*.java 
-%progdir%\AStyle  -g  %srcdir2%\*.java 
+%progdir%\AStyle  -g -vQ  %srcdir1%\*.java 
+%progdir%\AStyle  -g -vQ  %srcdir2%\*.java 
 
 echo -
 echo -
