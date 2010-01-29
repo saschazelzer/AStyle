@@ -69,7 +69,7 @@ def build_linux_distribution():
 	print "build/intel copied"
 
 	# create tar.bz2
-	tarname = "astyle_{0}.tar".format(release)
+	tarname = "astyle_{0}_linux.tar".format(release)
 	call_7zip(distBase, tarname)
 	bz2name = tarname + ".gz"
 	call_7zip(distBase, bz2name)
@@ -106,7 +106,7 @@ def build_mac_distribution():
 	print "build/mac copied"
 	
 	# create tar.gz
-	tarname = "astyle_{0}.tar".format(release)
+	tarname = "astyle_{0}_macosx.tar".format(release)
 	call_7zip(distBase, tarname)
 	gzname = tarname + ".gz"
 	call_7zip(distBase, gzname)
@@ -146,7 +146,7 @@ def build_vms_distribution():
 	print "build/vms copied"
 
 	# create zip
-	zipfile = "astyle_{0}.zip".format(release)
+	zipfile = "astyle_{0}_openvms.zip".format(release)
 	call_7zip(distBase, zipfile)
 
 # -----------------------------------------------------------------------------
@@ -190,7 +190,7 @@ def build_windows_distribution():
 	copy_vs20xx_directories(astyleBuildDir, distAStyleBuild)
 	
 	# create zip
-	zipfile = "AStyle_{0}.zip".format(release)
+	zipfile = "AStyle_{0}_windows.zip".format(release)
 	call_7zip(distBase, zipfile)
 
 # -----------------------------------------------------------------------------
