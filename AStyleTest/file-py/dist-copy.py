@@ -244,8 +244,13 @@ def copy_astyle_doc(distDoc, toDos=False):
 	for filepath in docfiles:
 		shutil.copy(filepath, distDoc)
 	convert_line_ends(distDoc, toDos)
+	# verify copy - had a problem with bad filenames
+	distfiles = (glob.glob(distDoc + "/*.html") 
+					+ glob.glob(distDoc + "/*.css"))
+	if len(distfiles) != len(docfiles):
+		libastyle.system_exit("Error copying doc: " + str(len(distfiles)))
 	print "doc copied"
-
+	
 # -----------------------------------------------------------------------------
 
 def copy_astyle_src(distSrc, toDos=False):
@@ -255,6 +260,11 @@ def copy_astyle_src(distSrc, toDos=False):
 	for srcpath in srcfiles:
 		shutil.copy(srcpath, distSrc)
 	convert_line_ends(distSrc, toDos)
+	# verify copy - had a problem with bad filenames
+	distfiles = (glob.glob(distSrc + "/*.cpp") 
+					+ glob.glob(distSrc + "/*.h"))
+	if len(distfiles) != len(srcfiles):
+		libastyle.system_exit("Error copying src: " + str(len(distfiles)))
 	print "src copied"
 
 # -----------------------------------------------------------------------------

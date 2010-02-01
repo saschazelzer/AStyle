@@ -3,10 +3,10 @@ REM create releases files from the current trunk
 REM change "set rel=" to the current release
 
 REM do NOT use backslashes in the file:/// statement
-REM do NOT use %USERPROFILE% becaue of the backslashes
+REM do NOT use %USERPROFILE% because of the backslashes
 set repos=https://astyle.svn.sourceforge.net/svnroot/astyle
 set svndir=%repos%/tags
-set rel=1.23
+set rel=1.24
 
 
 REM do NOT use backslashes in the file:/// statement
