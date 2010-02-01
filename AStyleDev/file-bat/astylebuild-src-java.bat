@@ -1,12 +1,11 @@
 @echo off
 REM build the AStyle Release Java Configuration using the AStyle project file
-REM copy the output to the AStyleDev/test-j(x) folder
+REM copy the output to the AStyleDev\test-j(x) folder
 
 set astyle=..\..\AStyle\build\vs2008
 set bindir1=..\src-j
 set bindir2=..\src-jx
 set errors=no
-set called=no
 
 REM the following batch file is needed for VS2005
 REM and change the build directory to buildvs2005
@@ -29,11 +28,8 @@ if %ERRORLEVEL% NEQ 0  set errors=yes
 if %errors%==yes (
 echo -
 echo * * * *  ERRORS IN PROCESSING SCRIPT  * * * *
+exit 100
 )
 
-if %called%==yes  (
-if %errors% == yes exit 100
-) else (
 echo -
 pause
-)

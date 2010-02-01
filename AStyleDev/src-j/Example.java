@@ -39,7 +39,7 @@ public class Example
             // does not need to terminate on an error
             String textOut = astyle.formatSource(textIn, options);
             if (textOut.length() == 0)
-            {   System.out.println("cannot format "  + fileName[i]);
+            {   System.out.println("Cannot format "  + fileName[i]);
                 continue;
             }
 

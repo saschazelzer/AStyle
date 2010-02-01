@@ -461,6 +461,8 @@ public class AStyleInterface
         catch (UnsatisfiedLinkError e)
         {   displayErrorMessage(e.getMessage() +
                                 "\nThe native library cannot be loaded!");
+            System.out.println("The program has terminated!");
+            System.exit(1);
         }
     }
 

@@ -16,6 +16,6 @@ pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:'C
 .hl.mark	{ background-color:#ffffbb;}
 .hl.kwa { color:#009966; font-weight:bold; }
 .hl.kwb { color:#009966; font-weight:bold; }
-.hl.kwc { color:#0099ff; }
-.hl.kwd { color:#9966ff; }
+.hl.kwc { color:#0077dd; }
+.hl.kwd { color:#7744dd; }
 

@@ -62,7 +62,8 @@ public class AStyleInterface
     }
 
     /// Get the Artistic Style version number.
-    /// An empty string is returned on error.
+    /// Does not need to terminate on error.
+    /// But the exception must be handled when a function is called.
     public String GetVersion()
     {   String sVersion = String.Empty;
         try
@@ -73,9 +74,13 @@ public class AStyleInterface
         }
         catch (DllNotFoundException e)
         {   Console.WriteLine(e.ToString());
+            Console.WriteLine("The program has terminated!");
+            Environment.Exit(1);
         }
         catch (EntryPointNotFoundException e)
         {   Console.WriteLine(e.ToString());
+            Console.WriteLine("The program has terminated!");
+            Environment.Exit(1);
         }
         return sVersion;
     }
@@ -87,7 +92,7 @@ public class AStyleInterface
 
     // Display errors from Artistic Style .
     private void OnAStyleError(int errorNumber, String errorMessage)
-    {   Console.WriteLine("astyle error " + errorNumber + " - " + errorMessage);
+    {   Console.WriteLine("AStyle error " + errorNumber + " - " + errorMessage);
     }
 
 }   // class AStyleInterface

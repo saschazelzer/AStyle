@@ -27,7 +27,7 @@ public class Example2
         // does not need to terminate on an error
         String version = AStyle.GetVersion();
         if (version != String.Empty)
-            Console.WriteLine ("\nAStyle Version " + version);
+            Console.WriteLine ("AStyle Version " + version);
 
         // process the files
         for (int i = 0; i < fileName.Length; i++)
@@ -38,7 +38,7 @@ public class Example2
             // does not need to terminate on an error
             String textOut = AStyle.FormatSource(textIn, fileName[i]);
             if (textOut == String.Empty)
-            {   Console.WriteLine("cannot format "  + fileName[i]);
+            {   Console.WriteLine("Cannot format "  + fileName[i]);
                 continue;
             }
 

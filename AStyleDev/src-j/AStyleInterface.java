@@ -23,7 +23,7 @@ class AStyleInterface
         catch (UnsatisfiedLinkError e)
         {
 //            System.out.println(e.getMessage());
-            System.out.println("cannot call function AStyleMain");
+            System.out.println("Cannot call function AStyleMain");
         }
         return textOut;
     }
@@ -41,7 +41,7 @@ class AStyleInterface
         catch (UnsatisfiedLinkError e)
         {
 //            System.out.println(e.getMessage());
-            System.out.println("cannot call function GetVersion");
+            System.out.println("Cannot call function GetVersion");
         }
         return version;
     }
@@ -64,7 +64,9 @@ class AStyleInterface
         catch (UnsatisfiedLinkError e)
         {
 //            System.out.println(e.getMessage());
-            System.out.println("cannot load library " + astylePath);
+            System.out.println("Cannot load library " + astylePath);
+            System.out.println("The program has terminated!");
+            System.exit(1);
         }
     }
 
@@ -88,7 +90,7 @@ class AStyleInterface
     * Error handler for messages from Artistic Style.
     * This method is called only if there are errors when AStyleMain is called.
     * This is for debugging and there should be no errors when the calling
-    *  parameters are correct.
+    * parameters are correct.
     * Changing the method name requires changing Artistic Style.
     * Signature: (ILjava/lang/String;)V
     *
@@ -96,7 +98,7 @@ class AStyleInterface
     *  @param  errorMessage  The error message from Artistic Style.
     */
     private void ErrorHandler(int errorNumber, String errorMessage)
-    {   System.out.println("astyle error "
+    {   System.out.println("AStyle error "
                            + String.valueOf(errorNumber)
                            + " - " + errorMessage);
     }

@@ -37,7 +37,7 @@ int main(int, char **)
 
     // get Artistic Style version
     char* version = AStyleGetVersion();
-    cout << "\nArtistic Style " << version << endl;
+    cout << "Artistic Style " << version << endl;
 
     // process the input files
     for (size_t i = 0; i < arraySize; i++)
