@@ -7,16 +7,16 @@ set testdata=..\..\TestData\scite
 :: set astyle=..\..\AStyle\build\cb-mingw\bin\AStyle
 :: set astyle=..\..\AStyle\build\vs2003\bin\AStyle
 :: set astyle=..\..\AStyle\build\vs2005\bin\AStyle
-set astyle=..\..\AStyle\build\vs2008\bin\AStyled
+set astyle=..\..\AStyle\build\vs2008\debug\AStyled
 
 set excludes= --exclude=lua
 
-set options= -vRQ
+:: set options= -vRQ
 REM indent-brackets (B), add-brackets (j), break-blocks=all (F), align-pointer=type (k1)
 :: set options= -CSKBNLwM50m10yejoOcFpPHUxEk1 -vRQ
 REM indent-blocks (G), add-one-line-brackets (J), break-blocks (f), align-pointer=middle (k2)
 :: set options= -CSKGNLwM50m10yeJoOcfpPHUxEk2 -vRQ
-
+set options= -tapOHUk1 -RQv
 
 call  libCompile.bat  %astyle%
 echo Formatting SciTE %options%

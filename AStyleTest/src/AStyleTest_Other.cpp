@@ -3379,6 +3379,92 @@ TEST(CommentBeforeStatementMisc7)
 	delete [] textOut;
 }
 
+TEST(CommentLeadingSpaceCorrection1)
+{
+	// comment where the leading spaces need correction 
+	// will adjust the first line
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"       /*   EXEC SQL INSERT\n"
+		"    INTO   branch (branch_id, branch_name, branch_addr,\n"
+		"             branch_city, branch_phone)\n"
+		"    VALUES (:bid, :bname, :baddr:baddr_ind);\n"
+		"    */\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    /*   EXEC SQL INSERT\n"
+		"    INTO   branch (branch_id, branch_name, branch_addr,\n"
+		"             branch_city, branch_phone)\n"
+		"    VALUES (:bid, :bname, :baddr:baddr_ind);\n"
+		"    */\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CommentLeadingSpaceCorrection2)
+{
+	// comment where the leading spaces need correction
+	// text has tabs
+	// will adjust the first line
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"	   /*   EXEC SQL INSERT\n"
+		"	INTO   branch (branch_id, branch_name, branch_addr,\n"
+		"	         branch_city, branch_phone)\n"
+		"    VALUES (:bid, :bname, :baddr:baddr_ind);\n"
+		"	*/\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    /*   EXEC SQL INSERT\n"
+		"    INTO   branch (branch_id, branch_name, branch_addr,\n"
+		"             branch_city, branch_phone)\n"
+		"    VALUES (:bid, :bname, :baddr:baddr_ind);\n"
+		"    */\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CommentLeadingSpaceCorrection3)
+{
+	// comment where the leading spaces need correction
+	// and indent needs adjusting
+	// will adjust the first line
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"         /*   EXEC SQL INSERT\n"
+		"      INTO   branch (branch_id, branch_name, branch_addr,\n"
+		"               branch_city, branch_phone)\n"
+		"      VALUES (:bid, :bname, :baddr:baddr_ind);\n"
+		"      */\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    /*   EXEC SQL INSERT\n"
+		"    INTO   branch (branch_id, branch_name, branch_addr,\n"
+		"             branch_city, branch_phone)\n"
+		"    VALUES (:bid, :bname, :baddr:baddr_ind);\n"
+		"    */\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 //----------------------------------------------------------------------------
 // AStyle Continuation Lines
 //----------------------------------------------------------------------------
@@ -4445,7 +4531,7 @@ TEST(SQLNonHangingIndent)
 		"{\n"
 		"    EXEC SQL INSERT\n"
 		"    INTO   branch (branch_id, branch_name, branch_addr,\n"
-		"       branch_city, branch_phone)\n"
+		"           branch_city, branch_phone)\n"
 		"    VALUES (:bid, :bname, :baddr:baddr_ind);\n"
 		"}\n";
 	char options[] = "";
@@ -4587,6 +4673,32 @@ TEST(SQLBracketsHorstmann)
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
+
+TEST(SQLSans)
+{
+	// not SQL statements (macros?)
+	// SQL statements will not be changed
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    EXEC\n"
+		"        bar1();\n"
+		"    EXEC SQX\n"
+		"        bar2();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    EXEC\n"
+		"    bar1();\n"
+		"    EXEC SQX\n"
+		"    bar2();\n"
+		"}\n";	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 //----------------------------------------------------------------------------
 // AStyle Assembler
 //----------------------------------------------------------------------------

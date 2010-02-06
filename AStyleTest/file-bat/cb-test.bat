@@ -8,7 +8,7 @@ set testdata=..\..\TestData
 :: set astyle=..\..\AStyle\build\vs2003\bin\AStyle
 :: set astyle=..\..\AStyle\build\vs2005\bin\AStyle
 :: set astyle=..\..\AStyle\build\vs2010\debug\AStyled
-set astyle=..\..\AStyle\build\vs2008\debug\AStyle24x
+set astyle=..\..\AStyle\build\vs2008\debug\AStyle24
 
 REM excludes because of %pythoncode
 REM advprops.h is __WXPYTHON__ at line 192

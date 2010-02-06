@@ -2,6 +2,8 @@
 REM Run gcov to print the coverage report
 REM AStylec must be run to create the *.gcno files
 
+REM change the following to the file to be printed
+set gcovfile=ASFormatter
 set mingwdir=C:\Programs\MinGW\bin
 
 cd  ..\build\cb-mingw\objc\AStyle\src
@@ -21,10 +23,10 @@ exit 100
 )
 
 REM use the source file name to print the report
-"%mingwdir%\gcov"  astyle_main
+"%mingwdir%\gcov"  %gcovfile%
 
 REM open the coverage file in SciTE
-start "%PROGRAMFILES%\SciTE\SciTE"  %USERPROFILE%\Projects\AStyle\src\astyle_main.cpp.gcov
+start "%PROGRAMFILES%\SciTE\SciTE"  %USERPROFILE%\Projects\AStyle\src\%gcovfile%.cpp.gcov
 
 
 echo -

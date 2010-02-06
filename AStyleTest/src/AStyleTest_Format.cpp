@@ -1467,6 +1467,75 @@ TEST(AddBracketsQuote)
 	delete [] textOut;
 }
 
+TEST(AddBracketsQuoteSans)
+{
+	// must bypass multi-line quote
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"        char* bar = \"one \\\n"
+		"  two \\\n"
+		"      three\";\n"
+		"}\n";
+	char options[] = "add-brackets";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddBracketsComment)
+{
+	// must bypass comment before a semi-colon
+	// the last statement should be bracketed
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo) bar = // comment\n"
+		"            foo2;\n"
+		"    if (isFoo) bar =  /* comment */\n"
+		"            foo2;\n"
+		"    if (isFoo) bar = /* comment\n" 
+		"                        comment */\n"
+		"            foo2;\n"
+		"    if (isFoo) bar = /* comment */ foo2;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo) bar = // comment\n"
+		"            foo2;\n"
+		"    if (isFoo) bar =  /* comment */\n"
+		"            foo2;\n"
+		"    if (isFoo) bar = /* comment\n" 
+		"                        comment */\n"
+		"            foo2;\n"
+		"    if (isFoo) {\n"
+		"        bar = /* comment */ foo2;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "add-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddBracketsSans)
+{
+	// brackets should be added to specified headers only
+	char text[] =
+		"\npublic unsafe int foo()\n"
+		"{\n"
+		"    int readCount;\n"
+		"    fixed(byte* pBuffer = buffer)\n"
+		"        readCount = ReadMemory(size);\n"
+		"}\n";
+	char options[] = "add-brackets, mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Add One Line Brackets
 // Implies keep-one-line-blocks
@@ -1826,6 +1895,73 @@ TEST(AddOneLineBracketsQuote)
 		"}\n";
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddOneLineBracketsQuoteSans)
+{
+	// must bypass multi-line quote
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"        char* bar = \"one \\\n"
+		"  two \\\n"
+		"      three\";\n"
+		"}\n";
+	char options[] = "add-one-line-brackets";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddOneLineBracketsComment)
+{
+	// must bypass comment before a semi-colon
+	// the last statement should be bracketed
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo) bar = // comment\n"
+		"            foo2;\n"
+		"    if (isFoo) bar =  /* comment */\n"
+		"            foo2;\n"
+		"    if (isFoo) bar = /* comment\n" 
+		"                        comment */\n"
+		"            foo2;\n"
+		"    if (isFoo) bar = /* comment */ foo2;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo) bar = // comment\n"
+		"            foo2;\n"
+		"    if (isFoo) bar =  /* comment */\n"
+		"            foo2;\n"
+		"    if (isFoo) bar = /* comment\n" 
+		"                        comment */\n"
+		"            foo2;\n"
+		"    if (isFoo) { bar = /* comment */ foo2; }\n"
+		"}\n";
+	char options[] = "add-one-line-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddOneLineBracketsSans)
+{
+	// brackets should be added to specified headers only
+	char text[] =
+		"\npublic unsafe int foo()\n"
+		"{\n"
+		"    int readCount;\n"
+		"    fixed(byte* pBuffer = buffer)\n"
+		"        readCount = ReadMemory(size);\n"
+		"}\n";
+	char options[] = "add-one-line-brackets, mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
@@ -2641,6 +2777,7 @@ TEST(AlignPointerTypeSans1)
 		"    a && b;\n"
 		"    x = a * b;\n"
 		"    x = a & b;\n"
+		"    bar[boo*foo-1] = 2;\n"
 		"}\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -2985,6 +3122,7 @@ TEST(AlignPointerMiddleSans1)
 		"    a && b;\n"
 		"    x = a * b;\n"
 		"    x = a & b;\n"
+		"    bar[boo*foo-1] = 2;\n"
 		"}\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -3379,6 +3517,7 @@ TEST(AlignPointerNameSans1)
 		"    a && b;\n"
 		"    x = a * b;\n"
 		"    x = a & b;\n"
+		"    bar[boo*foo-1] = 2;\n"
 		"}\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);

@@ -34,6 +34,7 @@ echo -
 echo copying SciTE
 xcopy "%progdir%\scite\*.h"    "%testdata%\scite\"  /s /y /q
 xcopy "%progdir%\scite\*.cxx"  "%testdata%\scite\"  /s /y /q
+xcopy "%progdir%\scite\*.c"    "%testdata%\scite\"  /s /y /q
 
 echo -
 pause
