@@ -2,17 +2,17 @@
 REM build the AStyle Release Java Configuration using the AStyle project file
 REM copy the output to the AStyleDev\test-j(x) folder
 
-set astyle=..\..\AStyle\build\vs2008
+set astyle=..\..\AStyle\build\vs2005
 set bindir1=..\src-j
 set bindir2=..\src-jx
+set sdk=v3.5
+if %astyle:~-6% == vs2005  set sdk=v2.0.50727
+if %astyle:~-6% == vs2008  set sdk=v3.5
+if %astyle:~-6% == vs2010  set sdk=v4.0.21006
 set errors=no
 
-REM the following batch file is needed for VS2005
-REM and change the build directory to buildvs2005
-REM call "%VS80COMNTOOLS%\vsvars32.bat"
-
 echo BUILDING ASTYLE JAVA
-%windir%\microsoft.net\framework\v3.5\msbuild  /nologo  "/property:Configuration=Release"  "%astyle%\AStyleJava.sln"
+%windir%\microsoft.net\framework\%sdk%\msbuild  /nologo  "/property:Configuration=Release"  "%astyle%\AStyleJava.sln"
 if %ERRORLEVEL% NEQ 0  set errors=yes
 
 REM don't copy if compile errors
@@ -28,7 +28,6 @@ if %ERRORLEVEL% NEQ 0  set errors=yes
 if %errors%==yes (
 echo -
 echo * * * *  ERRORS IN PROCESSING SCRIPT  * * * *
-exit 100
 )
 
 echo -

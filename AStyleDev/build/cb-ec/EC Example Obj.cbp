@@ -8,7 +8,6 @@
 		<Build>
 			<Target title="ExampleO">
 				<Option output="bin\ExampleO.exe" prefix_auto="0" extension_auto="0" />
-				<Option working_dir="..\" />
 				<Option object_output="objObj" />
 				<Option deps_output="dep" />
 				<Option type="1" />

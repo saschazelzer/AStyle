@@ -33,7 +33,6 @@
 			</Target>
 			<Target title="ExampleSo">
 				<Option output="bin/exampleSo" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="../" />
 				<Option object_output="objSo" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -44,15 +43,15 @@
 				<Option projectLibDirsRelation="1" />
 				<Compiler>
 					<Add option="-O3" />
-					<Add option="-W" />
 					<Add option="-Wall" />
+					<Add option="-W" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
 					<Add option="-DNDEBUG" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add option="-Wl,-rpath,./cb-gcc/bin" />
+					<Add option="-Wl,-rpath,./bin" />
 					<Add library="astyle" />
 					<Add directory="bin" />
 				</Linker>

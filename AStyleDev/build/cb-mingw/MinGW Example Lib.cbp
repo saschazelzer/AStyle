@@ -33,7 +33,6 @@
 			</Target>
 			<Target title="ExampleL">
 				<Option output="bin\ExampleL" prefix_auto="0" extension_auto="1" />
-				<Option working_dir="..\" />
 				<Option object_output="objLib" />
 				<Option type="1" />
 				<Option compiler="gcc" />

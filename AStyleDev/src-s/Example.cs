@@ -12,9 +12,9 @@ public class Example
 {   /// Main function for Example
     public static void Main(string[] args)
     {   // files to pass to AStyle
-        String[] fileName =  { "../test-s/FileUtility.cs",
-                               "../test-s/MainClass.cs" ,
-                               "../test-s/StringParser.cs" ,
+        String[] fileName =  { "AStyleDev/test-s/FileUtility.cs",
+                               "AStyleDev/test-s/MainClass.cs" ,
+                               "AStyleDev/test-s/StringParser.cs" ,
                              };
 
         // options to pass to AStyle
@@ -28,24 +28,25 @@ public class Example
         // does not need to terminate on an error
         String version = AStyle.GetVersion();
         if (version != String.Empty)
-            Console.WriteLine ("AStyle Version " + version);
+            Console.WriteLine ("Example C# - AStyle " + version);
 
         // process the files
         for (int i = 0; i < fileName.Length; i++)
         {   // get the text to format
-            String textIn = GetText(fileName[i]);
+            String filePath = GetProjectDirectory(fileName[i]);
+            String textIn = GetText(filePath);
 
             // call the Artistic Style formatting function
             // does not need to terminate on an error
             String textOut = AStyle.FormatSource(textIn, options);
             if (textOut == String.Empty)
-            {   Console.WriteLine("Cannot format "  + fileName[i]);
+            {   Console.WriteLine("Cannot format "  + filePath);
                 continue;
             }
 
             // return the formatted text
-            Console.WriteLine("formatted " + fileName[i]);
-            SetText(textOut, fileName[i]);
+            Console.WriteLine("Formatted " + fileName[i]);
+            SetText(textOut, filePath);
         }
 
         return;
@@ -58,9 +59,24 @@ public class Example
         Environment.Exit(1);
     }
 
+    /// Prepend the project directory to the subpath.
+    /// This may need to be changed for your directory structure.
+    private static String GetProjectDirectory(String subPath)
+    {   String homeDirectory = null;
+        if (Environment.OSVersion.Platform == PlatformID.Unix ||
+                Environment.OSVersion.Platform == PlatformID.MacOSX)
+            homeDirectory = Environment.GetEnvironmentVariable("HOME");
+        else
+            homeDirectory = Environment.GetEnvironmentVariable("USERPROFILE");
+        if (homeDirectory == null)
+            Error("Cannot find HOME directory!", "");
+        String projectPath = homeDirectory + "/Projects/" + subPath;
+        return projectPath;
+    }
+
     ///  Get the text to be formatted.
     ///  Usually the text would be obtained from an edit control.
-    private static String GetText(string fileName)
+    private static String GetText(string filePath)
     {   // create input buffers
         int readSize = 1024;
         StringBuilder bufferIn = new StringBuilder(readSize);
@@ -68,7 +84,7 @@ public class Example
 
         // read file data
         try
-        {   FileStream file = new FileStream(fileName, FileMode.Open);
+        {   FileStream file = new FileStream(filePath, FileMode.Open);
             StreamReader streamIn = new StreamReader(file);
             // use ReadBlock to preserve the current line endings
             int charsIn = streamIn.ReadBlock(fileIn, 0, readSize);
@@ -80,15 +96,15 @@ public class Example
         }
         catch (DirectoryNotFoundException e)
         {   Console.WriteLine(e.ToString());
-            Error("Cannot find directory", fileName);
+            Error("Cannot find directory", filePath);
         }
         catch (FileNotFoundException e)
         {   Console.WriteLine(e.ToString());
-            Error("Cannot find file", fileName);
+            Error("Cannot find file", filePath);
         }
         catch (Exception e)
         {   Console.WriteLine(e.ToString());
-            Error("Error reading file", fileName);
+            Error("Error reading file", filePath);
         }
 
         return bufferIn.ToString();
@@ -96,24 +112,24 @@ public class Example
 
     ///  Return the formatted text.
     ///  Usually the text would be returned to an edit control.
-    private static void SetText(String textOut, String fileName)
+    private static void SetText(String textOut, String filePath)
     {   // create a backup file
-        String origFileName = fileName +  ".orig";
-        File.Delete(origFileName);                  // remove a pre-existing file
-        FileInfo outFile = new FileInfo(fileName);
-        outFile.MoveTo(origFileName);
+        String origfilePath = filePath +  ".orig";
+        File.Delete(origfilePath);                  // remove a pre-existing file
+        FileInfo outFile = new FileInfo(filePath);
+        outFile.MoveTo(origfilePath);
 
         // write the output file - same name as input
         try
         {   char[] bufferOut = textOut.ToCharArray();
-            FileStream file = new FileStream(fileName, FileMode.Create);
+            FileStream file = new FileStream(filePath, FileMode.Create);
             StreamWriter streamOut = new StreamWriter(file);
             streamOut.Write(bufferOut, 0, bufferOut.Length);
             streamOut.Close();
         }
         catch (Exception e)
         {   Console.WriteLine(e.ToString());
-            Error("Error writing file", fileName);
+            Error("Error writing file", filePath);
         }
 
         return;

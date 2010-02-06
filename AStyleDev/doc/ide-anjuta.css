@@ -11,7 +11,7 @@ pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:'C
 .hl.slc { color:#ff0000; font-style:italic; }
 .hl.com { color:#ff0000; font-style:italic; }
 .hl.dir { color:#678000; }
-.hl.sym { color:#000000; }
+.hl.sym { color:#000000; font-weight:bold; }
 .hl.line { color:#ff0000; }
 .hl.mark	{ background-color:#ffffbb;}
 .hl.kwa { color:#000080; font-weight:bold; }

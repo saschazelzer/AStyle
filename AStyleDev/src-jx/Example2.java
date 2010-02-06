@@ -3,16 +3,16 @@
 /*
 * Example2 uses the AStyleInterface class to call the Artistic Style formatter
 * (AStyleMain) to format source files in a 'test-j' directory.
- */
+*/
 
 import java.io.*;
 
 public class Example2
 {   public static void main(String[] args)
     {   // files to pass to AStyle
-        String fileName[] =  { "../test-j/JSBeautifier.java",
-                               "../test-j/JSFormatter.java" ,
-                               "../test-j/JSLineBreaker.java" ,
+        String fileName[] =  { "AStyleDev/test-j/JSBeautifier.java",
+                               "AStyleDev/test-j/JSFormatter.java" ,
+                               "AStyleDev/test-j/JSLineBreaker.java" ,
                              };
 
         // create an object
@@ -25,25 +25,27 @@ public class Example2
         // does not need to terminate on an error
         String version = astyle.getVersion();
         if (version.length() != 0)
-            System.out.println("AStyle Version " + version);
+            System.out.println("Example2 Java - AStyle " + version);
 
         // process the files
         for (int i = 0; i < fileName.length; i++)
         {   // get the text to format
-            String textIn = getText(fileName[i]);
+            String filePath = getProjectDirectory(fileName[i]);
+            String textIn = getText(filePath);
 
             // call the Artistic Style formatting function
             // does not need to terminate on an error
-            String textOut = astyle.formatSource(textIn, fileName[i]);
+            String textOut = astyle.formatSource(textIn, filePath);
             if (textOut.length() == 0)
-            {   System.out.println("Cannot format "  + fileName[i]);
+            {   System.out.println("Cannot format "  + filePath);
                 continue;
             }
 
             // return the formatted text
-            System.out.println("formatted " + fileName[i]);
-            setText(textOut, fileName[i]);
+            System.out.println("Formatted " + fileName[i]);
+            setText(textOut, filePath);
         }
+
         return;
     }
 
@@ -57,12 +59,22 @@ public class Example2
     }
 
     /*
+    * Prepend the project directory to the subpath.
+    * This may need to be changed for your directory structure.
+    */
+    private static String getProjectDirectory(String subPath)
+    {   String homeDirectory = System.getProperty("user.home");
+        String projectPath = homeDirectory + "/Projects/" + subPath;
+        return projectPath;
+    }
+
+    /*
     *  Get the text to be formatted.
     *  Usually the text would be obtained from an edit control.
     */
-    private static String getText(String fileName)
+    private static String getText(String filePath)
     {   // create input buffers
-        File inFile = new File(fileName);
+        File inFile = new File(filePath);
         int readSize = 1024;
         StringBuffer bufferIn = new StringBuffer(readSize);
         char fileIn[] = new char[readSize];
@@ -81,11 +93,11 @@ public class Example2
         }
         catch (Exception e)
         {   if (e instanceof FileNotFoundException)
-                error("Could not open input file", fileName);
+                error("Cannot open input file", filePath);
             else if (e instanceof IOException)
-                error("Error reading file", fileName);
+                error("Error reading file", filePath);
             else
-                error(e.getMessage(), fileName);
+                error(e.getMessage(), filePath);
         }
 
         return bufferIn.toString();
@@ -95,24 +107,24 @@ public class Example2
     *  Return the formatted text.
     *  Usually the text would be returned to an edit control.
     */
-    private static void setText(String textOut, String fileName)
+    private static void setText(String textOut, String filePath)
     {   // create a backup file
-        String origFileName = fileName +  ".orig";
-        File origFile = new File(origFileName);
-        File outFile = new File(fileName);
+        String origfilePath = filePath +  ".orig";
+        File origFile = new File(origfilePath);
+        File outFile = new File(filePath);
         origFile.delete();                  // remove a pre-existing file
         if (!outFile.renameTo(origFile))
-            error("Could not create backup file", origFileName);
+            error("Cannot create backup file", origfilePath);
 
         // write the output file - same name as input
         try
         {   BufferedWriter out =
-                new BufferedWriter(new FileWriter(fileName));
+                new BufferedWriter(new FileWriter(filePath));
             out.write(textOut, 0, textOut.length());
             out.close();
         }
         catch (IOException e)
-        {   error("Could not write to output", fileName);
+        {   error("Cannot write to output", filePath);
         }
     }
 

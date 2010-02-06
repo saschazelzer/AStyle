@@ -8,7 +8,6 @@
 		<Build>
 			<Target title="Example2O">
 				<Option output="bin/example2O" prefix_auto="0" extension_auto="0" />
-				<Option working_dir="../" />
 				<Option object_output="obj2O" />
 				<Option type="1" />
 				<Option compiler="gcc" />

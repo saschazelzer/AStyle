@@ -21,8 +21,7 @@ class AStyleInterface
         {   textOut = AStyleMain(textIn, options);
         }
         catch (UnsatisfiedLinkError e)
-        {
-//            System.out.println(e.getMessage());
+        {   //~ System.out.println(e.getMessage());
             System.out.println("Cannot call function AStyleMain");
         }
         return textOut;
@@ -39,8 +38,7 @@ class AStyleInterface
         {   version = AStyleGetVersion();
         }
         catch (UnsatisfiedLinkError e)
-        {
-//            System.out.println(e.getMessage());
+        {   //~ System.out.println(e.getMessage());
             System.out.println("Cannot call function GetVersion");
         }
         return version;
@@ -55,15 +53,14 @@ class AStyleInterface
     */
     static
     {   // load shared library from the classpath
-        String astylePath = System.getProperty("java.class.path")
+        String astylePath = System.getProperty("user.dir")
                             + System.getProperty("file.separator")
                             + System.mapLibraryName("astylej");
         try
         {   System.load(astylePath);
         }
         catch (UnsatisfiedLinkError e)
-        {
-//            System.out.println(e.getMessage());
+        {   //~ System.out.println(e.getMessage());
             System.out.println("Cannot load library " + astylePath);
             System.out.println("The program has terminated!");
             System.exit(1);

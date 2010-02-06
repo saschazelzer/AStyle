@@ -451,12 +451,12 @@ public class AStyleInterface
     */
     static
     {   // load shared library from the classpath
-        String astylePath = System.getProperty("java.class.path")
+        String astylePath = System.getProperty("user.dir")
                             + System.getProperty("file.separator")
                             + System.mapLibraryName("astylej");
         try
         {   System.load(astylePath);
-//        System.loadLibrary("astyle");
+            //~ System.loadLibrary("astyle");
         }
         catch (UnsatisfiedLinkError e)
         {   displayErrorMessage(e.getMessage() +
@@ -474,16 +474,15 @@ public class AStyleInterface
     */
     public String formatSource(String textIn)
     {   String options = getOptions();
-//        displayErrorMessage("--------------------\n"
-//                            + options + "\n"
-//                            + "--------------------" );
+        //~ displayErrorMessage("--------------------\n"
+        //~ + options + "\n"
+        //~ + "--------------------" );
         String textOut = new String("");
         try
         {   textOut = AStyleMain(textIn, options);
         }
         catch (UnsatisfiedLinkError e)
-        {
-//            System.out.println(e.getMessage());
+        {   //~ System.out.println(e.getMessage());
             System.out.println("cannot call function AStyleMain");
         }
         return textOut;
@@ -528,8 +527,7 @@ public class AStyleInterface
         {   version = AStyleGetVersion();
         }
         catch (UnsatisfiedLinkError e)
-        {
-//            System.out.println(e.getMessage());
+        {   //~ System.out.println(e.getMessage());
             System.out.println("cannot call function GetVersion");
         }
         return version;

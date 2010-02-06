@@ -1,13 +1,13 @@
 @echo off
 REM build the AStyle Release Dll Configuration using the AStyle project file
-REM copy the output to the AStyleDev\test-sx) folder
+REM copy the output to the AStyleDev\test-s(x) folder
 
-REM %1 should be the Visual Studio release date
-set astyle=..\..\AStyle\build\vs2008
+set astyle=..\..\AStyle\build\vs2005
 set bindir1=..\src-s
 set bindir2=..\src-sx
-set sdk=no
 set sdk=v3.5
+if %astyle:~-6% == vs2005  set sdk=v2.0.50727
+if %astyle:~-6% == vs2008  set sdk=v3.5
 if %astyle:~-6% == vs2010  set sdk=v4.0.21006
 set errors=no
 
@@ -26,8 +26,8 @@ if %ERRORLEVEL% NEQ 0  set errors=yes
 )
 
 if %errors%==yes (
+echo -
 echo * * * *  ERRORS IN PROCESSING SCRIPT  * * * *
-exit 100
 )
 
 echo -

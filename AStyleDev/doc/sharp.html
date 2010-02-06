@@ -217,7 +217,10 @@
         The following example formats source files by calling the Artistic Style formatter. It is a console application
         but the procedure for a GUI is the same. The two classes can be copied and pasted into a source files. The Artistic
         Style source code must be compiled as a shared library (DLL) using the option ASTYLE_LIB. The shared library must
-        be copied to the directory that contains the C# executable (it is loaded from the current directory).</p>
+        be copied to the directory that contains the C# executable (it is loaded from the current directory). The directory
+        of the files to be formatted is an absolute path in the function getProjectDirectory() in Example.java. This will
+        need to be changed to reflect your directory structure. When the program is run be sure the current working directory
+        is the directory with the executable and shared library.</p>
     <p>
         &nbsp;</p>
     <div class="code">
@@ -236,9 +239,9 @@
 <span class="hl sym">{</span>   <span class="hl slc">/// Main function for Example</span>
     <span class="hl kwa">public static</span> <span class="hl kwb">void</span> <span class="hl kwd">Main</span><span class="hl sym">(</span><span class="hl kwb">string</span><span class="hl sym">[]</span> args<span class="hl sym">)</span>
     <span class="hl sym">{</span>   <span class="hl slc">// files to pass to AStyle</span>
-        String<span class="hl sym">[]</span> fileName <span class="hl sym">=  {</span> <span class="hl str">&quot;../test-s/FileUtility.cs&quot;</span><span class="hl sym">,</span>
-                               <span class="hl str">&quot;../test-s/MainClass.cs&quot;</span> <span class="hl sym">,</span>
-                               <span class="hl str">&quot;../test-s/StringParser.cs&quot;</span> <span class="hl sym">,</span>
+        String<span class="hl sym">[]</span> fileName <span class="hl sym">=  {</span> <span class="hl str">&quot;AStyleDev/test-s/FileUtility.cs&quot;</span><span class="hl sym">,</span>
+                               <span class="hl str">&quot;AStyleDev/test-s/MainClass.cs&quot;</span> <span class="hl sym">,</span>
+                               <span class="hl str">&quot;AStyleDev/test-s/StringParser.cs&quot;</span> <span class="hl sym">,</span>
                              <span class="hl sym">};</span>
 
         <span class="hl slc">// options to pass to AStyle</span>
@@ -252,24 +255,25 @@
         <span class="hl slc">// does not need to terminate on an error</span>
         String version <span class="hl sym">=</span> AStyle<span class="hl sym">.</span><span class="hl kwd">GetVersion</span><span class="hl sym">();</span>
         <span class="hl kwa">if</span> <span class="hl sym">(</span>version <span class="hl sym">!=</span> String<span class="hl sym">.</span>Empty<span class="hl sym">)</span>
-            Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span> <span class="hl sym">(</span><span class="hl str">&quot;AStyle Version &quot;</span> <span class="hl sym">+</span> version<span class="hl sym">);</span>
+            Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span> <span class="hl sym">(</span><span class="hl str">&quot;Example C# - AStyle &quot;</span> <span class="hl sym">+</span> version<span class="hl sym">);</span>
 
         <span class="hl slc">// process the files</span>
         <span class="hl kwa">for</span> <span class="hl sym">(</span><span class="hl kwb">int</span> i <span class="hl sym">=</span> <span class="hl num">0</span><span class="hl sym">;</span> i <span class="hl sym">&lt;</span> fileName<span class="hl sym">.</span>Length<span class="hl sym">;</span> i<span class="hl sym">++)</span>
         <span class="hl sym">{</span>   <span class="hl slc">// get the text to format</span>
-            String textIn <span class="hl sym">=</span> <span class="hl kwd">GetText</span><span class="hl sym">(</span>fileName<span class="hl sym">[</span>i<span class="hl sym">]);</span>
+            String filePath <span class="hl sym">=</span> <span class="hl kwd">GetProjectDirectory</span><span class="hl sym">(</span>fileName<span class="hl sym">[</span>i<span class="hl sym">]);</span>
+            String textIn <span class="hl sym">=</span> <span class="hl kwd">GetText</span><span class="hl sym">(</span>filePath<span class="hl sym">);</span>
 
             <span class="hl slc">// call the Artistic Style formatting function</span>
             <span class="hl slc">// does not need to terminate on an error</span>
             String textOut <span class="hl sym">=</span> AStyle<span class="hl sym">.</span><span class="hl kwd">FormatSource</span><span class="hl sym">(</span>textIn<span class="hl sym">,</span> options<span class="hl sym">);</span>
             <span class="hl kwa">if</span> <span class="hl sym">(</span>textOut <span class="hl sym">==</span> String<span class="hl sym">.</span>Empty<span class="hl sym">)</span>
-            <span class="hl sym">{</span>   Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span><span class="hl str">&quot;Cannot format &quot;</span>  <span class="hl sym">+</span> fileName<span class="hl sym">[</span>i<span class="hl sym">]);</span>
+            <span class="hl sym">{</span>   Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span><span class="hl str">&quot;Cannot format &quot;</span>  <span class="hl sym">+</span> filePath<span class="hl sym">);</span>
                 <span class="hl kwa">continue</span><span class="hl sym">;</span>
             <span class="hl sym">}</span>
 
             <span class="hl slc">// return the formatted text</span>
-            Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span><span class="hl str">&quot;formatted &quot;</span> <span class="hl sym">+</span> fileName<span class="hl sym">[</span>i<span class="hl sym">]);</span>
-            <span class="hl kwd">SetText</span><span class="hl sym">(</span>textOut<span class="hl sym">,</span> fileName<span class="hl sym">[</span>i<span class="hl sym">]);</span>
+            Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span><span class="hl str">&quot;Formatted &quot;</span> <span class="hl sym">+</span> fileName<span class="hl sym">[</span>i<span class="hl sym">]);</span>
+            <span class="hl kwd">SetText</span><span class="hl sym">(</span>textOut<span class="hl sym">,</span> filePath<span class="hl sym">);</span>
         <span class="hl sym">}</span>
 
         <span class="hl kwa">return</span><span class="hl sym">;</span>
@@ -282,9 +286,24 @@
         Environment<span class="hl sym">.</span><span class="hl kwd">Exit</span><span class="hl sym">(</span><span class="hl num">1</span><span class="hl sym">);</span>
     <span class="hl sym">}</span>
 
+    <span class="hl slc">/// Prepend the project directory to the subpath.</span>
+    <span class="hl slc">/// This may need to be changed for your directory structure.</span>
+    <span class="hl kwa">private static</span> String <span class="hl kwd">GetProjectDirectory</span><span class="hl sym">(</span>String subPath<span class="hl sym">)</span>
+    <span class="hl sym">{</span>   String homeDirectory <span class="hl sym">=</span> <span class="hl kwa">null</span><span class="hl sym">;</span>
+        <span class="hl kwa">if</span> <span class="hl sym">(</span>Environment<span class="hl sym">.</span>OSVersion<span class="hl sym">.</span>Platform <span class="hl sym">==</span> PlatformID<span class="hl sym">.</span>Unix <span class="hl sym">||</span>
+                Environment<span class="hl sym">.</span>OSVersion<span class="hl sym">.</span>Platform <span class="hl sym">==</span> PlatformID<span class="hl sym">.</span>MacOSX<span class="hl sym">)</span>
+            homeDirectory <span class="hl sym">=</span> Environment<span class="hl sym">.</span><span class="hl kwd">GetEnvironmentVariable</span><span class="hl sym">(</span><span class="hl str">&quot;HOME&quot;</span><span class="hl sym">);</span>
+        <span class="hl kwa">else</span>
+            homeDirectory <span class="hl sym">=</span> Environment<span class="hl sym">.</span><span class="hl kwd">GetEnvironmentVariable</span><span class="hl sym">(</span><span class="hl str">&quot;USERPROFILE&quot;</span><span class="hl sym">);</span>
+        <span class="hl kwa">if</span> <span class="hl sym">(</span>homeDirectory <span class="hl sym">==</span> <span class="hl kwa">null</span><span class="hl sym">)</span>
+            <span class="hl kwd">Error</span><span class="hl sym">(</span><span class="hl str">&quot;Cannot find HOME directory!&quot;</span><span class="hl sym">,</span> <span class="hl str">&quot;&quot;</span><span class="hl sym">);</span>
+        String projectPath <span class="hl sym">=</span> homeDirectory <span class="hl sym">+</span> <span class="hl str">&quot;/Projects/&quot;</span> <span class="hl sym">+</span> subPath<span class="hl sym">;</span>
+        <span class="hl kwa">return</span> projectPath<span class="hl sym">;</span>
+    <span class="hl sym">}</span>
+
     <span class="hl slc">///  Get the text to be formatted.</span>
     <span class="hl slc">///  Usually the text would be obtained from an edit control.</span>
-    <span class="hl kwa">private static</span> String <span class="hl kwd">GetText</span><span class="hl sym">(</span><span class="hl kwb">string</span> fileName<span class="hl sym">)</span>
+    <span class="hl kwa">private static</span> String <span class="hl kwd">GetText</span><span class="hl sym">(</span><span class="hl kwb">string</span> filePath<span class="hl sym">)</span>
     <span class="hl sym">{</span>   <span class="hl slc">// create input buffers</span>
         <span class="hl kwb">int</span> readSize <span class="hl sym">=</span> <span class="hl num">1024</span><span class="hl sym">;</span>
         StringBuilder bufferIn <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">StringBuilder</span><span class="hl sym">(</span>readSize<span class="hl sym">);</span>
@@ -292,7 +311,7 @@
 
         <span class="hl slc">// read file data</span>
         <span class="hl kwa">try</span>
-        <span class="hl sym">{</span>   FileStream file <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">FileStream</span><span class="hl sym">(</span>fileName<span class="hl sym">,</span> FileMode<span class="hl sym">.</span>Open<span class="hl sym">);</span>
+        <span class="hl sym">{</span>   FileStream file <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">FileStream</span><span class="hl sym">(</span>filePath<span class="hl sym">,</span> FileMode<span class="hl sym">.</span>Open<span class="hl sym">);</span>
             StreamReader streamIn <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">StreamReader</span><span class="hl sym">(</span>file<span class="hl sym">);</span>
             <span class="hl slc">// use ReadBlock to preserve the current line endings</span>
             <span class="hl kwb">int</span> charsIn <span class="hl sym">=</span> streamIn<span class="hl sym">.</span><span class="hl kwd">ReadBlock</span><span class="hl sym">(</span>fileIn<span class="hl sym">,</span> <span class="hl num">0</span><span class="hl sym">,</span> readSize<span class="hl sym">);</span>
@@ -304,15 +323,15 @@
         <span class="hl sym">}</span>
         <span class="hl kwa">catch</span> <span class="hl sym">(</span>DirectoryNotFoundException e<span class="hl sym">)</span>
         <span class="hl sym">{</span>   Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span>e<span class="hl sym">.</span><span class="hl kwd">ToString</span><span class="hl sym">());</span>
-            <span class="hl kwd">Error</span><span class="hl sym">(</span><span class="hl str">&quot;Cannot find directory&quot;</span><span class="hl sym">,</span> fileName<span class="hl sym">);</span>
+            <span class="hl kwd">Error</span><span class="hl sym">(</span><span class="hl str">&quot;Cannot find directory&quot;</span><span class="hl sym">,</span> filePath<span class="hl sym">);</span>
         <span class="hl sym">}</span>
         <span class="hl kwa">catch</span> <span class="hl sym">(</span>FileNotFoundException e<span class="hl sym">)</span>
         <span class="hl sym">{</span>   Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span>e<span class="hl sym">.</span><span class="hl kwd">ToString</span><span class="hl sym">());</span>
-            <span class="hl kwd">Error</span><span class="hl sym">(</span><span class="hl str">&quot;Cannot find file&quot;</span><span class="hl sym">,</span> fileName<span class="hl sym">);</span>
+            <span class="hl kwd">Error</span><span class="hl sym">(</span><span class="hl str">&quot;Cannot find file&quot;</span><span class="hl sym">,</span> filePath<span class="hl sym">);</span>
         <span class="hl sym">}</span>
         <span class="hl kwa">catch</span> <span class="hl sym">(</span>Exception e<span class="hl sym">)</span>
         <span class="hl sym">{</span>   Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span>e<span class="hl sym">.</span><span class="hl kwd">ToString</span><span class="hl sym">());</span>
-            <span class="hl kwd">Error</span><span class="hl sym">(</span><span class="hl str">&quot;Error reading file&quot;</span><span class="hl sym">,</span> fileName<span class="hl sym">);</span>
+            <span class="hl kwd">Error</span><span class="hl sym">(</span><span class="hl str">&quot;Error reading file&quot;</span><span class="hl sym">,</span> filePath<span class="hl sym">);</span>
         <span class="hl sym">}</span>
 
         <span class="hl kwa">return</span> bufferIn<span class="hl sym">.</span><span class="hl kwd">ToString</span><span class="hl sym">();</span>
@@ -320,24 +339,24 @@
 
     <span class="hl slc">///  Return the formatted text.</span>
     <span class="hl slc">///  Usually the text would be returned to an edit control.</span>
-    <span class="hl kwa">private static</span> <span class="hl kwb">void</span> <span class="hl kwd">SetText</span><span class="hl sym">(</span>String textOut<span class="hl sym">,</span> String fileName<span class="hl sym">)</span>
+    <span class="hl kwa">private static</span> <span class="hl kwb">void</span> <span class="hl kwd">SetText</span><span class="hl sym">(</span>String textOut<span class="hl sym">,</span> String filePath<span class="hl sym">)</span>
     <span class="hl sym">{</span>   <span class="hl slc">// create a backup file</span>
-        String origFileName <span class="hl sym">=</span> fileName <span class="hl sym">+</span>  <span class="hl str">&quot;.orig&quot;</span><span class="hl sym">;</span>
-        File<span class="hl sym">.</span><span class="hl kwd">Delete</span><span class="hl sym">(</span>origFileName<span class="hl sym">);</span>                  <span class="hl slc">// remove a pre-existing file</span>
-        FileInfo outFile <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">FileInfo</span><span class="hl sym">(</span>fileName<span class="hl sym">);</span>
-        outFile<span class="hl sym">.</span><span class="hl kwd">MoveTo</span><span class="hl sym">(</span>origFileName<span class="hl sym">);</span>
+        String origfilePath <span class="hl sym">=</span> filePath <span class="hl sym">+</span>  <span class="hl str">&quot;.orig&quot;</span><span class="hl sym">;</span>
+        File<span class="hl sym">.</span><span class="hl kwd">Delete</span><span class="hl sym">(</span>origfilePath<span class="hl sym">);</span>                  <span class="hl slc">// remove a pre-existing file</span>
+        FileInfo outFile <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">FileInfo</span><span class="hl sym">(</span>filePath<span class="hl sym">);</span>
+        outFile<span class="hl sym">.</span><span class="hl kwd">MoveTo</span><span class="hl sym">(</span>origfilePath<span class="hl sym">);</span>
 
         <span class="hl slc">// write the output file - same name as input</span>
         <span class="hl kwa">try</span>
         <span class="hl sym">{</span>   <span class="hl kwb">char</span><span class="hl sym">[]</span> bufferOut <span class="hl sym">=</span> textOut<span class="hl sym">.</span><span class="hl kwd">ToCharArray</span><span class="hl sym">();</span>
-            FileStream file <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">FileStream</span><span class="hl sym">(</span>fileName<span class="hl sym">,</span> FileMode<span class="hl sym">.</span>Create<span class="hl sym">);</span>
+            FileStream file <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">FileStream</span><span class="hl sym">(</span>filePath<span class="hl sym">,</span> FileMode<span class="hl sym">.</span>Create<span class="hl sym">);</span>
             StreamWriter streamOut <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">StreamWriter</span><span class="hl sym">(</span>file<span class="hl sym">);</span>
             streamOut<span class="hl sym">.</span><span class="hl kwd">Write</span><span class="hl sym">(</span>bufferOut<span class="hl sym">,</span> <span class="hl num">0</span><span class="hl sym">,</span> bufferOut<span class="hl sym">.</span>Length<span class="hl sym">);</span>
             streamOut<span class="hl sym">.</span><span class="hl kwd">Close</span><span class="hl sym">();</span>
         <span class="hl sym">}</span>
         <span class="hl kwa">catch</span> <span class="hl sym">(</span>Exception e<span class="hl sym">)</span>
         <span class="hl sym">{</span>   Console<span class="hl sym">.</span><span class="hl kwd">WriteLine</span><span class="hl sym">(</span>e<span class="hl sym">.</span><span class="hl kwd">ToString</span><span class="hl sym">());</span>
-            <span class="hl kwd">Error</span><span class="hl sym">(</span><span class="hl str">&quot;Error writing file&quot;</span><span class="hl sym">,</span> fileName<span class="hl sym">);</span>
+            <span class="hl kwd">Error</span><span class="hl sym">(</span><span class="hl str">&quot;Error writing file&quot;</span><span class="hl sym">,</span> filePath<span class="hl sym">);</span>
         <span class="hl sym">}</span>
 
         <span class="hl kwa">return</span><span class="hl sym">;</span>
@@ -362,6 +381,11 @@
 <span class="hl sym">{</span>   <span class="hl slc">// Cannot use String as a return value because Mono runtime will attempt to</span>
     <span class="hl slc">// free the returned pointer resulting in a runtime crash.</span>
     <span class="hl sym">[</span><span class="hl kwd">DllImport</span><span class="hl sym">(</span><span class="hl str">&quot;astyle&quot;</span><span class="hl sym">,</span> CallingConvention <span class="hl sym">=</span> CallingConvention<span class="hl sym">.</span>StdCall<span class="hl sym">)]</span>
+    <span class="hl kwa">private static</span> extern IntPtr <span class="hl kwd">AStyleGetVersion</span><span class="hl sym">();</span>
+
+    <span class="hl slc">// Cannot use String as a return value because Mono runtime will attempt to</span>
+    <span class="hl slc">// free the returned pointer resulting in a runtime crash.</span>
+    <span class="hl sym">[</span><span class="hl kwd">DllImport</span><span class="hl sym">(</span><span class="hl str">&quot;astyle&quot;</span><span class="hl sym">,</span> CallingConvention <span class="hl sym">=</span> CallingConvention<span class="hl sym">.</span>StdCall<span class="hl sym">)]</span>
     <span class="hl kwa">private static</span> extern IntPtr AStyleMain
     <span class="hl sym">(</span>
         <span class="hl sym">[</span><span class="hl kwd">MarshalAs</span><span class="hl sym">(</span>UnmanagedType<span class="hl sym">.</span>LPStr<span class="hl sym">)]</span> String sIn<span class="hl sym">,</span>
@@ -369,11 +393,6 @@
         AStyleErrorDelgate errorFunc<span class="hl sym">,</span>
         AStyleMemAllocDelgate memAllocFunc
     <span class="hl sym">);</span>
-
-    <span class="hl slc">// Cannot use String as a return value because Mono runtime will attempt to</span>
-    <span class="hl slc">// free the returned pointer resulting in a runtime crash.</span>
-    <span class="hl sym">[</span><span class="hl kwd">DllImport</span><span class="hl sym">(</span><span class="hl str">&quot;astyle&quot;</span><span class="hl sym">,</span> CallingConvention <span class="hl sym">=</span> CallingConvention<span class="hl sym">.</span>StdCall<span class="hl sym">)]</span>
-    <span class="hl kwa">private static</span> extern IntPtr <span class="hl kwd">AStyleGetVersion</span><span class="hl sym">();</span>
 
     <span class="hl slc">// AStyleMain callbacks</span>
     <span class="hl kwa">private delegate</span> IntPtr <span class="hl kwd">AStyleMemAllocDelgate</span><span class="hl sym">(</span><span class="hl kwb">int</span> size<span class="hl sym">);</span>

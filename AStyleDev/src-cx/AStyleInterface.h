@@ -75,7 +75,7 @@ public:
     // public functions
     AStyleInterface();
     char* formatSource(const char* textIn);
-    char* formatSource(const char* textIn, const char* fileName);
+    char* formatSource(const char* textIn, std::string& filePath);
     char* formatSource(const char* textIn, FileMode fileModeArg);
     void  setFileMode(std::string fileName);
     void  setTestOptions();

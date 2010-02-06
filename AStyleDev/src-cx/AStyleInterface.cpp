@@ -1,6 +1,7 @@
 #include "AStyleInterface.h"
 #include <iostream>
 #include <sstream>
+using namespace std;
 
 /*
 * The constructor sets the variable default values.
@@ -67,8 +68,8 @@ AStyleInterface::AStyleInterface()
 *
 * @param  errorMessage   The error message to be displayed.
 */
-void AStyleInterface::displayErrorMessage(std::string errorMessage)
-{   std::cout << errorMessage << std::endl;
+void AStyleInterface::displayErrorMessage(string errorMessage)
+{   cout << errorMessage << endl;
 }
 
 /**
@@ -80,10 +81,10 @@ void AStyleInterface::displayErrorMessage(std::string errorMessage)
 *
 * @return    A string containing the options for Artistic Style.
 */
-std::string AStyleInterface::getOptions() const
-{   std::string options;                     // options to Artistic Style
+string AStyleInterface::getOptions() const
+{   string options;                     // options to Artistic Style
     options.reserve(50);
-    std::string separator = "\n";            // can be new-line, tab, space, or comma
+    string separator = "\n";            // can be new-line, tab, space, or comma
 
     // predefined style will override other options
     if (predefinedStyle != STYLE_NONE)
@@ -276,8 +277,8 @@ std::string AStyleInterface::getOptions() const
 *
 * @param  intValue  The int to be converted.
 */
-std::string AStyleInterface::intToString(int intValue)
-{   std::ostringstream stringValue;
+string AStyleInterface::intToString(int intValue)
+{   ostringstream stringValue;
     stringValue << intValue;
     return stringValue.str();
 }
@@ -287,11 +288,11 @@ std::string AStyleInterface::intToString(int intValue)
 *
 * @param  fileName   The name of the file, path may be included.
 */
-void AStyleInterface::setFileMode(std::string fileName)
+void AStyleInterface::setFileMode(string fileName)
 {   fileMode = FILEMODE_CPP;            // set the default
     size_t i = fileName.find_last_of('.');
-    if (i != std::string::npos)
-    {   std::string fileExtension = fileName.substr(i);
+    if (i != string::npos)
+    {   string fileExtension = fileName.substr(i);
         if (fileExtension == ".java")
             fileMode = FILEMODE_JAVA;
         else if (fileExtension == ".cs")
@@ -369,7 +370,7 @@ void AStyleInterface::setTestOptions()
 * @return  A pointer to the formatted source from Artistic Style.
 */
 char* AStyleInterface::formatSource(const char* textIn)
-{   std::string options = getOptions();
+{   string options = getOptions();
 //	displayErrorMessage("--------------------");
 //	displayErrorMessage(options);
 //	displayErrorMessage("--------------------");
@@ -387,9 +388,9 @@ char* AStyleInterface::formatSource(const char* textIn)
 * @param   fileName  A pointer to the name of the file being formatted.
 * @return  A char pointer to the formatted source from Artistic Style.
 */
-char* AStyleInterface::formatSource(const char* textIn, const char* fileName)
+char* AStyleInterface::formatSource(const char* textIn, string& filePath)
 {   // set file mode before formatting source
-    setFileMode(fileName);
+    setFileMode(filePath);
     char* textOut = formatSource(textIn);
     return textOut;
 }
@@ -418,9 +419,9 @@ char* AStyleInterface::formatSource(const char* textIn, FileMode fileModeArg)
 * @param  errorMessage  The error message from Artistic Style.
 */
 void STDCALL AStyleInterface::errorHandler(int errorNumber, char* errorMessage)
-{   displayErrorMessage(std::string("astyle error "
-                                    + intToString(errorNumber)
-                                    + "\n" + errorMessage));
+{   displayErrorMessage(string("astyle error "
+                               + intToString(errorNumber)
+                               + "\n" + errorMessage));
 }
 
 /**
@@ -433,6 +434,6 @@ void STDCALL AStyleInterface::errorHandler(int errorNumber, char* errorMessage)
 */
 char* STDCALL AStyleInterface::memoryAlloc(unsigned long memoryNeeded)
 {   // error condition should be checked by calling procedure
-    char* buffer = new(std::nothrow) char [memoryNeeded];
+    char* buffer = new(nothrow) char [memoryNeeded];
     return buffer;
 }

@@ -14,7 +14,9 @@ xcopy ..\src-cx\*.cpp  %distcpp%\src-cx\  /q
 if errorlevel 2 pause
 xcopy ..\src-cx\*.h    %distcpp%\src-cx\  /q
 if errorlevel 2 pause
-xcopy ..\test-c    %distcpp%\test-c\  /q
+xcopy ..\test-c\*.cpp  %distcpp%\test-c\  /q
+if errorlevel 2 pause
+xcopy ..\test-c\*.h    %distcpp%\test-c\  /q
 if errorlevel 2 pause
 echo %distcpp:~3% copied
 set distcpp=
@@ -26,7 +28,7 @@ if exist %distjava%\src-jx\*  del %distjava%\src-jx\*  /q
 if exist %distjava%\test-j\*  del %distjava%\test-j\*  /q
 xcopy ..\src-jx\*.java  %distjava%\src-jx\  /q
 if errorlevel 2 pause
-xcopy ..\test-j    %distjava%\test-j\  /q
+xcopy ..\test-j\*.java  %distjava%\test-j\  /q
 if errorlevel 2 pause
 echo %distjava:~3% copied
 set distjava=
@@ -38,7 +40,7 @@ if exist %distsharp%\src-sx\*  del %distsharp%\src-sx\*  /q
 if exist %distsharp%\test-s\*  del %distsharp%\test-s\*  /q
 xcopy ..\src-sx\*.cs  %distsharp%\src-sx\  /q
 if errorlevel 2 pause
-xcopy ..\test-s   %distsharp%\test-s\  /q
+xcopy ..\test-s\*.cs  %distsharp%\test-s\  /q
 if errorlevel 2 pause
 echo %distsharp:~3% copied
 set distsharp=

@@ -8,6 +8,11 @@ public class AStyleInterface
 {   // Cannot use String as a return value because Mono runtime will attempt to
     // free the returned pointer resulting in a runtime crash.
     [DllImport("astyle", CallingConvention = CallingConvention.StdCall)]
+    private static extern IntPtr AStyleGetVersion();
+
+    // Cannot use String as a return value because Mono runtime will attempt to
+    // free the returned pointer resulting in a runtime crash.
+    [DllImport("astyle", CallingConvention = CallingConvention.StdCall)]
     private static extern IntPtr AStyleMain
     (
         [MarshalAs(UnmanagedType.LPStr)] String sIn,
@@ -15,11 +20,6 @@ public class AStyleInterface
         AStyleErrorDelgate errorFunc,
         AStyleMemAllocDelgate memAllocFunc
     );
-
-    // Cannot use String as a return value because Mono runtime will attempt to
-    // free the returned pointer resulting in a runtime crash.
-    [DllImport("astyle", CallingConvention = CallingConvention.StdCall)]
-    private static extern IntPtr AStyleGetVersion();
 
     // AStyleMain callbacks
     private delegate IntPtr AStyleMemAllocDelgate(int size);
