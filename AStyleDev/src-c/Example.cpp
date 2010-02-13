@@ -33,7 +33,7 @@ char* STDCALL ASMemoryAlloc(unsigned long memoryNeeded);
 extern "C"
 char* STDCALL  AStyleGetVersion();
 void error(const char *why, const char* what = "");
-string getProjectDirectory(string& fileName);
+string getProjectDirectory(string& subPath);
 char* getText(string& filePath);
 void  setText(const char* textOut, string& filePathStr);
 
@@ -102,9 +102,9 @@ void error(const char *why, const char* what)
     exit(1);
 }
 
-// get the complete filepath for the filename
-// the directory path may need to be changed
-string getProjectDirectory(string& fileName)
+// Prepend the project directory to the subpath
+// This may need to be changed for your directory structure
+string getProjectDirectory(string& subPath)
 {
 #ifdef _WIN32
     char* homeDirectory = getenv("USERPROFILE");
@@ -113,12 +113,12 @@ string getProjectDirectory(string& fileName)
 #endif
     if (!homeDirectory)
         error("Cannot find HOME directory");
-    string projectPath = string(homeDirectory) + "/Projects/" + fileName;
+    string projectPath = string(homeDirectory) + "/Projects/" + subPath;
     return projectPath;
 }
 
-// get the text to be formatted
-// usually the text would be obtained from an edit control
+// Get the text to be formatted
+// Usually the text would be obtained from an edit control
 char* getText(string& filePath)
 {   // open input file
     ifstream in(filePath.c_str());
@@ -148,8 +148,8 @@ char* getText(string& filePath)
     return bufferIn;
 }
 
-// return the formatted text
-// usually the text would be returned to an edit control
+// Return the formatted text
+// Usually the text would be returned to an edit control
 void setText(const char* textOut, string& filePathStr)
 {   // create a backup file
     const char* filePath = filePathStr.c_str();

@@ -184,7 +184,7 @@
 <span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
 <span class="hl kwb">char</span><span class="hl sym">*</span> STDCALL  <span class="hl kwd">AStyleGetVersion</span><span class="hl sym">();</span>
 <span class="hl kwb">void</span> <span class="hl kwd">error</span><span class="hl sym">(</span><span class="hl kwb">const char</span> <span class="hl sym">*</span>why<span class="hl sym">,</span> <span class="hl kwb">const char</span><span class="hl sym">*</span> what <span class="hl sym">=</span> <span class="hl str">&quot;&quot;</span><span class="hl sym">);</span>
-string <span class="hl kwd">getProjectDirectory</span><span class="hl sym">(</span>string<span class="hl sym">&amp;</span> fileName<span class="hl sym">);</span>
+string <span class="hl kwd">getProjectDirectory</span><span class="hl sym">(</span>string<span class="hl sym">&amp;</span> subPath<span class="hl sym">);</span>
 <span class="hl kwb">char</span><span class="hl sym">*</span> <span class="hl kwd">getText</span><span class="hl sym">(</span>string<span class="hl sym">&amp;</span> filePath<span class="hl sym">);</span>
 <span class="hl kwb">void</span>  <span class="hl kwd">setText</span><span class="hl sym">(</span><span class="hl kwb">const char</span><span class="hl sym">*</span> textOut<span class="hl sym">,</span> string<span class="hl sym">&amp;</span> filePathStr<span class="hl sym">);</span>
 
@@ -253,9 +253,9 @@ string <span class="hl kwd">getProjectDirectory</span><span class="hl sym">(</sp
     <span class="hl kwd">exit</span><span class="hl sym">(</span><span class="hl num">1</span><span class="hl sym">);</span>
 <span class="hl sym">}</span>
 
-<span class="hl slc">// get the complete filepath for the filename</span>
-<span class="hl slc">// the directory path may need to be changed</span>
-string <span class="hl kwd">getProjectDirectory</span><span class="hl sym">(</span>string<span class="hl sym">&amp;</span> fileName<span class="hl sym">)</span>
+<span class="hl slc">// Prepend the project directory to the subpath</span>
+<span class="hl slc">// This may need to be changed for your directory structure</span>
+string <span class="hl kwd">getProjectDirectory</span><span class="hl sym">(</span>string<span class="hl sym">&amp;</span> subPath<span class="hl sym">)</span>
 <span class="hl sym">{</span>
 <span class="hl dir">#ifdef _WIN32</span>
     <span class="hl kwb">char</span><span class="hl sym">*</span> homeDirectory <span class="hl sym">=</span> <span class="hl kwd">getenv</span><span class="hl sym">(</span><span class="hl str">&quot;USERPROFILE&quot;</span><span class="hl sym">);</span>
@@ -264,12 +264,12 @@ string <span class="hl kwd">getProjectDirectory</span><span class="hl sym">(</sp
 <span class="hl dir">#endif</span>
     <span class="hl kwa">if</span> <span class="hl sym">(!</span>homeDirectory<span class="hl sym">)</span>
         <span class="hl kwd">error</span><span class="hl sym">(</span><span class="hl str">&quot;Cannot find HOME directory&quot;</span><span class="hl sym">);</span>
-    string projectPath <span class="hl sym">=</span> <span class="hl kwd">string</span><span class="hl sym">(</span>homeDirectory<span class="hl sym">) +</span> <span class="hl str">&quot;/Projects/&quot;</span> <span class="hl sym">+</span> fileName<span class="hl sym">;</span>
+    string projectPath <span class="hl sym">=</span> <span class="hl kwd">string</span><span class="hl sym">(</span>homeDirectory<span class="hl sym">) +</span> <span class="hl str">&quot;/Projects/&quot;</span> <span class="hl sym">+</span> subPath<span class="hl sym">;</span>
     <span class="hl kwa">return</span> projectPath<span class="hl sym">;</span>
 <span class="hl sym">}</span>
 
-<span class="hl slc">// get the text to be formatted</span>
-<span class="hl slc">// usually the text would be obtained from an edit control</span>
+<span class="hl slc">// Get the text to be formatted</span>
+<span class="hl slc">// Usually the text would be obtained from an edit control</span>
 <span class="hl kwb">char</span><span class="hl sym">*</span> <span class="hl kwd">getText</span><span class="hl sym">(</span>string<span class="hl sym">&amp;</span> filePath<span class="hl sym">)</span>
 <span class="hl sym">{</span>   <span class="hl slc">// open input file</span>
     ifstream <span class="hl kwd">in</span><span class="hl sym">(</span>filePath<span class="hl sym">.</span><span class="hl kwd">c_str</span><span class="hl sym">());</span>
@@ -299,8 +299,8 @@ string <span class="hl kwd">getProjectDirectory</span><span class="hl sym">(</sp
     <span class="hl kwa">return</span> bufferIn<span class="hl sym">;</span>
 <span class="hl sym">}</span>
 
-<span class="hl slc">// return the formatted text</span>
-<span class="hl slc">// usually the text would be returned to an edit control</span>
+<span class="hl slc">// Return the formatted text</span>
+<span class="hl slc">// Usually the text would be returned to an edit control</span>
 <span class="hl kwb">void</span> <span class="hl kwd">setText</span><span class="hl sym">(</span><span class="hl kwb">const char</span><span class="hl sym">*</span> textOut<span class="hl sym">,</span> string<span class="hl sym">&amp;</span> filePathStr<span class="hl sym">)</span>
 <span class="hl sym">{</span>   <span class="hl slc">// create a backup file</span>
     <span class="hl kwb">const char</span><span class="hl sym">*</span> filePath <span class="hl sym">=</span> filePathStr<span class="hl sym">.</span><span class="hl kwd">c_str</span><span class="hl sym">();</span>
