@@ -1495,7 +1495,7 @@ TEST(AddBracketsComment)
 		"            foo2;\n"
 		"    if (isFoo) bar =  /* comment */\n"
 		"            foo2;\n"
-		"    if (isFoo) bar = /* comment\n" 
+		"    if (isFoo) bar = /* comment\n"
 		"                        comment */\n"
 		"            foo2;\n"
 		"    if (isFoo) bar = /* comment */ foo2;\n"
@@ -1507,7 +1507,7 @@ TEST(AddBracketsComment)
 		"            foo2;\n"
 		"    if (isFoo) bar =  /* comment */\n"
 		"            foo2;\n"
-		"    if (isFoo) bar = /* comment\n" 
+		"    if (isFoo) bar = /* comment\n"
 		"                        comment */\n"
 		"            foo2;\n"
 		"    if (isFoo) {\n"
@@ -1927,7 +1927,7 @@ TEST(AddOneLineBracketsComment)
 		"            foo2;\n"
 		"    if (isFoo) bar =  /* comment */\n"
 		"            foo2;\n"
-		"    if (isFoo) bar = /* comment\n" 
+		"    if (isFoo) bar = /* comment\n"
 		"                        comment */\n"
 		"            foo2;\n"
 		"    if (isFoo) bar = /* comment */ foo2;\n"
@@ -1939,7 +1939,7 @@ TEST(AddOneLineBracketsComment)
 		"            foo2;\n"
 		"    if (isFoo) bar =  /* comment */\n"
 		"            foo2;\n"
-		"    if (isFoo) bar = /* comment\n" 
+		"    if (isFoo) bar = /* comment\n"
 		"                        comment */\n"
 		"            foo2;\n"
 		"    if (isFoo) { bar = /* comment */ foo2; }\n"
@@ -2412,6 +2412,25 @@ TEST(AlignPointerNoneConvertTabs)
 	delete [] textOut;
 }
 
+TEST(AlignPointerNoneParen)
+{
+	// test pointer recognition in a paren
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(cbProject* p  = pm->GetProject())\n"
+		"        getBar();\n"
+		"    if(cbProject * p = pm->GetProject())\n"
+		"        getBar();\n"
+		"    if(cbProject  *p = pm->GetProject())\n"
+		"        getBar();\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointerNonePointerToPointer)
 {
 	// test double pointer
@@ -2683,6 +2702,27 @@ TEST(AlignPointerTypeConvertTabs)
 		"    void*            userData;\n"
 		"}\n";
 	char options[] = "align-pointer=type, convert-tabs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerTypeParen)
+{
+	// test pointer recognition in a paren
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(cbProject *p = pm->GetProject())\n"
+		"        getBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(cbProject* p = pm->GetProject())\n"
+		"        getBar();\n"
+		"}\n";
+	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -3028,6 +3068,27 @@ TEST(AlignPointerMiddleConvertTabs)
 		"    void      *     userData;\n"
 		"}\n";
 	char options[] = "align-pointer=middle, convert-tabs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddleParen)
+{
+	// test pointer recognition in a paren
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(cbProject *p = pm->GetProject())\n"
+		"        getBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(cbProject * p = pm->GetProject())\n"
+		"        getBar();\n"
+		"}\n";
+	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -3430,6 +3491,27 @@ TEST(AlignPointerNameConvertTabs)
 	delete [] textOut;
 }
 
+TEST(AlignPointerNameParen)
+{
+	// test pointer recognition in a paren
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(cbProject * p = pm->GetProject())\n"
+		"        getBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(cbProject *p = pm->GetProject())\n"
+		"        getBar();\n"
+		"}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointerNamePointerToPointer)
 {
 	// test double pointer
@@ -3601,6 +3683,50 @@ TEST(AlignPointerShortUpperLimit)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	CHECK_EQUAL(errorsIn + 1, errorsOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerJava)
+{
+	// align-pointer should have no effect on Java
+	// should pad-oper not align-pointer=type
+	char textIn[] =
+		"\nbool foo()\n"
+		"{\n"
+		"    StringBuilder s = new StringBuilder(length*count);\n"
+		"    return (modifier&query) == query;\n"
+		"}\n";
+	char text[] =
+		"\nbool foo()\n"
+		"{\n"
+		"    StringBuilder s = new StringBuilder(length * count);\n"
+		"    return (modifier & query) == query;\n"
+		"}\n";
+	char options[] = "mode=java, pad-oper, align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerSharp)
+{
+	// align-pointer should have no effect on C#
+	// should pad-oper not align-pointer=type
+	char textIn[] =
+		"\nbool foo()\n"
+		"{\n"
+		"    StringBuilder s = new StringBuilder(length*count);\n"
+		"    return (modifier&query) == query;\n"
+		"}\n";
+	char text[] =
+		"\nbool foo()\n"
+		"{\n"
+		"    StringBuilder s = new StringBuilder(length * count);\n"
+		"    return (modifier & query) == query;\n"
+		"}\n";
+	char options[] = "mode=cs, pad-oper, align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
 

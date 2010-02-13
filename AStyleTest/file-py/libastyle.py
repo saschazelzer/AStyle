@@ -97,7 +97,7 @@ def compile_astyle_windows(astylepath, config):
 			+ vsdir
 			+ "/AStyle.sln")
 	msbuild = ([buildpath, configProp, slnpath])
-	buildfile = "build.txt"
+	buildfile = get_temp_directory() + "/build.txt"
 	outfile = open(buildfile, 'w')
 	retval = subprocess.call(msbuild, stdout=outfile)
 	if retval:
@@ -261,7 +261,7 @@ def get_project_filepaths(project):
 	if project == CODEBLOCKS:
 		filepaths.append(testDirectory + "/CodeBlocks/src/*.cpp")
 		# filepath.append(testDirectory + "/CodeBlocks/src/*.cxx")
-		filepaths.append(testDirectory + "/CodeBlocks/src/*.cpp")
+		filepaths.append(testDirectory + "/CodeBlocks/src/*.h")
 	elif project == CODELITE:
 		filepaths.append(testDirectory + "/CodeLite/*.cpp")
 		filepaths.append(testDirectory + "/CodeLite/*.cxx")
@@ -281,6 +281,20 @@ def get_project_filepaths(project):
 	else:
 		system_exit("Bad get_project_filepaths() project id: " + project)
 	return filepaths
+
+# -----------------------------------------------------------------------------
+
+def get_temp_directory(endsep=False):
+	"""Get the temporary directory for the os environment.
+	   endsep = True will add an ending separator.
+	"""
+	if os.name == "nt":
+		tempdir =  os.getenv("TEMP")
+		tempdir = tempdir.replace('\\', '/')
+	else:
+		tempdir = "/tmp"
+	if endsep: tempdir += '/'
+	return  tempdir
 
 # -----------------------------------------------------------------------------
 
@@ -366,6 +380,7 @@ def test_all_functions():
 	get_home_directory()
 	get_project_directory()
 	get_project_filepaths(TEST)
+	get_temp_directory()
 	get_test_directory()
 	is_executed_from_console()
 	set_error_color()

@@ -53,7 +53,7 @@ def call_7zip(filepath, outdir, fileext):
 	extract = [exepath, "x", "-ry", "-o" + outdir, filepath]
 	if sourceOnly:
 		extract.extend(fileext)
-	filename = "extract.txt"
+	filename = libastyle.get_temp_directory() + "/extract.txt"
 	outfile = open(filename, 'w')
 	retval = subprocess.call(extract, stdout=outfile)
 	if retval:

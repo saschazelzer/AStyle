@@ -2,7 +2,7 @@
 @echo off
 
 set PATH=PATH;"%PROGRAMFILES%\AStyle
-set prog=AStyle24e
+set prog=AStyle
 
 REM  b - brackets=break
 REM  l - brackets=linux

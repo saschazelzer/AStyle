@@ -23,17 +23,17 @@ import time
 #   KDEVELOP
 #  SHARPDEVELOP
 # TEST
-project = libastyle.TEST
+project = libastyle.CODEBLOCKS
 
 # select one of the following
-options = ""
+#options = ""
 # indent-brackets (B), add-brackets (j), break-blocks=all (F), align-pointer=type (k1)
-# options = "-CSKBNLwM50m10yejoOcFpPHUxEk1"
+#options = "-CSKBNLwM50m10yejoOcFpPHUxEk1"
 # indent-blocks (G), add-one-line-brackets (J), break-blocks (f), align-pointer=middle (k2)
-# options = "-CSKGNLwM50m10yeJoOcfpPHUxEk2"
+options = "-CSKGNLwM50m10yeJoOcfpPHUxEk2"
 
 # executables for test
-astyleexe1 = "astyled"
+astyleexe1 = "astyle25a"
 astyleexe2 = "astyled"
 
 # select one of the following to unarchive files
@@ -45,7 +45,7 @@ extractfiles = True
 def process_files():
 	"""Main processing function.
 	"""
-	#initialization
+	# initialization
 	starttime = time.time()
 	libastyle.set_text_color()
 	print "Testing " +  project
@@ -159,6 +159,7 @@ def print_run_total(formatted, totfiles, starttime):
 		print "{0} min {1} seconds total".format(min, sec)
 	# if formatted == 0: libastyle.set_ok_color()
 	# else: libastyle.set_error_color()
+	print
 	print "{0} diffs in {1} files".format(formatted, totfiles)
 	print
 

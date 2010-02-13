@@ -2,7 +2,7 @@
 @echo off
 
 set PATH=PATH;"%PROGRAMFILES%\AStyle
-set prog=AStyle24e
+set prog=AStyle
 
 REM  T - indent=force-tabs
 REM  b - brackets=break

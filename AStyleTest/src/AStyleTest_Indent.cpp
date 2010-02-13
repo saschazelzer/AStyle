@@ -135,6 +135,36 @@ TEST(IndentClassesHorstmann)
 	delete [] textOut;
 }
 
+TEST(IndentClassesHorstmannTab)
+{
+	// test indent class blocks with horstmann brackets and tab indents
+	// 'public' 'private' and 'protected' are run-in if class block is indented
+	char textIn[] =
+		"\nclass fooClass1\n"
+		"{\n"
+		"private:\n"
+		"    bool foo1;\n"
+		"};\n"
+		"\n"
+		"class fooClass2\n"
+		"{\n"
+		"    bool foo2;\n"
+		"};\n";
+	char text[] =
+		"\nclass fooClass1\n"
+		"{	private:\n"
+		"		bool foo1;\n"
+		"};\n"
+		"\n"
+		"class fooClass2\n"
+		"{		bool foo2;\n"
+		"};\n";
+	char options[] = "indent-classes, brackets=horstmann, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(IndentClassesHorstmannSans)
 {
 	// test without indent class blocks with horstmann brackets
@@ -161,6 +191,37 @@ TEST(IndentClassesHorstmannSans)
 		"{   bool foo2;\n"
 		"};\n";
 	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentClassesHorstmannSansTab)
+{
+	// test without indent class blocks with horstmann brackets and tab indents
+	// 'public' 'private' and 'protected' are NOT run-in if class block is not indented
+	char textIn[] =
+		"\nclass fooClass1\n"
+		"{\n"
+		"private:\n"
+		"    bool foo1;\n"
+		"};\n"
+		"\n"
+		"class fooClass2\n"
+		"{\n"
+		"    bool foo2;\n"
+		"};\n";
+	char text[] =
+		"\nclass fooClass1\n"
+		"{\n"
+		"private:\n"
+		"	bool foo1;\n"
+		"};\n"
+		"\n"
+		"class fooClass2\n"
+		"{	bool foo2;\n"
+		"};\n";
+	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -362,6 +423,43 @@ TEST(IndentClassesStructComment)
 		"    /* public:\n"
 		"    */\n"
 		"    bool var2;\n"
+		"};\n";
+	char options[] = "indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentClassesStructQuote)
+{
+	// struct with quotes containing access modifiers and brackets
+	// should NOT have extra indent
+	char text[] =
+		"\nstruct cppText\n"
+		"{\n"
+		"    cppText()\n"
+		"    {\n"
+		"        textStr1 =\n"
+		"            \"class FooClass\\n\"\n"
+		"            \"{\\n\"\n"
+		"            \"private:\\n\"\n"
+		"            \"    bool var1;\\n\"\n"
+		"            \"};\\n\";\n"
+		"\n"
+		"        textStr2 =\n"
+		"            \"class FooClass {\\n\"\n"
+		"            \"private:\\n\"\n"
+		"            \"    bool var1;\\n\"\n"
+		"            \"};\\n\";\n"
+		"\n"
+		"        textStr3 =\n"
+		"            \"class FooClass\\n\"\n"
+		"            \"{   private:\\n\"\n"
+		"            \"        bool var1;\\n\"\n"
+		"            \"};\\n\";\n"
+		"\n"
+		"        textIn = textStr1.c_str();\n"
+		"    }\n"
 		"};\n";
 	char options[] = "indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -663,6 +761,44 @@ TEST(IndentSwitchesHorstmann)
 	delete [] textOut;
 }
 
+TEST(IndentSwitchesHorstmannTab)
+{
+	// test indent switch blocks with horstmann brackets and tab indents
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    switch (foo)\n"
+		"    {\n"
+		"        case 1:\n"
+		"            a += 1;\n"
+		"            break;\n"
+		"\n"
+		"        default:\n"
+		"        {\n"
+		"            a += 2;\n"
+		"            break;\n"
+		"        }\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{	switch (foo)\n"
+		"	{	case 1:\n"
+		"			a += 1;\n"
+		"			break;\n"
+		"\n"
+		"		default:\n"
+		"		{	a += 2;\n"
+		"			break;\n"
+		"		}\n"
+		"	}\n"
+		"}\n";
+	char options[] = "indent-switches, brackets=horstmann, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(IndentSwitchesHorstmannSans)
 {
 	// test without indent switch blocks with horstmann brackets
@@ -698,6 +834,46 @@ TEST(IndentSwitchesHorstmannSans)
 		"    }\n"
 		"}\n";
 	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentSwitchesHorstmannSansTab)
+{
+	// test without indent switch blocks with horstmann brackets and tab indents
+	// 'case' statements should NOT be run-in
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    switch (foo)\n"
+		"    {\n"
+		"    case 1:\n"
+		"        a += 1;\n"
+		"        break;\n"
+		"\n"
+		"    default:\n"
+		"    {\n"
+		"        a += 2;\n"
+		"        break;\n"
+		"    }\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{	switch (foo)\n"
+		"	{\n"
+		"	case 1:\n"
+		"		a += 1;\n"
+		"		break;\n"
+		"\n"
+		"	default:\n"
+		"	{	a += 2;\n"
+		"		break;\n"
+		"	}\n"
+		"	}\n"
+		"}\n";
+	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;

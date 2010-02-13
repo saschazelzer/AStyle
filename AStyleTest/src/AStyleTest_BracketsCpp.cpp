@@ -3274,6 +3274,127 @@ TEST(CppBracketsAttachMultipleCommentsHorstmann)
 	delete [] textOut;
 }
 
+TEST(CppBracketsAttachXtra1)
+{
+	// don't attach brackets if previous line is empty
+	char text[] =
+		"\nvoid foo()\n"
+		"\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"\n"
+		"    {\n"
+		"        bar = 1;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsAttachXtra2)
+{
+	// can attach brackets if previous empty line is deleted
+	char textIn[] =
+		"\nvoid foo()\n"
+		"\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"\n"
+		"    {\n"
+		"        bar = 1;\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar = 1;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=attach, delete-empty-lines";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsAttachXtra3)
+{
+	// cannot attach brackets following a semi-colon
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar1();\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo() {\n"
+		"    bar1();\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsAttachXtra4)
+{
+	// cannot attach brackets following a "{" or "}"
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    {\n"
+		"        bar1();\n"
+		"    }\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo() {\n"
+		"    {\n"
+		"        bar1();\n"
+		"    }\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsAttachXtra5)
+{
+	// attach to a tabbed comment
+	char textIn[] =
+		"\nvoid foo()			// comment\n"
+		"{\n"
+		"    if (isFoo)			// comment\n"
+		"    {\n"
+		"        bar = 0;\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo() {		// comment\n"
+		"    if (isFoo) {		// comment\n"
+		"        bar = 0;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle C++ Linux Bracket Options
 //-------------------------------------------------------------------------
@@ -4514,6 +4635,130 @@ TEST(CppBracketsLinuxMultipleCommentsHorstmann)
 		"    if (isFoo) /* comment1 */  // comment2\n"
 		"    {\n"
 		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=linux";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsLinuxXtra1)
+{
+	// don't attach brackets if previous line is empty
+	char text[] =
+		"\nvoid foo()\n"
+		"\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"\n"
+		"    {\n"
+		"        bar = 1;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=linux";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsLinuxXtra2)
+{
+	// can attach brackets if previous empty line is deleted
+	char textIn[] =
+		"\nvoid foo()\n"
+		"\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"\n"
+		"    {\n"
+		"        bar = 1;\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar = 1;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=linux, delete-empty-lines";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsLinuxXtra3)
+{
+	// cannot attach brackets following a semi-colon
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar1();\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar1();\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=linux";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsLinuxXtra4)
+{
+	// cannot attach brackets following a "{" or "}"
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    {\n"
+		"        bar1();\n"
+		"    }\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    {\n"
+		"        bar1();\n"
+		"    }\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=linux";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsLinuxXtra5)
+{
+	// attach to a tabbed comment
+	char textIn[] =
+		"\nvoid foo()			// comment\n"
+		"{\n"
+		"    if (isFoo)			// comment\n"
+		"    {\n"
+		"        bar = 0;\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()			// comment\n"
+		"{\n"
+		"    if (isFoo) {		// comment\n"
+		"        bar = 0;\n"
 		"    }\n"
 		"}\n";
 	char options[] = "brackets=linux";
@@ -8825,6 +9070,50 @@ TEST(CppBracketsArrayHorstmannAttach6)
 	delete [] textOut;
 }
 
+TEST(CppBracketsArrayHorstmannAttachLineComments)
+{
+	// test array formatting with attach to horstmann with following comments
+	// use indent=tab to check indent character
+	char textIn[] =
+		"\nconst char *foo[] = { // comment\n"
+		"    \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char text[] =
+		"\nconst char *foo[] =   // comment\n"
+		"{	\"foo1\",\n"
+		"	\"foo2\",\n"
+		"	\"foo3\",\n"
+		"};\n";
+	char options[] = "brackets=horstmann, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayHorstmannAttachComments)
+{
+	// test array formatting with attach to horstmann with following comments
+	// use indent=tab to check indent character
+	char textIn[] =
+		"\nconst char *foo[] = { /* comment */\n"
+		"    \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char text[] =
+		"\nconst char *foo[] =   /* comment */\n"
+		"{	\"foo1\",\n"
+		"	\"foo2\",\n"
+		"	\"foo3\",\n"
+		"};\n";
+	char options[] = "brackets=horstmann, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(CppBracketsArrayHorstmannHorstmann1)
 {
 	// test array formatting
@@ -9437,8 +9726,26 @@ TEST(CppBracketsArrayAttachComments)
 		"    \"foo2\",\n"
 		"    \"foo3\",\n"
 		"};\n";
-	char options[] = "brackets=break";
+	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CppBracketsArrayAttachSans)
+{
+	// test array formatting
+	// should not attach if preceeded by an empty line
+	char text[] =
+		"\nconst char *foo[] =\n"
+		"\n"
+		"{\n"
+		"    \"foo1\",\n"
+		"    \"foo2\",\n"
+		"    \"foo3\",\n"
+		"};\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }

@@ -5,6 +5,159 @@
 #include "AStyleTest.h"
 
 //----------------------------------------------------------------------------
+// AStyle version 1.25 TEST functions
+//----------------------------------------------------------------------------
+
+TEST(v125ExtraClosingBrackets)
+{
+	// should not abort with extra closing brackets
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"        int bar = 1;\n"
+		"    }\n"
+		"}\n"
+		"}\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v125ExtraClosingParens)
+{
+	// should not abort with extra closing parens
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo))))\n"
+		"    {\n"
+		"        bar()));\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v125ExtraClosingBlockParens)
+{
+	// should not abort with extra closing block parens
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo))))\n"
+		"    {\n"
+		"        fooBar = bar[2]]];\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v125DefinitionsNotHeaders)
+{
+	// definitions are not headers
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    ADD_KEYWORD ( if, TK_IF );\n"
+		"    ADD_KEYWORD ( while, TK_WHILE );\n"
+		"    ADD_KEYWORD ( else );\n"
+		"    ADD_KEYWORD ( for );\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v125SharpPeekNextTextMultiLineComment)
+{
+	// test C# peekNextText() with multi-ine comment before the text
+	char text[] =
+		"\npublic interface FooInterface {\n"
+		"    int FooGet {\n"
+		"        /* comment\n"
+		"           comment */\n"
+		"        get;\n"
+		"        set;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v125SharpNotPotentialHeader)
+{
+	// test C# isNextWordSharpNonParenHeader() for !isCharPotentialHeader()
+	char text[] =
+		"\nprivate void foo()\n"
+		"{\n"
+		"    string[] lines = text.Split(new char[] {'.'});\n"
+		"}\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v125EmptyLineComment)
+{
+	// test recognition of an empty line comment
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    //\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v125ColZeroPointerOrReference)
+{
+	// test pointer or reference in column zero
+	char textIn[] =
+		"\nvoid foo(char *foo1, char\n"
+		"*foo2, char *foo3)\n"
+		"{\n"
+		"    bar();\n"
+		"}\n"
+		"\n"
+		"void foo(char &foo1, char\n"
+		"&foo2, char &foo3)\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo(char *foo1, char\n"
+		"         *foo2, char *foo3)\n"
+		"{\n"
+		"    bar();\n"
+		"}\n"
+		"\n"
+		"void foo(char &foo1, char\n"
+		"         &foo2, char &foo3)\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+//----------------------------------------------------------------------------
 // AStyle version 1.24 TEST functions
 //----------------------------------------------------------------------------
 
@@ -3381,7 +3534,7 @@ TEST(CommentBeforeStatementMisc7)
 
 TEST(CommentLeadingSpaceCorrection1)
 {
-	// comment where the leading spaces need correction 
+	// comment where the leading spaces need correction
 	// will adjust the first line
 	char textIn[] =
 		"\nvoid foo()\n"
@@ -4693,7 +4846,8 @@ TEST(SQLSans)
 		"    bar1();\n"
 		"    EXEC SQX\n"
 		"    bar2();\n"
-		"}\n";	char options[] = "";
+		"}\n";
+	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -5016,3 +5170,29 @@ TEST(MultipleVariableMisc1)
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
+
+TEST(MultipleVariableMisc2)
+{
+	// this checks for various conditions in getInStatementIndentComma()
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    int\n"
+		"    var1\n"
+		"    ,\n"
+		"    var2;\n"
+		"}\n"
+		"\n"
+		"void foo()\n"
+		"{\n"
+		"    int\n"
+		"    var1,\n"
+		"    var2\n"
+		"    , var3;\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+

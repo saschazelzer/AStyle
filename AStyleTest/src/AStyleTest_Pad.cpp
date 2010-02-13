@@ -344,6 +344,82 @@ TEST(BreakBlocksWithPreprocessor)
 	delete [] textOut;
 }
 
+TEST(BreakBlocksWithEolComment1)
+{
+	// the block after an end of eol comment should be broken
+	// even if it starts  with a comment
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar1(); // eol comment 1\n"
+		"    // comment 1\n"
+		"    if (isFoo)\n"
+		"        bar1(); // eol comment 2\n"
+		"    // comment 2\n"
+		"    else\n"
+		"        bar2(); // eol comment 3\n"
+		"    // comment 3\n"
+		"    bar3();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar1(); // eol comment 1\n"
+		"\n"
+		"    // comment 1\n"
+		"    if (isFoo)\n"
+		"        bar1(); // eol comment 2\n"
+		"    // comment 2\n"
+		"    else\n"
+		"        bar2(); // eol comment 3\n"
+		"\n"
+		"    // comment 3\n"
+		"    bar3();\n"
+		"}\n";
+	char options[] = "break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakBlocksWithEolComment2)
+{
+	// the block after an end of eol comment should be broken
+	// even if it starts  with a comment
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar1(); /* eol comment 1 */\n"
+		"    /* comment 1 */\n"
+		"    if (isFoo)\n"
+		"        bar1(); /* eol comment 2 */\n"
+		"    /* comment 2 */\n"
+		"    else\n"
+		"        bar2(); /* eol comment 3 */\n"
+		"    /* comment 3 */\n"
+		"    bar3();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar1(); /* eol comment 1 */\n"
+		"\n"
+		"    /* comment 1 */\n"
+		"    if (isFoo)\n"
+		"        bar1(); /* eol comment 2 */\n"
+		"    /* comment 2 */\n"
+		"    else\n"
+		"        bar2(); /* eol comment 3 */\n"
+		"\n"
+		"    /* comment 3 */\n"
+		"    bar3();\n"
+		"}\n";
+	char options[] = "break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BreakBlocksWithComment1)
 {
 	// blocks with comments are correctly broken
@@ -621,6 +697,21 @@ TEST(BreakBlocksSans2)
 	delete [] textOut;
 }
 
+TEST(BreakBlocksSans3)
+{
+	// don't break blocks if comment is not followed by a header
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    fooBar1 = 1;\n"
+		"    // comment one\n"
+		"    fooBar2 = 2;\n"
+		"}\n";
+	char options[] = "break-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
 
 //-------------------------------------------------------------------------
 // AStyle Break All Blocks
@@ -805,6 +896,84 @@ TEST(BreakAllBlocksWithDoWhile)
 		"    while (false);\n"
 		"\n"
 		"    bar2();\n"
+		"}\n";
+	char options[] = "break-blocks=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakAllBlocksWithEolComment)
+{
+	// the block after an end of eol comment should be broken
+	// even if it starts  with a comment
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar1(); // eol comment 1\n"
+		"    // comment 1\n"
+		"    if (isFoo)\n"
+		"        bar1(); // eol comment 2\n"
+		"    // comment 2\n"
+		"    else\n"
+		"        bar2(); // eol comment 3\n"
+		"    // comment 3\n"
+		"    bar3();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar1(); // eol comment 1\n"
+		"\n"
+		"    // comment 1\n"
+		"    if (isFoo)\n"
+		"        bar1(); // eol comment 2\n"
+		"\n"
+		"    // comment 2\n"
+		"    else\n"
+		"        bar2(); // eol comment 3\n"
+		"\n"
+		"    // comment 3\n"
+		"    bar3();\n"
+		"}\n";
+	char options[] = "break-blocks=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakAllBlocksWithEolComment2)
+{
+	// the block after an end of eol comment should be broken
+	// even if it starts  with a comment
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar1(); /* eol comment 1 */\n"
+		"    /* comment 1 */\n"
+		"    if (isFoo)\n"
+		"        bar1(); /* eol comment 2 */\n"
+		"    /* comment 2 */\n"
+		"    else\n"
+		"        bar2(); /* eol comment 3 */\n"
+		"    /* comment 3 */\n"
+		"    bar3();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar1(); /* eol comment 1 */\n"
+		"\n"
+		"    /* comment 1 */\n"
+		"    if (isFoo)\n"
+		"        bar1(); /* eol comment 2 */\n"
+		"\n"
+		"    /* comment 2 */\n"
+		"    else\n"
+		"        bar2(); /* eol comment 3 */\n"
+		"\n"
+		"    /* comment 3 */\n"
+		"    bar3();\n"
 		"}\n";
 	char options[] = "break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -1995,6 +2164,81 @@ TEST(UnpadParenComments)
 	delete [] textOut;
 }
 
+TEST(UnpadParenReturnSans)
+{
+	// don't unpad a return
+	char text[] =
+		"\nvoid foo(bool isFoo)\n"
+		"{\n"
+		"    return (2 * x);\n"
+		"}\n";
+	char options[] = "unpad-paren";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(UnpadParenCastSans)
+{
+	// don't unpad a cast
+	char text[] =
+		"\nvoid foo(bool isFoo)\n"
+		"{\n"
+		"    bool bar2 = bool (bar1);\n"
+		"    int bar2 = int (bar1);\n"
+		"    void bar2 = void (bar1);\n"
+		"    void* bar2 = void* (bar1);\n"
+		"    size_t bar2 = size_t (bar1);\n"
+		"    BOOL bar2 = BOOL (bar1);\n"
+		"    DWORD bar2 = DWORD (bar1);\n"
+		"    HWND bar2 = HWND (bar1);\n"
+		"    INT bar2 = INT (bar1);\n"
+		"    LPSTR bar2 = LPSTR (bar1);\n"
+		"    VOID bar2 = VOID (bar1);\n"
+		"    LPVOID bar2 = LPVOID (bar1);\n"
+		"}\n";
+	char options[] = "unpad-paren";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(UnpadParenOperatorSans1)
+{
+	// don't unpad a leading operator
+	char text[] =
+		"\nvoid foo(bool isFoo)\n"
+		"{\n"
+		"    x = y + (z + 2);\n"
+		"    x = y - (z + 2);\n"
+		"    x = y * (z + 2);\n"
+		"    x = y / (z + 2);\n"
+		"    x = y % (z + 2);\n"
+		"}\n";
+	char options[] = "unpad-paren";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(UnpadParenOperatorSans2)
+{
+	// don't unpad a trailing operator
+	char text[] =
+		"\nvoid foo(bool isFoo)\n"
+		"{\n"
+		"    x = (z + 2) + y;\n"
+		"    x = (z + 2) - y;\n"
+		"    x = (z + 2) * y;\n"
+		"    x = (z + 2) / y;\n"
+		"    x = (z + 2) % y;\n"
+		"}\n";
+	char options[] = "unpad-paren";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(UnpadParenPadParen)
 {
 	// test unpad parens with pad parens
@@ -2197,7 +2441,54 @@ TEST(DeleteEmptyLinesShort)
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLinesBreakBlocks)
+TEST(DeleteEmptyLines2)
+{
+	// test delete empty lines
+	// the empty lines before and after comments should be deleted
+	char textIn[] =
+		"\nvoid Foo(bool fooBar)\n"
+		"{\n"
+		"    bar1();\n"
+		"\n"
+		"    // the above and following empty lines should be deleted\n"
+		"\n"
+		"    if (fooBar)\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"\n"
+		"    // the above and following empty lines should be deleted\n"
+		"\n"
+		"    else\n"
+		"    {\n"
+		"        bar3();\n"
+		"    }\n"
+		"\n"
+		"    bar4();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool fooBar)\n"
+		"{\n"
+		"    bar1();\n"
+		"    // the above and following empty lines should be deleted\n"
+		"    if (fooBar)\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"    // the above and following empty lines should be deleted\n"
+		"    else\n"
+		"    {\n"
+		"        bar3();\n"
+		"    }\n"
+		"    bar4();\n"
+		"}\n";
+	char options[] = "delete-empty-lines";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(DeleteEmptyLinesBreakBlocks1)
 {
 	// test delete empty lines, with break blocks
 	// the empty lines created by break blocks should NOT be deleted
@@ -2244,9 +2535,187 @@ TEST(DeleteEmptyLinesBreakBlocks)
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLinesBreakBlocksAll)
+TEST(DeleteEmptyLinesBreakBlocks2)
 {
 	// test delete empty lines, with break blocks
+	// the empty lines should not be deleted on header blocks
+	// the empty lines should be deleted on closing header blocks
+	char textIn[] =
+		"\nvoid Foo(bool fooBar)\n"
+		"{\n"
+		"    bar1();\n"
+		"\n"
+		"    // the above and following empty lines should not be deleted\n"
+		"\n"
+		"    if (fooBar)\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"\n"
+		"    // the above and following empty lines should be deleted\n"
+		"\n"
+		"    else\n"
+		"    {\n"
+		"        bar3();\n"
+		"    }\n"
+		"\n"
+		"    bar4();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool fooBar)\n"
+		"{\n"
+		"    bar1();\n"
+		"\n"
+		"    // the above and following empty lines should not be deleted\n"
+		"\n"
+		"    if (fooBar)\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"    // the above and following empty lines should be deleted\n"
+		"    else\n"
+		"    {\n"
+		"        bar3();\n"
+		"    }\n"
+		"\n"
+		"    bar4();\n"
+		"}\n";
+	char options[] = "delete-empty-lines, break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(DeleteEmptyLinesBreakBlocks3)
+{
+	// test delete empty lines, with break blocks
+	// the comments are not followed by a potential header
+	char textIn[] =
+		"\nvoid Foo(bool fooBar)\n"
+		"{\n"
+		"    bar1();\n"
+		"    // comment 1\n"
+		"\n"
+		"    // comment 2\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"\n"
+		"    bar3();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool fooBar)\n"
+		"{\n"
+		"    bar1();\n"
+		"    // comment 1\n"
+		"    // comment 2\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"    bar3();\n"
+		"}\n";
+	char options[] = "delete-empty-lines, break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(DeleteEmptyLinesBreakBlocks4)
+{
+	// test delete empty lines, with break blocks
+	// the empty lines are not followed by a header
+	char textIn[] =
+		"\nvoid Foo(bool fooBar)\n"
+		"{\n"
+		"    bar1();\n"
+		"\n"
+		"    // comment 1\n"
+		"\n"
+		"    // comment 2\n"
+		"    bar2();\n"
+		"\n"
+		"    bar3();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool fooBar)\n"
+		"{\n"
+		"    bar1();\n"
+		"    // comment 1\n"
+		"    // comment 2\n"
+		"    bar2();\n"
+		"    bar3();\n"
+		"}\n";
+	char options[] = "delete-empty-lines, break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(DeleteEmptyLinesBreakBlocks5)
+{
+	// test delete empty lines, with break blocks
+	// the line before "else" should be deleted
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar1()\n"
+		"\n"
+		"    // comment 1\n"
+		"    if (isFoo)\n"
+		"        bar2();\n"
+		"\n"
+		"    // comment 2\n"
+		"    else\n"
+		"        bar3();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar1()\n"
+		"\n"
+		"    // comment 1\n"
+		"    if (isFoo)\n"
+		"        bar2();\n"
+		"    // comment 2\n"
+		"    else\n"
+		"        bar3();\n"
+		"}\n";
+	char options[] = "delete-empty-lines, break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(DeleteEmptyLinesBreakBlocks6)
+{
+	// test delete empty lines, with break blocks
+	// the line after opening bracket should be deleted
+	// the line before closing bracket should be deleted
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"\n"
+		"    // comment\n"
+		"    if (isFoo)\n"
+		"        bar();\n"
+		"\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    // comment\n"
+		"    if (isFoo)\n"
+		"        bar();\n"
+		"}\n";
+	char options[] = "delete-empty-lines, break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(DeleteEmptyLinesBreakBlocksAll1)
+{
+	// test delete empty lines, with break all blocks
 	// the empty lines created by break all blocks should NOT be deleted
 	char text[] =
 		"\nvoid Foo(bool fooBar)\n"
@@ -2269,6 +2738,152 @@ TEST(DeleteEmptyLinesBreakBlocksAll)
 		"}\n";
 	char options[] = "delete-empty-lines, break-blocks=all";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(DeleteEmptyLinesBreakBlocksAll2)
+{
+	// test delete empty lines, with break all blocks
+	// the empty lines created by break all blocks should NOT be deleted
+	char text[] =
+		"\nvoid Foo(bool fooBar)\n"
+		"{\n"
+		"    bar1();\n"
+		"\n"
+		"    // the above and following empty lines should not be deleted\n"
+		"\n"
+		"    if (fooBar)\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"\n"
+		"    // the above and following empty lines should not be deleted\n"
+		"\n"
+		"    else\n"
+		"    {\n"
+		"        bar3();\n"
+		"    }\n"
+		"\n"
+		"    bar4();\n"
+		"}\n";
+	char options[] = "delete-empty-lines, break-blocks=all";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(DeleteEmptyLinesBreakBlocksAll3)
+{
+	// test delete empty lines, with break all blocks
+	// the comments are not followed by a potential header
+	char textIn[] =
+		"\nvoid Foo(bool fooBar)\n"
+		"{\n"
+		"    bar1();\n"
+		"    // comment 1\n"
+		"\n"
+		"    // comment 2\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"\n"
+		"    bar3();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool fooBar)\n"
+		"{\n"
+		"    bar1();\n"
+		"    // comment 1\n"
+		"    // comment 2\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"    bar3();\n"
+		"}\n";
+	char options[] = "delete-empty-lines, break-blocks=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(DeleteEmptyLinesBreakBlocksAll4)
+{
+	// test delete empty lines, with break all blocks
+	// the comments are not followed by a header
+	char textIn[] =
+		"\nvoid Foo(bool fooBar)\n"
+		"{\n"
+		"    bar1();\n"
+		"\n"
+		"    // comment 1\n"
+		"\n"
+		"    // comment 2\n"
+		"    bar2();\n"
+		"\n"
+		"    bar3();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool fooBar)\n"
+		"{\n"
+		"    bar1();\n"
+		"    // comment 1\n"
+		"    // comment 2\n"
+		"    bar2();\n"
+		"    bar3();\n"
+		"}\n";
+	char options[] = "delete-empty-lines, break-blocks=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(DeleteEmptyLinesBreakBlocksAll5)
+{
+	// test delete empty lines, with break blocks
+	// the line before "else" should be deleted
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar1()\n"
+		"\n"
+		"    // comment 1\n"
+		"    if (isFoo)\n"
+		"        bar2();\n"
+		"\n"
+		"    // comment 2\n"
+		"    else\n"
+		"        bar3();\n"
+		"}\n";
+	char options[] = "delete-empty-lines, break-blocks=all";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(DeleteEmptyLinesBreakBlocksAll6)
+{
+	// test delete empty lines, with break blocks
+	// the line after opening bracket should be deleted
+	// the line before closing bracket should be deleted
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"\n"
+		"    // comment\n"
+		"    if (isFoo)\n"
+		"        bar();\n"
+		"\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    // comment\n"
+		"    if (isFoo)\n"
+		"        bar();\n"
+		"}\n";
+	char options[] = "delete-empty-lines, break-blocks=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
