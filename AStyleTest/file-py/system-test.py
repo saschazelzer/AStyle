@@ -24,16 +24,13 @@ import time
 #   CODELITE
 #   JEDIT
 #   KDEVELOP
+#  SCITE
 #  SHARPDEVELOP
-# TEST
-project = libastyle.TEST
+#  TESTPROJECT
+project = libastyle.SCITE
 
-# select one of the following
-# options = ""
-# indent-brackets (B), add-brackets (j), break-blocks=all (F), align-pointer=type (k1)
-# options = "-CSKBNLwM50m10yejoOcFpPHUxEk1"
-# indent-blocks (G), add-one-line-brackets (J), break-blocks (f), align-pointer=middle (k2)
-options = "-CSKGNLwM50m10yeJoOcfpPHUxEk2"
+# select OPT1 thru OPT4, or use customized options
+options = libastyle.OPT1
 
 # test number to start with (usually 1)
 start = 1
@@ -61,20 +58,21 @@ def process_files():
 	starttime = time.time()
 	libastyle.set_text_color()
 	print "Testing " +  project
-	print
+	print "Using {0}".format(astyleexe) 
 	os.chdir(libastyle.get_file_py_directory())
 	filepaths = libastyle.get_project_filepaths(project)
+	excludes = libastyle.get_project_excludes(project)
 	index = set_test_start(brackets)
 	libastyle.build_astyle_executable(get_astyle_config())
 	if extractfiles:
-		print "Extracting files"
+		print "\nExtracting files"
 		libextract.extract_project(project)
 
 	# process the bracket options
 	while index < len(brackets):
 		print_test_header(brackets, index)
 		testfile = get_test_file_name(index)
-		astyle = set_astyle_args(filepaths, brackets, index)
+		astyle = set_astyle_args(filepaths, excludes, brackets, index)
 		print_formatting_message(astyle, project)
 		call_artistic_style(astyle, testfile)
 		totformat, totfiles = print_astyle_totals(testfile)
@@ -181,10 +179,11 @@ def print_formatting_message(args, project):
 	   Input is the command list used to call astyle.
 	"""
 	print "Formatting " +  project,
-	# print args starting with a '-'
+	# print args starting with a '-' except for excludes
 	for arg in args:
-		if arg[0] == '-':
-			print arg,
+		if not arg[0] == '-': continue
+		if arg[:9] == "--exclude": continue
+		print arg,
 	print
 
 # -----------------------------------------------------------------------------
@@ -235,7 +234,7 @@ def remove_test_directories(brackets, index):
 
 # -----------------------------------------------------------------------------
 
-def set_astyle_args(filepath, brackets, index):
+def set_astyle_args(filepath, excludes, brackets, index):
 	"""Set args for calling artistic style.
 	"""
 	# set astyle executable
@@ -249,6 +248,9 @@ def set_astyle_args(filepath, brackets, index):
 	args.append("-vRQ")
 	if brackets[index] != '_':
 		args.append('-' + brackets[index])
+	# set excludes
+	for exclude in excludes:
+		args.append(exclude)
 	return args
 
 # -----------------------------------------------------------------------------

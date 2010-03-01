@@ -1276,3 +1276,190 @@ TEST_FIXTURE(testPreserveDate, preserveDateSans)
 	}
 }
 
+//----------------------------------------------------------------------------
+// AStyle test ASResources operator vectors sequence
+//----------------------------------------------------------------------------
+
+TEST(buildOperatorsSequence)
+// check the sequence of ASResource::buildOperators
+{
+	// build the operators vector
+	ASResource resource;
+	vector<const string*> operators;
+	resource.buildOperators(&operators);
+
+	// test the operators vector sequence
+	// vector sequence is descending length of the operators
+	size_t prevOperatorLength = 9;
+	for (size_t i = 0; i < operators.size(); i++)
+	{
+		CHECK(prevOperatorLength >= (*operators[i]).length());
+		prevOperatorLength = (*operators[i]).length();
+	}
+}
+
+TEST(buildAssignmentOperatorsSequence)
+// check the sequence of ASResource::buildAssignmentOperators
+{
+	// build the assignmentOperators vector
+	ASResource resource;
+	vector<const string*> assignmentOperators;
+	resource.buildAssignmentOperators(&assignmentOperators);
+
+	// test the assignmentOperators vector sequence
+	// vector sequence is descending length of the operators
+	size_t prevOperatorLength = 9;
+	for (size_t i = 0; i < assignmentOperators.size(); i++)
+	{
+		CHECK(prevOperatorLength >= (*assignmentOperators[i]).length());
+		prevOperatorLength = (*assignmentOperators[i]).length();
+	}
+}
+
+TEST(buildNonAssignmentOperatorsSequence)
+// check the sequence of ASResource::buildNonAssignmentOperators
+{
+	// build the nonAssignmentOperators vector
+	ASResource resource;
+	vector<const string*> nonAssignmentOperators;
+	resource.buildNonAssignmentOperators(&nonAssignmentOperators);
+
+	// test the nonAssignmentOperators vector sequence
+	// vector sequence is descending length of the operators
+	size_t prevOperatorLength = 9;
+	for (size_t i = 0; i < nonAssignmentOperators.size(); i++)
+	{
+		CHECK(prevOperatorLength >= (*nonAssignmentOperators[i]).length());
+		prevOperatorLength = (*nonAssignmentOperators[i]).length();
+	}
+}
+
+//----------------------------------------------------------------------------
+// AStyle test ASResources header vectors sequence
+//----------------------------------------------------------------------------
+
+TEST(buildCastOperatorsSequence)
+// check the sequence of ASResource::buildCastOperators
+{
+	// build the castOperators vector
+	ASResource resource;
+	vector<const string*> castOperators;
+	resource.buildCastOperators(&castOperators);
+
+	// test the castOperators vector sequence
+	// vector sequence is ascending header value
+	string prevHeader;
+	for (size_t i = 0; i < castOperators.size(); i++)
+	{
+		CHECK(prevHeader < (*castOperators[i]));
+		prevHeader = (*castOperators[i]);
+	}
+}
+
+TEST(buildHeadersSequence)
+// check the sequence of ASResource::buildHeaders
+{
+	// build the headers vector
+	ASResource resource;
+	vector<const string*> headers;
+	resource.buildHeaders(&headers, SHARP_TYPE, true);
+
+	// test the headers vector sequence
+	// vector sequence is ascending header value
+	string prevHeader;
+	for (size_t i = 0; i < headers.size(); i++)
+	{
+		CHECK(prevHeader < (*headers[i]));
+		prevHeader = (*headers[i]);
+	}
+}
+
+TEST(buildIndentableHeadersSequence)
+// check the sequence of ASResource::buildIndentableHeaders
+{
+	// build the indentableHeaders vector
+	ASResource resource;
+	vector<const string*> indentableHeaders;
+	resource.buildIndentableHeaders(&indentableHeaders);
+
+	// test the indentableHeaders vector sequence
+	// vector sequence is ascending header value
+	string prevHeader;
+	for (size_t i = 0; i < indentableHeaders.size(); i++)
+	{
+		CHECK(prevHeader < (*indentableHeaders[i]));
+		prevHeader = (*indentableHeaders[i]);
+	}
+}
+
+TEST(buildNonParenHeadersSequence)
+// check the sequence of ASResource::buildNonParenHeaders
+{
+	// build the nonParenHeaders vector
+	ASResource resource;
+	vector<const string*> nonParenHeaders;
+	resource.buildNonParenHeaders(&nonParenHeaders, SHARP_TYPE, true);
+
+	// test the nonParenHeaders vector sequence
+	// vector sequence is ascending header value
+	string prevHeader;
+	for (size_t i = 0; i < nonParenHeaders.size(); i++)
+	{
+		CHECK(prevHeader < (*nonParenHeaders[i]));
+		prevHeader = (*nonParenHeaders[i]);
+	}
+}
+
+TEST(buildPreBlockStatementsSequence)
+// check the sequence of ASResource::buildPreBlockStatements
+{
+	// build the preBlockStatements vector
+	ASResource resource;
+	vector<const string*> preBlockStatements;
+	resource.buildPreBlockStatements(&preBlockStatements, SHARP_TYPE);
+
+	// test the preBlockStatements vector sequence
+	// vector sequence is ascending header value
+	string prevHeader;
+	for (size_t i = 0; i < preBlockStatements.size(); i++)
+	{
+		CHECK(prevHeader < (*preBlockStatements[i]));
+		prevHeader = (*preBlockStatements[i]);
+	}
+}
+
+TEST(buildPreCommandHeadersSequence)
+// check the sequence of ASResource::buildPreCommandHeaders
+{
+	// build the preCommandHeaders vector
+	ASResource resource;
+	vector<const string*> preCommandHeaders;
+	resource.buildPreCommandHeaders(&preCommandHeaders, SHARP_TYPE);
+
+	// test the preCommandHeaders vector sequence
+	// vector sequence is ascending header value
+	string prevHeader;
+	for (size_t i = 0; i < preCommandHeaders.size(); i++)
+	{
+		CHECK(prevHeader < (*preCommandHeaders[i]));
+		prevHeader = (*preCommandHeaders[i]);
+	}
+}
+
+TEST(buildPreDefinitionHeadersSequence)
+// check the sequence of ASResource::buildPreDefinitionHeaders
+{
+	// build the preDefinitionHeaders vector
+	ASResource resource;
+	vector<const string*> preDefinitionHeaders;
+	resource.buildPreDefinitionHeaders(&preDefinitionHeaders, SHARP_TYPE);
+
+	// test the preDefinitionHeaders vector sequence
+	// vector sequence is ascending header value
+	string prevHeader;
+	for (size_t i = 0; i < preDefinitionHeaders.size(); i++)
+	{
+		CHECK(prevHeader < (*preDefinitionHeaders[i]));
+		prevHeader = (*preDefinitionHeaders[i]);
+	}
+}

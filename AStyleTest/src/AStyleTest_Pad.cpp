@@ -1491,6 +1491,32 @@ TEST(PadOperatorMisc3)
 
 TEST(PadOperatorMisc4)
 {
+	// pad operators with following (
+	// the * should be padded
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    memmove(\n"
+		"        body1,\n"
+		"        body2,\n"
+		"        sizeof(T)*(position-part1Length));\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    memmove(\n"
+		"        body1,\n"
+		"        body2,\n"
+		"        sizeof(T) * (position - part1Length));\n"
+		"}\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperatorMisc5)
+{
 	// test C# ? operator and nullable types
 	char textIn[] =
 		"\nvoid foo()\n"
@@ -1610,6 +1636,33 @@ TEST(PadOperatorSans3)
 
 TEST(PadOperatorSans4)
 {
+	// these * operators should NOT be padded
+	char text[] =
+		"\nvoid* foo(char* bar1, char& bar2,)\n"
+		"{\n"
+		"    return strcmp(*(char **)(a1), *(char **)(a2));\n"
+		"\n"
+		"    return Call(**(Callee**)ud, *(Func*)(sizeof(Callee*)));\n"
+		"\n"
+		"    if (!*(p + 1))\n"
+		"        *mp++ = EOL;\n"
+		"\n"
+		"    if (*p == 'x' && *(p + 1))\n"
+		"        i++;\n"
+		"\n"
+		"    if (*p == 'x' || *(p + 1))\n"
+		"        i++;\n"
+		"\n"
+		"    bar(*ptr1, *ptr2);\n"
+		"}\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperatorSans5)
+{
 	// these operators should NOT be padded
 	char text[] =
 		"\nvoid* foo(char* bar1, char& bar2,)\n"
@@ -1630,7 +1683,7 @@ TEST(PadOperatorSans4)
 	delete [] textOut;
 }
 
-TEST(PadOperatorSans5)
+TEST(PadOperatorSans6)
 {
 	// embedded assembler should not be padded (the colon)
 	char text[] =
@@ -1644,7 +1697,7 @@ TEST(PadOperatorSans5)
 	delete [] textOut;
 }
 
-TEST(PadOperatorSans6)
+TEST(PadOperatorSans7)
 {
 	// this template should NOT be padded
 	char text[] =
@@ -1655,7 +1708,35 @@ TEST(PadOperatorSans6)
 	delete [] textOut;
 }
 
-TEST(PadOperatorSans7)
+TEST(PadOperatorSans8)
+{
+	// this template within a template should NOT be padded
+	char text[] =
+		"\ntemplate<typename T, template<typename E> >\n"
+		"class Foo\n"
+		"{\n"
+		"};\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperatorSans9)
+{
+	// template with a default parameter should not be padded
+	char text[] =
+		"\ntemplate<typename T, typename Allocator = allocator<E> >\n"
+		"class Foo\n"
+		"{\n"
+		"};\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperatorSans10)
 {
 	// the Java generic <?> should NOT be padded
 	char text[] =
@@ -1791,6 +1872,20 @@ TEST(PadParenComments)
 		"}\n";
 	char options[] = "pad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadParenTemplate)
+{
+	// templates should NOT be padded
+	char text[] =
+		"\ntemplate<typename T, typename Allocator = allocator<E> >\n"
+		"class Foo\n"
+		"{\n"
+		"};\n";
+	char options[] = "pad-paren";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
@@ -2312,6 +2407,31 @@ TEST(UnpadParenPadIn)
 		"        bar( a, b );\n"
 		"}\n";
 	char options[] = "unpad-paren, pad-paren-in";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(UnpadParenPadOper)
+{
+	// test unpad parens with pad operator
+	char textIn[] =
+		"\nvoid foo ()\n"
+		"{\n"
+		"    memmove(sizeof(T)*(pos));\n"
+		"    memmove(sizeof(T) * (pos));\n"
+		"    memmove(sizeof(T)&(pos));\n"
+		"    memmove(sizeof(T) & (pos));\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    memmove(sizeof(T) * (pos));\n"
+		"    memmove(sizeof(T) * (pos));\n"
+		"    memmove(sizeof(T) & (pos));\n"
+		"    memmove(sizeof(T) & (pos));\n"
+		"}\n";
+	char options[] = "unpad-paren, pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;

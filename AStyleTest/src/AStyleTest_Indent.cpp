@@ -1821,6 +1821,23 @@ TEST(IndentPreprocessorShort)
 	delete [] textOut;
 }
 
+TEST(IndentPreprocessorInStatement)
+{
+	// test preprocessor statements with an in-statement indent
+	char textIn[] =
+		"\n#define wxFORCED_FLAGS (wxSIMPLE_BORDER| \\\n"
+		"          wxNO_FULL_REPAINT_ON_RESIZE| \\\n"
+		"          wxCLIP_CHILDREN)\n";
+	char text[] =
+		"\n#define wxFORCED_FLAGS (wxSIMPLE_BORDER| \\\n"
+		"                        wxNO_FULL_REPAINT_ON_RESIZE| \\\n"
+		"                        wxCLIP_CHILDREN)\n";
+	char options[] = "indent-preprocessor";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(IndentPreprocessorSans)
 {
 	// test preprocessor statements without indent preprocessor option

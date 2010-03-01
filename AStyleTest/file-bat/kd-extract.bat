@@ -12,17 +12,17 @@ rmdir  /s  "%testdata%\kdevelop"
 )
 
 REM uncompress tar.bz to tar
-if not exist "%archives%\kdevelop-*.tar" (
-"%PROGRAMFILES%\7-Zip\7z"  x  "%archives%\kdevelop-*.tar.bz2"  -o"%archives%"  -r
+if not exist "%archives%\hpO5ya.tar" (
+"%PROGRAMFILES%\7-Zip\7z"  x  "%archives%\kdevelop_*.tar.gz"  -o"%archives%"  -r
 if errorlevel 2 pause
 )
 
 REM untar
 echo -
 echo Extracting files
-"%PROGRAMFILES%\7-Zip\7z"  x  "%archives%\kdevelop-*.tar"  -o"%testdata%"  *.cpp *.h  -ry > NUL
+"%PROGRAMFILES%\7-Zip\7z"  x  "%archives%\hpO5ya.tar"  -o"%testdata%"  *.cpp *.h  -ry > NUL
 REM  all files
-:: "%PROGRAMFILES%\7-Zip\7z"  x  "%archives%\kdevelop-*.tar"  -o"%testdata%"  -ry > NUL
+:: "%PROGRAMFILES%\7-Zip\7z"  x  "%archives%\hpO5ya.tar"  -o"%testdata%"  -ry > NUL
 if errorlevel 2 pause
 
 REM rename directory

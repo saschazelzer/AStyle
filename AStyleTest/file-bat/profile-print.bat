@@ -3,7 +3,7 @@ REM Run gcov to print the coverage report
 REM AStylec must be run to create the *.gcno files
 
 REM change the following to the file to be printed
-set gcovfile=ASBeautifier
+set gcovfile=ASFormatter
 set mingwdir=C:\Programs\MinGW\bin
 
 cd  ..\build\cb-mingw\objc\AStyle\src

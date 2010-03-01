@@ -13,21 +13,22 @@ def process_diffs():
 	"""
 	libastyle.set_text_color()
 	os.chdir(libastyle.get_file_py_directory())
-	testfile = "test.txt"
-	formatted, unchanged, min, sec = libtest.get_astyle_totals(testfile)
-	files = libtest.get_formatted_files(testfile)
-	verify_formatted_files(len(files), formatted)
-	libtest.diff_formatted_files(files, formatted)
+	testfile = "test-diff.txt"
+	filepaths = get_diff_files(testfile)
+	libtest.diff_formatted_files(filepaths, True)
 
 # -----------------------------------------------------------------------------
 
-def verify_formatted_files(numformat, totformat):
-	"""Check that the formatted files list equals the astyle report total.
+def get_diff_files(testfile):
+	"""Read the diff testfile and build a list of files with a diff.
 	"""
-	if totformat != numformat:
-		message = "files != report ({0},{1})".format(numformat, totformat)
-		system_exit(message)
-
+	infile = libtest.open_filein(testfile, 'rb')
+	filepaths = []
+	for line in infile:
+		filepaths.append(line[:-1])
+	infile.close()
+	return filepaths
+	
 # -----------------------------------------------------------------------------
 
 # make the module executable

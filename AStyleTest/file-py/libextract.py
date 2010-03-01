@@ -18,7 +18,7 @@ import time
 # select one of the following
 # use sourceOnly for speed
 sourceOnly = True
-# sourceOnly = False
+#sourceOnly = False
 
 # -----------------------------------------------------------------------------
 
@@ -26,6 +26,8 @@ def extract_project(project):
 	"""Call the procedure to extract the requested project.
 	   The main processing procedure called by other functions.
 	"""
+	if not sourceOnly:
+		print "extracting ALL files"
 	if project == libastyle.CODEBLOCKS:
 		extract_codeblocks()
 	elif project == libastyle.CODELITE:
@@ -34,10 +36,12 @@ def extract_project(project):
 		extract_jedit()
 	elif project == libastyle.KDEVELOP:
 		extract_kdevelop()
+	elif project == libastyle.SCITE:
+		extract_scite()
 	elif project == libastyle.SHARPDEVELOP:
 		extract_sharpdevelop()
-	elif project == libastyle.TEST:
-		extract_codeblocks()
+	elif project == libastyle.TESTPROJECT:
+		extract_testproject()
 	else:
 		libastyle.system_exit("Bad extract_files project id: " + str(project))
 
@@ -90,29 +94,31 @@ def check_rename_ok(globpath, destination):
 def extract_codeblocks():
 	"""Extract CodeBlocks files from archive to test directory.
 	"""
-	remove_test_directory("[Cc]ode[Bb]locks*")
+	remove_test_directory("codeblocks-*")
+	remove_test_directory("[Cc]ode[Bb]locks")
 	# temporary patch
 	if os.name == "nt":
 		extract_test_tar("codeblocks*.bz2", "codeblocks*.tar", ["*.cpp", "*.h"])
 	else:
 		extract_test_tar("codeblocks*.gz", "codeblocks*.tar", ["*.cpp", "*.h"])
-	rename_test_directory("codeblocks*", "CodeBlocks")
+	rename_test_directory("codeblocks-*", "CodeBlocks")
 
 # -----------------------------------------------------------------------------
 
 def extract_codelite():
 	"""Extract CodeLite files from archive to test directory.
 	"""
-	remove_test_directory("[Cc]ode[Ll]ite*")
+	remove_test_directory("codelite-*")
+	remove_test_directory("[Cc]ode[Ll]ite")
 	extract_test_tar("codelite*.gz", "codelite*.tar", ["*.cpp", "*.cxx", "*.h"])
-	rename_test_directory("codelite*", "CodeLite")
+	rename_test_directory("codelite-*", "CodeLite")
 
 # -----------------------------------------------------------------------------
 
 def extract_jedit():
 	"""Extract jEdit files from archive to test directory.
 	"""
-	remove_test_directory("j[Ee]dit*")
+	remove_test_directory("j[Ee]dit")
 	remove_test_directory("build-support")
 	extract_test_tar("jedit*.bz2", "jedit*.tar", ["*.java"])
 
@@ -121,17 +127,41 @@ def extract_jedit():
 def extract_kdevelop():
 	"""Extract KDevelop files from archive to test directory.
 	"""
-	remove_test_directory("[Kk][Dd]evelop*")
+	remove_test_directory("kdevelop-*")
+	remove_test_directory("[Kk][Dd]evelop")
 	extract_test_tar("kdevelop*.gz", "hpO5ya.tar", ["*.cpp", "*.h"])
-	rename_test_directory("kdevelop*", "KDevelop")
+	rename_test_directory("kdevelop-*", "KDevelop")
 
+# -----------------------------------------------------------------------------
+
+def extract_scite():
+	"""Extract SciTE files from archive to test directory.
+	"""
+	remove_test_directory("[Ss]ci[Tt][Ee]")
+	extract_test_zip("scite*.zip", "scite", ["*.cxx","*.c","*.h"])
+	# rename for Linux only
+	if not os.name == "nt":
+		rename_test_directory("scite", "SciTE")
+	
 # -----------------------------------------------------------------------------
 
 def extract_sharpdevelop():
 	"""Extract SharpDevelop files from archive to test directory.
 	"""
-	remove_test_directory("[Sh]harp[Dd]evelop*")
+	remove_test_directory("[Sh]harp[Dd]evelop")
 	extract_test_zip("SharpDevelop*.zip", "SharpDevelop", ["*.cs"])
+
+# -----------------------------------------------------------------------------
+
+def extract_testproject():
+	"""Extract Test files from archive to test directory.
+	"""
+	remove_test_directory("[Ss]ci[Tt][Ee]")
+	remove_test_directory("[Tt]est[Pp]roject")
+	extract_test_zip("scite*.zip", "scite", ["*.cxx","*.c","*.h"])
+	# rename for Linux only
+	if not os.name == "nt":
+		rename_test_directory("scite", "TestProject")
 
 # -----------------------------------------------------------------------------
 
@@ -199,7 +229,7 @@ def remove_test_directory(pattern):
 		shutil.rmtree(file, True)
 		# this is a problem with Windows only
 		if os.path.isdir(file):
-			print "Directory not removed: " + file
+			libastyle.system_exit("Directory not removed: " + file)
 
 # -----------------------------------------------------------------------------
 
@@ -211,9 +241,10 @@ def rename_test_directory(source, destination):
 	globpath = testdir + source
 	dir = check_rename_ok(globpath, destination)
 	dir = dir.replace('\\', '/')
-	prtdir = strip_directory_prefix(dir)
-	print "rename " + prtdir
 	destpath = testdir + destination
+	prtsrc = strip_directory_prefix(dir)
+	prtdst = strip_directory_prefix(destpath)
+	print "rename {0} {1}".format(prtsrc, prtdst)
 	shutil.move(dir, destpath)
 
 # -----------------------------------------------------------------------------
@@ -233,19 +264,23 @@ def test_all_compressed():
 	"""
 	starttime = time.time()
 	print "TEST COMPRESSED"
+	print
 	arcdir = libastyle.get_archive_directory()
 	files = glob.glob(arcdir  + "/*.tar")
 	for file in files:
 		file = file.replace('\\', '/')
-		print "remove tar " + file
+		prtfile = strip_directory_prefix(file)
+		print "remove tar " + prtfile
 		os.remove(file)
-	extract_project(libastyle.CODEBLOCKS)
-	extract_project(libastyle.CODELITE)
-	extract_project(libastyle.JEDIT)
-	extract_project(libastyle.KDEVELOP)
-	extract_project(libastyle.SHARPDEVELOP)
+	print
+	extract_project(libastyle.CODEBLOCKS); print
+	extract_project(libastyle.CODELITE); print
+	extract_project(libastyle.JEDIT); print
+	extract_project(libastyle.KDEVELOP); print
+	extract_project(libastyle.SHARPDEVELOP); print
+	extract_project(libastyle.TESTPROJECT); print
 	stoptime = time.time()
-	test_print_time(starttime, stoptime)
+	test_print_time(starttime, stoptime); print
 
 # -----------------------------------------------------------------------------
 
@@ -255,11 +290,13 @@ def test_all_tarballs():
 	"""
 	starttime = time.time()
 	print "TEST TARBALLS"
-	extract_project(libastyle.CODEBLOCKS)
-	extract_project(libastyle.CODELITE)
-	extract_project(libastyle.JEDIT)
-	extract_project(libastyle.KDEVELOP)
+	print
+	extract_project(libastyle.CODEBLOCKS); print
+	extract_project(libastyle.CODELITE); print
+	extract_project(libastyle.JEDIT); print
+	extract_project(libastyle.KDEVELOP); print
 	# no tarball for SHARPDEVELOP
+	extract_project(libastyle.TESTPROJECT); print
 	stoptime = time.time()
 	test_print_time(starttime, stoptime)
 

@@ -16,7 +16,7 @@ REM indent-brackets (B), add-brackets (j), break-blocks=all (F), align-pointer=t
 :: set options= -CSKBNLwM50m10yejoOcFpPHUxEk1 -vRQ
 REM indent-blocks (G), add-one-line-brackets (J), break-blocks (f), align-pointer=middle (k2)
 :: set options= -CSKGNLwM50m10yeJoOcfpPHUxEk2 -vRQ
-set options= -tapOHUk1 -RQv
+set options= -tapOHUk3 -RQv
 
 call  libCompile.bat  %astyle%
 echo Formatting SciTE %options%

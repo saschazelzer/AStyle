@@ -8,6 +8,249 @@
 // AStyle version 1.25 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(v125DeleteEmptyLinesAndBreakBlocks)
+{
+	// a missing closing bracket with delete-empty-lines and break-blocks
+	// should not cause an assert error on the call to sourceIterator->peekNextLine()
+	// in the function ASFormatter::commentAndHeaderFollows()
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar()\n"
+		"    {\n"
+		"\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar()\n"
+		"    {\n"
+		"    }";      // no end-of-line will be output
+	char options[] = "delete-empty-lines, break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v125BreakBlocksDeleteEmptyLinesComment)
+{
+	// the following comment should not abort or duplicate code in the output
+	// problem is the beginning comments in the peekNextText() function
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"\n"
+		"/*//BEGIN debug\n"
+		"    kdDebug() << endl << endl;\n"
+		"//END debug*/\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"    /*//BEGIN debug\n"
+		"        kdDebug() << endl << endl;\n"
+		"    //END debug*/\n"
+		"}\n";
+	char options[] = "break-blocks, delete-empty-lines";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v125SharpLambdaOperatorIndent)
+{
+	// C# => is not an assignment operator
+	// following lines should not be aligned on the =>
+	char textIn[] =
+		"\npublic static bool Foo()\n"
+		"{\n"
+		"    return @class.Attributes(\n"
+		"               att =>\n"
+		"                    att.AttributeType() &&\n"
+		"                    att.PositionalArg == 2 &&\n"
+		"                    String.Equals(\"System\")\n"
+		"           );\n"
+		"}\n";
+	char text[] =
+		"\npublic static bool Foo()\n"
+		"{\n"
+		"    return @class.Attributes(\n"
+		"               att =>\n"
+		"               att.AttributeType() &&\n"
+		"               att.PositionalArg == 2 &&\n"
+		"               String.Equals(\"System\")\n"
+		"           );\n"
+		"}\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v125KeywordsNotHeaders)
+{
+	// header is not a keyword if part of a definition
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    ADD_KEYWORD(return, TK_RETURN);\n"
+		"    ADD_KEYWORD(switch, TK_SWITCH);\n"
+		"    ADD_KEYWORD(case,   TK_CASE);\n"
+		"    ADD_KEYWORD(default,TK_DEFAULT);\n"
+		"}\n";
+	char options[] = "pad-header";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v125TwoGreaterThanSymblolsClosingTemplate)
+{
+	// two >> symbols closing a template
+	char text[] =
+		"\npublic Foo<KeyValuePair<string, string>> SpecialTypes {\n"
+		"    get {\n"
+		"        return typeConversionTable;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v125PossibleAssignmentInStatementIndentWithParenLineBegin)
+{
+	// try-catch within a header
+	// header must be restored from lastTempStack in ASBeautifier
+	char text[] =
+		"\nprivate void foo()\n"
+		"{\n"
+		"    search(\n"
+		"        () => DoSearch(Select(i => i.Node).ToList()),\n"
+		"        result => SearchCompleted(result),\n"
+		"    );\n"
+		"}\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v125Col1ElseWithPreceedingBracket)
+{
+	// else in col 1 with preceeding bracket tests a seldom used branch
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(isFoo)\n"
+		"    {\n"
+		"        bar1();\n"
+		"    }\n"
+		"else    // comment\n"
+		"        bar2();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(isFoo)\n"
+		"    {\n"
+		"        bar1();\n"
+		"    }\n"
+		"    else    // comment\n"
+		"        bar2();\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v125TryCatchInHeader)
+{
+	// try-catch within a header
+	// header must be restored from lastTempStack in ASBeautifier
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (foo1)\n"
+		"        bar1;\n"
+		"    else\n"
+		"        try {\n"
+		"            bar();\n"
+		"        } catch (int e) {\n"
+		"            cerr << \"error\" << endl;\n"
+		"        }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v125TryCatchFinallyInHeader)
+{
+	// try-catch within a header
+	// header must be restored from lastTempStack in ASBeautifier
+	char text[] =
+		"\nprivate void foo()\n"
+		"{\n"
+		"    if (foo1)\n"
+		"        bar1;\n"
+		"    else\n"
+		"        try {\n"
+		"            bar();\n"
+		"        } catch (int e) {\n"
+		"            Console.WriteLine(\"error\");\n"
+		"        } finally (int e) {\n"
+		"            closefile();\n"
+		"        }\n"
+		"}\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v125DoWhileInHeader)
+{
+	// do-while within a header
+	// header must be restored from lastTempStack in ASBeautifier
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (foo1)\n"
+		"        bar1;\n"
+		"    else\n"
+		"        do {\n"
+		"            bar();\n"
+		"        } while (int x < 9);\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v125TemplateASBeautifier)
+{
+	// template on multiple lines should be recognized by ASBeautifier
+	// template within a template should be recognized by ASBeautifier
+	char text[] =
+		"\ntemplate<typename T, template<typename E,\n"
+		"         typename Allocator = allocator<E> >\n"
+		"         class Container = vector >\n"
+		"class Foo\n"
+		"{\n"
+		"};\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(v125ExtraClosingBrackets)
 {
 	// should not abort with extra closing brackets
@@ -2547,6 +2790,56 @@ TEST(PreprocessorCommandType)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PreprocessorElif)
+{
+	// #elif updates the waitingBeautifierStack
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"#if USE64\n"
+		"        if (c < 64)\n"
+		"#elif USE128\n"
+		"        if (c < 128)\n"
+		"#elif USE256\n"
+		"        if (c < 256)\n"
+		"#endif\n"
+		"        {\n"
+		"            w += 1000;\n"
+		"        }\n"
+		"        else\n"
+		"        {\n"
+		"            w += 2000;\n"
+		"        }\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PreprocessorEndOnEmptyLine)
+{
+	// TODO: AStyle adds a space to the empty line
+	// preprocessor define ends with an empty line
+	char textIn[] =
+		"\n#define ITEM_ITERATION_UVC_LOOP_END(BOTTOMY) \\\n"
+		"    } while ( p->m_y < BOTTOMY ); \\\n"
+		"\n"
+		"\n";
+	char text[] =
+		"\n#define ITEM_ITERATION_UVC_LOOP_END(BOTTOMY) \\\n"
+		"    } while ( p->m_y < BOTTOMY ); \\\n"
+		" \n"
+		"\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
@@ -5111,6 +5404,23 @@ TEST(MultipleVariableClassInitializer3)
 TEST(MultipleVariableClassInitializer4)
 {
 	// class initializers are aligned on first variable
+	// comments after comma
+	char text[] =
+		"\nFoo::Foo()\n"
+		"    : m_FileGroups(*fgam), // comment\n"
+		"      m_pOrigFileGroups(fgam),\n"
+		"      m_LastListSelection(0)\n"
+		"{\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MultipleVariableClassInitializer5)
+{
+	// class initializers are aligned on first variable
 	// last line with brackets should be indented
 	char text[] =
 		"\nFooBar(int width = 1, int style = wxSOLID,\n"
@@ -5124,7 +5434,7 @@ TEST(MultipleVariableClassInitializer4)
 	delete [] textOut;
 }
 
-TEST(MultipleVariableClassInitializer5)
+TEST(MultipleVariableClassInitializer6)
 {
 	// class initializers are aligned on first variable
 	// this checks if the variables have been reset

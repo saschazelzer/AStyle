@@ -692,6 +692,22 @@ TEST(KeepOneLineBlocksShort)
 	delete [] textOut;
 }
 
+TEST(KeepOneLineBlocksStartOfLine)
+{
+	// line beginning with one-line blocks do NOT get a extra indent
+	char text[] =
+		"\nclass Foo\n"
+		"{\n"
+		"public:\n"
+		"    int getFoo() const\n"
+		"    { return isFoo; }\n"
+		"};\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(KeepOneLineBlocksNoneBrackets)
 {
 	// test keep one line blocks
@@ -2353,6 +2369,38 @@ TEST(AlignPointerNoneDereference)
 	delete [] textOut;
 }
 
+TEST(AlignPointerNoneGlobalVariables)
+{
+	// test with global variables
+	char textIn[] =
+		"\n// global variables\n"
+		"ostream* _err = &cerr;\n"
+		"ASConsole * g_console;\n"
+		"stringstream *_err = NULL;\n";
+	char text[] =
+		"\n// global variables\n"
+		"ostream* _err = &cerr;\n"
+		"ASConsole * g_console;\n"
+		"stringstream *_err = NULL;\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNoneGlobalDeclarations)
+{
+	// test with global declarations
+	char text[] =
+		"\n// function declarations\n"
+		"void *foo(char* fooBar);\n"
+		"char&bar(char&);\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointerNoneCast1)
 {
 	// cast should not be changed
@@ -2445,6 +2493,140 @@ TEST(AlignPointerNonePointerToPointer)
 		"    char**bar1;\n"
 		"}\n";
 	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNoneEndOfLine1)
+{
+	// test pointer at end of line
+	char text[] =
+		"\nvoid*\n"
+		"foo() {}\n"
+		"\n"
+		"char &\n"
+		"bar() {}\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNoneEndOfLine2)
+{
+	// test pointer at end of line with spaces or comment after
+	char textIn[] =
+		"\nvoid*   \n"
+		"foo() {}\n"
+		"\n"
+		"char &   \n"
+		"bar() {}\n"
+		"\n"
+		"void*      // comment  \n"
+		"foo() {}\n"
+		"\n"
+		"void **    /* comment */  \n"
+		"foo() {}\n"
+		"\n"
+		"char**   \n"
+		"bar() {}\n";
+	char text[] =
+		"\nvoid*\n"
+		"foo() {}\n"
+		"\n"
+		"char &\n"
+		"bar() {}\n"
+		"\n"
+		"void*      // comment\n"
+		"foo() {}\n"
+		"\n"
+		"void **    /* comment */\n"
+		"foo() {}\n"
+		"\n"
+		"char**\n"
+		"bar() {}\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNoneComment)
+{
+	// test pointer with comment after
+	char text[] =
+		"\nvoid Foo(WordList*/*keyword*/,\n"
+		"         WordList**/*keyword*/) {\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNoneOperatorOverload)
+{
+	// test pointer with overloaded operator
+	char text[] =
+		"\nclass Foo\n"
+		"{\n"
+		"    T& operator* () const {};\n"
+		"    T * operator-> () {};\n"
+		"};\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNoneConversionOperator)
+{
+	// test pointer with conversion operator
+	char text[] =
+		"\n// conversion operator declarations\n"
+		"operator EventRef &() { return fEvent; }\n"
+		"operator HIRect * () { return this; }\n"
+		"operator bool() { return len ? true : false; }\n"
+		"\n"
+		"// conversion operator definitions\n"
+		"operator EventRef&();\n"
+		"operator HIRect *();\n"
+		"operator bool() const;\n"
+		"\n"
+		"// conversion operator casts\n"
+		"EventRef& rf = (EventRef&) tf;\n"
+		"HIRect *pr   = (HIRect *) tr;\n"
+		"bool bb      = (bool) tb;\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNoneScopeResolution)
+{
+	// should not change scope resolution operator
+	char text[] =
+		"\nstruct CV {\n"
+		"    VarType TClassType::*var;\n"
+		"    VarType TClassType:: *var;\n"
+		"    VarType TClassType::* var;\n"
+		"    VarType TClassType:: * var;\n"
+		"} cv;\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNoneUnpadParen)
+{
+	// unpad-paren should NOT delete space padding
+	char text[] =
+		"\nLUA_API lua_State     *(lua_tothread)(lua_State *L, int idx);\n"
+		"LUA_API const void     *(lua_topointer)(lua_State *L, int idx);\n";
+	char options[] = "unpad-paren";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -2636,6 +2818,42 @@ TEST(AlignPointerTypeDereference)
 	delete [] textOut;
 }
 
+TEST(AlignPointerTypeGlobalVariables)
+{
+	// test with global variables
+	char textIn[] =
+		"\n// global variables\n"
+		"ostream *_err = &cerr;\n"
+		"ASConsole *g_console;\n"
+		"stringstream *_err = NULL;\n";
+	char text[] =
+		"\n// global variables\n"
+		"ostream* _err = &cerr;\n"
+		"ASConsole* g_console;\n"
+		"stringstream* _err = NULL;\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerTypeGlobalDeclarations)
+{
+	// test with global declarations
+	char textIn[] =
+		"\n// function declarations\n"
+		"void *foo(char*fooBar);\n"
+		"char&bar(char&);\n";
+	char text[] =
+		"\n// function declarations\n"
+		"void* foo(char* fooBar);\n"
+		"char& bar(char&);\n";;
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointerTypeCast1)
 {
 	// cast should not be space padded
@@ -2752,6 +2970,181 @@ TEST(AlignPointerTypePointerToPointer)
 		"    char** bar1;\n"
 		"}\n";
 	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerTypeEndOfLine1)
+{
+	// test pointer at end of line
+	char textIn[] =
+		"\nvoid*\n"
+		"foo() {}\n"
+		"\n"
+		"char &\n"
+		"bar() {}\n";
+	char text[] =
+		"\nvoid*\n"
+		"foo() {}\n"
+		"\n"
+		"char&\n"
+		"bar() {}\n";
+	char options[] = "align-pointer=type, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerTypeEndOfLine2)
+{
+	// test pointer at end of line with spaces or comment after
+	char textIn[] =
+		"\nvoid*   \n"
+		"foo() {}\n"
+		"\n"
+		"char &   \n"
+		"bar() {}\n"
+		"\n"
+		"void*      // comment  \n"
+		"foo() {}\n"
+		"\n"
+		"void **    /* comment */  \n"
+		"foo() {}\n"
+		"\n"
+		"char**   \n"
+		"bar() {}\n";
+	char text[] =
+		"\nvoid*\n"
+		"foo() {}\n"
+		"\n"
+		"char&\n"
+		"bar() {}\n"
+		"\n"
+		"void*      // comment\n"
+		"foo() {}\n"
+		"\n"
+		"void**     /* comment */\n"
+		"foo() {}\n"
+		"\n"
+		"char**\n"
+		"bar() {}\n";
+	char options[] = "align-pointer=type, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerTypeComment)
+{
+	// test pointer with comment after
+	char textIn[] =
+		"\nvoid Foo(WordList*/*keyword*/,\n"
+		"         WordList**/*keyword*/) {\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(WordList* /*keyword*/,\n"
+		"         WordList** /*keyword*/) {\n"
+		"}\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerTypeOperatorOverload)
+{
+	// test pointer with overloaded operator
+	char textIn[] =
+		"\nclass Foo\n"
+		"{\n"
+		"    T& operator* () const {};\n"
+		"    T * operator-> () {};\n"
+		"};\n";
+	char text[] =
+		"\nclass Foo\n"
+		"{\n"
+		"    T& operator* () const {};\n"
+		"    T* operator-> () {};\n"
+		"};\n";
+	char options[] = "align-pointer=type, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerTypeConversionOperator)
+{
+	// test pointer with conversion operator
+	char textIn[] =
+		"\n// conversion operator declarations\n"
+		"operator EventRef &() { return fEvent; }\n"
+		"operator HIRect * () { return this; }\n"
+		"operator bool() { return len ? true : false; }\n"
+		"\n"
+		"// conversion operator definitions\n"
+		"operator EventRef&();\n"
+		"operator HIRect *();\n"
+		"operator bool() const;\n"
+		"\n"
+		"// conversion operator casts\n"
+		"EventRef& rf = (EventRef&) tf;\n"
+		"HIRect *pr   = (HIRect *) tr;\n"
+		"bool bb      = (bool) tb;\n";
+	char text[] =
+		"\n// conversion operator declarations\n"
+		"operator EventRef& () { return fEvent; }\n"
+		"operator HIRect* () { return this; }\n"
+		"operator bool() { return len ? true : false; }\n"
+		"\n"
+		"// conversion operator definitions\n"
+		"operator EventRef& ();\n"
+		"operator HIRect* ();\n"
+		"operator bool() const;\n"
+		"\n"
+		"// conversion operator casts\n"
+		"EventRef& rf = (EventRef&) tf;\n"
+		"HIRect* pr   = (HIRect*) tr;\n"
+		"bool bb      = (bool) tb;\n";
+	char options[] = "align-pointer=type, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerTypeScopeResolution)
+{
+	// should pad scope resolution operator
+	char textIn[] =
+		"\nstruct CV {\n"
+		"    VarType TClassType::*var;\n"
+		"    VarType TClassType:: *var;\n"
+		"    VarType TClassType::* var;\n"
+		"    VarType TClassType:: * var;\n"
+		"} cv;\n";
+	char text[] =
+		"\nstruct CV {\n"
+		"    VarType TClassType::* var;\n"
+		"    VarType TClassType::* var;\n"
+		"    VarType TClassType::* var;\n"
+		"    VarType TClassType::* var;\n"
+		"} cv;\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerTypeUnpadParen)
+{
+	// unpad-paren should NOT delete space padding
+	char textIn[] =
+		"\nLUA_API lua_State     *(lua_tothread)(lua_State *L, int idx);\n"
+		"LUA_API const void     *(lua_topointer)(lua_State *L, int idx);\n";
+	char text[] =
+		"\nLUA_API lua_State*     (lua_tothread)(lua_State* L, int idx);\n"
+		"LUA_API const void*     (lua_topointer)(lua_State* L, int idx);\n";
+	char options[] = "align-pointer=type, unpad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -3002,6 +3395,42 @@ TEST(AlignPointerMiddleDereference)
 	delete [] textOut;
 }
 
+TEST(AlignPointerMiddleGlobalVariables)
+{
+	// test with global variables
+	char textIn[] =
+		"\n// global variables\n"
+		"ostream* _err = &cerr;\n"
+		"ASConsole* g_console;\n"
+		"stringstream* _err = NULL;\n";
+	char text[] =
+		"\n// global variables\n"
+		"ostream * _err = &cerr;\n"
+		"ASConsole * g_console;\n"
+		"stringstream * _err = NULL;\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddleGlobalDeclarations)
+{
+	// test with global declarations
+	char textIn[] =
+		"\n// function declarations\n"
+		"void *foo(char*fooBar);\n"
+		"char&bar(char&);\n";
+	char text[] =
+		"\n// function declarations\n"
+		"void * foo(char * fooBar);\n"
+		"char & bar(char &);\n";;
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointerMiddleCast1)
 {
 	// cast should be space padded
@@ -3118,6 +3547,181 @@ TEST(AlignPointerMiddlePointerToPointer)
 		"    char ** bar1;\n"
 		"}\n";
 	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddleEndOfLine1)
+{
+	// test pointer at end of line
+	char textIn[] =
+		"\nvoid*\n"
+		"foo() {}\n"
+		"\n"
+		"char &\n"
+		"bar() {}\n";
+	char text[] =
+		"\nvoid *\n"
+		"foo() {}\n"
+		"\n"
+		"char &\n"
+		"bar() {}\n";
+	char options[] = "align-pointer=middle, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddleEndOfLine2)
+{
+	// test pointer at end of line with spaces or comment after
+	char textIn[] =
+		"\nvoid*   \n"
+		"foo() {}\n"
+		"\n"
+		"char &   \n"
+		"bar() {}\n"
+		"\n"
+		"void*      // comment  \n"
+		"foo() {}\n"
+		"\n"
+		"void **    /* comment */  \n"
+		"foo() {}\n"
+		"\n"
+		"char**   \n"
+		"bar() {}\n";
+	char text[] =
+		"\nvoid *\n"
+		"foo() {}\n"
+		"\n"
+		"char &\n"
+		"bar() {}\n"
+		"\n"
+		"void *     // comment\n"
+		"foo() {}\n"
+		"\n"
+		"void **    /* comment */\n"
+		"foo() {}\n"
+		"\n"
+		"char **\n"
+		"bar() {}\n";
+	char options[] = "align-pointer=middle, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddleComment)
+{
+	// test pointer with comment after
+	char textIn[] =
+		"\nvoid Foo(WordList*/*keyword*/,\n"
+		"         WordList**/*keyword*/) {\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(WordList * /*keyword*/,\n"
+		"         WordList ** /*keyword*/) {\n"
+		"}\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddleOperatorOverload)
+{
+	// test pointer with overloaded operator
+	char textIn[] =
+		"\nclass Foo\n"
+		"{\n"
+		"    T& operator* () const {};\n"
+		"    T * operator-> () {};\n"
+		"};\n";
+	char text[] =
+		"\nclass Foo\n"
+		"{\n"
+		"    T & operator* () const {};\n"
+		"    T * operator-> () {};\n"
+		"};\n";
+	char options[] = "align-pointer=middle, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddleConversionOperator)
+{
+	// test pointer with conversion operator
+	char textIn[] =
+		"\n// conversion operator declarations\n"
+		"operator EventRef &() { return fEvent; }\n"
+		"operator HIRect * () { return this; }\n"
+		"operator bool() { return len ? true : false; }\n"
+		"\n"
+		"// conversion operator definitions\n"
+		"operator EventRef&();\n"
+		"operator HIRect *();\n"
+		"operator bool() const;\n"
+		"\n"
+		"// conversion operator casts\n"
+		"EventRef& rf = (EventRef&) tf;\n"
+		"HIRect *pr   = (HIRect *) tr;\n"
+		"bool bb      = (bool) tb;\n";
+	char text[] =
+		"\n// conversion operator declarations\n"
+		"operator EventRef & () { return fEvent; }\n"
+		"operator HIRect * () { return this; }\n"
+		"operator bool() { return len ? true : false; }\n"
+		"\n"
+		"// conversion operator definitions\n"
+		"operator EventRef & ();\n"
+		"operator HIRect * ();\n"
+		"operator bool() const;\n"
+		"\n"
+		"// conversion operator casts\n"
+		"EventRef & rf = (EventRef &) tf;\n"
+		"HIRect * pr   = (HIRect *) tr;\n"
+		"bool bb      = (bool) tb;\n";
+	char options[] = "align-pointer=middle, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddleScopeResolution)
+{
+	// should pad scope resolution operator
+	char textIn[] =
+		"\nstruct CV {\n"
+		"    VarType TClassType::*var;\n"
+		"    VarType TClassType:: *var;\n"
+		"    VarType TClassType::* var;\n"
+		"    VarType TClassType:: * var;\n"
+		"} cv;\n";
+	char text[] =
+		"\nstruct CV {\n"
+		"    VarType TClassType::* var;\n"
+		"    VarType TClassType::* var;\n"
+		"    VarType TClassType::* var;\n"
+		"    VarType TClassType::*  var;\n"
+		"} cv;\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddleUnpadParen)
+{
+	// unpad-paren should NOT delete space padding
+	char textIn[] =
+		"\nLUA_API lua_State*     (lua_tothread)(lua_State *L, int idx);\n"
+		"LUA_API const void     *(lua_topointer)(lua_State *L, int idx);\n";
+	char text[] =
+		"\nLUA_API lua_State   *  (lua_tothread)(lua_State * L, int idx);\n"
+		"LUA_API const void   *  (lua_topointer)(lua_State * L, int idx);\n";
+	char options[] = "align-pointer=middle, unpad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
@@ -3420,6 +4024,42 @@ TEST(AlignPointerNameDereference)
 	delete [] textOut;
 }
 
+TEST(AlignPointerNameGlobalVariables)
+{
+	// test with global variables
+	char textIn[] =
+		"\n// global variables\n"
+		"ostream* _err = &cerr;\n"
+		"ASConsole* g_console;\n"
+		"stringstream* _err = NULL;\n";
+	char text[] =
+		"\n// global variables\n"
+		"ostream *_err = &cerr;\n"
+		"ASConsole *g_console;\n"
+		"stringstream *_err = NULL;\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNameGlobalDeclarations)
+{
+	// test with global declarations
+	char textIn[] =
+		"\n// function declarations\n"
+		"void* foo(char*fooBar);\n"
+		"char&bar(char&);\n";
+	char text[] =
+		"\n// function declarations\n"
+		"void *foo(char *fooBar);\n"
+		"char &bar(char &);\n";;
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointerNameCast1)
 {
 	// cast should be space padded
@@ -3534,6 +4174,181 @@ TEST(AlignPointerNamePointerToPointer)
 		"    char				**bar1;\n"
 		"}\n";
 	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNameEndOfLine1)
+{
+	// test pointer at end of line
+	char textIn[] =
+		"\nvoid*\n"
+		"foo() {}\n"
+		"\n"
+		"char &\n"
+		"bar() {}\n";
+	char text[] =
+		"\nvoid *\n"
+		"foo() {}\n"
+		"\n"
+		"char &\n"
+		"bar() {}\n";
+	char options[] = "align-pointer=name, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNameEndOfLine2)
+{
+	// test pointer at end of line with spaces or comment after
+	char textIn[] =
+		"\nvoid*   \n"
+		"foo() {}\n"
+		"\n"
+		"char &   \n"
+		"bar() {}\n"
+		"\n"
+		"void*      // comment  \n"
+		"foo() {}\n"
+		"\n"
+		"void **    /* comment */  \n"
+		"foo() {}\n"
+		"\n"
+		"char**   \n"
+		"bar() {}\n";
+	char text[] =
+		"\nvoid *\n"
+		"foo() {}\n"
+		"\n"
+		"char &\n"
+		"bar() {}\n"
+		"\n"
+		"void *     // comment\n"
+		"foo() {}\n"
+		"\n"
+		"void **    /* comment */\n"
+		"foo() {}\n"
+		"\n"
+		"char **\n"
+		"bar() {}\n";
+	char options[] = "align-pointer=name, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNameComment)
+{
+	// test pointer with comment after
+	char textIn[] =
+		"\nvoid Foo(WordList*/*keyword*/,\n"
+		"         WordList**/*keyword*/) {\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(WordList */*keyword*/,\n"
+		"         WordList **/*keyword*/) {\n"
+		"}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNameOperatorOverload)
+{
+	// test pointer with overloaded operator
+	char textIn[] =
+		"\nclass Foo\n"
+		"{\n"
+		"    T& operator* () const {};\n"
+		"    T * operator-> () {};\n"
+		"};\n";
+	char text[] =
+		"\nclass Foo\n"
+		"{\n"
+		"    T &operator* () const {};\n"
+		"    T *operator-> () {};\n"
+		"};\n";
+	char options[] = "align-pointer=name, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNameConversionOperator)
+{
+	// test pointer with conversion operator
+	char textIn[] =
+		"\n// conversion operator declarations\n"
+		"operator EventRef &() { return fEvent; }\n"
+		"operator HIRect * () { return this; }\n"
+		"operator bool() { return len ? true : false; }\n"
+		"\n"
+		"// conversion operator definitions\n"
+		"operator EventRef&();\n"
+		"operator HIRect *();\n"
+		"operator bool() const;\n"
+		"\n"
+		"// conversion operator casts\n"
+		"EventRef& rf = (EventRef&) tf;\n"
+		"HIRect *pr   = (HIRect *) tr;\n"
+		"bool bb      = (bool) tb;\n";
+	char text[] =
+		"\n// conversion operator declarations\n"
+		"operator EventRef &() { return fEvent; }\n"
+		"operator HIRect *() { return this; }\n"
+		"operator bool() { return len ? true : false; }\n"
+		"\n"
+		"// conversion operator definitions\n"
+		"operator EventRef &();\n"
+		"operator HIRect *();\n"
+		"operator bool() const;\n"
+		"\n"
+		"// conversion operator casts\n"
+		"EventRef &rf = (EventRef &) tf;\n"
+		"HIRect *pr   = (HIRect *) tr;\n"
+		"bool bb      = (bool) tb;\n";
+	char options[] = "align-pointer=name, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNameScopeResolution)
+{
+	// should not pad scope resolution operator
+	char textIn[] =
+		"\nstruct CV {\n"
+		"    VarType TClassType::*var;\n"
+		"    VarType TClassType:: *var;\n"
+		"    VarType TClassType::* var;\n"
+		"    VarType TClassType:: * var;\n"
+		"} cv;\n";
+	char text[] =
+		"\nstruct CV {\n"
+		"    VarType TClassType::*var;\n"
+		"    VarType TClassType::*var;\n"
+		"    VarType TClassType::*var;\n"
+		"    VarType TClassType::*var;\n"
+		"} cv;\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNameUnpadParen)
+{
+	// unpad-paren should NOT delete space padding
+	char textIn[] =
+		"\nLUA_API lua_State*     (lua_tothread)(lua_State *L, int idx);\n"
+		"LUA_API const void*     (lua_topointer)(lua_State *L, int idx);\n";
+	char text[] =
+		"\nLUA_API lua_State     *(lua_tothread)(lua_State *L, int idx);\n"
+		"LUA_API const void     *(lua_topointer)(lua_State *L, int idx);\n";
+	char options[] = "align-pointer=name, unpad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;

@@ -10,12 +10,10 @@ import sys
 
 # -----------------------------------------------------------------------------
 
-def call_diff_program(filepath):
+def call_diff_program(filepath1, filepath2):
 	"""Call diff program.
 	"""
-	diff = [libastyle.get_diff_path()]
-	diff.append(filepath)
-	diff.append(filepath + ".orig")
+	diff = [libastyle.get_diff_path(), filepath1, filepath2]
 	try:
 		subprocess.check_call(diff)
 	except subprocess.CalledProcessError as e:
@@ -25,28 +23,39 @@ def call_diff_program(filepath):
 
 # -----------------------------------------------------------------------------
 
-def diff_formatted_files(files, totformat):
+def diff_formatted_files(filepaths, diffOLD=False):
 	"""Call the diff program for formatted files.
-		This function requires keyboard input.
-		It cannot be run from an editor.
+	   diffOLD=True will diff files from the "OLD" directory.
+	   Otherwise diff ".orig" files from the current directory.
+	   This function requires keyboard input.
+	   It cannot be run from an editor.
 	"""
 	if not libastyle.is_executed_from_console():
-		print "Run diff-print.py from the console to view the diffs"
+		if diffOLD: diffprog = "diff2-print.py"
+		else: diffprog = "diff1-print.py"
+		msg = "Run {0} from the console to view the diffs"
+		print msg.format(diffprog)
 		return
 	numin = 0
 	processed = 0
-	for file in files:
+	for filepath in filepaths:
 		numin += 1
-		stripfile = strip_test_directory_prefix(file)
-		print "{0} of {1} {2}".format(numin, totformat, stripfile)
+		filepath = filepath.replace('\\', '/')
+		stripfile = strip_test_directory_prefix(filepath)
+		print "{0} of {1} {2}".format(numin, len(filepaths), stripfile)
 		ch = libastyle.getch()
-		if ch == '\000' or ch == '\xe0':
+		# FOR LINUX ONLY??? - DOESN'T WORK - MOVE GETCH FUNCTION?
+		if ch == '\000' or ch == '\xe0':		# check for ALT or CTRL key
 			ch = libastyle.getch()
-		if ch == 'n' or ch == 'm': continue
+		if ch == 'n' or ch == 'N' or ch == 'm' or ch == 'M': continue
 		if ch == 'z' : break
 		processed += 1
-		call_diff_program(file)
-	print "{0} of {1} diffs processed".format(processed, len(files))
+		if diffOLD:
+			oldpath = get_old_filepath(filepath)
+			call_diff_program(filepath, oldpath)
+		else:
+			call_diff_program(filepath, filepath + ".orig")
+	print "{0} of {1} diffs processed".format(processed, len(filepaths))
 
 # -----------------------------------------------------------------------------
 
@@ -117,12 +126,24 @@ def  get_formatted_files(filename):
 			continue
 		# formatted file line (start of line with a following space)
 		if re.match("formatted ", line) != None:
-			subline = line.split()
+			subline = line[:-1].split()
 			formatted.append(directory + os.sep + subline[1])
 
 	infile.close()
 	return formatted
 
+# -----------------------------------------------------------------------------
+
+def  get_old_filepath(filepath):
+	"""Build a filepath for the "OLD" directory.
+	"""
+	testdir = libastyle.get_test_directory(True)
+	subdir = filepath[len(testdir):]
+	sep = subdir.find('/')
+	dirname = subdir[:sep]
+	oldpath = testdir + dirname + "OLD" + subdir[len(dirname):]
+	return oldpath
+	
 # -----------------------------------------------------------------------------
 
 def open_filein(filename, mode):
@@ -153,12 +174,13 @@ def test_all_functions():
 	"""
 	# write test file
 	os.chdir(libastyle.get_file_py_directory())
-	testfile = "testx.txt"
+	testfile = libastyle.get_temp_directory() + "libtest.txt"
 	test_file_write(testfile)
 	# begin tests -----------------------------------------
 	files = get_formatted_files(testfile)
 		# calls extract_directory_from_line()
-	diff_formatted_files(files, 2)
+	print "No files will be displayed in the comparison program."
+	diff_formatted_files(files)
 		# calls call_diff_program() 
 		# calls strip_test_directory_prefix() 
 	get_astyle_totals(testfile)
@@ -174,7 +196,7 @@ def test_file_write(filename):
 	text = (
 		"Artistic Style 1.xx\n"
 		"--------------------------------------------------\n"
-		"directory /home/user/Projects/TestData/Project/*.cpp\n"
+		"directory $HOME/Projects/TestData/Project/*.cpp\n"
 		"--------------------------------------------------\n"
 		"formatted  plugins/astyle/astyle/ASFormatter.cpp\n"
 		"unchanged* plugins/astyle/astyle/Unchanged.cpp\n"
@@ -183,7 +205,7 @@ def test_file_write(filename):
 		"--------------------------------------------------\n"
 		"2 formatted, 2 unchanged, 10 seconds, 1000 lines\n"
 	)
-	text.replace("/home/user", libastyle.get_home_directory())
+	text = text.replace("$HOME", libastyle.get_home_directory())
 	outfile.write(text)
 	outfile.close()
 

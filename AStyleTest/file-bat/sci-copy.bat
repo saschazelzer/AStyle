@@ -1,24 +1,5 @@
 @echo off
 
-REM USB is not used
-:checkUSB
-set USBdrive=E:
-if not exist E:\USB (
-set USBdrive=F:
-if not exist F:\USB (
-set USBdrive=G:
-if not exist G:\USB (
-set USBdrive=H:
-if not exist H:\USB (
-echo -
-echo Mount USB drive
-pause
-goto :checkUSB
-)
-)
-)
-)
-
 set testdata=..\..\TestData
 set progdir=..\..\
 

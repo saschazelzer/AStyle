@@ -3,12 +3,13 @@
 # Tests the output of a new program against an older one.
 # Change the global variables to the desired values.
 # Variables astyleexe1 & 2 should be an old and new version of the program.
-# Changes will cause files in the second run to be formatted.
+# Compares diffs in old and new files.
 # The differences can be checked with a diff program.
 
 import libastyle		#local directory
 import libextract		#local directory
 import libtest			#local directory
+import glob
 import os
 import subprocess
 import sys
@@ -21,24 +22,24 @@ import time
 #   CODELITE
 #   JEDIT
 #   KDEVELOP
+#  SCITE 
 #  SHARPDEVELOP
-# TEST
-project = libastyle.CODEBLOCKS
+#  TESTPROJECT
+project = libastyle.SCITE 
 
-# select one of the following
-#options = ""
-# indent-brackets (B), add-brackets (j), break-blocks=all (F), align-pointer=type (k1)
-#options = "-CSKBNLwM50m10yejoOcFpPHUxEk1"
-# indent-blocks (G), add-one-line-brackets (J), break-blocks (f), align-pointer=middle (k2)
-options = "-CSKGNLwM50m10yeJoOcfpPHUxEk2"
+# select OPT1 thru OPT4, or use customized options
+#options = libastyle.OPT1
+
+# scite formatting options
+options = "-tapOHUk3"
 
 # executables for test
 astyleexe1 = "astyle25a"
 astyleexe2 = "astyled"
 
-# select one of the following to unarchive files
-extractfiles = True
-#extractfiles = False
+# select one of the following to format files in the OLD directory
+formatOLD = True
+#formatOLD = False
 
 # -----------------------------------------------------------------------------
 
@@ -49,36 +50,41 @@ def process_files():
 	starttime = time.time()
 	libastyle.set_text_color()
 	print "Testing " +  project
-	print
+	print "Using {0} {1}".format(astyleexe1, astyleexe2) 
 	os.chdir(libastyle.get_file_py_directory())
 	libastyle.build_astyle_executable(get_astyle_config())
 	verify_astyle_executables(astyleexe1, astyleexe2)
 	filepaths = libastyle.get_project_filepaths(project)
+	excludes = libastyle.get_project_excludes(project)
 	testfile = "test.txt"
-	if extractfiles:
-		print "Extracting files"
-		libextract.extract_project(project)
-
 	# run test 1
-	print_test_header(1, astyleexe1)
-	astyle = set_astyle_args(filepaths, astyleexe1)
+	if formatOLD:
+		print "\nExtracting Test 1"
+		libextract.extract_project(project)
+		print_test_header(1, astyleexe1)
+		astyle = set_astyle_args(filepaths, excludes, astyleexe1)
+		print_formatting_message(astyle, project)
+		call_artistic_style(astyle, testfile)
+		print_astyle_totals(testfile)
+		libextract.remove_test_directory(project + "OLD")
+		libextract.rename_test_directory(project, project + "OLD")
+	else:
+		verify_test_directory(project + "OLD")
+		print "No Test 1"
+
+	# run test 2
+	print "\nExtracting Test 2"
+	libextract.extract_project(project)
+	print_test_header(2, astyleexe2)
+	astyle = set_astyle_args(filepaths, excludes, astyleexe2)
 	print_formatting_message(astyle, project)
 	call_artistic_style(astyle, testfile)
 	print_astyle_totals(testfile)
-	# os.remove(testfile)
-
-	# run test 2
-	print_test_header(2, astyleexe2)
-	astyle = set_astyle_args(filepaths, astyleexe2)
-	print_formatting_message(astyle, project)
-	call_artistic_style(astyle, testfile)
-	totformat, totfiles = print_astyle_totals(testfile)
-	files = libtest.get_formatted_files(testfile)
-	verify_formatted_files(len(files), totformat)
 
 	# process formatted files
-	print_run_total(totformat, totfiles, starttime)
-	libtest.diff_formatted_files(files, totformat)
+	diffs = compare_formatted_files(filepaths)
+	print_run_total(starttime)
+	libtest.diff_formatted_files(diffs, True)
 
 # -----------------------------------------------------------------------------
 
@@ -93,6 +99,66 @@ def call_artistic_style(astyle, testfile):
 	except OSError:
 		libastyle.system_exit("Cannot find executable: " + astyle[0])
 	outfile.close()
+
+# -----------------------------------------------------------------------------
+
+def call_file_compare_program(filepath, testout, fcout):
+	"""Call the file compare program for a given filepath.
+	   Write files with a diff to to testout.
+	"""
+	oldpath = libtest.get_old_filepath(filepath)
+	# call file compare
+	fclist = get_file_compare_list(filepath, oldpath)
+	retval = subprocess.call(fclist, stdout=fcout)
+	if retval > 1:
+		libastyle.system_exit("Bad file compare return: " + str(retval))
+	if retval == 1:
+		testout.write(filepath + '\n')
+		return True
+	return False
+
+# -----------------------------------------------------------------------------
+
+def compare_formatted_files(filepaths):
+	"""Walk thru the top-level directory tree
+	   and diff the files in the current and OLD directories.
+	   Returns a list of the files with a diff.
+	"""
+	# process the filepaths
+	totfiles = 0
+	totdiffs = 0
+	diffs = []
+	print
+	fcfile = libastyle.get_temp_directory() + "/filecompare.txt"
+	fcout = open(fcfile, 'w')
+	testfile = "test-diff.txt"
+	testout = open(testfile, 'w')
+	for filepath in filepaths:
+		testdir = libastyle.get_test_directory(True)
+		print "Compare " + filepath[len(testdir):]
+		dirname, tail = os.path.split(filepath)
+		pathroot, pathext = os.path.splitext(filepath)
+		# walk thru the directory tree
+		for dirpath, dirnames, filenames in os.walk(dirname):
+			# process each file in the directory
+			for filename in filenames:
+				root, ext = os.path.splitext(filename)
+				# compare only for the file extension requested
+				if ext == pathext:
+					totfiles += 1
+					filepath = os.path.join(dirpath, filename)
+					filepath = filepath.replace('\\', '/')
+					retval = call_file_compare_program(filepath, testout, fcout)
+					if retval:
+						diffs.append(filepath)
+						totdiffs += 1
+					if totfiles % 100 == 0:
+						print "{0} files  {1} diffs".format(totfiles, totdiffs)
+	print "{0} files  {1} diffs".format(totfiles, totdiffs)
+	fcout.close()
+	os.remove(fcfile)
+	testout.close()
+	return diffs
 
 # -----------------------------------------------------------------------------
 
@@ -113,6 +179,19 @@ def get_astyle_path(astyleexe):
 	config = get_astyle_config()
 	astylepath = libastyle.get_astyleexe_directory(config, True) + astyleexe
 	return astylepath
+
+# -----------------------------------------------------------------------------
+
+def get_file_compare_list(filepath, oldpath):
+	"""Get the file compare call list for the os environment
+	"""
+	if os.name == "nt":
+		filepath = filepath.replace('/', '\\')
+		oldpath = oldpath.replace('/', '\\')
+		fclist = ["fc", "/lb1", "/t", filepath, oldpath]
+	else:
+		fclist = ["diff", "-q", "-a", filepath, oldpath]
+	return fclist
 
 # -----------------------------------------------------------------------------
 
@@ -137,15 +216,16 @@ def print_formatting_message(args, project):
 	   Input is the command list used to call astyle.
 	"""
 	print "Formatting " +  project,
-	# print args starting with a '-'
+	# print args starting with a '-' except for excludes
 	for arg in args:
-		if arg[0] == '-':
-			print arg,
+		if not arg[0] == '-': continue
+		if arg[:9] == "--exclude": continue
+		print arg,
 	print
 
 # -----------------------------------------------------------------------------
 
-def print_run_total(formatted, totfiles, starttime):
+def print_run_total(starttime):
 	"""Print total information for the entire run.
 	"""
 	print
@@ -154,13 +234,9 @@ def print_run_total(formatted, totfiles, starttime):
 	min = runtime / 60
 	sec = runtime % 60
 	if min == 0:
-		print "{0} seconds total".format(sec)
+		print "{0} seconds total run time".format(sec)
 	else:
-		print "{0} min {1} seconds total".format(min, sec)
-	# if formatted == 0: libastyle.set_ok_color()
-	# else: libastyle.set_error_color()
-	print
-	print "{0} diffs in {1} files".format(formatted, totfiles)
+		print "{0} min {1} seconds total run time".format(min, sec)
 	print
 
 # -----------------------------------------------------------------------------
@@ -173,7 +249,7 @@ def print_test_header(testnum, astyleexe):
 
 # -----------------------------------------------------------------------------
 
-def set_astyle_args(filepath, astyleexe):
+def set_astyle_args(filepath, excludes, astyleexe):
 	"""Set args for calling artistic style.
 	"""
 	astylepath = get_astyle_path(astyleexe)
@@ -185,6 +261,9 @@ def set_astyle_args(filepath, astyleexe):
 	if len(options.strip()) > 0:
 		args.append(options)
 	args.append("-vRQ")
+	# set excludes
+	for exclude in excludes:
+		args.append(exclude)
 	return args
 
 # -----------------------------------------------------------------------------
@@ -204,7 +283,7 @@ def verify_astyle_executables(exe1, exe2):
 		exe2path += ".exe"
 	if not os.path.exists(exe2path):
 		libastyle.system_exit("Cannot find executable: " + exe2path)
-
+	
 # -----------------------------------------------------------------------------
 
 def verify_formatted_files(numformat, totformat):
@@ -213,6 +292,18 @@ def verify_formatted_files(numformat, totformat):
 	if totformat != numformat:
 		message = "files != report ({0},{1})".format(numformat, totformat)
 		libastyle.system_exit(message)
+
+# -----------------------------------------------------------------------------
+
+def verify_test_directory(name):
+	"""Verify that a directory exists in the TestData directory.
+	"""
+	testdir = libastyle.get_test_directory(True) + name
+	dirs = glob.glob(testdir)
+	if len(dirs) == 0:
+		msg = ("No test directory " + name +
+			   ", must use formatOLD = True")
+		libastyle.system_exit(msg)
 
 # -----------------------------------------------------------------------------
 

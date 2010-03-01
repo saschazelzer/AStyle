@@ -13,16 +13,26 @@ else: import tty, termios						# Linux only for getch()
 # global variables ------------------------------------------------------------
 
 # test project IDs
-# use these to avoid spelling problems
 CODEBLOCKS   = "CodeBlocks"
 CODELITE     = "CodeLite"
 JEDIT        = "jEdit"
 KDEVELOP     = "KDevelop"
+SCITE        = "SciTE"
 SHARPDEVELOP = "SharpDevelop"
-TEST         = "TestProject"
-		
+TESTPROJECT  = "TestProject"
+
+# astyle test options
+# no options
+OPT1 = ""
+# align-pointer=type (k1), indent-brackets (B), add-brackets (j), break-blocks=all (F)
+OPT2 = "-CSKBNLwM50m10yejoOcFpPHUxEk1"
+# align-pointer=middle (k2), indent-blocks (G), add-one-line-brackets (J), break-blocks (f)
+OPT3 = "-CSKGNLwM50m10yeJoOcfpPHUxEk2"
+# align-pointer=name (k3), WITHOUT: indent-blocks (G), add-brackets (j,J),
+#     break-blocks (f,F), pad-oper (p), pad-paren (P), delete-empty-lines (x)
+OPT4 = "-CSKNLwM50m10yeoOcHUEk3"
+
 # compile configurations
-# use these to avoid spelling problems
 DEBUG   = "debug"
 RELEASE = "release"
 STATIC  = "static"
@@ -64,7 +74,7 @@ def compile_astyle_linux(astylepath, config):
 		build = ["make", "debug"]
 	else:
 		build = ["make", "release"]
-	buildfile = get_file_py_directory(True)  + "build.txt"
+	buildfile = get_temp_directory() + "/build.txt"
 	outfile = open(buildfile, 'w')
 	retval = subprocess.call(build, cwd=makedir, stdout=outfile)
 	if retval:
@@ -164,7 +174,7 @@ def get_astyleexe_directory(config, endsep=False):
 # -----------------------------------------------------------------------------
 
 def get_astyleexe_path(config, endexe=False):
-	"""Get the AStyle executable path for the os environment
+	"""Get the AStyle executable path for the os environment.
 	   endexe = True will add an ending '.exe' to Windows.
 	"""
 	if config != DEBUG and config != RELEASE and config != STATIC:
@@ -200,6 +210,7 @@ def getch():
 			ch = sys.stdin.read(1)
 		finally:
 			termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+	print ch
 	return ch
 
 # -----------------------------------------------------------------------------
@@ -251,13 +262,47 @@ def get_project_directory(endsep=False):
 
 # -----------------------------------------------------------------------------
 
+def get_project_excludes(project):
+	"""Get the project excludes list for AStyle processing.
+	    Argument must be one of the global variables.
+	    Returns a list of excludes.
+	"""
+	excludes = []
+	testDirectory = get_test_directory()
+	if project == CODEBLOCKS:
+		# excludes because of %pythoncode
+		# advprops.h is __WXPYTHON__ at line 192
+		# propgrid.cpp is the macro IMPLEMENT_GET_VALUE		
+		excludes.append("--exclude=wx\wxscintilla.h")
+		excludes.append("--exclude=wx\propgrid\advprops.h")
+		excludes.append("--exclude=wx\propgrid\manager.h")
+		excludes.append("--exclude=wx\propgrid\propgrid.h")
+		excludes.append("--exclude=propgrid\propgrid.cpp")
+	elif project == CODELITE:
+		None
+	elif project == JEDIT:
+		None
+	elif project == KDEVELOP:
+		excludes.append("--exclude=app_templates")
+	elif project == SCITE:
+		excludes.append("--exclude=lua")
+	elif project == SHARPDEVELOP:
+		None
+	elif project == TESTPROJECT:
+		None
+	else:
+		system_exit("Bad get_project_excludes() project id: " + project)
+	return excludes
+
+# -----------------------------------------------------------------------------
+
 def get_project_filepaths(project):
 	"""Get filepath list for AStyle processing.
 	    Argument must be one of the global variables.
 	    Returns a list of filepaths to process.
 	"""
 	filepaths = []
-	testDirectory = get_home_directory()  + "/Projects/TestData"
+	testDirectory = get_test_directory()
 	if project == CODEBLOCKS:
 		filepaths.append(testDirectory + "/CodeBlocks/src/*.cpp")
 		# filepath.append(testDirectory + "/CodeBlocks/src/*.cxx")
@@ -271,13 +316,16 @@ def get_project_filepaths(project):
 	elif project == KDEVELOP:
 		filepaths.append(testDirectory + "/KDevelop/*.cpp")
 		filepaths.append(testDirectory + "/KDevelop/*.h")
+	elif project == SCITE:
+		filepaths.append(testDirectory + "/SciTE/*.cxx")
+		filepaths.append(testDirectory + "/SciTE/*.h")
 	elif project == SHARPDEVELOP:
 		filepaths.append(testDirectory + "/SharpDevelop/src/*.cs")
-	elif project == TEST:
+	elif project == TESTPROJECT:
 		# the test file paths can be changed depending n the circumstances
-		# if the test is not CodeBlocks change in extract_project() libextract.py
-		filepaths.append(testDirectory + "/CodeBlocks/src/plugins/astyle/astyle/*.cpp")
-		filepaths.append(testDirectory + "/CodeBlocks/src/plugins/codecompletion/parser/*.cpp")
+		# if the test is not CodeBlocks change extract_testproject() in libextract.py
+		filepaths.append(testDirectory + "/TestProject/scite/gtk/*.cxx")
+		filepaths.append(testDirectory + "/TestProject/scite/gtk/*.h")
 	else:
 		system_exit("Bad get_project_filepaths() project id: " + project)
 	return filepaths
@@ -369,17 +417,18 @@ def system_exit(message=''):
 def test_all_functions():
 	"""Test all functions for syntax.
 	"""
-	build_astyle_executable(RELEASE)		# calls compile_astyle_linux() or ..._windows()
+	build_astyle_executable(DEBUG)		# calls compile_astyle_linux() or ..._windows()
 	get_7zip_path()
 	get_archive_directory()
 	get_astyle_directory()
-	get_astyleexe_directory(RELEASE)
-	get_astyleexe_path(RELEASE)
+	get_astyleexe_directory(DEBUG)
+	get_astyleexe_path(DEBUG)
 	get_diff_path()
 	get_file_py_directory()
 	get_home_directory()
 	get_project_directory()
-	get_project_filepaths(TEST)
+	get_project_excludes(TESTPROJECT)
+	get_project_filepaths(TESTPROJECT)
 	get_temp_directory()
 	get_test_directory()
 	is_executed_from_console()
