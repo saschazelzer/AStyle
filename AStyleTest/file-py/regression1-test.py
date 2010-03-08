@@ -21,13 +21,13 @@ import time
 #   CODELITE
 #   JEDIT
 #   KDEVELOP
-#  SCITE 
+#  SCITE
 #  SHARPDEVELOP
 # TESTPROJECT
-project = libastyle.TESTPROJECT
+project = libastyle.CODEBLOCKS
 
-# select OPT1 thru OPT4, or use customized options
-options = libastyle.OPT1
+# select OPT0 thru OPT3, or use customized options
+options = libastyle.OPT0
 
 # executables for test
 astyleexe1 = "astyled"
@@ -46,7 +46,7 @@ def process_files():
 	starttime = time.time()
 	libastyle.set_text_color()
 	print "Testing " +  project
-	print "Using {0} {1}".format(astyleexe1, astyleexe2) 
+	print "Using {0} {1}".format(astyleexe1, astyleexe2)
 	os.chdir(libastyle.get_file_py_directory())
 	libastyle.build_astyle_executable(get_astyle_config())
 	verify_astyle_executables(astyleexe1, astyleexe2)

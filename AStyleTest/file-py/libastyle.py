@@ -8,7 +8,7 @@ import subprocess
 import sys
 
 if os.name == "nt": import msvcrt		# Windows only for getch()
-else: import tty, termios						# Linux only for getch()
+else: import termios, tty				# Linux only for getch()
 
 # global variables ------------------------------------------------------------
 
@@ -23,14 +23,14 @@ TESTPROJECT  = "TestProject"
 
 # astyle test options
 # no options
-OPT1 = ""
+OPT0 = ""
 # align-pointer=type (k1), indent-brackets (B), add-brackets (j), break-blocks=all (F)
-OPT2 = "-CSKBNLwM50m10yejoOcFpPHUxEk1"
+OPT1 = "-CSKBNLwM50m10yejoOcFpPHUxEk1"
 # align-pointer=middle (k2), indent-blocks (G), add-one-line-brackets (J), break-blocks (f)
-OPT3 = "-CSKGNLwM50m10yeJoOcfpPHUxEk2"
+OPT2 = "-CSKGNLwM50m10yeJoOcfpPHUxEk2"
 # align-pointer=name (k3), WITHOUT: indent-blocks (G), add-brackets (j,J),
 #     break-blocks (f,F), pad-oper (p), pad-paren (P), delete-empty-lines (x)
-OPT4 = "-CSKNLwM50m10yeoOcHUEk3"
+OPT3 = "-CSKNLwM50m10yeoOcHUEk3"
 
 # compile configurations
 DEBUG   = "debug"
@@ -200,14 +200,30 @@ def getch():
 	"""getch() for Windows and Linux.
 	   This won't work unless run from a terminal.
 	"""
+	# this must be executed from a terminal
+	if not is_executed_from_console():
+		system_exit("libastyle.getch() must be run from the console")
+	# WINDOWS uses msvcrt
 	if os.name == "nt":
+		# clear buffer
+		while msvcrt.kbhit():
+			msvcrt.getch()
+		# read char
 		ch = msvcrt.getch()
+		if ch == '\000' or ch == '\xe0':		# function key
+			msvcrt.getch()
+	# LINUX uses termios and tty
 	else:
+		# clear buffer
+		sys.stdin.flush()
+		# read char
 		fd = sys.stdin.fileno()
 		old_settings = termios.tcgetattr(fd)
 		try:
 			tty.setraw(sys.stdin.fileno())
 			ch = sys.stdin.read(1)
+			if ch == '\x1b':			# alt key
+				ch = sys.stdin.read(1)
 		finally:
 			termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
 	print ch
@@ -272,12 +288,12 @@ def get_project_excludes(project):
 	if project == CODEBLOCKS:
 		# excludes because of %pythoncode
 		# advprops.h is __WXPYTHON__ at line 192
-		# propgrid.cpp is the macro IMPLEMENT_GET_VALUE		
-		excludes.append("--exclude=wx\wxscintilla.h")
-		excludes.append("--exclude=wx\propgrid\advprops.h")
-		excludes.append("--exclude=wx\propgrid\manager.h")
-		excludes.append("--exclude=wx\propgrid\propgrid.h")
-		excludes.append("--exclude=propgrid\propgrid.cpp")
+		# propgrid.cpp is the macro IMPLEMENT_GET_VALUE
+		excludes.append("--exclude=wx/wxscintilla.h")
+		excludes.append("--exclude=wx/propgrid/advprops.h")
+		excludes.append("--exclude=wx/propgrid/manager.h")
+		excludes.append("--exclude=wx/propgrid/propgrid.h")
+		excludes.append("--exclude=propgrid/propgrid.cpp")
 	elif project == CODELITE:
 		None
 	elif project == JEDIT:

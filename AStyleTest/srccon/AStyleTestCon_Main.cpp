@@ -30,7 +30,7 @@ int main(int /*argc*/, char** /*argv*/)
 	createTestDirectory(getTestDirectory());
 	int retval = UnitTest::RunAllTests();
 //	removeTestDirectory(getTestDirectory());
-//	system("pause");		// sometimes needed for debug
+	system("pause");		// sometimes needed for debug
 	return retval;
 }
 

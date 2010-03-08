@@ -1622,4 +1622,3 @@ TEST_FIXTURE(testPrint, printQuiet)
 #endif	// ASTYLECON_PRINT
 
 // TODO: test waitForRemove function - line 1925
-// TODO: check automatic line-end characters IN OTHER TEST MODULE

@@ -7,7 +7,7 @@ set testdata=..\..\TestData
 :: set astyle=..\..\AStyle\build\cb-mingw\bin\AStyle
 :: set astyle=..\..\AStyle\build\vs2003\bin\AStyle
 :: set astyle=..\..\AStyle\build\vs2005\bin\AStyle
-set astyle=..\..\AStyle\build\vs2008\debug\AStyle25a
+set astyle=..\..\AStyle\build\vs2008\debug\AStyled
 
 set excludes= --exclude=app_templates
 

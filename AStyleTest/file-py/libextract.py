@@ -84,7 +84,7 @@ def check_rename_ok(globpath, destination):
 		if directory[-len(destination):] == destination:
 			print "remove retry"
 			shutil.rmtree(directory, True)
-	dirs = glob.glob(globpath)	
+	dirs = glob.glob(globpath)
 	if len(dirs) > 1:
 		libastyle.system_exit(str(dirs) + "\nCannot rename directory")
 	return dirs[0]
@@ -96,11 +96,7 @@ def extract_codeblocks():
 	"""
 	remove_test_directory("codeblocks-*")
 	remove_test_directory("[Cc]ode[Bb]locks")
-	# temporary patch
-	if os.name == "nt":
-		extract_test_tar("codeblocks*.bz2", "codeblocks*.tar", ["*.cpp", "*.h"])
-	else:
-		extract_test_tar("codeblocks*.gz", "codeblocks*.tar", ["*.cpp", "*.h"])
+	extract_test_tar("codeblocks*.gz", "codeblocks*.tar", ["*.cpp", "*.h"])
 	rename_test_directory("codeblocks-*", "CodeBlocks")
 
 # -----------------------------------------------------------------------------
@@ -142,7 +138,7 @@ def extract_scite():
 	# rename for Linux only
 	if not os.name == "nt":
 		rename_test_directory("scite", "SciTE")
-	
+
 # -----------------------------------------------------------------------------
 
 def extract_sharpdevelop():
@@ -159,9 +155,7 @@ def extract_testproject():
 	remove_test_directory("[Ss]ci[Tt][Ee]")
 	remove_test_directory("[Tt]est[Pp]roject")
 	extract_test_zip("scite*.zip", "scite", ["*.cxx","*.c","*.h"])
-	# rename for Linux only
-	if not os.name == "nt":
-		rename_test_directory("scite", "TestProject")
+	rename_test_directory("scite", "TestProject")
 
 # -----------------------------------------------------------------------------
 

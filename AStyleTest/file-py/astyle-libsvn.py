@@ -1,5 +1,5 @@
 #! /usr/bin/python
-# Check libSVN.bat to projects.bat to verify all .svn directories are backed up.
+# Check libSVN.bat to libPROJ.bat to verify all .svn directories are backed up.
 
 import libastyle		#local directory
 import sys
@@ -12,48 +12,48 @@ print_variables = False			# print the variables in the lists
 # -----------------------------------------------------------------------------
 
 def process_files():
-	"""Read project and libSVN files and check the directories."""
+	"""Read libPROJ and libSVN files and check the directories."""
 
-	projects_path = get_batch_directory() + "/projects.bat"
+	libproj_path = get_batch_directory() + "/libPROJ.bat"
 	libsvn_path = get_batch_directory() + "/libSVN.bat"
-	projects_directories = []	# directories in projects.bat
+	libproj_directories = []	# directories in libPROJ.bat
 	libsvn_directories = []		# directories in  libSVN.bat
 
 	libastyle.set_text_color()
-	get_directories(projects_directories, projects_path)
+	get_directories(libproj_directories, libproj_path)
 	get_directories(libsvn_directories, libsvn_path)
-	correct_projects_directories(projects_directories)
-	
-	print "Checking projects.bat directories to libSVN.bat."
-	total_variables = len(projects_directories)
-	print "There are {0} directories in the projects directories.".format(total_variables)
+	correct_libproj_directories(libproj_directories)
 
-	find_diffs(projects_directories, libsvn_directories)
+	print "Checking libPROJ.bat directories to libSVN.bat."
+	total_variables = len(libproj_directories)
+	print "There are {0} directories in libPROJ.bat.".format(total_variables)
+
+	find_diffs(libproj_directories, libsvn_directories)
 
 	if print_variables:
-		print projects_directories
+		print libproj_directories
 		print libsvn_directories
 
 # -----------------------------------------------------------------------------
 
-def correct_projects_directories(projects_directories):
-	"""Make corrections to projects directories."""
+def correct_libproj_directories(libproj_directories):
+	"""Make corrections to libPROJ directories."""
 	# add directories with .svn directories but no files
-	projects_directories.append("AStyle")
-	projects_directories.append("AStyle\\build")
-	projects_directories.append("AStyleDev")
-	projects_directories.append("AStyleDev\\build")
-	projects_directories.append("AStyleTest")
-	projects_directories.append("AStyleTest\\build")
-	projects_directories.append("AStyleWeb")
-	# add directories not backed up by projects.bat
-	projects_directories.append("AStyleDev\\test-c")
-	projects_directories.append("AStyleDev\\test-j")
-	projects_directories.append("AStyleDev\\test-s")
+	libproj_directories.append("AStyle")
+	libproj_directories.append("AStyle\\build")
+	libproj_directories.append("AStyleDev")
+	libproj_directories.append("AStyleDev\\build")
+	libproj_directories.append("AStyleTest")
+	libproj_directories.append("AStyleTest\\build")
+	libproj_directories.append("AStyleWeb")
+	# add directories not backed up by libPROJ.bat
+	libproj_directories.append("AStyleDev\\test-c")
+	libproj_directories.append("AStyleDev\\test-j")
+	libproj_directories.append("AStyleDev\\test-s")
 	# remove directories backed up but not in svn
-	projects_directories.remove("AStyle\\regress")
+	libproj_directories.remove("AStyle\\regress")
 
-	return projects_directories
+	return libproj_directories
 
 # -----------------------------------------------------------------------------
 
@@ -78,17 +78,17 @@ def extract_word(line):
 
 # -----------------------------------------------------------------------------
 
-def find_diffs(projects_directories, libsvn_directories):
+def find_diffs(libproj_directories, libsvn_directories):
 	"""Find differences in directory lists."""
 	# A set is an unordered collection with no duplicate elements
 	# converting to a 'set' will remove duplicates
-	missing_projects =  set(libsvn_directories) - set(projects_directories)
-	missing_libsvn = set(projects_directories) - set(libsvn_directories)
+	missing_projects =  set(libsvn_directories) - set(libproj_directories)
+	missing_libsvn = set(libproj_directories) - set(libsvn_directories)
 
 	if len(missing_projects) > 0:
 		missing_projects = list(missing_projects)
 		missing_projects.sort()
-		print str(len(missing_projects)) + " missing projects directories:"
+		print str(len(missing_projects)) + " missing libPROJ directories:"
 		print missing_projects
 
 	if len(missing_libsvn) > 0:

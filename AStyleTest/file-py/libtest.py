@@ -44,9 +44,6 @@ def diff_formatted_files(filepaths, diffOLD=False):
 		stripfile = strip_test_directory_prefix(filepath)
 		print "{0} of {1} {2}".format(numin, len(filepaths), stripfile)
 		ch = libastyle.getch()
-		# FOR LINUX ONLY??? - DOESN'T WORK - MOVE GETCH FUNCTION?
-		if ch == '\000' or ch == '\xe0':		# check for ALT or CTRL key
-			ch = libastyle.getch()
 		if ch == 'n' or ch == 'N' or ch == 'm' or ch == 'M': continue
 		if ch == 'z' : break
 		processed += 1
@@ -143,7 +140,7 @@ def  get_old_filepath(filepath):
 	dirname = subdir[:sep]
 	oldpath = testdir + dirname + "OLD" + subdir[len(dirname):]
 	return oldpath
-	
+
 # -----------------------------------------------------------------------------
 
 def open_filein(filename, mode):
@@ -155,7 +152,7 @@ def open_filein(filename, mode):
 	except IOError:
 		libastyle.system_exit("Cannot open input file: " + filename)
 	return infile
-	
+
 # -----------------------------------------------------------------------------
 
 def strip_test_directory_prefix(file):
@@ -181,8 +178,8 @@ def test_all_functions():
 		# calls extract_directory_from_line()
 	print "No files will be displayed in the comparison program."
 	diff_formatted_files(files)
-		# calls call_diff_program() 
-		# calls strip_test_directory_prefix() 
+		# calls call_diff_program()
+		# calls strip_test_directory_prefix()
 	get_astyle_totals(testfile)
 	# end tests -------------------------------------------
 	os.remove(testfile)

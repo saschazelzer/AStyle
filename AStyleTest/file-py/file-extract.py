@@ -11,13 +11,14 @@ import time
 # global variables ------------------------------------------------------------
 
 # select one of the following from libastyle
-#   CODEBLOCKS
-#   CODELITE
-#   JEDIT
-#   KDEVELOP
+#  CODEBLOCKS
+#  CODELITE
+#  JEDIT
+#  KDEVELOP
+#  SCITE
 #  SHARPDEVELOP
-# TEST
-project = libastyle.TEST
+#  TESTPROJECT
+project = libastyle.TESTPROJECT
 
 # -----------------------------------------------------------------------------
 

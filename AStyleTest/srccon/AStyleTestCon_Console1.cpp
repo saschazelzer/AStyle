@@ -1277,6 +1277,162 @@ TEST_FIXTURE(testPreserveDate, preserveDateSans)
 }
 
 //----------------------------------------------------------------------------
+// AStyle test checksum procedure
+//----------------------------------------------------------------------------
+
+struct testChecksum
+{
+	string fileName;
+	size_t textChecksum;
+
+	// build fileNames vector and write the output file
+	testChecksum()
+	{
+		textChecksum = 9699;
+		char textIn[] =
+			"\n#include <stdio.h>\n"
+			"\n"
+			"void foo(int a)\n"
+			"{\n"
+			"    int i = 10;\n"
+			"    int i2 = 12;\n"
+			"    int i3 = i + i2;\n"
+			"    printf(\"i3 = %d\", i3);\n"
+			"    // for add-brackets test\n"
+			"    if (a == 0)\n"
+			"        x = 0;\n"
+			"}";
+
+		cleanTestDirectory(getTestDirectory());
+		createConsoleGlobalObject();
+		fileName = getTestDirectory() + "/TestChecksum.cpp";
+		createTestFile(fileName, textIn);
+	}
+
+	~testChecksum()
+	{
+		deleteConsoleGlobalObject();
+	}
+};
+
+TEST_FIXTURE(testChecksum, checksum)
+// test checksum procedure
+{
+	assert(g_console != NULL);
+	g_console->setIsQuiet(true);		// change this to see results
+	g_console->setNoBackup(true);
+
+	// build the fileNameVector
+	ASFormatter formatter;
+	vector<string> fileNameVector;
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	CHECK(processReturn == CONTINUE);
+
+	// process entries in the fileNameVector
+	g_console->processFiles(formatter);
+
+	// verify the checksums
+	size_t checksumIn = formatter.getChecksumIn();;
+	size_t checksumOut = formatter.getChecksumOut();;
+#ifdef NDEBUG
+	CHECK_EQUAL(0U, checksumIn);
+	CHECK_EQUAL(0U, checksumOut);
+#else
+	CHECK_EQUAL(textChecksum, checksumIn);
+	CHECK_EQUAL(textChecksum, checksumOut);
+#endif
+	CHECK(formatter.getChecksumDiff() == 0);
+}
+
+TEST_FIXTURE(testChecksum, checksumAddBrackets)
+// test checksum procedure with add-brackets
+{
+	assert(g_console != NULL);
+	g_console->setIsQuiet(true);		// change this to see results
+	g_console->setNoBackup(true);
+
+	// options for test
+	ASFormatter formatter;
+	vector<string> optionsIn;
+	optionsIn.push_back("--add-brackets");
+
+	// build argv array of pointers for input
+	char** argv = buildArgv(optionsIn);
+	int argc = optionsIn.size() + 1;
+
+	// build the vector optionsVector
+	int processReturn = g_console->processOptions(argc, argv, formatter);
+	CHECK(processReturn == CONTINUE);
+
+	// build the fileNameVector
+	vector<string> fileNameVector;
+	processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	CHECK(processReturn == CONTINUE);
+
+	// process entries in the fileNameVector
+	g_console->processFiles(formatter);
+
+	// verify the checksums
+	textChecksum += '{' + '}';
+	size_t checksumIn = formatter.getChecksumIn();
+	size_t checksumOut = formatter.getChecksumOut();
+#ifdef NDEBUG
+	CHECK_EQUAL(0U, checksumIn);
+	CHECK_EQUAL(0U, checksumOut);
+#else
+	CHECK_EQUAL(textChecksum, checksumIn);
+	CHECK_EQUAL(textChecksum, checksumOut);
+#endif
+	CHECK(formatter.getChecksumDiff() == 0);
+
+	delete [] argv;
+}
+
+TEST_FIXTURE(testChecksum, checksumAddOneLineBrackets)
+// test checksum procedure with add-one-line-brackets
+{
+	assert(g_console != NULL);
+	g_console->setIsQuiet(true);		// change this to see results
+	g_console->setNoBackup(true);
+
+	// options for test
+	ASFormatter formatter;
+	vector<string> optionsIn;
+	optionsIn.push_back("--add-one-line-brackets");
+
+	// build argv array of pointers for input
+	char** argv = buildArgv(optionsIn);
+	int argc = optionsIn.size() + 1;
+
+	// build the vector optionsVector
+	int processReturn = g_console->processOptions(argc, argv, formatter);
+	CHECK(processReturn == CONTINUE);
+
+	// build the fileNameVector
+	vector<string> fileNameVector;
+	processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	CHECK(processReturn == CONTINUE);
+
+	// process entries in the fileNameVector
+	g_console->processFiles(formatter);
+
+	// verify the checksums
+	textChecksum += '{' + '}';
+	size_t checksumIn = formatter.getChecksumIn();
+	size_t checksumOut = formatter.getChecksumOut();
+#ifdef NDEBUG
+	CHECK_EQUAL(0U, checksumIn);
+	CHECK_EQUAL(0U, checksumOut);
+#else
+	CHECK_EQUAL(textChecksum, checksumIn);
+	CHECK_EQUAL(textChecksum, checksumOut);
+#endif
+	CHECK(formatter.getChecksumDiff() == 0);
+
+	delete [] argv;
+}
+
+//----------------------------------------------------------------------------
 // AStyle test ASResources operator vectors sequence
 //----------------------------------------------------------------------------
 

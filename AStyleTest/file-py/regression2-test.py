@@ -22,19 +22,19 @@ import time
 #   CODELITE
 #   JEDIT
 #   KDEVELOP
-#  SCITE 
+#  SCITE
 #  SHARPDEVELOP
 #  TESTPROJECT
-project = libastyle.SCITE 
+project = libastyle.KDEVELOP
 
-# select OPT1 thru OPT4, or use customized options
-#options = libastyle.OPT1
+# select OPT0 thru OPT3, or use customized options
+options = libastyle.OPT1
 
 # scite formatting options
-options = "-tapOHUk3"
+#options = "-tapOHUk3"
 
 # executables for test
-astyleexe1 = "astyle25a"
+astyleexe1 = "astyle25b"
 astyleexe2 = "astyled"
 
 # select one of the following to format files in the OLD directory
@@ -50,7 +50,7 @@ def process_files():
 	starttime = time.time()
 	libastyle.set_text_color()
 	print "Testing " +  project
-	print "Using {0} {1}".format(astyleexe1, astyleexe2) 
+	print "Using {0} {1}".format(astyleexe1, astyleexe2)
 	os.chdir(libastyle.get_file_py_directory())
 	libastyle.build_astyle_executable(get_astyle_config())
 	verify_astyle_executables(astyleexe1, astyleexe2)
@@ -154,7 +154,8 @@ def compare_formatted_files(filepaths):
 						totdiffs += 1
 					if totfiles % 100 == 0:
 						print "{0} files  {1} diffs".format(totfiles, totdiffs)
-	print "{0} files  {1} diffs".format(totfiles, totdiffs)
+		# print a total for each filepath
+		print "{0} files  {1} diffs".format(totfiles, totdiffs)
 	fcout.close()
 	os.remove(fcfile)
 	testout.close()
@@ -283,7 +284,7 @@ def verify_astyle_executables(exe1, exe2):
 		exe2path += ".exe"
 	if not os.path.exists(exe2path):
 		libastyle.system_exit("Cannot find executable: " + exe2path)
-	
+
 # -----------------------------------------------------------------------------
 
 def verify_formatted_files(numformat, totformat):

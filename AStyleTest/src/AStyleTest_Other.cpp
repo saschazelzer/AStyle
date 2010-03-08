@@ -35,6 +35,7 @@ TEST(v125DeleteEmptyLinesAndBreakBlocks)
 TEST(v125BreakBlocksDeleteEmptyLinesComment)
 {
 	// the following comment should not abort or duplicate code in the output
+	// both break-blocks and delete-empty-lines must be used
 	// problem is the beginning comments in the peekNextText() function
 	char textIn[] =
 		"\nvoid foo()\n"
