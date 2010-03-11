@@ -38,9 +38,9 @@ extern ostream* _err;
 
 // functions in AStyleTestCon_Main.cpp
 char** buildArgv(const vector<string>& argIn);
-int buildFileNameVector(string fileToProcess, vector<string>& fileNameVector, ASFormatter& formatter);
+int buildFileNameVector(string fileToProcess, vector<string>& fileNameVector);
 //bool changeCurrentDirectory(string path);
-void createConsoleGlobalObject();
+void createConsoleGlobalObject(ASFormatter& formatter);
 void deleteConsoleGlobalObject();
 void cleanTestDirectory(const string &directory);
 void createTestDirectory(const string &dirName);

@@ -25,10 +25,10 @@ import time
 #  SCITE
 #  SHARPDEVELOP
 #  TESTPROJECT
-project = libastyle.KDEVELOP
+project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
-options = libastyle.OPT1
+options = libastyle.OPT3
 
 # scite formatting options
 #options = "-tapOHUk3"

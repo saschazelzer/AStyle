@@ -20,6 +20,7 @@
 
 struct testFilePaths
 {
+	ASFormatter formatter;
 	vector<string> fileNames;
 
 	// build fileNames vector and write the output files
@@ -32,7 +33,7 @@ struct testFilePaths
 			"}\n";
 
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject();
+		createConsoleGlobalObject(formatter);
 		fileNames.push_back(getTestDirectory() + "/getFilePaths1.cpp");
 		fileNames.push_back(getTestDirectory() + "/getFilePaths2.cpp");
 		fileNames.push_back(getTestDirectory() + "/getFilePaths3.cpp");
@@ -58,13 +59,12 @@ TEST_FIXTURE(testFilePaths, getFilePaths1)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
 	CHECK_EQUAL(fileNames.size(), fileName.size());
 
@@ -81,13 +81,12 @@ TEST_FIXTURE(testFilePaths, getFilePaths2)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.c??", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.c??", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);	// initialize variables
+	g_console->processFiles();	// initialize variables
 	vector<string> fileName = g_console->getFileName();
 	CHECK_EQUAL(fileNames.size(), fileName.size());
 
@@ -104,13 +103,12 @@ TEST_FIXTURE(testFilePaths, getFilePaths3)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/getFilePaths*.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/getFilePaths*.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
 	CHECK_EQUAL(fileNames.size(), fileName.size());
 
@@ -128,13 +126,12 @@ TEST_FIXTURE(testFilePaths, getFilePaths4)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.c*", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.c*", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
 	CHECK_EQUAL(fileNames.size(), fileName.size());
 
@@ -152,13 +149,12 @@ TEST_FIXTURE(testFilePaths, getFilePaths5)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.cpp*", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.cpp*", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
 	CHECK_EQUAL(fileNames.size(), fileName.size());
 
@@ -177,13 +173,12 @@ TEST_FIXTURE(testFilePaths, getFilePathsError)
 	_err = new stringstream;
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/AStyleError*", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/AStyleError*", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
 	CHECK(fileName.size() == 0);
 
@@ -196,6 +191,7 @@ TEST_FIXTURE(testFilePaths, getFilePathsError)
 //----------------------------------------------------------------------------
 struct testFileType
 {
+	ASFormatter formatter;
 	vector<string> fileNames;
 
 	// build fileNames vector and write the output files
@@ -208,7 +204,7 @@ struct testFileType
 			"}\n";
 
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject();
+		createConsoleGlobalObject(formatter);
 		fileNames.push_back(getTestDirectory() + "/getFileType1.cpp");
 		fileNames.push_back(getTestDirectory() + "/getFileType2.java");
 		fileNames.push_back(getTestDirectory() + "/getFileType3.cs");
@@ -234,13 +230,12 @@ TEST_FIXTURE(testFileType, fileTypeC)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	CHECK_EQUAL(formatter.getFileType(), C_TYPE);
 }
@@ -252,13 +247,12 @@ TEST_FIXTURE(testFileType, fileTypeJave)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.java", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.java", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	CHECK_EQUAL(formatter.getFileType(), JAVA_TYPE);
 }
@@ -270,13 +264,12 @@ TEST_FIXTURE(testFileType, fileTypeSharp)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.cs", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.cs", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	CHECK_EQUAL(formatter.getFileType(), SHARP_TYPE);
 }
@@ -288,13 +281,12 @@ TEST_FIXTURE(testFileType, fileTypeError)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.error", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.error", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	CHECK_EQUAL(formatter.getFileType(), C_TYPE);
 }
@@ -305,6 +297,7 @@ TEST_FIXTURE(testFileType, fileTypeError)
 
 struct testRecursive
 {
+	ASFormatter formatter;
 	vector<string> fileNames;
 
 	// build fileNames vector and write the output files
@@ -317,7 +310,7 @@ struct testRecursive
 			"}\n";
 
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject();
+		createConsoleGlobalObject(formatter);
 
 		// create directories
 		string sub1  = getTestDirectory() + "/subdir1";
@@ -366,13 +359,12 @@ TEST_FIXTURE(testRecursive, recursive)
 	g_console->setIsRecursive(true);
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
 	CHECK_EQUAL(fileNames.size(), fileName.size());
 	sort(fileNames.begin(), fileNames.end());
@@ -388,13 +380,12 @@ TEST_FIXTURE(testRecursive, recursiveSans)
 	g_console->setIsRecursive(false);
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// delete sub directory files from the fileName vector
 	size_t searchStart = getTestDirectory().length() + 1;
@@ -426,9 +417,8 @@ TEST_FIXTURE(testRecursive, recursiveExclude)
 	g_console->setIsRecursive(true);
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// build exclude vector
@@ -447,7 +437,7 @@ TEST_FIXTURE(testRecursive, recursiveExclude)
 	filesExcluded += 2;
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
 	CHECK_EQUAL(fileNames.size() - filesExcluded, fileName.size());
 }
@@ -464,9 +454,8 @@ TEST_FIXTURE(testRecursive, recursiveExcludeErrors)
 	_err = msgOut;
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// build exclude vector
@@ -476,7 +465,7 @@ TEST_FIXTURE(testRecursive, recursiveExcludeErrors)
 	g_console->updateExcludeVector("ubdir1a");
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// display error message if not rejected
 	string errMsg1 = "Unmatched exclude ecursive1.cpp";
@@ -500,9 +489,8 @@ TEST_FIXTURE(testRecursive, recursiveHiddenFiles)
 	g_console->setIsRecursive(true);
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// write the hidden files
@@ -537,7 +525,7 @@ TEST_FIXTURE(testRecursive, recursiveHiddenFiles)
 #endif
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
 	// hidden files should not be in g_console vector
 	CHECK_EQUAL(fileNames.size(), fileName.size());
@@ -557,6 +545,7 @@ TEST_FIXTURE(testRecursive, recursiveHiddenFiles)
 
 struct testLineEndsFormatted
 {
+	ASFormatter formatter;
 	vector<string> fileNames;
 
 	string textLinuxStr;
@@ -590,7 +579,7 @@ struct testLineEndsFormatted
 			"}\r\n";
 
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject();
+		createConsoleGlobalObject(formatter);
 
 		// build text strings
 		textLinux = textLinuxStr.c_str();
@@ -622,10 +611,9 @@ TEST_FIXTURE(testLineEndsFormatted, lineEndWindowsFormatted)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
 	string fileWindows = pathWindows.substr(getTestDirectory().length());
-	int processReturn = buildFileNameVector(fileWindows, fileNameVector, formatter);
+	int processReturn = buildFileNameVector(fileWindows, fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// build argv array of options
@@ -633,14 +621,14 @@ TEST_FIXTURE(testLineEndsFormatted, lineEndWindowsFormatted)
 	optionsIn.push_back("--lineend=windows");
 	char** argv = buildArgv(optionsIn);
 	int argc = optionsIn.size() + 1;
-	processReturn = g_console->processOptions(argc, argv, formatter);
+	processReturn = g_console->processOptions(argc, argv);
 	CHECK(processReturn == CONTINUE);
 
 	vector<string> optionsVector = g_console->getOptionsVector();
 	CHECK_EQUAL(optionsIn.size(), optionsVector.size());
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// check for .orig file
 	string origFileName = pathWindows + ".orig";
@@ -659,10 +647,9 @@ TEST_FIXTURE(testLineEndsFormatted, lineEndLinuxFormatted)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
 	string fileLinux = pathLinux.substr(getTestDirectory().length());
-	int processReturn = buildFileNameVector(fileLinux, fileNameVector, formatter);
+	int processReturn = buildFileNameVector(fileLinux, fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// build argv array of options
@@ -670,14 +657,14 @@ TEST_FIXTURE(testLineEndsFormatted, lineEndLinuxFormatted)
 	optionsIn.push_back("--lineend=linux");
 	char** argv = buildArgv(optionsIn);
 	int argc = optionsIn.size() + 1;
-	processReturn = g_console->processOptions(argc, argv, formatter);
+	processReturn = g_console->processOptions(argc, argv);
 	CHECK(processReturn == CONTINUE);
 
 	vector<string> optionsVector = g_console->getOptionsVector();
 	CHECK_EQUAL(optionsIn.size(), optionsVector.size());
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// check for .orig file
 	string origFileName = pathLinux + ".orig";
@@ -696,10 +683,9 @@ TEST_FIXTURE(testLineEndsFormatted, lineEndMacOldFormatted)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
 	string fileMacOld = pathMacOld.substr(getTestDirectory().length());
-	int processReturn = buildFileNameVector(fileMacOld, fileNameVector, formatter);
+	int processReturn = buildFileNameVector(fileMacOld, fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// build argv array of options
@@ -707,14 +693,14 @@ TEST_FIXTURE(testLineEndsFormatted, lineEndMacOldFormatted)
 	optionsIn.push_back("--lineend=macold");
 	char** argv = buildArgv(optionsIn);
 	int argc = optionsIn.size() + 1;
-	processReturn = g_console->processOptions(argc, argv, formatter);
+	processReturn = g_console->processOptions(argc, argv);
 	CHECK(processReturn == CONTINUE);
 
 	vector<string> optionsVector = g_console->getOptionsVector();
 	CHECK_EQUAL(optionsIn.size(), optionsVector.size());
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// check for .orig file
 	string origFileName = pathMacOld + ".orig";
@@ -733,6 +719,7 @@ TEST_FIXTURE(testLineEndsFormatted, lineEndMacOldFormatted)
 
 struct testLineEndsUnchanged
 {
+	ASFormatter formatter;
 	vector<string> fileNames;
 
 	string textLinuxStr;
@@ -766,7 +753,7 @@ struct testLineEndsUnchanged
 			"}\r";
 
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject();
+		createConsoleGlobalObject(formatter);
 
 		// build text strings
 		textLinux = textLinuxStr.c_str();
@@ -798,10 +785,9 @@ TEST_FIXTURE(testLineEndsUnchanged, lineEndWindowsUnchanged)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
 	string fileWindows = pathMacOld.substr(getTestDirectory().length());
-	int processReturn = buildFileNameVector(fileWindows, fileNameVector, formatter);
+	int processReturn = buildFileNameVector(fileWindows, fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// build argv array of options
@@ -809,14 +795,14 @@ TEST_FIXTURE(testLineEndsUnchanged, lineEndWindowsUnchanged)
 	optionsIn.push_back("--lineend=windows");
 	char** argv = buildArgv(optionsIn);
 	int argc = optionsIn.size() + 1;
-	processReturn = g_console->processOptions(argc, argv, formatter);
+	processReturn = g_console->processOptions(argc, argv);
 	CHECK(processReturn == CONTINUE);
 
 	vector<string> optionsVector = g_console->getOptionsVector();
 	CHECK_EQUAL(optionsIn.size(), optionsVector.size());
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// check for .orig file
 	string origFileName = pathWindows + ".orig";
@@ -835,10 +821,9 @@ TEST_FIXTURE(testLineEndsUnchanged, lineEndLinuxUnchanged)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
 	string fileLinux = pathMacOld.substr(getTestDirectory().length());
-	int processReturn = buildFileNameVector(fileLinux, fileNameVector, formatter);
+	int processReturn = buildFileNameVector(fileLinux, fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// build argv array of options
@@ -846,14 +831,14 @@ TEST_FIXTURE(testLineEndsUnchanged, lineEndLinuxUnchanged)
 	optionsIn.push_back("--lineend=linux");
 	char** argv = buildArgv(optionsIn);
 	int argc = optionsIn.size() + 1;
-	processReturn = g_console->processOptions(argc, argv, formatter);
+	processReturn = g_console->processOptions(argc, argv);
 	CHECK(processReturn == CONTINUE);
 
 	vector<string> optionsVector = g_console->getOptionsVector();
 	CHECK_EQUAL(optionsIn.size(), optionsVector.size());
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// check for .orig file
 	string origFileName = pathLinux + ".orig";
@@ -872,10 +857,9 @@ TEST_FIXTURE(testLineEndsUnchanged, lineEndMacOldUnchanged)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
 	string fileMacOld = pathMacOld.substr(getTestDirectory().length());
-	int processReturn = buildFileNameVector(fileMacOld, fileNameVector, formatter);
+	int processReturn = buildFileNameVector(fileMacOld, fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// build argv array of options
@@ -883,14 +867,14 @@ TEST_FIXTURE(testLineEndsUnchanged, lineEndMacOldUnchanged)
 	optionsIn.push_back("--lineend=macold");
 	char** argv = buildArgv(optionsIn);
 	int argc = optionsIn.size() + 1;
-	processReturn = g_console->processOptions(argc, argv, formatter);
+	processReturn = g_console->processOptions(argc, argv);
 	CHECK(processReturn == CONTINUE);
 
 	vector<string> optionsVector = g_console->getOptionsVector();
 	CHECK_EQUAL(optionsIn.size(), optionsVector.size());
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// check for .orig file
 	string origFileName = pathMacOld + ".orig";
@@ -909,6 +893,7 @@ TEST_FIXTURE(testLineEndsUnchanged, lineEndMacOldUnchanged)
 
 struct testLineEndsDefault
 {
+	ASFormatter formatter;
 	vector<string> fileNames;
 
 	string textLinuxStr;
@@ -942,7 +927,7 @@ struct testLineEndsDefault
 			"}\r";
 
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject();
+		createConsoleGlobalObject(formatter);
 
 		// build text strings
 		textLinux = textLinuxStr.c_str();
@@ -974,14 +959,13 @@ TEST_FIXTURE(testLineEndsDefault, lineEndWindowsDefault)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
 	string fileWindows = pathMacOld.substr(getTestDirectory().length());
-	int processReturn = buildFileNameVector(fileWindows, fileNameVector, formatter);
+	int processReturn = buildFileNameVector(fileWindows, fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// check for .orig file
 	string origFileName = pathWindows + ".orig";
@@ -998,14 +982,13 @@ TEST_FIXTURE(testLineEndsDefault, lineEndLinuxDefault)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
 	string fileLinux = pathMacOld.substr(getTestDirectory().length());
-	int processReturn = buildFileNameVector(fileLinux, fileNameVector, formatter);
+	int processReturn = buildFileNameVector(fileLinux, fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// check for .orig file
 	string origFileName = pathLinux + ".orig";
@@ -1022,14 +1005,13 @@ TEST_FIXTURE(testLineEndsDefault, lineEndMacOldDefault)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
 	string fileMacOld = pathMacOld.substr(getTestDirectory().length());
-	int processReturn = buildFileNameVector(fileMacOld, fileNameVector, formatter);
+	int processReturn = buildFileNameVector(fileMacOld, fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// check for .orig file
 	string origFileName = pathMacOld + ".orig";
@@ -1045,6 +1027,7 @@ TEST_FIXTURE(testLineEndsDefault, lineEndMacOldDefault)
 //----------------------------------------------------------------------------
 struct testLineEndsDefaultMixed
 {
+	ASFormatter formatter;
 	vector<string> fileNames;
 
 	string textLinuxStr;
@@ -1081,7 +1064,7 @@ struct testLineEndsDefaultMixed
 			"}\r";
 
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject();
+		createConsoleGlobalObject(formatter);
 
 		// build text strings
 		textLinux = textLinuxStr.c_str();
@@ -1113,14 +1096,13 @@ TEST_FIXTURE(testLineEndsDefaultMixed, lineEndDefaultMixedWindows)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
 	string fileWindows = pathWindows.substr(getTestDirectory().length());
-	int processReturn = buildFileNameVector(fileWindows, fileNameVector, formatter);
+	int processReturn = buildFileNameVector(fileWindows, fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// check for .orig file
 	string origFileName = pathWindows + ".orig";
@@ -1141,14 +1123,13 @@ TEST_FIXTURE(testLineEndsDefaultMixed, lineEndDefaultMixedLinux)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
 	string fileLinux = pathLinux.substr(getTestDirectory().length());
-	int processReturn = buildFileNameVector(fileLinux, fileNameVector, formatter);
+	int processReturn = buildFileNameVector(fileLinux, fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// check for .orig file
 	string origFileName = pathLinux + ".orig";
@@ -1169,14 +1150,13 @@ TEST_FIXTURE(testLineEndsDefaultMixed, lineEndDefaultMixedMacOld)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
 	string fileMacOld = pathMacOld.substr(getTestDirectory().length());
-	int processReturn = buildFileNameVector(fileMacOld, fileNameVector, formatter);
+	int processReturn = buildFileNameVector(fileMacOld, fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// check for .orig file
 	string origFileName = pathMacOld + ".orig";
@@ -1197,6 +1177,7 @@ TEST_FIXTURE(testLineEndsDefaultMixed, lineEndDefaultMixedMacOld)
 
 struct testLineEndsDefaultMixedSans
 {
+	ASFormatter formatter;
 	vector<string> fileNames;
 
 	string textLinuxStr;
@@ -1230,7 +1211,7 @@ struct testLineEndsDefaultMixedSans
 			"}\r";
 
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject();
+		createConsoleGlobalObject(formatter);
 
 		// build text strings
 		textLinux = textLinuxStr.c_str();
@@ -1262,14 +1243,13 @@ TEST_FIXTURE(testLineEndsDefaultMixedSans, lineEndDefaultMixedWindowsSans)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
 	string fileWindows = pathWindows.substr(getTestDirectory().length());
-	int processReturn = buildFileNameVector(fileWindows, fileNameVector, formatter);
+	int processReturn = buildFileNameVector(fileWindows, fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// check for .orig file
 	string origFileName = pathWindows + ".orig";
@@ -1290,14 +1270,13 @@ TEST_FIXTURE(testLineEndsDefaultMixedSans, lineEndDefaultMixedLinuxSans)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
 	string fileLinux = pathLinux.substr(getTestDirectory().length());
-	int processReturn = buildFileNameVector(fileLinux, fileNameVector, formatter);
+	int processReturn = buildFileNameVector(fileLinux, fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// check for .orig file
 	string origFileName = pathLinux + ".orig";
@@ -1318,14 +1297,13 @@ TEST_FIXTURE(testLineEndsDefaultMixedSans, lineEndDefaultMixedMacOldSans)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
 	string fileMacOld = pathMacOld.substr(getTestDirectory().length());
-	int processReturn = buildFileNameVector(fileMacOld, fileNameVector, formatter);
+	int processReturn = buildFileNameVector(fileMacOld, fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// check for .orig file
 	string origFileName = pathMacOld + ".orig";
@@ -1345,6 +1323,7 @@ TEST_FIXTURE(testLineEndsDefaultMixedSans, lineEndDefaultMixedMacOldSans)
 #ifdef ASTYLECON_PRINT
 struct testPrint
 {
+	ASFormatter formatter;
 	vector<string> fileNames;
 	size_t filesExcluded;
 
@@ -1365,7 +1344,7 @@ struct testPrint
 
 		// build fileNames vector
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject();
+		createConsoleGlobalObject(formatter);
 		fileNames.push_back(getTestDirectory() + "/fileFormatted.cpp");
 		g_console->standardizePath(fileNames.back());
 		createTestFile(fileNames.back(), textFormatted);
@@ -1399,16 +1378,15 @@ TEST_FIXTURE(testPrint, printWildcard)
 	assert(g_console != NULL);
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// the results must be checked visually
 	cout << "DEFAULT WILDCARD" << endl;
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
 	CHECK_EQUAL(fileNames.size() - filesExcluded, fileName.size());
 
@@ -1422,9 +1400,8 @@ TEST_FIXTURE(testPrint, printWildcardExclude)
 	assert(g_console != NULL);
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// the results must be checked visually
@@ -1432,7 +1409,7 @@ TEST_FIXTURE(testPrint, printWildcardExclude)
 	buildExcludeVector();
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
 	CHECK_EQUAL(fileNames.size() - filesExcluded, fileName.size());
 
@@ -1447,16 +1424,15 @@ TEST_FIXTURE(testPrint, printFormattedWildcard)
 	g_console->setIsFormattedOnly(true);		// test variable
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// the results must be checked visually
 	cout << "FORMATTED WILDCARD" << endl;
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
 	CHECK_EQUAL(fileNames.size() - filesExcluded, fileName.size());
 
@@ -1471,9 +1447,8 @@ TEST_FIXTURE(testPrint, printVerboseWildcard)
 	g_console->setIsVerbose(true);		// test variable
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// the results must be checked visually
@@ -1483,7 +1458,7 @@ TEST_FIXTURE(testPrint, printVerboseWildcard)
 	g_console->setOptionsFileName(getTestDirectory() + "/astylerc.txt");
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
 	CHECK_EQUAL(fileNames.size() - filesExcluded, fileName.size());
 
@@ -1499,16 +1474,15 @@ TEST_FIXTURE(testPrint, printVerboseFormattedWildcard)
 	g_console->setIsFormattedOnly(true);		// test variable
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// the results must be checked visually
 	cout << "VERBOSE FORMATTED WILDCARD" << endl;
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
 	CHECK_EQUAL(fileNames.size() - filesExcluded, fileName.size());
 
@@ -1522,16 +1496,15 @@ TEST_FIXTURE(testPrint, printSingleFile)
 	assert(g_console != NULL);
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/fileFormatted.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/fileFormatted.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// the results must be checked visually
 	cout << "DEFAULT SINGLE FILE" << endl;
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
 	CHECK_EQUAL((size_t) 1, fileName.size());
 
@@ -1546,16 +1519,15 @@ TEST_FIXTURE(testPrint, printFormattedSingleFile)
 	g_console->setIsFormattedOnly(true);		// test variable
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/fileFormatted.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/fileFormatted.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// the results must be checked visually
 	cout << "FORMATTED SINGLE FILE" << endl;
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
 	CHECK_EQUAL((size_t) 1, fileName.size());
 
@@ -1570,9 +1542,8 @@ TEST_FIXTURE(testPrint, printVerboseSingleFile)
 	g_console->setIsVerbose(true);		// test variable
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/fileFormatted.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/fileFormatted.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// the results must be checked visually
@@ -1582,7 +1553,7 @@ TEST_FIXTURE(testPrint, printVerboseSingleFile)
 	g_console->setOptionsFileName(getTestDirectory() + "/astylerc.txt");
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
 	CHECK_EQUAL((size_t) 1, fileName.size());
 
@@ -1599,9 +1570,8 @@ TEST_FIXTURE(testPrint, printQuiet)
 	g_console->setIsQuiet(true);		// test variable
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// the results must be checked visually
@@ -1612,7 +1582,7 @@ TEST_FIXTURE(testPrint, printQuiet)
 	buildExcludeVector();
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
 	CHECK_EQUAL(fileNames.size() - filesExcluded, fileName.size());
 

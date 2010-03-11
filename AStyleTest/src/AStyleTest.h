@@ -16,11 +16,11 @@
 //-------------------------------------------------------------------------
 
 // AStyleMain callback function declarations
-void  STDCALL errorHandler(int errorNumber, char* errorMessage);
+void  STDCALL errorHandler(int errorNumber, const char* errorMessage);
 char* STDCALL memoryAlloc(unsigned long memoryNeeded);
 
 // errorHandler2 functions
-void  STDCALL errorHandler2(int, char*);
+void  STDCALL errorHandler2(int, const char*);
 int   getErrorHandler2Calls();
 
 //-------------------------------------------------------------------------

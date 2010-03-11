@@ -56,7 +56,7 @@ char** buildArgv(const vector<string>& argIn)
 	return argv;
 }
 
-int buildFileNameVector(string fileToProcess, vector<string>& fileNameVector, ASFormatter& formatter)
+int buildFileNameVector(string fileToProcess, vector<string>& fileNameVector)
 // build the g_console FileNameVector for testing
 // the return should be checked for "CONTINUE"
 {
@@ -64,7 +64,7 @@ int buildFileNameVector(string fileToProcess, vector<string>& fileNameVector, AS
 	fileNameVector.push_back(getTestDirectory() + fileToProcess);
 	char** argv = buildArgv(fileNameVector);
 	int argc = fileNameVector.size() + 1;
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 	delete[] argv;
 	return processReturn;
 }
@@ -191,7 +191,7 @@ void cleanTestDirectory(const string &directory)
 }
 #endif
 
-void createConsoleGlobalObject()
+void createConsoleGlobalObject(ASFormatter& formatter)
 // creates the g_console object
 {
 	if (g_console)
@@ -199,7 +199,7 @@ void createConsoleGlobalObject()
 		systemPause("Global object not deleted");
 		deleteConsoleGlobalObject();
 	}
-	g_console = new ASConsole;
+	g_console = new ASConsole(formatter);
 }
 
 void createTestDirectory(const string &dirName)

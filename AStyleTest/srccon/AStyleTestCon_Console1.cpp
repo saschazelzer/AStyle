@@ -19,7 +19,8 @@
 TEST(processOptionsExcludeVector)
 // test processOptions for excludeVector
 {
-	createConsoleGlobalObject();
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 
 	vector<string> excludesIn;
 	excludesIn.push_back("--exclude=../test/prog1.cpp");
@@ -48,8 +49,7 @@ TEST(processOptionsExcludeVector)
 	int argc = excludesIn.size() + 1;
 
 	// build and test the vector excludeVector
-	ASFormatter formatter;
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 	CHECK(processReturn == CONTINUE);
 
 	// check excludeVector
@@ -68,7 +68,8 @@ TEST(processOptionsExcludeVector)
 TEST(processOptionsExcludeHitsVector)
 // test processOptions for excludeHitsVector
 {
-	createConsoleGlobalObject();
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 
 	vector<string> excludesIn;
 	excludesIn.push_back("--exclude=../test/prog1.cpp");
@@ -83,8 +84,7 @@ TEST(processOptionsExcludeHitsVector)
 	int argc = excludesIn.size() + 1;
 
 	// build and test the vector excludeHitsVector
-	ASFormatter formatter;
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 	CHECK(processReturn == CONTINUE);
 
 	// check excludeHitsVector
@@ -103,7 +103,8 @@ TEST(processOptionsExcludeHitsVector)
 TEST(processOptionsFileNameVector)
 // test processOptions for fileNameVector
 {
-	createConsoleGlobalObject();
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 	vector<string> fileNameIn;
 	fileNameIn.push_back("../..\\..\\srccon/*.cpp");
 
@@ -116,8 +117,7 @@ TEST(processOptionsFileNameVector)
 	int argc = fileNameIn.size() + 1;
 
 	// build and test the vector fileNameVector
-	ASFormatter formatter;
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 
 	CHECK(processReturn == CONTINUE);
 	vector<string> fileNameVector = g_console->getFileNameVector();
@@ -135,7 +135,8 @@ TEST(processOptionsFileNameVector)
 TEST(processOptionsOptionsVector)
 // test processOptions for optionsVector
 {
-	createConsoleGlobalObject();
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 	vector<string> optionsIn;
 	optionsIn.push_back("--style=allman");
 	optionsIn.push_back("--indent-classes");
@@ -148,8 +149,7 @@ TEST(processOptionsOptionsVector)
 	int argc = optionsIn.size() + 1;
 
 	// build and test the vector optionsVector
-	ASFormatter formatter;
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 	CHECK(processReturn == CONTINUE);
 
 	vector<string> optionsVector = g_console->getOptionsVector();
@@ -167,7 +167,8 @@ TEST(processOptionsOptionsVector)
 TEST(processOptionsFileOptionsVector)
 // test processOptions for fileOptionsVector with --options=###
 {
-	createConsoleGlobalObject();
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 	char fileIn[] =
 		"# this line is a comment\n"
 		"--brackets=attach   # this is a line-end comment\n"
@@ -207,8 +208,7 @@ TEST(processOptionsFileOptionsVector)
 	int argc = optionsIn.size() + 1;
 
 	// build and test the vector optionsVector
-	ASFormatter formatter;
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 	CHECK(processReturn == CONTINUE);
 
 	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
@@ -228,7 +228,8 @@ TEST(processOptionsFileOptionsVectorEnvVar)
 // test processOptions for fileOptionsVector
 //     with ARTISTIC_STYLE_OPTIONS enviromnent variable
 {
-	createConsoleGlobalObject();
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 	char fileIn[] =
 		"--style=allman\n"
 		"-OoP\n"
@@ -261,8 +262,7 @@ TEST(processOptionsFileOptionsVectorEnvVar)
 	int argc = optionsIn.size() + 1;
 
 	// build and test the vector optionsVector
-	ASFormatter formatter;
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 	CHECK(processReturn == CONTINUE);
 
 	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
@@ -286,7 +286,8 @@ TEST(processOptionsFileOptionsVectorEnvVar)
 TEST(processOptionsFileOptionsVectorHome)
 // test processOptions for fileOptionsVector with $HOME options
 {
-	createConsoleGlobalObject();
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 	char fileIn[] =
 		"--style=allman\n"
 		"-OoP\n"
@@ -324,8 +325,7 @@ TEST(processOptionsFileOptionsVectorHome)
 	int argc = optionsIn.size() + 1;
 
 	// build and test the vector optionsVector
-	ASFormatter formatter;
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 	CHECK(processReturn == CONTINUE);
 
 	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
@@ -345,7 +345,8 @@ TEST(processOptionsFileOptionsVectorNone)
 // test processOptions for fileOptionsVector with --options=none
 // should not process the astylerc file
 {
-	createConsoleGlobalObject();
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 	char fileIn[] =
 		"--style=allman\n"
 		"-OoP\n"
@@ -377,8 +378,7 @@ TEST(processOptionsFileOptionsVectorNone)
 	int argc = optionsIn.size() + 1;
 
 	// build and test the vector optionsVector
-	ASFormatter formatter;
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 	CHECK(processReturn == CONTINUE);
 
 	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
@@ -393,7 +393,8 @@ TEST(processOptionsFileOptionsVectorNoLineEnd)
 // test processOptions for fileOptionsVector with --options=###
 //    and NO final line end
 {
-	createConsoleGlobalObject();
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 	char fileIn[] =
 		"--style=allman\n"
 		"-OoP\n"
@@ -418,8 +419,7 @@ TEST(processOptionsFileOptionsVectorNoLineEnd)
 	int argc = optionsIn.size() + 1;
 
 	// build and test the vector optionsVector
-	ASFormatter formatter;
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 	CHECK(processReturn == CONTINUE);
 
 	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
@@ -436,11 +436,10 @@ TEST(processOptionsFileOptionsVectorNoLineEnd)
 }
 
 TEST(processOptionsFileOptionsVectorError)
-// test processOptions for fileOptionsVector for an options error
-// input with --options=###
-// --indent-invalid is not a valid option
+// test processOptions for option errors
 {
-	createConsoleGlobalObject();
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 	// capture the error message
 	stringstream* msgOut = new stringstream;
 	_err = msgOut;
@@ -448,13 +447,17 @@ TEST(processOptionsFileOptionsVectorError)
 	char fileIn[] =
 		"--style=allman\n"
 		"-OoP\n"
-		"--indent-invalid\n"
+		"--invalid1\n"
+		"--invalid2\n"
+		"--invalid3\n"
 		"--indent-classes\n";
 
 	vector<string> fileOptions;
 	fileOptions.push_back("--style=allman");
 	fileOptions.push_back("-OoP");
-	fileOptions.push_back("--indent-invalid");
+	fileOptions.push_back("--invalid1");
+	fileOptions.push_back("--invalid2");
+	fileOptions.push_back("--invalid3");
 	fileOptions.push_back("--indent-classes");
 
 	// write options the file
@@ -471,11 +474,10 @@ TEST(processOptionsFileOptionsVectorError)
 	int argc = optionsIn.size() + 1;
 
 	// build and test the vector optionsVector
-	ASFormatter formatter;
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 
 	CHECK(processReturn == END_FAILURE);
-	string errMsg = "Invalid option in default options file: indent-invalid";
+	string errMsg = "Invalid option file options: \ninvalid1\ninvalid2\ninvalid3\n";
 	string outMsg = msgOut->str().substr(0, errMsg.length());
 	CHECK_EQUAL(errMsg, outMsg);
 
@@ -500,7 +502,8 @@ TEST(processOptionsFileOptionsVectorFileError1)
 // input with --options=###
 // invalidrc.txt is not a valid file
 {
-	createConsoleGlobalObject();
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 	// capture the error message
 	stringstream* msgOut = new stringstream;
 	_err = msgOut;
@@ -515,8 +518,7 @@ TEST(processOptionsFileOptionsVectorFileError1)
 	int argc = optionsIn.size() + 1;
 
 	// build and test the vector optionsVector
-	ASFormatter formatter;
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 
 	CHECK(processReturn == END_FAILURE);
 	string errMsg = "Could not open options file: " + optionsFileName;
@@ -533,7 +535,8 @@ TEST(processOptionsFileOptionsVectorFileError2)
 // test processOptions with an options file error
 // input with --options= (no filename)
 {
-	createConsoleGlobalObject();
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 	// capture the error message
 	stringstream* msgOut = new stringstream;
 	_err = msgOut;
@@ -546,8 +549,7 @@ TEST(processOptionsFileOptionsVectorFileError2)
 	int argc = optionsIn.size() + 1;
 
 	// build and test the vector optionsVector
-	ASFormatter formatter;
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 
 	CHECK(processReturn == END_FAILURE);
 	string errMsg = "Could not open options file: ";
@@ -563,7 +565,8 @@ TEST(processOptionsFileOptionsVectorFileError2)
 TEST(processOptionsConsoleOptions)
 // test processOptions for console options
 {
-	createConsoleGlobalObject();
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 
 	vector<string> optionsIn;
 	optionsIn.push_back("--suffix=none");
@@ -580,8 +583,7 @@ TEST(processOptionsConsoleOptions)
 	int argc = optionsIn.size() + 1;
 
 	// build and test the vector optionsVector
-	ASFormatter formatter;
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 
 	CHECK(processReturn == CONTINUE);
 
@@ -602,7 +604,8 @@ TEST(processOptionsConsoleOptions)
 TEST(processOptionsConsoleOptionsShort)
 // test processOptions for short console options
 {
-	createConsoleGlobalObject();
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 
 	vector<string> optionsIn;
 	optionsIn.push_back("-n");	// suffix=none
@@ -619,8 +622,7 @@ TEST(processOptionsConsoleOptionsShort)
 	int argc = optionsIn.size() + 1;
 
 	// build and test the vector optionsVector
-	ASFormatter formatter;
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 
 	CHECK(processReturn == CONTINUE);
 
@@ -638,10 +640,10 @@ TEST(processOptionsConsoleOptionsShort)
 }
 
 TEST(processOptionsConsoleOptionsError)
-// test processOptions for an options error
-// --indent-invalid is not a valid option
+// test processOptions for options errors
 {
-	createConsoleGlobalObject();
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 	// capture the error message
 	stringstream* msgOut = new stringstream;
 	_err = msgOut;
@@ -649,7 +651,9 @@ TEST(processOptionsConsoleOptionsError)
 	vector<string> optionsIn;
 	optionsIn.push_back("--style=allman");
 	optionsIn.push_back("-OoP");
-	optionsIn.push_back("--indent-invalid");
+	optionsIn.push_back("--invalid1");
+	optionsIn.push_back("--invalid2");
+	optionsIn.push_back("--invalid3");
 	optionsIn.push_back("--indent-classes");
 
 
@@ -658,11 +662,10 @@ TEST(processOptionsConsoleOptionsError)
 	int argc = optionsIn.size() + 1;
 
 	// build and test the vector optionsVector
-	ASFormatter formatter;
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 
 	CHECK(processReturn == END_FAILURE);
-	string errMsg = "Invalid command line option: indent-invalid";
+	string errMsg = "Invalid command line options: \ninvalid1\ninvalid2\ninvalid3\n";
 	string outMsg = msgOut->str().substr(0, errMsg.length());
 	CHECK_EQUAL(errMsg, outMsg);
 
@@ -687,7 +690,8 @@ TEST(processOptionsConsoleOptionsError)
 TEST(processOptionsHelpOption)
 // test processOptions for help option
 {
-	createConsoleGlobalObject();
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 	// capture the help message
 	stringstream* msgOut = new stringstream;
 	_err = msgOut;
@@ -700,8 +704,7 @@ TEST(processOptionsHelpOption)
 	int argc = optionsIn.size() + 1;
 
 	// build and test the vector optionsVector
-	ASFormatter formatter;
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 
 	CHECK(processReturn == END_SUCCESS);
 	CHECK(msgOut->str().length() > 5000);
@@ -716,7 +719,8 @@ TEST(processOptionsHelpOption)
 TEST(processOptionsHelpOptionShort1)
 // test processOptions for help short option -h
 {
-	createConsoleGlobalObject();
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 	// capture the help message
 	stringstream* msgOut = new stringstream;
 	_err = msgOut;
@@ -729,8 +733,7 @@ TEST(processOptionsHelpOptionShort1)
 	int argc = optionsIn.size() + 1;
 
 	// build and test the vector optionsVector
-	ASFormatter formatter;
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 
 	CHECK(processReturn == END_SUCCESS);
 	CHECK(msgOut->str().length() > 5000);
@@ -745,7 +748,8 @@ TEST(processOptionsHelpOptionShort1)
 TEST(processOptionsHelpOptionShort2)
 // test processOptions for help short option -?
 {
-	createConsoleGlobalObject();
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 	// capture the help message
 	stringstream* msgOut = new stringstream;
 	_err = msgOut;
@@ -758,8 +762,7 @@ TEST(processOptionsHelpOptionShort2)
 	int argc = optionsIn.size() + 1;
 
 	// build and test the vector optionsVector
-	ASFormatter formatter;
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 
 	CHECK(processReturn == END_SUCCESS);
 	CHECK(msgOut->str().length() > 5000);
@@ -774,7 +777,8 @@ TEST(processOptionsHelpOptionShort2)
 TEST(processOptionsVersionOption)
 // test processOptions for version option
 {
-	createConsoleGlobalObject();
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 	// capture the help message
 	stringstream* msgOut = new stringstream;
 	_err = msgOut;
@@ -787,8 +791,7 @@ TEST(processOptionsVersionOption)
 	int argc = optionsIn.size() + 1;
 
 	// build and test the vector optionsVector
-	ASFormatter formatter;
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 
 	CHECK(processReturn == END_SUCCESS);
 	CHECK(msgOut->str().length() < 100);
@@ -803,7 +806,8 @@ TEST(processOptionsVersionOption)
 TEST(processOptionsVersionOptionShort)
 // test processOptions for version short option
 {
-	createConsoleGlobalObject();
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 	// capture the version message
 	stringstream* msgOut = new stringstream;
 	_err = msgOut;
@@ -816,8 +820,7 @@ TEST(processOptionsVersionOptionShort)
 	int argc = optionsIn.size() + 1;
 
 	// build and test the vector optionsVector
-	ASFormatter formatter;
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 
 	CHECK(processReturn == END_SUCCESS);
 	CHECK(msgOut->str().length() > 10);
@@ -836,6 +839,7 @@ TEST(processOptionsVersionOptionShort)
 
 struct testSuffix
 {
+	ASFormatter formatter;
 	vector<string> fileNames;
 
 	// build fileNames vector and write the output files
@@ -848,7 +852,7 @@ struct testSuffix
 			"}\n";
 
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject();
+		createConsoleGlobalObject(formatter);
 		fileNames.push_back(getTestDirectory() + "/suffix1.cpp");
 
 		for (size_t i = 0; i < fileNames.size(); i++)
@@ -874,13 +878,12 @@ TEST_FIXTURE(testSuffix, suffixNone)
 	g_console->setNoBackup(true);		// test variable
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// all files should be formatted
 	CHECK_EQUAL((int)fileNames.size(), g_console->getFilesFormatted());
@@ -906,13 +909,12 @@ TEST_FIXTURE(testSuffix, suffixDotOld)
 	g_console->setOrigSuffix(".old"); 	// test variable (with dot)
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// all files should be formatted
 	CHECK(fileNames.size() > 0);
@@ -939,13 +941,12 @@ TEST_FIXTURE(testSuffix, suffixXXX)
 	g_console->setOrigSuffix("xxx"); 	// test variable (no dot)
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// all files should be formatted
 	CHECK(fileNames.size() > 0);
@@ -969,7 +970,8 @@ TEST_FIXTURE(testSuffix, suffixXXX)
 TEST(getCurrentDirectory)
 // test getCurrentDirectory function
 {
-	createConsoleGlobalObject();
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 	g_console->setNoBackup(true);
 	g_console->setIsQuiet(true);		// change this to see results
 
@@ -992,17 +994,16 @@ TEST(getCurrentDirectory)
 
 	// build the fileNameVector
 	// cannot use buildFileNameVector() function for getCurrentDirectory()
-	ASFormatter formatter;
 	vector<string> fileNameVector;
 	fileNameVector.push_back(testFilePath);
 	char** argv = buildArgv(fileNameVector);
 	int argc = fileNameVector.size() + 1;
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 	CHECK(processReturn == CONTINUE);
 	delete[] argv;
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
 	CHECK_EQUAL(testFilePath, fileName[0]);
 
@@ -1023,7 +1024,8 @@ TEST(getCurrentDirectory)
 
 TEST(stringEndsWith)
 {
-	createConsoleGlobalObject();
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 
 	bool result1 = g_console->stringEndsWith("fileName.cpp", string(".cpp"));
 	CHECK(result1);
@@ -1045,6 +1047,7 @@ TEST(stringEndsWith)
 
 struct testEncoding
 {
+	ASFormatter formatter;
 	vector<string> fileNames;
 
 	// build fileNames vector and write the output files
@@ -1055,7 +1058,7 @@ struct testEncoding
 		char textBOM[50];
 
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject();
+		createConsoleGlobalObject(formatter);
 		// NOTE: some string functions don't work with NULLs (e.g. length())
 		// UTF-16BE
 		memcpy(textBOM, "\xFE\xFF", 2);
@@ -1151,13 +1154,12 @@ TEST_FIXTURE(testEncoding, encodingFileTest)
 	g_console->setIsQuiet(true);		// change this to see results
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// all files should be unformatted
 	CHECK_EQUAL((int)fileNames.size(), g_console->getFilesUnchanged());
@@ -1169,6 +1171,7 @@ TEST_FIXTURE(testEncoding, encodingFileTest)
 
 struct testPreserveDate
 {
+	ASFormatter formatter;
 	vector<string> fileNames;
 	struct utimbuf ut;
 
@@ -1193,7 +1196,7 @@ struct testPreserveDate
 		ut.actime = ut.modtime = mktime(&t);
 
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject();
+		createConsoleGlobalObject(formatter);
 		fileNames.push_back(getTestDirectory() + "/PreserveDate1.cpp");
 		fileNames.push_back(getTestDirectory() + "/PreserveDate2.cpp");
 
@@ -1230,13 +1233,12 @@ TEST_FIXTURE(testPreserveDate, preserveDate)
 	g_console->setPreserveDate(true);
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// loop thru fileNames vector checking the dates
 	// difference is added in preserveFileDate() in astyle_main
@@ -1257,13 +1259,12 @@ TEST_FIXTURE(testPreserveDate, preserveDateSans)
 	g_console->setPreserveDate(false);
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// loop thru fileNames vector checking the dates
 	string currMDY = getMDY(time(NULL));
@@ -1282,6 +1283,7 @@ TEST_FIXTURE(testPreserveDate, preserveDateSans)
 
 struct testChecksum
 {
+	ASFormatter formatter;
 	string fileName;
 	size_t textChecksum;
 
@@ -1304,7 +1306,7 @@ struct testChecksum
 			"}";
 
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject();
+		createConsoleGlobalObject(formatter);
 		fileName = getTestDirectory() + "/TestChecksum.cpp";
 		createTestFile(fileName, textIn);
 	}
@@ -1323,13 +1325,12 @@ TEST_FIXTURE(testChecksum, checksum)
 	g_console->setNoBackup(true);
 
 	// build the fileNameVector
-	ASFormatter formatter;
 	vector<string> fileNameVector;
-	int processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// verify the checksums
 	size_t checksumIn = formatter.getChecksumIn();;
@@ -1352,7 +1353,6 @@ TEST_FIXTURE(testChecksum, checksumAddBrackets)
 	g_console->setNoBackup(true);
 
 	// options for test
-	ASFormatter formatter;
 	vector<string> optionsIn;
 	optionsIn.push_back("--add-brackets");
 
@@ -1361,16 +1361,16 @@ TEST_FIXTURE(testChecksum, checksumAddBrackets)
 	int argc = optionsIn.size() + 1;
 
 	// build the vector optionsVector
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 	CHECK(processReturn == CONTINUE);
 
 	// build the fileNameVector
 	vector<string> fileNameVector;
-	processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	processReturn = buildFileNameVector("/*.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// verify the checksums
 	textChecksum += '{' + '}';
@@ -1396,7 +1396,6 @@ TEST_FIXTURE(testChecksum, checksumAddOneLineBrackets)
 	g_console->setNoBackup(true);
 
 	// options for test
-	ASFormatter formatter;
 	vector<string> optionsIn;
 	optionsIn.push_back("--add-one-line-brackets");
 
@@ -1405,16 +1404,16 @@ TEST_FIXTURE(testChecksum, checksumAddOneLineBrackets)
 	int argc = optionsIn.size() + 1;
 
 	// build the vector optionsVector
-	int processReturn = g_console->processOptions(argc, argv, formatter);
+	int processReturn = g_console->processOptions(argc, argv);
 	CHECK(processReturn == CONTINUE);
 
 	// build the fileNameVector
 	vector<string> fileNameVector;
-	processReturn = buildFileNameVector("/*.cpp", fileNameVector, formatter);
+	processReturn = buildFileNameVector("/*.cpp", fileNameVector);
 	CHECK(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
-	g_console->processFiles(formatter);
+	g_console->processFiles();
 
 	// verify the checksums
 	textChecksum += '{' + '}';

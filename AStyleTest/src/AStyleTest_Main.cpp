@@ -84,7 +84,7 @@ int main(int /*argc*/, char** /*argv*/)
 // Error handler for the Artistic Style formatter
 // Pause so the error will be noticed
 // Linux calls "sh -c", not bash
-void  STDCALL errorHandler(int errorNumber, char* errorMessage)
+void  STDCALL errorHandler(int errorNumber, const char* errorMessage)
 {
 	cout << "AStyle error " << errorNumber << ".\n" << errorMessage << endl;
 #ifdef _WIN32
@@ -97,7 +97,7 @@ void  STDCALL errorHandler(int errorNumber, char* errorMessage)
 
 // Error handler 2 just adds to an error count
 // It is used to test error conditions
-void  STDCALL errorHandler2(int, char*)
+void  STDCALL errorHandler2(int, const char*)
 {
 	errorHandler2Calls++;
 }
