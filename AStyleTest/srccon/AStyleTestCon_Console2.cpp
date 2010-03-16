@@ -52,7 +52,7 @@ struct testFilePaths
 	}
 };
 
-TEST_FIXTURE(testFilePaths, getFilePaths1)
+TEST_FIXTURE(testFilePaths, GetFilePaths1)
 // test fileName vector and getFilePaths with *.cpp
 {
 	assert(g_console != NULL);
@@ -74,7 +74,7 @@ TEST_FIXTURE(testFilePaths, getFilePaths1)
 		CHECK_EQUAL(fileNames[i], fileName[i]);
 }
 
-TEST_FIXTURE(testFilePaths, getFilePaths2)
+TEST_FIXTURE(testFilePaths, GetFilePaths2)
 // test fileName vector and getFilePaths with *.c??
 {
 	assert(g_console != NULL);
@@ -96,7 +96,7 @@ TEST_FIXTURE(testFilePaths, getFilePaths2)
 		CHECK_EQUAL(fileNames[i], fileName[i]);
 }
 
-TEST_FIXTURE(testFilePaths, getFilePaths3)
+TEST_FIXTURE(testFilePaths, GetFilePaths3)
 // test fileName vector and getFilePaths with getFilePaths*.cpp
 {
 	assert(g_console != NULL);
@@ -118,7 +118,7 @@ TEST_FIXTURE(testFilePaths, getFilePaths3)
 		CHECK_EQUAL(fileNames[i], fileName[i]);
 }
 
-TEST_FIXTURE(testFilePaths, getFilePaths4)
+TEST_FIXTURE(testFilePaths, GetFilePaths4)
 // test fileName vector and getFilePaths with *.c*
 // * at the end WITH remaining data allows complete coverage of wildcmp function
 {
@@ -141,7 +141,7 @@ TEST_FIXTURE(testFilePaths, getFilePaths4)
 		CHECK_EQUAL(fileNames[i], fileName[i]);
 }
 
-TEST_FIXTURE(testFilePaths, getFilePaths5)
+TEST_FIXTURE(testFilePaths, GetFilePaths5)
 // test fileName vector and getFilePaths with *.cpp*
 // * at the end WITHOUT remaining data allows complete coverage of wildcmp function
 {
@@ -164,7 +164,7 @@ TEST_FIXTURE(testFilePaths, getFilePaths5)
 		CHECK_EQUAL(fileNames[i], fileName[i]);
 }
 
-TEST_FIXTURE(testFilePaths, getFilePathsError)
+TEST_FIXTURE(testFilePaths, GetFilePathsError)
 // test fileName vector and getFilePaths with bad path
 {
 	assert(g_console != NULL);
@@ -223,7 +223,7 @@ struct testFileType
 	}
 };
 
-TEST_FIXTURE(testFileType, fileTypeC)
+TEST_FIXTURE(testFileType, FileTypeC)
 // test getFileType with *.cpp
 {
 	assert(g_console != NULL);
@@ -240,7 +240,7 @@ TEST_FIXTURE(testFileType, fileTypeC)
 	CHECK_EQUAL(formatter.getFileType(), C_TYPE);
 }
 
-TEST_FIXTURE(testFileType, fileTypeJave)
+TEST_FIXTURE(testFileType, FileTypeJave)
 // test getFileType with *.java
 {
 	assert(g_console != NULL);
@@ -257,7 +257,7 @@ TEST_FIXTURE(testFileType, fileTypeJave)
 	CHECK_EQUAL(formatter.getFileType(), JAVA_TYPE);
 }
 
-TEST_FIXTURE(testFileType, fileTypeSharp)
+TEST_FIXTURE(testFileType, FileTypeSharp)
 // test getFileType with *.cs
 {
 	assert(g_console != NULL);
@@ -274,7 +274,7 @@ TEST_FIXTURE(testFileType, fileTypeSharp)
 	CHECK_EQUAL(formatter.getFileType(), SHARP_TYPE);
 }
 
-TEST_FIXTURE(testFileType, fileTypeError)
+TEST_FIXTURE(testFileType, FileTypeError)
 // test getFileType with an invalid type, should return C_TYPE
 {
 	assert(g_console != NULL);
@@ -351,7 +351,7 @@ struct testRecursive
 	}
 };
 
-TEST_FIXTURE(testRecursive, recursive)
+TEST_FIXTURE(testRecursive, Recursive)
 // test recursive option
 {
 	assert(g_console != NULL);
@@ -372,7 +372,7 @@ TEST_FIXTURE(testRecursive, recursive)
 		CHECK_EQUAL(fileNames[i], fileName[i]);
 }
 
-TEST_FIXTURE(testRecursive, recursiveSans)
+TEST_FIXTURE(testRecursive, Recursive_Sans)
 // test *.cpp WITHOUT recursive
 {
 	assert(g_console != NULL);
@@ -409,7 +409,7 @@ TEST_FIXTURE(testRecursive, recursiveSans)
 		CHECK_EQUAL(fileNames[i], fileName[i]);
 }
 
-TEST_FIXTURE(testRecursive, recursiveExclude)
+TEST_FIXTURE(testRecursive, Recursive_Exclude)
 // test recursive option with exclude
 {
 	assert(g_console != NULL);
@@ -442,7 +442,7 @@ TEST_FIXTURE(testRecursive, recursiveExclude)
 	CHECK_EQUAL(fileNames.size() - filesExcluded, fileName.size());
 }
 
-TEST_FIXTURE(testRecursive, recursiveExcludeErrors)
+TEST_FIXTURE(testRecursive, Recursive_ExcludeErrors)
 // test recursive option with exclude
 {
 	assert(g_console != NULL);
@@ -481,7 +481,7 @@ TEST_FIXTURE(testRecursive, recursiveExcludeErrors)
 	_err = &cerr;
 }
 
-TEST_FIXTURE(testRecursive, recursiveHiddenFiles)
+TEST_FIXTURE(testRecursive, Recursive_HiddenFiles)
 // test recursive option with hidden files
 {
 	assert(g_console != NULL);
@@ -604,7 +604,7 @@ struct testLineEndsFormatted
 	}
 };
 
-TEST_FIXTURE(testLineEndsFormatted, lineEndWindowsFormatted)
+TEST_FIXTURE(testLineEndsFormatted, LineEndWindows_Formatted)
 // test if lineend=windows formats the file
 {
 	assert(g_console != NULL);
@@ -640,7 +640,7 @@ TEST_FIXTURE(testLineEndsFormatted, lineEndWindowsFormatted)
 	delete [] argv;
 }
 
-TEST_FIXTURE(testLineEndsFormatted, lineEndLinuxFormatted)
+TEST_FIXTURE(testLineEndsFormatted, LineEndLinux_Formatted)
 // test if lineend=linux formats the file
 {
 	assert(g_console != NULL);
@@ -676,7 +676,7 @@ TEST_FIXTURE(testLineEndsFormatted, lineEndLinuxFormatted)
 	delete [] argv;
 }
 
-TEST_FIXTURE(testLineEndsFormatted, lineEndMacOldFormatted)
+TEST_FIXTURE(testLineEndsFormatted, LineEndMacOld_Formatted)
 // test if lineend=macold formats the file
 {
 	assert(g_console != NULL);
@@ -778,7 +778,7 @@ struct testLineEndsUnchanged
 	}
 };
 
-TEST_FIXTURE(testLineEndsUnchanged, lineEndWindowsUnchanged)
+TEST_FIXTURE(testLineEndsUnchanged, LineEndWindows_Unchanged)
 // test if lineend=windows leaves the file unchanged
 {
 	assert(g_console != NULL);
@@ -814,7 +814,7 @@ TEST_FIXTURE(testLineEndsUnchanged, lineEndWindowsUnchanged)
 	delete [] argv;
 }
 
-TEST_FIXTURE(testLineEndsUnchanged, lineEndLinuxUnchanged)
+TEST_FIXTURE(testLineEndsUnchanged, LineEndLinux_Unchanged)
 // test if lineend=linux leaves the file unchanged
 {
 	assert(g_console != NULL);
@@ -850,7 +850,7 @@ TEST_FIXTURE(testLineEndsUnchanged, lineEndLinuxUnchanged)
 	delete [] argv;
 }
 
-TEST_FIXTURE(testLineEndsUnchanged, lineEndMacOldUnchanged)
+TEST_FIXTURE(testLineEndsUnchanged, LineEndMacOld_Unchanged)
 // test if lineend=macold leaves the file unchanged
 {
 	assert(g_console != NULL);
@@ -952,7 +952,7 @@ struct testLineEndsDefault
 	}
 };
 
-TEST_FIXTURE(testLineEndsDefault, lineEndWindowsDefault)
+TEST_FIXTURE(testLineEndsDefault, LineEndWindows_Default)
 // test if default line end leaves a windows file unchanged
 {
 	assert(g_console != NULL);
@@ -975,7 +975,7 @@ TEST_FIXTURE(testLineEndsDefault, lineEndWindowsDefault)
 		CHECK_EQUAL( "\"no file\"", origFileName.c_str());
 }
 
-TEST_FIXTURE(testLineEndsDefault, lineEndLinuxDefault)
+TEST_FIXTURE(testLineEndsDefault, LineEndLinux_Default)
 // test if default line end leaves a linux file unchanged
 {
 	assert(g_console != NULL);
@@ -998,7 +998,7 @@ TEST_FIXTURE(testLineEndsDefault, lineEndLinuxDefault)
 		CHECK_EQUAL( "\"no file\"", origFileName.c_str());
 }
 
-TEST_FIXTURE(testLineEndsDefault, lineEndMacOldDefault)
+TEST_FIXTURE(testLineEndsDefault, LineEndMacOld_Default)
 // test if default line end leaves a macold file unchanged
 {
 	assert(g_console != NULL);
@@ -1089,7 +1089,7 @@ struct testLineEndsDefaultMixed
 	}
 };
 
-TEST_FIXTURE(testLineEndsDefaultMixed, lineEndDefaultMixedWindows)
+TEST_FIXTURE(testLineEndsDefaultMixed, LineEndDefault_Mixed_Windows)
 // test if default line ends outputs windows line ends by calling convertLineEnds()
 {
 	assert(g_console != NULL);
@@ -1116,7 +1116,7 @@ TEST_FIXTURE(testLineEndsDefaultMixed, lineEndDefaultMixedWindows)
 //	systemPause("Check Windows Line Ends");
 }
 
-TEST_FIXTURE(testLineEndsDefaultMixed, lineEndDefaultMixedLinux)
+TEST_FIXTURE(testLineEndsDefaultMixed, LineEndDefault_Mixed_Linux)
 // test if default line ends outputs linux line ends by calling convertLineEnds()
 {
 	assert(g_console != NULL);
@@ -1143,7 +1143,7 @@ TEST_FIXTURE(testLineEndsDefaultMixed, lineEndDefaultMixedLinux)
 //	systemPause("Check Linux Line Ends");
 }
 
-TEST_FIXTURE(testLineEndsDefaultMixed, lineEndDefaultMixedMacOld)
+TEST_FIXTURE(testLineEndsDefaultMixed, LineEndDefault_Mixed_MacOld)
 // test if default line ends outputs linux line ends by calling convertLineEnds()
 {
 	assert(g_console != NULL);
@@ -1236,7 +1236,7 @@ struct testLineEndsDefaultMixedSans
 	}
 };
 
-TEST_FIXTURE(testLineEndsDefaultMixedSans, lineEndDefaultMixedWindowsSans)
+TEST_FIXTURE(testLineEndsDefaultMixedSans, LineEndDefaultMixed_Windows_Sans)
 // test if default line ends outputs windows line ends without calling convertLineEnds()
 {
 	assert(g_console != NULL);
@@ -1263,7 +1263,7 @@ TEST_FIXTURE(testLineEndsDefaultMixedSans, lineEndDefaultMixedWindowsSans)
 //	systemPause("Check Windows Line Ends");
 }
 
-TEST_FIXTURE(testLineEndsDefaultMixedSans, lineEndDefaultMixedLinuxSans)
+TEST_FIXTURE(testLineEndsDefaultMixedSans, LineEndDefaultMixed_Linux_Sans)
 // test if default line ends outputs linux line ends without calling convertLineEnds()
 {
 	assert(g_console != NULL);
@@ -1290,7 +1290,7 @@ TEST_FIXTURE(testLineEndsDefaultMixedSans, lineEndDefaultMixedLinuxSans)
 //	systemPause("Check Linux Line Ends");
 }
 
-TEST_FIXTURE(testLineEndsDefaultMixedSans, lineEndDefaultMixedMacOldSans)
+TEST_FIXTURE(testLineEndsDefaultMixedSans, LineEndDefaultMixed_MacOld_Sans)
 // test if default line ends outputs linux line ends without calling convertLineEnds()
 {
 	assert(g_console != NULL);
@@ -1372,7 +1372,7 @@ struct testPrint
 	}
 };
 
-TEST_FIXTURE(testPrint, printWildcard)
+TEST_FIXTURE(testPrint, Print_Wildcard)
 // test print wildcard with no options
 {
 	assert(g_console != NULL);
@@ -1394,7 +1394,7 @@ TEST_FIXTURE(testPrint, printWildcard)
 	cout << "END" << endl;
 }
 
-TEST_FIXTURE(testPrint, printWildcardExclude)
+TEST_FIXTURE(testPrint, Print_Wildcard_Exclude)
 // test print wildcard with an exclude
 {
 	assert(g_console != NULL);
@@ -1417,7 +1417,7 @@ TEST_FIXTURE(testPrint, printWildcardExclude)
 	cout << "END" << endl;
 }
 
-TEST_FIXTURE(testPrint, printFormattedWildcard)
+TEST_FIXTURE(testPrint, Print_Formatted_Wildcard)
 // test print with "formatted" wildcard
 {
 	assert(g_console != NULL);
@@ -1440,7 +1440,7 @@ TEST_FIXTURE(testPrint, printFormattedWildcard)
 	cout << "END" << endl;
 }
 
-TEST_FIXTURE(testPrint, printVerboseWildcard)
+TEST_FIXTURE(testPrint, Print_Verbose_Wildcard)
 // test print with "verbose" wildcard
 {
 	assert(g_console != NULL);
@@ -1466,7 +1466,7 @@ TEST_FIXTURE(testPrint, printVerboseWildcard)
 	cout << "END" << endl;
 }
 
-TEST_FIXTURE(testPrint, printVerboseFormattedWildcard)
+TEST_FIXTURE(testPrint, Print_Verbose_Formatted_Wildcard)
 // test print with "verbose" and "formatted" wildcard
 {
 	assert(g_console != NULL);
@@ -1490,7 +1490,7 @@ TEST_FIXTURE(testPrint, printVerboseFormattedWildcard)
 	cout << "END" << endl;
 }
 
-TEST_FIXTURE(testPrint, printSingleFile)
+TEST_FIXTURE(testPrint, Print_SingleFile)
 // test print single file with no options
 {
 	assert(g_console != NULL);
@@ -1512,7 +1512,7 @@ TEST_FIXTURE(testPrint, printSingleFile)
 	cout << "END" << endl;
 }
 
-TEST_FIXTURE(testPrint, printFormattedSingleFile)
+TEST_FIXTURE(testPrint, Print_Formatted_SingleFile)
 // test print with "formatted" single file
 {
 	assert(g_console != NULL);
@@ -1535,7 +1535,7 @@ TEST_FIXTURE(testPrint, printFormattedSingleFile)
 	cout << "END" << endl;
 }
 
-TEST_FIXTURE(testPrint, printVerboseSingleFile)
+TEST_FIXTURE(testPrint, Print_Verbose_SingleFile)
 // test print with "verbose" single file
 {
 	assert(g_console != NULL);
@@ -1561,7 +1561,7 @@ TEST_FIXTURE(testPrint, printVerboseSingleFile)
 	cout << "END" << endl;
 }
 
-TEST_FIXTURE(testPrint, printQuiet)
+TEST_FIXTURE(testPrint, Print_Quiet)
 // test print with "quiet" and all other options
 {
 	assert(g_console != NULL);

@@ -8,7 +8,7 @@
 // AStyle Tab Options
 //-----------------------------------------------------------------------------
 
-TEST(TabDefault)
+TEST(Tab_Default)
 {
 	// test default indent of 4 spaces per tab
 	char text[] =
@@ -27,7 +27,7 @@ TEST(TabDefault)
 	delete [] textOut;
 }
 
-TEST(TabSpaces8)
+TEST(TabSpaces_8)
 {
 	// test indent of 8 spaces per tab
 	char text[] =
@@ -46,7 +46,7 @@ TEST(TabSpaces8)
 	delete [] textOut;
 }
 
-TEST(TabSpacesShort8)
+TEST(TabSpaces_Short8)
 {
 	// test indent of 8 spaces per tab
 	char text[] =
@@ -65,7 +65,7 @@ TEST(TabSpacesShort8)
 	delete [] textOut;
 }
 
-TEST(TabTabDefault)
+TEST(TabTab_Default)
 {
 	// test default tab indent of 4 spaces per tab
 	// the '&& isBar' line will be indented with 2 tab widths or 8 spaces
@@ -86,7 +86,7 @@ TEST(TabTabDefault)
 	delete [] textOut;
 }
 
-TEST(TabTabDefaultShort)
+TEST(TabTab_DefaultShort)
 {
 	// test default tab indent of 4 spaces per tab
 	// the '&& isBar' line will be indented with 2 tab widths or 8 spaces
@@ -107,7 +107,7 @@ TEST(TabTabDefaultShort)
 	delete [] textOut;
 }
 
-TEST(TabTab8)
+TEST(TabTab_8)
 {
 	// test tab indent of 8 spaces per tab
 	// the '&& isBar' line will be indented with 2 tab widths or 16 spaces
@@ -128,7 +128,7 @@ TEST(TabTab8)
 	delete [] textOut;
 }
 
-TEST(TabTab8Short)
+TEST(TabTab_Short8)
 {
 	// test tab indent of 8 spaces per tab
 	// the '&& isBar' line will be indented with 2 tab widths or 16 spaces
@@ -149,7 +149,7 @@ TEST(TabTab8Short)
 	delete [] textOut;
 }
 
-TEST(TabForceTabDefault)
+TEST(TabForceTab_Default)
 {
 	// test default force tab indent of 4 spaces per tab
 	// the '&& isBar' line will be indented with 2 tabs instead of 8 spaces
@@ -170,7 +170,7 @@ TEST(TabForceTabDefault)
 	delete [] textOut;
 }
 
-TEST(TabForceTabDefaultShort)
+TEST(TabForceTab_DefaultShort)
 {
 	// test default force tab indent of 4 spaces per tab
 	// the '&& isBar' line will be indented with 2 tabs instead of 8 spaces
@@ -191,7 +191,7 @@ TEST(TabForceTabDefaultShort)
 	delete [] textOut;
 }
 
-TEST(TabForceTab8)
+TEST(TabForceTab_8)
 {
 	// test default force tab indent of 8 spaces per tab
 	// the result of this test is the same as the default option
@@ -212,7 +212,7 @@ TEST(TabForceTab8)
 	delete [] textOut;
 }
 
-TEST(TabForceTab8Short)
+TEST(TabForceTab_Short8)
 {
 	// test default force tab indent of 8 spaces per tab
 	// the result of this test is the same as the default option

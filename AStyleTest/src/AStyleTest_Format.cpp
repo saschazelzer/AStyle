@@ -37,7 +37,7 @@ TEST(BreakClosingBrackets)
 	delete [] textOut;
 }
 
-TEST(BreakClosingBracketsShort)
+TEST(BreakClosingBrackets_Short)
 {
 	// test NONE_MODE brackets with break closing headers
 	char textIn[] =
@@ -65,7 +65,7 @@ TEST(BreakClosingBracketsShort)
 	delete [] textOut;
 }
 
-TEST(BreakClosingBracketsBreak)
+TEST(BreakClosingBrackets_Break)
 {
 	// test BREAK_MODE brackets with break closing headers
 	char textIn[] =
@@ -96,7 +96,7 @@ TEST(BreakClosingBracketsBreak)
 	delete [] textOut;
 }
 
-TEST(BreakClosingBracketsAttach)
+TEST(BreakClosingBrackets_Attach)
 {
 	// test ATTACH_MODE brackets with break closing headers
 	char textIn[] =
@@ -124,7 +124,7 @@ TEST(BreakClosingBracketsAttach)
 	delete [] textOut;
 }
 
-TEST(BreakClosingBracketsLinux)
+TEST(BreakClosingBrackets_Linux)
 {
 	// test LINUX_MODE brackets with break closing headers
 	char textIn[] =
@@ -153,7 +153,7 @@ TEST(BreakClosingBracketsLinux)
 	delete [] textOut;
 }
 
-TEST(BreakClosingBracketsStroustrup)
+TEST(BreakClosingBrackets_Stroustrup)
 {
 	// test STROUSTRUP_MODE brackets with break closing headers
 	char textIn[] =
@@ -182,7 +182,7 @@ TEST(BreakClosingBracketsStroustrup)
 	delete [] textOut;
 }
 
-TEST(BreakClosingBracketsKeepBlocks)
+TEST(BreakClosingBrackets_KeepBlocks)
 {
 	// test break closing headers with keep one line blocks
 	// it shouldn't make any difference
@@ -211,7 +211,7 @@ TEST(BreakClosingBracketsKeepBlocks)
 	delete [] textOut;
 }
 
-TEST(BreakClosingBracketsElseSans)
+TEST(BreakClosingBrackets_ElseSans)
 {
 	// test if/else without break closing brackets
 	// else statement should be attached to the closing bracket
@@ -240,7 +240,7 @@ TEST(BreakClosingBracketsElseSans)
 	delete [] textOut;
 }
 
-TEST(BreakClosingBracketsCatch)
+TEST(BreakClosingBrackets_Catch)
 {
 	// test try/catch with break closing brackets
 	char textIn[] =
@@ -267,7 +267,7 @@ TEST(BreakClosingBracketsCatch)
 	delete [] textOut;
 }
 
-TEST(BreakClosingBracketsCatchSans)
+TEST(BreakClosingBrackets_CatchSans)
 {
 	// test try/catch without break closing brackets
 	// catch statement should be attached to the closing bracket
@@ -295,7 +295,7 @@ TEST(BreakClosingBracketsCatchSans)
 	delete [] textOut;
 }
 
-TEST(BreakClosingBracketsWhile)
+TEST(BreakClosingBrackets_While)
 {
 	// test do/while with break closing brackets
 	char textIn[] =
@@ -318,7 +318,7 @@ TEST(BreakClosingBracketsWhile)
 	delete [] textOut;
 }
 
-TEST(BreakClosingBracketsWhileSans)
+TEST(BreakClosingBrackets_WhileSans)
 {
 	// test do/while without break closing brackets
 	// while statement should be attached to the closing bracket
@@ -416,7 +416,7 @@ TEST(BreakElseIfs)
 	delete [] textOut;
 }
 
-TEST(BreakElseIfsShort)
+TEST(BreakElseIfs_Short)
 {
 	// test break else/if short options
 	// else/if statements should be broken
@@ -486,7 +486,7 @@ TEST(BreakElseIfsShort)
 	delete [] textOut;
 }
 
-TEST(BreakElseIfsSans)
+TEST(BreakElseIfs_Sans)
 {
 	// test without break else/if
 	// else/if statements should be joined
@@ -554,7 +554,7 @@ TEST(BreakElseIfsSans)
 	delete [] textOut;
 }
 
-TEST(BreakElseIfsKeepOneLine)
+TEST(BreakElseIfs_KeepOneLine)
 {
 	// test break else/if with keep one line statements
 	// else/if statements remain the same with breaking/attaching
@@ -643,7 +643,7 @@ TEST(KeepOneLineStatements)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineStatementsShort)
+TEST(KeepOneLineStatements_Short)
 {
 	// // test keep one line statements short option
 	char text[] =
@@ -678,7 +678,7 @@ TEST(KeepOneLineBlocks)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksShort)
+TEST(KeepOneLineBlocks_Short)
 {
 	// test keep one line blocks short option
 	char text[] =
@@ -692,7 +692,7 @@ TEST(KeepOneLineBlocksShort)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksStartOfLine)
+TEST(KeepOneLineBlocks_StartOfLine)
 {
 	// line beginning with one-line blocks do NOT get a extra indent
 	char text[] =
@@ -708,7 +708,7 @@ TEST(KeepOneLineBlocksStartOfLine)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksNoneBrackets)
+TEST(KeepOneLineBlocks_NoneBrackets)
 {
 	// test keep one line blocks
 	char text[] =
@@ -724,7 +724,7 @@ TEST(KeepOneLineBlocksNoneBrackets)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksBreakBrackets)
+TEST(KeepOneLineBlocks_BreakBrackets)
 {
 	// test keep one line blocks
 	char text[] =
@@ -740,7 +740,7 @@ TEST(KeepOneLineBlocksBreakBrackets)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksAttachBrackets)
+TEST(KeepOneLineBlocks_AttachBrackets)
 {
 	// test keep one line blocks
 	char text[] =
@@ -754,7 +754,7 @@ TEST(KeepOneLineBlocksAttachBrackets)
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
-TEST(KeepOneLineBlocksLinuxBrackets)
+TEST(KeepOneLineBlocks_LinuxBrackets)
 {
 	// test keep one line blocks
 	char text[] =
@@ -770,7 +770,7 @@ TEST(KeepOneLineBlocksLinuxBrackets)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksHorstmannBrackets)
+TEST(KeepOneLineBlocks_HorstmannBrackets)
 {
 	// test keep one line blocks
 	char text[] =
@@ -785,7 +785,7 @@ TEST(KeepOneLineBlocksHorstmannBrackets)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksBreakElseIf)
+TEST(KeepOneLineBlocks_BreakElseIf)
 {
 	// test keep one line blocks and break elseifs
 	char textIn[] =
@@ -811,7 +811,7 @@ TEST(KeepOneLineBlocksBreakElseIf)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksKeepOneLineStatementsAndBreakElseIf)
+TEST(KeepOneLineBlocks_KeepOneLineStatementsAndBreakElseIf)
 {
 	// test keep one line blocks and keep one line statements
 	//     with if statement and break elseifs
@@ -828,7 +828,7 @@ TEST(KeepOneLineBlocksKeepOneLineStatementsAndBreakElseIf)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksMultipleBrackets)
+TEST(KeepOneLineBlocks_MultipleBrackets)
 {
 	// test keep one line blocks with multiple brackets
 	char text[] =
@@ -844,7 +844,7 @@ TEST(KeepOneLineBlocksMultipleBrackets)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksSans1)
+TEST(KeepOneLineBlocks_Sans1)
 {
 	// test without keep one line blocks
 	// should not break {} when break brackets
@@ -866,7 +866,7 @@ TEST(KeepOneLineBlocksSans1)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksSans2)
+TEST(KeepOneLineBlocks_Sans2)
 {
 	// test without keep one line blocks
 	// test attach bracket inside comment on single line block
@@ -889,7 +889,7 @@ TEST(KeepOneLineBlocksSans2)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksSansMultipleBrackets)
+TEST(KeepOneLineBlocks_SansMultipleBrackets)
 {
 	// test without keep one line blocks with multiple brackets
 	// TODO: this is wrong on the next-to-last line
@@ -921,7 +921,7 @@ TEST(KeepOneLineBlocksSansMultipleBrackets)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksNoneRunIn)
+TEST(KeepOneLineBlocks_NoneRunIn)
 {
 	// test none brackets with keep one line blocks and run-in
 	// should not indent the run-in
@@ -937,7 +937,7 @@ TEST(KeepOneLineBlocksNoneRunIn)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksHorstmannRunIn)
+TEST(KeepOneLineBlocks_HorstmannRunIn)
 {
 	// test horstmann brackets with keep one line blocks and run-in
 	// should not indent the run-in
@@ -953,7 +953,7 @@ TEST(KeepOneLineBlocksHorstmannRunIn)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksNoneClosingHeader)
+TEST(KeepOneLineBlocks_NoneClosingHeader)
 {
 	// test keep one line blocks followed by a closing header
 	// should not attach header to the one line statement
@@ -969,7 +969,7 @@ TEST(KeepOneLineBlocksNoneClosingHeader)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksBreakClosingHeader)
+TEST(KeepOneLineBlocks_BreakClosingHeader)
 {
 	// test keep one line blocks followed by a closing header
 	// should not attach header to the one line statement
@@ -986,7 +986,7 @@ TEST(KeepOneLineBlocksBreakClosingHeader)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksAttachClosingHeader)
+TEST(KeepOneLineBlocks_AttachClosingHeader)
 {
 	// test keep one line blocks followed by a closing header
 	// should not attach header to the one line statement
@@ -1002,7 +1002,7 @@ TEST(KeepOneLineBlocksAttachClosingHeader)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocksLinuxClosingHeader)
+TEST(KeepOneLineBlocks_LinuxClosingHeader)
 {
 	// test keep one line blocks followed by a closing header
 	// should not attach header to the one line statement
@@ -1045,7 +1045,7 @@ TEST(AddBrackets)
 	delete [] textOut;
 }
 
-TEST(AddBracketsShort)
+TEST(AddBrackets_Short)
 {
 	// test add brackets short option
 	char textIn[] =
@@ -1068,7 +1068,7 @@ TEST(AddBracketsShort)
 }
 
 
-TEST(AddBracketsAll)
+TEST(AddBrackets_All)
 {
 	// test add brackets for all headers
 	char textIn[] =
@@ -1125,7 +1125,7 @@ TEST(AddBracketsAll)
 	delete [] textOut;
 }
 
-TEST(AddBracketsElseIf)
+TEST(AddBrackets_ElseIf)
 {
 	// test add brackets for "else if" statements
 	char textIn[] =
@@ -1152,7 +1152,7 @@ TEST(AddBracketsElseIf)
 	delete [] textOut;
 }
 
-TEST(AddBracketsSharp)
+TEST(AddBrackets_Sharp)
 {
 	// test add brackets to C# headers
 	// 'delegate' statement contans brackets
@@ -1183,7 +1183,7 @@ TEST(AddBracketsSharp)
 	delete [] textOut;
 }
 
-TEST(AddBracketsKeepOneLiners)
+TEST(AddBrackets_KeepOneLiners)
 {
 	// add brackets with keep one liners
 	// should break the added brackets
@@ -1241,7 +1241,7 @@ TEST(AddBracketsKeepOneLiners)
 	delete [] textOut;
 }
 
-TEST(AddBracketsSingleLine)
+TEST(AddBrackets_SingleLine)
 {
 	// add brackets to one line statements
 	// should break the statements
@@ -1291,7 +1291,7 @@ TEST(AddBracketsSingleLine)
 	delete [] textOut;
 }
 
-TEST(AddBracketsSingleLineKeepOneLiners)
+TEST(AddBrackets_SingleLineKeepOneLiners)
 {
 	// add brackets to one line statements with keep one liners
 	// should keep one line blocks with added brackets
@@ -1327,7 +1327,7 @@ TEST(AddBracketsSingleLineKeepOneLiners)
 	delete [] textOut;
 }
 
-TEST(AddBracketsBreak)
+TEST(AddBrackets_Break)
 {
 	// test add brackets for broken brackets
 	char textIn[] =
@@ -1356,7 +1356,7 @@ TEST(AddBracketsBreak)
 	delete [] textOut;
 }
 
-TEST(AddBracketsAttach)
+TEST(AddBrackets_Attach)
 {
 	// test add brackets for attached brackets
 	char textIn[] =
@@ -1382,7 +1382,7 @@ TEST(AddBracketsAttach)
 	delete [] textOut;
 }
 
-TEST(AddBracketsHorstmann)
+TEST(AddBrackets_Horstmann)
 {
 	// test add brackets for horstmann brakets
 	char textIn[] =
@@ -1408,7 +1408,7 @@ TEST(AddBracketsHorstmann)
 	delete [] textOut;
 }
 
-TEST(AddBracketsExtraSpaces)
+TEST(AddBrackets_ExtraSpaces)
 {
 	// extra spaces should be removed
 	char textIn[] =
@@ -1429,7 +1429,7 @@ TEST(AddBracketsExtraSpaces)
 	delete [] textOut;
 }
 
-TEST(AddBracketsElseParen)
+TEST(AddBrackets_ElseParen)
 {
 	// else statement with following paren
 	char textIn[] =
@@ -1454,7 +1454,7 @@ TEST(AddBracketsElseParen)
 	delete [] textOut;
 }
 
-TEST(AddBracketsQuote)
+TEST(AddBrackets_Quote)
 {
 	// must bypass quote with semi-colons and escaped quote marks
 	char textIn[] =
@@ -1483,7 +1483,7 @@ TEST(AddBracketsQuote)
 	delete [] textOut;
 }
 
-TEST(AddBracketsQuoteSans)
+TEST(AddBrackets_QuoteSans)
 {
 	// must bypass multi-line quote
 	char text[] =
@@ -1500,7 +1500,7 @@ TEST(AddBracketsQuoteSans)
 	delete [] textOut;
 }
 
-TEST(AddBracketsComment)
+TEST(AddBrackets_Comment)
 {
 	// must bypass comment before a semi-colon
 	// the last statement should be bracketed
@@ -1536,7 +1536,7 @@ TEST(AddBracketsComment)
 	delete [] textOut;
 }
 
-TEST(AddBracketsSans)
+TEST(AddBrackets_Sans)
 {
 	// brackets should be added to specified headers only
 	char text[] =
@@ -1578,7 +1578,7 @@ TEST(AddOneLineBrackets)
 	delete [] textOut;
 }
 
-TEST(AddOneLineBracketsShort)
+TEST(AddOneLineBrackets_Short)
 {
 	// test add one line brackets short option
 	char textIn[] =
@@ -1600,7 +1600,7 @@ TEST(AddOneLineBracketsShort)
 }
 
 
-TEST(AddOneLineBracketsAll)
+TEST(AddOneLineBrackets_All)
 {
 	// test add one line brackets for all headers
 	char textIn[] =
@@ -1651,7 +1651,7 @@ TEST(AddOneLineBracketsAll)
 	delete [] textOut;
 }
 
-TEST(AddOneLineBracketsElseIf)
+TEST(AddOneLineBrackets_ElseIf)
 {
 	// test add one line brackets for "else if" statements
 	char textIn[] =
@@ -1676,7 +1676,7 @@ TEST(AddOneLineBracketsElseIf)
 	delete [] textOut;
 }
 
-TEST(AddOneLineBracketsSharp)
+TEST(AddOneLineBrackets_Sharp)
 {
 	// test add one line brackets to C# headers
 	// 'delegate' statement contans brackets
@@ -1704,7 +1704,7 @@ TEST(AddOneLineBracketsSharp)
 	delete [] textOut;
 }
 
-TEST(AddOneLineBracketsSingleLine)
+TEST(AddOneLineBrackets_SingleLine)
 {
 	// add one line brackets to one line statements
 	// should keep the one line statements
@@ -1742,7 +1742,7 @@ TEST(AddOneLineBracketsSingleLine)
 	delete [] textOut;
 }
 
-TEST(AddOneLineBracketsSingleLineKeepOneLiners)
+TEST(AddOneLineBrackets_SingleLineKeepOneLiners)
 {
 	// add one line brackets to one line statements with keep one liners
 	// should keep the one liners (keep blocks is implied)
@@ -1778,7 +1778,7 @@ TEST(AddOneLineBracketsSingleLineKeepOneLiners)
 	delete [] textOut;
 }
 
-TEST(AddOneLineBracketsBreak)
+TEST(AddOneLineBrackets_Break)
 {
 	// test add one line brackets for broken brackets
 	char textIn[] =
@@ -1803,7 +1803,7 @@ TEST(AddOneLineBracketsBreak)
 	delete [] textOut;
 }
 
-TEST(AddOneLineBracketsAttach)
+TEST(AddOneLineBrackets_Attach)
 {
 	// test add one line brackets for attached brackets
 	char textIn[] =
@@ -1828,7 +1828,7 @@ TEST(AddOneLineBracketsAttach)
 	delete [] textOut;
 }
 
-TEST(AddOneLineBracketsHorstmann)
+TEST(AddOneLineBrackets_Horstmann)
 {
 	// test add one line brackets for horstmann brakets
 	char textIn[] =
@@ -1852,7 +1852,7 @@ TEST(AddOneLineBracketsHorstmann)
 	delete [] textOut;
 }
 
-TEST(AddOneLineBracketsExtraSpaces)
+TEST(AddOneLineBrackets_ExtraSpaces)
 {
 	// extra spaces should not be removed
 	char textIn[] =
@@ -1871,7 +1871,7 @@ TEST(AddOneLineBracketsExtraSpaces)
 	delete [] textOut;
 }
 
-TEST(AddOneLineBracketsElseParen)
+TEST(AddOneLineBrackets_ElseParen)
 {
 	// else statement with following paren
 	char textIn[] =
@@ -1892,7 +1892,7 @@ TEST(AddOneLineBracketsElseParen)
 	delete [] textOut;
 }
 
-TEST(AddOneLineBracketsQuote)
+TEST(AddOneLineBrackets_Quote)
 {
 	// must bypass quote with semi-colons and escaped quote marks
 	char textIn[] =
@@ -1915,7 +1915,7 @@ TEST(AddOneLineBracketsQuote)
 	delete [] textOut;
 }
 
-TEST(AddOneLineBracketsQuoteSans)
+TEST(AddOneLineBrackets_QuoteSans)
 {
 	// must bypass multi-line quote
 	char text[] =
@@ -1932,7 +1932,7 @@ TEST(AddOneLineBracketsQuoteSans)
 	delete [] textOut;
 }
 
-TEST(AddOneLineBracketsComment)
+TEST(AddOneLineBrackets_Comment)
 {
 	// must bypass comment before a semi-colon
 	// the last statement should be bracketed
@@ -1966,7 +1966,7 @@ TEST(AddOneLineBracketsComment)
 	delete [] textOut;
 }
 
-TEST(AddOneLineBracketsSans)
+TEST(AddOneLineBrackets_Sans)
 {
 	// brackets should be added to specified headers only
 	char text[] =
@@ -2059,7 +2059,7 @@ TEST(ConvertTabs)
 	delete [] textOut;
 }
 
-TEST(ConvertTabsShort)
+TEST(ConvertTabs_Short)
 {
 	// test convert tabs short option
 	char textIn[] =
@@ -2100,7 +2100,7 @@ TEST(ConvertTabsShort)
 	delete [] textOut;
 }
 
-TEST(ConvertTabsMisc1)
+TEST(ConvertTabs_Misc1)
 {
 	// convert comments, line comments, preprocessor
 	// do NOT convert quotes
@@ -2167,7 +2167,7 @@ TEST(ConvertTabsMisc1)
 	delete [] textOut;
 }
 
-TEST(ConvertTabsMisc2)
+TEST(ConvertTabs_Misc2)
 {
 	// test convert-tabs with comments
 	char textIn[] =
@@ -2190,7 +2190,7 @@ TEST(ConvertTabsMisc2)
 	delete [] textOut;
 }
 
-TEST(ConvertTabsMisc3)
+TEST(ConvertTabs_Misc3)
 {
 	// test convert-tabs with line comments and tabbed output
 	// should NOT convert the leading tabs in a non-indent comment
@@ -2212,7 +2212,7 @@ TEST(ConvertTabsMisc3)
 	delete [] textOut;
 }
 
-TEST(ConvertTabsMisc4)
+TEST(ConvertTabs_Misc4)
 {
 	// test convert-tabs with unpad-paren and pad-paren-in
 	// should replace the tab after the opening paren
@@ -2235,7 +2235,7 @@ TEST(ConvertTabsMisc4)
 	delete [] textOut;
 }
 
-TEST(ConvertTabsMisc5)
+TEST(ConvertTabs_Misc5)
 {
 	// test convert-tabs with comment continuation
 	char textIn[] =
@@ -2260,7 +2260,7 @@ TEST(ConvertTabsMisc5)
 	delete [] textOut;
 }
 
-TEST(ConvertTabsMisc6)
+TEST(ConvertTabs_Misc6)
 {
 	// verify that tabs are still present within quotes
 	// should NOT have been replaced when AStyle was run
@@ -2301,7 +2301,7 @@ TEST(AlignPointerNone)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNoneTabs)
+TEST(AlignPointerNone_Tabs)
 {
 	// test with tab separators
 	char text[] =
@@ -2318,7 +2318,7 @@ TEST(AlignPointerNoneTabs)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNoneAddressOf)
+TEST(AlignPointerNone_AddressOf)
 {
 	// "address of" operator should NOT be changed
 	char text[] =
@@ -2336,7 +2336,7 @@ TEST(AlignPointerNoneAddressOf)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNoneDereference)
+TEST(AlignPointerNone_Dereference)
 {
 	// dereference should NOT be changed
 	char text[] =
@@ -2369,7 +2369,7 @@ TEST(AlignPointerNoneDereference)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNoneGlobalVariables)
+TEST(AlignPointerNone_GlobalVariables)
 {
 	// test with global variables
 	char textIn[] =
@@ -2388,7 +2388,7 @@ TEST(AlignPointerNoneGlobalVariables)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNoneGlobalDeclarations)
+TEST(AlignPointerNone_GlobalDeclarations)
 {
 	// test with global declarations
 	char text[] =
@@ -2401,7 +2401,7 @@ TEST(AlignPointerNoneGlobalDeclarations)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNoneCast1)
+TEST(AlignPointerNone_Cast1)
 {
 	// cast should not be changed
 	char text[] =
@@ -2421,7 +2421,7 @@ TEST(AlignPointerNoneCast1)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNoneCast2)
+TEST(AlignPointerNone_Cast2)
 {
 	// cast should not be changed
 	char text[] =
@@ -2435,7 +2435,7 @@ TEST(AlignPointerNoneCast2)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNoneConvertTabs)
+TEST(AlignPointerNone_ConvertTabs)
 {
 	// test tab conversion
 	char textIn[] =
@@ -2460,7 +2460,7 @@ TEST(AlignPointerNoneConvertTabs)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNoneParen)
+TEST(AlignPointerNone_Paren)
 {
 	// test pointer recognition in a paren
 	char text[] =
@@ -2479,7 +2479,7 @@ TEST(AlignPointerNoneParen)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNonePointerToPointer)
+TEST(AlignPointerNone_PointerToPointer)
 {
 	// test double pointer
 	char text[] =
@@ -2498,7 +2498,7 @@ TEST(AlignPointerNonePointerToPointer)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNoneEndOfLine1)
+TEST(AlignPointerNone_EndOfLine1)
 {
 	// test pointer at end of line
 	char text[] =
@@ -2513,7 +2513,7 @@ TEST(AlignPointerNoneEndOfLine1)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNoneEndOfLine2)
+TEST(AlignPointerNone_EndOfLine2)
 {
 	// test pointer at end of line with spaces or comment after
 	char textIn[] =
@@ -2552,7 +2552,7 @@ TEST(AlignPointerNoneEndOfLine2)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNoneComment)
+TEST(AlignPointerNone_Comment)
 {
 	// test pointer with comment after
 	char text[] =
@@ -2565,7 +2565,7 @@ TEST(AlignPointerNoneComment)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNoneOperatorOverload)
+TEST(AlignPointerNone_OperatorOverload)
 {
 	// test pointer with overloaded operator
 	char text[] =
@@ -2580,7 +2580,7 @@ TEST(AlignPointerNoneOperatorOverload)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNoneConversionOperator)
+TEST(AlignPointerNone_ConversionOperator)
 {
 	// test pointer with conversion operator
 	char text[] =
@@ -2604,7 +2604,7 @@ TEST(AlignPointerNoneConversionOperator)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNoneScopeResolution)
+TEST(AlignPointerNone_ScopeResolution)
 {
 	// should not change scope resolution operator
 	char text[] =
@@ -2620,7 +2620,7 @@ TEST(AlignPointerNoneScopeResolution)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNoneUnpadParen)
+TEST(AlignPointerNone_UnpadParen)
 {
 	// unpad-paren should NOT delete space padding
 	char text[] =
@@ -2669,7 +2669,7 @@ TEST(AlignPointerType)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypeShort)
+TEST(AlignPointerType_Short)
 {
 	// test align pointer=type short option
 	char textIn[] =
@@ -2690,7 +2690,7 @@ TEST(AlignPointerTypeShort)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypeFromCentered)
+TEST(AlignPointerType_FromCentered)
 {
 	// test align pointer=type when input is centered
 	// a space is deleted in certain circumstances
@@ -2742,7 +2742,7 @@ TEST(AlignPointerTypeFromCentered)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypeTabs)
+TEST(AlignPointerType_Tabs)
 {
 	// test with tab separators
 	char textIn[] =
@@ -2767,7 +2767,7 @@ TEST(AlignPointerTypeTabs)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypeAddressOf)
+TEST(AlignPointerType_AddressOf)
 {
 	// "address of" operator should NOT be separated from the name
 	char text[] =
@@ -2785,7 +2785,7 @@ TEST(AlignPointerTypeAddressOf)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypeDereference)
+TEST(AlignPointerType_Dereference)
 {
 	// dereference should NOT be separated from the name
 	char text[] =
@@ -2818,7 +2818,7 @@ TEST(AlignPointerTypeDereference)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypeGlobalVariables)
+TEST(AlignPointerType_GlobalVariables)
 {
 	// test with global variables
 	char textIn[] =
@@ -2837,7 +2837,7 @@ TEST(AlignPointerTypeGlobalVariables)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypeGlobalDeclarations)
+TEST(AlignPointerType_GlobalDeclarations)
 {
 	// test with global declarations
 	char textIn[] =
@@ -2854,7 +2854,7 @@ TEST(AlignPointerTypeGlobalDeclarations)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypeCast1)
+TEST(AlignPointerType_Cast1)
 {
 	// cast should not be space padded
 	char textIn[] =
@@ -2885,7 +2885,7 @@ TEST(AlignPointerTypeCast1)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypeCast2)
+TEST(AlignPointerType_Cast2)
 {
 	// cast should not be space padded
 	char textIn[] =
@@ -2900,7 +2900,7 @@ TEST(AlignPointerTypeCast2)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypeConvertTabs)
+TEST(AlignPointerType_ConvertTabs)
 {
 	// test tab conversion on type
 	char textIn[] =
@@ -2925,7 +2925,7 @@ TEST(AlignPointerTypeConvertTabs)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypeParen)
+TEST(AlignPointerType_Paren)
 {
 	// test pointer recognition in a paren
 	char textIn[] =
@@ -2946,7 +2946,7 @@ TEST(AlignPointerTypeParen)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypePointerToPointer)
+TEST(AlignPointerType_PointerToPointer)
 {
 	// test double pointer
 	char textIn[] =
@@ -2975,7 +2975,7 @@ TEST(AlignPointerTypePointerToPointer)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypeEndOfLine1)
+TEST(AlignPointerType_EndOfLine1)
 {
 	// test pointer at end of line
 	char textIn[] =
@@ -2996,7 +2996,7 @@ TEST(AlignPointerTypeEndOfLine1)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypeEndOfLine2)
+TEST(AlignPointerType_EndOfLine2)
 {
 	// test pointer at end of line with spaces or comment after
 	char textIn[] =
@@ -3035,7 +3035,7 @@ TEST(AlignPointerTypeEndOfLine2)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypeComment)
+TEST(AlignPointerType_Comment)
 {
 	// test pointer with comment after
 	char textIn[] =
@@ -3052,7 +3052,7 @@ TEST(AlignPointerTypeComment)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypeOperatorOverload)
+TEST(AlignPointerType_OperatorOverload)
 {
 	// test pointer with overloaded operator
 	char textIn[] =
@@ -3073,7 +3073,7 @@ TEST(AlignPointerTypeOperatorOverload)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypeConversionOperator)
+TEST(AlignPointerType_ConversionOperator)
 {
 	// test pointer with conversion operator
 	char textIn[] =
@@ -3112,7 +3112,7 @@ TEST(AlignPointerTypeConversionOperator)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypeScopeResolution)
+TEST(AlignPointerType_ScopeResolution)
 {
 	// should pad scope resolution operator
 	char textIn[] =
@@ -3135,7 +3135,7 @@ TEST(AlignPointerTypeScopeResolution)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypeUnpadParen)
+TEST(AlignPointerType_UnpadParen)
 {
 	// unpad-paren should NOT delete space padding
 	char textIn[] =
@@ -3150,7 +3150,7 @@ TEST(AlignPointerTypeUnpadParen)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypeCatch)
+TEST(AlignPointerType_Catch)
 {
 	// 'catch' statement is a reference, not an operator
 	char textIn[] =
@@ -3179,7 +3179,7 @@ TEST(AlignPointerTypeCatch)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypeAndOperator)
+TEST(AlignPointerType_AndOperator)
 {
 	// should not unpad && operator
 	char text[] =
@@ -3199,7 +3199,7 @@ TEST(AlignPointerTypeAndOperator)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypeSans1)
+TEST(AlignPointerType_Sans1)
 {
 	// these are not pointers
 	char text[] =
@@ -3218,7 +3218,7 @@ TEST(AlignPointerTypeSans1)
 	delete [] textOut;
 }
 
-TEST(AlignPointerTypeSans2)
+TEST(AlignPointerType_Sans2)
 {
 	// these should be padded as operators
 	char textIn[] =
@@ -3298,7 +3298,7 @@ TEST(AlignPointerMiddle)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddleShort)
+TEST(AlignPointerMiddle_Short)
 {
 	// test align pointer=middle short option
 	char textIn[] =
@@ -3319,7 +3319,7 @@ TEST(AlignPointerMiddleShort)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddleTabs)
+TEST(AlignPointerMiddle_Tabs)
 {
 	// test with tab separators
 	char textIn[] =
@@ -3344,7 +3344,7 @@ TEST(AlignPointerMiddleTabs)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddleAddressOf)
+TEST(AlignPointerMiddle_AddressOf)
 {
 	// "address of" operator should NOT be separated from the name
 	char text[] =
@@ -3362,7 +3362,7 @@ TEST(AlignPointerMiddleAddressOf)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddleDereference)
+TEST(AlignPointerMiddle_Dereference)
 {
 	// dereference should NOT be separated from the name
 	char text[] =
@@ -3395,7 +3395,7 @@ TEST(AlignPointerMiddleDereference)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddleGlobalVariables)
+TEST(AlignPointerMiddle_GlobalVariables)
 {
 	// test with global variables
 	char textIn[] =
@@ -3414,7 +3414,7 @@ TEST(AlignPointerMiddleGlobalVariables)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddleGlobalDeclarations)
+TEST(AlignPointerMiddle_GlobalDeclarations)
 {
 	// test with global declarations
 	char textIn[] =
@@ -3431,7 +3431,7 @@ TEST(AlignPointerMiddleGlobalDeclarations)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddleCast1)
+TEST(AlignPointerMiddle_Cast1)
 {
 	// cast should be space padded
 	char textIn[] =
@@ -3462,7 +3462,7 @@ TEST(AlignPointerMiddleCast1)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddleCast2)
+TEST(AlignPointerMiddle_Cast2)
 {
 	// cast should be space padded
 	char textIn[] =
@@ -3477,7 +3477,7 @@ TEST(AlignPointerMiddleCast2)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddleConvertTabs)
+TEST(AlignPointerMiddle_ConvertTabs)
 {
 	// test tab conversion on type
 	char textIn[] =
@@ -3502,7 +3502,7 @@ TEST(AlignPointerMiddleConvertTabs)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddleParen)
+TEST(AlignPointerMiddle_Paren)
 {
 	// test pointer recognition in a paren
 	char textIn[] =
@@ -3523,7 +3523,7 @@ TEST(AlignPointerMiddleParen)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddlePointerToPointer)
+TEST(AlignPointerMiddle_PointerToPointer)
 {
 	// test double pointer
 	char textIn[] =
@@ -3552,7 +3552,7 @@ TEST(AlignPointerMiddlePointerToPointer)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddleEndOfLine1)
+TEST(AlignPointerMiddle_EndOfLine1)
 {
 	// test pointer at end of line
 	char textIn[] =
@@ -3573,7 +3573,7 @@ TEST(AlignPointerMiddleEndOfLine1)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddleEndOfLine2)
+TEST(AlignPointerMiddle_EndOfLine2)
 {
 	// test pointer at end of line with spaces or comment after
 	char textIn[] =
@@ -3612,7 +3612,7 @@ TEST(AlignPointerMiddleEndOfLine2)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddleComment)
+TEST(AlignPointerMiddle_Comment)
 {
 	// test pointer with comment after
 	char textIn[] =
@@ -3629,7 +3629,7 @@ TEST(AlignPointerMiddleComment)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddleOperatorOverload)
+TEST(AlignPointerMiddle_OperatorOverload)
 {
 	// test pointer with overloaded operator
 	char textIn[] =
@@ -3650,7 +3650,7 @@ TEST(AlignPointerMiddleOperatorOverload)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddleConversionOperator)
+TEST(AlignPointerMiddle_ConversionOperator)
 {
 	// test pointer with conversion operator
 	char textIn[] =
@@ -3689,7 +3689,7 @@ TEST(AlignPointerMiddleConversionOperator)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddleScopeResolution)
+TEST(AlignPointerMiddle_ScopeResolution)
 {
 	// should pad scope resolution operator
 	char textIn[] =
@@ -3712,7 +3712,7 @@ TEST(AlignPointerMiddleScopeResolution)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddleUnpadParen)
+TEST(AlignPointerMiddle_UnpadParen)
 {
 	// unpad-paren should NOT delete space padding
 	char textIn[] =
@@ -3727,7 +3727,7 @@ TEST(AlignPointerMiddleUnpadParen)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddleCatch)
+TEST(AlignPointerMiddle_Catch)
 {
 	// 'catch' statement is a reference, not an operator
 	char textIn[] =
@@ -3756,7 +3756,7 @@ TEST(AlignPointerMiddleCatch)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddleAndOperator)
+TEST(AlignPointerMiddle_AndOperator)
 {
 	// should not unpad && operator
 	char text[] =
@@ -3776,7 +3776,7 @@ TEST(AlignPointerMiddleAndOperator)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddleSans1)
+TEST(AlignPointerMiddle_Sans1)
 {
 	// these are not pointers
 	char text[] =
@@ -3795,7 +3795,7 @@ TEST(AlignPointerMiddleSans1)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddleSans2)
+TEST(AlignPointerMiddle_Sans2)
 {
 	// these should be padded as operators
 	char textIn[] =
@@ -3875,7 +3875,7 @@ TEST(AlignPointerName)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNameShort)
+TEST(AlignPointerName_Short)
 {
 	// test align pointer=name short option
 	char textIn[] =
@@ -3896,7 +3896,7 @@ TEST(AlignPointerNameShort)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNameFromCentered)
+TEST(AlignPointerName_FromCentered)
 {
 	// test align pointer=name when input is centered
 	// a space is deleted in certain circumstances
@@ -3948,7 +3948,7 @@ TEST(AlignPointerNameFromCentered)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNameTabs)
+TEST(AlignPointerName_Tabs)
 {
 	// test with tab separators
 	char textIn[] =
@@ -3973,7 +3973,7 @@ TEST(AlignPointerNameTabs)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNameAddressOf)
+TEST(AlignPointerName_AddressOf)
 {
 	// "address of" operator should NOT be separated from the name
 	char text[] =
@@ -3991,7 +3991,7 @@ TEST(AlignPointerNameAddressOf)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNameDereference)
+TEST(AlignPointerName_Dereference)
 {
 	// dereference should NOT be separated from the name
 	char text[] =
@@ -4024,7 +4024,7 @@ TEST(AlignPointerNameDereference)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNameGlobalVariables)
+TEST(AlignPointerName_GlobalVariables)
 {
 	// test with global variables
 	char textIn[] =
@@ -4043,7 +4043,7 @@ TEST(AlignPointerNameGlobalVariables)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNameGlobalDeclarations)
+TEST(AlignPointerName_GlobalDeclarations)
 {
 	// test with global declarations
 	char textIn[] =
@@ -4060,7 +4060,7 @@ TEST(AlignPointerNameGlobalDeclarations)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNameCast1)
+TEST(AlignPointerName_Cast1)
 {
 	// cast should be space padded
 	char textIn[] =
@@ -4091,7 +4091,7 @@ TEST(AlignPointerNameCast1)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNameCast2)
+TEST(AlignPointerName_Cast2)
 {
 	// cast should be space padded
 	char textIn[] =
@@ -4106,7 +4106,7 @@ TEST(AlignPointerNameCast2)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNameConvertTabs)
+TEST(AlignPointerName_ConvertTabs)
 {
 	// test tab conversion on type
 	char textIn[] =
@@ -4131,7 +4131,7 @@ TEST(AlignPointerNameConvertTabs)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNameParen)
+TEST(AlignPointerName_Paren)
 {
 	// test pointer recognition in a paren
 	char textIn[] =
@@ -4152,7 +4152,7 @@ TEST(AlignPointerNameParen)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNamePointerToPointer)
+TEST(AlignPointerName_PointerToPointer)
 {
 	// test double pointer
 	char textIn[] =
@@ -4179,7 +4179,7 @@ TEST(AlignPointerNamePointerToPointer)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNameEndOfLine1)
+TEST(AlignPointerName_EndOfLine1)
 {
 	// test pointer at end of line
 	char textIn[] =
@@ -4200,7 +4200,7 @@ TEST(AlignPointerNameEndOfLine1)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNameEndOfLine2)
+TEST(AlignPointerName_EndOfLine2)
 {
 	// test pointer at end of line with spaces or comment after
 	char textIn[] =
@@ -4239,7 +4239,7 @@ TEST(AlignPointerNameEndOfLine2)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNameComment)
+TEST(AlignPointerName_Comment)
 {
 	// test pointer with comment after
 	char textIn[] =
@@ -4256,7 +4256,7 @@ TEST(AlignPointerNameComment)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNameOperatorOverload)
+TEST(AlignPointerName_OperatorOverload)
 {
 	// test pointer with overloaded operator
 	char textIn[] =
@@ -4277,7 +4277,7 @@ TEST(AlignPointerNameOperatorOverload)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNameConversionOperator)
+TEST(AlignPointerName_ConversionOperator)
 {
 	// test pointer with conversion operator
 	char textIn[] =
@@ -4316,7 +4316,7 @@ TEST(AlignPointerNameConversionOperator)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNameScopeResolution)
+TEST(AlignPointerName_ScopeResolution)
 {
 	// should not pad scope resolution operator
 	char textIn[] =
@@ -4339,7 +4339,7 @@ TEST(AlignPointerNameScopeResolution)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNameUnpadParen)
+TEST(AlignPointerName_UnpadParen)
 {
 	// unpad-paren should NOT delete space padding
 	char textIn[] =
@@ -4354,7 +4354,7 @@ TEST(AlignPointerNameUnpadParen)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNameCatch)
+TEST(AlignPointerName_Catch)
 {
 	// 'catch' statement is a reference, not an operator
 	char textIn[] =
@@ -4383,7 +4383,7 @@ TEST(AlignPointerNameCatch)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNameAndOperator)
+TEST(AlignPointerName_AndOperator)
 {
 	// should not unpad && operator
 	char text[] =
@@ -4403,7 +4403,7 @@ TEST(AlignPointerNameAndOperator)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNameSans1)
+TEST(AlignPointerName_Sans1)
 {
 	// these are not pointers
 	char text[] =
@@ -4422,7 +4422,7 @@ TEST(AlignPointerNameSans1)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNameSans2)
+TEST(AlignPointerName_Sans2)
 {
 	// these should be padded as operators
 	char textIn[] =
@@ -4465,7 +4465,7 @@ TEST(AlignPointerNameSans2)
 	delete [] textOut;
 }
 
-TEST(AlignPointerShortLowerLimit)
+TEST(AlignPointer_ShortLowerLimit)
 {
 	// test error handling for the short option lower limit
 	// should call the error handler
@@ -4483,7 +4483,7 @@ TEST(AlignPointerShortLowerLimit)
 	delete [] textOut;
 }
 
-TEST(AlignPointerShortUpperLimit)
+TEST(AlignPointer_ShortUpperLimit)
 {
 	// test error handling for the short option upper limit
 	// should call the error handler
@@ -4501,7 +4501,7 @@ TEST(AlignPointerShortUpperLimit)
 	delete [] textOut;
 }
 
-TEST(AlignPointerJava)
+TEST(AlignPointer_Java)
 {
 	// align-pointer should have no effect on Java
 	// should pad-oper not align-pointer=type
@@ -4523,7 +4523,7 @@ TEST(AlignPointerJava)
 	delete [] textOut;
 }
 
-TEST(AlignPointerSharp)
+TEST(AlignPointer_Sharp)
 {
 	// align-pointer should have no effect on C#
 	// should pad-oper not align-pointer=type
@@ -4546,11 +4546,11 @@ TEST(AlignPointerSharp)
 }
 
 //----------------------------------------------------------------------------
-// AStyle line ends
+// AStyle default line ends
 // there are other tests in AStyleTestCon
 //----------------------------------------------------------------------------
 
-struct testLineEnds
+struct defaultLineEnds
 {
 	string textLinuxStr;
 	string textWindowsStr;
@@ -4559,7 +4559,7 @@ struct testLineEnds
 	const char* textWindows;
 	const char* textMacOld;
 
-	testLineEnds()
+	defaultLineEnds()
 	{
 		textLinuxStr =
 			"\nvoid foo()\n"
@@ -4582,7 +4582,7 @@ struct testLineEnds
 	}
 };
 
-TEST_FIXTURE(testLineEnds, defaultLinux)
+TEST_FIXTURE(defaultLineEnds, LineEndsDefault_Linux)
 {
 	// test default Linux line ends
 	char options[] = "";
@@ -4591,7 +4591,7 @@ TEST_FIXTURE(testLineEnds, defaultLinux)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(testLineEnds, defaultWindows)
+TEST_FIXTURE(defaultLineEnds, LineEndsDefault_Windows)
 {
 	// test default Windows line ends
 	char options[] = "";
@@ -4600,7 +4600,7 @@ TEST_FIXTURE(testLineEnds, defaultWindows)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(testLineEnds, defaultMacOld)
+TEST_FIXTURE(defaultLineEnds, LineEndsDefault_MacOld)
 {
 	// test default MacOld line ends
 	char options[] = "";
@@ -4609,7 +4609,7 @@ TEST_FIXTURE(testLineEnds, defaultMacOld)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(testLineEnds, defaultBadWindows)
+TEST_FIXTURE(defaultLineEnds, LineEndsDefault_BadWindows)
 {
 	// test default Windows with line end characters reversed
 	// should be converted to Windows

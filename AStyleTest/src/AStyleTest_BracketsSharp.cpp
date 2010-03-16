@@ -98,7 +98,7 @@ TEST_FIXTURE(sharpText, SharpBracketsNone)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsNoneNamespace)
+TEST_FIXTURE(sharpText, SharpBracketsNone_Namespace)
 {
 	// test default brackets option, with indented namespace
 	char text[] =
@@ -136,7 +136,7 @@ TEST_FIXTURE(sharpText, SharpBracketsNoneNamespace)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsNoneBlocks)
+TEST_FIXTURE(sharpText, SharpBracketsNone_Blocks)
 {
 	// test default blocks option, with indented blocks
 	char text[] =
@@ -176,7 +176,7 @@ TEST_FIXTURE(sharpText, SharpBracketsNoneBlocks)
 }
 
 
-TEST_FIXTURE(sharpText, SharpBracketsNoneBrackets)
+TEST_FIXTURE(sharpText, SharpBracketsNone_Brackets)
 {
 	// test default brackets option, with indent brackets
 	char text[] =
@@ -215,7 +215,7 @@ TEST_FIXTURE(sharpText, SharpBracketsNoneBrackets)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsNoneEmptyBrackets)
+TEST(SharpBracketsNone_EmptyBrackets)
 {
 	// test default brackets option (do not change)
 	// do not change empty brackets
@@ -232,7 +232,7 @@ TEST(SharpBracketsNoneEmptyBrackets)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsNoneBreak)
+TEST(SharpBracketsNone_Break)
 {
 	// test default brackets option with broken brackets
 	char text[] =
@@ -253,7 +253,7 @@ TEST(SharpBracketsNoneBreak)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsNoneAttach)
+TEST(SharpBracketsNone_Attach)
 {
 	// test default brackets option with attached brackets
 	char text[] =
@@ -270,7 +270,7 @@ TEST(SharpBracketsNoneAttach)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsNoneLinux)
+TEST(SharpBracketsNone_Linux)
 {
 	// test default brackets option with linux brackets
 	char text[] =
@@ -288,7 +288,7 @@ TEST(SharpBracketsNoneLinux)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsNoneHorstmann)
+TEST(SharpBracketsNone_Horstmann)
 {
 	// test default brackets option with horstmann brackets
 	char text[] =
@@ -353,7 +353,7 @@ TEST_FIXTURE(sharpText, SharpBracketsBreak)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsBreakShort)
+TEST_FIXTURE(sharpText, SharpBracketsBreak_Short)
 {
 	// test break brackets short option
 	char text[] =
@@ -395,7 +395,7 @@ TEST_FIXTURE(sharpText, SharpBracketsBreakShort)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsBreakNamespace)
+TEST_FIXTURE(sharpText, SharpBracketsBreak_Namespace)
 {
 	// test break brackets option, with indented namespace
 	char text[] =
@@ -436,7 +436,7 @@ TEST_FIXTURE(sharpText, SharpBracketsBreakNamespace)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsBreakBlocks)
+TEST_FIXTURE(sharpText, SharpBracketsBreak_Blocks)
 {
 	// test break brackets option, with indent blocks
 	char text[] =
@@ -478,7 +478,7 @@ TEST_FIXTURE(sharpText, SharpBracketsBreakBlocks)
 }
 
 
-TEST_FIXTURE(sharpText, SharpBracketsBreakBrackets)
+TEST_FIXTURE(sharpText, SharpBracketsBreak_Brackets)
 {
 	// test break brackets option, with indent brackets
 	char text[] =
@@ -519,7 +519,7 @@ TEST_FIXTURE(sharpText, SharpBracketsBreakBrackets)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsBreakEmptyBrackets)
+TEST(SharpBracketsBreak_EmptyBrackets)
 {
 	// test break brackets option
 	// do not change empty brackets
@@ -536,7 +536,7 @@ TEST(SharpBracketsBreakEmptyBrackets)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsBreakBreak)
+TEST(SharpBracketsBreak_Break)
 {
 	// test break brackets option with broken brackets
 	char text[] =
@@ -557,7 +557,7 @@ TEST(SharpBracketsBreakBreak)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsBreakAttach)
+TEST(SharpBracketsBreak_Attach)
 {
 	// test break brackets option with attached brackets
 	char textIn[] =
@@ -586,7 +586,7 @@ TEST(SharpBracketsBreakAttach)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsBreakLinux)
+TEST(SharpBracketsBreak_Linux)
 {
 	// test break brackets option with linux brackets
 	char textIn[] =
@@ -616,7 +616,7 @@ TEST(SharpBracketsBreakLinux)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsBreakHorstmann)
+TEST(SharpBracketsBreak_Horstmann)
 {
 	// test break brackets option with horstmann brackets
 	char textIn[] =
@@ -684,7 +684,7 @@ TEST_FIXTURE(sharpText, SharpBracketsAttach)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsAttachShort)
+TEST_FIXTURE(sharpText, SharpBracketsAttach_Short)
 {
 	// test attach brackets short option
 	char text[] =
@@ -718,7 +718,7 @@ TEST_FIXTURE(sharpText, SharpBracketsAttachShort)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsAttachNamespace)
+TEST_FIXTURE(sharpText, SharpBracketsAttach_Namespace)
 {
 	// test attach brackets option, with indented namespace
 	char text[] =
@@ -752,7 +752,7 @@ TEST_FIXTURE(sharpText, SharpBracketsAttachNamespace)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsAttachBlocks)
+TEST_FIXTURE(sharpText, SharpBracketsAttach_Blocks)
 {
 	// test attach brackets option, with indent blocks
 	char text[] =
@@ -788,7 +788,7 @@ TEST_FIXTURE(sharpText, SharpBracketsAttachBlocks)
 }
 
 
-TEST_FIXTURE(sharpText, SharpBracketsAttachBrackets)
+TEST_FIXTURE(sharpText, SharpBracketsAttach_Brackets)
 {
 	// test attach brackets option, with indent brackets
 	char text[] =
@@ -822,7 +822,7 @@ TEST_FIXTURE(sharpText, SharpBracketsAttachBrackets)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsAttachBreakClosing)
+TEST_FIXTURE(sharpText, SharpBracketsAttach_BreakClosing)
 {
 	// test attach brackets option, with break closing brackets
 	char text[] =
@@ -857,7 +857,7 @@ TEST_FIXTURE(sharpText, SharpBracketsAttachBreakClosing)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsAttachEmptyBrackets)
+TEST(SharpBracketsAttach_EmptyBrackets)
 {
 	// test attach brackets option
 	// do not change empty brackets
@@ -873,7 +873,7 @@ TEST(SharpBracketsAttachEmptyBrackets)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsAttachBreak)
+TEST(SharpBracketsAttach_Break)
 {
 	// test attach brackets option with broken brackets
 	char textIn[] =
@@ -902,7 +902,7 @@ TEST(SharpBracketsAttachBreak)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsAttachAttach)
+TEST(SharpBracketsAttach_Attach)
 {
 	// test attach brackets option with attached brackets
 	char text[] =
@@ -919,7 +919,7 @@ TEST(SharpBracketsAttachAttach)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsAttachLinux)
+TEST(SharpBracketsAttach_Linux)
 {
 	// test attach brackets option with linux brackets
 	char textIn[] =
@@ -945,7 +945,7 @@ TEST(SharpBracketsAttachLinux)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsAttachHorstmann)
+TEST(SharpBracketsAttach_Horstmann)
 {
 	// test attach brackets option with horstmann brackets
 	char textIn[] =
@@ -1013,7 +1013,7 @@ TEST_FIXTURE(sharpText, SharpBracketsLinux)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsLinuxShort)
+TEST_FIXTURE(sharpText, SharpBracketsLinux_Short)
 {
 	// test linux brackets short option
 	char text[] =
@@ -1051,7 +1051,7 @@ TEST_FIXTURE(sharpText, SharpBracketsLinuxShort)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsLinuxNamespace)
+TEST_FIXTURE(sharpText, SharpBracketsLinux_Namespace)
 {
 	// test linux brackets option, with indented namespace
 	char text[] =
@@ -1089,7 +1089,7 @@ TEST_FIXTURE(sharpText, SharpBracketsLinuxNamespace)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsLinuxBlocks)
+TEST_FIXTURE(sharpText, SharpBracketsLinux_Blocks)
 {
 	// test linux brackets option, with indent blocks
 	char text[] =
@@ -1129,7 +1129,7 @@ TEST_FIXTURE(sharpText, SharpBracketsLinuxBlocks)
 }
 
 
-TEST_FIXTURE(sharpText, SharpBracketsLinuxBrackets)
+TEST_FIXTURE(sharpText, SharpBracketsLinux_Brackets)
 {
 	// test linux brackets option, with indent brackets
 	char text[] =
@@ -1167,7 +1167,7 @@ TEST_FIXTURE(sharpText, SharpBracketsLinuxBrackets)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsLinuxBreakClosing)
+TEST_FIXTURE(sharpText, SharpBracketsLinux_BreakClosing)
 {
 	// test linux brackets option, with break closing brackets
 	char text[] =
@@ -1205,7 +1205,7 @@ TEST_FIXTURE(sharpText, SharpBracketsLinuxBreakClosing)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsLinuxEmptyBrackets)
+TEST(SharpBracketsLinux_EmptyBrackets)
 {
 	// test linux brackets option
 	// do not change empty brackets
@@ -1221,7 +1221,7 @@ TEST(SharpBracketsLinuxEmptyBrackets)
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
-TEST(SharpBracketsLinuxBreak)
+TEST(SharpBracketsLinux_Break)
 {
 	// test linux brackets option with broken brackets
 	char textIn[] =
@@ -1251,7 +1251,7 @@ TEST(SharpBracketsLinuxBreak)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsLinuxAttach)
+TEST(SharpBracketsLinux_Attach)
 {
 	// test linux brackets option with attached brackets
 	char textIn[] =
@@ -1277,7 +1277,7 @@ TEST(SharpBracketsLinuxAttach)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsLinuxLinux)
+TEST(SharpBracketsLinux_Linux)
 {
 	// test linux brackets option with linux brackets
 	char text[] =
@@ -1295,7 +1295,7 @@ TEST(SharpBracketsLinuxLinux)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsLinuxHorstmann)
+TEST(SharpBracketsLinux_Horstmann)
 {
 	// test linux brackets option with horstmann brackets
 	char textIn[] =
@@ -1322,7 +1322,7 @@ TEST(SharpBracketsLinuxHorstmann)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsLinuxFormatting)
+TEST(SharpBracketsLinux_Formatting)
 {
 	// test linux brackets option, for non-function top level objects
 	// brackets are attached for arrays, structs, and other top level objects
@@ -1372,7 +1372,7 @@ TEST(SharpBracketsLinuxFormatting)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsLinuxNestedNamespace)
+TEST(SharpBracketsLinux_NestedNamespace)
 {
 	// test nested namespaces with linux brackets
 	char text[] =
@@ -1439,7 +1439,7 @@ TEST_FIXTURE(sharpText, SharpBracketsStroustrup)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsStroustrupShort)
+TEST_FIXTURE(sharpText, SharpBracketsStroustrup_Short)
 {
 	// test stroustrup brackets short option
 	char text[] =
@@ -1474,7 +1474,7 @@ TEST_FIXTURE(sharpText, SharpBracketsStroustrupShort)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsStroustrupNamespace)
+TEST_FIXTURE(sharpText, SharpBracketsStroustrup_Namespace)
 {
 	// test stroustrup brackets option, with indented namespace
 	char text[] =
@@ -1509,7 +1509,7 @@ TEST_FIXTURE(sharpText, SharpBracketsStroustrupNamespace)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsStroustrupBlocks)
+TEST_FIXTURE(sharpText, SharpBracketsStroustrup_Blocks)
 {
 	// test stroustrup brackets option, with indent blocks
 	char text[] =
@@ -1546,7 +1546,7 @@ TEST_FIXTURE(sharpText, SharpBracketsStroustrupBlocks)
 }
 
 
-TEST_FIXTURE(sharpText, SharpBracketsStroustrupBrackets)
+TEST_FIXTURE(sharpText, SharpBracketsStroustrup_Brackets)
 {
 	// test stroustrup brackets option, with indent brackets
 	char text[] =
@@ -1582,7 +1582,7 @@ TEST_FIXTURE(sharpText, SharpBracketsStroustrupBrackets)
 }
 
 
-TEST_FIXTURE(sharpText, SharpBracketsStroustrupBreakClosing)
+TEST_FIXTURE(sharpText, SharpBracketsStroustrup_BreakClosing)
 {
 	// test stroustrup brackets option with break closing brackets
 	char text[] =
@@ -1618,7 +1618,7 @@ TEST_FIXTURE(sharpText, SharpBracketsStroustrupBreakClosing)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsStroustrupEmptyBrackets)
+TEST(SharpBracketsStroustrup_EmptyBrackets)
 {
 	// test stroustrup brackets option
 	// do not change empty brackets
@@ -1634,7 +1634,7 @@ TEST(SharpBracketsStroustrupEmptyBrackets)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsStroustrupFormatting)
+TEST(SharpBracketsStroustrup_Formatting)
 {
 	// test stroustrup brackets option, for non-function top level objects
 	// brackets are attached for arrays, structs, and other top level objects
@@ -1682,7 +1682,7 @@ TEST(SharpBracketsStroustrupFormatting)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsStroustrupNestedNamespace)
+TEST(SharpBracketsStroustrup_NestedNamespace)
 {
 	// test nested namespaces with stroustrup brackets
 	char text[] =
@@ -1744,7 +1744,7 @@ TEST_FIXTURE(sharpText, SharpBracketsHorstmann)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsHorstmannShort)
+TEST_FIXTURE(sharpText, SharpBracketsHorstmann_Short)
 {
 	// test horstmann brackets short option
 	char text[] =
@@ -1780,7 +1780,7 @@ TEST_FIXTURE(sharpText, SharpBracketsHorstmannShort)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsHorstmannNamespace)
+TEST_FIXTURE(sharpText, SharpBracketsHorstmann_Namespace)
 {
 	// test horstmann brackets option, with indented namespace
 	char text[] =
@@ -1815,7 +1815,7 @@ TEST_FIXTURE(sharpText, SharpBracketsHorstmannNamespace)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsHorstmannBlocks)
+TEST_FIXTURE(sharpText, SharpBracketsHorstmann_Blocks)
 {
 	// test horstmann brackets option, with indent blocks
 	char text[] =
@@ -1851,7 +1851,7 @@ TEST_FIXTURE(sharpText, SharpBracketsHorstmannBlocks)
 }
 
 
-TEST(SharpBracketsHorstmannEmptyBrackets)
+TEST(SharpBracketsHorstmann_EmptyBrackets)
 {
 	// test horstmann brackets option
 	// do not change empty brackets
@@ -1867,7 +1867,7 @@ TEST(SharpBracketsHorstmannEmptyBrackets)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsHorstmannBreak)
+TEST(SharpBracketsHorstmann_Break)
 {
 	// test horstmann brackets option with broken brackets
 	char textIn[] =
@@ -1897,7 +1897,7 @@ TEST(SharpBracketsHorstmannBreak)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsHorstmannAttach)
+TEST(SharpBracketsHorstmann_Attach)
 {
 	// test horstmann brackets option with attached brackets
 	char textIn[] =
@@ -1923,7 +1923,7 @@ TEST(SharpBracketsHorstmannAttach)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsHorstmannLinux)
+TEST(SharpBracketsHorstmann_Linux)
 {
 	// test break brackets option with linux brackets
 	char textIn[] =
@@ -1950,7 +1950,7 @@ TEST(SharpBracketsHorstmannLinux)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsHorstmannHorstmann)
+TEST(SharpBracketsHorstmann_Horstmann)
 {
 	// test break brackets option with horstmann brackets
 	char text[] =
@@ -1972,7 +1972,7 @@ TEST(SharpBracketsHorstmannHorstmann)
 // AStyle C# Other Bracket Options
 //-------------------------------------------------------------------------
 
-TEST_FIXTURE(sharpText, SharpBracketsOtherClass)
+TEST_FIXTURE(sharpText, SharpBracketsOther_Class)
 {
 	// indent classes should NOT affect C# formatting
 	char options[] = "indent-classes, keep-one-line-blocks, mode=cs";
@@ -1981,7 +1981,7 @@ TEST_FIXTURE(sharpText, SharpBracketsOtherClass)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOtherClassContinuationAttached)
+TEST(SharpBracketsOther_ClassContinuationAttached)
 {
 	// test with class continuation and attached brackets
 	char text[] =
@@ -1995,7 +1995,7 @@ TEST(SharpBracketsOtherClassContinuationAttached)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOtherClassContinuationBroken)
+TEST(SharpBracketsOther_ClassContinuationBroken)
 {
 	// test with class continuation and broken brackets
 	char text[] =
@@ -2010,7 +2010,7 @@ TEST(SharpBracketsOtherClassContinuationBroken)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOtherWhere)
+TEST(SharpBracketsOther_Where)
 {
 	// test a method that contains a where statement
 	// should be recognized as a block opener
@@ -2031,7 +2031,7 @@ TEST(SharpBracketsOtherWhere)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOtherWhereBlocks)
+TEST(SharpBracketsOther_WhereBlocks)
 {
 	// test a method that contains a where statement, with indent blocks
 	// should be recognized as a block opener
@@ -2052,7 +2052,7 @@ TEST(SharpBracketsOtherWhereBlocks)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOtherWhereBrackets)
+TEST(SharpBracketsOther_WhereBrackets)
 {
 	// test a method that contains a where statement, with indent brackets
 	// should be recognized as a block opener
@@ -2073,7 +2073,7 @@ TEST(SharpBracketsOtherWhereBrackets)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOtherWhereClass)
+TEST(SharpBracketsOther_WhereClass)
 {
 	// test a class that contains a where statement
 	char text[] =
@@ -2098,7 +2098,7 @@ TEST(SharpBracketsOtherWhereClass)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOtherWhereClassBlocks)
+TEST(SharpBracketsOther_WhereClassBlocks)
 {
 	// test a class that contains a where statement, with indent blocks
 	char text[] =
@@ -2123,7 +2123,7 @@ TEST(SharpBracketsOtherWhereClassBlocks)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOtherWhereClassBrackets)
+TEST(SharpBracketsOther_WhereClassBrackets)
 {
 	// test a class that contains a where statement, with indent brackets
 	char text[] =
@@ -2148,7 +2148,7 @@ TEST(SharpBracketsOtherWhereClassBrackets)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOtherWhereClassClass)
+TEST(SharpBracketsOther_WhereClassClass)
 {
 	// test a class that contains a where statement, with two 'class' statements
 	char text[] =
@@ -2163,7 +2163,7 @@ TEST(SharpBracketsOtherWhereClassClass)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOtherAccessors1)
+TEST(SharpBracketsOther_Accessors1)
 {
 	// test indent of getters and setters
 	char text[] =
@@ -2189,7 +2189,7 @@ TEST(SharpBracketsOtherAccessors1)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOtherAccessors2)
+TEST(SharpBracketsOther_Accessors2)
 {
 	// test indent of getters and setters, with comments and empty lines
 	char text[] =
@@ -2217,7 +2217,7 @@ TEST(SharpBracketsOtherAccessors2)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOtherNestedClass)
+TEST(SharpBracketsOther_NestedClass)
 {
 	// test interface with nested classes
 	char text[] =
@@ -2248,7 +2248,7 @@ TEST(SharpBracketsOtherNestedClass)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOtherNestedClassBlocks)
+TEST(SharpBracketsOther_NestedClassBlocks)
 {
 	// test interface with nested classes and indented blocks
 	char text[] =
@@ -2279,7 +2279,7 @@ TEST(SharpBracketsOtherNestedClassBlocks)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOtherNestedClassBrackets)
+TEST(SharpBracketsOther_NestedClassBrackets)
 {
 	// test interface with nested classes and indented brackets
 	char text[] =
@@ -2310,7 +2310,7 @@ TEST(SharpBracketsOtherNestedClassBrackets)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOtherNestedNamespace)
+TEST(SharpBracketsOther_NestedNamespace)
 {
 	// test nested namespaces
 	char text[] =
@@ -2341,7 +2341,7 @@ TEST(SharpBracketsOtherNestedNamespace)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOtherNestedNamespaceBlocks)
+TEST(SharpBracketsOther_NestedNamespaceBlocks)
 {
 	// test nested namespaces and indented blocks
 	char text[] =
@@ -2372,7 +2372,7 @@ TEST(SharpBracketsOtherNestedNamespaceBlocks)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOtherNestedNamespaceBrackets)
+TEST(SharpBracketsOther_NestedNamespaceBrackets)
 {
 	// test nested namespaces and indented brackets
 	char text[] =
@@ -2403,7 +2403,7 @@ TEST(SharpBracketsOtherNestedNamespaceBrackets)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOtherNestedNamespaceIndent)
+TEST(SharpBracketsOther_NestedNamespaceIndent)
 {
 	// test nested indented namespaces
 	char text[] =
@@ -2434,7 +2434,7 @@ TEST(SharpBracketsOtherNestedNamespaceIndent)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOtherNestedNamespaceIndentBlocks)
+TEST(SharpBracketsOther_NestedNamespaceIndentBlocks)
 {
 	// test nested indented namespaces and indented blocks
 	char text[] =
@@ -2465,7 +2465,7 @@ TEST(SharpBracketsOtherNestedNamespaceIndentBlocks)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOtherNestedNamespaceIndentBrackets)
+TEST(SharpBracketsOther_NestedNamespaceIndentBrackets)
 {
 	// test nested indented namespaces and indented brackets
 	char text[] =
@@ -2496,7 +2496,7 @@ TEST(SharpBracketsOtherNestedNamespaceIndentBrackets)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOtherNewOperator1)
+TEST(SharpBracketsOther_NewOperator1)
 {
 	// test new operator ending with })
 	char text[] =
@@ -2518,7 +2518,7 @@ TEST(SharpBracketsOtherNewOperator1)
 }
 
 // TODO: fix the following
-TEST(SharpBracketsOtherNewOperator2)
+TEST(SharpBracketsOther_NewOperator2)
 {
 	// test new operator ending with })
 	// C# does a full indent of brackets within a paren
@@ -2540,7 +2540,7 @@ TEST(SharpBracketsOtherNewOperator2)
 }
 
 // TODO: fix the following
-TEST(SharpBracketsOtherNewOperator3)
+TEST(SharpBracketsOther_NewOperator3)
 {
 	// test new operator ending with })
 	// C# does a full indent of brackets within a paren
@@ -2563,7 +2563,7 @@ TEST(SharpBracketsOtherNewOperator3)
 // AStyle C# Array Bracket Options
 //-------------------------------------------------------------------------
 
-TEST(SharpBracketsNoneArray1)
+TEST(SharpBracketsArrayNone_Comments)
 {
 	// comments preceding array entries should NOT break the line
 	char text[] =
@@ -2579,7 +2579,7 @@ TEST(SharpBracketsNoneArray1)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsBreakArray1)
+TEST(SharpBracketsArrayBreak_Comments)
 {
 	// comments preceding array entries should NOT break the line
 	char text[] =
@@ -2595,7 +2595,7 @@ TEST(SharpBracketsBreakArray1)
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
-TEST(SharpBracketsAttachArray1)
+TEST(SharpBracketsArrayAttach_Comments)
 {
 	// comments preceding array entries should NOT break the line
 	char text[] =
@@ -2610,7 +2610,7 @@ TEST(SharpBracketsAttachArray1)
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
-TEST(SharpBracketsHorstmannArray1)
+TEST(SharpBracketsArrayHorstmann_Comments)
 {
 	// comments preceding array entries should NOT break the line
 	char text[] =

@@ -178,9 +178,9 @@ def set_astyle_args(filepath, excludes, astyleexe):
 	for file in filepath:
 		args.append(file)
 	# set options
+	args.append("-vRQ")
 	if len(options.strip()) > 0:
 		args.append(options)
-	args.append("-vRQ")
 	# set excludes
 	for exclude in excludes:
 		args.append(exclude)

@@ -39,17 +39,15 @@ extern ostream* _err;
 // functions in AStyleTestCon_Main.cpp
 char** buildArgv(const vector<string>& argIn);
 int buildFileNameVector(string fileToProcess, vector<string>& fileNameVector);
-//bool changeCurrentDirectory(string path);
-void createConsoleGlobalObject(ASFormatter& formatter);
-void deleteConsoleGlobalObject();
 void cleanTestDirectory(const string &directory);
+void createConsoleGlobalObject(ASFormatter& formatter);
 void createTestDirectory(const string &dirName);
 void createTestFile(const string& testFilePath, const char* testFileText, int size = 0);
+void deleteConsoleGlobalObject();
 string getCurrentDirectory();
-//string getFileSeparator();
 string getTestDirectory();
-void removeOptionsFile(const string& optionsFileName);
 void removeTestDirectory();
+void removeTestFile(const string& testFileName);
 void systemPause(const string& message);
 bool writeOptionsFile(const string& optionsFileName, const char* fileIn);
 

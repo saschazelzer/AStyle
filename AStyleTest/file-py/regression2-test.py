@@ -25,10 +25,10 @@ import time
 #  SCITE
 #  SHARPDEVELOP
 #  TESTPROJECT
-project = libastyle.CODEBLOCKS
+project = libastyle.SHARPDEVELOP
 
 # select OPT0 thru OPT3, or use customized options
-options = libastyle.OPT3
+options = libastyle.OPT1
 
 # scite formatting options
 #options = "-tapOHUk3"
@@ -259,9 +259,9 @@ def set_astyle_args(filepath, excludes, astyleexe):
 	for file in filepath:
 		args.append(file)
 	# set options
+	args.append("-vRQ")
 	if len(options.strip()) > 0:
 		args.append(options)
-	args.append("-vRQ")
 	# set excludes
 	for exclude in excludes:
 		args.append(exclude)

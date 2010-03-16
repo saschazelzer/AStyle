@@ -8,7 +8,7 @@
 // AStyle version 1.25 TEST functions
 //----------------------------------------------------------------------------
 
-TEST(v125DeleteEmptyLinesAndBreakBlocks)
+TEST(v125_DeleteEmptyLines_BreakBlocks)
 {
 	// a missing closing bracket with delete-empty-lines and break-blocks
 	// should not cause an assert error on the call to sourceIterator->peekNextLine()
@@ -32,7 +32,7 @@ TEST(v125DeleteEmptyLinesAndBreakBlocks)
 	delete [] textOut;
 }
 
-TEST(v125BreakBlocksDeleteEmptyLinesComment)
+TEST(v125_BreakBlocks_DeleteEmptyLines_Comment)
 {
 	// the following comment should not abort or duplicate code in the output
 	// both break-blocks and delete-empty-lines must be used
@@ -60,7 +60,7 @@ TEST(v125BreakBlocksDeleteEmptyLinesComment)
 	delete [] textOut;
 }
 
-TEST(v125SharpLambdaOperatorIndent)
+TEST(v125_SharpLambdaOperatorIndent)
 {
 	// C# => is not an assignment operator
 	// following lines should not be aligned on the =>
@@ -90,7 +90,7 @@ TEST(v125SharpLambdaOperatorIndent)
 	delete [] textOut;
 }
 
-TEST(v125KeywordsNotHeaders)
+TEST(v125_KeywordsNotHeaders)
 {
 	// header is not a keyword if part of a definition
 	char text[] =
@@ -107,7 +107,7 @@ TEST(v125KeywordsNotHeaders)
 	delete [] textOut;
 }
 
-TEST(v125TwoGreaterThanSymblolsClosingTemplate)
+TEST(v125_TwoGreaterSymblolsClosingTemplate)
 {
 	// two >> symbols closing a template
 	char text[] =
@@ -122,10 +122,9 @@ TEST(v125TwoGreaterThanSymblolsClosingTemplate)
 	delete [] textOut;
 }
 
-TEST(v125PossibleAssignmentInStatementIndentWithParenLineBegin)
+TEST(v125_PossibleAssignmentInStatementIndentWithParenLineBegin)
 {
-	// try-catch within a header
-	// header must be restored from lastTempStack in ASBeautifier
+	// a paren begins a line with an in-statement indent
 	char text[] =
 		"\nprivate void foo()\n"
 		"{\n"
@@ -140,7 +139,7 @@ TEST(v125PossibleAssignmentInStatementIndentWithParenLineBegin)
 	delete [] textOut;
 }
 
-TEST(v125Col1ElseWithPreceedingBracket)
+TEST(v125_Col1ElseWithPreceedingBracket)
 {
 	// else in col 1 with preceeding bracket tests a seldom used branch
 	char textIn[] =
@@ -169,7 +168,7 @@ TEST(v125Col1ElseWithPreceedingBracket)
 	delete [] textOut;
 }
 
-TEST(v125TryCatchInHeader)
+TEST(v125_TryCatchInHeader)
 {
 	// try-catch within a header
 	// header must be restored from lastTempStack in ASBeautifier
@@ -191,7 +190,7 @@ TEST(v125TryCatchInHeader)
 	delete [] textOut;
 }
 
-TEST(v125TryCatchFinallyInHeader)
+TEST(v125_TryCatchFinallyInHeader)
 {
 	// try-catch within a header
 	// header must be restored from lastTempStack in ASBeautifier
@@ -215,7 +214,7 @@ TEST(v125TryCatchFinallyInHeader)
 	delete [] textOut;
 }
 
-TEST(v125DoWhileInHeader)
+TEST(v125_DoWhileInHeader)
 {
 	// do-while within a header
 	// header must be restored from lastTempStack in ASBeautifier
@@ -235,7 +234,7 @@ TEST(v125DoWhileInHeader)
 	delete [] textOut;
 }
 
-TEST(v125TemplateASBeautifier)
+TEST(v125_TemplateASBeautifier)
 {
 	// template on multiple lines should be recognized by ASBeautifier
 	// template within a template should be recognized by ASBeautifier
@@ -252,7 +251,7 @@ TEST(v125TemplateASBeautifier)
 	delete [] textOut;
 }
 
-TEST(v125ExtraClosingBrackets)
+TEST(v125_ExtraClosingBrackets)
 {
 	// should not abort with extra closing brackets
 	char text[] =
@@ -271,7 +270,7 @@ TEST(v125ExtraClosingBrackets)
 	delete [] textOut;
 }
 
-TEST(v125ExtraClosingParens)
+TEST(v125_ExtraClosingParens)
 {
 	// should not abort with extra closing parens
 	char text[] =
@@ -288,7 +287,7 @@ TEST(v125ExtraClosingParens)
 	delete [] textOut;
 }
 
-TEST(v125ExtraClosingBlockParens)
+TEST(v125_ExtraClosingBlockParens)
 {
 	// should not abort with extra closing block parens
 	char text[] =
@@ -305,7 +304,7 @@ TEST(v125ExtraClosingBlockParens)
 	delete [] textOut;
 }
 
-TEST(v125DefinitionsNotHeaders)
+TEST(v125_DefinitionsNotHeaders)
 {
 	// definitions are not headers
 	char text[] =
@@ -322,7 +321,7 @@ TEST(v125DefinitionsNotHeaders)
 	delete [] textOut;
 }
 
-TEST(v125SharpPeekNextTextMultiLineComment)
+TEST(v125_SharpPeekNextTextMultiLineComment)
 {
 	// test C# peekNextText() with multi-ine comment before the text
 	char text[] =
@@ -340,7 +339,7 @@ TEST(v125SharpPeekNextTextMultiLineComment)
 	delete [] textOut;
 }
 
-TEST(v125SharpNotPotentialHeader)
+TEST(v125_SharpNotPotentialHeader)
 {
 	// test C# isNextWordSharpNonParenHeader() for !isCharPotentialHeader()
 	char text[] =
@@ -354,7 +353,7 @@ TEST(v125SharpNotPotentialHeader)
 	delete [] textOut;
 }
 
-TEST(v125EmptyLineComment)
+TEST(v125_EmptyLineComment)
 {
 	// test recognition of an empty line comment
 	char text[] =
@@ -368,7 +367,7 @@ TEST(v125EmptyLineComment)
 	delete [] textOut;
 }
 
-TEST(v125ColZeroPointerOrReference)
+TEST(v125_ColZeroPointerOrReference)
 {
 	// test pointer or reference in column zero
 	char textIn[] =
@@ -405,7 +404,7 @@ TEST(v125ColZeroPointerOrReference)
 // AStyle version 1.24 TEST functions
 //----------------------------------------------------------------------------
 
-TEST(v124AddBracketsHorstmannNestedIfStatements)
+TEST(v124_AddBracketsHorstmannNestedIfStatements)
 {
 	// add on line brackets to nested "if" statements
 	// with keep one line brackets
@@ -427,7 +426,7 @@ TEST(v124AddBracketsHorstmannNestedIfStatements)
 	delete [] textOut;
 }
 
-TEST(v124ClassHorstmannComment)
+TEST(v124_ClassHorstmannComment)
 {
 	// handle special case of horstmann comment in a class statement
 	char text[] =
@@ -444,7 +443,7 @@ TEST(v124ClassHorstmannComment)
 	delete [] textOut;
 }
 
-TEST(v124ClassIndentHorstmannComment)
+TEST(v124_ClassIndentHorstmannComment)
 {
 	// handle special case of horstmann comment in an indented class statement
 	char text[] =
@@ -461,7 +460,7 @@ TEST(v124ClassIndentHorstmannComment)
 	delete [] textOut;
 }
 
-TEST(v124AppendAttachedBracketInsideCommentsLineBreak)
+TEST(v124_AppendAttachedBracketInsideCommentsLineBreak)
 {
 	// should not insert an empty line after appending a bracket inside comments
 	char textIn[] =
@@ -494,7 +493,7 @@ TEST(v124AppendAttachedBracketInsideCommentsLineBreak)
 	delete [] textOut;
 }
 
-TEST(v124ElseAttachedToLineComment)
+TEST(v124_ElseAttachedToLineComment)
 {
 	// else should not be attached to a line coment
 	char text[] =
@@ -515,7 +514,7 @@ TEST(v124ElseAttachedToLineComment)
 	delete [] textOut;
 }
 
-TEST(v124BreakOneLineBloksComment1)
+TEST(v124_BreakOneLineBlocks_Comment1)
 {
 	// comment should be moved to the previous line
 	char textIn[] =
@@ -538,7 +537,7 @@ TEST(v124BreakOneLineBloksComment1)
 	delete [] textOut;
 }
 
-TEST(v124BreakOneLineBloksComment2)
+TEST(v124_BreakOneLineBlocks_Comment2)
 {
 	// comment should be moved to the previous line
 	// option keep-one-line-statements is used
@@ -562,7 +561,7 @@ TEST(v124BreakOneLineBloksComment2)
 	delete [] textOut;
 }
 
-TEST(v124SharpDelegate)
+TEST(v124_SharpDelegate)
 {
 	// sharp 'delegate' should be recognized as a keyword
 	// the Linux brackets should be attached
@@ -591,7 +590,7 @@ TEST(v124SharpDelegate)
 	delete [] textOut;
 }
 
-TEST(v124JavaInStatementLineCommentClear)
+TEST(v124_JavaInStatement_LineCommentClear)
 {
 	// isNonInStatementArray should be cleared when a // follows a }
 	// if not cleared the "? ERROR" line will not be correctly indented
@@ -620,7 +619,7 @@ TEST(v124JavaInStatementLineCommentClear)
 	delete [] textOut;
 }
 
-TEST(v124JavaInStatementCommentClear)
+TEST(v124_JavaInStatement_CommentClear)
 {
 	// isNonInStatementArray should be cleared when a /* follows a }
 	// if not cleared the "? ERROR" line will not be correctly indented
@@ -649,7 +648,7 @@ TEST(v124JavaInStatementCommentClear)
 	delete [] textOut;
 }
 
-TEST(v124SharpAccessors)
+TEST(v124_SharpAccessors)
 {
 	// get is preceded by []
 	char text[] =
@@ -669,7 +668,7 @@ TEST(v124SharpAccessors)
 	delete [] textOut;
 }
 
-TEST(v124SharpNonParenHeaderUnchecked)
+TEST(v124_SharpNonParenHeader_Unchecked)
 {
 	// 'unchecked' should be recognized as a header, not an array
 	char text[] =
@@ -686,7 +685,7 @@ TEST(v124SharpNonParenHeaderUnchecked)
 	delete [] textOut;
 }
 
-TEST(v124SharpNonParenHeaderDelegate)
+TEST(v124_SharpNonParenHeader_Delegate)
 {
 	// 'delegate' should be recognized as a header, not an array
 	char text[] =
@@ -708,7 +707,7 @@ TEST(v124SharpNonParenHeaderDelegate)
 	delete [] textOut;
 }
 
-TEST(v124PadCommentBeforeTab)
+TEST(v124_PadCommentBeforeTab)
 {
 	// space padding the bracket should NOT pad a comment
 	//     when the commet is preceeded by a tab
@@ -737,7 +736,7 @@ TEST(v124PadCommentBeforeTab)
 	delete [] textOut;
 }
 
-TEST(v124BracketsBreakPadParen)
+TEST(v124_BracketsBreak_PadParen)
 {
 	// break attached brackets with pad-paren
 	// comments should be moved with one padded space
@@ -779,7 +778,7 @@ TEST(v124BracketsBreakPadParen)
 	delete [] textOut;
 }
 
-TEST(v124BracketsAttachCommentsMisc1)
+TEST(v124_BracketsAttach_CommentsMisc1)
 {
 	// attach bracket inside a line end comment
 	// when multi-line comments follow a horstmann bracket
@@ -813,7 +812,7 @@ TEST(v124BracketsAttachCommentsMisc1)
 	delete [] textOut;
 }
 
-TEST(v124BracketsAttachCommentMisc2)
+TEST(v124_BracketsAttach_CommentMisc2)
 {
 	// do NOT attach bracket inside a line end comment
 	// when two comments are on the line
@@ -830,7 +829,7 @@ TEST(v124BracketsAttachCommentMisc2)
 	delete [] textOut;
 }
 
-TEST(v124BracketsAttachCommentMisc3)
+TEST(v124_BracketsAttach_CommentMisc3)
 {
 	// when a bracket is NOT attached
 	// following horstmann comments should be broken and correctly formatted
@@ -859,7 +858,7 @@ TEST(v124BracketsAttachCommentMisc3)
 	delete [] textOut;
 }
 
-TEST(v124BracketsAttachCommentMisc4)
+TEST(v124_BracketsAttach_CommentMisc4)
 {
 	// attached brackets with following comments
 	// the second comment should be correctly formatted
@@ -897,7 +896,7 @@ TEST(v124BracketsAttachCommentMisc4)
 	delete [] textOut;
 }
 
-TEST(v124BracketsHorstmannTabs)
+TEST(v124_BracketsHorstmann_Tabs)
 {
 	// test horstmann brackets with tab indents
 	char textIn[] =
@@ -920,7 +919,7 @@ TEST(v124BracketsHorstmannTabs)
 	delete [] textOut;
 }
 
-TEST(v124BracketsHorstmannArray1)
+TEST(v124_BracketsHorstmann_Array1)
 {
 	// test horstmann brackets with single line array
 	char textIn[] =
@@ -940,7 +939,7 @@ TEST(v124BracketsHorstmannArray1)
 	delete [] textOut;
 }
 
-TEST(v124BracketsHorstmannArray2)
+TEST(v124_BracketsHorstmann_Array2)
 {
 	// test horstmann brackets with structs and arrays
 	char textIn[] =
@@ -969,7 +968,7 @@ TEST(v124BracketsHorstmannArray2)
 	delete [] textOut;
 }
 
-TEST(v124BracketsHorstmannSpaces1)
+TEST(v124_BracketsHorstmann_Spaces1)
 {
 	// test horstmann brackets with extra spaces
 	// extra spaces should be deleted
@@ -991,7 +990,7 @@ TEST(v124BracketsHorstmannSpaces1)
 	delete [] textOut;
 }
 
-TEST(v124BracketsHorstmannSpaces2)
+TEST(v124_BracketsHorstmann_Spaces2)
 {
 	// test multiple horstmann brackets runs
 	// extra spaces should not be added on subsequent runs
@@ -1017,7 +1016,7 @@ TEST(v124BracketsHorstmannSpaces2)
 	delete [] textOut;
 }
 
-TEST(v124BracketsHorstmannPreprocessor)
+TEST(v124_BracketsHorstmann_Preprocessor)
 {
 	// test horstmann brackets with preprocessor
 	// preprocessor should NOT be attached
@@ -1045,7 +1044,7 @@ TEST(v124BracketsHorstmannPreprocessor)
 	delete [] textOut;
 }
 
-TEST(v124BracketsHorstmannEmptyLine)
+TEST(v124_BracketsHorstmann_EmptyLine)
 {
 	// test horstmann brackets with following empty line
 	// empty line should NOT be deleted
@@ -1062,7 +1061,7 @@ TEST(v124BracketsHorstmannEmptyLine)
 	delete [] textOut;
 }
 
-TEST(v124BracketsHorstmannComment1)
+TEST(v124_BracketsHorstmann_Comment1)
 {
 	// test horstmann brackets with following comment
 	// second comment should NOT be attached to the first
@@ -1087,7 +1086,7 @@ TEST(v124BracketsHorstmannComment1)
 	delete [] textOut;
 }
 
-TEST(v124BracketsHorstmannComment2)
+TEST(v124_BracketsHorstmann_Comment2)
 {
 	// test horstmann brackets with following comment in column 1
 	// the comment should NOT be attached
@@ -1105,7 +1104,7 @@ TEST(v124BracketsHorstmannComment2)
 	delete [] textOut;
 }
 
-TEST(v124BracketsHorstmannComment3)
+TEST(v124_BracketsHorstmann_Comment3)
 {
 	// test horstmann brackets with following comment
 	// the comment should NOT be attached to the previous line
@@ -1120,7 +1119,7 @@ TEST(v124BracketsHorstmannComment3)
 	delete [] textOut;
 }
 
-TEST(v124BracketsHorstmannComment4)
+TEST(v124_BracketsHorstmann_Comment4)
 {
 	// test horstmann brackets with following comment
 	// the comment should NOT be attached to the previous line
@@ -1135,7 +1134,7 @@ TEST(v124BracketsHorstmannComment4)
 	delete [] textOut;
 }
 
-TEST(v124BracketsHorstmannComment5)
+TEST(v124_BracketsHorstmann_Comment5)
 {
 	// test horstmann brackets with following comment
 	// the comment on unattached lines should be correctly indented
@@ -1170,7 +1169,7 @@ TEST(v124BracketsHorstmannComment5)
 	delete [] textOut;
 }
 
-TEST(v124BracketsHorstmannComment6)
+TEST(v124_BracketsHorstmann_Comment6)
 {
 	// test horstmann brackets with following comment
 	// the comment on unattached lines should be correctly indented
@@ -1205,7 +1204,7 @@ TEST(v124BracketsHorstmannComment6)
 	delete [] textOut;
 }
 
-TEST(v124BracketsHorstmannComment7)
+TEST(v124_BracketsHorstmann_Comment7)
 {
 	// test horstmann brackets with comment following line comment
 	// the comment should NOT be attached to the previous line
@@ -1233,7 +1232,7 @@ TEST(v124BracketsHorstmannComment7)
 	delete [] textOut;
 }
 
-TEST(v124BracketsHorstmannBreakAllBlocks1)
+TEST(v124_BracketsHorstmann_BreakAllBlocks1)
 {
 	// test horstmann brackets with break all blocks
 	// the blocks should be correctly broken
@@ -1273,7 +1272,7 @@ TEST(v124BracketsHorstmannBreakAllBlocks1)
 	delete [] textOut;
 }
 
-TEST(v124BracketsHorstmannBreakAllBlocks2)
+TEST(v124_BracketsHorstmann_BreakAllBlocks2)
 {
 	// test horstmann brackets with break all blocks and delete empty lines
 	// and comments separated by an empty line
@@ -1301,7 +1300,7 @@ TEST(v124BracketsHorstmannBreakAllBlocks2)
 	delete [] textOut;
 }
 
-TEST(v124BracketsHorstmannUnpadParen1)
+TEST(v124_BracketsHorstmann_UnpadParen1)
 {
 	// test horstmann brackets with unpad parens
 	// the indent should NOT be removed
@@ -1327,7 +1326,7 @@ TEST(v124BracketsHorstmannUnpadParen1)
 	delete [] textOut;
 }
 
-TEST(v124BracketsHorstmannUnpadParen2)
+TEST(v124_BracketsHorstmann_UnpadParen2)
 {
 	// test horstmann brackets with unpad parens and pad-parens
 	// the indent should NOT be removed
@@ -1353,7 +1352,7 @@ TEST(v124BracketsHorstmannUnpadParen2)
 	delete [] textOut;
 }
 
-TEST(v124BracketsHorstmannUnpadParen3)
+TEST(v124_BracketsHorstmann_UnpadParen3)
 {
 	// test horstmann brackets with unpad parens and pad-parens
 	//	and tab indents
@@ -1380,7 +1379,7 @@ TEST(v124BracketsHorstmannUnpadParen3)
 	delete [] textOut;
 }
 
-TEST(v124BracketsHorstmannSingleLineBlock1)
+TEST(v124_BracketsHorstmann_SingleLineBlock1)
 {
 	// test horstmann brackets with single line block
 	char textIn[] =
@@ -1397,7 +1396,7 @@ TEST(v124BracketsHorstmannSingleLineBlock1)
 	delete [] textOut;
 }
 
-TEST(v124BracketsHorstmannSingleLineBlock2)
+TEST(v124_BracketsHorstmann_SingleLineBlock2)
 {
 	// test horstmann brackets with single line block
 	char text[] =
@@ -1413,7 +1412,7 @@ TEST(v124BracketsHorstmannSingleLineBlock2)
 // AStyle version 1.23 TEST functions
 //----------------------------------------------------------------------------
 
-TEST(v123ExternIndent)
+TEST(v123_ExternIndent)
 {
 	// no extra indent when extern is used
 	char text[] =
@@ -1425,7 +1424,7 @@ TEST(v123ExternIndent)
 	delete [] textOut;
 }
 
-TEST(v123StructBitIndent)
+TEST(v123_StructBitIndent)
 {
 	// do not break line when struct bit declaration is used
 	// lines following struct should have correct indent
@@ -1454,7 +1453,7 @@ TEST(v123StructBitIndent)
 	delete [] textOut;
 }
 
-TEST(v123ClassBitIndent)
+TEST(v123_ClassBitIndent)
 {
 	// do not break line when struct bit declaration is used
 	// lines following class should have correct indent
@@ -1474,7 +1473,7 @@ TEST(v123ClassBitIndent)
 	delete [] textOut;
 }
 
-TEST(v123RegionIndent)
+TEST(v123_RegionIndent)
 {
 	// no extra indent after a C# #region statement containing a keyword
 	char text[] =
@@ -1499,7 +1498,7 @@ TEST(v123RegionIndent)
 	delete [] textOut;
 }
 
-TEST(v123StructIndent)
+TEST(v123_StructIndent)
 {
 	// no extra indent when struct declaration is used
 	char text[] =
@@ -1525,7 +1524,7 @@ TEST(v123StructIndent)
 	delete [] textOut;
 }
 
-TEST(v123PreprocessorErrorStatement)
+TEST(v123_PreprocessorErrorStatement)
 {
 	// the ' in mustn't causes end comment to separate
 	// and continuation comments to misalign
@@ -1546,7 +1545,7 @@ TEST(v123PreprocessorErrorStatement)
 	delete [] textOut;
 }
 
-TEST(v123SharpAccessorsWithElse)
+TEST(v123_SharpAccessorsWithElse)
 {
 	// test indent of getters and setters
 	// #else causes a problem
@@ -1577,7 +1576,7 @@ TEST(v123SharpAccessorsWithElse)
 	delete [] textOut;
 }
 
-TEST(v123BreakElseIfWithCatch)
+TEST(v123_BreakElseIfWithCatch)
 {
 	// break-elseifs should not break C# catch statement with parens
 	char text[] =
@@ -1601,7 +1600,7 @@ TEST(v123BreakElseIfWithCatch)
 	delete [] textOut;
 }
 
-TEST(v123IndentBracketsInComment)
+TEST(v123_IndentBracketsInComment)
 {
 	// test indent brackets with brackets in comment
 	// should not indent brackets in comments
@@ -1619,7 +1618,7 @@ TEST(v123IndentBracketsInComment)
 	delete [] textOut;
 }
 
-TEST(v123BreakBracketsWithEmptyLine)
+TEST(v123_BreakBlocksWithEmptyLine)
 {
 	// test break all blocks with an empty line following comments
 	// an error in peekNextLine caused a line break before ++lineOpeningBlocksNum;
@@ -1642,7 +1641,7 @@ TEST(v123BreakBracketsWithEmptyLine)
 	delete [] textOut;
 }
 
-TEST(v123UnmatchedBracketsInPreprocessor1)
+TEST(v123_UnmatchedBracketsInPreprocessor1)
 {
 	// unmatched brackets in preprocessor directives
 	// should not cause formatting problems on following lines
@@ -1671,7 +1670,7 @@ TEST(v123UnmatchedBracketsInPreprocessor1)
 	delete [] textOut;
 }
 
-TEST(v123UnmatchedBracketsInPreprocessor2)
+TEST(v123_UnmatchedBracketsInPreprocessor2)
 {
 	// unmatched brackets in preprocessor directives
 	// should not cause formatting problems on following lines
@@ -1699,7 +1698,7 @@ TEST(v123UnmatchedBracketsInPreprocessor2)
 	delete [] textOut;
 }
 
-TEST(v123DeleteLinesAfterPreprocessor)
+TEST(v123_DeleteLinesAfterPreprocessor)
 {
 	// empty lines after a preprocessor
 	// should should NOT be attached to the preprocessor
@@ -1736,7 +1735,7 @@ TEST(v123DeleteLinesAfterPreprocessor)
 	delete [] textOut;
 }
 
-TEST(v123CSharpNullableTypes)
+TEST(v123_CSharp_NullableTypes)
 {
 	// C# nullable types should not separate the ? from the variable
 	// when pad-oper is used
@@ -1761,7 +1760,7 @@ TEST(v123CSharpNullableTypes)
 	delete [] textOut;
 }
 
-TEST(v123CSharpQuestionQuestionOperator)
+TEST(v123_CSharp_QuestionQuestionOperator)
 {
 	// C# ?? operator should not separate when pad-oper is used
 	char text[] =
@@ -1784,7 +1783,7 @@ TEST(v123CSharpQuestionQuestionOperator)
 	delete [] textOut;
 }
 
-TEST(v123CSharpNonGenericDefault)
+TEST(v123_CSharp_NonGenericDefault)
 {
 	// C# non-generic default statement should not un-indent the line
 	char text[] =
@@ -1801,7 +1800,7 @@ TEST(v123CSharpNonGenericDefault)
 	delete [] textOut;
 }
 
-TEST(v123BreakBlocksWithPreprocessor)
+TEST(v123_BreakBlocksWithPreprocessor)
 {
 	// empty lines should not be inserted after the #if
 	char text[] =
@@ -1826,7 +1825,7 @@ TEST(v123BreakBlocksWithPreprocessor)
 	delete [] textOut;
 }
 
-TEST(v123CSharpBreakBlocksWithKeepOneLineBlocks)
+TEST(v123_CSharp_BreakBlocks_KeepOneLineBlocks)
 {
 	// C# do NOT break before a block with keep one line blocks
 	char text[] =
@@ -1841,7 +1840,7 @@ TEST(v123CSharpBreakBlocksWithKeepOneLineBlocks)
 	delete [] textOut;
 }
 
-TEST(v123EnumDefinitionPadding)
+TEST(v123_EnumDefinitionPadding)
 {
 	// enum should space pad before the definition
 	// NOTE: the enum is an array type bracket
@@ -1875,7 +1874,7 @@ TEST(v123EnumDefinitionPadding)
 	delete [] textOut;
 }
 
-TEST(v123UnionDefinitionPadding)
+TEST(v123_UnionDefinitionPadding)
 {
 	// union should space pad before the definition
 	char textIn[] =
@@ -1908,7 +1907,7 @@ TEST(v123UnionDefinitionPadding)
 	delete [] textOut;
 }
 
-TEST(v123StructDefinitionPadding)
+TEST(v123_StructDefinitionPadding)
 {
 	// struct should space pad before the definition
 	char textIn[] =
@@ -2034,7 +2033,7 @@ TEST(VirginLine)
 // Test error reporting conditions in astyle_main
 //----------------------------------------------------------------------------
 
-TEST(NullErrorHandlerPointer)
+TEST(AStyleMainInputError_NullErrorHandlerPointer)
 {
 	// test error handling for NULL error handler pointer
 	// this cannot call the error handler, check only for NULL return
@@ -2049,7 +2048,7 @@ TEST(NullErrorHandlerPointer)
 	CHECK(textOut == NULL);
 }
 
-TEST(NullPointerToSource)
+TEST(AStyleMainInputError_NullPointerToSource)
 {
 	// test error handling for NULL pointer to source
 	// memory has NOT been allocated for this error
@@ -2061,7 +2060,7 @@ TEST(NullPointerToSource)
 	CHECK(textOut == NULL);
 }
 
-TEST(NullPointerToOptions)
+TEST(AStyleMainInputError_NullPointerToOptions)
 {
 	// test error handling for NULL pointer to options
 	// memory has NOT been allocated for this error
@@ -2077,7 +2076,7 @@ TEST(NullPointerToOptions)
 	CHECK(textOut == NULL);
 }
 
-TEST(NullPointerToMemoryAlloc)
+TEST(AStyleMainInputError_NullPointerToMemoryAlloc)
 {
 	// test error handling for NULL memory allocation pointer
 	// memory has NOT been allocated for this error
@@ -2094,7 +2093,7 @@ TEST(NullPointerToMemoryAlloc)
 	CHECK(textOut == NULL);
 }
 
-TEST(InvalidOption)
+TEST(AStyleMainInputError_InvalidOption)
 {
 	// test error handling for an invalid option
 	// memory HAS been allocated for this error
@@ -2123,7 +2122,7 @@ TEST(InvalidOption)
 // Test macros recognized by AStyle
 //----------------------------------------------------------------------------
 
-TEST(wxWidgetsEventHandler)
+TEST(Macro_wxWidgetsEventHandler)
 {
 	// wxWidgets event handler should be indented
 	char text[] =
@@ -2139,7 +2138,7 @@ TEST(wxWidgetsEventHandler)
 	delete [] textOut;
 }
 
-TEST(wxWidgetsEventHandlerNonIndentComment)
+TEST(Macro_wxWidgetsEventHandlerNonIndentComment)
 {
 	// wxWidgets event handler should be indented
 	// but not the comments
@@ -2156,7 +2155,7 @@ TEST(wxWidgetsEventHandlerNonIndentComment)
 	delete [] textOut;
 }
 
-TEST(MfcMessageMap)
+TEST(Macro_MfcMessageMap)
 {
 	// MFC message map should be indented
 	char text[] =
@@ -2177,7 +2176,7 @@ TEST(MfcMessageMap)
 // should get an error unless they have been duplicated by another option
 //----------------------------------------------------------------------------
 
-TEST(SuffixNoneShort)
+TEST(ConsoleOption_SuffixNoneShort)
 {
 	// test suffix=none short option
 	// should get an error unless it has been duplicated by another option
@@ -2196,7 +2195,7 @@ TEST(SuffixNoneShort)
 	delete [] textOut;
 }
 
-TEST(Recursive1Short)
+TEST(ConsoleOption_Recursive1Short)
 {
 	// test recursive short option1
 	// should get an error unless it has been duplicated by another option
@@ -2215,7 +2214,7 @@ TEST(Recursive1Short)
 	delete [] textOut;
 }
 
-TEST(Recursive2Short)
+TEST(ConsoleOption_Recursive2Short)
 {
 	// test recursive short option2
 	// should get an error unless it has been duplicated by another option
@@ -2234,7 +2233,7 @@ TEST(Recursive2Short)
 	delete [] textOut;
 }
 
-TEST(ErrorsToStdoutShort)
+TEST(ConsoleOption_ErrorsToStdoutShort)
 {
 	// test errors-to-stdout short option
 	// should get an error unless it has been duplicated by another option
@@ -2253,7 +2252,7 @@ TEST(ErrorsToStdoutShort)
 	delete [] textOut;
 }
 
-TEST(PreserveDateShort)
+TEST(ConsoleOption_PreserveDateShort)
 {
 	// test preserve-date short option
 	// should get an error unless it has been duplicated by another option
@@ -2272,7 +2271,7 @@ TEST(PreserveDateShort)
 	delete [] textOut;
 }
 
-TEST(VerboseShort)
+TEST(ConsoleOption_VerboseShort)
 {
 	// test verbose short option
 	// should get an error unless it has been duplicated by another option
@@ -2291,7 +2290,7 @@ TEST(VerboseShort)
 	delete [] textOut;
 }
 
-TEST(FormattedShort)
+TEST(ConsoleOption_FormattedShort)
 {
 	// test formatted short option
 	// should get an error unless it has been duplicated by another option
@@ -2310,7 +2309,7 @@ TEST(FormattedShort)
 	delete [] textOut;
 }
 
-TEST(QuietShort)
+TEST(ConsoleOption_QuietShort)
 {
 	// test preserve-date short option
 	// should get an error unless it has been duplicated by another option
@@ -2329,7 +2328,7 @@ TEST(QuietShort)
 	delete [] textOut;
 }
 
-TEST(VersionShort)
+TEST(ConsoleOption_VersionShort)
 {
 	// test version short option
 	// should get an error unless it has been duplicated by another option
@@ -2348,7 +2347,7 @@ TEST(VersionShort)
 	delete [] textOut;
 }
 
-TEST(Help1Short)
+TEST(ConsoleOption_Help1Short)
 {
 	// test help short option1
 	// should get an error unless it has been duplicated by another option
@@ -2367,7 +2366,7 @@ TEST(Help1Short)
 	delete [] textOut;
 }
 
-TEST(Help2Short)
+TEST(ConsoleOption_Help2Short)
 {
 	// test help short option2
 	// should get an error unless it has been duplicated by another option
@@ -2406,7 +2405,7 @@ TEST(Quote)
 	delete [] textOut;
 }
 
-TEST(QuoteSingle)
+TEST(Quote_Single)
 {
 	// test single quotes
 	char text[] =
@@ -2421,7 +2420,7 @@ TEST(QuoteSingle)
 	delete [] textOut;
 }
 
-TEST(QuoteVerbatim1)
+TEST(Quote_CSharp_Verbatim1)
 {
 	// test C# verbatim quotes
 	// whitespace should not change
@@ -2448,7 +2447,7 @@ TEST(QuoteVerbatim1)
 	delete [] textOut;
 }
 
-TEST(QuoteVerbatim2)
+TEST(Quote_CSharp_Verbatim2)
 {
 	// test C# verbatim quotes with """" and ""
 	// whitespace should not change
@@ -2468,7 +2467,7 @@ TEST(QuoteVerbatim2)
 	delete [] textOut;
 }
 
-TEST(QuoteEmpty)
+TEST(Quote_CSharp_Empty)
 {
 	// test C# empty quotes with """"
 	// whitespace should not change
@@ -2483,7 +2482,7 @@ TEST(QuoteEmpty)
 	delete [] textOut;
 }
 
-TEST(QuoteMisc)
+TEST(Quote_CSharp_Misc)
 {
 	// test C# strange looking quotes with """
 	// whitespace should not change
@@ -2506,7 +2505,7 @@ TEST(QuoteMisc)
 // AStyle Enum
 //----------------------------------------------------------------------------
 
-TEST(EnumNamespace1)
+TEST(Enum_Namespace1)
 {
 	// test indent of enum in a namespace
 	char text[] =
@@ -2524,7 +2523,7 @@ TEST(EnumNamespace1)
 	delete [] textOut;
 }
 
-TEST(EnumNamespace2)
+TEST(Enum_Namespace2)
 {
 	// test indent of enum in a namespace
 	// with in-statement indent
@@ -2541,7 +2540,7 @@ TEST(EnumNamespace2)
 	delete [] textOut;
 }
 
-TEST(EnumNamespaceIndent1)
+TEST(Enum_NamespaceIndent1)
 {
 	// test indent of enum in an indented namespace
 	char text[] =
@@ -2559,7 +2558,7 @@ TEST(EnumNamespaceIndent1)
 	delete [] textOut;
 }
 
-TEST(EnumNamespaceIndent2)
+TEST(Enum_NamespaceIndent2)
 {
 	// test indent of enum in an indented namespace
 	// with in-statement indent
@@ -2576,7 +2575,7 @@ TEST(EnumNamespaceIndent2)
 	delete [] textOut;
 }
 
-TEST(EnumClassTypeSafe)
+TEST(Enum_ClassTypeSafe)
 {
 	// type safe enum class should be formatted as an enum
 	char text[] =
@@ -2593,7 +2592,7 @@ TEST(EnumClassTypeSafe)
 	delete [] textOut;
 }
 
-TEST(EnumClass1)
+TEST(Enum_Class1)
 {
 	// test indent of enum in a class
 	char text[] =
@@ -2612,7 +2611,7 @@ TEST(EnumClass1)
 	delete [] textOut;
 }
 
-TEST(EnumClass2)
+TEST(Enum_Class2)
 {
 	// test indent of enum in a class
 	// with in-statement indent
@@ -2630,7 +2629,7 @@ TEST(EnumClass2)
 	delete [] textOut;
 }
 
-TEST(EnumClassIndent1)
+TEST(Enum_ClassIndent1)
 {
 	// test indent of enum in an indented class
 	char text[] =
@@ -2649,7 +2648,7 @@ TEST(EnumClassIndent1)
 	delete [] textOut;
 }
 
-TEST(EnumClassIndent2)
+TEST(Enum_ClassIndent2)
 {
 	// test indent of enum in an indented class
 	// with in-statement indent
@@ -2667,7 +2666,7 @@ TEST(EnumClassIndent2)
 	delete [] textOut;
 }
 
-TEST(EnumClassIndent3)
+TEST(Enum_ClassIndent3)
 {
 	// test indent of enum in an indented class
 	// within a #else preprocessor
@@ -2690,7 +2689,7 @@ TEST(EnumClassIndent3)
 	delete [] textOut;
 }
 
-TEST(EnumJava)
+TEST(Enum_Java)
 {
 	// test indent of java enum
 	char text[] =
@@ -2709,7 +2708,7 @@ TEST(EnumJava)
 // AStyle Struct
 //----------------------------------------------------------------------------
 
-TEST(StructBreak)
+TEST(Struct_Break)
 {
 	// struct with broken brackets
 	char text[] =
@@ -2728,7 +2727,7 @@ TEST(StructBreak)
 	delete [] textOut;
 }
 
-TEST(StructAttach)
+TEST(Struct_Attach)
 {
 	// struct with attached brackets
 	char text[] =
@@ -2745,7 +2744,7 @@ TEST(StructAttach)
 	delete [] textOut;
 }
 
-TEST(StructHorstmann)
+TEST(Struct_Horstmann)
 {
 	// struct with attached brackets
 	char text[] =
@@ -2766,7 +2765,7 @@ TEST(StructHorstmann)
 // AStyle Preprocessor
 //----------------------------------------------------------------------------
 
-TEST(PreprocessorCommandType)
+TEST(Preprocessor_CommandType)
 {
 	// check indentation
 	// correctly identifying as a COMMND_TYPE bracket
@@ -2795,7 +2794,7 @@ TEST(PreprocessorCommandType)
 	delete [] textOut;
 }
 
-TEST(PreprocessorElif)
+TEST(Preprocessor_Elif)
 {
 	// #elif updates the waitingBeautifierStack
 	char text[] =
@@ -2825,7 +2824,7 @@ TEST(PreprocessorElif)
 	delete [] textOut;
 }
 
-TEST(PreprocessorEndOnEmptyLine)
+TEST(Preprocessor_EndOnEmptyLine)
 {
 	// TODO: AStyle adds a space to the empty line
 	// preprocessor define ends with an empty line
@@ -2845,7 +2844,7 @@ TEST(PreprocessorEndOnEmptyLine)
 	delete [] textOut;
 }
 
-TEST(PreprocessorAssembler)
+TEST(Preprocessor_Assembler)
 {
 	// can have preprocessor in a assembler block
 	char text[] =
@@ -2867,7 +2866,7 @@ TEST(PreprocessorAssembler)
 	delete [] textOut;
 }
 
-TEST(PreprocessorMissingOpener)
+TEST(Preprocessor_MissingOpener)
 {
 	// #else with missing #if
 	char text[] =
@@ -2884,7 +2883,7 @@ TEST(PreprocessorMissingOpener)
 	delete [] textOut;
 }
 
-TEST(PreprocessorWxWidgetsMacro)
+TEST(Preprocessor_WxWidgetsMacro)
 {
 	// preprocessor should NOT be indented
 	char text[] =
@@ -2902,7 +2901,7 @@ TEST(PreprocessorWxWidgetsMacro)
 	delete [] textOut;
 }
 
-TEST(PreprocessorArrayType)
+TEST(Preprocessor_ArrayType)
 {
 	// check indentation
 	// correctly identifying as an ARRAY_TYPE bracket
@@ -2921,7 +2920,7 @@ TEST(PreprocessorArrayType)
 	delete [] textOut;
 }
 
-TEST(PreprocessorArrayMissingOpener)
+TEST(Preprocessor_ArrayMissingOpener)
 {
 	// array #else with missing #if
 	char text[] =
@@ -2940,7 +2939,7 @@ TEST(PreprocessorArrayMissingOpener)
 	delete [] textOut;
 }
 
-TEST(PreprocessorArrayHorstmannBreak)
+TEST(Preprocessor_ArrayHorstmann_Break)
 {
 	// check broken brackets to horstmann
 	// should NOT run-in a preprocessor directive
@@ -2961,7 +2960,7 @@ TEST(PreprocessorArrayHorstmannBreak)
 	delete [] textOut;
 }
 
-TEST(PreprocessorArrayHorstmannAttach)
+TEST(Preprocessor_ArrayHorstmann_Attach)
 {
 	// check attached brackets to horstmann
 	// should NOT run-in a preprocessor directive
@@ -2992,7 +2991,7 @@ TEST(PreprocessorArrayHorstmannAttach)
 	delete [] textOut;
 }
 
-TEST(PreprocessorArrayHorstmannHorstmann)
+TEST(Preprocessor_ArrayHorstmann_Horstmann)
 {
 	// check horstmann brackets to horstmann
 	// should NOT run-in a preprocessor directive
@@ -3017,7 +3016,7 @@ TEST(PreprocessorArrayHorstmannHorstmann)
 // AStyle Comments
 //----------------------------------------------------------------------------
 
-TEST(CommentNoneNamespaceClassIndentNone)
+TEST(Comment_BracketsNone_NamespaceClassIndent_None)
 {
 	// comments should indent with namespaces and classes
 	// brackets=none with default brackets
@@ -3067,7 +3066,7 @@ TEST(CommentNoneNamespaceClassIndentNone)
 	delete [] textOut;
 }
 
-TEST(CommentNoneNamespaceClassIndentBreak)
+TEST(Comment_BracketsNone_NamespaceClassIndent_Break)
 {
 	// comments should indent with namespaces and classes
 	// brackets=none with broken brackets
@@ -3117,7 +3116,7 @@ TEST(CommentNoneNamespaceClassIndentBreak)
 	delete [] textOut;
 }
 
-TEST(CommentNoneNamespaceClassIndentAttach)
+TEST(Comment_BracketsNone_NamespaceClassIndent_Attach)
 {
 	// comments should indent with namespaces and classes
 	// brackets=none with attached brackets
@@ -3161,7 +3160,7 @@ TEST(CommentNoneNamespaceClassIndentAttach)
 	delete [] textOut;
 }
 
-TEST(CommentNoneNamespaceClassIndentHorstmann)
+TEST(Comment_BracketsNone_NamespaceClassIndent_Horstmann)
 {
 	// comments should indent with namespaces and classes
 	// brackets=none with with horstmann brackets
@@ -3203,7 +3202,7 @@ TEST(CommentNoneNamespaceClassIndentHorstmann)
 	delete [] textOut;
 }
 
-TEST(CommentBreakNamespaceClassIndentBreak)
+TEST(Comment_BracketsBreak_NamespaceClassIndent_Break)
 {
 	// comments should indent with namespaces and classes
 	// brackets=break with broken brackets
@@ -3253,7 +3252,7 @@ TEST(CommentBreakNamespaceClassIndentBreak)
 	delete [] textOut;
 }
 
-TEST(CommentBreakNamespaceClassIndentAttach)
+TEST(Comment_BracketsBreak_NamespaceClassIndent_Attach)
 {
 	// comments should indent with namespaces and classes
 	// brackets=break with attached brackets
@@ -3300,7 +3299,7 @@ TEST(CommentBreakNamespaceClassIndentAttach)
 	delete [] textOut;
 }
 
-TEST(CommentBreakNamespaceClassIndentHorstmann)
+TEST(Comment_BracketsBreak_NamespaceClassIndent_Horstmann)
 {
 	// comments should indent with namespaces and classes
 	// brackets=break with horstmann brackets
@@ -3343,7 +3342,7 @@ TEST(CommentBreakNamespaceClassIndentHorstmann)
 	delete [] textOut;
 }
 
-TEST(CommentAttachNamespaceClassIndentBreak)
+TEST(Comment_BracketsAttach_NamespaceClassIndent_Break)
 {
 	// comments should indent with namespaces and classes
 	// brackets=attach with broken brackets
@@ -3390,7 +3389,7 @@ TEST(CommentAttachNamespaceClassIndentBreak)
 	delete [] textOut;
 }
 
-TEST(CommentAttachNamespaceClassIndentAttach)
+TEST(Comment_BracketsAttach_NamespaceClassIndent_Attach)
 {
 	// comments should indent with namespaces and classes
 	// brackets=attach with attached brackets
@@ -3434,7 +3433,7 @@ TEST(CommentAttachNamespaceClassIndentAttach)
 	delete [] textOut;
 }
 
-TEST(CommentAttachNamespaceClassIndentHorstmann)
+TEST(Comment_BracketsAttach_NamespaceClassIndent_Horstmann)
 {
 	// comments should indent with namespaces and classes
 	// brackets=attach with horstmann brackets
@@ -3474,7 +3473,7 @@ TEST(CommentAttachNamespaceClassIndentHorstmann)
 	delete [] textOut;
 }
 
-TEST(CommentHorstmannNamespaceClassIndentBreak)
+TEST(Comment_BracketsHorstmann_NamespaceClassIndent_Break)
 {
 	// comments should indent with namespaces and classes
 	// brackets=horstmann with broken brackets
@@ -3516,7 +3515,7 @@ TEST(CommentHorstmannNamespaceClassIndentBreak)
 	delete [] textOut;
 }
 
-TEST(CommentHorstmannNamespaceClassIndentAttach)
+TEST(Comment_BracketsHorstmann_NamespaceClassIndent_Attach)
 {
 	// comments should indent with namespaces and classes
 	// brackets=horstmann with attached brackets
@@ -3555,7 +3554,7 @@ TEST(CommentHorstmannNamespaceClassIndentAttach)
 	delete [] textOut;
 }
 
-TEST(CommentHorstmannNamespaceClassIndentHorstmann)
+TEST(Comment_BracketsHorstmann_NamespaceClassIndent_Horstmann)
 {
 	// comments should indent with namespaces and classes
 	// brackets=horstmann with horstmann brackets
@@ -3597,7 +3596,7 @@ TEST(CommentHorstmannNamespaceClassIndentHorstmann)
 }
 
 
-TEST(CommentNamespaceMisc1)
+TEST(Comment_Namespace_Misc1)
 {
 	// comments should indent with namespaces
 	// comments precede the brackets
@@ -3641,7 +3640,7 @@ TEST(CommentNamespaceMisc1)
 	delete [] textOut;
 }
 
-TEST(CommentNamespaceClassMisc2)
+TEST(Comment_Namespace_ClassMisc2)
 {
 	// comments should indent with namespaces and classes
 	// comments precede the brackets
@@ -3685,7 +3684,7 @@ TEST(CommentNamespaceClassMisc2)
 	delete [] textOut;
 }
 
-TEST(CommentNestedClassMisc3)
+TEST(Comment_NestedClass_Misc3)
 {
 	// comments should indent with classes
 	// comments precede the brackets
@@ -3719,7 +3718,7 @@ TEST(CommentNestedClassMisc3)
 	delete [] textOut;
 }
 
-TEST(CommentNestedClassMisc4)
+TEST(Comment_NestedClass_Misc4)
 {
 	// comments should indent with classes
 	// comments precede the brackets in indented classes
@@ -3753,7 +3752,7 @@ TEST(CommentNestedClassMisc4)
 	delete [] textOut;
 }
 
-TEST(CommentNamespaceClassMisc5)
+TEST(Comment_NamespaceClass_Misc5)
 {
 	// comments should indent with classes with inheritance
 	// comments precede the brackets
@@ -3781,7 +3780,7 @@ TEST(CommentNamespaceClassMisc5)
 	delete [] textOut;
 }
 
-TEST(CommentNamespaceClassMisc6)
+TEST(Comment_NamespaceClass_Misc6)
 {
 	// comments should indent with classes with inheritance
 	// comments precede the brackets
@@ -3809,7 +3808,7 @@ TEST(CommentNamespaceClassMisc6)
 	delete [] textOut;
 }
 
-TEST(CommentBeforeStatementMisc7)
+TEST(Comment_BeforeStatement_Misc7)
 {
 	// comments before a statement should not be broken
 	char text[] =
@@ -3826,7 +3825,7 @@ TEST(CommentBeforeStatementMisc7)
 	delete [] textOut;
 }
 
-TEST(CommentLeadingSpaceCorrection1)
+TEST(Comment_LeadingSpaceCorrection1)
 {
 	// comment where the leading spaces need correction
 	// will adjust the first line
@@ -3854,7 +3853,7 @@ TEST(CommentLeadingSpaceCorrection1)
 	delete [] textOut;
 }
 
-TEST(CommentLeadingSpaceCorrection2)
+TEST(Comment_LeadingSpaceCorrection2)
 {
 	// comment where the leading spaces need correction
 	// text has tabs
@@ -3883,7 +3882,7 @@ TEST(CommentLeadingSpaceCorrection2)
 	delete [] textOut;
 }
 
-TEST(CommentLeadingSpaceCorrection3)
+TEST(Comment_LeadingSpaceCorrection3)
 {
 	// comment where the leading spaces need correction
 	// and indent needs adjusting
@@ -3916,7 +3915,7 @@ TEST(CommentLeadingSpaceCorrection3)
 // AStyle Continuation Lines
 //----------------------------------------------------------------------------
 
-TEST(ContinuationNoneBreak)
+TEST(Continuation_BracketsNone_Break)
 {
 	// continuation lines
 	// brackets=none and input of broken brackets
@@ -3940,7 +3939,7 @@ TEST(ContinuationNoneBreak)
 	delete [] textOut;
 }
 
-TEST(ContinuationNoneAttach)
+TEST(Continuation_BracketsNone_Attach)
 {
 	// continuation lines
 	// brackets=none and input of attached brackets
@@ -3961,7 +3960,7 @@ TEST(ContinuationNoneAttach)
 	delete [] textOut;
 }
 
-TEST(ContinuationNoneHorstmann)
+TEST(Continuation_BracketsNone_Horstmann)
 {
 	// continuation lines
 	// brackets=none and input of horstmann brackets
@@ -3982,7 +3981,7 @@ TEST(ContinuationNoneHorstmann)
 	delete [] textOut;
 }
 
-TEST(ContinuationBreakBreak)
+TEST(Continuation_BracketsBreak_Break)
 {
 	// continuation lines
 	// brackets=break and input of broken brackets
@@ -4006,7 +4005,7 @@ TEST(ContinuationBreakBreak)
 	delete [] textOut;
 }
 
-TEST(ContinuationBreakAttach)
+TEST(Continuation_BracketsBreak_Attach)
 {
 	// continuation lines
 	// brackets=break and input of attached brackets
@@ -4041,7 +4040,7 @@ TEST(ContinuationBreakAttach)
 	delete [] textOut;
 }
 
-TEST(ContinuationBreakHorstmann)
+TEST(Continuation_BracketsBreak_Horstmann)
 {
 	// continuation lines
 	// brackets=break and input of horstmann brackets
@@ -4076,7 +4075,7 @@ TEST(ContinuationBreakHorstmann)
 	delete [] textOut;
 }
 
-TEST(ContinuationAttachBreak)
+TEST(Continuation_BracketsAttach_Break)
 {
 	// continuation lines
 	// brackets=attach and input of broken brackets
@@ -4111,7 +4110,7 @@ TEST(ContinuationAttachBreak)
 	delete [] textOut;
 }
 
-TEST(ContinuationAttachAttach)
+TEST(Continuation_BracketsAttach_Attach)
 {
 	// continuation lines
 	// brackets=attach and input of attached brackets
@@ -4132,7 +4131,7 @@ TEST(ContinuationAttachAttach)
 	delete [] textOut;
 }
 
-TEST(ContinuationAttachHorstmann)
+TEST(Continuation_BracketsAttach_Horstmann)
 {
 	// continuation lines
 	// brackets=attach and input of horstmann brackets
@@ -4164,7 +4163,7 @@ TEST(ContinuationAttachHorstmann)
 	delete [] textOut;
 }
 
-TEST(ContinuationHorstmannBreak)
+TEST(Continuation_BracketsHorstmann_Break)
 {
 	// continuation lines
 	// brackets=horstmann and input of broken brackets
@@ -4199,7 +4198,7 @@ TEST(ContinuationHorstmannBreak)
 	delete [] textOut;
 }
 
-TEST(ContinuationHorstmannAttach)
+TEST(Continuation_BracketsHorstmann_Attach)
 {
 	// continuation lines
 	// brackets=horstmann and input of attached brackets
@@ -4231,7 +4230,7 @@ TEST(ContinuationHorstmannAttach)
 	delete [] textOut;
 }
 
-TEST(ContinuationHorstmannHorstmann)
+TEST(Continuation_BracketsHorstmann_Horstmann)
 {
 	// continuation lines
 	// brackets=horstmann and input of horstmann brackets
@@ -4253,7 +4252,7 @@ TEST(ContinuationHorstmannHorstmann)
 }
 
 
-TEST(ContinuationInlineTab1)
+TEST(Continuation_InlineTab1)
 {
 	// continuation lines
 	// with inline tabs
@@ -4282,7 +4281,7 @@ TEST(ContinuationInlineTab1)
 	delete [] textOut;
 }
 
-TEST(ContinuationInlineTab2)
+TEST(Continuation_InlineTab2)
 {
 	// continuation lines with tabs after the paren
 	// with inline tabs
@@ -4318,7 +4317,7 @@ TEST(ContinuationInlineTab2)
 // AStyle Continuation Lines with Tabs
 //----------------------------------------------------------------------------
 
-TEST(ContinuationTabNoneBreak)
+TEST(ContinuationTab_BracketsNone_Break)
 {
 	// continuation lines with tabs
 	// brackets=none and input of broken brackets
@@ -4342,7 +4341,7 @@ TEST(ContinuationTabNoneBreak)
 	delete [] textOut;
 }
 
-TEST(ContinuationTabNoneAttach)
+TEST(ContinuationTab_BracketsNone_Attach)
 {
 	// continuation lines with tabs
 	// brackets=none and input of attached brackets
@@ -4363,7 +4362,7 @@ TEST(ContinuationTabNoneAttach)
 	delete [] textOut;
 }
 
-TEST(ContinuationTabNoneHorstmann)
+TEST(ContinuationTab_BracketsNone_Horstmann)
 {
 	// continuation lines with tabs
 	// brackets=none and input of horstmann brackets
@@ -4384,7 +4383,7 @@ TEST(ContinuationTabNoneHorstmann)
 	delete [] textOut;
 }
 
-TEST(ContinuationTabBreakBreak)
+TEST(ContinuationTab_BracketsBreak_Break)
 {
 	// continuation lines with tabs
 	// brackets=break and input of broken brackets
@@ -4408,7 +4407,7 @@ TEST(ContinuationTabBreakBreak)
 	delete [] textOut;
 }
 
-TEST(ContinuationTabBreakAttach)
+TEST(ContinuationTab_BracketsBreak_Attach)
 {
 	// continuation lines with tabs
 	// brackets=break and input of attached brackets
@@ -4443,7 +4442,7 @@ TEST(ContinuationTabBreakAttach)
 	delete [] textOut;
 }
 
-TEST(ContinuationTabBreakHorstmann)
+TEST(ContinuationTab_BracketsBreak_Horstmann)
 {
 	// continuation lines with tabs
 	// brackets=break and input of horstmann brackets
@@ -4478,7 +4477,7 @@ TEST(ContinuationTabBreakHorstmann)
 	delete [] textOut;
 }
 
-TEST(ContinuationTabAttachBreak)
+TEST(ContinuationTab_BracketsAttach_Break)
 {
 	// continuation lines with tabs
 	// brackets=attach and input of broken brackets
@@ -4513,7 +4512,7 @@ TEST(ContinuationTabAttachBreak)
 	delete [] textOut;
 }
 
-TEST(ContinuationTabAttachAttach)
+TEST(ContinuationTab_BracketsAttach_Attach)
 {
 	// continuation lines with tabs
 	// brackets=attach and input of attached brackets
@@ -4534,7 +4533,7 @@ TEST(ContinuationTabAttachAttach)
 	delete [] textOut;
 }
 
-TEST(ContinuationTabAttachHorstmann)
+TEST(ContinuationTab_BracketsAttach_Horstmann)
 {
 	// continuation lines with tabs
 	// brackets=attach and input of horstmann brackets
@@ -4566,7 +4565,7 @@ TEST(ContinuationTabAttachHorstmann)
 	delete [] textOut;
 }
 
-TEST(ContinuationTabHorstmannBreak)
+TEST(ContinuationTab_BracketsHorstmann_Break)
 {
 	// continuation lines with tabs
 	// brackets=horstmann and input of broken brackets
@@ -4601,7 +4600,7 @@ TEST(ContinuationTabHorstmannBreak)
 	delete [] textOut;
 }
 
-TEST(ContinuationTabHorstmannAttach)
+TEST(ContinuationTab_BracketsHorstmann_Attach)
 {
 	// continuation lines with tabs
 	// brackets=horstmann and input of attached brackets
@@ -4633,7 +4632,7 @@ TEST(ContinuationTabHorstmannAttach)
 	delete [] textOut;
 }
 
-TEST(ContinuationTabHorstmannHorstmann)
+TEST(ContinuationTab_BracketsHorstmann_Horstmann)
 {
 	// continuation lines with tabs
 	// brackets=horstmann and input of horstmann brackets
@@ -4654,7 +4653,7 @@ TEST(ContinuationTabHorstmannHorstmann)
 	delete [] textOut;
 }
 
-TEST(ContinuationTabInlineTab1)
+TEST(ContinuationTab_InlineTab1)
 {
 	// continuation lines with tabs
 	// with inline tabs
@@ -4682,7 +4681,7 @@ TEST(ContinuationTabInlineTab1)
 	delete [] textOut;
 }
 
-TEST(ContinuationTabInlineTab2)
+TEST(ContinuationTab_InlineTab2)
 {
 	// continuation lines with tabs
 	// with inline tabs after the paren
@@ -4713,7 +4712,7 @@ TEST(ContinuationTabInlineTab2)
 	delete [] textOut;
 }
 
-TEST(ContinuationForceTabInlineTab1)
+TEST(ContinuationForceTab_InlineTab1)
 {
 	// continuation lines with force tabs
 	// with inline tabs
@@ -4742,7 +4741,7 @@ TEST(ContinuationForceTabInlineTab1)
 	delete [] textOut;
 }
 
-TEST(ContinuationForceTabInlineTab2)
+TEST(ContinuationForceTab_InlineTab2)
 {
 	// continuation lines with force tabs
 	// with inline tabs after the paren
@@ -4777,7 +4776,7 @@ TEST(ContinuationForceTabInlineTab2)
 // C++ operators << and >>
 //----------------------------------------------------------------------------
 
-TEST(AlignmentOperatorCout)
+TEST(AlignmentOperator_Cout)
 {
 	// Alignment of the operator<<
 	char text[] =
@@ -4805,7 +4804,7 @@ TEST(AlignmentOperatorCout)
 	delete [] textOut;
 }
 
-TEST(AlignmentOperatorCin)
+TEST(AlignmentOperator_Cin)
 {
 	// Alignment of the operator<<
 	char text[] =
@@ -4829,7 +4828,7 @@ TEST(AlignmentOperatorCin)
 	delete [] textOut;
 }
 
-TEST(AlignmentOperatorCoutBeginLine)
+TEST(AlignmentOperator_CoutBeginLine)
 {
 	// Alignment of the operator<< when it begins the line
 	char text[] =
@@ -4847,7 +4846,7 @@ TEST(AlignmentOperatorCoutBeginLine)
 }
 
 
-TEST(AlignmentOperatorCout2)
+TEST(AlignmentOperator_Cout2)
 {
 	// Alignment of the operator<<
 	char text[] =
@@ -4898,7 +4897,7 @@ TEST(SQL)
 	delete [] textOut;
 }
 
-TEST(SQLComment)
+TEST(SQL_Comment)
 {
 	// SQL statements with comment
 	char text[] =
@@ -4918,7 +4917,7 @@ TEST(SQLComment)
 	delete [] textOut;
 }
 
-TEST(SQLLineComment)
+TEST(SQL_LineComment)
 {
 	// SQL statements with line comment
 	char text[] =
@@ -4936,7 +4935,7 @@ TEST(SQLLineComment)
 	delete [] textOut;
 }
 
-TEST(SQLNonIndentingTabs)
+TEST(SQL_NonIndentingTabs)
 {
 	// SQL statements with non-indenting tabs
 	char textIn[] =
@@ -4961,7 +4960,7 @@ TEST(SQLNonIndentingTabs)
 	delete [] textOut;
 }
 
-TEST(SQLNonHangingIndent)
+TEST(SQL_NonHangingIndent)
 {
 	// SQL statements with a non-hanging indent
 	// should format as a block
@@ -4987,7 +4986,7 @@ TEST(SQLNonHangingIndent)
 	delete [] textOut;
 }
 
-TEST(SQLLowerCaseExtraSpaces)
+TEST(SQL_LowerCaseExtraSpaces)
 {
 	// SQL statements in lower case with extra spaces
 	char textIn[] =
@@ -5018,7 +5017,7 @@ TEST(SQLLowerCaseExtraSpaces)
 	delete [] textOut;
 }
 
-TEST(SQLEndOfLine)
+TEST(SQL_EndOfLine)
 {
 	// SQL statements with EXEC SQL at end of line
 	char text[] =
@@ -5033,7 +5032,7 @@ TEST(SQLEndOfLine)
 	delete [] textOut;
 }
 
-TEST(SQLBreakAfterSemi)
+TEST(SQL_BreakAfterSemi)
 {
 	// SQL statements should break line after the semi-colon
 	char textIn[] =
@@ -5057,7 +5056,7 @@ TEST(SQLBreakAfterSemi)
 	delete [] textOut;
 }
 
-TEST(SQLSwitch)
+TEST(SQL_Switch)
 {
 	// SQL statements in switch
 	char text[] =
@@ -5082,7 +5081,7 @@ TEST(SQLSwitch)
 	delete [] textOut;
 }
 
-TEST(SQLSwitchIndentCase)
+TEST(SQL_SwitchIndentCase)
 {
 	// SQL statements in switch with indent case
 	char text[] =
@@ -5107,7 +5106,7 @@ TEST(SQLSwitchIndentCase)
 	delete [] textOut;
 }
 
-TEST(SQLBracketsHorstmann)
+TEST(SQL_BracketsHorstmann)
 {
 	// SQL statements in horstmann brackets
 	char text[] =
@@ -5121,7 +5120,7 @@ TEST(SQLBracketsHorstmann)
 	delete [] textOut;
 }
 
-TEST(SQLSans)
+TEST(SQL_Sans)
 {
 	// not SQL statements (macros?)
 	// SQL statements will not be changed
@@ -5270,7 +5269,7 @@ TEST(MultipleVariableAssignments)
 	delete [] textOut;
 }
 
-TEST(MultipleVariableAssignmentsComments)
+TEST(MultipleVariableAssignments_Comments)
 {
 	// multiple assignments are aligned on the first variable
 	char text[] =
@@ -5297,7 +5296,7 @@ TEST(MultipleVariableAssignmentsComments)
 	delete [] textOut;
 }
 
-TEST(MultipleVariableAssignmentsSans)
+TEST(MultipleVariableAssignments_Sans)
 {
 	// these are not multiple assignments
 	char text[] =
@@ -5336,7 +5335,7 @@ TEST(MultipleVariable)
 	delete [] textOut;
 }
 
-TEST(MultipleVariableMultipleStatementsPerLine)
+TEST(MultipleVariable_MultipleStatementsPerLine)
 {
 	// multiple variables with multiple statements per line
 	char text[] =
@@ -5352,7 +5351,7 @@ TEST(MultipleVariableMultipleStatementsPerLine)
 	delete [] textOut;
 }
 
-TEST(MultipleVariableClassInitializer1)
+TEST(MultipleVariable_ClassInitializer1)
 {
 	// class initializers are aligned on first variable
 	char text[] =
@@ -5368,7 +5367,7 @@ TEST(MultipleVariableClassInitializer1)
 	delete [] textOut;
 }
 
-TEST(MultipleVariableClassInitializer2)
+TEST(MultipleVariable_ClassInitializer2)
 {
 	// class initializers are aligned on first variable
 	// colon on previous line
@@ -5385,7 +5384,7 @@ TEST(MultipleVariableClassInitializer2)
 	delete [] textOut;
 }
 
-TEST(MultipleVariableClassInitializer3)
+TEST(MultipleVariable_ClassInitializer3)
 {
 	// class initializers are aligned on first variable
 	// multiple variables per line
@@ -5402,7 +5401,7 @@ TEST(MultipleVariableClassInitializer3)
 	delete [] textOut;
 }
 
-TEST(MultipleVariableClassInitializer4)
+TEST(MultipleVariable_ClassInitializer4)
 {
 	// class initializers are aligned on first variable
 	// comments after comma
@@ -5419,7 +5418,7 @@ TEST(MultipleVariableClassInitializer4)
 	delete [] textOut;
 }
 
-TEST(MultipleVariableClassInitializer5)
+TEST(MultipleVariable_ClassInitializer5)
 {
 	// class initializers are aligned on first variable
 	// last line with brackets should be indented
@@ -5435,7 +5434,7 @@ TEST(MultipleVariableClassInitializer5)
 	delete [] textOut;
 }
 
-TEST(MultipleVariableClassInitializer6)
+TEST(MultipleVariable_ClassInitializer6)
 {
 	// class initializers are aligned on first variable
 	// this checks if the variables have been reset
@@ -5455,7 +5454,7 @@ TEST(MultipleVariableClassInitializer6)
 	delete [] textOut;
 }
 
-TEST(MultipleVariableMisc1)
+TEST(MultipleVariable_Misc1)
 {
 	// this checks if the inStatementIndentStack is correctly popped
 	char text[] =
@@ -5482,7 +5481,7 @@ TEST(MultipleVariableMisc1)
 	delete [] textOut;
 }
 
-TEST(MultipleVariableMisc2)
+TEST(MultipleVariable_Misc2)
 {
 	// this checks for various conditions in getInStatementIndentComma()
 	char text[] =

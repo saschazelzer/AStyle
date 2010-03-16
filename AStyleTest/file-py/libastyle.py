@@ -22,15 +22,19 @@ SHARPDEVELOP = "SharpDevelop"
 TESTPROJECT  = "TestProject"
 
 # astyle test options
+# NOTE: release 1.25, use after  astyle25b because of min-conditional-indent
 # no options
 OPT0 = ""
 # align-pointer=type (k1), indent-brackets (B), add-brackets (j), break-blocks=all (F)
-OPT1 = "-CSKBNLwM50m10yejoOcFpPHUxEk1"
-# align-pointer=middle (k2), indent-blocks (G), add-one-line-brackets (J), break-blocks (f)
-OPT2 = "-CSKGNLwM50m10yeJoOcfpPHUxEk2"
-# align-pointer=name (k3), WITHOUT: indent-blocks (G), add-brackets (j,J),
+#     min-conditional-indent=0 (m0)
+OPT1 = "-CSKBNLwM50m0yejoOcFpPHUxEk1"
+# align-pointer=middle (k2), indent-blocks (G), add-one-line-brackets (J)
+#     break-blocks (f), min-conditional-indent=3 (m3)
+OPT2 = "-CSKGNLwM60m3yeJoOcfpPHUxEk2"
+# align-pointer=name (k3), , min-conditional-indent=1 (m1)
+# WITHOUT: indent-blocks (G), add-brackets (j,J),
 #     break-blocks (f,F), pad-oper (p), pad-paren (P), delete-empty-lines (x)
-OPT3 = "-CSKNLwM50m10yeoOcHUEk3"
+OPT3 = "-CSKNLwM80m1yeoOcHUEk3"
 
 # compile configurations
 DEBUG   = "debug"

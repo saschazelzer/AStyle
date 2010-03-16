@@ -45,7 +45,7 @@ TEST(IndentClasses)
 	delete [] textOut;
 }
 
-TEST(IndentClassesShort)
+TEST(IndentClasses_Short)
 {
 	// test indent class blocks short option
 	char text[] =
@@ -81,7 +81,7 @@ TEST(IndentClassesShort)
 	delete [] textOut;
 }
 
-TEST(IndentClassesEmptyClass)
+TEST(IndentClasses_EmptyClass)
 {
 	// empty brackets should not receive an extra indent
 	char text[] =
@@ -93,7 +93,7 @@ TEST(IndentClassesEmptyClass)
 	delete [] textOut;
 }
 
-TEST(IndentClassesEmptyClassSans)
+TEST(IndentClasses_EmptyClassSans)
 {
 	// empty brackets should not receive an extra indent
 	char text[] =
@@ -105,7 +105,7 @@ TEST(IndentClassesEmptyClassSans)
 	delete [] textOut;
 }
 
-TEST(IndentClassesHorstmann)
+TEST(IndentClasses_Horstmann)
 {
 	// test indent class blocks with horstmann brackets
 	// 'public' 'private' and 'protected' are run-in if class block is indented
@@ -135,7 +135,7 @@ TEST(IndentClassesHorstmann)
 	delete [] textOut;
 }
 
-TEST(IndentClassesHorstmannTab)
+TEST(IndentClasses_HorstmannTab)
 {
 	// test indent class blocks with horstmann brackets and tab indents
 	// 'public' 'private' and 'protected' are run-in if class block is indented
@@ -165,7 +165,7 @@ TEST(IndentClassesHorstmannTab)
 	delete [] textOut;
 }
 
-TEST(IndentClassesHorstmannSans)
+TEST(IndentClasses_HorstmannSans)
 {
 	// test without indent class blocks with horstmann brackets
 	// 'public' 'private' and 'protected' are NOT run-in if class block is not indented
@@ -196,7 +196,7 @@ TEST(IndentClassesHorstmannSans)
 	delete [] textOut;
 }
 
-TEST(IndentClassesHorstmannSansTab)
+TEST(IndentClasses_HorstmannSansTab)
 {
 	// test without indent class blocks with horstmann brackets and tab indents
 	// 'public' 'private' and 'protected' are NOT run-in if class block is not indented
@@ -227,7 +227,7 @@ TEST(IndentClassesHorstmannSansTab)
 	delete [] textOut;
 }
 
-TEST(IndentClassesHorstmannLineComment)
+TEST(IndentClasses_HorstmannLineComment)
 {
 	// test indent class blocks line comment with horstmann brackets
 	// is run-in if class block is indented and does not start in column 1
@@ -260,7 +260,7 @@ TEST(IndentClassesHorstmannLineComment)
 	delete [] textOut;
 }
 
-TEST(IndentClassesHorstmannLineCommentSans)
+TEST(IndentClasses_HorstmannLineCommentSans)
 {
 	// test without indent class blocks line comment with horstmann brackets
 	// currently are run-in and indented one indent if class block is not indented
@@ -293,7 +293,7 @@ TEST(IndentClassesHorstmannLineCommentSans)
 	delete [] textOut;
 }
 
-TEST(IndentClassesHorstmannComment)
+TEST(IndentClasses_HorstmannComment)
 {
 	// test indent class blocks comment with horstmann brackets
 	// is run-in if class block is indented and does not start in column 1
@@ -314,7 +314,7 @@ TEST(IndentClassesHorstmannComment)
 	delete [] textOut;
 }
 
-TEST(IndentClassesHorstmannCommentSans)
+TEST(IndentClasses_HorstmannCommentSans)
 {
 	// test without indent class blocks comment with horstmann brackets
 	// currently are run-in and indented one indent if class block is not indented
@@ -335,7 +335,7 @@ TEST(IndentClassesHorstmannCommentSans)
 	delete [] textOut;
 }
 
-TEST(IndentClassesComment)
+TEST(IndentClasses_Comment)
 {
 	// test comment without indent class blocks
 	// comment is before the opening bracket
@@ -361,7 +361,7 @@ TEST(IndentClassesComment)
 	delete [] textOut;
 }
 
-TEST(IndentClassesCommentSans)
+TEST(IndentClasses_CommentSans)
 {
 	// test comment without indent class blocks
 	// comment is before the opening bracket
@@ -387,7 +387,7 @@ TEST(IndentClassesCommentSans)
 	delete [] textOut;
 }
 
-TEST(IndentClassesStruct)
+TEST(IndentClasses_Struct)
 {
 	// struct with access modifiers should have extra indent
 	// struct WITHOUT should NOT have extra indent
@@ -411,7 +411,7 @@ TEST(IndentClassesStruct)
 	delete [] textOut;
 }
 
-TEST(IndentClassesStructComment)
+TEST(IndentClasses_StructComment)
 {
 	// struct with comments containing access modifiers
 	// should NOT have extra indent
@@ -430,7 +430,7 @@ TEST(IndentClassesStructComment)
 	delete [] textOut;
 }
 
-TEST(IndentClassesStructQuote)
+TEST(IndentClasses_StructQuote)
 {
 	// struct with quotes containing access modifiers and brackets
 	// should NOT have extra indent
@@ -467,7 +467,7 @@ TEST(IndentClassesStructQuote)
 	delete [] textOut;
 }
 
-TEST(IndentClassesStructSansLeadingModifier)
+TEST(IndentClasses_StructSansLeadingModifier)
 {
 	// struct without a leading access modifier
 	char text[] =
@@ -484,7 +484,7 @@ TEST(IndentClassesStructSansLeadingModifier)
 	delete [] textOut;
 }
 
-TEST(IndentClassesStructBrackets)
+TEST(IndentClasses_StructBrackets)
 {
 	// struct containing non-struct brackets
 	char text[] =
@@ -503,7 +503,7 @@ TEST(IndentClassesStructBrackets)
 	delete [] textOut;
 }
 
-TEST(IndentClassesStructHorstmann)
+TEST(IndentClasses_StructHorstmann)
 {
 	// struct containing horstmann brackets
 	char textIn[] =
@@ -538,7 +538,7 @@ TEST(IndentClassesStructHorstmann)
 	delete [] textOut;
 }
 
-TEST(IndentClassesStructHorstmannSans)
+TEST(IndentClasses_StructHorstmannSans)
 {
 	// struct containing horstmann brackets without indent-classes
 	char textIn[] =
@@ -574,7 +574,7 @@ TEST(IndentClassesStructHorstmannSans)
 	delete [] textOut;
 }
 
-TEST(IndentClassesStructUnmatchedBrackets)
+TEST(IndentClasses_StructUnmatchedBrackets)
 {
 	// struct with unmatched brackets should not cause an abort
 	char textIn[] =
@@ -597,7 +597,7 @@ TEST(IndentClassesStructUnmatchedBrackets)
 	delete [] textOut;
 }
 
-TEST(IndentClassesStructSans)
+TEST(IndentClasses_StructSans)
 {
 	// struct without indent-classes should have not extra indent
 	char text[] =
@@ -620,7 +620,7 @@ TEST(IndentClassesStructSans)
 	delete [] textOut;
 }
 
-TEST(IndentClassesNestedStruct)
+TEST(IndentClasses_NestedStruct)
 {
 	// test indent with nested structs
 	char text[] =
@@ -648,7 +648,7 @@ TEST(IndentClassesNestedStruct)
 // AStyle Indent Switches
 //-------------------------------------------------------------------------
 
-TEST(IndentSwitchesNone)
+TEST(IndentSwitches_None)
 {
 	// test without indent switch blocks
 	char text[] =
@@ -698,7 +698,7 @@ TEST(IndentSwitches)
 	delete [] textOut;
 }
 
-TEST(IndentSwitchesShort)
+TEST(IndentSwitches_Short)
 {
 	// test indent switch blocks short option
 	char text[] =
@@ -723,7 +723,7 @@ TEST(IndentSwitchesShort)
 	delete [] textOut;
 }
 
-TEST(IndentSwitchesHorstmann)
+TEST(IndentSwitches_Horstmann)
 {
 	// test indent switch blocks with horstmann brackets
 	char textIn[] =
@@ -761,7 +761,7 @@ TEST(IndentSwitchesHorstmann)
 	delete [] textOut;
 }
 
-TEST(IndentSwitchesHorstmannTab)
+TEST(IndentSwitches_HorstmannTab)
 {
 	// test indent switch blocks with horstmann brackets and tab indents
 	char textIn[] =
@@ -799,7 +799,7 @@ TEST(IndentSwitchesHorstmannTab)
 	delete [] textOut;
 }
 
-TEST(IndentSwitchesHorstmannSans)
+TEST(IndentSwitches_HorstmannSans)
 {
 	// test without indent switch blocks with horstmann brackets
 	// 'case' statements should NOT be run-in
@@ -839,7 +839,7 @@ TEST(IndentSwitchesHorstmannSans)
 	delete [] textOut;
 }
 
-TEST(IndentSwitchesHorstmannSansTab)
+TEST(IndentSwitches_HorstmannSansTab)
 {
 	// test without indent switch blocks with horstmann brackets and tab indents
 	// 'case' statements should NOT be run-in
@@ -879,7 +879,7 @@ TEST(IndentSwitchesHorstmannSansTab)
 	delete [] textOut;
 }
 
-TEST(IndentSwitchesHorstmannLineComment)
+TEST(IndentSwitches_HorstmannLineComment)
 {
 	// test indent switch block line comments with horstmann brackets
 	// should run-in to indented switch blocks
@@ -909,7 +909,7 @@ TEST(IndentSwitchesHorstmannLineComment)
 	delete [] textOut;
 }
 
-TEST(IndentSwitchesHorstmannLineCommentSans)
+TEST(IndentSwitches_HorstmannLineCommentSans)
 {
 	// test switch block NOT indented line comments with horstmann brackets
 	// currently is run-in and indented with switch blocks
@@ -939,7 +939,7 @@ TEST(IndentSwitchesHorstmannLineCommentSans)
 	delete [] textOut;
 }
 
-TEST(IndentSwitchesHorstmannComment)
+TEST(IndentSwitches_HorstmannComment)
 {
 	// test indent switch block comments with horstmann brackets
 	// should run-in to indented switch blocks
@@ -969,7 +969,7 @@ TEST(IndentSwitchesHorstmannComment)
 	delete [] textOut;
 }
 
-TEST(IndentSwitchesHorstmannCommentSans)
+TEST(IndentSwitches_HorstmannCommentSans)
 {
 	// test switch block NOT indented comments with horstmann brackets
 	// currently is run-in and indented with switch blocks
@@ -1028,7 +1028,7 @@ TEST(IndentCases)
 	delete [] textOut;
 }
 
-TEST(IndentCasesShort)
+TEST(IndentCases_Short)
 {
 	// test indent case blocks
 	char text[] =
@@ -1053,7 +1053,7 @@ TEST(IndentCasesShort)
 	delete [] textOut;
 }
 
-TEST(IndentCasesSans1)
+TEST(IndentCases_Sans1)
 {
 	// test without indent case blocks
 	char text[] =
@@ -1078,7 +1078,7 @@ TEST(IndentCasesSans1)
 	delete [] textOut;
 }
 
-TEST(IndentCasesMultiple1)
+TEST(IndentCases_Multiple1)
 {
 	// test multiple case statements per line, with keep one line statements
 	char text[] =
@@ -1103,7 +1103,7 @@ TEST(IndentCasesMultiple1)
 	delete [] textOut;
 }
 
-TEST(IndentCasesMultiple2)
+TEST(IndentCases_Multiple2)
 {
 	// test multiple case statements per line, with break one line statements
 	char textIn[] =
@@ -1146,7 +1146,7 @@ TEST(IndentCasesMultiple2)
 	delete [] textOut;
 }
 
-TEST(IndentCasesSwitches)
+TEST(IndentCases_Switches)
 {
 	// test indent case blocks, with indent switch blocks
 	char text[] =
@@ -1238,7 +1238,7 @@ TEST(IndentBlocks)
 	delete [] textOut;
 }
 
-TEST(IndentBlocksShort)
+TEST(IndentBlocks_Short)
 {
 	// test indent blocks short option
 	// per GNU standards the only extra indent is within function blocks
@@ -1300,7 +1300,7 @@ TEST(IndentBlocksShort)
 	delete [] textOut;
 }
 
-TEST(IndentBlocksBrackets)
+TEST(IndentBlocks_Brackets)
 {
 	// test indent blocks and brackets
 	// these are mutually exclusive - indent blocks will be used
@@ -1337,7 +1337,7 @@ TEST(IndentBlocksBrackets)
 	delete [] textOut;
 }
 
-TEST(IndentBlocksStruct)
+TEST(IndentBlocks_Struct)
 {
 	// test indent blocks with structs and unions
 	// the opening bracket should NOT be indented
@@ -1438,7 +1438,7 @@ TEST(IndentBrackets)
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
-TEST(IndentBracketsShort)
+TEST(IndentBrackets_Short)
 {
 	// test indent brackets short option
 	char text[] =
@@ -1474,7 +1474,7 @@ TEST(IndentBracketsShort)
 	delete [] textOut;
 }
 
-TEST(IndentBracketsBlocks)
+TEST(IndentBrackets_Blocks)
 {
 	// test indent brackets and blocks
 	// these are mutually exclusive - indent blocks will be used
@@ -1511,7 +1511,7 @@ TEST(IndentBracketsBlocks)
 	delete [] textOut;
 }
 
-TEST(IndentBracketsHorstmannComments)
+TEST(IndentBrackets_HorstmannComments)
 {
 	// test indent brackets with Horstmann comments
 	// will probably not be used, but it needs to work
@@ -1539,7 +1539,7 @@ TEST(IndentBracketsHorstmannComments)
 	delete [] textOut;
 }
 
-TEST(IndentBracketsArrays)
+TEST(IndentBrackets_Arrays)
 {
 	// test indent brackets with arrays
 	char text[] =
@@ -1602,7 +1602,7 @@ TEST(IndentNamespaces)
 	delete [] textOut;
 }
 
-TEST(IndentNamespacesShort)
+TEST(IndentNamespaces_Short)
 {
 	// test indent namespaces short option
 	char text[] =
@@ -1638,7 +1638,7 @@ TEST(IndentNamespacesShort)
 	delete [] textOut;
 }
 
-TEST(IndentNamespacesHorstmann)
+TEST(IndentNamespaces_Horstmann)
 {
 	// horstmann brackets should NOT run-in to namespaces
 	char text[] =
@@ -1695,7 +1695,7 @@ TEST(IndentLabels)
 	delete [] textOut;
 }
 
-TEST(IndentLabelsShort)
+TEST(IndentLabels_Short)
 {
 	// test indent labels short option
 	char textIn[] =
@@ -1724,7 +1724,7 @@ TEST(IndentLabelsShort)
 	delete [] textOut;
 }
 
-TEST(IndentLabelsSans)
+TEST(IndentLabels_Sans)
 {
 	// test labels without indent labels option
 	char textIn[] =
@@ -1804,7 +1804,7 @@ TEST(IndentPreprocessor)
 	delete [] textOut;
 }
 
-TEST(IndentPreprocessorShort)
+TEST(IndentPreprocessor_Short)
 {
 	// test indent preprocessor short option
 	char textIn[] =
@@ -1821,7 +1821,7 @@ TEST(IndentPreprocessorShort)
 	delete [] textOut;
 }
 
-TEST(IndentPreprocessorInStatement)
+TEST(IndentPreprocessor_InStatement)
 {
 	// test preprocessor statements with an in-statement indent
 	char textIn[] =
@@ -1838,7 +1838,7 @@ TEST(IndentPreprocessorInStatement)
 	delete [] textOut;
 }
 
-TEST(IndentPreprocessorSans)
+TEST(IndentPreprocessor_Sans)
 {
 	// test preprocessor statements without indent preprocessor option
 	// they should not change
@@ -1893,7 +1893,7 @@ TEST(IndentCol1Comment)
 	delete [] textOut;
 }
 
-TEST(IndentCol1CommentShort)
+TEST(IndentCol1Comment_Short)
 {
 	// test indent column one comment short option
 	char textIn[] =
@@ -1918,7 +1918,7 @@ TEST(IndentCol1CommentShort)
 	delete [] textOut;
 }
 
-TEST(IndentCol1CommentSans)
+TEST(IndentCol1Comment_Sans)
 {
 	// test without indent column one comment
 	char textIn[] =
@@ -1976,7 +1976,7 @@ TEST(MaxInstatementIndent)
 	delete [] textOut;
 }
 
-TEST(MaxInstatementIndentShort)
+TEST(MaxInstatementIndent_Short)
 {
 	// test max instatement indent short option
 	char textIn[] =
@@ -2005,7 +2005,7 @@ TEST(MaxInstatementIndentShort)
 	delete [] textOut;
 }
 
-TEST(MaxInstatementIndentMax)
+TEST(MaxInstatementIndent_Max)
 {
 	// test max instatement indent with the max value
 	char textIn[] =
@@ -2034,7 +2034,7 @@ TEST(MaxInstatementIndentMax)
 	delete [] textOut;
 }
 
-TEST(MaxInstatementIndentSans)
+TEST(MaxInstatementIndent_Sans)
 {
 	// test max instatement indent with no value
 	// should use the default of 40
@@ -2054,7 +2054,7 @@ TEST(MaxInstatementIndentSans)
 	delete [] textOut;
 }
 
-TEST(MaxInstatementIndentMisc1)
+TEST(MaxInstatementIndent_Misc1)
 {
 	// test instatement indent greater than max
 	// should use 2 * indent (8)
@@ -2071,7 +2071,7 @@ TEST(MaxInstatementIndentMisc1)
 	delete [] textOut;
 }
 
-TEST(MaxInstatementIndentError)
+TEST(MaxInstatementIndent_Error)
 {
 	// test max instatement indent with an invalid value
 	// should call the error handler
@@ -2120,7 +2120,7 @@ TEST(MinConditionalIndent)
 	delete [] textOut;
 }
 
-TEST(MinConditionalIndentShort)
+TEST(MinConditionalIndent_Short)
 {
 	// test min conditional indent short option with a value of zero
 	char textIn[] =
@@ -2155,40 +2155,7 @@ TEST(MinConditionalIndentShort)
 	delete [] textOut;
 }
 
-TEST(MinConditionalIndentHorstmann)
-{
-	// test min conditional indent with horstmann brackets
-	char textIn[] =
-		"\nvoid foo()\n"
-		"{\n"
-		"    if (a < b\n"
-		"            || c < d)\n"
-		"        bar++;\n"
-		"\n"
-		"    if (a < b\n"
-		"            || c < d)\n"
-		"    {\n"
-		"        bar++;\n"
-		"    }\n"
-		"}\n";
-	char text[] =
-		"\nvoid foo()\n"
-		"{   if (a < b\n"
-		"            || c < d)\n"
-		"        bar++;\n"
-		"\n"
-		"    if (a < b\n"
-		"            || c < d)\n"
-		"    {   bar++;\n"
-		"    }\n"
-		"}\n";
-	char options[] = "brackets=horstmann";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
-	delete [] textOut;
-}
-
-TEST(MinConditionalIndentZero)
+TEST(MinConditionalIndent_Zero)
 {
 	// test min conditional indent with a value of 0
 	char textIn[] =
@@ -2223,22 +2190,31 @@ TEST(MinConditionalIndentZero)
 	delete [] textOut;
 }
 
-TEST(MinConditionalIndentEight)
+TEST(MinConditionalIndent_One)
 {
-	// test min conditional indent with a value of 8
-	char textIn[] =
+	// test min conditional indent with a value of 1
+	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
 		"    if (a < b\n"
-		"            || c < d)\n"
+		"        || c < d)\n"
 		"        bar++;\n"
 		"\n"
 		"    if (a < b\n"
-		"            || c < d)\n"
+		"        || c < d)\n"
 		"    {\n"
 		"        bar++;\n"
 		"    }\n"
 		"}\n";
+	char options[] = "min-conditional-indent=1";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	CHECK_EQUAL(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MinConditionalIndent_Two)
+{
+	// test min conditional indent with a value of 2
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -2252,48 +2228,35 @@ TEST(MinConditionalIndentEight)
 		"        bar++;\n"
 		"    }\n"
 		"}\n";
-	char options[] = "min-conditional-indent=8";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	char options[] = "min-conditional-indent=2";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MinConditionalIndentTwelve)
+TEST(MinConditionalIndent_Three)
 {
-	// test min conditional indent with a value of 12
-	char textIn[] =
-		"\nvoid foo()\n"
-		"{\n"
-		"    if (a < b\n"
-		"            || c < d)\n"
-		"        bar++;\n"
-		"\n"
-		"    if (a < b\n"
-		"            || c < d)\n"
-		"    {\n"
-		"        bar++;\n"
-		"    }\n"
-		"}\n";
+	// test min conditional indent with a value of 3
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
-		"    if (a < b\n"
-		"                || c < d)\n"
-		"        bar++;\n"
+		"        if (a < b\n"
+		"            || c < d)\n"
+		"                bar++;\n"
 		"\n"
-		"    if (a < b\n"
-		"                || c < d)\n"
-		"    {\n"
-		"        bar++;\n"
-		"    }\n"
+		"        if (a < b\n"
+		"            || c < d)\n"
+		"        {\n"
+		"                bar++;\n"
+		"        }\n"
 		"}\n";
-	char options[] = "min-conditional-indent=12";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	char options[] = "min-conditional-indent=3, indent=spaces=8";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MinConditionalIndentNoValue)
+TEST(MinConditionalIndent_NoValue)
 {
 	// test min conditional indent with no value
 	// should use the default
@@ -2316,7 +2279,7 @@ TEST(MinConditionalIndentNoValue)
 	delete [] textOut;
 }
 
-TEST(MinConditionalOverMax)
+TEST(MinConditionalIndent_OverMax)
 {
 	// test min conditional indent over max
 	// should use 2 * indent
@@ -2346,7 +2309,7 @@ TEST(MinConditionalOverMax)
 	delete [] textOut;
 }
 
-TEST(MinConditionalParenOverMax)
+TEST(MinConditionalIndent_ParenOverMax)
 {
 	// test min conditional indent over max with line ending in a paren
 	// should use 2 * indent
@@ -2376,7 +2339,7 @@ TEST(MinConditionalParenOverMax)
 	delete [] textOut;
 }
 
-TEST(MinConditionalIndentError)
+TEST(MinConditionalIndent_Error)
 {
 	// test min conditional indent with an invalid value
 	// should call the error handler
@@ -2402,35 +2365,3 @@ TEST(MinConditionalIndentError)
 	delete [] textOut;
 }
 
-//-------------------------------------------------------------------------
-// AStyle Indent Misc
-// Additional tests that are not specific options
-//-------------------------------------------------------------------------
-
-TEST(IndentMiscIndentableHeaders)
-{
-	// test indentable headers (return, cout, cin, cerr)
-	// these headers use InStatementIndent like an operator
-	char text[] =
-		"\nint foo () {\n"
-		"    if (foo1 == bar1)\n"
-		"        return xxx +\n"
-		"               yyy -\n"
-		"               zzz;\n"
-		"\n"
-		"    return (xxx +\n"
-		"            yyy -\n"
-		"            zzz);\n"
-		"\n"
-		"    cout << xxx << xxx\n"
-		"         << xxx << xxx << xxx;\n"
-		"    cin >> xxx >> xxx\n"
-		"        >> xxx >> xxx >> xxx;\n"
-		"    cerr << xxx << xxx\n"
-		"         << xxx << xxx << xxx;\n"
-		"}\n";
-	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
-	delete [] textOut;
-}

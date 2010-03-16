@@ -54,7 +54,7 @@ TEST(BreakBlocks)
 	delete [] textOut;
 }
 
-TEST(BreakBlocksShort)
+TEST(BreakBlocks_Short)
 {
 	// simple break blocks short option test
 	char textIn[] =
@@ -100,7 +100,7 @@ TEST(BreakBlocksShort)
 	delete [] textOut;
 }
 
-TEST(BreakBlocksWithBrackets)
+TEST(BreakBlocks_WithBrackets)
 {
 	// break blocks with preceding and following brackets
 	// should NOT braek before brackets
@@ -133,7 +133,7 @@ TEST(BreakBlocksWithBrackets)
 	delete [] textOut;
 }
 
-TEST(BreakBlocksWithElse)
+TEST(BreakBlocks_WithElse)
 {
 	// break blocks with 'else' statement
 	char textIn[] =
@@ -191,7 +191,7 @@ TEST(BreakBlocksWithElse)
 	delete [] textOut;
 }
 
-TEST(BreakBlocksWithForLoop)
+TEST(BreakBlocks_WithForLoop)
 {
 	// break blocks with 'for' loops
 	char textIn[] =
@@ -252,7 +252,7 @@ TEST(BreakBlocksWithForLoop)
 	delete [] textOut;
 }
 
-TEST(BreakBlocksWithSwitch)
+TEST(BreakBlocks_WithSwitch)
 {
 	// break blocks with 'switch'
 	// switch is broken but not the case statements
@@ -302,7 +302,7 @@ TEST(BreakBlocksWithSwitch)
 	delete [] textOut;
 }
 
-TEST(BreakBlocksWithPreprocessor)
+TEST(BreakBlocks_WithPreprocessor)
 {
 	// do NOT break blocks at a preprocessor directive
 	char textIn[] =
@@ -344,7 +344,7 @@ TEST(BreakBlocksWithPreprocessor)
 	delete [] textOut;
 }
 
-TEST(BreakBlocksWithEolComment1)
+TEST(BreakBlocks_WithEolComment1)
 {
 	// the block after an end of eol comment should be broken
 	// even if it starts  with a comment
@@ -382,7 +382,7 @@ TEST(BreakBlocksWithEolComment1)
 	delete [] textOut;
 }
 
-TEST(BreakBlocksWithEolComment2)
+TEST(BreakBlocks_WithEolComment2)
 {
 	// the block after an end of eol comment should be broken
 	// even if it starts  with a comment
@@ -420,7 +420,7 @@ TEST(BreakBlocksWithEolComment2)
 	delete [] textOut;
 }
 
-TEST(BreakBlocksWithComment1)
+TEST(BreakBlocks_WithComment1)
 {
 	// blocks with comments are correctly broken
 	// and should not be changed
@@ -451,7 +451,7 @@ TEST(BreakBlocksWithComment1)
 	delete [] textOut;
 }
 
-TEST(BreakBlocksWithComment2)
+TEST(BreakBlocks_WithComment2)
 {
 	// blocks with comments beginning the line
 	// should be broken
@@ -500,7 +500,7 @@ TEST(BreakBlocksWithComment2)
 	delete [] textOut;
 }
 
-TEST(BreakBlocksWithComment3)
+TEST(BreakBlocks_WithComment3)
 {
 	// blocks with comments not beginning the line
 	// should be broken
@@ -548,7 +548,7 @@ TEST(BreakBlocksWithComment3)
 	delete [] textOut;
 }
 
-TEST(BreakBlocksWithComment4)
+TEST(BreakBlocks_WithComment4)
 {
 	// blocks with comments should be broken
 	// leaving comments with the blocks
@@ -607,7 +607,7 @@ TEST(BreakBlocksWithComment4)
 	delete [] textOut;
 }
 
-TEST(BreakBlocksWithComment5)
+TEST(BreakBlocks_WithComment5)
 {
 	// blocks with comments should be broken
 	// leaving comments with the blocks
@@ -649,7 +649,7 @@ TEST(BreakBlocksWithComment5)
 	delete [] textOut;
 }
 
-TEST(BreakBlocksSans1)
+TEST(BreakBlocks_Sans1)
 {
 	// don't break bocks for preDefinitionHeaders (namespace, class...)
 	// don't break bocks for access modifiers (public, private, protected)
@@ -675,7 +675,7 @@ TEST(BreakBlocksSans1)
 	delete [] textOut;
 }
 
-TEST(BreakBlocksSans2)
+TEST(BreakBlocks_Sans2)
 {
 	// don't break blocks for C# 'get' and 'set' or 'add' and 'remove'
 	char text[] =
@@ -697,7 +697,7 @@ TEST(BreakBlocksSans2)
 	delete [] textOut;
 }
 
-TEST(BreakBlocksSans3)
+TEST(BreakBlocks_Sans3)
 {
 	// don't break blocks if comment is not followed by a header
 	char text[] =
@@ -2501,7 +2501,7 @@ TEST(DeleteEmptyLines)
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLinesShort)
+TEST(DeleteEmptyLines_Short)
 {
 	// test delete empty lines
 	char textIn[] =
@@ -2561,9 +2561,8 @@ TEST(DeleteEmptyLinesShort)
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLines2)
+TEST(DeleteEmptyLines_Comment)
 {
-	// test delete empty lines
 	// the empty lines before and after comments should be deleted
 	char textIn[] =
 		"\nvoid Foo(bool fooBar)\n"
@@ -2608,7 +2607,7 @@ TEST(DeleteEmptyLines2)
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLinesBreakBlocks1)
+TEST(DeleteEmptyLines_BreakBlocks1)
 {
 	// test delete empty lines, with break blocks
 	// the empty lines created by break blocks should NOT be deleted
@@ -2655,7 +2654,7 @@ TEST(DeleteEmptyLinesBreakBlocks1)
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLinesBreakBlocks2)
+TEST(DeleteEmptyLines_BreakBlocks2)
 {
 	// test delete empty lines, with break blocks
 	// the empty lines should not be deleted on header blocks
@@ -2706,7 +2705,7 @@ TEST(DeleteEmptyLinesBreakBlocks2)
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLinesBreakBlocks3)
+TEST(DeleteEmptyLines_BreakBlocks3)
 {
 	// test delete empty lines, with break blocks
 	// the comments are not followed by a potential header
@@ -2740,7 +2739,7 @@ TEST(DeleteEmptyLinesBreakBlocks3)
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLinesBreakBlocks4)
+TEST(DeleteEmptyLines_BreakBlocks4)
 {
 	// test delete empty lines, with break blocks
 	// the empty lines are not followed by a header
@@ -2771,7 +2770,7 @@ TEST(DeleteEmptyLinesBreakBlocks4)
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLinesBreakBlocks5)
+TEST(DeleteEmptyLines_BreakBlocks5)
 {
 	// test delete empty lines, with break blocks
 	// the line before "else" should be deleted
@@ -2806,7 +2805,7 @@ TEST(DeleteEmptyLinesBreakBlocks5)
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLinesBreakBlocks6)
+TEST(DeleteEmptyLines_BreakBlocks6)
 {
 	// test delete empty lines, with break blocks
 	// the line after opening bracket should be deleted
@@ -2833,7 +2832,7 @@ TEST(DeleteEmptyLinesBreakBlocks6)
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLinesBreakBlocksAll1)
+TEST(DeleteEmptyLines_BreakBlocksAll1)
 {
 	// test delete empty lines, with break all blocks
 	// the empty lines created by break all blocks should NOT be deleted
@@ -2862,7 +2861,7 @@ TEST(DeleteEmptyLinesBreakBlocksAll1)
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLinesBreakBlocksAll2)
+TEST(DeleteEmptyLines_BreakBlocksAll2)
 {
 	// test delete empty lines, with break all blocks
 	// the empty lines created by break all blocks should NOT be deleted
@@ -2893,7 +2892,7 @@ TEST(DeleteEmptyLinesBreakBlocksAll2)
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLinesBreakBlocksAll3)
+TEST(DeleteEmptyLines_BreakBlocksAll3)
 {
 	// test delete empty lines, with break all blocks
 	// the comments are not followed by a potential header
@@ -2927,7 +2926,7 @@ TEST(DeleteEmptyLinesBreakBlocksAll3)
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLinesBreakBlocksAll4)
+TEST(DeleteEmptyLines_BreakBlocksAll4)
 {
 	// test delete empty lines, with break all blocks
 	// the comments are not followed by a header
@@ -2958,7 +2957,7 @@ TEST(DeleteEmptyLinesBreakBlocksAll4)
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLinesBreakBlocksAll5)
+TEST(DeleteEmptyLines_BreakBlocksAll5)
 {
 	// test delete empty lines, with break blocks
 	// the line before "else" should be deleted
@@ -2981,7 +2980,7 @@ TEST(DeleteEmptyLinesBreakBlocksAll5)
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLinesBreakBlocksAll6)
+TEST(DeleteEmptyLines_BreakBlocksAll6)
 {
 	// test delete empty lines, with break blocks
 	// the line after opening bracket should be deleted
@@ -3008,7 +3007,7 @@ TEST(DeleteEmptyLinesBreakBlocksAll6)
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLinesBreakBlocksComment1)
+TEST(DeleteEmptyLines_BreakBlocksComment1)
 {
 	// delete empty lines with break blocks
 	// should not delete lines between comments
@@ -3035,7 +3034,7 @@ TEST(DeleteEmptyLinesBreakBlocksComment1)
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLinesBreakBlocksComment2)
+TEST(DeleteEmptyLines_BreakBlocksComment2)
 {
 	// delete empty lines with break blocks
 	// test mixing comments and line comments
@@ -3109,7 +3108,7 @@ TEST(FillEmptyLines)
 	delete [] textOut;
 }
 
-TEST(FillEmptyLinesShort)
+TEST(FillEmptyLines_Short)
 {
 	// test fill empty lines short option
 	char textIn[] =
@@ -3138,7 +3137,7 @@ TEST(FillEmptyLinesShort)
 	delete [] textOut;
 }
 
-TEST(FillEmptyLinesTab)
+TEST(FillEmptyLines_Tab)
 {
 	// test fill empty lines with tabs
 	char textIn[] =
@@ -3171,7 +3170,7 @@ TEST(FillEmptyLinesTab)
 	delete [] textOut;
 }
 
-TEST(FillEmptyLinesForceTab)
+TEST(FillEmptyLines_ForceTab)
 {
 	// test fill empty lines with force tabs
 	char textIn[] =
@@ -3206,7 +3205,7 @@ TEST(FillEmptyLinesForceTab)
 	delete [] textOut;
 }
 
-TEST(FillEmptyLinesEventTable)
+TEST(FillEmptyLines_EventTable)
 {
 	// test fill empty lines in an event table
 	char textIn[] =
@@ -3229,7 +3228,7 @@ TEST(FillEmptyLinesEventTable)
 	delete [] textOut;
 }
 
-TEST(FillEmptyLinesSQL)
+TEST(FillEmptyLines_SQL)
 {
 	// test fill empty lines in an SQL statement
 	char textIn[] =

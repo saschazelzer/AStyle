@@ -294,15 +294,6 @@ string getTestDirectory()
 	return dirPath;
 }
 
-void removeOptionsFile(const string& optionsFileName)
-// remove a test options file
-{
-	errno = 0;
-	remove(optionsFileName.c_str());
-	if (errno)
-		systemPause("Cannot remove options test file: " + optionsFileName);
-}
-
 void removeTestDirectory(const string &dirName)
 // remove a test directory
 {
@@ -312,6 +303,18 @@ void removeTestDirectory(const string &dirName)
 #else
 	rmdir(dirName.c_str());
 #endif
+}
+
+void removeTestFile(const string& testFileName)
+// remove a test file
+{
+	errno = 0;
+	remove(testFileName.c_str());
+	if (errno)
+	{
+		perror("errno message");
+		systemPause("Cannot remove test file: " + testFileName);
+	}
 }
 
 void systemPause(const string& message)

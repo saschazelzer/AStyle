@@ -220,10 +220,14 @@ def remove_test_directory(pattern):
 		file = file.replace('\\', '/')
 		prtfile = strip_directory_prefix(file)
 		print "remove " + prtfile
-		shutil.rmtree(file, True)
-		# this is a problem with Windows only
-		if os.path.isdir(file):
-			libastyle.system_exit("Directory not removed: " + file)
+		# removed the directory - this is a problem with Windows only
+		imax = 2
+		for i in range(0, imax):
+			shutil.rmtree(file, True)
+			if not os.path.isdir(file): break
+			if i == imax:
+				libastyle.system_exit("Directory not removed: " + file)
+			time.sleep(5)
 
 # -----------------------------------------------------------------------------
 

@@ -16,7 +16,7 @@
 // test vectors excludeVector, excludeHitsVector, fileNameVector, optionsVector, fileOptionsVector
 //----------------------------------------------------------------------------
 
-TEST(processOptionsExcludeVector)
+TEST(ProcessOptions_ExcludeVector)
 // test processOptions for excludeVector
 {
 	ASFormatter formatter;
@@ -65,7 +65,7 @@ TEST(processOptionsExcludeVector)
 	deleteConsoleGlobalObject();
 }
 
-TEST(processOptionsExcludeHitsVector)
+TEST(ProcessOptions_ExcludeHitsVector)
 // test processOptions for excludeHitsVector
 {
 	ASFormatter formatter;
@@ -100,7 +100,7 @@ TEST(processOptionsExcludeHitsVector)
 	deleteConsoleGlobalObject();
 }
 
-TEST(processOptionsFileNameVector)
+TEST(ProcessOptions_FileNameVector)
 // test processOptions for fileNameVector
 {
 	ASFormatter formatter;
@@ -132,7 +132,7 @@ TEST(processOptionsFileNameVector)
 	deleteConsoleGlobalObject();
 }
 
-TEST(processOptionsOptionsVector)
+TEST(ProcessOptions_OptionsVector)
 // test processOptions for optionsVector
 {
 	ASFormatter formatter;
@@ -164,7 +164,7 @@ TEST(processOptionsOptionsVector)
 	deleteConsoleGlobalObject();
 }
 
-TEST(processOptionsFileOptionsVector)
+TEST(ProcessOptions_FileOptionsVector)
 // test processOptions for fileOptionsVector with --options=###
 {
 	ASFormatter formatter;
@@ -219,12 +219,12 @@ TEST(processOptionsFileOptionsVector)
 	for (size_t i = 0; i < iMax; i++)
 		CHECK_EQUAL(fileOptions[i], fileOptionsVector[i]);
 
-	removeOptionsFile(optionsFileName);
+	removeTestFile(optionsFileName);
 	delete [] argv;
 	deleteConsoleGlobalObject();
 }
 
-TEST(processOptionsFileOptionsVectorEnvVar)
+TEST(ProcessOptions_FileOptionsVector_EnvironmentVariable)
 // test processOptions for fileOptionsVector
 //     with ARTISTIC_STYLE_OPTIONS enviromnent variable
 {
@@ -278,12 +278,12 @@ TEST(processOptionsFileOptionsVectorEnvVar)
 	putenv(const_cast<char*>(envClear.c_str()));
 
 	// cleanup
-	removeOptionsFile(envFilePath);
+	removeTestFile(envFilePath);
 	delete [] argv;
 	deleteConsoleGlobalObject();
 }
 
-TEST(processOptionsFileOptionsVectorHome)
+TEST(ProcessOptions_FileOptionsVector_Home)
 // test processOptions for fileOptionsVector with $HOME options
 {
 	ASFormatter formatter;
@@ -336,12 +336,12 @@ TEST(processOptionsFileOptionsVectorHome)
 	for (size_t i = 0; i < iMax; i++)
 		CHECK_EQUAL(fileOptions[i], fileOptionsVector[i]);
 
-	removeOptionsFile(optionsFileName);
+	removeTestFile(optionsFileName);
 	delete [] argv;
 	deleteConsoleGlobalObject();
 }
 
-TEST(processOptionsFileOptionsVectorNone)
+TEST(ProcessOptions_FileOptionsVector_None)
 // test processOptions for fileOptionsVector with --options=none
 // should not process the astylerc file
 {
@@ -384,12 +384,12 @@ TEST(processOptionsFileOptionsVectorNone)
 	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
 	CHECK(fileOptionsVector.size() == 0);
 
-	removeOptionsFile(optionsFileName);
+	removeTestFile(optionsFileName);
 	delete [] argv;
 	deleteConsoleGlobalObject();
 }
 
-TEST(processOptionsFileOptionsVectorNoLineEnd)
+TEST(ProcessOptions_FileOptionsVector_NoLineEnd)
 // test processOptions for fileOptionsVector with --options=###
 //    and NO final line end
 {
@@ -430,12 +430,12 @@ TEST(processOptionsFileOptionsVectorNoLineEnd)
 	for (size_t i = 0; i < iMax; i++)
 		CHECK_EQUAL(fileOptions[i], fileOptionsVector[i]);
 
-	removeOptionsFile(optionsFileName);
+	removeTestFile(optionsFileName);
 	delete [] argv;
 	deleteConsoleGlobalObject();
 }
 
-TEST(processOptionsFileOptionsVectorError)
+TEST(ProcessOptions_FileOptionsVector_Error)
 // test processOptions for option errors
 {
 	ASFormatter formatter;
@@ -490,14 +490,14 @@ TEST(processOptionsFileOptionsVectorError)
 	for (size_t i = 0; i < iMax; i++)
 		CHECK_EQUAL(fileOptions[i], fileOptionsVector[i]);
 
-	removeOptionsFile(optionsFileName);
+	removeTestFile(optionsFileName);
 	delete [] argv;
 	delete msgOut;
 	_err = &cerr;
 	deleteConsoleGlobalObject();
 }
 
-TEST(processOptionsFileOptionsVectorFileError1)
+TEST(ProcessOptions_FileOptionsVector_FileError1)
 // test processOptions with an options file error
 // input with --options=###
 // invalidrc.txt is not a valid file
@@ -531,7 +531,7 @@ TEST(processOptionsFileOptionsVectorFileError1)
 	deleteConsoleGlobalObject();
 }
 
-TEST(processOptionsFileOptionsVectorFileError2)
+TEST(ProcessOptions_FileOptionsVector_FileError2)
 // test processOptions with an options file error
 // input with --options= (no filename)
 {
@@ -562,8 +562,9 @@ TEST(processOptionsFileOptionsVectorFileError2)
 	deleteConsoleGlobalObject();
 }
 
-TEST(processOptionsConsoleOptions)
+TEST(ProcessOptions_ConsoleOptions)
 // test processOptions for console options
+// the "lineend" option is tested separately
 {
 	ASFormatter formatter;
 	createConsoleGlobalObject(formatter);
@@ -601,7 +602,7 @@ TEST(processOptionsConsoleOptions)
 	deleteConsoleGlobalObject();
 }
 
-TEST(processOptionsConsoleOptionsShort)
+TEST(ProcessOptions_ConsoleOptions_Short)
 // test processOptions for short console options
 {
 	ASFormatter formatter;
@@ -639,7 +640,7 @@ TEST(processOptionsConsoleOptionsShort)
 	deleteConsoleGlobalObject();
 }
 
-TEST(processOptionsConsoleOptionsError)
+TEST(ProcessOptions_ConsoleOptions_Error)
 // test processOptions for options errors
 {
 	ASFormatter formatter;
@@ -687,7 +688,7 @@ TEST(processOptionsConsoleOptionsError)
 // AStyle test --help and --version options
 //----------------------------------------------------------------------------
 
-TEST(processOptionsHelpOption)
+TEST(ProcessOptions_HelpOption)
 // test processOptions for help option
 {
 	ASFormatter formatter;
@@ -716,7 +717,7 @@ TEST(processOptionsHelpOption)
 	deleteConsoleGlobalObject();
 }
 
-TEST(processOptionsHelpOptionShort1)
+TEST(ProcessOptions_HelpOption_Short1)
 // test processOptions for help short option -h
 {
 	ASFormatter formatter;
@@ -745,7 +746,7 @@ TEST(processOptionsHelpOptionShort1)
 	deleteConsoleGlobalObject();
 }
 
-TEST(processOptionsHelpOptionShort2)
+TEST(ProcessOptions_HelpOption_Short2)
 // test processOptions for help short option -?
 {
 	ASFormatter formatter;
@@ -774,7 +775,7 @@ TEST(processOptionsHelpOptionShort2)
 	deleteConsoleGlobalObject();
 }
 
-TEST(processOptionsVersionOption)
+TEST(ProcessOptions_VersionOption)
 // test processOptions for version option
 {
 	ASFormatter formatter;
@@ -803,7 +804,7 @@ TEST(processOptionsVersionOption)
 	deleteConsoleGlobalObject();
 }
 
-TEST(processOptionsVersionOptionShort)
+TEST(ProcessOptions_VersionOption_Short)
 // test processOptions for version short option
 {
 	ASFormatter formatter;
@@ -868,7 +869,7 @@ struct testSuffix
 	}
 };
 
-TEST_FIXTURE(testSuffix, suffixNone)
+TEST_FIXTURE(testSuffix, SuffixNone)
 // test suffix=none option on files
 {
 	assert(g_console != NULL);
@@ -899,7 +900,7 @@ TEST_FIXTURE(testSuffix, suffixNone)
 	}
 }
 
-TEST_FIXTURE(testSuffix, suffixDotOld)
+TEST_FIXTURE(testSuffix, SuffixDotOld)
 // test suffix=.old option on files (with dot)
 {
 	assert(g_console != NULL);
@@ -931,7 +932,7 @@ TEST_FIXTURE(testSuffix, suffixDotOld)
 	}
 }
 
-TEST_FIXTURE(testSuffix, suffixXXX)
+TEST_FIXTURE(testSuffix, SuffixXXX)
 // test suffix=xxx option on files (no dot)
 {
 	assert(g_console != NULL);
@@ -967,7 +968,7 @@ TEST_FIXTURE(testSuffix, suffixXXX)
 // AStyle test getCurrentDirectory function
 //----------------------------------------------------------------------------
 
-TEST(getCurrentDirectory)
+TEST(GetCurrentDirectory)
 // test getCurrentDirectory function
 {
 	ASFormatter formatter;
@@ -982,7 +983,7 @@ TEST(getCurrentDirectory)
 	string testFilePath = getCurrentDirectory() + testFile;
 	g_console->standardizePath(testFilePath);
 
-	// write the output file
+	// write the output file to the current directory
 	ofstream fout(testFilePath.c_str(), ios::binary | ios::trunc);
 	if (!fout)
 	{
@@ -1007,14 +1008,7 @@ TEST(getCurrentDirectory)
 	vector<string> fileName = g_console->getFileName();
 	CHECK_EQUAL(testFilePath, fileName[0]);
 
-	// remove test file
-	errno = 0;
-	remove(testFilePath.c_str());
-	if (errno)
-	{
-		perror("errno message");
-		systemPause("Cannot remove getCurrentDirectory file: " + testFile);
-	}
+	removeTestFile(testFilePath);
 	deleteConsoleGlobalObject();
 }
 
@@ -1022,22 +1016,48 @@ TEST(getCurrentDirectory)
 // AStyle test stringEndsWith function
 //----------------------------------------------------------------------------
 
-TEST(stringEndsWith)
+TEST(StringEndsWith_FileExtension_True)
 {
 	ASFormatter formatter;
 	createConsoleGlobalObject(formatter);
-
 	bool result1 = g_console->stringEndsWith("fileName.cpp", string(".cpp"));
 	CHECK(result1);
+	deleteConsoleGlobalObject();
+}
+
+TEST(StringEndsWith_FileExtension_False)
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 	bool result2 = g_console->stringEndsWith("fileName.cpp", string(".xxx"));
 	CHECK(!result2);
+	deleteConsoleGlobalObject();
+}
+
+TEST(StringEndsWith_SansFileExtension)
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 	bool result3 = g_console->stringEndsWith("fileNamenoextension", string("noextension"));
 	CHECK(result3);
+	deleteConsoleGlobalObject();
+}
+
+TEST(StringEndsWith_WholeName)
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 	bool result4 = g_console->stringEndsWith("wholename", string("wholename"));
 	CHECK(result4);
+	deleteConsoleGlobalObject();
+}
+
+TEST(StringEndsWith_TestLongerThanName)
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
 	bool result5 = g_console->stringEndsWith("long", string("xlong"));
 	CHECK(!result5);
-
 	deleteConsoleGlobalObject();
 }
 
@@ -1097,7 +1117,7 @@ struct testEncoding
 	}
 };
 
-TEST_FIXTURE(testEncoding, encodingUTF16BE)
+TEST_FIXTURE(testEncoding, Encoding_UTF16BE)
 // test encoding with UTF-16BE BOM
 {
 	ifstream in(fileNames[0].c_str(), ios::binary);
@@ -1105,7 +1125,7 @@ TEST_FIXTURE(testEncoding, encodingUTF16BE)
 	CHECK_EQUAL(UTF_16BE, encoding);
 }
 
-TEST_FIXTURE(testEncoding, encodingUTF16LE)
+TEST_FIXTURE(testEncoding, Encoding_UTF16LE)
 // test encoding with UTF-16LE BOM
 {
 	ifstream in(fileNames[1].c_str(), ios::binary);
@@ -1113,7 +1133,7 @@ TEST_FIXTURE(testEncoding, encodingUTF16LE)
 	CHECK_EQUAL(UTF_16LE, encoding);
 }
 
-TEST_FIXTURE(testEncoding, encodingUTF32BE)
+TEST_FIXTURE(testEncoding, Encoding_UTF32BE)
 // test encoding with UTF-32BE BOM
 {
 	ifstream in(fileNames[2].c_str(), ios::binary);
@@ -1121,7 +1141,7 @@ TEST_FIXTURE(testEncoding, encodingUTF32BE)
 	CHECK_EQUAL(UTF_32BE, encoding);
 }
 
-TEST_FIXTURE(testEncoding, encodingUTF32LE)
+TEST_FIXTURE(testEncoding, Encoding_UTF32LE)
 // test encoding with UTF-32LE BOM
 {
 	ifstream in(fileNames[3].c_str(), ios::binary);
@@ -1129,7 +1149,7 @@ TEST_FIXTURE(testEncoding, encodingUTF32LE)
 	CHECK_EQUAL(UTF_32LE, encoding);
 }
 
-TEST_FIXTURE(testEncoding, encodingNone)
+TEST_FIXTURE(testEncoding, Encoding_None)
 // test encoding with no encoding
 {
 	ifstream in(fileNames[4].c_str(), ios::binary);
@@ -1137,7 +1157,7 @@ TEST_FIXTURE(testEncoding, encodingNone)
 	CHECK_EQUAL(ENCODING_OK, encoding);
 }
 
-TEST_FIXTURE(testEncoding, encodingZeroLength)
+TEST_FIXTURE(testEncoding, Encoding_ZeroLength)
 // test encoding with no encoding
 {
 	ifstream in(fileNames[5].c_str(), ios::binary);
@@ -1145,7 +1165,7 @@ TEST_FIXTURE(testEncoding, encodingZeroLength)
 	CHECK_EQUAL(ENCODING_OK, encoding);
 }
 
-TEST_FIXTURE(testEncoding, encodingFileTest)
+TEST_FIXTURE(testEncoding, Encoding_FileTest)
 // test rejection of UTF-16 and UTF-32 files
 {
 	assert(g_console != NULL);
@@ -1224,7 +1244,7 @@ struct testPreserveDate
 	}
 };
 
-TEST_FIXTURE(testPreserveDate, preserveDate)
+TEST_FIXTURE(testPreserveDate, PreserveDate)
 // test formatting with preserve-date option
 {
 	assert(g_console != NULL);
@@ -1250,7 +1270,7 @@ TEST_FIXTURE(testPreserveDate, preserveDate)
 	}
 }
 
-TEST_FIXTURE(testPreserveDate, preserveDateSans)
+TEST_FIXTURE(testPreserveDate, PreserveDate_Sans)
 // test formatting without preserve-date option
 {
 	assert(g_console != NULL);
@@ -1317,7 +1337,7 @@ struct testChecksum
 	}
 };
 
-TEST_FIXTURE(testChecksum, checksum)
+TEST_FIXTURE(testChecksum, Checksum)
 // test checksum procedure
 {
 	assert(g_console != NULL);
@@ -1345,7 +1365,7 @@ TEST_FIXTURE(testChecksum, checksum)
 	CHECK(formatter.getChecksumDiff() == 0);
 }
 
-TEST_FIXTURE(testChecksum, checksumAddBrackets)
+TEST_FIXTURE(testChecksum, Checksum_AddBrackets)
 // test checksum procedure with add-brackets
 {
 	assert(g_console != NULL);
@@ -1388,7 +1408,7 @@ TEST_FIXTURE(testChecksum, checksumAddBrackets)
 	delete [] argv;
 }
 
-TEST_FIXTURE(testChecksum, checksumAddOneLineBrackets)
+TEST_FIXTURE(testChecksum, Checksum_AddOneLineBrackets)
 // test checksum procedure with add-one-line-brackets
 {
 	assert(g_console != NULL);
@@ -1435,7 +1455,7 @@ TEST_FIXTURE(testChecksum, checksumAddOneLineBrackets)
 // AStyle test ASResources operator vectors sequence
 //----------------------------------------------------------------------------
 
-TEST(buildOperatorsSequence)
+TEST(BuildOperators_Sequence)
 // check the sequence of ASResource::buildOperators
 {
 	// build the operators vector
@@ -1453,7 +1473,7 @@ TEST(buildOperatorsSequence)
 	}
 }
 
-TEST(buildAssignmentOperatorsSequence)
+TEST(BuildAssignmentOperators_Sequence)
 // check the sequence of ASResource::buildAssignmentOperators
 {
 	// build the assignmentOperators vector
@@ -1471,7 +1491,7 @@ TEST(buildAssignmentOperatorsSequence)
 	}
 }
 
-TEST(buildNonAssignmentOperatorsSequence)
+TEST(BuildNonAssignmentOperators_Sequence)
 // check the sequence of ASResource::buildNonAssignmentOperators
 {
 	// build the nonAssignmentOperators vector
@@ -1493,7 +1513,7 @@ TEST(buildNonAssignmentOperatorsSequence)
 // AStyle test ASResources header vectors sequence
 //----------------------------------------------------------------------------
 
-TEST(buildCastOperatorsSequence)
+TEST(BuildCastOperators_Sequence)
 // check the sequence of ASResource::buildCastOperators
 {
 	// build the castOperators vector
@@ -1511,7 +1531,7 @@ TEST(buildCastOperatorsSequence)
 	}
 }
 
-TEST(buildHeadersSequence)
+TEST(BuildHeaders_Sequence)
 // check the sequence of ASResource::buildHeaders
 {
 	// build the headers vector
@@ -1529,7 +1549,7 @@ TEST(buildHeadersSequence)
 	}
 }
 
-TEST(buildIndentableHeadersSequence)
+TEST(BbuildIndentableHeaders_Sequence)
 // check the sequence of ASResource::buildIndentableHeaders
 {
 	// build the indentableHeaders vector
@@ -1547,7 +1567,7 @@ TEST(buildIndentableHeadersSequence)
 	}
 }
 
-TEST(buildNonParenHeadersSequence)
+TEST(BuildNonParenHeaders_Sequence)
 // check the sequence of ASResource::buildNonParenHeaders
 {
 	// build the nonParenHeaders vector
@@ -1565,7 +1585,7 @@ TEST(buildNonParenHeadersSequence)
 	}
 }
 
-TEST(buildPreBlockStatementsSequence)
+TEST(BuildPreBlockStatements_Sequence)
 // check the sequence of ASResource::buildPreBlockStatements
 {
 	// build the preBlockStatements vector
@@ -1583,7 +1603,7 @@ TEST(buildPreBlockStatementsSequence)
 	}
 }
 
-TEST(buildPreCommandHeadersSequence)
+TEST(BuildPreCommandHeaders_Sequence)
 // check the sequence of ASResource::buildPreCommandHeaders
 {
 	// build the preCommandHeaders vector
@@ -1601,7 +1621,7 @@ TEST(buildPreCommandHeadersSequence)
 	}
 }
 
-TEST(buildPreDefinitionHeadersSequence)
+TEST(BuildPreDefinitionHeaders_Sequence)
 // check the sequence of ASResource::buildPreDefinitionHeaders
 {
 	// build the preDefinitionHeaders vector

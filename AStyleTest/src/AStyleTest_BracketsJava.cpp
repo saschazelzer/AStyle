@@ -73,7 +73,7 @@ TEST_FIXTURE(javaText, JavaBracketsNone)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsNoneBlocks)
+TEST_FIXTURE(javaText, JavaBracketsNone_Blocks)
 {
 	// test default blocks option, with indent blocks
 	char text[] =
@@ -100,7 +100,7 @@ TEST_FIXTURE(javaText, JavaBracketsNoneBlocks)
 }
 
 
-TEST_FIXTURE(javaText, JavaBracketsNoneBrackets)
+TEST_FIXTURE(javaText, JavaBracketsNone_Brackets)
 {
 	// test default brackets option, with indent brackets
 	char text[] =
@@ -126,7 +126,7 @@ TEST_FIXTURE(javaText, JavaBracketsNoneBrackets)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsNoneEmptyBrackets)
+TEST(JavaBracketsNone_EmptyBrackets)
 {
 	// test default brackets option (do not change)
 	// do not change empty brackets
@@ -143,7 +143,7 @@ TEST(JavaBracketsNoneEmptyBrackets)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsNoneBreak)
+TEST(JavaBracketsNone_Break)
 {
 	// test default brackets option with broken brackets
 	char text[] =
@@ -164,7 +164,7 @@ TEST(JavaBracketsNoneBreak)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsNoneAttach)
+TEST(JavaBracketsNone_Attach)
 {
 	// test default brackets option with attached brackets
 	char text[] =
@@ -181,7 +181,7 @@ TEST(JavaBracketsNoneAttach)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsNoneLinux)
+TEST(JavaBracketsNone_Linux)
 {
 	// test default brackets option with linux brackets
 	char text[] =
@@ -199,7 +199,7 @@ TEST(JavaBracketsNoneLinux)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsNoneHorstmann)
+TEST(JavaBracketsNone_Horstmann)
 {
 	// test default brackets option with horstmann brackets
 	char text[] =
@@ -217,7 +217,7 @@ TEST(JavaBracketsNoneHorstmann)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsNoneEnumConstructorBreak)
+TEST(JavaBracketsNone_EnumConstructorBreak)
 {
 	// test defzult brackets option with an enum constructor
 	char text[] =
@@ -243,7 +243,7 @@ TEST(JavaBracketsNoneEnumConstructorBreak)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsNoneEnumConstructorAttach)
+TEST(JavaBracketsNone_EnumConstructorAttach)
 {
 	// test default brackets option with an enum constructor
 	char text[] =
@@ -265,7 +265,7 @@ TEST(JavaBracketsNoneEnumConstructorAttach)
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
-TEST(JavaBracketsNoneEnumConstructorHorstmann)
+TEST(JavaBracketsNone_EnumConstructorHorstmann)
 {
 	// test default brackets option with an enum constructor
 	char text[] =
@@ -320,7 +320,7 @@ TEST_FIXTURE(javaText, JavaBracketsBreak)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsBreakShort)
+TEST_FIXTURE(javaText, JavaBracketsBreak_Short)
 {
 	// test break brackets short option
 	char text[] =
@@ -347,7 +347,7 @@ TEST_FIXTURE(javaText, JavaBracketsBreakShort)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsBreakBlocks)
+TEST_FIXTURE(javaText, JavaBracketsBreak_Blocks)
 {
 	// test break brackets option, with indent blocks
 	char text[] =
@@ -376,7 +376,7 @@ TEST_FIXTURE(javaText, JavaBracketsBreakBlocks)
 }
 
 
-TEST_FIXTURE(javaText, JavaBracketsBreakBrackets)
+TEST_FIXTURE(javaText, JavaBracketsBreak_Brackets)
 {
 	// test break brackets option, with indent brackets
 	char text[] =
@@ -404,7 +404,7 @@ TEST_FIXTURE(javaText, JavaBracketsBreakBrackets)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsBreakEmptyBrackets)
+TEST(JavaBracketsBreak_EmptyBrackets)
 {
 	// test break brackets option
 	// do not change empty brackets
@@ -420,7 +420,7 @@ TEST(JavaBracketsBreakEmptyBrackets)
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
-TEST(JavaBracketsBreakBreak)
+TEST(JavaBracketsBreak_Break)
 {
 	// test break brackets option with broken brackets
 	char text[] =
@@ -441,7 +441,7 @@ TEST(JavaBracketsBreakBreak)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsBreakAttach)
+TEST(JavaBracketsBreak_Attach)
 {
 	// test break brackets option with attached brackets
 	char textIn[] =
@@ -470,7 +470,7 @@ TEST(JavaBracketsBreakAttach)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsBreakLinux)
+TEST(JavaBracketsBreak_Linux)
 {
 	// test break brackets option with linux brackets
 	char textIn[] =
@@ -500,7 +500,7 @@ TEST(JavaBracketsBreakLinux)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsBreakHorstmann)
+TEST(JavaBracketsBreak_Horstmann)
 {
 	// test break brackets option with horstmann brackets
 	char textIn[] =
@@ -530,7 +530,7 @@ TEST(JavaBracketsBreakHorstmann)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsBreakEnumConstructor)
+TEST(JavaBracketsBreak_EnumConstructor)
 {
 	// test break brackets option with an enum constructor
 	char textIn[] =
@@ -597,7 +597,7 @@ TEST_FIXTURE(javaText, JavaBracketsAttach)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsAttachShort)
+TEST_FIXTURE(javaText, JavaBracketsAttach_Short)
 {
 	// test attach brackets short option
 	char text[] =
@@ -619,7 +619,7 @@ TEST_FIXTURE(javaText, JavaBracketsAttachShort)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsAttachBlocks)
+TEST_FIXTURE(javaText, JavaBracketsAttach_Blocks)
 {
 	// test attach brackets option, with indent blocks
 	char text[] =
@@ -643,7 +643,7 @@ TEST_FIXTURE(javaText, JavaBracketsAttachBlocks)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsAttachBrackets)
+TEST_FIXTURE(javaText, JavaBracketsAttach_Brackets)
 {
 	// test attach brackets option, with indent brackets
 	char text[] =
@@ -667,7 +667,7 @@ TEST_FIXTURE(javaText, JavaBracketsAttachBrackets)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsAttachBreakClosing)
+TEST_FIXTURE(javaText, JavaBracketsAttach_BreakClosing)
 {
 	// test attach brackets option, with break closing brackets
 	char text[] =
@@ -691,7 +691,7 @@ TEST_FIXTURE(javaText, JavaBracketsAttachBreakClosing)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsAttachEmptyBrackets)
+TEST(JavaBracketsAttach_EmptyBrackets)
 {
 	// test attach brackets option
 	// do not change empty brackets
@@ -707,7 +707,7 @@ TEST(JavaBracketsAttachEmptyBrackets)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsAttachBreak)
+TEST(JavaBracketsAttach_Break)
 {
 	// test attach brackets option with broken brackets
 	char textIn[] =
@@ -736,7 +736,7 @@ TEST(JavaBracketsAttachBreak)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsAttachAttach)
+TEST(JavaBracketsAttach_Attach)
 {
 	// test attach brackets option with attached brackets
 	char text[] =
@@ -753,7 +753,7 @@ TEST(JavaBracketsAttachAttach)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsAttachLinux)
+TEST(JavaBracketsAttach_Linux)
 {
 	// test attach brackets option with linux brackets
 	char textIn[] =
@@ -779,7 +779,7 @@ TEST(JavaBracketsAttachLinux)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsAttachHorstmann)
+TEST(JavaBracketsAttach_Horstmann)
 {
 	// test attach brackets option with horstmann brackets
 	char textIn[] =
@@ -805,7 +805,7 @@ TEST(JavaBracketsAttachHorstmann)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsAttachEnumConstructor)
+TEST(JavaBracketsAttach_EnumConstructor)
 {
 	// test attach brackets option with an enum constructor
 	char textIn[] =
@@ -874,7 +874,7 @@ TEST_FIXTURE(javaText, JavaBracketsLinux)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsLinuxShort)
+TEST_FIXTURE(javaText, JavaBracketsLinux_Short)
 {
 	// test linux brackets short option
 	char text[] =
@@ -898,7 +898,7 @@ TEST_FIXTURE(javaText, JavaBracketsLinuxShort)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsLinuxBlocks)
+TEST_FIXTURE(javaText, JavaBracketsLinux_Blocks)
 {
 	// test linux blocks option, with indent blocks
 	char text[] =
@@ -924,7 +924,7 @@ TEST_FIXTURE(javaText, JavaBracketsLinuxBlocks)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsLinuxBrackets)
+TEST_FIXTURE(javaText, JavaBracketsLinux_Brackets)
 {
 	// test linux brackets option, with indent brackets
 	char text[] =
@@ -950,7 +950,7 @@ TEST_FIXTURE(javaText, JavaBracketsLinuxBrackets)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsLinuxBreakClosing)
+TEST_FIXTURE(javaText, JavaBracketsLinux_BreakClosing)
 {
 	// test linux brackets option, with break closing brackets
 	char text[] =
@@ -976,7 +976,7 @@ TEST_FIXTURE(javaText, JavaBracketsLinuxBreakClosing)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsLinuxEmptyBrackets)
+TEST(JavaBracketsLinux_EmptyBrackets)
 {
 	// test linux brackets option
 	// do not change empty brackets
@@ -992,7 +992,7 @@ TEST(JavaBracketsLinuxEmptyBrackets)
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
-TEST(JavaBracketsLinuxBreak)
+TEST(JavaBracketsLinux_Break)
 {
 	// test linux brackets option with broken brackets
 	char textIn[] =
@@ -1022,7 +1022,7 @@ TEST(JavaBracketsLinuxBreak)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsLinuxAttach)
+TEST(JavaBracketsLinux_Attach)
 {
 	// test linux brackets option with attached brackets
 	char textIn[] =
@@ -1048,7 +1048,7 @@ TEST(JavaBracketsLinuxAttach)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsLinuxLinux)
+TEST(JavaBracketsLinux_Linux)
 {
 	// test linux brackets option with linux brackets
 	char text[] =
@@ -1066,7 +1066,7 @@ TEST(JavaBracketsLinuxLinux)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsLinuxHorstmann)
+TEST(JavaBracketsLinux_Horstmann)
 {
 	// test linux brackets option with horstmann brackets
 	char textIn[] =
@@ -1093,7 +1093,7 @@ TEST(JavaBracketsLinuxHorstmann)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsLinuxEnumConstructor)
+TEST(JavaBracketsLinux_EnumConstructor)
 {
 	// test linux brackets option with an enum constructor
 	char textIn[] =
@@ -1162,7 +1162,7 @@ TEST_FIXTURE(javaText, JavaBracketsStroustrup)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsStroustrupShort)
+TEST_FIXTURE(javaText, JavaBracketsStroustrup_Short)
 {
 	// test stroustrup brackets short option
 	char text[] =
@@ -1185,7 +1185,7 @@ TEST_FIXTURE(javaText, JavaBracketsStroustrupShort)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsStroustrupBlocks)
+TEST_FIXTURE(javaText, JavaBracketsStroustrup_Blocks)
 {
 	// test stroustrup brackets option, with indent blocks
 	char text[] =
@@ -1210,7 +1210,7 @@ TEST_FIXTURE(javaText, JavaBracketsStroustrupBlocks)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsStroustrupBrackets)
+TEST_FIXTURE(javaText, JavaBracketsStroustrup_Brackets)
 {
 	// test stroustrup brackets option, with indent brackets
 	char text[] =
@@ -1235,7 +1235,7 @@ TEST_FIXTURE(javaText, JavaBracketsStroustrupBrackets)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsStroustrupBreakClosing)
+TEST_FIXTURE(javaText, JavaBracketsStroustrup_BreakClosing)
 {
 	// test stroustrup brackets option, with brea closing brackets
 	char text[] =
@@ -1260,7 +1260,7 @@ TEST_FIXTURE(javaText, JavaBracketsStroustrupBreakClosing)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsStroustrupEmptyBrackets)
+TEST(JavaBracketsStroustrup_EmptyBrackets)
 {
 	// test stroustrup brackets option
 	// do not change empty brackets
@@ -1276,7 +1276,7 @@ TEST(JavaBracketsStroustrupEmptyBrackets)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsStroustrupEnumConstructor)
+TEST(JavaBracketsStroustrup_EnumConstructor)
 {
 	// test stroustrup brackets option with an enum constructor
 	char textIn[] =
@@ -1345,7 +1345,7 @@ TEST_FIXTURE(javaText, JavaBracketsHorstmann)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsHorstmannShort)
+TEST_FIXTURE(javaText, JavaBracketsHorstmann_Short)
 {
 	// test horstmann brackets short option
 	char text[] =
@@ -1368,7 +1368,7 @@ TEST_FIXTURE(javaText, JavaBracketsHorstmannShort)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsHorstmannBlocks)
+TEST_FIXTURE(javaText, JavaBracketsHorstmann_Blocks)
 {
 	// test horstmann brackets option, with indent blocks
 	char text[] =
@@ -1392,7 +1392,7 @@ TEST_FIXTURE(javaText, JavaBracketsHorstmannBlocks)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsHorstmannEmptyBrackets)
+TEST(JavaBracketsHorstmann_EmptyBrackets)
 {
 	// test horstmann brackets option
 	// do not change empty brackets
@@ -1408,7 +1408,7 @@ TEST(JavaBracketsHorstmannEmptyBrackets)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsHorstmannBreak)
+TEST(JavaBracketsHorstmann_Break)
 {
 	// test horstmann brackets option with broken brackets
 	char textIn[] =
@@ -1438,7 +1438,7 @@ TEST(JavaBracketsHorstmannBreak)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsHorstmannAttach)
+TEST(JavaBracketsHorstmann_Attach)
 {
 	// test horstmann brackets option with attached brackets
 	char textIn[] =
@@ -1464,7 +1464,7 @@ TEST(JavaBracketsHorstmannAttach)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsHorstmannLinux)
+TEST(JavaBracketsHorstmann_Linux)
 {
 	// test horstmann brackets option with linux brackets
 	char textIn[] =
@@ -1491,7 +1491,7 @@ TEST(JavaBracketsHorstmannLinux)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsHorstmannHorstmann)
+TEST(JavaBracketsHorstmann_Horstmann)
 {
 	// test horstmann brackets option with horstmann brackets
 	char text[] =
@@ -1509,7 +1509,7 @@ TEST(JavaBracketsHorstmannHorstmann)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsHorstmannEnumConstructor)
+TEST(JavaBracketsHorstmann_EnumConstructor)
 {
 	// test horstmann brackets option with an enum constructor
 	char textIn[] =
@@ -1553,7 +1553,7 @@ TEST(JavaBracketsHorstmannEnumConstructor)
 // AStyle Java Other Bracket Options
 //-------------------------------------------------------------------------
 
-TEST_FIXTURE(javaText, JavaBracketsOtherNamespace)
+TEST_FIXTURE(javaText, JavaBracketsOther_Namespace)
 {
 	// indent namespaces should NOT affect java formatting
 	char options[] = "indent-namespaces, mode=java";
@@ -1562,7 +1562,7 @@ TEST_FIXTURE(javaText, JavaBracketsOtherNamespace)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsOtherClass)
+TEST_FIXTURE(javaText, JavaBracketsOther_Class)
 {
 	// indent classes should NOT affect java formatting
 	char options[] = "indent-classes, mode=java";
@@ -1571,7 +1571,7 @@ TEST_FIXTURE(javaText, JavaBracketsOtherClass)
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsOtherNamespaceClass)
+TEST_FIXTURE(javaText, JavaBracketsOther_NamespaceClass)
 {
 	// indent namespaces and classes should NOT affect java formatting
 	char options[] = "indent-namespaces, indent-classes, mode=java";
@@ -1580,7 +1580,7 @@ TEST_FIXTURE(javaText, JavaBracketsOtherNamespaceClass)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOtherClassContinuationAttached)
+TEST(JavaBracketsOther_ClassContinuationAttached)
 {
 	// test with class continuaton and attached brackets
 	char text[] =
@@ -1595,7 +1595,7 @@ TEST(JavaBracketsOtherClassContinuationAttached)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOtherClassContinuationBroken)
+TEST(JavaBracketsOther_ClassContinuationBroken)
 {
 	// test with class continuaton and broken brackets
 	char text[] =
@@ -1611,7 +1611,7 @@ TEST(JavaBracketsOtherClassContinuationBroken)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOtherInterface)
+TEST(JavaBracketsOther_Interface)
 {
 	// test default brackets option (do not change)
 	char text[] =
@@ -1627,7 +1627,7 @@ TEST(JavaBracketsOtherInterface)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOtherInterfaceBlocks)
+TEST(JavaBracketsOther_InterfaceBlocks)
 {
 	// test interface with indent blocks option
 	// should not indent the interface
@@ -1644,7 +1644,7 @@ TEST(JavaBracketsOtherInterfaceBlocks)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOtherInterfaceBrackets)
+TEST(JavaBracketsOther_InterfaceBrackets)
 {
 	// test interface with indent brackets option
 	char text[] =
@@ -1660,7 +1660,7 @@ TEST(JavaBracketsOtherInterfaceBrackets)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOtherNestedClass)
+TEST(JavaBracketsOther_NestedClass)
 {
 	// test interface with nested classes
 	char text[] =
@@ -1691,7 +1691,7 @@ TEST(JavaBracketsOtherNestedClass)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOtherNestedClassBlocks)
+TEST(JavaBracketsOther_NestedClassBlocks)
 {
 	// test interface with nested classes and indented blocks
 	char text[] =
@@ -1722,7 +1722,7 @@ TEST(JavaBracketsOtherNestedClassBlocks)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOtherNestedClassBrackets)
+TEST(JavaBracketsOther_NestedClassBrackets)
 {
 	// test interface with nested classes and indented brackets
 	char text[] =
@@ -1753,7 +1753,7 @@ TEST(JavaBracketsOtherNestedClassBrackets)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOtherStaticConstructor)
+TEST(JavaBracketsOther_StaticConstructor)
 {
 	// test gnu style option, with static constructor
 	// sould NOT indent the method opening bracket
@@ -1779,7 +1779,7 @@ TEST(JavaBracketsOtherStaticConstructor)
 	CHECK_EQUAL(text, textOut);
 	delete [] textOut;
 }
-TEST(JavaBracketsOtherStaticConstructorBlocks)
+TEST(JavaBracketsOther_StaticConstructorBlocks)
 {
 	// test gnu style option, with static constructor
 	// sould NOT indent the method opening bracket
@@ -1806,7 +1806,7 @@ TEST(JavaBracketsOtherStaticConstructorBlocks)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOtherStaticConstructorBrackets)
+TEST(JavaBracketsOther_StaticConstructorBrackets)
 {
 	// test gnu style option, with static constructor
 	// should NOT indent the method opening bracket
@@ -1833,7 +1833,7 @@ TEST(JavaBracketsOtherStaticConstructorBrackets)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOtherThrows)
+TEST(JavaBracketsOther_Throws)
 {
 	// test a method that contains a throws statement
 	// should be recognized as a block opener
@@ -1857,7 +1857,7 @@ TEST(JavaBracketsOtherThrows)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOtherThrowsBlocks)
+TEST(JavaBracketsOther_ThrowsBlocks)
 {
 	// test a method that contains a throws statement, with indent blocks
 	// should be recognized as a block opener
@@ -1881,7 +1881,7 @@ TEST(JavaBracketsOtherThrowsBlocks)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOtherThrowsBrackets)
+TEST(JavaBracketsOther_ThrowsBrackets)
 {
 	// test a method that contains a throws statement, with indent brackets
 	// should be recognized as a block opener
@@ -1905,7 +1905,7 @@ TEST(JavaBracketsOtherThrowsBrackets)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOtherNewOperator1)
+TEST(JavaBracketsOther_NewOperator1)
 {
 	// test new operator ending with })
 	char text[] =
@@ -1930,7 +1930,7 @@ TEST(JavaBracketsOtherNewOperator1)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOtherNewOperator2)
+TEST(JavaBracketsOther_NewOperator2)
 {
 	// test new operator ending with }.start();
 	char text[] =
@@ -1953,7 +1953,7 @@ TEST(JavaBracketsOtherNewOperator2)
 // AStyle Java Array Bracket Options
 //-------------------------------------------------------------------------
 
-TEST(JavaBracketsArray1)
+TEST(JavaBracketsArrayNone_InStatement)
 {
 	// the following "new Type" array should have an in statement indent
 	char text[] =
@@ -1979,7 +1979,7 @@ TEST(JavaBracketsArray1)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsArray2)
+TEST(JavaBracketsArrayNone_OneLineBlock1)
 {
 	// single line blocks should not be broken
 	char text[] =
@@ -1993,7 +1993,7 @@ TEST(JavaBracketsArray2)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsNoneArray3)
+TEST(JavaBracketsArrayNone_OneLineBlock2)
 {
 	// the single line block "{io.toString()}" should not be broken
 	char text[] =
@@ -2011,7 +2011,7 @@ TEST(JavaBracketsNoneArray3)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsBreakArray3)
+TEST(JavaBracketsArrayBreak_OneLineBlock2)
 {
 	// the single line block "{io.toString()}" should not be broken
 	char text[] =
@@ -2029,7 +2029,7 @@ TEST(JavaBracketsBreakArray3)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsAttachArray3)
+TEST(JavaBracketsArrayAttach_OneLineBlock2)
 {
 	// the single line block "{io.toString()}" should not be broken
 	char text[] =
@@ -2045,7 +2045,7 @@ TEST(JavaBracketsAttachArray3)
 	delete [] textOut;
 }
 
-TEST(JavaBracketsHorstmannArray3)
+TEST(JavaBracketsArrayHorstmann_OneLineBlock2)
 {
 	// the single line block "{io.toString()}" should not be broken
 	char text[] =
