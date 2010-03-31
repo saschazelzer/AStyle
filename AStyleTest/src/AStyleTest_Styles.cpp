@@ -8,12 +8,12 @@
 // AStyle C++ text for style tests
 //----------------------------------------------------------------------------
 
-struct cppStyleText
+struct StyleAllmanCppF : public ::testing::Test
 {
 	string textStr;
 	const char* textIn;
 
-	cppStyleText()
+	StyleAllmanCppF()
 	{
 		textStr =
 			"\nnamespace FooName\n"
@@ -50,7 +50,7 @@ struct cppStyleText
 // Additional tests are in the Brackets tests
 //----------------------------------------------------------------------------
 
-TEST_FIXTURE(cppStyleText, CppStyleAllman)
+TEST_F(StyleAllmanCppF, AllmanOption)
 {
 	// test allman style option
 	char text[] =
@@ -80,11 +80,11 @@ TEST_FIXTURE(cppStyleText, CppStyleAllman)
 		"}   // end FooName\n";
 	char options[] = "style=allman";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleAllman_Ansi)
+TEST_F(StyleAllmanCppF, AnsiOption)
 {
 	// test allman style ANSI option
 	char text[] =
@@ -114,11 +114,11 @@ TEST_FIXTURE(cppStyleText, CppStyleAllman_Ansi)
 		"}   // end FooName\n";
 	char options[] = "style=ansi";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleAllman_BSD)
+TEST_F(StyleAllmanCppF, BSDOption)
 {
 	// test allman style BSD option
 	char text[] =
@@ -148,11 +148,11 @@ TEST_FIXTURE(cppStyleText, CppStyleAllman_BSD)
 		"}   // end FooName\n";
 	char options[] = "style=bsd";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleAllman_Short)
+TEST_F(StyleAllmanCppF, ShortOption)
 {
 	// test allman style short option
 	char text[] =
@@ -182,11 +182,11 @@ TEST_FIXTURE(cppStyleText, CppStyleAllman_Short)
 		"}   // end FooName\n";
 	char options[] = "-A1";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleAllman_Brackets)
+TEST_F(StyleAllmanCppF, Brackets)
 {
 	// test allman style option with brackets option
 	// the brackets should NOT change
@@ -217,11 +217,11 @@ TEST_FIXTURE(cppStyleText, CppStyleAllman_Brackets)
 		"}   // end FooName\n";
 	char options[] = "style=allman, brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleAllman_BlockIndent)
+TEST_F(StyleAllmanCppF, BlockIndent)
 {
 	// test allman style option with indent blocks
 	// blocks should NOT be indented
@@ -252,11 +252,11 @@ TEST_FIXTURE(cppStyleText, CppStyleAllman_BlockIndent)
 		"}   // end FooName\n";
 	char options[] = "style=allman, indent-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleAllman_BracketIndent)
+TEST_F(StyleAllmanCppF, BracketIndent)
 {
 	// test allman style option with indent brackets
 	// brackets should NOT be indented
@@ -287,11 +287,11 @@ TEST_FIXTURE(cppStyleText, CppStyleAllman_BracketIndent)
 		"}   // end FooName\n";
 	char options[] = "style=allman, indent-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleAllman_SpaceIndent)
+TEST(StyleAllmanCpp, SpaceIndent)
 {
 	// test allman style with space indent
 	char textIn[] =
@@ -318,11 +318,11 @@ TEST(CppStyleAllman_SpaceIndent)
 		"}\n";
 	char options[] = "style=allman, indent=spaces=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleAllman_Tab)
+TEST(StyleAllmanCpp, Tab)
 {
 	// test allman style with tab indent
 	char textIn[] =
@@ -349,11 +349,11 @@ TEST(CppStyleAllman_Tab)
 		"}\n";
 	char options[] = "style=allman, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleAllman_TabIndent)
+TEST(StyleAllmanCpp, TabIndent)
 {
 	// test allman style with tab indent
 	char textIn[] =
@@ -380,11 +380,11 @@ TEST(CppStyleAllman_TabIndent)
 		"}\n";
 	char options[] = "style=allman, indent=tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleAllman_ForceTab)
+TEST(StyleAllmanCpp, ForceTab)
 {
 	// test allman style with force tab indent
 	char textIn[] =
@@ -411,11 +411,11 @@ TEST(CppStyleAllman_ForceTab)
 		"}\n";
 	char options[] = "style=allman, indent=force-tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleAllman_ForceTabIndent)
+TEST(StyleAllmanCpp, ForceTabIndent)
 {
 	// test allman style with force tab indent
 	char textIn[] =
@@ -442,11 +442,11 @@ TEST(CppStyleAllman_ForceTabIndent)
 		"}\n";
 	char options[] = "style=allman, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleAllman_MinConditionalIndent1)
+TEST(StyleAllmanCpp, MinConditionalIndent1)
 {
 	// allman should use a default setting of MINCOND_TWO
 	char text[] =
@@ -462,11 +462,11 @@ TEST(CppStyleAllman_MinConditionalIndent1)
 		"}\n";
 	char options[] = "style=allman";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleAllman_MinConditionalIndent2)
+TEST(StyleAllmanCpp, MinConditionalIndent2)
 {
 	// test allman style option with min conditional indent 0
 	char textIn[] =
@@ -493,7 +493,7 @@ TEST(CppStyleAllman_MinConditionalIndent2)
 		"}\n";
 	char options[] = "style=allman, min-conditional-indent=0";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -502,7 +502,44 @@ TEST(CppStyleAllman_MinConditionalIndent2)
 // Additional tests are in the Brackets tests
 //----------------------------------------------------------------------------
 
-TEST_FIXTURE(cppStyleText, CppStyleJava)
+struct StyleJavaCppF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	StyleJavaCppF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo)\n"
+			"    {\n"
+			"        bar();\n"
+			"    }\n"
+			"    else\n"
+			"        anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(StyleJavaCppF, LongOption)
 {
 	// test java style option
 	char text[] =
@@ -527,11 +564,11 @@ TEST_FIXTURE(cppStyleText, CppStyleJava)
 		"}   // end FooName\n";
 	char options[] = "style=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleJava_Short)
+TEST_F(StyleJavaCppF, ShortOption)
 {
 	// test java style short option
 	char text[] =
@@ -556,11 +593,11 @@ TEST_FIXTURE(cppStyleText, CppStyleJava_Short)
 		"}   // end FooName\n";
 	char options[] = "-A2";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleJava_Brackets)
+TEST_F(StyleJavaCppF, Brackets)
 {
 	// test java style option with brackets option
 	// the brackets should NOT change
@@ -586,11 +623,11 @@ TEST_FIXTURE(cppStyleText, CppStyleJava_Brackets)
 		"}   // end FooName\n";
 	char options[] = "style=java, brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleJava_BlockIndent)
+TEST_F(StyleJavaCppF, BlockIndent)
 {
 	// test java style option with indent blocks
 	// blocks should NOT be indented
@@ -616,11 +653,11 @@ TEST_FIXTURE(cppStyleText, CppStyleJava_BlockIndent)
 		"}   // end FooName\n";
 	char options[] = "style=java, indent-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleJava_BracketIndent)
+TEST_F(StyleJavaCppF, BracketIndent)
 {
 	// test java style option with indent brackets
 	// blocks should NOT be indented
@@ -646,11 +683,11 @@ TEST_FIXTURE(cppStyleText, CppStyleJava_BracketIndent)
 		"}   // end FooName\n";
 	char options[] = "style=java, indent-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleJava_SpaceIndent)
+TEST(StyleJavaCpp, SpaceIndent)
 {
 	// test java style option with space indent
 	char textIn[] =
@@ -674,11 +711,11 @@ TEST(CppStyleJava_SpaceIndent)
 		"}\n";
 	char options[] = "style=java, indent=spaces=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleJava_Tab)
+TEST(StyleJavaCpp, Tab)
 {
 	// test java style option with tab indent
 	char textIn[] =
@@ -702,11 +739,11 @@ TEST(CppStyleJava_Tab)
 		"}\n";
 	char options[] = "style=java, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleJava_TabIndent)
+TEST(StyleJavaCpp, TabIndent)
 {
 	// test java style option with tab indent
 	char textIn[] =
@@ -730,11 +767,11 @@ TEST(CppStyleJava_TabIndent)
 		"}\n";
 	char options[] = "style=java, indent=tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleJava_ForceTab)
+TEST(StyleJavaCpp, ForceTab)
 {
 	// test java style option with force tab
 	char textIn[] =
@@ -758,11 +795,11 @@ TEST(CppStyleJava_ForceTab)
 		"}\n";
 	char options[] = "style=java, indent=force-tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleJava_ForceTabIndent)
+TEST(StyleJavaCpp, ForceTabIndent)
 {
 	// test java style option with force tab
 	char textIn[] =
@@ -786,11 +823,11 @@ TEST(CppStyleJava_ForceTabIndent)
 		"}\n";
 	char options[] = "style=java, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleJava_MinConditionalIndent1)
+TEST(StyleJavaCpp, MinConditionalIndent1)
 {
 	// java should use a default setting of MINCOND_TWO
 	char textIn[] =
@@ -814,11 +851,11 @@ TEST(CppStyleJava_MinConditionalIndent1)
 		"}\n";
 	char options[] = "style=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleJava_MinConditionalIndent2)
+TEST(StyleJavaCpp, MinConditionalIndent2)
 {
 	// test java style option with min conditional indent 0
 	char textIn[] =
@@ -842,7 +879,7 @@ TEST(CppStyleJava_MinConditionalIndent2)
 		"}\n";
 	char options[] = "style=java, min-conditional-indent=0";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -851,7 +888,44 @@ TEST(CppStyleJava_MinConditionalIndent2)
 // Additional tests are in the Brackets tests
 //----------------------------------------------------------------------------
 
-TEST_FIXTURE(cppStyleText, CppStyleKR)
+struct StyleKRCppF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	StyleKRCppF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo)\n"
+			"    {\n"
+			"        bar();\n"
+			"    }\n"
+			"    else\n"
+			"        anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(StyleKRCppF, LongOption)
 {
 	// test k&r style option
 	char text[] =
@@ -879,11 +953,11 @@ TEST_FIXTURE(cppStyleText, CppStyleKR)
 		"}   // end FooName\n";
 	char options[] = "style=kr";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleKR_Alt1)
+TEST_F(StyleKRCppF, LongOption1)
 {
 	// test k&r style alternate kr option
 	char text[] =
@@ -911,11 +985,11 @@ TEST_FIXTURE(cppStyleText, CppStyleKR_Alt1)
 		"}   // end FooName\n";
 	char options[] = "style=k&r";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleKR_Alt2)
+TEST_F(StyleKRCppF, LongOption2)
 {
 	// test k&r style alternate k/r option
 	char text[] =
@@ -943,11 +1017,11 @@ TEST_FIXTURE(cppStyleText, CppStyleKR_Alt2)
 		"}   // end FooName\n";
 	char options[] = "style=k/r";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleKR_Short)
+TEST_F(StyleKRCppF, Short)
 {
 	// test k&r style short option
 	char text[] =
@@ -975,11 +1049,11 @@ TEST_FIXTURE(cppStyleText, CppStyleKR_Short)
 		"}   // end FooName\n";
 	char options[] = "-A3";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleKR_Brackets)
+TEST_F(StyleKRCppF, Brackets)
 {
 	// test k&r style option with brackets option
 	// the brackets should NOT change
@@ -1008,11 +1082,11 @@ TEST_FIXTURE(cppStyleText, CppStyleKR_Brackets)
 		"}   // end FooName\n";
 	char options[] = "style=kr, brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleKR_BlockIndent)
+TEST_F(StyleKRCppF, BlockIndent)
 {
 	// test k&r style option with indent blocks
 	// blocks should NOT be indented
@@ -1041,11 +1115,11 @@ TEST_FIXTURE(cppStyleText, CppStyleKR_BlockIndent)
 		"}   // end FooName\n";
 	char options[] = "style=kr, indent-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleKR_BracketIndent)
+TEST_F(StyleKRCppF, BracketIndent)
 {
 	// test k&r style option with indent brackets
 	// brackets shoud NOT be indented
@@ -1074,11 +1148,11 @@ TEST_FIXTURE(cppStyleText, CppStyleKR_BracketIndent)
 		"}   // end FooName\n";
 	char options[] = "style=kr, indent-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleKR_SpaceIndent)
+TEST(StyleKRCpp, SpaceIndent)
 {
 	// test k&r style option with space indent
 	char textIn[] =
@@ -1103,11 +1177,11 @@ TEST(CppStyleKR_SpaceIndent)
 		"}\n";
 	char options[] = "style=kr, indent=spaces=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleKR_Tab)
+TEST(StyleKRCpp, Tab)
 {
 	// test k&r style option with tab indent
 	char textIn[] =
@@ -1132,11 +1206,11 @@ TEST(CppStyleKR_Tab)
 		"}\n";
 	char options[] = "style=kr, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleKR_TabIndent)
+TEST(StyleKRCpp, TabIndent)
 {
 	// test k&r style option with tab indent
 	char textIn[] =
@@ -1161,11 +1235,11 @@ TEST(CppStyleKR_TabIndent)
 		"}\n";
 	char options[] = "style=kr, indent=tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleKR_ForceTab)
+TEST(StyleKRCpp, ForceTab)
 {
 	// test k&r style option with force tab
 	char textIn[] =
@@ -1190,11 +1264,11 @@ TEST(CppStyleKR_ForceTab)
 		"}\n";
 	char options[] = "style=kr, indent=force-tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleKR_ForceTabIndent)
+TEST(StyleKRCpp, ForceTabIndent)
 {
 	// test k&r style option with force tab
 	char textIn[] =
@@ -1219,11 +1293,11 @@ TEST(CppStyleKR_ForceTabIndent)
 		"}\n";
 	char options[] = "style=kr, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleKR_MinConditionalIndent1)
+TEST(StyleKRCpp, MinConditionalIndent1)
 {
 	// k&r should use a default setting of MINCOND_TWO
 	char textIn[] =
@@ -1248,11 +1322,11 @@ TEST(CppStyleKR_MinConditionalIndent1)
 		"}\n";
 	char options[] = "style=kr";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleKR_MinConditionalIndent2)
+TEST(StyleKRCpp, MinConditionalIndent2)
 {
 	// test k&r style option with min conditional indent 0
 	char textIn[] =
@@ -1277,7 +1351,7 @@ TEST(CppStyleKR_MinConditionalIndent2)
 		"}\n";
 	char options[] = "style=kr, min-conditional-indent=0";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1286,7 +1360,45 @@ TEST(CppStyleKR_MinConditionalIndent2)
 // Additional tests are in the Brackets tests
 //----------------------------------------------------------------------------
 
-TEST_FIXTURE(cppStyleText, CppStyleStroustrup)
+struct StyleStroustrupCppF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	StyleStroustrupCppF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo)\n"
+			"    {\n"
+			"        bar();\n"
+			"    }\n"
+			"    else\n"
+			"        anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+
+TEST_F(StyleStroustrupCppF, LongOption)
 {
 	// test stroustrup style option
 	char text[] =
@@ -1312,11 +1424,11 @@ TEST_FIXTURE(cppStyleText, CppStyleStroustrup)
 		"}   // end FooName\n";
 	char options[] = "style=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleStroustrup_Short)
+TEST_F(StyleStroustrupCppF, ShortOption)
 {
 	// test stroustrup style short option
 	char text[] =
@@ -1342,11 +1454,11 @@ TEST_FIXTURE(cppStyleText, CppStyleStroustrup_Short)
 		"}   // end FooName\n";
 	char options[] = "-A4";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleStroustrup_Brackets)
+TEST_F(StyleStroustrupCppF, Brackets)
 {
 	// test stroustrup style option with brackets option
 	// the brackets should NOT change
@@ -1373,11 +1485,11 @@ TEST_FIXTURE(cppStyleText, CppStyleStroustrup_Brackets)
 		"}   // end FooName\n";
 	char options[] = "style=stroustrup, brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleStroustrup_BlockIndent)
+TEST_F(StyleStroustrupCppF, BlockIndent)
 {
 	// test stroustrup style option with indent blocks
 	// blocks should NOT be indented
@@ -1404,10 +1516,10 @@ TEST_FIXTURE(cppStyleText, CppStyleStroustrup_BlockIndent)
 		"}   // end FooName\n";
 	char options[] = "style=stroustrup, indent-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
-TEST_FIXTURE(cppStyleText, CppStyleStroustrup_BracketIndent)
+TEST_F(StyleStroustrupCppF, BracketIndent)
 {
 	// test stroustrup style option with indent brackets
 	// brackets should NOT be indented
@@ -1434,11 +1546,11 @@ TEST_FIXTURE(cppStyleText, CppStyleStroustrup_BracketIndent)
 		"}   // end FooName\n";
 	char options[] = "style=stroustrup, indent-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleStroustrup_SpaceIndent)
+TEST(StyleStroustrupCpp, SpaceIndent)
 {
 	// test stroustrup style option with space indent
 	char textIn[] =
@@ -1463,11 +1575,11 @@ TEST(CppStyleStroustrup_SpaceIndent)
 		"}\n";
 	char options[] = "style=stroustrup, indent=spaces=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleStroustrup_Tab)
+TEST(StyleStroustrupCpp, Tab)
 {
 	// test stroustrup style option with tab indent
 	// default indent is 5
@@ -1493,11 +1605,11 @@ TEST(CppStyleStroustrup_Tab)
 		"}\n";
 	char options[] = "style=stroustrup, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleStroustrup_TabIndent)
+TEST(StyleStroustrupCpp, TabIndent)
 {
 	// test stroustrup style option with tab indent
 	char textIn[] =
@@ -1522,11 +1634,11 @@ TEST(CppStyleStroustrup_TabIndent)
 		"}\n";
 	char options[] = "style=stroustrup, indent=tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleStroustrup_ForceTab)
+TEST(StyleStroustrupCpp, ForceTab)
 {
 	// test stroustrup style option with force tab indent
 	char textIn[] =
@@ -1551,11 +1663,11 @@ TEST(CppStyleStroustrup_ForceTab)
 		"}\n";
 	char options[] = "style=stroustrup, indent=force-tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleStroustrup_ForceTabIndent)
+TEST(StyleStroustrupCpp, ForceTabIndent)
 {
 	// test stroustrup style option with force tab indent
 	char textIn[] =
@@ -1580,12 +1692,12 @@ TEST(CppStyleStroustrup_ForceTabIndent)
 		"}\n";
 	char options[] = "style=stroustrup, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST(CppStyleStroustrup_MinConditionalIndent1)
+TEST(StyleStroustrupCpp, MinConditionalIndent1)
 {
 	// stroustrup should use a default setting of MINCOND_TWO
 	char textIn[] =
@@ -1610,11 +1722,11 @@ TEST(CppStyleStroustrup_MinConditionalIndent1)
 		"}\n";
 	char options[] = "style=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleStroustrup_MinConditionalIndent2)
+TEST(StyleStroustrupCpp, MinConditionalIndent2)
 {
 	// test stroustrup style option with min conditional indent 0
 	char textIn[] =
@@ -1639,7 +1751,7 @@ TEST(CppStyleStroustrup_MinConditionalIndent2)
 		"}\n";
 	char options[] = "style=stroustrup, min-conditional-indent=0";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1648,7 +1760,44 @@ TEST(CppStyleStroustrup_MinConditionalIndent2)
 // Additional tests are in the Brackets tests
 //----------------------------------------------------------------------------
 
-TEST_FIXTURE(cppStyleText, CppStyleWhitesmith)
+struct StyleWhitesmithCppF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	StyleWhitesmithCppF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo)\n"
+			"    {\n"
+			"        bar();\n"
+			"    }\n"
+			"    else\n"
+			"        anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(StyleWhitesmithCppF, LongOption)
 {
 	// test whitesmith style option
 	char text[] =
@@ -1678,11 +1827,11 @@ TEST_FIXTURE(cppStyleText, CppStyleWhitesmith)
 		"}   // end FooName\n";
 	char options[] = "style=whitesmith";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleWhitesmith_Short)
+TEST_F(StyleWhitesmithCppF, ShortOption)
 {
 	// test whitesmith style short option
 	char text[] =
@@ -1712,11 +1861,11 @@ TEST_FIXTURE(cppStyleText, CppStyleWhitesmith_Short)
 		"}   // end FooName\n";
 	char options[] = "-A5";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleWhitesmith_Brackets)
+TEST_F(StyleWhitesmithCppF, Brackets)
 {
 	// test whitesmith style option with brackets option
 	// the brackets should NOT change
@@ -1747,11 +1896,11 @@ TEST_FIXTURE(cppStyleText, CppStyleWhitesmith_Brackets)
 		"}   // end FooName\n";
 	char options[] = "style=whitesmith, brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleWhitesmith_BlockIndent)
+TEST_F(StyleWhitesmithCppF, BlockIndent)
 {
 	// test whitesmith style option with indent-blocks
 	// blocks should NOT be indented
@@ -1782,11 +1931,11 @@ TEST_FIXTURE(cppStyleText, CppStyleWhitesmith_BlockIndent)
 		"}   // end FooName\n";
 	char options[] = "style=whitesmith, indent-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleWhitesmith_SpaceIndent)
+TEST(StyleWhitesmithCpp, SpaceIndent)
 {
 	// test whitesmith style option with tab indent
 	char textIn[] =
@@ -1813,11 +1962,11 @@ TEST(CppStyleWhitesmith_SpaceIndent)
 		"      }\n";
 	char options[] = "style=whitesmith, indent=spaces=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleWhitesmith_Tab)
+TEST(StyleWhitesmithCpp, Tab)
 {
 	// test whitesmith style option with tab indent
 	char textIn[] =
@@ -1844,11 +1993,11 @@ TEST(CppStyleWhitesmith_Tab)
 		"	}\n";
 	char options[] = "style=whitesmith, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleWhitesmith_TabIndent)
+TEST(StyleWhitesmithCpp, TabIndent)
 {
 	// test whitesmith style option with tab indent
 	char textIn[] =
@@ -1875,11 +2024,11 @@ TEST(CppStyleWhitesmith_TabIndent)
 		"	}\n";
 	char options[] = "style=whitesmith, indent=tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleWhitesmith_ForceTab)
+TEST(StyleWhitesmithCpp, ForceTab)
 {
 	// test whitesmith style option with force tab indent
 	char textIn[] =
@@ -1906,11 +2055,11 @@ TEST(CppStyleWhitesmith_ForceTab)
 		"	}\n";
 	char options[] = "style=whitesmith, indent=force-tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleWhitesmith_ForceTabIndent)
+TEST(StyleWhitesmithCpp, ForceTabIndent)
 {
 	// test whitesmith style option with force tab indent
 	char textIn[] =
@@ -1937,11 +2086,11 @@ TEST(CppStyleWhitesmith_ForceTabIndent)
 		"	}\n";
 	char options[] = "style=whitesmith, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleWhitesmith_MinConditionalIndent1)
+TEST(StyleWhitesmithCpp, MinConditionalIndent1)
 {
 	// whitesmith should use a default setting of MINCOND_TWO
 	char textIn[] =
@@ -1968,11 +2117,11 @@ TEST(CppStyleWhitesmith_MinConditionalIndent1)
 		"    }\n";
 	char options[] = "style=whitesmith";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleWhitesmith_MinConditionalIndent2)
+TEST(StyleWhitesmithCpp, MinConditionalIndent2)
 {
 	// test whitesmith style option with min conditional indent 0
 	char textIn[] =
@@ -1999,11 +2148,11 @@ TEST(CppStyleWhitesmith_MinConditionalIndent2)
 		"    }\n";
 	char options[] = "style=whitesmith, min-conditional-indent=0";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleWhitesmith_SwitchBlockIndent)
+TEST(StyleWhitesmithCpp, SwitchBlockIndent)
 {
 	// test whitesmith style with switch blocks
 	char text[] =
@@ -2026,7 +2175,7 @@ TEST(CppStyleWhitesmith_SwitchBlockIndent)
 		"    }\n";
 	char options[] = "style=whitesmith";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -2035,7 +2184,44 @@ TEST(CppStyleWhitesmith_SwitchBlockIndent)
 // Additional tests are in the Brackets tests
 //----------------------------------------------------------------------------
 
-TEST_FIXTURE(cppStyleText, CppStyleBanner)
+struct StyleBannerCppF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	StyleBannerCppF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo)\n"
+			"    {\n"
+			"        bar();\n"
+			"    }\n"
+			"    else\n"
+			"        anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(StyleBannerCppF, LongOption)
 {
 	// test banner style option
 	char text[] =
@@ -2061,11 +2247,11 @@ TEST_FIXTURE(cppStyleText, CppStyleBanner)
 		"}   // end FooName\n";
 	char options[] = "style=banner";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleBanner_Short)
+TEST_F(StyleBannerCppF, ShortOption)
 {
 	// test banner style short option
 	char text[] =
@@ -2091,11 +2277,11 @@ TEST_FIXTURE(cppStyleText, CppStyleBanner_Short)
 		"}   // end FooName\n";
 	char options[] = "-A6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleBanner_BracketIndent)
+TEST_F(StyleBannerCppF, BracketIndent)
 {
 	// test banner style option with brackets option
 	// the brackets should NOT change
@@ -2122,11 +2308,11 @@ TEST_FIXTURE(cppStyleText, CppStyleBanner_BracketIndent)
 		"}   // end FooName\n";
 	char options[] = "style=banner, brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleBanner_BlockIndent)
+TEST_F(StyleBannerCppF, BlockIndent)
 {
 	// test banner style option with indent blocks
 	// blocks should NOT be indented
@@ -2153,11 +2339,11 @@ TEST_FIXTURE(cppStyleText, CppStyleBanner_BlockIndent)
 		"}   // end FooName\n";
 	char options[] = "style=banner, indent-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleBanner_SpaceIndent)
+TEST(StyleBannerCpp, SpaceIndent)
 {
 	// test banner style option with tab indent
 	char textIn[] =
@@ -2182,11 +2368,11 @@ TEST(CppStyleBanner_SpaceIndent)
 		"      }\n";
 	char options[] = "style=banner, indent=spaces=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleBanner_Tab)
+TEST(StyleBannerCpp, Tab)
 {
 	// test banner style option with tab indent
 	char textIn[] =
@@ -2211,11 +2397,11 @@ TEST(CppStyleBanner_Tab)
 		"	}\n";
 	char options[] = "style=banner, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleBanner_TabIndent)
+TEST(StyleBannerCpp, TabIndent)
 {
 	// test banner style option with tab indent
 	char textIn[] =
@@ -2240,11 +2426,11 @@ TEST(CppStyleBanner_TabIndent)
 		"	}\n";
 	char options[] = "style=banner, indent=tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleBanner_ForceTab)
+TEST(StyleBannerCpp, ForceTab)
 {
 	// test banner style option with force tab indent
 	char textIn[] =
@@ -2269,11 +2455,11 @@ TEST(CppStyleBanner_ForceTab)
 		"	}\n";
 	char options[] = "style=banner, indent=force-tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleBanner_ForceTabIndent)
+TEST(StyleBannerCpp, ForceTabIndent)
 {
 	// test banner style option with force tab indent
 	char textIn[] =
@@ -2298,11 +2484,11 @@ TEST(CppStyleBanner_ForceTabIndent)
 		"	}\n";
 	char options[] = "style=banner, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleBanner_MinConditionalIndent1)
+TEST(StyleBannerCpp, MinConditionalIndent1)
 {
 	// banner should use a default setting of MINCOND_TWO
 	char textIn[] =
@@ -2327,11 +2513,11 @@ TEST(CppStyleBanner_MinConditionalIndent1)
 		"    }\n";
 	char options[] = "style=banner";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleBanner_MinConditionalIndent2)
+TEST(StyleBannerCpp, MinConditionalIndent2)
 {
 	// test banner style option with min conditional indent 0
 	char textIn[] =
@@ -2356,10 +2542,10 @@ TEST(CppStyleBanner_MinConditionalIndent2)
 		"    }\n";
 	char options[] = "style=banner, min-conditional-indent=0";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
-TEST(CppStyleBanner_SwitchBlockIndent)
+TEST(StyleBannerCpp, SwitchBlockIndent)
 {
 	// test banner style with switch blocks
 	char text[] =
@@ -2379,7 +2565,7 @@ TEST(CppStyleBanner_SwitchBlockIndent)
 		"    }\n";
 	char options[] = "style=banner";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -2388,7 +2574,44 @@ TEST(CppStyleBanner_SwitchBlockIndent)
 // Additional tests are in the Brackets tests
 //----------------------------------------------------------------------------
 
-TEST_FIXTURE(cppStyleText, CppStyleGnu)
+struct StyleGnuCppF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	StyleGnuCppF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo)\n"
+			"    {\n"
+			"        bar();\n"
+			"    }\n"
+			"    else\n"
+			"        anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(StyleGnuCppF, LongOption)
 {
 	// test gnu style option
 	char text[] =
@@ -2418,11 +2641,11 @@ TEST_FIXTURE(cppStyleText, CppStyleGnu)
 		"}   // end FooName\n";
 	char options[] = "style=gnu";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleGnu_Short)
+TEST_F(StyleGnuCppF, ShortOption)
 {
 	// test gnu style short option
 	char text[] =
@@ -2452,11 +2675,11 @@ TEST_FIXTURE(cppStyleText, CppStyleGnu_Short)
 		"}   // end FooName\n";
 	char options[] = "-A7";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleGnu_Brackets)
+TEST_F(StyleGnuCppF, Brackets)
 {
 	// test gnu style option with brackets option
 	// the brackets should NOT change
@@ -2487,11 +2710,11 @@ TEST_FIXTURE(cppStyleText, CppStyleGnu_Brackets)
 		"}   // end FooName\n";
 	char options[] = "style=gnu, brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleGnu_BracketIndent)
+TEST_F(StyleGnuCppF, BracketIndent)
 {
 	// test gnu style option with indent brackets
 	// brackets should NOT be indented
@@ -2522,11 +2745,11 @@ TEST_FIXTURE(cppStyleText, CppStyleGnu_BracketIndent)
 		"}   // end FooName\n";
 	char options[] = "style=gnu, indent-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleGnu_SpaceIndent)
+TEST(StyleGnuCpp, SpaceIndent)
 {
 	// test gnu style option with space indent
 	char textIn[] =
@@ -2553,11 +2776,11 @@ TEST(CppStyleGnu_SpaceIndent)
 		"}\n";
 	char options[] = "style=gnu, indent=spaces=3";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleGnu_Tab)
+TEST(StyleGnuCpp, Tab)
 {
 	// test gnu style option with tab indent
 	// default indent is 2
@@ -2585,11 +2808,11 @@ TEST(CppStyleGnu_Tab)
 		"}\n";
 	char options[] = "style=gnu, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleGnu_TabIndent)
+TEST(StyleGnuCpp, TabIndent)
 {
 	// test gnu style option with tab indent
 	char textIn[] =
@@ -2616,11 +2839,11 @@ TEST(CppStyleGnu_TabIndent)
 		"}\n";
 	char options[] = "style=gnu, indent=tab=3";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleGnu_ForceTab)
+TEST(StyleGnuCpp, ForceTab)
 {
 	// test gnu style option with force tab indent
 	char textIn[] =
@@ -2647,11 +2870,11 @@ TEST(CppStyleGnu_ForceTab)
 		"}\n";
 	char options[] = "style=gnu, indent=force-tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleGnu_ForceTabIndent)
+TEST(StyleGnuCpp, ForceTabIndent)
 {
 	// test gnu style option with force tab indent
 	char textIn[] =
@@ -2678,11 +2901,11 @@ TEST(CppStyleGnu_ForceTabIndent)
 		"}\n";
 	char options[] = "style=gnu, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleGnu_MinConditionalIndent1)
+TEST(StyleGnuCpp, MinConditionalIndent1)
 {
 	// gnu should use a default setting of MINCOND_TWO
 	char textIn[] =
@@ -2709,11 +2932,11 @@ TEST(CppStyleGnu_MinConditionalIndent1)
 		"}\n";
 	char options[] = "style=gnu";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleGnu_MinConditionalIndent2)
+TEST(StyleGnuCpp, MinConditionalIndent2)
 {
 	// test gnu style option with min conditional indent 0
 	char textIn[] =
@@ -2740,7 +2963,7 @@ TEST(CppStyleGnu_MinConditionalIndent2)
 		"}\n";
 	char options[] = "style=gnu, min-conditional-indent=0";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -2749,7 +2972,44 @@ TEST(CppStyleGnu_MinConditionalIndent2)
 // Additional tests are in the Brackets tests
 //----------------------------------------------------------------------------
 
-TEST_FIXTURE(cppStyleText, CppStyleLinux)
+struct StyleLinuxCppF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	StyleLinuxCppF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo)\n"
+			"    {\n"
+			"        bar();\n"
+			"    }\n"
+			"    else\n"
+			"        anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(StyleLinuxCppF, LongOption)
 {
 	// test linux style option
 	char text[] =
@@ -2777,11 +3037,11 @@ TEST_FIXTURE(cppStyleText, CppStyleLinux)
 		"}   // end FooName\n";
 	char options[] = "style=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleLinux_Short)
+TEST_F(StyleLinuxCppF, ShortOption)
 {
 	// test linux style short option
 	char text[] =
@@ -2809,11 +3069,11 @@ TEST_FIXTURE(cppStyleText, CppStyleLinux_Short)
 		"}   // end FooName\n";
 	char options[] = "-A8";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleLinux_Brackets)
+TEST_F(StyleLinuxCppF, Brackets)
 {
 	// test linux style option with brackets option
 	// the brackets should NOT change
@@ -2842,11 +3102,11 @@ TEST_FIXTURE(cppStyleText, CppStyleLinux_Brackets)
 		"}   // end FooName\n";
 	char options[] = "style=linux, brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleLinux_BlockIndent)
+TEST_F(StyleLinuxCppF, BlockIndent)
 {
 	// test linux style option with indent blocks
 	// blocks should NOT be indented
@@ -2875,11 +3135,11 @@ TEST_FIXTURE(cppStyleText, CppStyleLinux_BlockIndent)
 		"}   // end FooName\n";
 	char options[] = "style=linux, indent-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleLinux_BracketIndent)
+TEST_F(StyleLinuxCppF, BracketIndent)
 {
 	// test linux style option with indent brackets
 	// brackets should not be broken
@@ -2908,11 +3168,11 @@ TEST_FIXTURE(cppStyleText, CppStyleLinux_BracketIndent)
 		"}   // end FooName\n";
 	char options[] = "style=linux, indent-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleLinux_SpaceIndent)
+TEST(StyleLinuxCpp, SpaceIndent)
 {
 	// test linux style option with space indent of 6
 	char textIn[] =
@@ -2937,11 +3197,11 @@ TEST(CppStyleLinux_SpaceIndent)
 		"}\n";
 	char options[] = "style=linux, indent=spaces=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleLinux_Tab)
+TEST(StyleLinuxCpp, Tab)
 {
 	// test linux style option with tab indent
 	// default indent is 8
@@ -2967,11 +3227,11 @@ TEST(CppStyleLinux_Tab)
 		"}\n";
 	char options[] = "style=linux, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleLinux_TabIndent)
+TEST(StyleLinuxCpp, TabIndent)
 {
 	// test linux style option with tab indent
 	char textIn[] =
@@ -2996,11 +3256,11 @@ TEST(CppStyleLinux_TabIndent)
 		"}\n";
 	char options[] = "style=linux, indent=tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleLinux_ForceTab)
+TEST(StyleLinuxCpp, ForceTab)
 {
 	// test linux style option with force tab indent
 	char textIn[] =
@@ -3025,11 +3285,11 @@ TEST(CppStyleLinux_ForceTab)
 		"}\n";
 	char options[] = "style=linux, indent=force-tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleLinux_ForceTabIndent)
+TEST(StyleLinuxCpp, ForceTabIndent)
 {
 	// test linux style option with force tab indent
 	char textIn[] =
@@ -3054,11 +3314,11 @@ TEST(CppStyleLinux_ForceTabIndent)
 		"}\n";
 	char options[] = "style=linux, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleLinux_MinConditionalIndent1)
+TEST(StyleLinuxCpp, MinConditionalIndent1)
 {
 	// Linux should use a default setting of MINCOND_ONEHALF
 	char textIn[] =
@@ -3083,11 +3343,11 @@ TEST(CppStyleLinux_MinConditionalIndent1)
 		"}\n";
 	char options[] = "style=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleLinux_MinConditionalIndent2)
+TEST(StyleLinuxCpp, MinConditionalIndent2)
 {
 	// test linux style option with min conditional indent
 	// Linux should ignore setting and use MINCOND_ONEHALF
@@ -3113,7 +3373,7 @@ TEST(CppStyleLinux_MinConditionalIndent2)
 		"}\n";
 	char options[] = "style=linux, min-conditional-indent=2";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -3122,7 +3382,44 @@ TEST(CppStyleLinux_MinConditionalIndent2)
 // Additional tests are in the Brackets tests
 //----------------------------------------------------------------------------
 
-TEST_FIXTURE(cppStyleText, CppStyleHorstmann)
+struct StyleHorstmannCppF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	StyleHorstmannCppF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo)\n"
+			"    {\n"
+			"        bar();\n"
+			"    }\n"
+			"    else\n"
+			"        anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(StyleHorstmannCppF, LongOption)
 {
 	// test horstmann style option
 	char text[] =
@@ -3150,12 +3447,12 @@ TEST_FIXTURE(cppStyleText, CppStyleHorstmann)
 		"}   // end FooName\n";
 	char options[] = "style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST_FIXTURE(cppStyleText, CppStyleHorstmann_Short)
+TEST_F(StyleHorstmannCppF, ShortOption)
 {
 	// test horstmann style short option
 	char text[] =
@@ -3183,11 +3480,11 @@ TEST_FIXTURE(cppStyleText, CppStyleHorstmann_Short)
 		"}   // end FooName\n";
 	char options[] = "-A9";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleHorstmann_Brackets)
+TEST_F(StyleHorstmannCppF, Brackets)
 {
 	// test horstmann style option with brackets option
 	// the brackets should NOT change
@@ -3216,11 +3513,11 @@ TEST_FIXTURE(cppStyleText, CppStyleHorstmann_Brackets)
 		"}   // end FooName\n";
 	char options[] = "style=horstmann, brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyleHorstmann_BlockIndent)
+TEST_F(StyleHorstmannCppF, BlockIndent)
 {
 	// test horstmann style option with indent blocks
 	// blocks should NOT be indented
@@ -3249,12 +3546,12 @@ TEST_FIXTURE(cppStyleText, CppStyleHorstmann_BlockIndent)
 		"}   // end FooName\n";
 	char options[] = "style=horstmann, indent-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST_FIXTURE(cppStyleText, CppStyleHorstmann_BracketIndent)
+TEST_F(StyleHorstmannCppF, BracketIndent)
 {
 	// test horstmann style option with indent brackets
 	// brackets should NOT be indented
@@ -3283,11 +3580,11 @@ TEST_FIXTURE(cppStyleText, CppStyleHorstmann_BracketIndent)
 		"}   // end FooName\n";
 	char options[] = "style=horstmann, indent-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleHorstmann_SpaceIndent)
+TEST(StyleHorstmannCpp, SpaceIndent)
 {
 	// test horstmann style option with tab indent
 	char textIn[] =
@@ -3312,11 +3609,11 @@ TEST(CppStyleHorstmann_SpaceIndent)
 		"}\n";
 	char options[] = "style=horstmann, indent=spaces=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleHorstmann_Tab)
+TEST(StyleHorstmannCpp, Tab)
 {
 	// test horstmann style option with tab indent
 	// default indent is 3
@@ -3342,11 +3639,11 @@ TEST(CppStyleHorstmann_Tab)
 		"}\n";
 	char options[] = "style=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleHorstmann_TabIndent)
+TEST(StyleHorstmannCpp, TabIndent)
 {
 	// test horstmann style option with tab indent
 	char textIn[] =
@@ -3371,11 +3668,11 @@ TEST(CppStyleHorstmann_TabIndent)
 		"}\n";
 	char options[] = "style=horstmann, indent=tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleHorstmann_ForceTab)
+TEST(StyleHorstmannCpp, ForceTab)
 {
 	// test horstmann style option with force tab indent
 	char textIn[] =
@@ -3400,11 +3697,11 @@ TEST(CppStyleHorstmann_ForceTab)
 		"}\n";
 	char options[] = "style=horstmann, indent=force-tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleHorstmann_ForceTabIndent)
+TEST(StyleHorstmannCpp, ForceTabIndent)
 {
 	// test horstmann style option with tab indent
 	char textIn[] =
@@ -3429,11 +3726,11 @@ TEST(CppStyleHorstmann_ForceTabIndent)
 		"}\n";
 	char options[] = "style=horstmann, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleHorstmann_MinConditionalIndent1)
+TEST(StyleHorstmannCpp, MinConditionalIndent1)
 {
 	// horstmann should use a default setting of MINCOND_TWO
 	char textIn[] =
@@ -3458,11 +3755,11 @@ TEST(CppStyleHorstmann_MinConditionalIndent1)
 		"}\n";
 	char options[] = "style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleHorstmann_MinConditionalIndent2)
+TEST(StyleHorstmannCpp, MinConditionalIndent2)
 {
 	// test horstmann style option with min conditional indent 0
 	char textIn[] =
@@ -3487,11 +3784,11 @@ TEST(CppStyleHorstmann_MinConditionalIndent2)
 		"}\n";
 	char options[] = "style=horstmann, min-conditional-indent=0";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyleHorstmann_SwitchBlockIndent)
+TEST(StyleHorstmannCpp, SwitchBlockIndent)
 {
 	// test horstmann style with switch blocks
 	char text[] =
@@ -3511,7 +3808,7 @@ TEST(CppStyleHorstmann_SwitchBlockIndent)
 		"}\n";
 	char options[] = "style=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -3520,7 +3817,44 @@ TEST(CppStyleHorstmann_SwitchBlockIndent)
 // Additional tests are in the Brackets tests
 //----------------------------------------------------------------------------
 
-TEST_FIXTURE(cppStyleText, CppStyle1TBS)
+struct Style1TBSCppF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	Style1TBSCppF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo)\n"
+			"    {\n"
+			"        bar();\n"
+			"    }\n"
+			"    else\n"
+			"        anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(Style1TBSCppF, LongOption)
 {
 	// test 1tbs style option
 	char text[] =
@@ -3549,11 +3883,11 @@ TEST_FIXTURE(cppStyleText, CppStyle1TBS)
 		"}   // end FooName\n";
 	char options[] = "style=1tbs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyle1TBS_Alt)
+TEST_F(Style1TBSCppF, Alt)
 {
 	// test 1tbs style alternate otbs option
 	char text[] =
@@ -3582,11 +3916,11 @@ TEST_FIXTURE(cppStyleText, CppStyle1TBS_Alt)
 		"}   // end FooName\n";
 	char options[] = "style=otbs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyle1TBS_Short)
+TEST_F(Style1TBSCppF, Short)
 {
 	// test 1tbs style short option
 	char text[] =
@@ -3615,11 +3949,11 @@ TEST_FIXTURE(cppStyleText, CppStyle1TBS_Short)
 		"}   // end FooName\n";
 	char options[] = "-A10";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyle1TBS_Brackets)
+TEST_F(Style1TBSCppF, Brackets)
 {
 	// test 1tbs style option with brackets option
 	// the brackets should NOT change
@@ -3649,11 +3983,11 @@ TEST_FIXTURE(cppStyleText, CppStyle1TBS_Brackets)
 		"}   // end FooName\n";
 	char options[] = "style=1tbs, brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyle1TBS_BlockIndent)
+TEST_F(Style1TBSCppF, BlockIndent)
 {
 	// test 1tbs style option with indent blocks
 	// blocks should NOT be indented
@@ -3683,11 +4017,11 @@ TEST_FIXTURE(cppStyleText, CppStyle1TBS_BlockIndent)
 		"}   // end FooName\n";
 	char options[] = "style=1tbs, indent-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStyle1TBS_BracketIndent)
+TEST_F(Style1TBSCppF, BracketIndent)
 {
 	// test 1tbs style option with indent brackets
 	// brackets shoud NOT be indented
@@ -3717,11 +4051,11 @@ TEST_FIXTURE(cppStyleText, CppStyle1TBS_BracketIndent)
 		"}   // end FooName\n";
 	char options[] = "style=1tbs, indent-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyle1TBS_SpaceIndent)
+TEST(Style1TBSCpp, SpaceIndent)
 {
 	// test 1tbs style option with space indent
 	char textIn[] =
@@ -3747,11 +4081,11 @@ TEST(CppStyle1TBS_SpaceIndent)
 		"}\n";
 	char options[] = "style=1tbs, indent=spaces=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyle1TBS_Tab)
+TEST(Style1TBSCpp, Tab)
 {
 	// test 1tbs style option with tab indent
 	char textIn[] =
@@ -3777,11 +4111,11 @@ TEST(CppStyle1TBS_Tab)
 		"}\n";
 	char options[] = "style=1tbs, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyle1TBS_TabIndent)
+TEST(Style1TBSCpp, TabIndent)
 {
 	// test 1tbs style option with tab indent
 	char textIn[] =
@@ -3807,11 +4141,11 @@ TEST(CppStyle1TBS_TabIndent)
 		"}\n";
 	char options[] = "style=1tbs, indent=tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyle1TBS_ForceTab)
+TEST(Style1TBSCpp, ForceTab)
 {
 	// test 1tbs style option with force tab
 	char textIn[] =
@@ -3837,11 +4171,11 @@ TEST(CppStyle1TBS_ForceTab)
 		"}\n";
 	char options[] = "style=1tbs, indent=force-tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyle1TBS_ForceTabIndent)
+TEST(Style1TBSCpp, ForceTabIndent)
 {
 	// test 1tbs style option with force tab
 	char textIn[] =
@@ -3867,11 +4201,11 @@ TEST(CppStyle1TBS_ForceTabIndent)
 		"}\n";
 	char options[] = "style=1tbs, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyle1TBS_MinConditionalIndent1)
+TEST(Style1TBSCpp, MinConditionalIndent1)
 {
 	// 1tbs should use a default setting of MINCOND_TWO
 	char textIn[] =
@@ -3897,11 +4231,11 @@ TEST(CppStyle1TBS_MinConditionalIndent1)
 		"}\n";
 	char options[] = "style=1tbs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyle1TBS_MinConditionalIndent2)
+TEST(Style1TBSCpp, MinConditionalIndent2)
 {
 	// test 1tbs style option with min conditional indent 0
 	char textIn[] =
@@ -3927,11 +4261,11 @@ TEST(CppStyle1TBS_MinConditionalIndent2)
 		"}\n";
 	char options[] = "style=1tbs, min-conditional-indent=0";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppStyle1TBS_AddOneLineBrackets)
+TEST(Style1TBSCpp, AddOneLineBrackets)
 {
 	// test 1tbs style option with add one line brackets
 	char textIn[] =
@@ -3956,7 +4290,7 @@ TEST(CppStyle1TBS_AddOneLineBrackets)
 		"}\n";
 	char options[] = "style=1tbs, add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -3965,32 +4299,44 @@ TEST(CppStyle1TBS_AddOneLineBrackets)
 // Additional tests are in the Brackets tests
 //----------------------------------------------------------------------------
 
-TEST(CppStylePrecedence_1TBS_AddOneLineBrackets)
+struct StylePrecedenceCppF : public ::testing::Test
 {
-	// add-one-line-brackets implies keep-one-line-blocks
-	char textIn[] =
-		"\nvoid Foo(bool isFoo)\n"
-		"{\n"
-		"    if (isFoo)\n"
-		"        { bar(); }\n"
-		"    else\n"
-		"        anotherBar();\n"
-		"}\n";
-	char text[] =
-		"\nvoid Foo(bool isFoo)\n"
-		"{\n"
-		"    if (isFoo)\n"
-		"        { bar(); }\n"
-		"    else\n"
-		"        { anotherBar(); }\n"
-		"}\n";
-	char options[] = "style=1tbs, add-one-line-brackets";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
-	delete [] textOut;
-}
+	string textStr;
+	const char* textIn;
 
-TEST_FIXTURE(cppStyleText, CppStylePrecedence_IndentBlocks_IndentBrackets)
+	StylePrecedenceCppF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo)\n"
+			"    {\n"
+			"        bar();\n"
+			"    }\n"
+			"    else\n"
+			"        anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(StylePrecedenceCppF, IndentBlocks_IndentBrackets)
 {
 	// cannot have both block indent and bracket indent
 	// default to block indent
@@ -4021,11 +4367,11 @@ TEST_FIXTURE(cppStyleText, CppStylePrecedence_IndentBlocks_IndentBrackets)
 		"}   // end FooName\n";
 	char options[] = "indent-blocks, indent-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStylePrecedence_Horstmann_IndentBrackets)
+TEST_F(StylePrecedenceCppF, Horstmann_IndentBrackets)
 {
 	// CAN have both horstmann brackets and bracket indent
 	char text[] =
@@ -4052,11 +4398,11 @@ TEST_FIXTURE(cppStyleText, CppStylePrecedence_Horstmann_IndentBrackets)
 		"}   // end FooName\n";
 	char options[] = "brackets=horstmann, indent-brackets, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppStyleText, CppStylePrecedence_Horstmann_IndentBlocks)
+TEST_F(StylePrecedenceCppF, Horstmann_IndentBlocks)
 {
 	// CAN have both horstmann brackets and block indent
 	char text[] =
@@ -4083,21 +4429,53 @@ TEST_FIXTURE(cppStyleText, CppStylePrecedence_Horstmann_IndentBlocks)
 		"}   // end FooName\n";
 	char options[] = "brackets=horstmann, indent-blocks, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST_F(StylePrecedenceCppF, 1TBS_AddOneLineBrackets)
+{
+	// add-one-line-brackets implies keep-one-line-blocks
+	char text[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"\n"
+		"class FooClass\n"
+		"{\n"
+		"private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};\n"
+		"\n"
+		"void FooClass::Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    } else\n"
+		"        { anotherBar(); }\n"
+		"}\n"
+		"\n"
+		"}   // end FooName\n";;
+	char options[] = "style=1tbs, add-one-line-brackets";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 //----------------------------------------------------------------------------
-// AStyle Java Style
+// AStyle Java Files
 // Additional tests are in the Brackets tests
 //----------------------------------------------------------------------------
 
-struct javaStyleText
+struct Style_Java : public ::testing::Test
 {
 	string textStr;
 	const char* textIn;
 
-	javaStyleText()
+	Style_Java()
 	{
 		textStr =
 			"\npublic class FooClass\n"
@@ -4120,7 +4498,7 @@ struct javaStyleText
 	}
 };
 
-TEST_FIXTURE(javaStyleText, JavaStyleAllman)
+TEST_F(Style_Java, Allman)
 {
 	// test allman style option
 	char text[] =
@@ -4142,11 +4520,11 @@ TEST_FIXTURE(javaStyleText, JavaStyleAllman)
 
 	char options[] = "style=allman, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaStyleText, JavaStyleJava)
+TEST_F(Style_Java, Java)
 {
 	// test java style option
 	char text[] =
@@ -4164,11 +4542,11 @@ TEST_FIXTURE(javaStyleText, JavaStyleJava)
 
 	char options[] = "style=java, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaStyleText, JavaStyleKR)
+TEST_F(Style_Java, KR)
 {
 	// test k&r style option
 	char text[] =
@@ -4188,11 +4566,11 @@ TEST_FIXTURE(javaStyleText, JavaStyleKR)
 
 	char options[] = "style=kr, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaStyleText, JavaStyleStroustrup)
+TEST_F(Style_Java, Stroustrup)
 {
 	// test stroustrup style option
 	char text[] =
@@ -4211,11 +4589,11 @@ TEST_FIXTURE(javaStyleText, JavaStyleStroustrup)
 
 	char options[] = "style=stroustrup, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaStyleText, JavaStyleWhitesmith)
+TEST_F(Style_Java, Whitesmith)
 {
 	// test whitesmith style option
 	char text[] =
@@ -4237,11 +4615,11 @@ TEST_FIXTURE(javaStyleText, JavaStyleWhitesmith)
 
 	char options[] = "style=whitesmith, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaStyleText, JavaStyleBanner)
+TEST_F(Style_Java, Banner)
 {
 	// test banner style option
 	char text[] =
@@ -4260,11 +4638,11 @@ TEST_FIXTURE(javaStyleText, JavaStyleBanner)
 
 	char options[] = "style=banner, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaStyleText, JavaStyleGnu)
+TEST_F(Style_Java, Gnu)
 {
 	// test gnu style option
 	char text[] =
@@ -4286,12 +4664,12 @@ TEST_FIXTURE(javaStyleText, JavaStyleGnu)
 
 	char options[] = "style=gnu, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST_FIXTURE(javaStyleText, JavaStyleLinux)
+TEST_F(Style_Java, Linux)
 {
 	// test linux style option
 	char text[] =
@@ -4311,11 +4689,11 @@ TEST_FIXTURE(javaStyleText, JavaStyleLinux)
 
 	char options[] = "style=linux, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaStyleText, JavaStyleHorstmann)
+TEST_F(Style_Java, Horstmann)
 {
 	// test horstmann style option
 	char text[] =
@@ -4334,11 +4712,11 @@ TEST_FIXTURE(javaStyleText, JavaStyleHorstmann)
 
 	char options[] = "style=horstmann, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaStyleText, JavaStyle1TBS)
+TEST_F(Style_Java, 1TBS)
 {
 	// test 1tbs style option
 	char text[] =
@@ -4359,21 +4737,21 @@ TEST_FIXTURE(javaStyleText, JavaStyle1TBS)
 
 	char options[] = "style=1tbs, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 //----------------------------------------------------------------------------
-// AStyle C# Style
+// AStyle C# Files
 // Additional tests are in the Brackets tests
 //----------------------------------------------------------------------------
 
-struct sharpStyleText
+struct Style_Sharp : public ::testing::Test
 {
 	string textStr;
 	const char* textIn;
 
-	sharpStyleText()
+	Style_Sharp()
 	{
 		textStr =
 			"\nnamespace FooName\n"
@@ -4401,7 +4779,7 @@ struct sharpStyleText
 	}
 };
 
-TEST_FIXTURE(sharpStyleText, SharpStyleAllman)
+TEST_F(Style_Sharp, Allman)
 {
 	// test allman style option
 	char text[] =
@@ -4427,11 +4805,11 @@ TEST_FIXTURE(sharpStyleText, SharpStyleAllman)
 		"}   // end FooName\n";
 	char options[] = "style=allman, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpStyleText, SharpStyleJava)
+TEST_F(Style_Sharp, Java)
 {
 	// test java style option
 	char text[] =
@@ -4453,11 +4831,11 @@ TEST_FIXTURE(sharpStyleText, SharpStyleJava)
 
 	char options[] = "style=java, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpStyleText, SharpStyleKR)
+TEST_F(Style_Sharp, KR)
 {
 	// test k&r style option
 	char text[] =
@@ -4482,11 +4860,11 @@ TEST_FIXTURE(sharpStyleText, SharpStyleKR)
 
 	char options[] = "style=kr, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpStyleText, SharpStyleStroustrup)
+TEST_F(Style_Sharp, Stroustrup)
 {
 	// test stroustrup style option
 	char text[] =
@@ -4509,11 +4887,11 @@ TEST_FIXTURE(sharpStyleText, SharpStyleStroustrup)
 
 	char options[] = "style=stroustrup, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpStyleText, SharpStyleWhitesmith)
+TEST_F(Style_Sharp, Whitesmith)
 {
 	// test whitesmith style option
 	char text[] =
@@ -4540,11 +4918,11 @@ TEST_FIXTURE(sharpStyleText, SharpStyleWhitesmith)
 
 	char options[] = "style=whitesmith, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpStyleText, SharpStyleBanner)
+TEST_F(Style_Sharp, Banner)
 {
 	// test banner style option
 	char text[] =
@@ -4567,11 +4945,11 @@ TEST_FIXTURE(sharpStyleText, SharpStyleBanner)
 
 	char options[] = "style=banner, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpStyleText, SharpStyleGnu)
+TEST_F(Style_Sharp, Gnu)
 {
 	// test gnu style option
 	char text[] =
@@ -4597,12 +4975,12 @@ TEST_FIXTURE(sharpStyleText, SharpStyleGnu)
 		"}   // end FooName\n";
 	char options[] = "style=gnu, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST_FIXTURE(sharpStyleText, SharpStyleLinux)
+TEST_F(Style_Sharp, Linux)
 {
 	// test linux style option
 	char text[] =
@@ -4627,11 +5005,11 @@ TEST_FIXTURE(sharpStyleText, SharpStyleLinux)
 
 	char options[] = "style=linux, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpStyleText, SharpStyleHorstmann)
+TEST_F(Style_Sharp, Horstmann)
 {
 	// test horstmann style option
 	char text[] =
@@ -4654,12 +5032,12 @@ TEST_FIXTURE(sharpStyleText, SharpStyleHorstmann)
 		"}   // end FooName\n";
 	char options[] = "style=horstmann, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST_FIXTURE(sharpStyleText, SharpStyle1TBS)
+TEST_F(Style_Sharp, 1TBS)
 {
 	// test 1tbs style option
 	char text[] =
@@ -4685,6 +5063,6 @@ TEST_FIXTURE(sharpStyleText, SharpStyle1TBS)
 
 	char options[] = "style=1tbs, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }

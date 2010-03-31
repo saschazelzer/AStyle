@@ -2,49 +2,55 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="MinGWAStyleTest" />
+		<Option title="MinGW AStyleTest" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin\AStyleTestd.exe" prefix_auto="0" extension_auto="0" />
+				<Option output="bin\AStyleTestd" prefix_auto="1" extension_auto="1" />
 				<Option object_output="objd\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters="--terse_printer" />
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-DASTYLE_LIB" />
+					<Add directory="..\..\src" />
+					<Add directory="..\..\srcx" />
 					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="..\..\..\UnitTest++\src" />
+					<Add directory="..\..\..\gtest-1.4.0\include" />
 				</Compiler>
 				<Linker>
-					<Add library="UnitTest++" />
-					<Add directory="..\..\..\UnitTest++" />
+					<Add library="gtestd" />
+					<Add directory="bin" />
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin\AStyleTest.exe" prefix_auto="0" extension_auto="0" />
+				<Option output="bin\AStyleTest" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-O2" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-DASTYLE_LIB" />
 					<Add option="-DNDEBUG" />
+					<Add directory="..\..\src" />
+					<Add directory="..\..\srcx" />
 					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="..\..\..\UnitTest++\src" />
+					<Add directory="..\..\..\gtest-1.4.0\include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="UnitTest++" />
-					<Add directory="..\..\..\UnitTest++" />
+					<Add library="gtest" />
+					<Add directory="bin" />
 				</Linker>
 			</Target>
 			<Target title="Coverage">
-				<Option output="bin\AStyleTestc.exe" prefix_auto="0" extension_auto="0" />
+				<Option output="bin\AStyleTestc" prefix_auto="1" extension_auto="1" />
 				<Option object_output="objc\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -56,14 +62,16 @@
 					<Add option="-fprofile-arcs" />
 					<Add option="-ftest-coverage" />
 					<Add option="-DASTYLE_LIB" />
+					<Add directory="..\..\src" />
+					<Add directory="..\..\srcx" />
 					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="..\..\..\UnitTest++\src" />
+					<Add directory="..\..\..\gtest-1.4.0\include" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
-					<Add library="UnitTest++" />
+					<Add library="gtestd" />
 					<Add library="gcov" />
-					<Add directory="..\..\..\UnitTest++" />
+					<Add directory="bin" />
 				</Linker>
 			</Target>
 		</Build>
@@ -78,6 +86,8 @@
 		<Unit filename="..\..\src\AStyleTest_Pad.cpp" />
 		<Unit filename="..\..\src\AStyleTest_Styles.cpp" />
 		<Unit filename="..\..\src\AStyleTest_Tabs.cpp" />
+		<Unit filename="..\..\srcx\TersePrinter.cpp" />
+		<Unit filename="..\..\srcx\TersePrinter.h" />
 		<Unit filename="..\..\..\AStyle\src\ASBeautifier.cpp" />
 		<Unit filename="..\..\..\AStyle\src\ASEnhancer.cpp" />
 		<Unit filename="..\..\..\AStyle\src\ASFormatter.cpp" />
@@ -87,8 +97,9 @@
 		<Unit filename="..\..\..\AStyle\src\astyle_main.h" />
 		<Extensions>
 			<code_completion />
-			<debugger />
 			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

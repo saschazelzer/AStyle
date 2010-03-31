@@ -9,14 +9,15 @@
 //-----------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------
-// AStyle C++ Common Text for Testing
+// AStyle C++ Default Bracket Options
 //-------------------------------------------------------------------------
-struct cppText
+
+struct BracketsNoneCppF : public ::testing::Test
 {
 	string textStr;
 	const char* textIn;
 
-	cppText()
+	BracketsNoneCppF()
 	{
 		textStr =
 			"\nnamespace FooName\n"
@@ -47,11 +48,7 @@ struct cppText
 	}
 };
 
-//-------------------------------------------------------------------------
-// AStyle C++ Default Bracket Options
-//-------------------------------------------------------------------------
-
-TEST_FIXTURE(cppText, CppBracketsNone)
+TEST_F(BracketsNoneCppF, Default)
 {
 	// test default brackets option (do not change)
 	char text[] =
@@ -80,11 +77,11 @@ TEST_FIXTURE(cppText, CppBracketsNone)
 		"}   // end FooName\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsNone_Namespace)
+TEST_F(BracketsNoneCppF, Namespace)
 {
 	// test default brackets option (do not change)
 	// indented namespace
@@ -114,11 +111,11 @@ TEST_FIXTURE(cppText, CppBracketsNone_Namespace)
 		"}   // end FooName\n";
 	char options[] = "indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsNone_Class)
+TEST_F(BracketsNoneCppF, Class)
 {
 	// test default brackets option (do not change)
 	// indent class blocks
@@ -148,11 +145,11 @@ TEST_FIXTURE(cppText, CppBracketsNone_Class)
 		"}   // end FooName\n";
 	char options[] = "indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsNone_NamespaceClass)
+TEST_F(BracketsNoneCppF, NamespaceClass)
 {
 	// test default brackets option (do not change)
 	// indented namespace and class
@@ -182,11 +179,11 @@ TEST_FIXTURE(cppText, CppBracketsNone_NamespaceClass)
 		"}   // end FooName\n";
 	char options[] = "indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsNone_Blocks)
+TEST_F(BracketsNoneCppF, Blocks)
 {
 	// test default blocks option (do not change brackets)
 	char text[] =
@@ -216,11 +213,11 @@ TEST_FIXTURE(cppText, CppBracketsNone_Blocks)
 		"}   // end FooName\n";
 	char options[] = "indent-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsNone_NamespaceBlocks)
+TEST_F(BracketsNoneCppF, NamespaceBlocks)
 {
 	// test default brackets option (do not change brackets)
 	char text[] =
@@ -250,11 +247,11 @@ TEST_FIXTURE(cppText, CppBracketsNone_NamespaceBlocks)
 		"}   // end FooName\n";
 	char options[] = "indent-blocks, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsNone_Brackets)
+TEST_F(BracketsNoneCppF, Brackets)
 {
 	// test default brackets option (do not change)
 	// indent brackets
@@ -285,12 +282,12 @@ TEST_FIXTURE(cppText, CppBracketsNone_Brackets)
 		"}   // end FooName\n";
 	char options[] = "indent-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST_FIXTURE(cppText, CppBracketsNone_NamespaceBrackets)
+TEST_F(BracketsNoneCppF, NamespaceBrackets)
 {
 	// test default brackets option (do not change)
 	// indent brackets, indent namespaces
@@ -321,12 +318,12 @@ TEST_FIXTURE(cppText, CppBracketsNone_NamespaceBrackets)
 		"    }   // end FooName\n";
 	char options[] = "indent-brackets, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST(CppBracketsNone_EmptyBrackets)
+TEST(BracketsNoneCpp, EmptyBrackets)
 {
 	// test default brackets option (do not change)
 	// do not change empty brackets
@@ -344,11 +341,11 @@ TEST(CppBracketsNone_EmptyBrackets)
 		"{}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_Extern)
+TEST(BracketsNoneCpp, Extern)
 {
 	// test default brackets option (do not change)
 	// extern statement should not change its bracket type
@@ -369,11 +366,11 @@ TEST(CppBracketsNone_Extern)
 		"}\n";
 	char options[] = "indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_Assembler)
+TEST(BracketsNoneCpp, Assembler)
 {
 	// assembler statement should be formatted
 	char text[] =
@@ -388,11 +385,11 @@ TEST(CppBracketsNone_Assembler)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_Break)
+TEST(BracketsNoneCpp, Break)
 {
 	// test default brackets option with broken brackets
 	char text[] =
@@ -409,11 +406,11 @@ TEST(CppBracketsNone_Break)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_Attach)
+TEST(BracketsNoneCpp, Attach)
 {
 	// test default brackets option with attached brackets
 	char text[] =
@@ -426,11 +423,11 @@ TEST(CppBracketsNone_Attach)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_Linux)
+TEST(BracketsNoneCpp, Linux)
 {
 	// test default brackets option with linux brackets
 	char text[] =
@@ -444,11 +441,11 @@ TEST(CppBracketsNone_Linux)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_Horstmann1)
+TEST(BracketsNoneCpp, Horstmann1)
 {
 	// test default brackets option with horstmann brackets
 	char text[] =
@@ -462,11 +459,11 @@ TEST(CppBracketsNone_Horstmann1)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_Horstmann2)
+TEST(BracketsNoneCpp, Horstmann2)
 {
 	// test default brackets option with horstmann brackets
 	// and 2 brackets on the same line
@@ -478,11 +475,11 @@ TEST(CppBracketsNone_Horstmann2)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_Misc1)
+TEST(BracketsNoneCpp, Misc1)
 {
 	// test default brackets option with the following unusual format
 	char textIn[] =
@@ -516,11 +513,11 @@ TEST(CppBracketsNone_Misc1)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_Misc2)
+TEST(BracketsNoneCpp, Misc2)
 {
 	// test default brackets option with the following unusual format
 	char textIn[] =
@@ -543,11 +540,11 @@ TEST(CppBracketsNone_Misc2)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_Misc3)
+TEST(BracketsNoneCpp, Misc3)
 {
 	// test default brackets option with a macro
 	// bracket type will be incorrectly classified as an array
@@ -561,11 +558,11 @@ TEST(CppBracketsNone_Misc3)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_HorstmannIndent1)
+TEST(BracketsNoneCpp, HorstmannIndent1)
 {
 	// test default brackets option with horstmann brackets
 	// with the indent changed from 2 to 4
@@ -591,11 +588,11 @@ TEST(CppBracketsNone_HorstmannIndent1)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_HorstmannIndent2)
+TEST(BracketsNoneCpp, HorstmannIndent2)
 {
 	// test default brackets option with horstmann brackets
 	// with the indent changed from 6 to 4
@@ -621,11 +618,11 @@ TEST(CppBracketsNone_HorstmannIndent2)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_HorstmannIndentComment1)
+TEST(BracketsNoneCpp, HorstmannIndentComment1)
 {
 	// test default brackets option with horstmann brackets
 	// with the indent changed from 2 to 4
@@ -657,11 +654,11 @@ TEST(CppBracketsNone_HorstmannIndentComment1)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_HorstmannIndentComment2)
+TEST(BracketsNoneCpp, HorstmannIndentComment2)
 {
 	// test default brackets option with horstmann brackets
 	// with the indent changed from 6 to 4
@@ -693,11 +690,11 @@ TEST(CppBracketsNone_HorstmannIndentComment2)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_LineCommentsBreak)
+TEST(BracketsNoneCpp, LineCommentsBreak)
 {
 	// line comments following broken brackets should be unchanged
 	char text[] =
@@ -712,11 +709,11 @@ TEST(CppBracketsNone_LineCommentsBreak)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_LineCommentsAttach)
+TEST(BracketsNoneCpp, LineCommentsAttach)
 {
 	// line comments following attached brackets should be unchanged
 	char text[] =
@@ -728,11 +725,11 @@ TEST(CppBracketsNone_LineCommentsAttach)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_LineCommentsHorstmann)
+TEST(BracketsNoneCpp, LineCommentsHorstmann)
 {
 	// line comments following horstmann brackets should be unchanged
 	char text[] =
@@ -745,11 +742,11 @@ TEST(CppBracketsNone_LineCommentsHorstmann)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_CommentsBreak1)
+TEST(BracketsNoneCpp, CommentsBreak1)
 {
 	// broken brackets should not change
 	char text[] =
@@ -762,11 +759,11 @@ TEST(CppBracketsNone_CommentsBreak1)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_CommentsAttach1)
+TEST(BracketsNoneCpp, CommentsAttach1)
 {
 	// attached brackets should not change
 	char text[] =
@@ -778,11 +775,11 @@ TEST(CppBracketsNone_CommentsAttach1)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_CommentsHorstmann1)
+TEST(BracketsNoneCpp, CommentsHorstmann1)
 {
 	// horstmann brackets should not change
 	char text[] =
@@ -794,11 +791,11 @@ TEST(CppBracketsNone_CommentsHorstmann1)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_CommentsBreak2)
+TEST(BracketsNoneCpp, CommentsBreak2)
 {
 	// broken brackets with following comments
 	// mixed tabs and spaces
@@ -832,11 +829,11 @@ TEST(CppBracketsNone_CommentsBreak2)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_CommentsAttach2)
+TEST(BracketsNoneCpp, CommentsAttach2)
 {
 	// attached brackets with following comments
 	// mixed tabs and spaces
@@ -864,11 +861,11 @@ TEST(CppBracketsNone_CommentsAttach2)
 				 "}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_CommentsHorstmann2)
+TEST(BracketsNoneCpp, CommentsHorstmann2)
 {
 	// horstmann brackets with following comments
 	// mixed tabs and spaces
@@ -898,11 +895,11 @@ TEST(CppBracketsNone_CommentsHorstmann2)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_CommentsBreak3)
+TEST(BracketsNoneCpp, CommentsBreak3)
 {
 	// comments following broken brackets should be unchanged
 	char text[] =
@@ -931,11 +928,11 @@ TEST(CppBracketsNone_CommentsBreak3)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_CommentsAttach3)
+TEST(BracketsNoneCpp, CommentsAttach3)
 {
 	// comments following attached brackets should be unchanged
 	// multi-line comments following attached brackets break
@@ -976,11 +973,11 @@ TEST(CppBracketsNone_CommentsAttach3)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_CommentsHorstmann3)
+TEST(BracketsNoneCpp, CommentsHorstmann3)
 {
 	// comments following horstmann brackets should be unchanged
 	char text[] =
@@ -1005,11 +1002,11 @@ TEST(CppBracketsNone_CommentsHorstmann3)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_MultipleCommentsBreak)
+TEST(BracketsNoneCpp, MultipleCommentsBreak)
 {
 	// multiple comments with broken brackets should remain unchanged
 	char text[] =
@@ -1022,11 +1019,11 @@ TEST(CppBracketsNone_MultipleCommentsBreak)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_MultipleCommentsAttach)
+TEST(BracketsNoneCpp, MultipleCommentsAttach)
 {
 	// multiple comments with attached brackets remain unchanged
 	char text[] =
@@ -1038,11 +1035,11 @@ TEST(CppBracketsNone_MultipleCommentsAttach)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsNone_MultipleCommentsHorstmann)
+TEST(BracketsNoneCpp, MultipleCommentsHorstmann)
 {
 	// multiple comments with horstmann brackets remain unchanged
 	char text[] =
@@ -1053,63 +1050,7 @@ TEST(CppBracketsNone_MultipleCommentsHorstmann)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
-	delete [] textOut;
-}
-
-TEST(CppBracketsArrayNone_Comments1)
-{
-	// test array formatting with preceeding comments
-	// use indent=tab to check indent character
-	char textIn[] =
-		"\nstatic tAction StateTable[enStates][enEvents] = {\n"
-		"    // IN APPLICATION MODE:         eEventInit       eEventFTPDone\n"
-		"    /* eStateIdle              */ { NULL,            FKT(actReturnToIdle) },\n"
-		"    /* eStateIdleGetVersion    */ { FKT(actCrashed), FKT(actReturnToIdle) },\n"
-		"    // IN UPDATE MODE:\n"
-		"    /* eStateUpdate            */ { FKT(actUpdate),  FKT(actReturnToIdle) },\n"
-		"    /* eStateUpdateGetVersion  */ { FKT(actCrashed), FKT(actReturnToIdle) },\n"
-		"};\n";
-	char text[] =
-		"\nstatic tAction StateTable[enStates][enEvents] = {\n"
-		"	// IN APPLICATION MODE:         eEventInit       eEventFTPDone\n"
-		"	/* eStateIdle              */ { NULL,            FKT(actReturnToIdle) },\n"
-		"	/* eStateIdleGetVersion    */ { FKT(actCrashed), FKT(actReturnToIdle) },\n"
-		"	// IN UPDATE MODE:\n"
-		"	/* eStateUpdate            */ { FKT(actUpdate),  FKT(actReturnToIdle) },\n"
-		"	/* eStateUpdateGetVersion  */ { FKT(actCrashed), FKT(actReturnToIdle) },\n"
-		"};\n";
-	char options[] = "indent=tab";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
-	delete [] textOut;
-}
-
-TEST(CppBracketsArrayNone_Comments2)
-{
-	// test array formatting, opening bracket after a comment
-	// TODO: Fix the following array
-	char textIn[] =
-		"\nstatic tAction StateTable[enStates][enEvents] =\n"
-		"    // IN APPLICATION MODE:         eEventInit       eEventFTPDone\n"
-		"    /* eStateIdle              */{{ NULL,            FKT(actReturnToIdle) },\n"
-		"    /* eStateIdleGetVersion    */ { FKT(actCrashed), FKT(actReturnToIdle) },\n"
-		"    // IN UPDATE MODE:\n"
-		"    /* eStateUpdate            */ { FKT(actUpdate),  FKT(actReturnToIdle) },\n"
-		"    /* eStateUpdateGetVersion  */ { FKT(actCrashed), FKT(actReturnToIdle) },\n"
-		"};\n";
-	char text[] =
-		"\nstatic tAction StateTable[enStates][enEvents] =\n"
-		"    // IN APPLICATION MODE:         eEventInit       eEventFTPDone\n"
-		"/* eStateIdle              */ {{ NULL,            FKT(actReturnToIdle) },\n"
-		"    /* eStateIdleGetVersion    */ { FKT(actCrashed), FKT(actReturnToIdle) },\n"
-		"    // IN UPDATE MODE:\n"
-		"    /* eStateUpdate            */ { FKT(actUpdate),  FKT(actReturnToIdle) },\n"
-		"    /* eStateUpdateGetVersion  */ { FKT(actCrashed), FKT(actReturnToIdle) },\n"
-		"};\n";
-	char options[] = "";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1117,7 +1058,43 @@ TEST(CppBracketsArrayNone_Comments2)
 // AStyle C++ Break Bracket Options
 //-------------------------------------------------------------------------
 
-TEST_FIXTURE(cppText, CppBracketsBreak)
+struct BracketsBreakCppF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	BracketsBreakCppF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo) {\n"
+			"        bar();\n"
+			"    } else {\n"
+			"        anotherBar();\n"
+			"    }\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(BracketsBreakCppF, LongOption)
 {
 	// test break brackets option
 	char text[] =
@@ -1149,11 +1126,11 @@ TEST_FIXTURE(cppText, CppBracketsBreak)
 		"}   // end FooName\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsBreak_Short)
+TEST_F(BracketsBreakCppF, ShortOption)
 {
 	// test break brackets short option
 	char text[] =
@@ -1185,11 +1162,11 @@ TEST_FIXTURE(cppText, CppBracketsBreak_Short)
 		"}   // end FooName\n";
 	char options[] = "-b";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsBreak_Namespace)
+TEST_F(BracketsBreakCppF, Namespace)
 {
 	// test break brackets option
 	// indented namespace
@@ -1222,11 +1199,11 @@ TEST_FIXTURE(cppText, CppBracketsBreak_Namespace)
 		"}   // end FooName\n";
 	char options[] = "brackets=break, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsBreak_Class)
+TEST_F(BracketsBreakCppF, Class)
 {
 	// test break brackets option
 	// indent class blocks
@@ -1259,11 +1236,11 @@ TEST_FIXTURE(cppText, CppBracketsBreak_Class)
 		"}   // end FooName\n";
 	char options[] = "brackets=break, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsBreak_NamespaceClass)
+TEST_F(BracketsBreakCppF, NamespaceClass)
 {
 	// test break brackets option
 	// indented namespace and class
@@ -1296,11 +1273,11 @@ TEST_FIXTURE(cppText, CppBracketsBreak_NamespaceClass)
 		"}   // end FooName\n";
 	char options[] = "brackets=break, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsBreak_Blocks)
+TEST_F(BracketsBreakCppF, Blocks)
 {
 	// test break brackets option
 	// indent blocks
@@ -1333,11 +1310,11 @@ TEST_FIXTURE(cppText, CppBracketsBreak_Blocks)
 		"}   // end FooName\n";
 	char options[] = "brackets=break, indent-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsBreak_NamespaceBlocks)
+TEST_F(BracketsBreakCppF, NamespaceBlocks)
 {
 	// test break brackets option
 	// indent blocks, indent namespaces
@@ -1370,11 +1347,11 @@ TEST_FIXTURE(cppText, CppBracketsBreak_NamespaceBlocks)
 		"}   // end FooName\n";
 	char options[] = "brackets=break, indent-blocks, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsBreak_Brackets)
+TEST_F(BracketsBreakCppF, Brackets)
 {
 	// test break brackets option
 	// indent brackets
@@ -1407,12 +1384,12 @@ TEST_FIXTURE(cppText, CppBracketsBreak_Brackets)
 		"}   // end FooName\n";
 	char options[] = "brackets=break, indent-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST_FIXTURE(cppText, CppBracketsBreak_NamespaceBrackets)
+TEST_F(BracketsBreakCppF, NamespaceBrackets)
 {
 	// test break brackets option
 	// indent brackets, indent namespaces
@@ -1445,11 +1422,11 @@ TEST_FIXTURE(cppText, CppBracketsBreak_NamespaceBrackets)
 		"    }   // end FooName\n";
 	char options[] = "brackets=break, indent-brackets, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_EmptyBrackets)
+TEST(BracketsBreakCpp, EmptyBrackets)
 {
 	// test break brackets option
 	// do not change empty brackets
@@ -1467,11 +1444,11 @@ TEST(CppBracketsBreak_EmptyBrackets)
 		"{}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_Extern)
+TEST(BracketsBreakCpp, Extern)
 {
 	// extern statement should not change its bracket type
 	// and should NOT use in-statement indents
@@ -1506,11 +1483,11 @@ TEST(CppBracketsBreak_Extern)
 		"}\n";
 	char options[] = "indent=tab, brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_Assembler)
+TEST(BracketsBreakCpp, Assembler)
 {
 	// assembler statement should be formatted
 	char textIn[] =
@@ -1533,11 +1510,11 @@ TEST(CppBracketsBreak_Assembler)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_Break)
+TEST(BracketsBreakCpp, Break)
 {
 	// test break brackets option with broken brackets
 	char text[] =
@@ -1554,11 +1531,11 @@ TEST(CppBracketsBreak_Break)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_Attach)
+TEST(BracketsBreakCpp, Attach)
 {
 	// test break brackets option with attached brackets
 	char textIn[] =
@@ -1583,11 +1560,11 @@ TEST(CppBracketsBreak_Attach)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_Linux)
+TEST(BracketsBreakCpp, Linux)
 {
 	// test break brackets option with linux brackets
 	char textIn[] =
@@ -1613,11 +1590,11 @@ TEST(CppBracketsBreak_Linux)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_Horstmann)
+TEST(BracketsBreakCpp, Horstmann)
 {
 	// test break brackets option with horstmann brackets
 	char textIn[] =
@@ -1643,11 +1620,11 @@ TEST(CppBracketsBreak_Horstmann)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_Misc1)
+TEST(BracketsBreakCpp, Misc1)
 {
 	// test break brackets option with the following unusual format
 	char textIn[] =
@@ -1684,11 +1661,11 @@ TEST(CppBracketsBreak_Misc1)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_Misc2)
+TEST(BracketsBreakCpp, Misc2)
 {
 	// test break brackets option with the following unusual format
 	char textIn[] =
@@ -1713,11 +1690,11 @@ TEST(CppBracketsBreak_Misc2)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_Misc3)
+TEST(BracketsBreakCpp, Misc3)
 {
 	// test break brackets option with a macro
 	// bracket type will be incorrectly classified as an array
@@ -1731,10 +1708,10 @@ TEST(CppBracketsBreak_Misc3)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
-TEST(CppBracketsBreak_LineCommentsBreak)
+TEST(BracketsBreakCpp, LineCommentsBreak)
 {
 	// comments following broken brackets should be unchanged
 	char text[] =
@@ -1749,11 +1726,11 @@ TEST(CppBracketsBreak_LineCommentsBreak)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_LineCommentsAttach)
+TEST(BracketsBreakCpp, LineCommentsAttach)
 {
 	// comments following attached brackets should stay attached to the line
 	char textIn[] =
@@ -1774,11 +1751,11 @@ TEST(CppBracketsBreak_LineCommentsAttach)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_LineCommentsHorstmann)
+TEST(BracketsBreakCpp, LineCommentsHorstmann)
 {
 	// comments following horstmann brackets should be broken
 	char textIn[] =
@@ -1801,11 +1778,11 @@ TEST(CppBracketsBreak_LineCommentsHorstmann)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_LineCommentsClosingHeader)
+TEST(BracketsBreakCpp, LineCommentsClosingHeader)
 {
 	// test comment alignment when a closing header is broken from a closing bracket
 	char textIn[] =
@@ -1830,11 +1807,11 @@ TEST(CppBracketsBreak_LineCommentsClosingHeader)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_CommentsBreak1)
+TEST(BracketsBreakCpp, CommentsBreak1)
 {
 	// broken brackets should not change
 	char text[] =
@@ -1853,11 +1830,11 @@ TEST(CppBracketsBreak_CommentsBreak1)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_CommentsAttach1)
+TEST(BracketsBreakCpp, CommentsAttach1)
 {
 	// break attached brackets with following comments
 	char textIn[] =
@@ -1888,11 +1865,11 @@ TEST(CppBracketsBreak_CommentsAttach1)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_CommentsHorstmann1)
+TEST(BracketsBreakCpp, CommentsHorstmann1)
 {
 	// break horstmann brackets with following comments
 	char textIn[] =
@@ -1923,13 +1900,13 @@ TEST(CppBracketsBreak_CommentsHorstmann1)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
 
-TEST(CppBracketsBreak_CommentsBreak2)
+TEST(BracketsBreakCpp, CommentsBreak2)
 {
 	// broken brackets with following comments
 	// mixed tabs and spaces
@@ -1963,11 +1940,11 @@ TEST(CppBracketsBreak_CommentsBreak2)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_CommentsAttach2)
+TEST(BracketsBreakCpp, CommentsAttach2)
 {
 	// break attached brackets with following comments
 	// mixed tabs and spaces
@@ -1998,11 +1975,11 @@ TEST(CppBracketsBreak_CommentsAttach2)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_CommentsHorstmann2)
+TEST(BracketsBreakCpp, CommentsHorstmann2)
 {
 	// break horstmann brackets with following comments
 	// mixed tabs and spaces
@@ -2034,11 +2011,11 @@ TEST(CppBracketsBreak_CommentsHorstmann2)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_CommentsBreak3)
+TEST(BracketsBreakCpp, CommentsBreak3)
 {
 	// comments following broken brackets should be unchanged
 	char text[] =
@@ -2067,11 +2044,11 @@ TEST(CppBracketsBreak_CommentsBreak3)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_CommentsAttach3)
+TEST(BracketsBreakCpp, CommentsAttach3)
 {
 	// test comments following brackets
 	// multi-line comments following attached brackets break
@@ -2116,11 +2093,11 @@ TEST(CppBracketsBreak_CommentsAttach3)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_CommentsHorstmann3)
+TEST(BracketsBreakCpp, CommentsHorstmann3)
 {
 	// comments following horstmann brackets should be broken
 	char textIn[] =
@@ -2169,11 +2146,11 @@ TEST(CppBracketsBreak_CommentsHorstmann3)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_MultipleCommentsBreak)
+TEST(BracketsBreakCpp, MultipleCommentsBreak)
 {
 	// multiple comments with broken brackets should remain unchanged
 	char text[] =
@@ -2186,11 +2163,11 @@ TEST(CppBracketsBreak_MultipleCommentsBreak)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_MultipleCommentsAttach)
+TEST(BracketsBreakCpp, MultipleCommentsAttach)
 {
 	// multiple comments with attached brackets should remain unchanged
 	char text[] =
@@ -2202,11 +2179,11 @@ TEST(CppBracketsBreak_MultipleCommentsAttach)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsBreak_MultipleCommentsHorstmann)
+TEST(BracketsBreakCpp, MultipleCommentsHorstmann)
 {
 	// multiple comments with horstmann brackets should be broken
 	char textIn[] =
@@ -2225,7 +2202,7 @@ TEST(CppBracketsBreak_MultipleCommentsHorstmann)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -2233,7 +2210,43 @@ TEST(CppBracketsBreak_MultipleCommentsHorstmann)
 // AStyle C++ Attach Bracket Options
 //-------------------------------------------------------------------------
 
-TEST_FIXTURE(cppText, CppBracketsAttach)
+struct BracketsAttachCppF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	BracketsAttachCppF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo) {\n"
+			"        bar();\n"
+			"    } else {\n"
+			"        anotherBar();\n"
+			"    }\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(BracketsAttachCppF, LongOption)
 {
 	// test attach brackets option
 	char text[] =
@@ -2259,11 +2272,11 @@ TEST_FIXTURE(cppText, CppBracketsAttach)
 		"}   // end FooName\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsAttach_Short)
+TEST_F(BracketsAttachCppF, ShortOption)
 {
 	// test attach brackets option
 	char text[] =
@@ -2289,11 +2302,11 @@ TEST_FIXTURE(cppText, CppBracketsAttach_Short)
 		"}   // end FooName\n";
 	char options[] = "-a";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsAttach_Namespace)
+TEST_F(BracketsAttachCppF, Namespace)
 {
 	// test attach brackets option
 	// indented namespace
@@ -2320,11 +2333,11 @@ TEST_FIXTURE(cppText, CppBracketsAttach_Namespace)
 		"}   // end FooName\n";
 	char options[] = "brackets=attach, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsAttach_Class)
+TEST_F(BracketsAttachCppF, Class)
 {
 	// test attach brackets option
 	// indent class blocks
@@ -2351,11 +2364,11 @@ TEST_FIXTURE(cppText, CppBracketsAttach_Class)
 		"}   // end FooName\n";
 	char options[] = "brackets=attach, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsAttach_NamespaceClass)
+TEST_F(BracketsAttachCppF, NamespaceClass)
 {
 	// test attach brackets option
 	// indented namespace and class
@@ -2382,11 +2395,11 @@ TEST_FIXTURE(cppText, CppBracketsAttach_NamespaceClass)
 		"}   // end FooName\n";
 	char options[] = "brackets=attach, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsAttach_Blocks)
+TEST_F(BracketsAttachCppF, Blocks)
 {
 	// test attach brackets option
 	// indent blocks
@@ -2414,11 +2427,11 @@ TEST_FIXTURE(cppText, CppBracketsAttach_Blocks)
 		"}   // end FooName\n";
 	char options[] = "brackets=attach, indent-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsAttach_NamespaceBlocks)
+TEST_F(BracketsAttachCppF, NamespaceBlocks)
 {
 	// test attach brackets option
 	// indent blocks, indent namespaces
@@ -2446,11 +2459,11 @@ TEST_FIXTURE(cppText, CppBracketsAttach_NamespaceBlocks)
 		"}   // end FooName\n";
 	char options[] = "brackets=attach, indent-blocks, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsAttach_Brackets)
+TEST_F(BracketsAttachCppF, Brackets)
 {
 	// test attach brackets option
 	// indent brackets
@@ -2478,12 +2491,12 @@ TEST_FIXTURE(cppText, CppBracketsAttach_Brackets)
 		"}   // end FooName\n";
 	char options[] = "brackets=attach, indent-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST_FIXTURE(cppText, CppBracketsAttach_NamespaceBrackets)
+TEST_F(BracketsAttachCppF, NamespaceBrackets)
 {
 	// test attach brackets option
 	// indent brackets, indent namespaces
@@ -2511,12 +2524,12 @@ TEST_FIXTURE(cppText, CppBracketsAttach_NamespaceBrackets)
 		"    }   // end FooName\n";
 	char options[] = "brackets=attach, indent-brackets, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST_FIXTURE(cppText, CppBracketsAttach_BreakClosing)
+TEST_F(BracketsAttachCppF, BreakClosing)
 {
 	// test attach brackets option
 	char text[] =
@@ -2543,11 +2556,11 @@ TEST_FIXTURE(cppText, CppBracketsAttach_BreakClosing)
 		"}   // end FooName\n";
 	char options[] = "brackets=attach, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_EmptyBrackets)
+TEST(BracketsAttachCpp, EmptyBrackets)
 {
 	// test attach brackets option
 	// do not change empty brackets
@@ -2564,11 +2577,11 @@ TEST(CppBracketsAttach_EmptyBrackets)
 		"{}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_Extern)
+TEST(BracketsAttachCpp, Extern)
 {
 	// extern statement should not change its bracket type
 	// and should NOT use in-statement indents
@@ -2601,11 +2614,11 @@ TEST(CppBracketsAttach_Extern)
 		"}\n";
 	char options[] = "indent=tab, brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_Assembler)
+TEST(BracketsAttachCpp, Assembler)
 {
 	// assembler statement should be formatted
 	char textIn[] =
@@ -2628,11 +2641,11 @@ TEST(CppBracketsAttach_Assembler)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_Break)
+TEST(BracketsAttachCpp, Break)
 {
 	// test attach brackets option with broken brackets
 	char textIn[] =
@@ -2657,11 +2670,11 @@ TEST(CppBracketsAttach_Break)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_Attach)
+TEST(BracketsAttachCpp, Attach)
 {
 	// test attach brackets option with attached brackets
 	char text[] =
@@ -2674,11 +2687,11 @@ TEST(CppBracketsAttach_Attach)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_Linux)
+TEST(BracketsAttachCpp, Linux)
 {
 	// test attach brackets option with linux brackets
 	char textIn[] =
@@ -2700,11 +2713,11 @@ TEST(CppBracketsAttach_Linux)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_Horstmann)
+TEST(BracketsAttachCpp, Horstmann)
 {
 	// test attach brackets option with horstmann brackets
 	char textIn[] =
@@ -2726,11 +2739,11 @@ TEST(CppBracketsAttach_Horstmann)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_Misc1)
+TEST(BracketsAttachCpp, Misc1)
 {
 	// test attach brackets option with the following unusual format
 	char textIn[] =
@@ -2764,11 +2777,11 @@ TEST(CppBracketsAttach_Misc1)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_Misc2)
+TEST(BracketsAttachCpp, Misc2)
 {
 	// test attach brackets option with the following unusual format
 	char textIn[] =
@@ -2790,11 +2803,11 @@ TEST(CppBracketsAttach_Misc2)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_Misc3)
+TEST(BracketsAttachCpp, Misc3)
 {
 	// test attach brackets option with a macro
 	// bracket type will be incorrectly classified as an array
@@ -2807,11 +2820,11 @@ TEST(CppBracketsAttach_Misc3)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_LineCommentsBreak)
+TEST(BracketsAttachCpp, LineCommentsBreak)
 {
 	// comments following broken brackets should NOT be attached
 	char textIn[] =
@@ -2834,11 +2847,11 @@ TEST(CppBracketsAttach_LineCommentsBreak)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_LineCommentsAttach)
+TEST(BracketsAttachCpp, LineCommentsAttach)
 {
 	char text[] =
 		"\nvoid foo(bool isFoo) {    // comment1\n"
@@ -2849,11 +2862,11 @@ TEST(CppBracketsAttach_LineCommentsAttach)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_LineCommentsHorstmann)
+TEST(BracketsAttachCpp, LineCommentsHorstmann)
 {
 	// comments following horstmann brackets should be attached
 	char textIn[] =
@@ -2874,11 +2887,11 @@ TEST(CppBracketsAttach_LineCommentsHorstmann)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_LineCommentsClosingHeader)
+TEST(BracketsAttachCpp, LineCommentsClosingHeader)
 {
 	// test comment alignment when a closing header is attached to a closing bracket
 	char textIn[] =
@@ -2903,11 +2916,11 @@ TEST(CppBracketsAttach_LineCommentsClosingHeader)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_CommentsBreak1)
+TEST(BracketsAttachCpp, CommentsBreak1)
 {
 	// attach broken brackets with following comments
 	char textIn[] =
@@ -2938,11 +2951,11 @@ TEST(CppBracketsAttach_CommentsBreak1)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_CommentsAttach1)
+TEST(BracketsAttachCpp, CommentsAttach1)
 {
 	// attached brackets should not change
 	char text[] =
@@ -2959,11 +2972,11 @@ TEST(CppBracketsAttach_CommentsAttach1)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_CommentsHorstmann1)
+TEST(BracketsAttachCpp, CommentsHorstmann1)
 {
 	// attach horstmann brackets with following comments
 	char textIn[] =
@@ -2992,11 +3005,11 @@ TEST(CppBracketsAttach_CommentsHorstmann1)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_CommentsBreak2)
+TEST(BracketsAttachCpp, CommentsBreak2)
 {
 	// attach broken brackets with following comments
 	// mixed tabs and spaces
@@ -3028,11 +3041,11 @@ TEST(CppBracketsAttach_CommentsBreak2)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_CommentsAttach2)
+TEST(BracketsAttachCpp, CommentsAttach2)
 {
 	// attached brackets with following comments
 	char textIn[] =
@@ -3061,11 +3074,11 @@ TEST(CppBracketsAttach_CommentsAttach2)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_CommentsHorstmann2)
+TEST(BracketsAttachCpp, CommentsHorstmann2)
 {
 	// attach horstmann brackets with following comments
 	// mixed tabs and spaces
@@ -3095,11 +3108,11 @@ TEST(CppBracketsAttach_CommentsHorstmann2)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_CommentsBreak3)
+TEST(BracketsAttachCpp, CommentsBreak3)
 {
 	// comments following broken brackets should NOT be attached
 	char textIn[] =
@@ -3148,11 +3161,11 @@ TEST(CppBracketsAttach_CommentsBreak3)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_CommentsAttach3)
+TEST(BracketsAttachCpp, CommentsAttach3)
 {
 	// test comments following brackets
 	// multi-line comments following attached brackets break
@@ -3193,11 +3206,11 @@ TEST(CppBracketsAttach_CommentsAttach3)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_CommentsHorstmann3)
+TEST(BracketsAttachCpp, CommentsHorstmann3)
 {
 	// comments following horstmann brackets should NOT be attached
 	char textIn[] =
@@ -3242,11 +3255,11 @@ TEST(CppBracketsAttach_CommentsHorstmann3)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_CommentsHorstmann5)
+TEST(BracketsAttachCpp, CommentsHorstmann5)
 {
 	// attached brackets with following comments
 	// if NOT attached the run-in statement should be broken
@@ -3265,11 +3278,11 @@ TEST(CppBracketsAttach_CommentsHorstmann5)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_MultipleCommentsBreak)
+TEST(BracketsAttachCpp, MultipleCommentsBreak)
 {
 	// multiple comments with broken brackets should NOT be attached
 	char textIn[] =
@@ -3289,11 +3302,11 @@ TEST(CppBracketsAttach_MultipleCommentsBreak)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_MultipleCommentsAttach)
+TEST(BracketsAttachCpp, MultipleCommentsAttach)
 {
 	// multiple comments with attached brackets should remain unchanged
 	char text[] =
@@ -3304,11 +3317,11 @@ TEST(CppBracketsAttach_MultipleCommentsAttach)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_MultipleCommentsHorstmann)
+TEST(BracketsAttachCpp, MultipleCommentsHorstmann)
 {
 	// multiple comments with horstmann brackets should NOT be attached
 	char textIn[] =
@@ -3326,11 +3339,11 @@ TEST(CppBracketsAttach_MultipleCommentsHorstmann)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_Xtra1)
+TEST(BracketsAttachCpp, Xtra1)
 {
 	// don't attach brackets if previous line is empty
 	char text[] =
@@ -3345,11 +3358,11 @@ TEST(CppBracketsAttach_Xtra1)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_Xtra2)
+TEST(BracketsAttachCpp, Xtra2)
 {
 	// can attach brackets if previous empty line is deleted
 	char textIn[] =
@@ -3372,11 +3385,11 @@ TEST(CppBracketsAttach_Xtra2)
 		"}\n";
 	char options[] = "brackets=attach, delete-empty-lines";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_Xtra3)
+TEST(BracketsAttachCpp, Xtra3)
 {
 	// cannot attach brackets following a semi-colon
 	char textIn[] =
@@ -3396,11 +3409,11 @@ TEST(CppBracketsAttach_Xtra3)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_Xtra4)
+TEST(BracketsAttachCpp, Xtra4)
 {
 	// cannot attach brackets following a "{" or "}"
 	char textIn[] =
@@ -3424,11 +3437,11 @@ TEST(CppBracketsAttach_Xtra4)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsAttach_Xtra5)
+TEST(BracketsAttachCpp, Xtra5)
 {
 	// attach to a tabbed comment
 	char textIn[] =
@@ -3447,7 +3460,7 @@ TEST(CppBracketsAttach_Xtra5)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -3455,7 +3468,43 @@ TEST(CppBracketsAttach_Xtra5)
 // AStyle C++ Linux Bracket Options
 //-------------------------------------------------------------------------
 
-TEST_FIXTURE(cppText, CppBracketsLinux)
+struct BracketsLinuxCppF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	BracketsLinuxCppF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo) {\n"
+			"        bar();\n"
+			"    } else {\n"
+			"        anotherBar();\n"
+			"    }\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(BracketsLinuxCppF, LongOption)
 {
 	// test linux brackets option
 	char text[] =
@@ -3484,11 +3533,11 @@ TEST_FIXTURE(cppText, CppBracketsLinux)
 		"}   // end FooName\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsLinux_Short)
+TEST_F(BracketsLinuxCppF, ShortOption)
 {
 	// test linux brackets option
 	char text[] =
@@ -3517,11 +3566,11 @@ TEST_FIXTURE(cppText, CppBracketsLinux_Short)
 		"}   // end FooName\n";
 	char options[] = "-l";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsLinux_Namespace)
+TEST_F(BracketsLinuxCppF, Namespace)
 {
 	// test linux brackets option
 	// indented namespace
@@ -3551,11 +3600,11 @@ TEST_FIXTURE(cppText, CppBracketsLinux_Namespace)
 		"}   // end FooName\n";
 	char options[] = "brackets=linux, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsLinux_Class)
+TEST_F(BracketsLinuxCppF, Class)
 {
 	// test linux brackets option
 	// indent class blocks
@@ -3585,11 +3634,11 @@ TEST_FIXTURE(cppText, CppBracketsLinux_Class)
 		"}   // end FooName\n";
 	char options[] = "brackets=linux, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsLinux_NamespaceClass)
+TEST_F(BracketsLinuxCppF, NamespaceClass)
 {
 	// test linux brackets option
 	// indented namespace and class
@@ -3619,11 +3668,11 @@ TEST_FIXTURE(cppText, CppBracketsLinux_NamespaceClass)
 		"}   // end FooName\n";
 	char options[] = "brackets=linux, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsLinux_Blocks)
+TEST_F(BracketsLinuxCppF, Blocks)
 {
 	// test linux brackets option
 	// indent blocks
@@ -3654,11 +3703,11 @@ TEST_FIXTURE(cppText, CppBracketsLinux_Blocks)
 		"}   // end FooName\n";
 	char options[] = "brackets=linux, indent-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsLinux_NamespaceBlocks)
+TEST_F(BracketsLinuxCppF, NamespaceBlocks)
 {
 	// test linux brackets option
 	// indent blocks, indent namespaces
@@ -3689,11 +3738,11 @@ TEST_FIXTURE(cppText, CppBracketsLinux_NamespaceBlocks)
 		"}   // end FooName\n";
 	char options[] = "brackets=linux, indent-blocks, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsLinux_Brackets)
+TEST_F(BracketsLinuxCppF, Brackets)
 {
 	// test linux brackets option
 	// indent brackets
@@ -3724,11 +3773,11 @@ TEST_FIXTURE(cppText, CppBracketsLinux_Brackets)
 		"}   // end FooName\n";
 	char options[] = "brackets=linux, indent-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsLinux_NamespaceBrackets)
+TEST_F(BracketsLinuxCppF, NamespaceBrackets)
 {
 	// test linux brackets option
 	// indent brackets, indent namespaces
@@ -3759,11 +3808,11 @@ TEST_FIXTURE(cppText, CppBracketsLinux_NamespaceBrackets)
 		"    }   // end FooName\n";
 	char options[] = "brackets=linux, indent-brackets, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsLinux_BreakClosing)
+TEST_F(BracketsLinuxCppF, BreakClosing)
 {
 	// test break closing brackets option with linux brackets
 	// effective only with attach or lnux brackets
@@ -3794,11 +3843,11 @@ TEST_FIXTURE(cppText, CppBracketsLinux_BreakClosing)
 		"}   // end FooName\n";
 	char options[] = "brackets=linux, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_EmptyBrackets)
+TEST(BracketsLinuxCpp, EmptyBrackets)
 {
 	// test linux brackets option
 	// do not change empty brackets
@@ -3816,11 +3865,11 @@ TEST(CppBracketsLinux_EmptyBrackets)
 		"{}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_Extern)
+TEST(BracketsLinuxCpp, Extern)
 {
 	// extern statement should not change its bracket type
 	// and should NOT use in-statement indents
@@ -3855,11 +3904,11 @@ TEST(CppBracketsLinux_Extern)
 		"}\n";
 	char options[] = "indent=tab, brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_Assembler)
+TEST(BracketsLinuxCpp, Assembler)
 {
 	// assembler statement should be formatted
 	char textIn[] =
@@ -3883,11 +3932,11 @@ TEST(CppBracketsLinux_Assembler)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_Break)
+TEST(BracketsLinuxCpp, Break)
 {
 	// test linux brackets option with broken brackets
 	char textIn[] =
@@ -3913,11 +3962,11 @@ TEST(CppBracketsLinux_Break)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_Attach)
+TEST(BracketsLinuxCpp, Attach)
 {
 	// test linux brackets option with attached brackets
 	char textIn[] =
@@ -3939,11 +3988,11 @@ TEST(CppBracketsLinux_Attach)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_Linux)
+TEST(BracketsLinuxCpp, Linux)
 {
 	// test linux brackets option with linux brackets
 	char text[] =
@@ -3957,11 +4006,11 @@ TEST(CppBracketsLinux_Linux)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_Horstmann)
+TEST(BracketsLinuxCpp, Horstmann)
 {
 	// test linux brackets option with horstmann brackets
 	char textIn[] =
@@ -3984,11 +4033,11 @@ TEST(CppBracketsLinux_Horstmann)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_Misc1)
+TEST(BracketsLinuxCpp, Misc1)
 {
 	// test linux brackets option with the following unusual format
 	char textIn[] =
@@ -4025,11 +4074,11 @@ TEST(CppBracketsLinux_Misc1)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_Misc2)
+TEST(BracketsLinuxCpp, Misc2)
 {
 	// test linux brackets option with the following unusual format
 	char textIn[] =
@@ -4052,11 +4101,11 @@ TEST(CppBracketsLinux_Misc2)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_Misc3)
+TEST(BracketsLinuxCpp, Misc3)
 {
 	// test linux brackets option with a macro
 	// bracket type will be incorrectly classified as an array
@@ -4070,11 +4119,11 @@ TEST(CppBracketsLinux_Misc3)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_Formatting)
+TEST(BracketsLinuxCpp, Formatting)
 {
 	// test linux brackets option, for non-function top level objects
 	// brackets are attached for function definitions within a class
@@ -4132,11 +4181,11 @@ TEST(CppBracketsLinux_Formatting)
 
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_NestedNamespace)
+TEST(BracketsLinuxCpp, NestedNamespace)
 {
 	// test indent nested namespaces with linux brackets
 	char text[] =
@@ -4164,11 +4213,11 @@ TEST(CppBracketsLinux_NestedNamespace)
 
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_LineCommentsBreak)
+TEST(BracketsLinuxCpp, LineCommentsBreak)
 {
 	// comments following broken brackets should NOT be attached
 	char textIn[] =
@@ -4192,11 +4241,11 @@ TEST(CppBracketsLinux_LineCommentsBreak)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_LineCommentsAttach)
+TEST(BracketsLinuxCpp, LineCommentsAttach)
 {
 	// comments following attached brackets should stay attached to the line
 	char textIn[] =
@@ -4218,11 +4267,11 @@ TEST(CppBracketsLinux_LineCommentsAttach)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_LineCommentsHorstmann)
+TEST(BracketsLinuxCpp, LineCommentsHorstmann)
 {
 	// comments following horstmann brackets should NOT be attached
 	char textIn[] =
@@ -4244,11 +4293,11 @@ TEST(CppBracketsLinux_LineCommentsHorstmann)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_LineCommentsClosingHeader)
+TEST(BracketsLinuxCpp, LineCommentsClosingHeader)
 {
 	// test comment alignment when a closing header is attached to a closing bracket
 	char textIn[] =
@@ -4274,11 +4323,11 @@ TEST(CppBracketsLinux_LineCommentsClosingHeader)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_CommentsBreak1)
+TEST(BracketsLinuxCpp, CommentsBreak1)
 {
 	// broken brackets with following comments to linux
 	char textIn[] =
@@ -4310,11 +4359,11 @@ TEST(CppBracketsLinux_CommentsBreak1)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_CommentsAttach1)
+TEST(BracketsLinuxCpp, CommentsAttach1)
 {
 	// attached brackets with following comments to linux
 	char textIn[] =
@@ -4344,11 +4393,11 @@ TEST(CppBracketsLinux_CommentsAttach1)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_CommentsHorstmann1)
+TEST(BracketsLinuxCpp, CommentsHorstmann1)
 {
 	// horstmann brackets with following comments to linux
 	char textIn[] =
@@ -4378,11 +4427,11 @@ TEST(CppBracketsLinux_CommentsHorstmann1)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_CommentsBreak2)
+TEST(BracketsLinuxCpp, CommentsBreak2)
 {
 	// broken brackets with following comments to linux
 	// mixed tabs and spaces
@@ -4415,11 +4464,11 @@ TEST(CppBracketsLinux_CommentsBreak2)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_CommentsAttach2)
+TEST(BracketsLinuxCpp, CommentsAttach2)
 {
 	// attached brackets with following comments to linux
 	// mixed tabs and spaces
@@ -4449,11 +4498,11 @@ TEST(CppBracketsLinux_CommentsAttach2)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_CommentsHorstmann2)
+TEST(BracketsLinuxCpp, CommentsHorstmann2)
 {
 	// horstmann brackets with following comments to linux
 	// mixed tabs and spaces
@@ -4484,11 +4533,11 @@ TEST(CppBracketsLinux_CommentsHorstmann2)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_CommentsBreak3)
+TEST(BracketsLinuxCpp, CommentsBreak3)
 {
 	// comments following broken brackets should NOT be attached
 	char textIn[] =
@@ -4539,11 +4588,11 @@ TEST(CppBracketsLinux_CommentsBreak3)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_CommentsAttach3)
+TEST(BracketsLinuxCpp, CommentsAttach3)
 {
 	// test comments following brackets
 	// multi-line comments following attached brackets break
@@ -4588,11 +4637,11 @@ TEST(CppBracketsLinux_CommentsAttach3)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_CommentsHorstmann3)
+TEST(BracketsLinuxCpp, CommentsHorstmann3)
 {
 	// comments following horstmann brackets should NOT be attached
 	char textIn[] =
@@ -4639,11 +4688,11 @@ TEST(CppBracketsLinux_CommentsHorstmann3)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_MultipleCommentsBreak)
+TEST(BracketsLinuxCpp, MultipleCommentsBreak)
 {
 	// multiple comments with broken brackets should remain unchanged
 	char text[] =
@@ -4656,11 +4705,11 @@ TEST(CppBracketsLinux_MultipleCommentsBreak)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_MultipleCommentsAttach)
+TEST(BracketsLinuxCpp, MultipleCommentsAttach)
 {
 	// multiple comments with attached brackets remain unchanged
 	char text[] =
@@ -4672,11 +4721,11 @@ TEST(CppBracketsLinux_MultipleCommentsAttach)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_MultipleCommentsHorstmann)
+TEST(BracketsLinuxCpp, MultipleCommentsHorstmann)
 {
 	// multiple comments with horstmann brackets should NOT be attached
 	char textIn[] =
@@ -4695,11 +4744,11 @@ TEST(CppBracketsLinux_MultipleCommentsHorstmann)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_Xtra1)
+TEST(BracketsLinuxCpp, Xtra1)
 {
 	// don't attach brackets if previous line is empty
 	char text[] =
@@ -4714,11 +4763,11 @@ TEST(CppBracketsLinux_Xtra1)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_Xtra2)
+TEST(BracketsLinuxCpp, Xtra2)
 {
 	// can attach brackets if previous empty line is deleted
 	char textIn[] =
@@ -4741,11 +4790,11 @@ TEST(CppBracketsLinux_Xtra2)
 		"}\n";
 	char options[] = "brackets=linux, delete-empty-lines";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_Xtra3)
+TEST(BracketsLinuxCpp, Xtra3)
 {
 	// cannot attach brackets following a semi-colon
 	char textIn[] =
@@ -4766,11 +4815,11 @@ TEST(CppBracketsLinux_Xtra3)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_Xtra4)
+TEST(BracketsLinuxCpp, Xtra4)
 {
 	// cannot attach brackets following a "{" or "}"
 	char textIn[] =
@@ -4795,11 +4844,11 @@ TEST(CppBracketsLinux_Xtra4)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsLinux_Xtra5)
+TEST(BracketsLinuxCpp, Xtra5)
 {
 	// attach to a tabbed comment
 	char textIn[] =
@@ -4819,7 +4868,7 @@ TEST(CppBracketsLinux_Xtra5)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -4827,7 +4876,43 @@ TEST(CppBracketsLinux_Xtra5)
 // AStyle C++ Stroustrup Bracket Options
 //-------------------------------------------------------------------------
 
-TEST_FIXTURE(cppText, CppBracketsStroustrup)
+struct BracketsStroustrupCppF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	BracketsStroustrupCppF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo) {\n"
+			"        bar();\n"
+			"    } else {\n"
+			"        anotherBar();\n"
+			"    }\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(BracketsStroustrupCppF, LongOption)
 {
 	// test stroustrup brackets option
 	char text[] =
@@ -4854,11 +4939,11 @@ TEST_FIXTURE(cppText, CppBracketsStroustrup)
 		"}   // end FooName\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsStroustrup_Short)
+TEST_F(BracketsStroustrupCppF, ShortOption)
 {
 	// test stroustrup brackets option
 	char text[] =
@@ -4885,11 +4970,11 @@ TEST_FIXTURE(cppText, CppBracketsStroustrup_Short)
 		"}   // end FooName\n";
 	char options[] = "-u";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsStroustrup_Namespace)
+TEST_F(BracketsStroustrupCppF, Namespace)
 {
 	// test stroustrup brackets option
 	// indented namespace
@@ -4917,11 +5002,11 @@ TEST_FIXTURE(cppText, CppBracketsStroustrup_Namespace)
 		"}   // end FooName\n";
 	char options[] = "brackets=stroustrup, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsStroustrup_Class)
+TEST_F(BracketsStroustrupCppF, Class)
 {
 	// test stroustrup brackets option
 	// indent class blocks
@@ -4949,11 +5034,11 @@ TEST_FIXTURE(cppText, CppBracketsStroustrup_Class)
 		"}   // end FooName\n";
 	char options[] = "brackets=stroustrup, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsStroustrup_NamespaceClass)
+TEST_F(BracketsStroustrupCppF, NamespaceClass)
 {
 	// test stroustrup brackets option
 	// indented namespace and class
@@ -4981,11 +5066,11 @@ TEST_FIXTURE(cppText, CppBracketsStroustrup_NamespaceClass)
 		"}   // end FooName\n";
 	char options[] = "brackets=stroustrup, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsStroustrup_Blocks)
+TEST_F(BracketsStroustrupCppF, Blocks)
 {
 	// test stroustrup brackets option
 	// indent blocks
@@ -5014,11 +5099,11 @@ TEST_FIXTURE(cppText, CppBracketsStroustrup_Blocks)
 		"}   // end FooName\n";
 	char options[] = "brackets=stroustrup, indent-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsStroustrup_NamespaceBlocks)
+TEST_F(BracketsStroustrupCppF, NamespaceBlocks)
 {
 	// test stroustrup brackets option
 	// indent blocks, indent namespaces
@@ -5047,11 +5132,11 @@ TEST_FIXTURE(cppText, CppBracketsStroustrup_NamespaceBlocks)
 		"}   // end FooName\n";
 	char options[] = "brackets=stroustrup, indent-blocks, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsStroustrup_Brackets)
+TEST_F(BracketsStroustrupCppF, Brackets)
 {
 	// test stroustrup brackets option
 	// indent brackets
@@ -5080,11 +5165,11 @@ TEST_FIXTURE(cppText, CppBracketsStroustrup_Brackets)
 		"}   // end FooName\n";
 	char options[] = "brackets=stroustrup, indent-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsStroustrup_NamespaceBrackets)
+TEST_F(BracketsStroustrupCppF, NamespaceBrackets)
 {
 	// test stroustrup brackets option
 	// indent brackets, indent namespaces
@@ -5113,11 +5198,11 @@ TEST_FIXTURE(cppText, CppBracketsStroustrup_NamespaceBrackets)
 		"    }   // end FooName\n";
 	char options[] = "brackets=stroustrup, indent-brackets, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsStroustrup_BreakClosing)
+TEST_F(BracketsStroustrupCppF, BreakClosing)
 {
 	// test break closing brackets option with stroustrup brackets
 	// effective only with attach, linux, or stroustrup brackets
@@ -5146,11 +5231,11 @@ TEST_FIXTURE(cppText, CppBracketsStroustrup_BreakClosing)
 		"}   // end FooName\n";
 	char options[] = "brackets=stroustrup, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_EmptyBrackets)
+TEST(BracketsStroustrupCpp, EmptyBrackets)
 {
 	// test stroustrup brackets option
 	// do not change empty brackets
@@ -5167,11 +5252,11 @@ TEST(CppBracketsStroustrup_EmptyBrackets)
 		"{}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_Extern)
+TEST(BracketsStroustrupCpp, Extern)
 {
 	// extern statement should not change its bracket type
 	// and should NOT use in-statement indents
@@ -5206,11 +5291,11 @@ TEST(CppBracketsStroustrup_Extern)
 		"}\n";
 	char options[] = "indent=tab, brackets=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_Assembler)
+TEST(BracketsStroustrupCpp, Assembler)
 {
 	// assembler statement should be formatted
 	char textIn[] =
@@ -5234,11 +5319,11 @@ TEST(CppBracketsStroustrup_Assembler)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_Break)
+TEST(BracketsStroustrupCpp, Break)
 {
 	// test stroustrup brackets option with broken brackets
 	char textIn[] =
@@ -5264,11 +5349,11 @@ TEST(CppBracketsStroustrup_Break)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_Attach)
+TEST(BracketsStroustrupCpp, Attach)
 {
 	// test stroustrup brackets option with attached brackets
 	char textIn[] =
@@ -5290,11 +5375,11 @@ TEST(CppBracketsStroustrup_Attach)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_Linux)
+TEST(BracketsStroustrupCpp, Linux)
 {
 	// test stroustrup brackets option with linux brackets
 	char text[] =
@@ -5308,11 +5393,11 @@ TEST(CppBracketsStroustrup_Linux)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_Horstmann)
+TEST(BracketsStroustrupCpp, Horstmann)
 {
 	// test stroustrup brackets option with horstmann brackets
 	char textIn[] =
@@ -5335,11 +5420,11 @@ TEST(CppBracketsStroustrup_Horstmann)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_Misc1)
+TEST(BracketsStroustrupCpp, Misc1)
 {
 	// test stroustrup brackets option with the following unusual format
 	char textIn[] =
@@ -5376,11 +5461,11 @@ TEST(CppBracketsStroustrup_Misc1)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_Misc2)
+TEST(BracketsStroustrupCpp, Misc2)
 {
 	// test stroustrup brackets option with the following unusual format
 	char textIn[] =
@@ -5403,11 +5488,11 @@ TEST(CppBracketsStroustrup_Misc2)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_Misc3)
+TEST(BracketsStroustrupCpp, Misc3)
 {
 	// test stroustrup brackets option with a macro
 	// bracket type will be incorrectly classified as an array
@@ -5421,11 +5506,11 @@ TEST(CppBracketsStroustrup_Misc3)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_Formatting)
+TEST(BracketsStroustrupCpp, Formatting)
 {
 	// test stroustrup brackets option, for non-function top level objects
 	// brackets are attached for function definitions within a class
@@ -5481,11 +5566,11 @@ TEST(CppBracketsStroustrup_Formatting)
 
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_NestedNamespace)
+TEST(BracketsStroustrupCpp, NestedNamespace)
 {
 	// test indent nested namespaces with stroustrup brackets
 	char text[] =
@@ -5507,11 +5592,11 @@ TEST(CppBracketsStroustrup_NestedNamespace)
 
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_LineCommentsBreak)
+TEST(BracketsStroustrupCpp, LineCommentsBreak)
 {
 	// comments following broken brackets should NOT be attached
 	char textIn[] =
@@ -5535,11 +5620,11 @@ TEST(CppBracketsStroustrup_LineCommentsBreak)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_LineCommentsAttach)
+TEST(BracketsStroustrupCpp, LineCommentsAttach)
 {
 	// comments following attached brackets should stay attached to the line
 	char textIn[] =
@@ -5557,11 +5642,11 @@ TEST(CppBracketsStroustrup_LineCommentsAttach)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_LineCommentsHorstmann)
+TEST(BracketsStroustrupCpp, LineCommentsHorstmann)
 {
 	// comments following horstmann brackets should NOT be attached
 	char textIn[] =
@@ -5583,11 +5668,11 @@ TEST(CppBracketsStroustrup_LineCommentsHorstmann)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_LineCommentsClosingHeader)
+TEST(BracketsStroustrupCpp, LineCommentsClosingHeader)
 {
 	// test comment alignment when a closing header is attached to a closing bracket
 	char textIn[] =
@@ -5613,11 +5698,11 @@ TEST(CppBracketsStroustrup_LineCommentsClosingHeader)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_CommentsBreak1)
+TEST(BracketsStroustrupCpp, CommentsBreak1)
 {
 	// broken brackets with following comments to linux
 	char textIn[] =
@@ -5649,11 +5734,11 @@ TEST(CppBracketsStroustrup_CommentsBreak1)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_CommentsAttach1)
+TEST(BracketsStroustrupCpp, CommentsAttach1)
 {
 	// attached brackets with following comments to linux
 	char textIn[] =
@@ -5683,11 +5768,11 @@ TEST(CppBracketsStroustrup_CommentsAttach1)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_CommentsHorstmann1)
+TEST(BracketsStroustrupCpp, CommentsHorstmann1)
 {
 	// stroustrup brackets with following comments to linux
 	char textIn[] =
@@ -5717,11 +5802,11 @@ TEST(CppBracketsStroustrup_CommentsHorstmann1)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_CommentsBreak2)
+TEST(BracketsStroustrupCpp, CommentsBreak2)
 {
 	// broken brackets with following comments to stroustrup
 	// mixed tabs and spaces
@@ -5754,11 +5839,11 @@ TEST(CppBracketsStroustrup_CommentsBreak2)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_CommentsAttach2)
+TEST(BracketsStroustrupCpp, CommentsAttach2)
 {
 	// attached brackets with following comments to stroustrup
 	// mixed tabs and spaces
@@ -5788,11 +5873,11 @@ TEST(CppBracketsStroustrup_CommentsAttach2)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_CommentsHorstmann2)
+TEST(BracketsStroustrupCpp, CommentsHorstmann2)
 {
 	// horstmann brackets with following comments to stroustrup
 	// mixed tabs and spaces
@@ -5823,11 +5908,11 @@ TEST(CppBracketsStroustrup_CommentsHorstmann2)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_CommentsBreak3)
+TEST(BracketsStroustrupCpp, CommentsBreak3)
 {
 	// comments following broken brackets should NOT be attached
 	char textIn[] =
@@ -5878,11 +5963,11 @@ TEST(CppBracketsStroustrup_CommentsBreak3)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_CommentsAttach3)
+TEST(BracketsStroustrupCpp, CommentsAttach3)
 {
 	// test comments following brackets
 	// multi-line comments following attached brackets break
@@ -5927,11 +6012,11 @@ TEST(CppBracketsStroustrup_CommentsAttach3)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_CommentsHorstmann3)
+TEST(BracketsStroustrupCpp, CommentsHorstmann3)
 {
 	// comments following horstmann brackets should NOT be attached
 	char textIn[] =
@@ -5978,11 +6063,11 @@ TEST(CppBracketsStroustrup_CommentsHorstmann3)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_MultipleCommentsBreak)
+TEST(BracketsStroustrupCpp, MultipleCommentsBreak)
 {
 	// multiple comments with broken brackets should remain unchanged
 	char text[] =
@@ -5995,11 +6080,11 @@ TEST(CppBracketsStroustrup_MultipleCommentsBreak)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_MultipleCommentsAttach)
+TEST(BracketsStroustrupCpp, MultipleCommentsAttach)
 {
 	// multiple comments with attached brackets remain unchanged
 	char text[] =
@@ -6011,11 +6096,11 @@ TEST(CppBracketsStroustrup_MultipleCommentsAttach)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsStroustrup_MultipleCommentsHorstmann)
+TEST(BracketsStroustrupCpp, MultipleCommentsHorstmann)
 {
 	// multiple comments with horstmann brackets should NOT be attached
 	char textIn[] =
@@ -6034,7 +6119,7 @@ TEST(CppBracketsStroustrup_MultipleCommentsHorstmann)
 		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -6042,7 +6127,43 @@ TEST(CppBracketsStroustrup_MultipleCommentsHorstmann)
 // AStyle C++ Horstmann Bracket Options
 //-------------------------------------------------------------------------
 
-TEST_FIXTURE(cppText, CppBracketsHorstmann)
+struct BracketsHorstmannCppF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	BracketsHorstmannCppF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo) {\n"
+			"        bar();\n"
+			"    } else {\n"
+			"        anotherBar();\n"
+			"    }\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(BracketsHorstmannCppF, LongOption)
 {
 	// test horstmann brackets option
 	char text[] =
@@ -6071,11 +6192,11 @@ TEST_FIXTURE(cppText, CppBracketsHorstmann)
 		"}   // end FooName\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsHorstmann_Short)
+TEST_F(BracketsHorstmannCppF, ShortOption)
 {
 	// test horstmann brackets short option
 	char text[] =
@@ -6104,11 +6225,11 @@ TEST_FIXTURE(cppText, CppBracketsHorstmann_Short)
 		"}   // end FooName\n";
 	char options[] = "-g";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsHorstmann_Namespace)
+TEST_F(BracketsHorstmannCppF, Namespace)
 {
 	// test horstmann brackets option
 	// indented namespace
@@ -6138,11 +6259,11 @@ TEST_FIXTURE(cppText, CppBracketsHorstmann_Namespace)
 		"}   // end FooName\n";
 	char options[] = "brackets=horstmann, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsHorstmann_Class)
+TEST_F(BracketsHorstmannCppF, Class)
 {
 	// test horstmann brackets option
 	// indent class blocks
@@ -6171,11 +6292,11 @@ TEST_FIXTURE(cppText, CppBracketsHorstmann_Class)
 		"}   // end FooName\n";
 	char options[] = "brackets=horstmann, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsHorstmann_NamespaceClass)
+TEST_F(BracketsHorstmannCppF, NamespaceClass)
 {
 	// test horstmann brackets option
 	// indented namespace and class
@@ -6204,11 +6325,11 @@ TEST_FIXTURE(cppText, CppBracketsHorstmann_NamespaceClass)
 		"}   // end FooName\n";
 	char options[] = "brackets=horstmann, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsHorstmann_Blocks)
+TEST_F(BracketsHorstmannCppF, Blocks)
 {
 	// test horstmann brackets option
 	// indent blocks
@@ -6238,11 +6359,11 @@ TEST_FIXTURE(cppText, CppBracketsHorstmann_Blocks)
 		"}   // end FooName\n";
 	char options[] = "brackets=horstmann, indent-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsHorstmann_NamespaceBlocks)
+TEST_F(BracketsHorstmannCppF, NamespaceBlocks)
 {
 	// test horstmann brackets option
 	// indent blocks, indent namespaces
@@ -6272,11 +6393,11 @@ TEST_FIXTURE(cppText, CppBracketsHorstmann_NamespaceBlocks)
 		"}   // end FooName\n";
 	char options[] = "brackets=horstmann, indent-blocks, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsHorstmann_Brackets)
+TEST_F(BracketsHorstmannCppF, Brackets)
 {
 	// test horstmann brackets option
 	// indent brackets
@@ -6306,11 +6427,11 @@ TEST_FIXTURE(cppText, CppBracketsHorstmann_Brackets)
 		"}   // end FooName\n";
 	char options[] = "brackets=horstmann, indent-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(cppText, CppBracketsHorstmann_NamespaceBrackets)
+TEST_F(BracketsHorstmannCppF, NamespaceBrackets)
 {
 	// test horstmann brackets option
 	// indent brackets, indent namespaces
@@ -6340,11 +6461,11 @@ TEST_FIXTURE(cppText, CppBracketsHorstmann_NamespaceBrackets)
 		"    }   // end FooName\n";
 	char options[] = "brackets=horstmann, indent-brackets, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_EmptyBrackets)
+TEST(BracketsHorstmannCpp, EmptyBrackets)
 {
 	// test horstmann brackets option
 	// do not change empty brackets
@@ -6362,11 +6483,11 @@ TEST(CppBracketsHorstmann_EmptyBrackets)
 		"{}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_Extern)
+TEST(BracketsHorstmannCpp, Extern)
 {
 	// extern statement should not change its bracket type
 	// and should NOT use in-statement indents
@@ -6398,11 +6519,11 @@ TEST(CppBracketsHorstmann_Extern)
 		"}\n";
 	char options[] = "indent=tab, brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_Assembler)
+TEST(BracketsHorstmannCpp, Assembler)
 {
 	// assembler statement should be formatted
 	char textIn[] =
@@ -6424,11 +6545,11 @@ TEST(CppBracketsHorstmann_Assembler)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_Break)
+TEST(BracketsHorstmannCpp, Break)
 {
 	// test horstmann brackets option with broken brackets
 	char textIn[] =
@@ -6454,11 +6575,11 @@ TEST(CppBracketsHorstmann_Break)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_Attach)
+TEST(BracketsHorstmannCpp, Attach)
 {
 	// test horstmann brackets option with attached brackets
 	char textIn[] =
@@ -6480,11 +6601,11 @@ TEST(CppBracketsHorstmann_Attach)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_Linux)
+TEST(BracketsHorstmannCpp, Linux)
 {
 	// test horstmann brackets option with linux brackets
 	char textIn[] =
@@ -6507,11 +6628,11 @@ TEST(CppBracketsHorstmann_Linux)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_Horstmann)
+TEST(BracketsHorstmannCpp, Horstmann)
 {
 	// test horstmann brackets option with horstmann brackets
 	char text[] =
@@ -6525,11 +6646,11 @@ TEST(CppBracketsHorstmann_Horstmann)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_ClassSansPrivate1)
+TEST(BracketsHorstmannCpp, ClassSansPrivate1)
 {
 	// test horstmann brackets without class indent
 	// with and without 'private' class modifier
@@ -6556,11 +6677,11 @@ TEST(CppBracketsHorstmann_ClassSansPrivate1)
 		"};\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_ClassSansPrivate2)
+TEST(BracketsHorstmannCpp, ClassSansPrivate2)
 {
 	// test horstmann brackets with class indent
 	// with and without 'private' class modifier
@@ -6586,11 +6707,11 @@ TEST(CppBracketsHorstmann_ClassSansPrivate2)
 		"};\n";
 	char options[] = "brackets=horstmann, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_Misc1)
+TEST(BracketsHorstmannCpp, Misc1)
 {
 	// test horstmann brackets option with the following unusual format
 	char textIn[] =
@@ -6624,11 +6745,11 @@ TEST(CppBracketsHorstmann_Misc1)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_Misc2)
+TEST(BracketsHorstmannCpp, Misc2)
 {
 	// test horstmann brackets option with the following unusual format
 	char textIn[] =
@@ -6650,11 +6771,11 @@ TEST(CppBracketsHorstmann_Misc2)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_Misc3)
+TEST(BracketsHorstmannCpp, Misc3)
 {
 	// test horstmann brackets option with a macro
 	// bracket type will be incorrectly classified as an array
@@ -6667,11 +6788,11 @@ TEST(CppBracketsHorstmann_Misc3)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_HorstmannIndent1)
+TEST(BracketsHorstmannCpp, HorstmannIndent1)
 {
 	// test horstmann brackets option with horstmann brackets
 	// with the indent changed from 2 to 4
@@ -6697,11 +6818,11 @@ TEST(CppBracketsHorstmann_HorstmannIndent1)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_HorstmannIndent2)
+TEST(BracketsHorstmannCpp, HorstmannIndent2)
 {
 	// test horstmann brackets option with horstmann brackets
 	// with the indent changed from 6 to 4
@@ -6727,11 +6848,11 @@ TEST(CppBracketsHorstmann_HorstmannIndent2)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_LineCommentsBreak)
+TEST(BracketsHorstmannCpp, LineCommentsBreak)
 {
 	// comments following broken brackets should be attached
 	char textIn[] =
@@ -6761,11 +6882,11 @@ TEST(CppBracketsHorstmann_LineCommentsBreak)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_LineCommentsAttach)
+TEST(BracketsHorstmannCpp, LineCommentsAttach)
 {
 	// comments following attached brackets should stay attached to the line
 	char textIn[] =
@@ -6786,11 +6907,11 @@ TEST(CppBracketsHorstmann_LineCommentsAttach)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_LineCommentsHorstmann)
+TEST(BracketsHorstmannCpp, LineCommentsHorstmann)
 {
 	// comments following horstmann brackets should be unchanged
 	char text[] =
@@ -6806,11 +6927,11 @@ TEST(CppBracketsHorstmann_LineCommentsHorstmann)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_LineCommentsClosingHeader)
+TEST(BracketsHorstmannCpp, LineCommentsClosingHeader)
 {
 	// test comment alignment when a closing header is attached to a closing bracket
 	char textIn[] =
@@ -6833,11 +6954,11 @@ TEST(CppBracketsHorstmann_LineCommentsClosingHeader)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_CommentsBreak1)
+TEST(BracketsHorstmannCpp, CommentsBreak1)
 {
 	// broken brackets with following comments to horstmann
 	char textIn[] =
@@ -6868,11 +6989,11 @@ TEST(CppBracketsHorstmann_CommentsBreak1)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_CommentsAttach1)
+TEST(BracketsHorstmannCpp, CommentsAttach1)
 {
 	// attached brackets with following comments to horstmann
 	char textIn[] =
@@ -6901,11 +7022,11 @@ TEST(CppBracketsHorstmann_CommentsAttach1)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_CommentsHorstmann1)
+TEST(BracketsHorstmannCpp, CommentsHorstmann1)
 {
 	// horstmann brackets should not change
 	char text[] =
@@ -6922,11 +7043,11 @@ TEST(CppBracketsHorstmann_CommentsHorstmann1)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_CommentsBreak2)
+TEST(BracketsHorstmannCpp, CommentsBreak2)
 {
 	// broken brackets with following comments to horstmann
 	// mixed tabs and spaces
@@ -6958,11 +7079,11 @@ TEST(CppBracketsHorstmann_CommentsBreak2)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_CommentsAttach2)
+TEST(BracketsHorstmannCpp, CommentsAttach2)
 {
 	// attached brackets with following comments to horstmann
 	// mixed tabs and spaces
@@ -6991,11 +7112,11 @@ TEST(CppBracketsHorstmann_CommentsAttach2)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_CommentsHorstmann2)
+TEST(BracketsHorstmannCpp, CommentsHorstmann2)
 {
 	// horstmann brackets with following comments to horstmann
 	// mixed tabs and spaces
@@ -7025,11 +7146,11 @@ TEST(CppBracketsHorstmann_CommentsHorstmann2)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_CommentsBreak3)
+TEST(BracketsHorstmannCpp, CommentsBreak3)
 {
 	// comments following broken brackets should attach to the bracket
 	char textIn[] =
@@ -7078,11 +7199,11 @@ TEST(CppBracketsHorstmann_CommentsBreak3)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_CommentsAttach3)
+TEST(BracketsHorstmannCpp, CommentsAttach3)
 {
 	// test comments following brackets
 	// multi-line comments following attached brackets break
@@ -7126,11 +7247,11 @@ TEST(CppBracketsHorstmann_CommentsAttach3)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_CommentsHorstmann3)
+TEST(BracketsHorstmannCpp, CommentsHorstmann3)
 {
 	// comments following horstmann brackets should be unchanged
 	char text[] =
@@ -7155,12 +7276,12 @@ TEST(CppBracketsHorstmann_CommentsHorstmann3)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST(CppBracketsHorstmann_MultipleCommentsBreak)
+TEST(BracketsHorstmannCpp, MultipleCommentsBreak)
 {
 	// multiple comments with broken brackets should be run-in
 	char textIn[] =
@@ -7179,11 +7300,11 @@ TEST(CppBracketsHorstmann_MultipleCommentsBreak)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_MultipleCommentsAttach)
+TEST(BracketsHorstmannCpp, MultipleCommentsAttach)
 {
 	// multiple comments with attached brackets should not be broken
 	char textIn[] =
@@ -7200,11 +7321,11 @@ TEST(CppBracketsHorstmann_MultipleCommentsAttach)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsHorstmann_MultipleCommentsHorstmann)
+TEST(BracketsHorstmannCpp, MultipleCommentsHorstmann)
 {
 	// multiple comments with horstmann brackets should remain unchanged
 	char text[] =
@@ -7215,7 +7336,7 @@ TEST(CppBracketsHorstmann_MultipleCommentsHorstmann)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -7223,7 +7344,7 @@ TEST(CppBracketsHorstmann_MultipleCommentsHorstmann)
 // AStyle C++ Other Bracket Options
 //-------------------------------------------------------------------------
 
-TEST(CppBracketsOther_ClassContinuationAttached)
+TEST(BracketsOtherCpp, ClassContinuation_Attach)
 {
 	// test with class continuaton and attached brackets
 	char text[] =
@@ -7234,11 +7355,11 @@ TEST(CppBracketsOther_ClassContinuationAttached)
 		"};\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_ClassContinuationBoken)
+TEST(BracketsOtherCpp, ClassContinuation_Break)
 {
 	// test with class continuaton and broken brackets
 	char text[] =
@@ -7250,11 +7371,11 @@ TEST(CppBracketsOther_ClassContinuationBoken)
 		"};\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_ConstIndent)
+TEST(BracketsOtherCpp, ConstIndentBlocks1)
 {
 	// no initial indent with indent-blocks when a const function is used
 	char text[] =
@@ -7270,11 +7391,11 @@ TEST(CppBracketsOther_ConstIndent)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_ConstIndentBlocks)
+TEST(BracketsOtherCpp, ConstIndentBlocks2)
 {
 	// no initial indent with indent-blocks when a const function is used
 	char text[] =
@@ -7290,11 +7411,11 @@ TEST(CppBracketsOther_ConstIndentBlocks)
 		"}\n";
 	char options[] = "indent-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_ConstIndentBrackets)
+TEST(BracketsOtherCpp, ConstIndentBrackets)
 {
 	// initial indent with indent-brackets when a const function is used
 	char text[] =
@@ -7310,11 +7431,11 @@ TEST(CppBracketsOther_ConstIndentBrackets)
 		"    }\n";
 	char options[] = "indent-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_NestedClass)
+TEST(BracketsOtherCpp, NestedClass)
 {
 	// test nested classes
 	char text[] =
@@ -7343,11 +7464,11 @@ TEST(CppBracketsOther_NestedClass)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_NestedClassBlocks)
+TEST(BracketsOtherCpp, NestedClass_IndentBlocks)
 {
 	// test nested classes and indented blocks
 	char text[] =
@@ -7377,11 +7498,11 @@ TEST(CppBracketsOther_NestedClassBlocks)
 
 	char options[] = "indent-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_NestedClassBrackets)
+TEST(BracketsOtherCpp, NestedClass_IndentBracketsBrackets)
 {
 	// test nested classes and indented brackets
 	char text[] =
@@ -7411,11 +7532,11 @@ TEST(CppBracketsOther_NestedClassBrackets)
 
 	char options[] = "indent-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_NestedClassIndent)
+TEST(BracketsOtherCpp, NestedClass_IndentClasses)
 {
 	// test nested classes with indented classes
 	char text[] =
@@ -7445,11 +7566,11 @@ TEST(CppBracketsOther_NestedClassIndent)
 
 	char options[] = "indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_NestedClassIndentBlocks)
+TEST(BracketsOtherCpp, NestedClass_IndentClasses_IndentBlocks)
 {
 	// test nested classes with indented classes and indented blocks
 	char text[] =
@@ -7479,11 +7600,11 @@ TEST(CppBracketsOther_NestedClassIndentBlocks)
 
 	char options[] = "indent-classes, indent-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_NestedClassIndentBrackets)
+TEST(BracketsOtherCpp, NestedClass_IndentClasses_IndentBrackets)
 {
 	// test nested classes with indented classes and indented brackets
 	char text[] =
@@ -7513,11 +7634,11 @@ TEST(CppBracketsOther_NestedClassIndentBrackets)
 
 	char options[] = "indent-classes, indent-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_NestedNamespace)
+TEST(BracketsOtherCpp, NestedNamespace)
 {
 	// test nested namespaces
 	char text[] =
@@ -7542,11 +7663,11 @@ TEST(CppBracketsOther_NestedNamespace)
 
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_NestedNamespaceBlocks)
+TEST(BracketsOtherCpp, NestedNamespace_IndentBlocks)
 {
 	// test nested namespaces and indented blocks
 	char text[] =
@@ -7571,11 +7692,11 @@ TEST(CppBracketsOther_NestedNamespaceBlocks)
 
 	char options[] = "indent-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_NestedNamespaceBrackets)
+TEST(BracketsOtherCpp, NestedNamespace_IndentBrackets)
 {
 	// test nested namespaces and indented brackets
 	char text[] =
@@ -7600,11 +7721,11 @@ TEST(CppBracketsOther_NestedNamespaceBrackets)
 
 	char options[] = "indent-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_NestedNamespaceIndent)
+TEST(BracketsOtherCpp, NestedNamespace_IndentNamespaces)
 {
 	// test nested indented namespaces
 	char text[] =
@@ -7629,11 +7750,11 @@ TEST(CppBracketsOther_NestedNamespaceIndent)
 
 	char options[] = "indent-namespaces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_NestedNamespaceIndentBlocks)
+TEST(BracketsOtherCpp, NestedNamespace_IndentNamespacesBlocks)
 {
 	// test nested indented namespaces and indented blocks
 	char text[] =
@@ -7658,11 +7779,11 @@ TEST(CppBracketsOther_NestedNamespaceIndentBlocks)
 
 	char options[] = "indent-namespaces, indent-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_NestedNamespaceIndentBrackets)
+TEST(BracketsOtherCpp, NestedNamespace_IndentNamespacesBrackets)
 {
 	// test nested indented namespaces and indented brackets
 	char text[] =
@@ -7687,11 +7808,11 @@ TEST(CppBracketsOther_NestedNamespaceIndentBrackets)
 
 	char options[] = "indent-namespaces, indent-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_NestedNamespaceClass)
+TEST(BracketsOtherCpp, NestedNamespaceInClass)
 {
 	// test namespaces within a class
 	char text[] =
@@ -7728,11 +7849,11 @@ TEST(CppBracketsOther_NestedNamespaceClass)
 
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_NestedNamespaceClassBlocks)
+TEST(BracketsOtherCpp, NestedNamespaceInClass_IndentBlocks)
 {
 	// test namespaces within a class with indented blocks
 	char text[] =
@@ -7769,11 +7890,11 @@ TEST(CppBracketsOther_NestedNamespaceClassBlocks)
 
 	char options[] = "indent-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_NestedNamespaceClassBrackets)
+TEST(BracketsOtherCpp, NestedNamespaceInClass_IndentBrackets)
 {
 	// test namespaces within a class with indented brackets
 	char text[] =
@@ -7810,11 +7931,11 @@ TEST(CppBracketsOther_NestedNamespaceClassBrackets)
 
 	char options[] = "indent-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_NestedNamespaceIndentClass)
+TEST(BracketsOtherCpp, NestedNamespaceInClass_IndentNamespaces)
 {
 	// test indented namespaces within a class
 	char text[] =
@@ -7851,11 +7972,11 @@ TEST(CppBracketsOther_NestedNamespaceIndentClass)
 
 	char options[] = "indent-namespaces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_NestedNamespaceIndentClassBlocks)
+TEST(BracketsOtherCpp, NestedNamespaceInClass_IndentNamespacesBlocks)
 {
 	// test indented namespaces within a class with indented blocks
 	char text[] =
@@ -7892,11 +8013,11 @@ TEST(CppBracketsOther_NestedNamespaceIndentClassBlocks)
 
 	char options[] = "indent-namespaces, indent-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_NestedNamespaceIndentClassBrackets)
+TEST(BracketsOtherCpp, NestedNamespaceInClass_IndentNamespacesBrackets)
 {
 	// test indented namespaces within a class with indented brackets
 	char text[] =
@@ -7933,11 +8054,11 @@ TEST(CppBracketsOther_NestedNamespaceIndentClassBrackets)
 
 	char options[] = "indent-namespaces, indent-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_NestedNamespaceIndentClassIndent)
+TEST(BracketsOtherCpp, NestedNamespaceInClass_IndentNamespacesClasses)
 {
 	// test indented namespaces within an indented class
 	char text[] =
@@ -7974,11 +8095,11 @@ TEST(CppBracketsOther_NestedNamespaceIndentClassIndent)
 
 	char options[] = "indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_NestedNamespaceIndentClassIndentBlocks)
+TEST(BracketsOtherCpp, NestedNamespaceInClass_IndentNamespacesClassesBlocks)
 {
 	// test indented namespaces within an indented class with indented blocks
 	char text[] =
@@ -8015,11 +8136,11 @@ TEST(CppBracketsOther_NestedNamespaceIndentClassIndentBlocks)
 
 	char options[] = "indent-namespaces, indent-classes, indent-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsOther_NestedNamespaceIndentClassIndentBrackets)
+TEST(BracketsOtherCpp, NestedNamespaceInClass_IndentNamespacesClassesBrackets)
 {
 	// test indented namespaces within an indented class with indented brackets
 	char text[] =
@@ -8056,7 +8177,7 @@ TEST(CppBracketsOther_NestedNamespaceIndentClassIndentBrackets)
 
 	char options[] = "indent-namespaces, indent-classes, indent-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -8065,7 +8186,7 @@ TEST(CppBracketsOther_NestedNamespaceIndentClassIndentBrackets)
 // NOTE: Array brackets are NOT converted TO or FROM Horstmann style
 //-------------------------------------------------------------------------
 
-TEST(CppBracketsArrayNone_Break)
+TEST(BracketsArrayNoneCpp, Break)
 {
 	// test array formatting with broken bracket
 	// use indent=tab to check indent character
@@ -8085,11 +8206,11 @@ TEST(CppBracketsArrayNone_Break)
 		"};\n";
 	char options[] = "indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayNone_Attach)
+TEST(BracketsArrayNoneCpp, Attach)
 {
 	// test array formatting with attached brackets
 	// use indent=tab to check indent character
@@ -8107,11 +8228,11 @@ TEST(CppBracketsArrayNone_Attach)
 		"};\n";
 	char options[] = "indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayNone_Horstmann1)
+TEST(BracketsArrayNoneCpp, Horstmann1)
 {
 	// test array formatting with horstmann brackets
 	// use indent=tab to check indent character
@@ -8129,11 +8250,11 @@ TEST(CppBracketsArrayNone_Horstmann1)
 		"};\n";
 	char options[] = "indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayNone_Horstmann2)
+TEST(BracketsArrayNoneCpp, Horstmann2)
 {
 	// test array formatting with horstmann brackets
 	// use indent=tab to check indent character
@@ -8151,11 +8272,11 @@ TEST(CppBracketsArrayNone_Horstmann2)
 		"};\n";
 	char options[] = "indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayNone_Horstmann3)
+TEST(BracketsArrayNoneCpp, Horstmann3)
 {
 	// test array formatting with multiple brackets
 	// use indent=tab to check indent character
@@ -8179,11 +8300,11 @@ TEST(CppBracketsArrayNone_Horstmann3)
 		"};\n";
 	char options[] = "indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayNone_Horstmann4)
+TEST(BracketsArrayNoneCpp, Horstmann4)
 {
 	// test array formatting with multiple one-line-statement brackets
 	// use indent=tab to check indent character
@@ -8199,11 +8320,11 @@ TEST(CppBracketsArrayNone_Horstmann4)
 		"};\n";
 	char options[] = "indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayNone_Horstmann5)
+TEST(BracketsArrayNoneCpp, Horstmann5)
 {
 	// test array formatting
 	// use indent=tab to check indent character
@@ -8220,11 +8341,11 @@ TEST(CppBracketsArrayNone_Horstmann5)
 		"};\n";
 	char options[] = "indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayNone_Horstmann6)
+TEST(BracketsArrayNoneCpp, Horstmann6)
 {
 	// test array formatting
 	// use indent=tab to check indent character
@@ -8252,11 +8373,11 @@ TEST(CppBracketsArrayNone_Horstmann6)
 		"};\n";
 	char options[] = "indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayNone_HorstmannLineComments)
+TEST(BracketsArrayNoneCpp, HorstmannLineComments)
 {
 	// test array formatting with following comments
 	// should not change horstmann line comment run-ins
@@ -8277,11 +8398,11 @@ TEST(CppBracketsArrayNone_HorstmannLineComments)
 		"};\n";
 	char options[] = "indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayNone_HorstmannComments)
+TEST(BracketsArrayNoneCpp, HorstmannComments)
 {
 	// test array formatting with following comment
 	// should not change horstmann comment run-ins
@@ -8302,11 +8423,11 @@ TEST(CppBracketsArrayNone_HorstmannComments)
 		"};\n";
 	char options[] = "indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayNone_InStatement1)
+TEST(BracketsArrayNoneCpp, InStatement1)
 {
 	// in-statement arrays should remain unchanged
 	// use indent=tab to check indent character
@@ -8326,11 +8447,11 @@ TEST(CppBracketsArrayNone_InStatement1)
 		"};\n";
 	char options[] = "indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayNone_InStatement2)
+TEST(BracketsArrayNoneCpp, InStatement2)
 {
 	// test array formatting with horstmann brackets
 	// and a non in-statement bracket on the same line
@@ -8357,11 +8478,67 @@ TEST(CppBracketsArrayNone_InStatement2)
 		"}\n";
 	char options[] = "indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayBreak_Break)
+TEST(BracketsArrayNoneCpp, Comments1)
+{
+	// test array formatting with preceeding comments
+	// use indent=tab to check indent character
+	char textIn[] =
+		"\nstatic tAction StateTable[enStates][enEvents] = {\n"
+		"    // IN APPLICATION MODE:         eEventInit       eEventFTPDone\n"
+		"    /* eStateIdle              */ { NULL,            FKT(actReturnToIdle) },\n"
+		"    /* eStateIdleGetVersion    */ { FKT(actCrashed), FKT(actReturnToIdle) },\n"
+		"    // IN UPDATE MODE:\n"
+		"    /* eStateUpdate            */ { FKT(actUpdate),  FKT(actReturnToIdle) },\n"
+		"    /* eStateUpdateGetVersion  */ { FKT(actCrashed), FKT(actReturnToIdle) },\n"
+		"};\n";
+	char text[] =
+		"\nstatic tAction StateTable[enStates][enEvents] = {\n"
+		"	// IN APPLICATION MODE:         eEventInit       eEventFTPDone\n"
+		"	/* eStateIdle              */ { NULL,            FKT(actReturnToIdle) },\n"
+		"	/* eStateIdleGetVersion    */ { FKT(actCrashed), FKT(actReturnToIdle) },\n"
+		"	// IN UPDATE MODE:\n"
+		"	/* eStateUpdate            */ { FKT(actUpdate),  FKT(actReturnToIdle) },\n"
+		"	/* eStateUpdateGetVersion  */ { FKT(actCrashed), FKT(actReturnToIdle) },\n"
+		"};\n";
+	char options[] = "indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsArrayNoneCpp, Comments2)
+{
+	// test array formatting, opening bracket after a comment
+	// TODO: Fix the following array
+	char textIn[] =
+		"\nstatic tAction StateTable[enStates][enEvents] =\n"
+		"    // IN APPLICATION MODE:         eEventInit       eEventFTPDone\n"
+		"    /* eStateIdle              */{{ NULL,            FKT(actReturnToIdle) },\n"
+		"    /* eStateIdleGetVersion    */ { FKT(actCrashed), FKT(actReturnToIdle) },\n"
+		"    // IN UPDATE MODE:\n"
+		"    /* eStateUpdate            */ { FKT(actUpdate),  FKT(actReturnToIdle) },\n"
+		"    /* eStateUpdateGetVersion  */ { FKT(actCrashed), FKT(actReturnToIdle) },\n"
+		"};\n";
+	char text[] =
+		"\nstatic tAction StateTable[enStates][enEvents] =\n"
+		"    // IN APPLICATION MODE:         eEventInit       eEventFTPDone\n"
+		"/* eStateIdle              */ {{ NULL,            FKT(actReturnToIdle) },\n"
+		"    /* eStateIdleGetVersion    */ { FKT(actCrashed), FKT(actReturnToIdle) },\n"
+		"    // IN UPDATE MODE:\n"
+		"    /* eStateUpdate            */ { FKT(actUpdate),  FKT(actReturnToIdle) },\n"
+		"    /* eStateUpdateGetVersion  */ { FKT(actCrashed), FKT(actReturnToIdle) },\n"
+		"};\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsArrayBreakCpp, Break)
 {
 	// test array formatting with broken brackets
 	// should not change a broken bracket
@@ -8382,11 +8559,11 @@ TEST(CppBracketsArrayBreak_Break)
 		"};\n";
 	char options[] = "brackets=break, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayBreak_Attach)
+TEST(BracketsArrayBreakCpp, Attach)
 {
 	// test array formatting with attached brackets
 	// should break an attached bracket
@@ -8406,11 +8583,11 @@ TEST(CppBracketsArrayBreak_Attach)
 		"};\n";
 	char options[] = "brackets=break, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayBreak_Horstmann1)
+TEST(BracketsArrayBreakCpp, Horstmann1)
 {
 	// test array formatting with horstmann brackets
 	// should break horstmann run-ins
@@ -8430,11 +8607,11 @@ TEST(CppBracketsArrayBreak_Horstmann1)
 		"};\n";
 	char options[] = "brackets=break, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayBreak_Horstmann2)
+TEST(BracketsArrayBreakCpp, Horstmann2)
 {
 	// test array formatting with horstmann brackets
 	// should break horstmann run-ins
@@ -8454,11 +8631,11 @@ TEST(CppBracketsArrayBreak_Horstmann2)
 		"};\n";
 	char options[] = "brackets=break, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayBreak_Horstmann3)
+TEST(BracketsArrayBreakCpp, Horstmann3)
 {
 	// test array formatting with multiple brackets
 	// should break horstmann run-ins
@@ -8486,11 +8663,11 @@ TEST(CppBracketsArrayBreak_Horstmann3)
 		"};\n";
 	char options[] = "brackets=break, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayBreak_Horstmann4)
+TEST(BracketsArrayBreakCpp, Horstmann4)
 {
 	// test array formatting with multiple one-line-statement brackets
 	// use indent=tab to check indent character
@@ -8507,11 +8684,11 @@ TEST(CppBracketsArrayBreak_Horstmann4)
 		"};\n";
 	char options[] = "brackets=break, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayBreak_Horstmann5)
+TEST(BracketsArrayBreakCpp, Horstmann5)
 {
 	// test array formatting
 	// use indent=tab to check indent character
@@ -8530,11 +8707,11 @@ TEST(CppBracketsArrayBreak_Horstmann5)
 		"};\n";
 	char options[] = "brackets=break, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayBreak_Horstmann6)
+TEST(BracketsArrayBreakCpp, Horstmann6)
 {
 	// test array formatting
 	// use indent=tab to check indent character
@@ -8564,11 +8741,11 @@ TEST(CppBracketsArrayBreak_Horstmann6)
 		"};\n";
 	char options[] = "brackets=break, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayBreak_HorstmannLineComments)
+TEST(BracketsArrayBreakCpp, HorstmannLineComments)
 {
 	// test array formatting with following line comment
 	// should break horstmann line comment run-ins
@@ -8590,11 +8767,11 @@ TEST(CppBracketsArrayBreak_HorstmannLineComments)
 		"};\n";
 	char options[] = "brackets=break, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayBreak_HorstmannComments)
+TEST(BracketsArrayBreakCpp, HorstmannComments)
 {
 	// test array formatting with following comment
 	// should break horstmann comment run-ins
@@ -8616,11 +8793,11 @@ TEST(CppBracketsArrayBreak_HorstmannComments)
 		"};\n";
 	char options[] = "brackets=break, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayBreak_InStatement1)
+TEST(BracketsArrayBreakCpp, InStatement1)
 {
 	// in-statement arrays should remain unchanged
 	// use indent=tab to check indent character
@@ -8640,11 +8817,11 @@ TEST(CppBracketsArrayBreak_InStatement1)
 		"};\n";
 	char options[] = "brackets=break, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayBreak_InStatement2)
+TEST(BracketsArrayBreakCpp, InStatement2)
 {
 	// test array formatting with horstmann brackets
 	// and a non in-statement bracket on the same line
@@ -8673,11 +8850,11 @@ TEST(CppBracketsArrayBreak_InStatement2)
 		"}\n";
 	char options[] = "brackets=break, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayBreak_LineComments)
+TEST(BracketsArrayBreakCpp, LineComments)
 {
 	// test array formatting with line-end comments
 	// should break an attached bracket
@@ -8696,11 +8873,11 @@ TEST(CppBracketsArrayBreak_LineComments)
 		"};\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayBreak_Comments)
+TEST(BracketsArrayBreakCpp, Comments)
 {
 	// test array formatting with comments
 	// should break an attached bracket
@@ -8735,11 +8912,11 @@ TEST(CppBracketsArrayBreak_Comments)
 		"                    };\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayAttach_Break)
+TEST(BracketsArrayAttachCpp, Break)
 {
 	// test array formatting with broken brackets
 	// should attach a broken bracket
@@ -8759,11 +8936,11 @@ TEST(CppBracketsArrayAttach_Break)
 		"};\n";
 	char options[] = "brackets=attach, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayAttach_Attach)
+TEST(BracketsArrayAttachCpp, Attach)
 {
 	// test array formatting with attached brackets
 	// should not change an attached bracket
@@ -8782,11 +8959,11 @@ TEST(CppBracketsArrayAttach_Attach)
 		"};\n";
 	char options[] = "brackets=attach, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayAttach_Horstmann1)
+TEST(BracketsArrayAttachCpp, Horstmann1)
 {
 	// test array formatting with horstamnn brackets
 	// should attach a horstmann bracket
@@ -8805,11 +8982,11 @@ TEST(CppBracketsArrayAttach_Horstmann1)
 		"};\n";
 	char options[] = "brackets=attach, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayAttach_Horstmann2)
+TEST(BracketsArrayAttachCpp, Horstmann2)
 {
 	// test array formatting with horstamnn brackets
 	// should attach a horstmann bracket
@@ -8828,11 +9005,11 @@ TEST(CppBracketsArrayAttach_Horstmann2)
 		"};\n";
 	char options[] = "brackets=attach, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayAttach_Horstmann3)
+TEST(BracketsArrayAttachCpp, Horstmann3)
 {
 	// test array formatting with multiple brackets
 	// should break horstmann run-ins
@@ -8859,11 +9036,11 @@ TEST(CppBracketsArrayAttach_Horstmann3)
 		"};\n";
 	char options[] = "brackets=attach, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayAttach_Horstmann4)
+TEST(BracketsArrayAttachCpp, Horstmann4)
 {
 	// test array formatting with multiple one-line-statement brackets
 	// use indent=tab to check indent character
@@ -8879,11 +9056,11 @@ TEST(CppBracketsArrayAttach_Horstmann4)
 		"};\n";
 	char options[] = "brackets=attach, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayAttach_Horstmann5)
+TEST(BracketsArrayAttachCpp, Horstmann5)
 {
 	// test array formatting
 	// use indent=tab to check indent character
@@ -8901,11 +9078,11 @@ TEST(CppBracketsArrayAttach_Horstmann5)
 		"};\n";
 	char options[] = "brackets=attach, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayAttach_Horstmann6)
+TEST(BracketsArrayAttachCpp, Horstmann6)
 {
 	// test array formatting
 	// use indent=tab to check indent character
@@ -8934,11 +9111,11 @@ TEST(CppBracketsArrayAttach_Horstmann6)
 		"};\n";
 	char options[] = "brackets=attach, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayAttach_HorstmannLineComments)
+TEST(BracketsArrayAttachCpp, HorstmannLineComments)
 {
 	// test array formatting wih following line comments
 	// should attach horstmann line comment run-ins
@@ -8959,11 +9136,11 @@ TEST(CppBracketsArrayAttach_HorstmannLineComments)
 		"};\n";
 	char options[] = "brackets=attach, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayAttach_HorstmannComments)
+TEST(BracketsArrayAttachCpp, HorstmannComments)
 {
 	// test array formatting wih following comments
 	// should attach horstmann comment run-ins
@@ -8984,11 +9161,11 @@ TEST(CppBracketsArrayAttach_HorstmannComments)
 		"};\n";
 	char options[] = "brackets=attach, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayAttach_InStatement1)
+TEST(BracketsArrayAttachCpp, InStatement1)
 {
 	// in-statement arrays should remain unchanged
 	// use indent=tab to check indent character
@@ -9006,11 +9183,11 @@ TEST(CppBracketsArrayAttach_InStatement1)
 		"};\n";
 	char options[] = "brackets=attach, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayAttach_InStatement2)
+TEST(BracketsArrayAttachCpp, InStatement2)
 {
 	// test array formatting with horstmann brackets
 	// and a non in-statement bracket on the same line
@@ -9037,11 +9214,11 @@ TEST(CppBracketsArrayAttach_InStatement2)
 		"}\n";
 	char options[] = "brackets=attach, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayAttach_LineComments)
+TEST(BracketsArrayAttachCpp, LineComments)
 {
 	// test array formatting with line-end comments
 	// should attach a broken bracket
@@ -9060,11 +9237,11 @@ TEST(CppBracketsArrayAttach_LineComments)
 		"};\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayAttach_Comments)
+TEST(BracketsArrayAttachCpp, Comments)
 {
 	// test array formatting with comments
 	// should attach a broken bracket
@@ -9102,11 +9279,11 @@ TEST(CppBracketsArrayAttach_Comments)
 		"};\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayAttach_Sans)
+TEST(BracketsArrayAttachCpp, Sans)
 {
 	// test array formatting
 	// should not attach if preceeded by an empty line
@@ -9120,11 +9297,11 @@ TEST(CppBracketsArrayAttach_Sans)
 		"};\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_Break1)
+TEST(BracketsArrayHorstmannCpp, Break1)
 {
 	// test array formatting with broken brackets
 	// should run-in a broken bracket
@@ -9144,11 +9321,11 @@ TEST(CppBracketsArrayHorstmann_Break1)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_Break2)
+TEST(BracketsArrayHorstmannCpp, Break2)
 {
 	// test array formatting with quotes
 	// should run-in a broken bracket
@@ -9168,11 +9345,11 @@ TEST(CppBracketsArrayHorstmann_Break2)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_Break3)
+TEST(BracketsArrayHorstmannCpp, Break3)
 {
 	// test array formatting with multiple brackets
 	// should run-in all brackets
@@ -9200,11 +9377,11 @@ TEST(CppBracketsArrayHorstmann_Break3)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_Break4)
+TEST(BracketsArrayHorstmannCpp, Break4)
 {
 	// test array formatting with multiple one-line-statement brackets
 	// use indent=tab to check indent character
@@ -9221,11 +9398,11 @@ TEST(CppBracketsArrayHorstmann_Break4)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_Break5)
+TEST(BracketsArrayHorstmannCpp, Break5)
 {
 	// test array formatting
 	// use indent=tab to check indent character
@@ -9244,11 +9421,11 @@ TEST(CppBracketsArrayHorstmann_Break5)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_Break6)
+TEST(BracketsArrayHorstmannCpp, Break6)
 {
 	// test array formatting
 	// use indent=tab to check indent character
@@ -9279,11 +9456,11 @@ TEST(CppBracketsArrayHorstmann_Break6)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_Attach1)
+TEST(BracketsArrayHorstmannCpp, Attach1)
 {
 	// test array formatting with attached brackets
 	// should run-in an attached bracket
@@ -9302,11 +9479,11 @@ TEST(CppBracketsArrayHorstmann_Attach1)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_Attach2)
+TEST(BracketsArrayHorstmannCpp, Attach2)
 {
 	// test array formatting with quotes
 	// should run-in an attached bracket
@@ -9325,11 +9502,11 @@ TEST(CppBracketsArrayHorstmann_Attach2)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_Attach3)
+TEST(BracketsArrayHorstmannCpp, Attach3)
 {
 	// test array formatting with multiple brackets
 	// should run-in all brackets
@@ -9356,11 +9533,11 @@ TEST(CppBracketsArrayHorstmann_Attach3)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_Attach4)
+TEST(BracketsArrayHorstmannCpp, Attach4)
 {
 	// test array formatting with multiple one-line-statement brackets
 	// use indent=tab to check indent character
@@ -9376,11 +9553,11 @@ TEST(CppBracketsArrayHorstmann_Attach4)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_Attach5)
+TEST(BracketsArrayHorstmannCpp, Attach5)
 {
 	// test array formatting
 	// use indent=tab to check indent character
@@ -9398,11 +9575,11 @@ TEST(CppBracketsArrayHorstmann_Attach5)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_Attach6)
+TEST(BracketsArrayHorstmannCpp, Attach6)
 {
 	// test array formatting
 	// use indent=tab to check indent character
@@ -9432,11 +9609,11 @@ TEST(CppBracketsArrayHorstmann_Attach6)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_AttachLineComments)
+TEST(BracketsArrayHorstmannCpp, AttachLineComments)
 {
 	// test array formatting with attach to horstmann with following comments
 	// use indent=tab to check indent character
@@ -9454,11 +9631,11 @@ TEST(CppBracketsArrayHorstmann_AttachLineComments)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_AttachComments)
+TEST(BracketsArrayHorstmannCpp, AttachComments)
 {
 	// test array formatting with attach to horstmann with following comments
 	// use indent=tab to check indent character
@@ -9476,11 +9653,11 @@ TEST(CppBracketsArrayHorstmann_AttachComments)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_Horstmann1)
+TEST(BracketsArrayHorstmannCpp, Horstmann1)
 {
 	// test array formatting
 	// should NOT change a horstmann bracket
@@ -9499,11 +9676,11 @@ TEST(CppBracketsArrayHorstmann_Horstmann1)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_Horstmann2)
+TEST(BracketsArrayHorstmannCpp, Horstmann2)
 {
 	// test array formatting with quotes
 	// should NOT change a horstmann bracket
@@ -9522,10 +9699,10 @@ TEST(CppBracketsArrayHorstmann_Horstmann2)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
-TEST(CppBracketsArrayHorstmann_Horstmann3)
+TEST(BracketsArrayHorstmannCpp, Horstmann3)
 {
 	// test array formatting with multiple brackets
 	// should NOT change a horstmann bracket
@@ -9550,11 +9727,11 @@ TEST(CppBracketsArrayHorstmann_Horstmann3)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_Horstmann4)
+TEST(BracketsArrayHorstmannCpp, Horstmann4)
 {
 	// test array formatting with multiple one-line-statement brackets
 	// use indent=tab to check indent character
@@ -9570,11 +9747,11 @@ TEST(CppBracketsArrayHorstmann_Horstmann4)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_Horstmann5)
+TEST(BracketsArrayHorstmannCpp, Horstmann5)
 {
 	// test array formatting
 	// use indent=tab to check indent character
@@ -9591,11 +9768,11 @@ TEST(CppBracketsArrayHorstmann_Horstmann5)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_Horstmann6)
+TEST(BracketsArrayHorstmannCpp, Horstmann6)
 {
 	// test array formatting
 	// use indent=tab to check indent character
@@ -9623,11 +9800,11 @@ TEST(CppBracketsArrayHorstmann_Horstmann6)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_HorstmannLineComments1)
+TEST(BracketsArrayHorstmannCpp, HorstmannLineComments1)
 {
 	// test array formatting
 	// should not change horstmann line comment run-ins
@@ -9648,11 +9825,11 @@ TEST(CppBracketsArrayHorstmann_HorstmannLineComments1)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_HorstmannLineComments2)
+TEST(BracketsArrayHorstmannCpp, HorstmannLineComments2)
 {
 	// test array formatting
 	// should NOT run-in a non-indent line comment
@@ -9675,11 +9852,11 @@ TEST(CppBracketsArrayHorstmann_HorstmannLineComments2)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_HorstmannComments)
+TEST(BracketsArrayHorstmannCpp, HorstmannComments)
 {
 	// test array formatting
 	// should not change horstmann comment run-ins
@@ -9700,11 +9877,11 @@ TEST(CppBracketsArrayHorstmann_HorstmannComments)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_InStatement1)
+TEST(BracketsArrayHorstmannCpp, InStatement1)
 {
 	// in-statement arrays should remain unchanged
 	// use indent=tab to check indent character
@@ -9716,11 +9893,11 @@ TEST(CppBracketsArrayHorstmann_InStatement1)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_InStatement2)
+TEST(BracketsArrayHorstmannCpp, InStatement2)
 {
 	// test array formatting with horstmann brackets
 	// and a non in-statement bracket on the same line
@@ -9748,11 +9925,11 @@ TEST(CppBracketsArrayHorstmann_InStatement2)
 		"}\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(CppBracketsArrayHorstmann_InStatement3)
+TEST(BracketsArrayHorstmannCpp, InStatement3)
 {
 	// test array formatting with horstmann brackets
 	// and a non in-statement bracket on the same line
@@ -9779,7 +9956,6 @@ TEST(CppBracketsArrayHorstmann_InStatement3)
 		"}\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
-

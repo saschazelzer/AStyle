@@ -8,7 +8,7 @@
 // AStyle Tab Options
 //-----------------------------------------------------------------------------
 
-TEST(Tab_Default)
+TEST(Tabs, Default)
 {
 	// test default indent of 4 spaces per tab
 	char text[] =
@@ -23,11 +23,11 @@ TEST(Tab_Default)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(TabSpaces_8)
+TEST(Tabs, Spaces_8)
 {
 	// test indent of 8 spaces per tab
 	char text[] =
@@ -42,11 +42,11 @@ TEST(TabSpaces_8)
 		"}\n";
 	char options[] = "indent=spaces=8";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(TabSpaces_Short8)
+TEST(Tabs, Spaces_Short8)
 {
 	// test indent of 8 spaces per tab
 	char text[] =
@@ -61,11 +61,11 @@ TEST(TabSpaces_Short8)
 		"}\n";
 	char options[] = "s8";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(TabTab_Default)
+TEST(Tabs, Tab_Default)
 {
 	// test default tab indent of 4 spaces per tab
 	// the '&& isBar' line will be indented with 2 tab widths or 8 spaces
@@ -82,11 +82,11 @@ TEST(TabTab_Default)
 		"}\n";
 	char options[] = "indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(TabTab_DefaultShort)
+TEST(Tabs, Tab_DefaultShort)
 {
 	// test default tab indent of 4 spaces per tab
 	// the '&& isBar' line will be indented with 2 tab widths or 8 spaces
@@ -103,11 +103,11 @@ TEST(TabTab_DefaultShort)
 		"}\n";
 	char options[] = "t";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(TabTab_8)
+TEST(Tabs, Tab_8)
 {
 	// test tab indent of 8 spaces per tab
 	// the '&& isBar' line will be indented with 2 tab widths or 16 spaces
@@ -124,11 +124,11 @@ TEST(TabTab_8)
 		"}\n";
 	char options[] = "indent=tab=8";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(TabTab_Short8)
+TEST(Tabs, Tab_Short8)
 {
 	// test tab indent of 8 spaces per tab
 	// the '&& isBar' line will be indented with 2 tab widths or 16 spaces
@@ -145,11 +145,11 @@ TEST(TabTab_Short8)
 		"}\n";
 	char options[] = "t8";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(TabForceTab_Default)
+TEST(Tabs, ForceTab_Default)
 {
 	// test default force tab indent of 4 spaces per tab
 	// the '&& isBar' line will be indented with 2 tabs instead of 8 spaces
@@ -166,11 +166,11 @@ TEST(TabForceTab_Default)
 		"}\n";
 	char options[] = "indent=force-tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(TabForceTab_DefaultShort)
+TEST(Tabs, ForceTab_DefaultShort)
 {
 	// test default force tab indent of 4 spaces per tab
 	// the '&& isBar' line will be indented with 2 tabs instead of 8 spaces
@@ -187,11 +187,11 @@ TEST(TabForceTab_DefaultShort)
 		"}\n";
 	char options[] = "T";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(TabForceTab_8)
+TEST(Tabs, ForceTab_8)
 {
 	// test default force tab indent of 8 spaces per tab
 	// the result of this test is the same as the default option
@@ -208,11 +208,11 @@ TEST(TabForceTab_8)
 		"}\n";
 	char options[] = "indent=force-tab=8";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(TabForceTab_Short8)
+TEST(Tabs, ForceTab_Short8)
 {
 	// test default force tab indent of 8 spaces per tab
 	// the result of this test is the same as the default option
@@ -229,7 +229,7 @@ TEST(TabForceTab_Short8)
 		"}\n";
 	char options[] = "T8";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 

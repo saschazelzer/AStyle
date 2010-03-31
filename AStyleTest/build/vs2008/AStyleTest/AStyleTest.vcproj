@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
-				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;&quot;..\..\..\..\UnitTest++\src&quot;"
+				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;&quot;..\..\..\..\gtest-1.4.0\include&quot;;..\..\..\srcx"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -63,10 +63,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="AStyleLibd.lib UnitTest++.vsnet2008.lib"
-				OutputFile="$(OutDir)\AStyleTestd.exe"
+				AdditionalDependencies="AStyleLibd.lib gtestd.lib"
+				OutputFile="$(OutDir)\$(ProjectName)d.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\debug;&quot;..\..\..\..\UnitTest++\Debug&quot;"
+				AdditionalLibraryDirectories="..\debug"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(ProjectDir)$(ConfigurationName)\$(TargetName).pdb"
 				SubSystem="1"
@@ -122,7 +122,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				EnableIntrinsicFunctions="false"
-				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;&quot;..\..\..\..\UnitTest++\src&quot;"
+				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;&quot;..\..\..\..\gtest-1.4.0\include&quot;;..\..\..\srcx"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				MinimalRebuild="false"
 				RuntimeLibrary="2"
@@ -143,10 +143,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="AStyleLib.lib UnitTest++.vsnet2008.lib"
-				OutputFile="$(OutDir)\AStyleTest.exe"
+				AdditionalDependencies="AStyleLib.lib gtest.lib"
+				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\bin;&quot;..\..\..\..\UnitTest++\Release&quot;"
+				AdditionalLibraryDirectories="..\bin"
 				GenerateDebugInformation="false"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -202,7 +202,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;&quot;..\..\..\..\UnitTest++\src&quot;;&quot;..\..\..\..\LeakFinder-RC9&quot;"
+				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;&quot;..\..\..\..\gtest-1.4.0\include&quot;;..\..\..\srcx;&quot;..\..\..\..\LeakFinder-RC9&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;ASTYLE_LIB;LEAK_FINDER"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -223,10 +223,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="AStyleLibd.lib UnitTest++.vsnet2008.lib LeakFinder_VC9.lib"
-				OutputFile="$(OutDir)\AStyleTestdl.exe"
+				AdditionalDependencies="AStyleLibd.lib gtestd.lib LeakFinder_VC9.lib"
+				OutputFile="$(OutDir)\$(ProjectName)dl.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\debug;&quot;..\..\..\..\UnitTest++\Debug&quot;;&quot;..\..\..\..\LeakFinder-RC9\Debug_VC9&quot;"
+				AdditionalLibraryDirectories="..\debug;&quot;..\..\..\..\LeakFinder-RC9\Debug_VC9&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(ProjectDir)$(ConfigurationName)\$(TargetName).pdb"
 				SubSystem="1"
@@ -309,6 +309,10 @@
 				RelativePath="..\..\..\src\AStyleTest_Tabs.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\..\..\srcx\TersePrinter.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -319,7 +323,19 @@
 				RelativePath="..\..\..\src\AStyleTest.h"
 				>
 			</File>
+			<File
+				RelativePath="..\..\..\..\gtest-1.4.0\include\gtest\gtest-test-part.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\srcx\TersePrinter.h"
+				>
+			</File>
 		</Filter>
+		<File
+			RelativePath="..\..\..\srcx\gtest-options.txt"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

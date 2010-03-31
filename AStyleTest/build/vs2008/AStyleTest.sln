@@ -4,9 +4,17 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleTest", "AStyleTest\AStyleTest.vcproj", "{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8F7F6B41-5F56-4898-BD1F-22E08EA19818} = {8F7F6B41-5F56-4898-BD1F-22E08EA19818}
+		{C8F6C172-56F2-4E76-B5FA-C3B423B31BE7} = {C8F6C172-56F2-4E76-B5FA-C3B423B31BE7}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleLib", "AStyleTest\AStyleLib.vcproj", "{8F7F6B41-5F56-4898-BD1F-22E08EA19818}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C8F6C172-56F2-4E76-B5FA-C3B423B31BE7} = {C8F6C172-56F2-4E76-B5FA-C3B423B31BE7}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtest", "gtest\gtest.vcproj", "{C8F6C172-56F2-4E76-B5FA-C3B423B31BE7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{15DD109D-5443-4C45-9A31-A1E6FBEF2109}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +35,12 @@ Global
 		{8F7F6B41-5F56-4898-BD1F-22E08EA19818}.LeakFinder|Win32.Build.0 = Debug|Win32
 		{8F7F6B41-5F56-4898-BD1F-22E08EA19818}.Release|Win32.ActiveCfg = Release|Win32
 		{8F7F6B41-5F56-4898-BD1F-22E08EA19818}.Release|Win32.Build.0 = Release|Win32
+		{C8F6C172-56F2-4E76-B5FA-C3B423B31BE7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C8F6C172-56F2-4E76-B5FA-C3B423B31BE7}.Debug|Win32.Build.0 = Debug|Win32
+		{C8F6C172-56F2-4E76-B5FA-C3B423B31BE7}.LeakFinder|Win32.ActiveCfg = Debug|Win32
+		{C8F6C172-56F2-4E76-B5FA-C3B423B31BE7}.LeakFinder|Win32.Build.0 = Debug|Win32
+		{C8F6C172-56F2-4E76-B5FA-C3B423B31BE7}.Release|Win32.ActiveCfg = Release|Win32
+		{C8F6C172-56F2-4E76-B5FA-C3B423B31BE7}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

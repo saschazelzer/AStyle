@@ -2,77 +2,47 @@
 // headers
 //----------------------------------------------------------------------------
 
+#include "gtest/gtest.h"
+#include "TersePrinter.h"
 #include "AStyleTest.h"
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// To add a test, simply put the following code in the a .cpp file of your choice:
-//
-// =================================
-// Simple Test
-// =================================
-//
-//  TEST(YourTestName)
-//  {
-//  }
-//
-// The TEST macro contains enough machinery to turn this slightly odd-looking syntax into legal C++,
-// and automatically register the test in a global list.
-// This test list forms the basis of what is executed by RunAllTests().
-//
-// If you want to re-use a set of test data for more than one test, or provide setup/teardown for
-// tests, you can use the TEST_FIXTURE macro instead. The macro requires that you pass it a class
-// name that it will instantiate, so any setup and teardown code should be in its constructor and
-// destructor.
-//
-//  struct SomeFixture
-//  {
-//    SomeFixture() { /* some setup */ }
-//    ~SomeFixture() { /* some teardown */ }
-//
-//    int testData;
-//  };
-//
-//  TEST_FIXTURE(SomeFixture, YourTestName)
-//  {
-//    int temp = testData;
-//  }
-//
-// =================================
-// Test Suites
-// =================================
-//
-// Tests can be grouped into suites, using the SUITE macro. A suite serves as a namespace for test names,
-// so that the same test name can be used in two difference contexts.
-//
-//  SUITE(YourSuiteName)
-//  {
-//    TEST(YourTestName)
-//    {
-//    }
-//
-//    TEST(YourOtherTestName)
-//    {
-//    }
-//  }
-//
-// This will place the tests into a C++ namespace called YourSuiteName, and make the suite name
-// available to UnitTest++.
-// RunAllTests() can be called for a specific suite name, so you can use this to build named
-// groups of tests to be run together.
-// Note how members of the fixture are used as if they are a part of the test, since the
-// macro-generated test class derives from the provided fixture class.
-//
-//
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//----------------------------------------------------------------------------
 // global variables
+//----------------------------------------------------------------------------
+
 int errorHandler2Calls;
 
-// run all tests
-int main(int /*argc*/, char** /*argv*/)
+//----------------------------------------------------------------------------
+// main function
+//----------------------------------------------------------------------------
+
+int main(int argc, char **argv)
 {
-	int retval = UnitTest::RunAllTests();
+	// parse command line BEFORE InitGoogleTest
+	bool useTersePrinter = false;
+	bool useColor = true;
+	for (int i = 1; i < argc; i++)
+	{
+		if (strcmp(argv[i], "--terse_printer") == 0 )
+			useTersePrinter = true;
+		else if (strcmp(argv[i], "--gtest_color=no") == 0 )
+			useColor = false;
+	}
+
+	// do this after parsing the command line but before changing printer
+	testing::InitGoogleTest(&argc, argv);
+
+	// change to TersePrinter
+	if (useTersePrinter)
+	{
+		UnitTest& unit_test = *UnitTest::GetInstance();
+		TestEventListeners& listeners = unit_test.listeners();
+		delete listeners.Release(listeners.default_result_printer());
+		listeners.Append(new TersePrinter(useColor));
+	}
+
+	// run the tests
+	int retval = RUN_ALL_TESTS();
 //	system("pause");		// sometimes needed for debug
 	return retval;
 }

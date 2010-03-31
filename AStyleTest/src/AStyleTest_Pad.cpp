@@ -8,7 +8,7 @@
 // AStyle Break Blocks
 //-------------------------------------------------------------------------
 
-TEST(BreakBlocks)
+TEST(BreakBlocks, LongOption)
 {
 	// simple break blocks test
 	char textIn[] =
@@ -50,11 +50,11 @@ TEST(BreakBlocks)
 
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakBlocks_Short)
+TEST(BreakBlocks, ShortOption)
 {
 	// simple break blocks short option test
 	char textIn[] =
@@ -96,11 +96,11 @@ TEST(BreakBlocks_Short)
 
 	char options[] = "-f";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakBlocks_WithBrackets)
+TEST(BreakBlocks, WithBrackets)
 {
 	// break blocks with preceding and following brackets
 	// should NOT braek before brackets
@@ -129,11 +129,11 @@ TEST(BreakBlocks_WithBrackets)
 
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakBlocks_WithElse)
+TEST(BreakBlocks, WithElse)
 {
 	// break blocks with 'else' statement
 	char textIn[] =
@@ -187,11 +187,11 @@ TEST(BreakBlocks_WithElse)
 
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakBlocks_WithForLoop)
+TEST(BreakBlocks, WithForLoop)
 {
 	// break blocks with 'for' loops
 	char textIn[] =
@@ -248,11 +248,11 @@ TEST(BreakBlocks_WithForLoop)
 
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakBlocks_WithSwitch)
+TEST(BreakBlocks, WithSwitch)
 {
 	// break blocks with 'switch'
 	// switch is broken but not the case statements
@@ -298,11 +298,11 @@ TEST(BreakBlocks_WithSwitch)
 
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakBlocks_WithPreprocessor)
+TEST(BreakBlocks, WithPreprocessor)
 {
 	// do NOT break blocks at a preprocessor directive
 	char textIn[] =
@@ -340,11 +340,11 @@ TEST(BreakBlocks_WithPreprocessor)
 
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakBlocks_WithEolComment1)
+TEST(BreakBlocks, WithEolComment1)
 {
 	// the block after an end of eol comment should be broken
 	// even if it starts  with a comment
@@ -378,11 +378,11 @@ TEST(BreakBlocks_WithEolComment1)
 		"}\n";
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakBlocks_WithEolComment2)
+TEST(BreakBlocks, WithEolComment2)
 {
 	// the block after an end of eol comment should be broken
 	// even if it starts  with a comment
@@ -416,11 +416,11 @@ TEST(BreakBlocks_WithEolComment2)
 		"}\n";
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakBlocks_WithComment1)
+TEST(BreakBlocks, WithComment1)
 {
 	// blocks with comments are correctly broken
 	// and should not be changed
@@ -447,11 +447,11 @@ TEST(BreakBlocks_WithComment1)
 
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakBlocks_WithComment2)
+TEST(BreakBlocks, WithComment2)
 {
 	// blocks with comments beginning the line
 	// should be broken
@@ -496,11 +496,11 @@ TEST(BreakBlocks_WithComment2)
 
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakBlocks_WithComment3)
+TEST(BreakBlocks, WithComment3)
 {
 	// blocks with comments not beginning the line
 	// should be broken
@@ -544,11 +544,11 @@ TEST(BreakBlocks_WithComment3)
 
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakBlocks_WithComment4)
+TEST(BreakBlocks, WithComment4)
 {
 	// blocks with comments should be broken
 	// leaving comments with the blocks
@@ -603,11 +603,11 @@ TEST(BreakBlocks_WithComment4)
 
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakBlocks_WithComment5)
+TEST(BreakBlocks, WithComment5)
 {
 	// blocks with comments should be broken
 	// leaving comments with the blocks
@@ -645,11 +645,11 @@ TEST(BreakBlocks_WithComment5)
 		"}\n";
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakBlocks_Sans1)
+TEST(BreakBlocks, Sans1)
 {
 	// don't break bocks for preDefinitionHeaders (namespace, class...)
 	// don't break bocks for access modifiers (public, private, protected)
@@ -671,11 +671,11 @@ TEST(BreakBlocks_Sans1)
 		"}\n";
 	char options[] = "break-blocks, keep-one-line-statements, keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakBlocks_Sans2)
+TEST(BreakBlocks, Sans2)
 {
 	// don't break blocks for C# 'get' and 'set' or 'add' and 'remove'
 	char text[] =
@@ -693,11 +693,11 @@ TEST(BreakBlocks_Sans2)
 		"}\n";
 	char options[] = "break-blocks, keep-one-line-blocks, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakBlocks_Sans3)
+TEST(BreakBlocks, Sans3)
 {
 	// don't break blocks if comment is not followed by a header
 	char text[] =
@@ -709,7 +709,7 @@ TEST(BreakBlocks_Sans3)
 		"}\n";
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -717,7 +717,7 @@ TEST(BreakBlocks_Sans3)
 // AStyle Break All Blocks
 //-------------------------------------------------------------------------
 
-TEST(BreakAllBlocks)
+TEST(BreakAllBlocks, LongOption)
 {
 	// simple break all blocks test
 	char textIn[] =
@@ -759,11 +759,11 @@ TEST(BreakAllBlocks)
 		"}\n";
 	char options[] = "break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakAllBlocksShort)
+TEST(BreakAllBlocks, ShortOption)
 {
 	// simple break all blocks short option test
 	char textIn[] =
@@ -805,11 +805,11 @@ TEST(BreakAllBlocksShort)
 		"}\n";
 	char options[] = "-F";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakAllBlocksBreakBrackets)
+TEST(BreakAllBlocks, BreakBrackets)
 {
 	// test break all blocks with break brackets
 	char textIn[] =
@@ -836,11 +836,11 @@ TEST(BreakAllBlocksBreakBrackets)
 		"}\n";
 	char options[] = "break-blocks=all, brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakAllBlocksAttachBrackets)
+TEST(BreakAllBlocks, AttachBrackets)
 {
 	// test break all blocks with attach brackets
 	char textIn[] =
@@ -867,11 +867,11 @@ TEST(BreakAllBlocksAttachBrackets)
 		"}\n";
 	char options[] = "break-blocks=all, brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakAllBlocksWithDoWhile)
+TEST(BreakAllBlocks, WithDoWhile)
 {
 	// break all blocks with do-while
 	// closing while should NOT be broken from the block
@@ -899,11 +899,11 @@ TEST(BreakAllBlocksWithDoWhile)
 		"}\n";
 	char options[] = "break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakAllBlocksWithEolComment)
+TEST(BreakAllBlocks, WithEolComment)
 {
 	// the block after an end of eol comment should be broken
 	// even if it starts  with a comment
@@ -938,11 +938,11 @@ TEST(BreakAllBlocksWithEolComment)
 		"}\n";
 	char options[] = "break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakAllBlocksWithEolComment2)
+TEST(BreakAllBlocks, WithEolComment2)
 {
 	// the block after an end of eol comment should be broken
 	// even if it starts  with a comment
@@ -977,11 +977,11 @@ TEST(BreakAllBlocksWithEolComment2)
 		"}\n";
 	char options[] = "break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakAllBlocksWithComment1)
+TEST(BreakAllBlocks, WithComment1)
 {
 	// blocks with comments are correctly broken
 	// and should not be changed
@@ -1008,11 +1008,11 @@ TEST(BreakAllBlocksWithComment1)
 		"}\n";
 	char options[] = "break-blocks=all";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakAllBlocksWithComment2)
+TEST(BreakAllBlocks, WithComment2)
 {
 	// blocks with comments not beginning the line
 	// should be broken
@@ -1060,11 +1060,11 @@ TEST(BreakAllBlocksWithComment2)
 		"}\n";
 	char options[] = "break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakAllBlocksWithComment3)
+TEST(BreakAllBlocks, WithComment3)
 {
 	// blocks with comments should be broken
 	// leaving comments with the blocks
@@ -1110,11 +1110,11 @@ TEST(BreakAllBlocksWithComment3)
 		"}\n";
 	char options[] = "break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakAllBlocksAfterComment1)
+TEST(BreakAllBlocks, AfterComment1)
 {
 	// closing block should break after a comment
 	char textIn[] =
@@ -1140,11 +1140,11 @@ TEST(BreakAllBlocksAfterComment1)
 		"}\n";
 	char options[] = "break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakAllBlocksAfterComment2)
+TEST(BreakAllBlocks, AfterComment2)
 {
 	// closing block should break after a comment
 	char textIn[] =
@@ -1170,11 +1170,11 @@ TEST(BreakAllBlocksAfterComment2)
 		"}\n";
 	char options[] = "brackets=linux, break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakAllBlocksAfterComment3)
+TEST(BreakAllBlocks, AfterComment3)
 {
 	// closing block should break after a comment
 	char textIn[] =
@@ -1203,7 +1203,7 @@ TEST(BreakAllBlocksAfterComment3)
 		"}\n";
 	char options[] = "brackets=break, break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1211,7 +1211,7 @@ TEST(BreakAllBlocksAfterComment3)
 // AStyle Pad Operator
 //-------------------------------------------------------------------------
 
-TEST(PadOperator)
+TEST(PadOperator, LongOption)
 {
 	// all operators should be tested
 	// test sequence is the same as ASResource::buildOperators
@@ -1315,11 +1315,11 @@ TEST(PadOperator)
 		"}\n";               // 'operator' and 'return' are not tested
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadOperatorShort)
+TEST(PadOperator, ShortOption)
 {
 	// test pad operators short option
 	char textIn[] =
@@ -1334,11 +1334,11 @@ TEST(PadOperatorShort)
 		"}\n";
 	char options[] = "-p";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadOperatorReturn)
+TEST(PadOperator, Return)
 {
 	// operators following a "return" statement should be padded
 	// a "return" is the same as an assignment operator
@@ -1373,11 +1373,11 @@ TEST(PadOperatorReturn)
 		"}\n";
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadOperatorMisc1)
+TEST(PadOperator, Misc1)
 {
 	// more pad operators tests
 	char textIn[] =
@@ -1420,11 +1420,11 @@ TEST(PadOperatorMisc1)
 		"}\n";
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadOperatorMisc2)
+TEST(PadOperator, Misc2)
 {
 	// more pad operators tests
 	char textIn[] =
@@ -1457,11 +1457,11 @@ TEST(PadOperatorMisc2)
 		"}\n";
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadOperatorMisc3)
+TEST(PadOperator, Misc3)
 {
 	// pad operators with <> separated by && or ||
 	// it is not a template
@@ -1485,11 +1485,11 @@ TEST(PadOperatorMisc3)
 		"}\n";
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadOperatorMisc4)
+TEST(PadOperator, Misc4)
 {
 	// pad operators with following (
 	// the * should be padded
@@ -1511,11 +1511,11 @@ TEST(PadOperatorMisc4)
 		"}\n";
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadOperatorMisc5)
+TEST(PadOperator, Misc5)
 {
 	// test C# ? operator and nullable types
 	char textIn[] =
@@ -1532,11 +1532,11 @@ TEST(PadOperatorMisc5)
 		"}\n";
 	char options[] = "pad-oper, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadOperatorSans1)
+TEST(PadOperator, Sans1)
 {
 	// do not pad a pointer dereference or "address of"
 	char textIn[] =
@@ -1569,11 +1569,11 @@ TEST(PadOperatorSans1)
 		"}\n";
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadOperatorSans2)
+TEST(PadOperator, Sans2)
 {
 	// these operators should NOT be padded
 	char text[] =
@@ -1615,11 +1615,11 @@ TEST(PadOperatorSans2)
 		"}\n";
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadOperatorSans3)
+TEST(PadOperator, Sans3)
 {
 	// overloaded operators should NOT be padded
 	char text[] =
@@ -1630,11 +1630,11 @@ TEST(PadOperatorSans3)
 		"}\n";
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadOperatorSans4)
+TEST(PadOperator, Sans4)
 {
 	// these * operators should NOT be padded
 	char text[] =
@@ -1657,11 +1657,11 @@ TEST(PadOperatorSans4)
 		"}\n";
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadOperatorSans5)
+TEST(PadOperator, Sans5)
 {
 	// these operators should NOT be padded
 	char text[] =
@@ -1679,11 +1679,11 @@ TEST(PadOperatorSans5)
 		"}\n";
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadOperatorSans6)
+TEST(PadOperator, Sans6)
 {
 	// embedded assembler should not be padded (the colon)
 	char text[] =
@@ -1693,22 +1693,22 @@ TEST(PadOperatorSans6)
 		"}\n";
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadOperatorSans7)
+TEST(PadOperator, Sans7)
 {
 	// this template should NOT be padded
 	char text[] =
 		"\ntypedef foo<void(whatever *const)> callback;\n";
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadOperatorSans8)
+TEST(PadOperator, Sans8)
 {
 	// this template within a template should NOT be padded
 	char text[] =
@@ -1718,11 +1718,11 @@ TEST(PadOperatorSans8)
 		"};\n";
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadOperatorSans9)
+TEST(PadOperator, Sans9)
 {
 	// template with a default parameter should not be padded
 	char text[] =
@@ -1732,11 +1732,11 @@ TEST(PadOperatorSans9)
 		"};\n";
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadOperatorSans10)
+TEST(PadOperator, Sans10)
 {
 	// the Java generic <?> should NOT be padded
 	char text[] =
@@ -1746,11 +1746,11 @@ TEST(PadOperatorSans10)
 		"}\n";
 	char options[] = "pad-oper, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadOperatorCommaSemiColon)
+TEST(PadOperator, CommaSemiColon)
 {
 	// semi-colons should ALWAYS be padded
 	// commas should be padded with pad-oper, but not in arrays
@@ -1782,11 +1782,11 @@ TEST(PadOperatorCommaSemiColon)
 		"};\n";
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadOperatorComments)
+TEST(PadOperator, Comments)
 {
 	// EOL comments remain in the same column if possible
 	// moved comments retain the original spacing
@@ -1804,7 +1804,7 @@ TEST(PadOperatorComments)
 		"}\n";
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1812,7 +1812,7 @@ TEST(PadOperatorComments)
 // AStyle Pad Paren
 //-------------------------------------------------------------------------
 
-TEST(PadParen)
+TEST(PadParen, LongOption)
 {
 	// test pad parens
 	char textIn[] =
@@ -1829,11 +1829,11 @@ TEST(PadParen)
 		"}\n";
 	char options[] = "pad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadParenShort)
+TEST(PadParen, ShortOption)
 {
 	// test pad parens short option
 	char textIn[] =
@@ -1850,11 +1850,11 @@ TEST(PadParenShort)
 		"}\n";
 	char options[] = "-P";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadParenComments)
+TEST(PadParen, Comments)
 {
 	// EOL comments remain in the same column if possible
 	// moved comments retain the original spacing
@@ -1872,11 +1872,11 @@ TEST(PadParenComments)
 		"}\n";
 	char options[] = "pad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadParenTemplate)
+TEST(PadParen, Template)
 {
 	// templates should NOT be padded
 	char text[] =
@@ -1886,7 +1886,7 @@ TEST(PadParenTemplate)
 		"};\n";
 	char options[] = "pad-paren";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1894,7 +1894,7 @@ TEST(PadParenTemplate)
 // AStyle Pad Paren Out
 //-------------------------------------------------------------------------
 
-TEST(PadParenOut)
+TEST(PadParenOut, LongOption)
 {
 	// test pad parens out
 	char textIn[] =
@@ -1911,11 +1911,11 @@ TEST(PadParenOut)
 		"}\n";
 	char options[] = "pad-paren-out";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadParenOutShort)
+TEST(PadParenOut, ShortOption)
 {
 	// test pad parens out short option
 	char textIn[] =
@@ -1932,11 +1932,11 @@ TEST(PadParenOutShort)
 		"}\n";
 	char options[] = "-d";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadParenOutComments)
+TEST(PadParenOut, Comments)
 {
 	// EOL comments remain in the same column if possible
 	// moved comments retain the original spacing
@@ -1954,7 +1954,7 @@ TEST(PadParenOutComments)
 		"}\n";
 	char options[] = "pad-paren-out";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1962,7 +1962,7 @@ TEST(PadParenOutComments)
 // AStyle Pad Paren In
 //-------------------------------------------------------------------------
 
-TEST(PadParenIn)
+TEST(PadParenIn, LongOption)
 {
 	// test pad parens in
 	char textIn[] =
@@ -1979,11 +1979,11 @@ TEST(PadParenIn)
 		"}\n";
 	char options[] = "pad-paren-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadParenInShort)
+TEST(PadParenIn, ShortOption)
 {
 	// test pad parens in short option
 	char textIn[] =
@@ -2000,11 +2000,11 @@ TEST(PadParenInShort)
 		"}\n";
 	char options[] = "-D";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadParenInComments)
+TEST(PadParenIn, Comments)
 {
 	// EOL comments remain in the same column if possible
 	// moved comments retain the original spacing
@@ -2022,7 +2022,7 @@ TEST(PadParenInComments)
 		"}\n";
 	char options[] = "pad-paren-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -2030,7 +2030,7 @@ TEST(PadParenInComments)
 // AStyle Pad Header
 //-------------------------------------------------------------------------
 
-TEST(PadHeader)
+TEST(PadHeader, LongOption)
 {
 	// test pad header
 	char textIn[] =
@@ -2057,11 +2057,11 @@ TEST(PadHeader)
 		"}\n";
 	char options[] = "pad-header";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadHeaderShort)
+TEST(PadHeader, ShortOption)
 {
 	// test header short option
 	char textIn[] =
@@ -2088,11 +2088,11 @@ TEST(PadHeaderShort)
 		"}\n";
 	char options[] = "-H";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadHeaderSans)
+TEST(PadHeader, Sans)
 {
 	// test without pad header
 	// headers should remain unchanged
@@ -2124,10 +2124,10 @@ TEST(PadHeaderSans)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
-TEST(PadHeaderUnpadParen)
+TEST(PadHeader, UnpadParen)
 {
 	// test pad header with unpad paren
 	// headers should be padded, others should not
@@ -2160,11 +2160,11 @@ TEST(PadHeaderUnpadParen)
 		"}\n";
 	char options[] = "pad-header, unpad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(PadHeaderComments)
+TEST(PadHeader, Comments)
 {
 	// EOL comments remain in the same column if possible
 	// moved comments retain the original spacing
@@ -2188,7 +2188,7 @@ TEST(PadHeaderComments)
 		"}\n";
 	char options[] = "pad-header";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -2196,7 +2196,7 @@ TEST(PadHeaderComments)
 // AStyle Unpad Paren
 //-------------------------------------------------------------------------
 
-TEST(UnpadParen)
+TEST(UnpadParen, LongOption)
 {
 	// test unpad parens
 	char textIn[] =
@@ -2213,11 +2213,11 @@ TEST(UnpadParen)
 		"}\n";
 	char options[] = "unpad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(UnpadParenShort)
+TEST(UnpadParen, ShortOption)
 {
 	// test unpad parens short option
 	char textIn[] =
@@ -2234,11 +2234,11 @@ TEST(UnpadParenShort)
 		"}\n";
 	char options[] = "-U";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(UnpadParenComments)
+TEST(UnpadParen, Comments)
 {
 	// EOL comments ALWAYS remain in the same column
 	char textIn[] =
@@ -2255,11 +2255,11 @@ TEST(UnpadParenComments)
 		"}\n";
 	char options[] = "unpad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(UnpadParenReturnSans)
+TEST(UnpadParen, ReturnSans)
 {
 	// don't unpad a return
 	char text[] =
@@ -2269,11 +2269,11 @@ TEST(UnpadParenReturnSans)
 		"}\n";
 	char options[] = "unpad-paren";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(UnpadParenCastSans)
+TEST(UnpadParen, CastSans)
 {
 	// don't unpad a cast
 	char text[] =
@@ -2294,11 +2294,11 @@ TEST(UnpadParenCastSans)
 		"}\n";
 	char options[] = "unpad-paren";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(UnpadParenOperatorSans1)
+TEST(UnpadParen, OperatorSans1)
 {
 	// don't unpad a leading operator
 	char text[] =
@@ -2312,11 +2312,11 @@ TEST(UnpadParenOperatorSans1)
 		"}\n";
 	char options[] = "unpad-paren";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(UnpadParenOperatorSans2)
+TEST(UnpadParen, OperatorSans2)
 {
 	// don't unpad a trailing operator
 	char text[] =
@@ -2330,11 +2330,11 @@ TEST(UnpadParenOperatorSans2)
 		"}\n";
 	char options[] = "unpad-paren";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(UnpadParenPadParen)
+TEST(UnpadParen, PadParen)
 {
 	// test unpad parens with pad parens
 	// should be padded but will remove extra padding
@@ -2356,11 +2356,11 @@ TEST(UnpadParenPadParen)
 		"}\n";
 	char options[] = "unpad-paren, pad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(UnpadParenPadParenOut)
+TEST(UnpadParen, PadParenOut)
 {
 	// test unpad parens with pad parens out
 	// should be padded outside but will remove extra padding
@@ -2382,11 +2382,11 @@ TEST(UnpadParenPadParenOut)
 		"}\n";
 	char options[] = "unpad-paren, pad-paren-out";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(UnpadParenPadIn)
+TEST(UnpadParen, PadIn)
 {
 	// test unpad parens with pad parens in
 	// should be padded inside but will remove extra padding
@@ -2408,11 +2408,11 @@ TEST(UnpadParenPadIn)
 		"}\n";
 	char options[] = "unpad-paren, pad-paren-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(UnpadParenPadOper)
+TEST(UnpadParen, PadOper)
 {
 	// test unpad parens with pad operator
 	char textIn[] =
@@ -2433,7 +2433,7 @@ TEST(UnpadParenPadOper)
 		"}\n";
 	char options[] = "unpad-paren, pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -2441,7 +2441,7 @@ TEST(UnpadParenPadOper)
 // AStyle Delete Empty Lines
 //-------------------------------------------------------------------------
 
-TEST(DeleteEmptyLines)
+TEST(DeleteEmptyLines, LongOption)
 {
 	// test delete empty lines
 	char textIn[] =
@@ -2497,11 +2497,11 @@ TEST(DeleteEmptyLines)
 		"}\n";
 	char options[] = "delete-empty-lines";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLines_Short)
+TEST(DeleteEmptyLines, ShortOption)
 {
 	// test delete empty lines
 	char textIn[] =
@@ -2557,11 +2557,11 @@ TEST(DeleteEmptyLines_Short)
 		"}\n";
 	char options[] = "-x";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLines_Comment)
+TEST(DeleteEmptyLines, Comment)
 {
 	// the empty lines before and after comments should be deleted
 	char textIn[] =
@@ -2603,11 +2603,11 @@ TEST(DeleteEmptyLines_Comment)
 		"}\n";
 	char options[] = "delete-empty-lines";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLines_BreakBlocks1)
+TEST(DeleteEmptyLines, BreakBlocks1)
 {
 	// test delete empty lines, with break blocks
 	// the empty lines created by break blocks should NOT be deleted
@@ -2650,11 +2650,11 @@ TEST(DeleteEmptyLines_BreakBlocks1)
 		"}\n";
 	char options[] = "delete-empty-lines, break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLines_BreakBlocks2)
+TEST(DeleteEmptyLines, BreakBlocks2)
 {
 	// test delete empty lines, with break blocks
 	// the empty lines should not be deleted on header blocks
@@ -2701,11 +2701,11 @@ TEST(DeleteEmptyLines_BreakBlocks2)
 		"}\n";
 	char options[] = "delete-empty-lines, break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLines_BreakBlocks3)
+TEST(DeleteEmptyLines, BreakBlocks3)
 {
 	// test delete empty lines, with break blocks
 	// the comments are not followed by a potential header
@@ -2735,11 +2735,11 @@ TEST(DeleteEmptyLines_BreakBlocks3)
 		"}\n";
 	char options[] = "delete-empty-lines, break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLines_BreakBlocks4)
+TEST(DeleteEmptyLines, BreakBlocks4)
 {
 	// test delete empty lines, with break blocks
 	// the empty lines are not followed by a header
@@ -2766,11 +2766,11 @@ TEST(DeleteEmptyLines_BreakBlocks4)
 		"}\n";
 	char options[] = "delete-empty-lines, break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLines_BreakBlocks5)
+TEST(DeleteEmptyLines, BreakBlocks5)
 {
 	// test delete empty lines, with break blocks
 	// the line before "else" should be deleted
@@ -2801,11 +2801,11 @@ TEST(DeleteEmptyLines_BreakBlocks5)
 		"}\n";
 	char options[] = "delete-empty-lines, break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLines_BreakBlocks6)
+TEST(DeleteEmptyLines, BreakBlocks6)
 {
 	// test delete empty lines, with break blocks
 	// the line after opening bracket should be deleted
@@ -2828,11 +2828,11 @@ TEST(DeleteEmptyLines_BreakBlocks6)
 		"}\n";
 	char options[] = "delete-empty-lines, break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLines_BreakBlocksAll1)
+TEST(DeleteEmptyLines, BreakBlocksAll1)
 {
 	// test delete empty lines, with break all blocks
 	// the empty lines created by break all blocks should NOT be deleted
@@ -2857,11 +2857,11 @@ TEST(DeleteEmptyLines_BreakBlocksAll1)
 		"}\n";
 	char options[] = "delete-empty-lines, break-blocks=all";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLines_BreakBlocksAll2)
+TEST(DeleteEmptyLines, BreakBlocksAll2)
 {
 	// test delete empty lines, with break all blocks
 	// the empty lines created by break all blocks should NOT be deleted
@@ -2888,11 +2888,11 @@ TEST(DeleteEmptyLines_BreakBlocksAll2)
 		"}\n";
 	char options[] = "delete-empty-lines, break-blocks=all";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLines_BreakBlocksAll3)
+TEST(DeleteEmptyLines, BreakBlocksAll3)
 {
 	// test delete empty lines, with break all blocks
 	// the comments are not followed by a potential header
@@ -2922,11 +2922,11 @@ TEST(DeleteEmptyLines_BreakBlocksAll3)
 		"}\n";
 	char options[] = "delete-empty-lines, break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLines_BreakBlocksAll4)
+TEST(DeleteEmptyLines, BreakBlocksAll4)
 {
 	// test delete empty lines, with break all blocks
 	// the comments are not followed by a header
@@ -2953,11 +2953,11 @@ TEST(DeleteEmptyLines_BreakBlocksAll4)
 		"}\n";
 	char options[] = "delete-empty-lines, break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLines_BreakBlocksAll5)
+TEST(DeleteEmptyLines, BreakBlocksAll5)
 {
 	// test delete empty lines, with break blocks
 	// the line before "else" should be deleted
@@ -2976,11 +2976,11 @@ TEST(DeleteEmptyLines_BreakBlocksAll5)
 		"}\n";
 	char options[] = "delete-empty-lines, break-blocks=all";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLines_BreakBlocksAll6)
+TEST(DeleteEmptyLines, BreakBlocksAll6)
 {
 	// test delete empty lines, with break blocks
 	// the line after opening bracket should be deleted
@@ -3003,11 +3003,11 @@ TEST(DeleteEmptyLines_BreakBlocksAll6)
 		"}\n";
 	char options[] = "delete-empty-lines, break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLines_BreakBlocksComment1)
+TEST(DeleteEmptyLines, BreakBlocksComment1)
 {
 	// delete empty lines with break blocks
 	// should not delete lines between comments
@@ -3030,11 +3030,11 @@ TEST(DeleteEmptyLines_BreakBlocksComment1)
 		"}\n";
 	char options[] = "delete-empty-lines, break-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(DeleteEmptyLines_BreakBlocksComment2)
+TEST(DeleteEmptyLines, BreakBlocksComment2)
 {
 	// delete empty lines with break blocks
 	// test mixing comments and line comments
@@ -3071,7 +3071,7 @@ TEST(DeleteEmptyLines_BreakBlocksComment2)
 		"}\n";
 	char options[] = "delete-empty-lines, break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -3079,7 +3079,7 @@ TEST(DeleteEmptyLines_BreakBlocksComment2)
 // AStyle Fill Empty Lines
 //-------------------------------------------------------------------------
 
-TEST(FillEmptyLines)
+TEST(FillEmptyLines, LongOption)
 {
 	// test fill empty lines
 	char textIn[] =
@@ -3104,11 +3104,11 @@ TEST(FillEmptyLines)
 		"}\n";
 	char options[] = "fill-empty-lines";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(FillEmptyLines_Short)
+TEST(FillEmptyLines, ShortOption)
 {
 	// test fill empty lines short option
 	char textIn[] =
@@ -3133,11 +3133,11 @@ TEST(FillEmptyLines_Short)
 		"}\n";
 	char options[] = "-E";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(FillEmptyLines_Tab)
+TEST(FillEmptyLines, Tab)
 {
 	// test fill empty lines with tabs
 	char textIn[] =
@@ -3166,11 +3166,11 @@ TEST(FillEmptyLines_Tab)
 		"}\n";
 	char options[] = "fill-empty-lines, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(FillEmptyLines_ForceTab)
+TEST(FillEmptyLines, ForceTab)
 {
 	// test fill empty lines with force tabs
 	char textIn[] =
@@ -3201,11 +3201,11 @@ TEST(FillEmptyLines_ForceTab)
 		"}\n";
 	char options[] = "fill-empty-lines, indent=force-tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(FillEmptyLines_EventTable)
+TEST(FillEmptyLines, EventTable)
 {
 	// test fill empty lines in an event table
 	char textIn[] =
@@ -3224,11 +3224,11 @@ TEST(FillEmptyLines_EventTable)
 		"END_EVENT_TABLE()\n";
 	char options[] = "fill-empty-lines";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(FillEmptyLines_SQL)
+TEST(FillEmptyLines, SQL)
 {
 	// test fill empty lines in an SQL statement
 	char textIn[] =
@@ -3249,6 +3249,6 @@ TEST(FillEmptyLines_SQL)
 		"}\n";
 	char options[] = "fill-empty-lines";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }

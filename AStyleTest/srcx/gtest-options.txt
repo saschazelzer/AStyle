@@ -1,0 +1,36 @@
+Added Options:
+	--terse-printer				prints failed tests only
+
+Test Selection:
+	--gtest_list_tests			list all tests without running, terse_printer will not work
+	--gtest_filter				run only specific tests
+	--gtest_also_run_disabled_tests
+
+Test Execution:
+	--gtest_repeat
+	--gtest_shuffle
+	--gtest_random_seed
+	
+Test Output:
+	--gtest_color=(yes|no|auto)
+	--gtest_print_time=0
+	--gtest_output=xml
+	
+Assertion Behavior:
+	--gtest_break_on_failure
+	--gtest_throw_on_failure
+	--gtest_catch_exceptions
+
+Other:
+	--help  -?  /?
+
+???????
+	--gtest_internal_run_death_test
+
+
+
+
+
+
+
+

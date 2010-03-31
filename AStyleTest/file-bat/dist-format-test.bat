@@ -28,6 +28,11 @@ echo -
 %prog%  %options%  ..\srccon\*.cpp
 echo -
 %prog%  %options%  ..\srccon\*.h
+echo -
+REM override force-tabs with tabs
+%prog%  %options%  -t  ..\srcx\*.cpp
+echo -
+%prog%  %options%  -t  ..\srcx\*.h
 
 echo -
 echo * * * *  end of format  * * * *

@@ -8,7 +8,7 @@
 // AStyle version 1.25 TEST functions
 //----------------------------------------------------------------------------
 
-TEST(v125_DeleteEmptyLines_BreakBlocks)
+TEST(v125, DeleteEmptyLines_BreakBlocks)
 {
 	// a missing closing bracket with delete-empty-lines and break-blocks
 	// should not cause an assert error on the call to sourceIterator->peekNextLine()
@@ -28,11 +28,11 @@ TEST(v125_DeleteEmptyLines_BreakBlocks)
 		"    }";      // no end-of-line will be output
 	char options[] = "delete-empty-lines, break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v125_BreakBlocks_DeleteEmptyLines_Comment)
+TEST(v125, BreakBlocks_DeleteEmptyLines_Comment)
 {
 	// the following comment should not abort or duplicate code in the output
 	// both break-blocks and delete-empty-lines must be used
@@ -56,11 +56,11 @@ TEST(v125_BreakBlocks_DeleteEmptyLines_Comment)
 		"}\n";
 	char options[] = "break-blocks, delete-empty-lines";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v125_SharpLambdaOperatorIndent)
+TEST(v125, SharpLambdaOperatorIndent)
 {
 	// C# => is not an assignment operator
 	// following lines should not be aligned on the =>
@@ -86,11 +86,11 @@ TEST(v125_SharpLambdaOperatorIndent)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v125_KeywordsNotHeaders)
+TEST(v125, KeywordsNotHeaders)
 {
 	// header is not a keyword if part of a definition
 	char text[] =
@@ -103,11 +103,11 @@ TEST(v125_KeywordsNotHeaders)
 		"}\n";
 	char options[] = "pad-header";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v125_TwoGreaterSymblolsClosingTemplate)
+TEST(v125, TwoGreaterSymblolsClosingTemplate)
 {
 	// two >> symbols closing a template
 	char text[] =
@@ -118,11 +118,11 @@ TEST(v125_TwoGreaterSymblolsClosingTemplate)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v125_PossibleAssignmentInStatementIndentWithParenLineBegin)
+TEST(v125, PossibleAssignmentInStatementIndentWithParenLineBegin)
 {
 	// a paren begins a line with an in-statement indent
 	char text[] =
@@ -135,11 +135,11 @@ TEST(v125_PossibleAssignmentInStatementIndentWithParenLineBegin)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v125_Col1ElseWithPreceedingBracket)
+TEST(v125, Col1ElseWithPreceedingBracket)
 {
 	// else in col 1 with preceeding bracket tests a seldom used branch
 	char textIn[] =
@@ -164,11 +164,11 @@ TEST(v125_Col1ElseWithPreceedingBracket)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v125_TryCatchInHeader)
+TEST(v125, TryCatchInHeader)
 {
 	// try-catch within a header
 	// header must be restored from lastTempStack in ASBeautifier
@@ -186,11 +186,11 @@ TEST(v125_TryCatchInHeader)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v125_TryCatchFinallyInHeader)
+TEST(v125, TryCatchFinallyInHeader)
 {
 	// try-catch within a header
 	// header must be restored from lastTempStack in ASBeautifier
@@ -210,11 +210,11 @@ TEST(v125_TryCatchFinallyInHeader)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v125_DoWhileInHeader)
+TEST(v125, DoWhileInHeader)
 {
 	// do-while within a header
 	// header must be restored from lastTempStack in ASBeautifier
@@ -230,11 +230,11 @@ TEST(v125_DoWhileInHeader)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v125_TemplateASBeautifier)
+TEST(v125, TemplateASBeautifier)
 {
 	// template on multiple lines should be recognized by ASBeautifier
 	// template within a template should be recognized by ASBeautifier
@@ -247,11 +247,11 @@ TEST(v125_TemplateASBeautifier)
 		"};\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v125_ExtraClosingBrackets)
+TEST(v125, ExtraClosingBrackets)
 {
 	// should not abort with extra closing brackets
 	char text[] =
@@ -266,11 +266,11 @@ TEST(v125_ExtraClosingBrackets)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v125_ExtraClosingParens)
+TEST(v125, ExtraClosingParens)
 {
 	// should not abort with extra closing parens
 	char text[] =
@@ -283,11 +283,11 @@ TEST(v125_ExtraClosingParens)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v125_ExtraClosingBlockParens)
+TEST(v125, ExtraClosingBlockParens)
 {
 	// should not abort with extra closing block parens
 	char text[] =
@@ -300,11 +300,11 @@ TEST(v125_ExtraClosingBlockParens)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v125_DefinitionsNotHeaders)
+TEST(v125, DefinitionsNotHeaders)
 {
 	// definitions are not headers
 	char text[] =
@@ -317,11 +317,11 @@ TEST(v125_DefinitionsNotHeaders)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v125_SharpPeekNextTextMultiLineComment)
+TEST(v125, SharpPeekNextTextMultiLineComment)
 {
 	// test C# peekNextText() with multi-ine comment before the text
 	char text[] =
@@ -335,11 +335,11 @@ TEST(v125_SharpPeekNextTextMultiLineComment)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v125_SharpNotPotentialHeader)
+TEST(v125, SharpNotPotentialHeader)
 {
 	// test C# isNextWordSharpNonParenHeader() for !isCharPotentialHeader()
 	char text[] =
@@ -349,11 +349,11 @@ TEST(v125_SharpNotPotentialHeader)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v125_EmptyLineComment)
+TEST(v125, EmptyLineComment)
 {
 	// test recognition of an empty line comment
 	char text[] =
@@ -363,11 +363,11 @@ TEST(v125_EmptyLineComment)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v125_ColZeroPointerOrReference)
+TEST(v125, ColZeroPointerOrReference)
 {
 	// test pointer or reference in column zero
 	char textIn[] =
@@ -396,7 +396,7 @@ TEST(v125_ColZeroPointerOrReference)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -404,7 +404,7 @@ TEST(v125_ColZeroPointerOrReference)
 // AStyle version 1.24 TEST functions
 //----------------------------------------------------------------------------
 
-TEST(v124_AddBracketsHorstmannNestedIfStatements)
+TEST(v124, AddBracketsHorstmannNestedIfStatements)
 {
 	// add on line brackets to nested "if" statements
 	// with keep one line brackets
@@ -422,11 +422,11 @@ TEST(v124_AddBracketsHorstmannNestedIfStatements)
 		"}\n";
 	char options[] = "add-brackets, brackets=horstmann, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_ClassHorstmannComment)
+TEST(v124, ClassHorstmannComment)
 {
 	// handle special case of horstmann comment in a class statement
 	char text[] =
@@ -439,11 +439,11 @@ TEST(v124_ClassHorstmannComment)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_ClassIndentHorstmannComment)
+TEST(v124, ClassIndentHorstmannComment)
 {
 	// handle special case of horstmann comment in an indented class statement
 	char text[] =
@@ -456,11 +456,11 @@ TEST(v124_ClassIndentHorstmannComment)
 		"}\n";
 	char options[] = "indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_AppendAttachedBracketInsideCommentsLineBreak)
+TEST(v124, AppendAttachedBracketInsideCommentsLineBreak)
 {
 	// should not insert an empty line after appending a bracket inside comments
 	char textIn[] =
@@ -489,11 +489,11 @@ TEST(v124_AppendAttachedBracketInsideCommentsLineBreak)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_ElseAttachedToLineComment)
+TEST(v124, ElseAttachedToLineComment)
 {
 	// else should not be attached to a line coment
 	char text[] =
@@ -510,11 +510,11 @@ TEST(v124_ElseAttachedToLineComment)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BreakOneLineBlocks_Comment1)
+TEST(v124, BreakOneLineBlocks_Comment1)
 {
 	// comment should be moved to the previous line
 	char textIn[] =
@@ -533,11 +533,11 @@ TEST(v124_BreakOneLineBlocks_Comment1)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BreakOneLineBlocks_Comment2)
+TEST(v124, BreakOneLineBlocks_Comment2)
 {
 	// comment should be moved to the previous line
 	// option keep-one-line-statements is used
@@ -557,11 +557,11 @@ TEST(v124_BreakOneLineBlocks_Comment2)
 		"}\n";
 	char options[] = "keep-one-line-statements";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_SharpDelegate)
+TEST(v124, SharpDelegate)
 {
 	// sharp 'delegate' should be recognized as a keyword
 	// the Linux brackets should be attached
@@ -586,11 +586,11 @@ TEST(v124_SharpDelegate)
 		"}\n";
 	char options[] = "brackets=linux, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_JavaInStatement_LineCommentClear)
+TEST(v124, JavaInStatement_LineCommentClear)
 {
 	// isNonInStatementArray should be cleared when a // follows a }
 	// if not cleared the "? ERROR" line will not be correctly indented
@@ -615,11 +615,11 @@ TEST(v124_JavaInStatement_LineCommentClear)
 		"}\n";
 	char options[] = "mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_JavaInStatement_CommentClear)
+TEST(v124, JavaInStatement_CommentClear)
 {
 	// isNonInStatementArray should be cleared when a /* follows a }
 	// if not cleared the "? ERROR" line will not be correctly indented
@@ -644,11 +644,11 @@ TEST(v124_JavaInStatement_CommentClear)
 		"}\n";
 	char options[] = "mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_SharpAccessors)
+TEST(v124, SharpAccessors)
 {
 	// get is preceded by []
 	char text[] =
@@ -664,28 +664,28 @@ TEST(v124_SharpAccessors)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_SharpNonParenHeader_Unchecked)
+TEST(v124, SharpNonParenHeader_UnEXPECT_TRUEed)
 {
-	// 'unchecked' should be recognized as a header, not an array
+	// 'unEXPECT_TRUEed' should be recognized as a header, not an array
 	char text[] =
 		"\npublic override void foo()\n"
 		"{\n"
-		"    unchecked {\n"
+		"    unEXPECT_TRUEed {\n"
 		"        if (isBar)\n"
 		"            bar += 1;\n"
 		"    }\n"
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_SharpNonParenHeader_Delegate)
+TEST(v124, SharpNonParenHeader_Delegate)
 {
 	// 'delegate' should be recognized as a header, not an array
 	char text[] =
@@ -703,11 +703,11 @@ TEST(v124_SharpNonParenHeader_Delegate)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_PadCommentBeforeTab)
+TEST(v124, PadCommentBeforeTab)
 {
 	// space padding the bracket should NOT pad a comment
 	//     when the commet is preceeded by a tab
@@ -732,11 +732,11 @@ TEST(v124_PadCommentBeforeTab)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsBreak_PadParen)
+TEST(v124, BracketsBreak_PadParen)
 {
 	// break attached brackets with pad-paren
 	// comments should be moved with one padded space
@@ -774,11 +774,11 @@ TEST(v124_BracketsBreak_PadParen)
 		"}\n";
 	char options[] = "brackets=break, pad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsAttach_CommentsMisc1)
+TEST(v124, BracketsAttach_CommentsMisc1)
 {
 	// attach bracket inside a line end comment
 	// when multi-line comments follow a horstmann bracket
@@ -808,11 +808,11 @@ TEST(v124_BracketsAttach_CommentsMisc1)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsAttach_CommentMisc2)
+TEST(v124, BracketsAttach_CommentMisc2)
 {
 	// do NOT attach bracket inside a line end comment
 	// when two comments are on the line
@@ -825,11 +825,11 @@ TEST(v124_BracketsAttach_CommentMisc2)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsAttach_CommentMisc3)
+TEST(v124, BracketsAttach_CommentMisc3)
 {
 	// when a bracket is NOT attached
 	// following horstmann comments should be broken and correctly formatted
@@ -854,11 +854,11 @@ TEST(v124_BracketsAttach_CommentMisc3)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsAttach_CommentMisc4)
+TEST(v124, BracketsAttach_CommentMisc4)
 {
 	// attached brackets with following comments
 	// the second comment should be correctly formatted
@@ -892,11 +892,11 @@ TEST(v124_BracketsAttach_CommentMisc4)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsHorstmann_Tabs)
+TEST(v124, BracketsHorstmann_Tabs)
 {
 	// test horstmann brackets with tab indents
 	char textIn[] =
@@ -915,11 +915,11 @@ TEST(v124_BracketsHorstmann_Tabs)
 		"}\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsHorstmann_Array1)
+TEST(v124, BracketsHorstmann_Array1)
 {
 	// test horstmann brackets with single line array
 	char textIn[] =
@@ -935,11 +935,11 @@ TEST(v124_BracketsHorstmann_Array1)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsHorstmann_Array2)
+TEST(v124, BracketsHorstmann_Array2)
 {
 	// test horstmann brackets with structs and arrays
 	char textIn[] =
@@ -964,11 +964,11 @@ TEST(v124_BracketsHorstmann_Array2)
 		"};\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsHorstmann_Spaces1)
+TEST(v124, BracketsHorstmann_Spaces1)
 {
 	// test horstmann brackets with extra spaces
 	// extra spaces should be deleted
@@ -986,11 +986,11 @@ TEST(v124_BracketsHorstmann_Spaces1)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsHorstmann_Spaces2)
+TEST(v124, BracketsHorstmann_Spaces2)
 {
 	// test multiple horstmann brackets runs
 	// extra spaces should not be added on subsequent runs
@@ -1011,12 +1011,12 @@ TEST(v124_BracketsHorstmann_Spaces2)
 	char options[] = "brackets=horstmann";
 	char* textOne = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	char* textOut = AStyleMain(textOne, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOne;
 	delete [] textOut;
 }
 
-TEST(v124_BracketsHorstmann_Preprocessor)
+TEST(v124, BracketsHorstmann_Preprocessor)
 {
 	// test horstmann brackets with preprocessor
 	// preprocessor should NOT be attached
@@ -1040,11 +1040,11 @@ TEST(v124_BracketsHorstmann_Preprocessor)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsHorstmann_EmptyLine)
+TEST(v124, BracketsHorstmann_EmptyLine)
 {
 	// test horstmann brackets with following empty line
 	// empty line should NOT be deleted
@@ -1057,11 +1057,11 @@ TEST(v124_BracketsHorstmann_EmptyLine)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsHorstmann_Comment1)
+TEST(v124, BracketsHorstmann_Comment1)
 {
 	// test horstmann brackets with following comment
 	// second comment should NOT be attached to the first
@@ -1082,11 +1082,11 @@ TEST(v124_BracketsHorstmann_Comment1)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsHorstmann_Comment2)
+TEST(v124, BracketsHorstmann_Comment2)
 {
 	// test horstmann brackets with following comment in column 1
 	// the comment should NOT be attached
@@ -1100,11 +1100,11 @@ TEST(v124_BracketsHorstmann_Comment2)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsHorstmann_Comment3)
+TEST(v124, BracketsHorstmann_Comment3)
 {
 	// test horstmann brackets with following comment
 	// the comment should NOT be attached to the previous line
@@ -1115,11 +1115,11 @@ TEST(v124_BracketsHorstmann_Comment3)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsHorstmann_Comment4)
+TEST(v124, BracketsHorstmann_Comment4)
 {
 	// test horstmann brackets with following comment
 	// the comment should NOT be attached to the previous line
@@ -1130,11 +1130,11 @@ TEST(v124_BracketsHorstmann_Comment4)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsHorstmann_Comment5)
+TEST(v124, BracketsHorstmann_Comment5)
 {
 	// test horstmann brackets with following comment
 	// the comment on unattached lines should be correctly indented
@@ -1165,11 +1165,11 @@ TEST(v124_BracketsHorstmann_Comment5)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsHorstmann_Comment6)
+TEST(v124, BracketsHorstmann_Comment6)
 {
 	// test horstmann brackets with following comment
 	// the comment on unattached lines should be correctly indented
@@ -1200,11 +1200,11 @@ TEST(v124_BracketsHorstmann_Comment6)
 		"}\n";
 	char options[] = "brackets=horstmann, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsHorstmann_Comment7)
+TEST(v124, BracketsHorstmann_Comment7)
 {
 	// test horstmann brackets with comment following line comment
 	// the comment should NOT be attached to the previous line
@@ -1228,11 +1228,11 @@ TEST(v124_BracketsHorstmann_Comment7)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsHorstmann_BreakAllBlocks1)
+TEST(v124, BracketsHorstmann_BreakAllBlocks1)
 {
 	// test horstmann brackets with break all blocks
 	// the blocks should be correctly broken
@@ -1268,11 +1268,11 @@ TEST(v124_BracketsHorstmann_BreakAllBlocks1)
 		"}\n";
 	char options[] = "brackets=horstmann, break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsHorstmann_BreakAllBlocks2)
+TEST(v124, BracketsHorstmann_BreakAllBlocks2)
 {
 	// test horstmann brackets with break all blocks and delete empty lines
 	// and comments separated by an empty line
@@ -1296,11 +1296,11 @@ TEST(v124_BracketsHorstmann_BreakAllBlocks2)
 		"}\n";
 	char options[] = "brackets=horstmann, break-blocks=all, delete-empty-lines";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsHorstmann_UnpadParen1)
+TEST(v124, BracketsHorstmann_UnpadParen1)
 {
 	// test horstmann brackets with unpad parens
 	// the indent should NOT be removed
@@ -1322,11 +1322,11 @@ TEST(v124_BracketsHorstmann_UnpadParen1)
 		"}\n";
 	char options[] = ", brackets=horstmann, unpad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsHorstmann_UnpadParen2)
+TEST(v124, BracketsHorstmann_UnpadParen2)
 {
 	// test horstmann brackets with unpad parens and pad-parens
 	// the indent should NOT be removed
@@ -1348,11 +1348,11 @@ TEST(v124_BracketsHorstmann_UnpadParen2)
 		"}\n";
 	char options[] = ", brackets=horstmann, unpad-paren, pad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsHorstmann_UnpadParen3)
+TEST(v124, BracketsHorstmann_UnpadParen3)
 {
 	// test horstmann brackets with unpad parens and pad-parens
 	//	and tab indents
@@ -1375,11 +1375,11 @@ TEST(v124_BracketsHorstmann_UnpadParen3)
 		"}\n";
 	char options[] = ", brackets=horstmann, unpad-paren, pad-paren, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsHorstmann_SingleLineBlock1)
+TEST(v124, BracketsHorstmann_SingleLineBlock1)
 {
 	// test horstmann brackets with single line block
 	char textIn[] =
@@ -1392,11 +1392,11 @@ TEST(v124_BracketsHorstmann_SingleLineBlock1)
 		"}\n";
 	char options[] = ", brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v124_BracketsHorstmann_SingleLineBlock2)
+TEST(v124, BracketsHorstmann_SingleLineBlock2)
 {
 	// test horstmann brackets with single line block
 	char text[] =
@@ -1404,7 +1404,7 @@ TEST(v124_BracketsHorstmann_SingleLineBlock2)
 		"{ bar1(); bar2() }\n";
 	char options[] = ", brackets=horstmann, keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1412,7 +1412,7 @@ TEST(v124_BracketsHorstmann_SingleLineBlock2)
 // AStyle version 1.23 TEST functions
 //----------------------------------------------------------------------------
 
-TEST(v123_ExternIndent)
+TEST(v123, ExternIndent)
 {
 	// no extra indent when extern is used
 	char text[] =
@@ -1420,11 +1420,11 @@ TEST(v123_ExternIndent)
 		"                 bool bar2);\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v123_StructBitIndent)
+TEST(v123, StructBitIndent)
 {
 	// do not break line when struct bit declaration is used
 	// lines following struct should have correct indent
@@ -1449,11 +1449,11 @@ TEST(v123_StructBitIndent)
 		"} USB_DEVICE_STATUS;\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v123_ClassBitIndent)
+TEST(v123, ClassBitIndent)
 {
 	// do not break line when struct bit declaration is used
 	// lines following class should have correct indent
@@ -1469,11 +1469,11 @@ TEST(v123_ClassBitIndent)
 		"};\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v123_RegionIndent)
+TEST(v123, RegionIndent)
 {
 	// no extra indent after a C# #region statement containing a keyword
 	char text[] =
@@ -1494,11 +1494,11 @@ TEST(v123_RegionIndent)
 		"\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v123_StructIndent)
+TEST(v123, StructIndent)
 {
 	// no extra indent when struct declaration is used
 	char text[] =
@@ -1520,11 +1520,11 @@ TEST(v123_StructIndent)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v123_PreprocessorErrorStatement)
+TEST(v123, PreprocessorErrorStatement)
 {
 	// the ' in mustn't causes end comment to separate
 	// and continuation comments to misalign
@@ -1541,11 +1541,11 @@ TEST(v123_PreprocessorErrorStatement)
 
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v123_SharpAccessorsWithElse)
+TEST(v123, SharpAccessorsWithElse)
 {
 	// test indent of getters and setters
 	// #else causes a problem
@@ -1572,11 +1572,11 @@ TEST(v123_SharpAccessorsWithElse)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v123_BreakElseIfWithCatch)
+TEST(v123, BreakElseIfWithCatch)
 {
 	// break-elseifs should not break C# catch statement with parens
 	char text[] =
@@ -1596,11 +1596,11 @@ TEST(v123_BreakElseIfWithCatch)
 		"}\n";
 	char options[] = "break-elseifs, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v123_IndentBracketsInComment)
+TEST(v123, IndentBracketsInComment)
 {
 	// test indent brackets with brackets in comment
 	// should not indent brackets in comments
@@ -1614,11 +1614,11 @@ TEST(v123_IndentBracketsInComment)
 		"    }\n";
 	char options[] = "indent-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v123_BreakBlocksWithEmptyLine)
+TEST(v123, BreakBlocksWithEmptyLine)
 {
 	// test break all blocks with an empty line following comments
 	// an error in peekNextLine caused a line break before ++lineOpeningBlocksNum;
@@ -1637,11 +1637,11 @@ TEST(v123_BreakBlocksWithEmptyLine)
 		"}\n";
 	char options[] = "break-blocks=all";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v123_UnmatchedBracketsInPreprocessor1)
+TEST(v123, UnmatchedBracketsInPreprocessor1)
 {
 	// unmatched brackets in preprocessor directives
 	// should not cause formatting problems on following lines
@@ -1666,11 +1666,11 @@ TEST(v123_UnmatchedBracketsInPreprocessor1)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v123_UnmatchedBracketsInPreprocessor2)
+TEST(v123, UnmatchedBracketsInPreprocessor2)
 {
 	// unmatched brackets in preprocessor directives
 	// should not cause formatting problems on following lines
@@ -1694,11 +1694,11 @@ TEST(v123_UnmatchedBracketsInPreprocessor2)
 		"}\n";
 	char options[] = "delete-empty-lines";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v123_DeleteLinesAfterPreprocessor)
+TEST(v123, DeleteLinesAfterPreprocessor)
 {
 	// empty lines after a preprocessor
 	// should should NOT be attached to the preprocessor
@@ -1731,11 +1731,11 @@ TEST(v123_DeleteLinesAfterPreprocessor)
 		"}\n";
 	char options[] = "brackets=linux, delete-empty-lines";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v123_CSharp_NullableTypes)
+TEST(v123, CSharp_NullableTypes)
 {
 	// C# nullable types should not separate the ? from the variable
 	// when pad-oper is used
@@ -1756,11 +1756,11 @@ TEST(v123_CSharp_NullableTypes)
 
 	char options[] = "pad-oper, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v123_CSharp_QuestionQuestionOperator)
+TEST(v123, CSharp_QuestionQuestionOperator)
 {
 	// C# ?? operator should not separate when pad-oper is used
 	char text[] =
@@ -1779,11 +1779,11 @@ TEST(v123_CSharp_QuestionQuestionOperator)
 		"}\n";
 	char options[] = "pad-oper, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v123_CSharp_NonGenericDefault)
+TEST(v123, CSharp_NonGenericDefault)
 {
 	// C# non-generic default statement should not un-indent the line
 	char text[] =
@@ -1796,11 +1796,11 @@ TEST(v123_CSharp_NonGenericDefault)
 		"}\n";
 	char options[] = "pad-oper, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v123_BreakBlocksWithPreprocessor)
+TEST(v123, BreakBlocksWithPreprocessor)
 {
 	// empty lines should not be inserted after the #if
 	char text[] =
@@ -1821,11 +1821,11 @@ TEST(v123_BreakBlocksWithPreprocessor)
 		"}\n";
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v123_CSharp_BreakBlocks_KeepOneLineBlocks)
+TEST(v123, CSharp_BreakBlocks_KeepOneLineBlocks)
 {
 	// C# do NOT break before a block with keep one line blocks
 	char text[] =
@@ -1836,11 +1836,11 @@ TEST(v123_CSharp_BreakBlocks_KeepOneLineBlocks)
 
 	char options[] = "break-blocks, keep-one-line-blocks, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v123_EnumDefinitionPadding)
+TEST(v123, EnumDefinitionPadding)
 {
 	// enum should space pad before the definition
 	// NOTE: the enum is an array type bracket
@@ -1870,11 +1870,11 @@ TEST(v123_EnumDefinitionPadding)
 		"};";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v123_UnionDefinitionPadding)
+TEST(v123, UnionDefinitionPadding)
 {
 	// union should space pad before the definition
 	char textIn[] =
@@ -1903,11 +1903,11 @@ TEST(v123_UnionDefinitionPadding)
 		"};";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(v123_StructDefinitionPadding)
+TEST(v123, StructDefinitionPadding)
 {
 	// struct should space pad before the definition
 	char textIn[] =
@@ -1936,7 +1936,7 @@ TEST(v123_StructDefinitionPadding)
 		"};";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1944,7 +1944,7 @@ TEST(v123_StructDefinitionPadding)
 // AStyle Character Set Tests
 //----------------------------------------------------------------------------
 
-TEST(ExtendedCharacterSet)
+TEST(CharacterSet, ExtendedCharacterSet)
 {
 	// multi-byte characters (c) and ü should not cause assert error with
 	//     Visual Studio isalpha(), isalnum(), is punct(), etc.
@@ -1963,11 +1963,11 @@ TEST(ExtendedCharacterSet)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(UnicodeCharacterSet)
+TEST(CharacterSet, UnicodeCharacterSet)
 {
 	// unicode characters should not cause assert error with
 	//     Visual Studio isalpha(), isalnum(), is punct(), etc.
@@ -1985,11 +1985,11 @@ TEST(UnicodeCharacterSet)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(UTF8WithBOM)
+TEST(CharacterSet, UTF8WithBOM)
 {
 	// UTF-8 BOM should not cause assert error with
 	//     Visual Studio isalpha(), isalnum(), is punct(), etc.
@@ -2004,7 +2004,7 @@ TEST(UTF8WithBOM)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -2012,7 +2012,7 @@ TEST(UTF8WithBOM)
 // AStyle Virgin Line Tests
 //----------------------------------------------------------------------------
 
-TEST(VirginLine)
+TEST(VirginLine, Brackets)
 {
 	// test bracket on second line
 	// linux bracket should not attach
@@ -2024,7 +2024,7 @@ TEST(VirginLine)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -2033,10 +2033,10 @@ TEST(VirginLine)
 // Test error reporting conditions in astyle_main
 //----------------------------------------------------------------------------
 
-TEST(AStyleMainInputError_NullErrorHandlerPointer)
+TEST(AStyleMainInputError, NullErrorHandlerPointer)
 {
 	// test error handling for NULL error handler pointer
-	// this cannot call the error handler, check only for NULL return
+	// this cannot call the error handler, EXPECT_TRUE only for NULL return
 	// memory has NOT been allocated for this error
 	char text[] =
 		"\nvoid foo()\n"
@@ -2045,10 +2045,10 @@ TEST(AStyleMainInputError_NullErrorHandlerPointer)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, NULL, memoryAlloc);
-	CHECK(textOut == NULL);
+	EXPECT_TRUE(textOut == NULL);
 }
 
-TEST(AStyleMainInputError_NullPointerToSource)
+TEST(AStyleMainInputError, NullPointerToSource)
 {
 	// test error handling for NULL pointer to source
 	// memory has NOT been allocated for this error
@@ -2056,11 +2056,11 @@ TEST(AStyleMainInputError_NullPointerToSource)
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = AStyleMain(NULL, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
-	CHECK_EQUAL(errorsIn + 1, errorsOut);
-	CHECK(textOut == NULL);
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut == NULL);
 }
 
-TEST(AStyleMainInputError_NullPointerToOptions)
+TEST(AStyleMainInputError, NullPointerToOptions)
 {
 	// test error handling for NULL pointer to options
 	// memory has NOT been allocated for this error
@@ -2072,11 +2072,11 @@ TEST(AStyleMainInputError_NullPointerToOptions)
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = AStyleMain(text, NULL, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
-	CHECK_EQUAL(errorsIn + 1, errorsOut);
-	CHECK(textOut == NULL);
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut == NULL);
 }
 
-TEST(AStyleMainInputError_NullPointerToMemoryAlloc)
+TEST(AStyleMainInputError, NullPointerToMemoryAlloc)
 {
 	// test error handling for NULL memory allocation pointer
 	// memory has NOT been allocated for this error
@@ -2089,11 +2089,11 @@ TEST(AStyleMainInputError_NullPointerToMemoryAlloc)
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = AStyleMain(text, options, errorHandler2, NULL);
 	int errorsOut = getErrorHandler2Calls();
-	CHECK_EQUAL(errorsIn + 1, errorsOut);
-	CHECK(textOut == NULL);
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut == NULL);
 }
 
-TEST(AStyleMainInputError_InvalidOption)
+TEST(AStyleMainInputError, InvalidOption)
 {
 	// test error handling for an invalid option
 	// memory HAS been allocated for this error
@@ -2112,8 +2112,8 @@ TEST(AStyleMainInputError_InvalidOption)
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = AStyleMain(textIn, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
-	CHECK_EQUAL(errorsIn + 1, errorsOut);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -2122,7 +2122,7 @@ TEST(AStyleMainInputError_InvalidOption)
 // Test macros recognized by AStyle
 //----------------------------------------------------------------------------
 
-TEST(Macro_wxWidgetsEventHandler)
+TEST(Macro, wxWidgetsEventHandler)
 {
 	// wxWidgets event handler should be indented
 	char text[] =
@@ -2134,11 +2134,11 @@ TEST(Macro_wxWidgetsEventHandler)
 		"END_EVENT_TABLE()\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Macro_wxWidgetsEventHandlerNonIndentComment)
+TEST(Macro, wxWidgetsEventHandlerNonIndentComment)
 {
 	// wxWidgets event handler should be indented
 	// but not the comments
@@ -2151,11 +2151,11 @@ TEST(Macro_wxWidgetsEventHandlerNonIndentComment)
 		"END_EVENT_TABLE()\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Macro_MfcMessageMap)
+TEST(Macro, MfcMessageMap)
 {
 	// MFC message map should be indented
 	char text[] =
@@ -2167,7 +2167,7 @@ TEST(Macro_MfcMessageMap)
 		"END_MESSAGE_MAP()\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -2176,7 +2176,7 @@ TEST(Macro_MfcMessageMap)
 // should get an error unless they have been duplicated by another option
 //----------------------------------------------------------------------------
 
-TEST(ConsoleOption_SuffixNoneShort)
+TEST(ConsoleShortOption, SuffixNoneShort)
 {
 	// test suffix=none short option
 	// should get an error unless it has been duplicated by another option
@@ -2190,12 +2190,12 @@ TEST(ConsoleOption_SuffixNoneShort)
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
-	CHECK_EQUAL(errorsIn + 1, errorsOut);
-	CHECK(textOut != NULL);
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != NULL);
 	delete [] textOut;
 }
 
-TEST(ConsoleOption_Recursive1Short)
+TEST(ConsoleShortOption, Recursive1Short)
 {
 	// test recursive short option1
 	// should get an error unless it has been duplicated by another option
@@ -2209,12 +2209,12 @@ TEST(ConsoleOption_Recursive1Short)
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
-	CHECK_EQUAL(errorsIn + 1, errorsOut);
-	CHECK(textOut != NULL);
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != NULL);
 	delete [] textOut;
 }
 
-TEST(ConsoleOption_Recursive2Short)
+TEST(ConsoleShortOption, Recursive2Short)
 {
 	// test recursive short option2
 	// should get an error unless it has been duplicated by another option
@@ -2228,12 +2228,12 @@ TEST(ConsoleOption_Recursive2Short)
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
-	CHECK_EQUAL(errorsIn + 1, errorsOut);
-	CHECK(textOut != NULL);
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != NULL);
 	delete [] textOut;
 }
 
-TEST(ConsoleOption_ErrorsToStdoutShort)
+TEST(ConsoleShortOption, ErrorsToStdoutShort)
 {
 	// test errors-to-stdout short option
 	// should get an error unless it has been duplicated by another option
@@ -2247,12 +2247,12 @@ TEST(ConsoleOption_ErrorsToStdoutShort)
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
-	CHECK_EQUAL(errorsIn + 1, errorsOut);
-	CHECK(textOut != NULL);
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != NULL);
 	delete [] textOut;
 }
 
-TEST(ConsoleOption_PreserveDateShort)
+TEST(ConsoleShortOption, PreserveDateShort)
 {
 	// test preserve-date short option
 	// should get an error unless it has been duplicated by another option
@@ -2266,12 +2266,12 @@ TEST(ConsoleOption_PreserveDateShort)
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
-	CHECK_EQUAL(errorsIn + 1, errorsOut);
-	CHECK(textOut != NULL);
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != NULL);
 	delete [] textOut;
 }
 
-TEST(ConsoleOption_VerboseShort)
+TEST(ConsoleShortOption, VerboseShort)
 {
 	// test verbose short option
 	// should get an error unless it has been duplicated by another option
@@ -2285,12 +2285,12 @@ TEST(ConsoleOption_VerboseShort)
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
-	CHECK_EQUAL(errorsIn + 1, errorsOut);
-	CHECK(textOut != NULL);
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != NULL);
 	delete [] textOut;
 }
 
-TEST(ConsoleOption_FormattedShort)
+TEST(ConsoleShortOption, FormattedShort)
 {
 	// test formatted short option
 	// should get an error unless it has been duplicated by another option
@@ -2304,12 +2304,12 @@ TEST(ConsoleOption_FormattedShort)
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
-	CHECK_EQUAL(errorsIn + 1, errorsOut);
-	CHECK(textOut != NULL);
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != NULL);
 	delete [] textOut;
 }
 
-TEST(ConsoleOption_QuietShort)
+TEST(ConsoleShortOption, QuietShort)
 {
 	// test preserve-date short option
 	// should get an error unless it has been duplicated by another option
@@ -2323,12 +2323,12 @@ TEST(ConsoleOption_QuietShort)
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
-	CHECK_EQUAL(errorsIn + 1, errorsOut);
-	CHECK(textOut != NULL);
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != NULL);
 	delete [] textOut;
 }
 
-TEST(ConsoleOption_VersionShort)
+TEST(ConsoleShortOption, VersionShort)
 {
 	// test version short option
 	// should get an error unless it has been duplicated by another option
@@ -2342,12 +2342,12 @@ TEST(ConsoleOption_VersionShort)
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
-	CHECK_EQUAL(errorsIn + 1, errorsOut);
-	CHECK(textOut != NULL);
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != NULL);
 	delete [] textOut;
 }
 
-TEST(ConsoleOption_Help1Short)
+TEST(ConsoleShortOption, Help1Short)
 {
 	// test help short option1
 	// should get an error unless it has been duplicated by another option
@@ -2361,12 +2361,12 @@ TEST(ConsoleOption_Help1Short)
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
-	CHECK_EQUAL(errorsIn + 1, errorsOut);
-	CHECK(textOut != NULL);
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != NULL);
 	delete [] textOut;
 }
 
-TEST(ConsoleOption_Help2Short)
+TEST(ConsoleShortOption, Help2Short)
 {
 	// test help short option2
 	// should get an error unless it has been duplicated by another option
@@ -2380,8 +2380,8 @@ TEST(ConsoleOption_Help2Short)
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
-	CHECK_EQUAL(errorsIn + 1, errorsOut);
-	CHECK(textOut != NULL);
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != NULL);
 	delete [] textOut;
 }
 
@@ -2389,7 +2389,7 @@ TEST(ConsoleOption_Help2Short)
 // AStyle Quotes
 //----------------------------------------------------------------------------
 
-TEST(Quote)
+TEST(Quote, Continuation)
 {
 	// test quotes
 	char text[] =
@@ -2401,11 +2401,11 @@ TEST(Quote)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Quote_Single)
+TEST(Quote, Single)
 {
 	// test single quotes
 	char text[] =
@@ -2416,11 +2416,11 @@ TEST(Quote_Single)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Quote_CSharp_Verbatim1)
+TEST(Quote, Sharp_Verbatim1)
 {
 	// test C# verbatim quotes
 	// whitespace should not change
@@ -2443,11 +2443,11 @@ TEST(Quote_CSharp_Verbatim1)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Quote_CSharp_Verbatim2)
+TEST(Quote, CSharp_Verbatim2)
 {
 	// test C# verbatim quotes with """" and ""
 	// whitespace should not change
@@ -2463,11 +2463,11 @@ TEST(Quote_CSharp_Verbatim2)
 		";\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Quote_CSharp_Empty)
+TEST(Quote, CSharp_Empty)
 {
 	// test C# empty quotes with """"
 	// whitespace should not change
@@ -2478,26 +2478,26 @@ TEST(Quote_CSharp_Empty)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Quote_CSharp_Misc)
+TEST(Quote, CSharp_Misc)
 {
 	// test C# strange looking quotes with """
 	// whitespace should not change
 	char text[] =
 		"\npublic void TestString()\n"
 		"{\n"
-		"    CheckToken(@\"@\"\"-->\"\"\"\"<--\"\"\", @\"-->\"\"<--\");\n"
-		"    CheckToken(@\"\"\"-->\\\"\"<--\"\"\", \"-->\\\"<--\");\n"
+		"    EXPECT_TRUEToken(@\"@\"\"-->\"\"\"\"<--\"\"\", @\"-->\"\"<--\");\n"
+		"    EXPECT_TRUEToken(@\"\"\"-->\\\"\"<--\"\"\", \"-->\\\"<--\");\n"
 		"\n"
-		"    CheckToken(@\"\"\"\\U00000041\"\"\", \"\\U00000041\");\n"
-		"    CheckToken(@\"\"\"\\U00010041\"\"\", \"\\U00010041\");\n"
+		"    EXPECT_TRUEToken(@\"\"\"\\U00000041\"\"\", \"\\U00000041\");\n"
+		"    EXPECT_TRUEToken(@\"\"\"\\U00010041\"\"\", \"\\U00010041\");\n"
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -2505,7 +2505,7 @@ TEST(Quote_CSharp_Misc)
 // AStyle Enum
 //----------------------------------------------------------------------------
 
-TEST(Enum_Namespace1)
+TEST(Enum, Namespace1)
 {
 	// test indent of enum in a namespace
 	char text[] =
@@ -2519,11 +2519,11 @@ TEST(Enum_Namespace1)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Enum_Namespace2)
+TEST(Enum, Namespace2)
 {
 	// test indent of enum in a namespace
 	// with in-statement indent
@@ -2536,11 +2536,11 @@ TEST(Enum_Namespace2)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Enum_NamespaceIndent1)
+TEST(Enum, NamespaceIndent1)
 {
 	// test indent of enum in an indented namespace
 	char text[] =
@@ -2554,11 +2554,11 @@ TEST(Enum_NamespaceIndent1)
 		"}\n";
 	char options[] = "indent-namespaces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Enum_NamespaceIndent2)
+TEST(Enum, NamespaceIndent2)
 {
 	// test indent of enum in an indented namespace
 	// with in-statement indent
@@ -2571,11 +2571,11 @@ TEST(Enum_NamespaceIndent2)
 		"}\n";
 	char options[] = "indent-namespaces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Enum_ClassTypeSafe)
+TEST(Enum, ClassTypeSafe)
 {
 	// type safe enum class should be formatted as an enum
 	char text[] =
@@ -2588,11 +2588,11 @@ TEST(Enum_ClassTypeSafe)
 		"};\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Enum_Class1)
+TEST(Enum, Class1)
 {
 	// test indent of enum in a class
 	char text[] =
@@ -2607,11 +2607,11 @@ TEST(Enum_Class1)
 		"};\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Enum_Class2)
+TEST(Enum, Class2)
 {
 	// test indent of enum in a class
 	// with in-statement indent
@@ -2625,11 +2625,11 @@ TEST(Enum_Class2)
 		"};\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Enum_ClassIndent1)
+TEST(Enum, ClassIndent1)
 {
 	// test indent of enum in an indented class
 	char text[] =
@@ -2644,11 +2644,11 @@ TEST(Enum_ClassIndent1)
 		"};\n";
 	char options[] = "indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Enum_ClassIndent2)
+TEST(Enum, ClassIndent2)
 {
 	// test indent of enum in an indented class
 	// with in-statement indent
@@ -2662,11 +2662,11 @@ TEST(Enum_ClassIndent2)
 		"};\n";
 	char options[] = "indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Enum_ClassIndent3)
+TEST(Enum, ClassIndent3)
 {
 	// test indent of enum in an indented class
 	// within a #else preprocessor
@@ -2685,11 +2685,11 @@ TEST(Enum_ClassIndent3)
 		"#endif\n";
 	char options[] = "indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Enum_Java)
+TEST(Enum, Java)
 {
 	// test indent of java enum
 	char text[] =
@@ -2700,7 +2700,7 @@ TEST(Enum_Java)
 		"}\n";
 	char options[] = "mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -2708,7 +2708,7 @@ TEST(Enum_Java)
 // AStyle Struct
 //----------------------------------------------------------------------------
 
-TEST(Struct_Break)
+TEST(Struct, Break)
 {
 	// struct with broken brackets
 	char text[] =
@@ -2723,11 +2723,11 @@ TEST(Struct_Break)
 		"};\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Struct_Attach)
+TEST(Struct, Attach)
 {
 	// struct with attached brackets
 	char text[] =
@@ -2740,11 +2740,11 @@ TEST(Struct_Attach)
 		"};\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Struct_Horstmann)
+TEST(Struct, Horstmann)
 {
 	// struct with attached brackets
 	char text[] =
@@ -2757,7 +2757,7 @@ TEST(Struct_Horstmann)
 		"};\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -2765,9 +2765,9 @@ TEST(Struct_Horstmann)
 // AStyle Preprocessor
 //----------------------------------------------------------------------------
 
-TEST(Preprocessor_CommandType)
+TEST(Preprocessor, CommandType)
 {
-	// check indentation
+	// EXPECT_TRUE indentation
 	// correctly identifying as a COMMND_TYPE bracket
 	char text[] =
 		"\nvoid foo()\n"
@@ -2790,11 +2790,11 @@ TEST(Preprocessor_CommandType)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Preprocessor_Elif)
+TEST(Preprocessor, Elif)
 {
 	// #elif updates the waitingBeautifierStack
 	char text[] =
@@ -2820,11 +2820,11 @@ TEST(Preprocessor_Elif)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Preprocessor_EndOnEmptyLine)
+TEST(Preprocessor, EndOnEmptyLine)
 {
 	// TODO: AStyle adds a space to the empty line
 	// preprocessor define ends with an empty line
@@ -2840,11 +2840,11 @@ TEST(Preprocessor_EndOnEmptyLine)
 		"\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Preprocessor_Assembler)
+TEST(Preprocessor, Assembler)
 {
 	// can have preprocessor in a assembler block
 	char text[] =
@@ -2862,11 +2862,11 @@ TEST(Preprocessor_Assembler)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Preprocessor_MissingOpener)
+TEST(Preprocessor, MissingOpener)
 {
 	// #else with missing #if
 	char text[] =
@@ -2879,31 +2879,31 @@ TEST(Preprocessor_MissingOpener)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Preprocessor_WxWidgetsMacro)
+TEST(Preprocessor, WxWidgetsMacro)
 {
 	// preprocessor should NOT be indented
 	char text[] =
 		"\nBEGIN_EVENT_TABLE(ClassWizardDlg, wxDialog)\n"
 		"    EVT_BUTTON(XRCID(\"btnCommonDir\"), ClassWizardDlg::OnCommonDirClick)\n"
 		"#ifdef LOGGING\n"
-		"    EVT_CHECKBOX(XRCID(\"chkLowerCase\"), ClassWizardDlg::OnLowerCaseClick)\n"
+		"    EVT_EXPECT_TRUEBOX(XRCID(\"chkLowerCase\"), ClassWizardDlg::OnLowerCaseClick)\n"
 		"    EVT_BUTTON(XRCID(\"btnIncludeDir\"), ClassWizardDlg::OnIncludeDirClick)\n"
 		"#endif\n"
 		"    EVT_BUTTON(XRCID(\"btnImplDir\"), ClassWizardDlg::OnImplDirClick)\n"
 		"END_EVENT_TABLE()\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Preprocessor_ArrayType)
+TEST(Preprocessor, ArrayType)
 {
-	// check indentation
+	// EXPECT_TRUE indentation
 	// correctly identifying as an ARRAY_TYPE bracket
 	char text[] =
 		"\nstatic SQRegFunction base_funcs[] = {\n"
@@ -2916,11 +2916,11 @@ TEST(Preprocessor_ArrayType)
 		"};\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Preprocessor_ArrayMissingOpener)
+TEST(Preprocessor, ArrayMissingOpener)
 {
 	// array #else with missing #if
 	char text[] =
@@ -2935,13 +2935,13 @@ TEST(Preprocessor_ArrayMissingOpener)
 		"};\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Preprocessor_ArrayHorstmann_Break)
+TEST(Preprocessor, ArrayHorstmann_Break)
 {
-	// check broken brackets to horstmann
+	// EXPECT_TRUE broken brackets to horstmann
 	// should NOT run-in a preprocessor directive
 	char text[] =
 		"\nchar *section_list[] =\n"
@@ -2956,13 +2956,13 @@ TEST(Preprocessor_ArrayHorstmann_Break)
 		"};\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Preprocessor_ArrayHorstmann_Attach)
+TEST(Preprocessor, ArrayHorstmann_Attach)
 {
-	// check attached brackets to horstmann
+	// EXPECT_TRUE attached brackets to horstmann
 	// should NOT run-in a preprocessor directive
 	char textIn[] =
 		"\nchar *section_list[] = {\n"
@@ -2987,13 +2987,13 @@ TEST(Preprocessor_ArrayHorstmann_Attach)
 		"};\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Preprocessor_ArrayHorstmann_Horstmann)
+TEST(Preprocessor, ArrayHorstmann_Horstmann)
 {
-	// check horstmann brackets to horstmann
+	// EXPECT_TRUE horstmann brackets to horstmann
 	// should NOT run-in a preprocessor directive
 	char text[] =
 		"\nchar *section_list[] =\n"
@@ -3008,7 +3008,7 @@ TEST(Preprocessor_ArrayHorstmann_Horstmann)
 		"};\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -3016,7 +3016,7 @@ TEST(Preprocessor_ArrayHorstmann_Horstmann)
 // AStyle Comments
 //----------------------------------------------------------------------------
 
-TEST(Comment_BracketsNone_NamespaceClassIndent_None)
+TEST(Comment, BracketsNone_NamespaceClassIndent_None)
 {
 	// comments should indent with namespaces and classes
 	// brackets=none with default brackets
@@ -3062,11 +3062,11 @@ TEST(Comment_BracketsNone_NamespaceClassIndent_None)
 		"}\n";
 	char options[] = "indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Comment_BracketsNone_NamespaceClassIndent_Break)
+TEST(Comment, BracketsNone_NamespaceClassIndent_Break)
 {
 	// comments should indent with namespaces and classes
 	// brackets=none with broken brackets
@@ -3112,11 +3112,11 @@ TEST(Comment_BracketsNone_NamespaceClassIndent_Break)
 		"}\n";
 	char options[] = "indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Comment_BracketsNone_NamespaceClassIndent_Attach)
+TEST(Comment, BracketsNone_NamespaceClassIndent_Attach)
 {
 	// comments should indent with namespaces and classes
 	// brackets=none with attached brackets
@@ -3156,11 +3156,11 @@ TEST(Comment_BracketsNone_NamespaceClassIndent_Attach)
 		"}\n";
 	char options[] = "indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Comment_BracketsNone_NamespaceClassIndent_Horstmann)
+TEST(Comment, BracketsNone_NamespaceClassIndent_Horstmann)
 {
 	// comments should indent with namespaces and classes
 	// brackets=none with with horstmann brackets
@@ -3198,11 +3198,11 @@ TEST(Comment_BracketsNone_NamespaceClassIndent_Horstmann)
 		"}\n";
 	char options[] = "indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Comment_BracketsBreak_NamespaceClassIndent_Break)
+TEST(Comment, BracketsBreak_NamespaceClassIndent_Break)
 {
 	// comments should indent with namespaces and classes
 	// brackets=break with broken brackets
@@ -3248,11 +3248,11 @@ TEST(Comment_BracketsBreak_NamespaceClassIndent_Break)
 		"}\n";
 	char options[] = "brackets=break, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Comment_BracketsBreak_NamespaceClassIndent_Attach)
+TEST(Comment, BracketsBreak_NamespaceClassIndent_Attach)
 {
 	// comments should indent with namespaces and classes
 	// brackets=break with attached brackets
@@ -3295,11 +3295,11 @@ TEST(Comment_BracketsBreak_NamespaceClassIndent_Attach)
 		"}\n";
 	char options[] = "brackets=break, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Comment_BracketsBreak_NamespaceClassIndent_Horstmann)
+TEST(Comment, BracketsBreak_NamespaceClassIndent_Horstmann)
 {
 	// comments should indent with namespaces and classes
 	// brackets=break with horstmann brackets
@@ -3338,11 +3338,11 @@ TEST(Comment_BracketsBreak_NamespaceClassIndent_Horstmann)
 		"}\n";
 	char options[] = "brackets=break, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Comment_BracketsAttach_NamespaceClassIndent_Break)
+TEST(Comment, BracketsAttach_NamespaceClassIndent_Break)
 {
 	// comments should indent with namespaces and classes
 	// brackets=attach with broken brackets
@@ -3385,11 +3385,11 @@ TEST(Comment_BracketsAttach_NamespaceClassIndent_Break)
 		"}\n";
 	char options[] = "brackets=attach, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Comment_BracketsAttach_NamespaceClassIndent_Attach)
+TEST(Comment, BracketsAttach_NamespaceClassIndent_Attach)
 {
 	// comments should indent with namespaces and classes
 	// brackets=attach with attached brackets
@@ -3429,11 +3429,11 @@ TEST(Comment_BracketsAttach_NamespaceClassIndent_Attach)
 		"}\n";
 	char options[] = "brackets=attach, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Comment_BracketsAttach_NamespaceClassIndent_Horstmann)
+TEST(Comment, BracketsAttach_NamespaceClassIndent_Horstmann)
 {
 	// comments should indent with namespaces and classes
 	// brackets=attach with horstmann brackets
@@ -3469,11 +3469,11 @@ TEST(Comment_BracketsAttach_NamespaceClassIndent_Horstmann)
 		"}\n";
 	char options[] = "brackets=attach, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Comment_BracketsHorstmann_NamespaceClassIndent_Break)
+TEST(Comment, BracketsHorstmann_NamespaceClassIndent_Break)
 {
 	// comments should indent with namespaces and classes
 	// brackets=horstmann with broken brackets
@@ -3511,11 +3511,11 @@ TEST(Comment_BracketsHorstmann_NamespaceClassIndent_Break)
 		"}\n";
 	char options[] = "brackets=horstmann, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Comment_BracketsHorstmann_NamespaceClassIndent_Attach)
+TEST(Comment, BracketsHorstmann_NamespaceClassIndent_Attach)
 {
 	// comments should indent with namespaces and classes
 	// brackets=horstmann with attached brackets
@@ -3550,11 +3550,11 @@ TEST(Comment_BracketsHorstmann_NamespaceClassIndent_Attach)
 		"}\n";
 	char options[] = "brackets=horstmann, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Comment_BracketsHorstmann_NamespaceClassIndent_Horstmann)
+TEST(Comment, BracketsHorstmann_NamespaceClassIndent_Horstmann)
 {
 	// comments should indent with namespaces and classes
 	// brackets=horstmann with horstmann brackets
@@ -3591,12 +3591,12 @@ TEST(Comment_BracketsHorstmann_NamespaceClassIndent_Horstmann)
 		"}\n";
 	char options[] = "brackets=horstmann, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST(Comment_Namespace_Misc1)
+TEST(Comment, Namespace_Misc1)
 {
 	// comments should indent with namespaces
 	// comments precede the brackets
@@ -3636,11 +3636,11 @@ TEST(Comment_Namespace_Misc1)
 		"}\n";
 	char options[] = "indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Comment_Namespace_ClassMisc2)
+TEST(Comment, Namespace_ClassMisc2)
 {
 	// comments should indent with namespaces and classes
 	// comments precede the brackets
@@ -3680,11 +3680,11 @@ TEST(Comment_Namespace_ClassMisc2)
 		"}\n";
 	char options[] = "indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Comment_NestedClass_Misc3)
+TEST(Comment, NestedClass_Misc3)
 {
 	// comments should indent with classes
 	// comments precede the brackets
@@ -3714,11 +3714,11 @@ TEST(Comment_NestedClass_Misc3)
 		"};\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Comment_NestedClass_Misc4)
+TEST(Comment, NestedClass_Misc4)
 {
 	// comments should indent with classes
 	// comments precede the brackets in indented classes
@@ -3748,11 +3748,11 @@ TEST(Comment_NestedClass_Misc4)
 		"};\n";
 	char options[] = "indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Comment_NamespaceClass_Misc5)
+TEST(Comment, NamespaceClass_Misc5)
 {
 	// comments should indent with classes with inheritance
 	// comments precede the brackets
@@ -3776,11 +3776,11 @@ TEST(Comment_NamespaceClass_Misc5)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Comment_NamespaceClass_Misc6)
+TEST(Comment, NamespaceClass_Misc6)
 {
 	// comments should indent with classes with inheritance
 	// comments precede the brackets
@@ -3804,11 +3804,11 @@ TEST(Comment_NamespaceClass_Misc6)
 		"}\n";
 	char options[] = "indent-namespaces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Comment_BeforeStatement_Misc7)
+TEST(Comment, BeforeStatement_Misc7)
 {
 	// comments before a statement should not be broken
 	char text[] =
@@ -3821,11 +3821,11 @@ TEST(Comment_BeforeStatement_Misc7)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Comment_LeadingSpaceCorrection1)
+TEST(Comment, LeadingSpaceCorrection1)
 {
 	// comment where the leading spaces need correction
 	// will adjust the first line
@@ -3849,11 +3849,11 @@ TEST(Comment_LeadingSpaceCorrection1)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Comment_LeadingSpaceCorrection2)
+TEST(Comment, LeadingSpaceCorrection2)
 {
 	// comment where the leading spaces need correction
 	// text has tabs
@@ -3878,11 +3878,11 @@ TEST(Comment_LeadingSpaceCorrection2)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Comment_LeadingSpaceCorrection3)
+TEST(Comment, LeadingSpaceCorrection3)
 {
 	// comment where the leading spaces need correction
 	// and indent needs adjusting
@@ -3907,7 +3907,7 @@ TEST(Comment_LeadingSpaceCorrection3)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -3915,7 +3915,7 @@ TEST(Comment_LeadingSpaceCorrection3)
 // AStyle Continuation Lines
 //----------------------------------------------------------------------------
 
-TEST(Continuation_BracketsNone_Break)
+TEST(Continuation, BracketsNone_Break)
 {
 	// continuation lines
 	// brackets=none and input of broken brackets
@@ -3935,11 +3935,11 @@ TEST(Continuation_BracketsNone_Break)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Continuation_BracketsNone_Attach)
+TEST(Continuation, BracketsNone_Attach)
 {
 	// continuation lines
 	// brackets=none and input of attached brackets
@@ -3956,11 +3956,11 @@ TEST(Continuation_BracketsNone_Attach)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Continuation_BracketsNone_Horstmann)
+TEST(Continuation, BracketsNone_Horstmann)
 {
 	// continuation lines
 	// brackets=none and input of horstmann brackets
@@ -3977,11 +3977,11 @@ TEST(Continuation_BracketsNone_Horstmann)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Continuation_BracketsBreak_Break)
+TEST(Continuation, BracketsBreak_Break)
 {
 	// continuation lines
 	// brackets=break and input of broken brackets
@@ -4001,11 +4001,11 @@ TEST(Continuation_BracketsBreak_Break)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Continuation_BracketsBreak_Attach)
+TEST(Continuation, BracketsBreak_Attach)
 {
 	// continuation lines
 	// brackets=break and input of attached brackets
@@ -4036,11 +4036,11 @@ TEST(Continuation_BracketsBreak_Attach)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Continuation_BracketsBreak_Horstmann)
+TEST(Continuation, BracketsBreak_Horstmann)
 {
 	// continuation lines
 	// brackets=break and input of horstmann brackets
@@ -4071,11 +4071,11 @@ TEST(Continuation_BracketsBreak_Horstmann)
 		"}\n";
 	char options[] = "brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Continuation_BracketsAttach_Break)
+TEST(Continuation, BracketsAttach_Break)
 {
 	// continuation lines
 	// brackets=attach and input of broken brackets
@@ -4106,11 +4106,11 @@ TEST(Continuation_BracketsAttach_Break)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Continuation_BracketsAttach_Attach)
+TEST(Continuation, BracketsAttach_Attach)
 {
 	// continuation lines
 	// brackets=attach and input of attached brackets
@@ -4127,11 +4127,11 @@ TEST(Continuation_BracketsAttach_Attach)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Continuation_BracketsAttach_Horstmann)
+TEST(Continuation, BracketsAttach_Horstmann)
 {
 	// continuation lines
 	// brackets=attach and input of horstmann brackets
@@ -4159,11 +4159,11 @@ TEST(Continuation_BracketsAttach_Horstmann)
 		"}\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Continuation_BracketsHorstmann_Break)
+TEST(Continuation, BracketsHorstmann_Break)
 {
 	// continuation lines
 	// brackets=horstmann and input of broken brackets
@@ -4194,11 +4194,11 @@ TEST(Continuation_BracketsHorstmann_Break)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Continuation_BracketsHorstmann_Attach)
+TEST(Continuation, BracketsHorstmann_Attach)
 {
 	// continuation lines
 	// brackets=horstmann and input of attached brackets
@@ -4226,11 +4226,11 @@ TEST(Continuation_BracketsHorstmann_Attach)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Continuation_BracketsHorstmann_Horstmann)
+TEST(Continuation, BracketsHorstmann_Horstmann)
 {
 	// continuation lines
 	// brackets=horstmann and input of horstmann brackets
@@ -4247,12 +4247,12 @@ TEST(Continuation_BracketsHorstmann_Horstmann)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST(Continuation_InlineTab1)
+TEST(Continuation, InlineTab1)
 {
 	// continuation lines
 	// with inline tabs
@@ -4277,11 +4277,11 @@ TEST(Continuation_InlineTab1)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Continuation_InlineTab2)
+TEST(Continuation, InlineTab2)
 {
 	// continuation lines with tabs after the paren
 	// with inline tabs
@@ -4309,7 +4309,7 @@ TEST(Continuation_InlineTab2)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -4317,7 +4317,7 @@ TEST(Continuation_InlineTab2)
 // AStyle Continuation Lines with Tabs
 //----------------------------------------------------------------------------
 
-TEST(ContinuationTab_BracketsNone_Break)
+TEST(ContinuationTab, BracketsNone_Break)
 {
 	// continuation lines with tabs
 	// brackets=none and input of broken brackets
@@ -4337,11 +4337,11 @@ TEST(ContinuationTab_BracketsNone_Break)
 		"}\n";
 	char options[] = "indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ContinuationTab_BracketsNone_Attach)
+TEST(ContinuationTab, BracketsNone_Attach)
 {
 	// continuation lines with tabs
 	// brackets=none and input of attached brackets
@@ -4358,11 +4358,11 @@ TEST(ContinuationTab_BracketsNone_Attach)
 		"}\n";
 	char options[] = "indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ContinuationTab_BracketsNone_Horstmann)
+TEST(ContinuationTab, BracketsNone_Horstmann)
 {
 	// continuation lines with tabs
 	// brackets=none and input of horstmann brackets
@@ -4379,11 +4379,11 @@ TEST(ContinuationTab_BracketsNone_Horstmann)
 		"}\n";
 	char options[] = "indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ContinuationTab_BracketsBreak_Break)
+TEST(ContinuationTab, BracketsBreak_Break)
 {
 	// continuation lines with tabs
 	// brackets=break and input of broken brackets
@@ -4403,11 +4403,11 @@ TEST(ContinuationTab_BracketsBreak_Break)
 		"}\n";
 	char options[] = "brackets=break, indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ContinuationTab_BracketsBreak_Attach)
+TEST(ContinuationTab, BracketsBreak_Attach)
 {
 	// continuation lines with tabs
 	// brackets=break and input of attached brackets
@@ -4438,11 +4438,11 @@ TEST(ContinuationTab_BracketsBreak_Attach)
 		"}\n";
 	char options[] = "brackets=break, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ContinuationTab_BracketsBreak_Horstmann)
+TEST(ContinuationTab, BracketsBreak_Horstmann)
 {
 	// continuation lines with tabs
 	// brackets=break and input of horstmann brackets
@@ -4473,11 +4473,11 @@ TEST(ContinuationTab_BracketsBreak_Horstmann)
 		"}\n";
 	char options[] = "brackets=break, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ContinuationTab_BracketsAttach_Break)
+TEST(ContinuationTab, BracketsAttach_Break)
 {
 	// continuation lines with tabs
 	// brackets=attach and input of broken brackets
@@ -4508,11 +4508,11 @@ TEST(ContinuationTab_BracketsAttach_Break)
 		"}\n";
 	char options[] = "brackets=attach, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ContinuationTab_BracketsAttach_Attach)
+TEST(ContinuationTab, BracketsAttach_Attach)
 {
 	// continuation lines with tabs
 	// brackets=attach and input of attached brackets
@@ -4529,11 +4529,11 @@ TEST(ContinuationTab_BracketsAttach_Attach)
 		"}\n";
 	char options[] = "brackets=attach, indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ContinuationTab_BracketsAttach_Horstmann)
+TEST(ContinuationTab, BracketsAttach_Horstmann)
 {
 	// continuation lines with tabs
 	// brackets=attach and input of horstmann brackets
@@ -4561,11 +4561,11 @@ TEST(ContinuationTab_BracketsAttach_Horstmann)
 		"}\n";
 	char options[] = "brackets=attach, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ContinuationTab_BracketsHorstmann_Break)
+TEST(ContinuationTab, BracketsHorstmann_Break)
 {
 	// continuation lines with tabs
 	// brackets=horstmann and input of broken brackets
@@ -4596,11 +4596,11 @@ TEST(ContinuationTab_BracketsHorstmann_Break)
 		"}\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ContinuationTab_BracketsHorstmann_Attach)
+TEST(ContinuationTab, BracketsHorstmann_Attach)
 {
 	// continuation lines with tabs
 	// brackets=horstmann and input of attached brackets
@@ -4628,11 +4628,11 @@ TEST(ContinuationTab_BracketsHorstmann_Attach)
 		"}\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ContinuationTab_BracketsHorstmann_Horstmann)
+TEST(ContinuationTab, BracketsHorstmann_Horstmann)
 {
 	// continuation lines with tabs
 	// brackets=horstmann and input of horstmann brackets
@@ -4649,11 +4649,11 @@ TEST(ContinuationTab_BracketsHorstmann_Horstmann)
 		"}\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ContinuationTab_InlineTab1)
+TEST(ContinuationTab, InlineTab1)
 {
 	// continuation lines with tabs
 	// with inline tabs
@@ -4677,11 +4677,11 @@ TEST(ContinuationTab_InlineTab1)
 		"}\n";
 	char options[] = "indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ContinuationTab_InlineTab2)
+TEST(ContinuationTab, InlineTab2)
 {
 	// continuation lines with tabs
 	// with inline tabs after the paren
@@ -4708,11 +4708,11 @@ TEST(ContinuationTab_InlineTab2)
 		"}\n";
 	char options[] = "indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ContinuationForceTab_InlineTab1)
+TEST(ContinuationForceTab, InlineTab1)
 {
 	// continuation lines with force tabs
 	// with inline tabs
@@ -4737,11 +4737,11 @@ TEST(ContinuationForceTab_InlineTab1)
 		"}\n";
 	char options[] = "indent=force-tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ContinuationForceTab_InlineTab2)
+TEST(ContinuationForceTab, InlineTab2)
 {
 	// continuation lines with force tabs
 	// with inline tabs after the paren
@@ -4768,7 +4768,7 @@ TEST(ContinuationForceTab_InlineTab2)
 		"}\n";
 	char options[] = "indent=force-tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -4776,7 +4776,7 @@ TEST(ContinuationForceTab_InlineTab2)
 // C++ operators << and >>
 //----------------------------------------------------------------------------
 
-TEST(AlignmentOperator_Cout)
+TEST(AlignmentOperator, Cout)
 {
 	// Alignment of the operator<<
 	char text[] =
@@ -4800,11 +4800,11 @@ TEST(AlignmentOperator_Cout)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignmentOperator_Cin)
+TEST(AlignmentOperator, Cin)
 {
 	// Alignment of the operator<<
 	char text[] =
@@ -4824,11 +4824,11 @@ TEST(AlignmentOperator_Cin)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignmentOperator_CoutBeginLine)
+TEST(AlignmentOperator, CoutBeginLine)
 {
 	// Alignment of the operator<< when it begins the line
 	char text[] =
@@ -4841,12 +4841,12 @@ TEST(AlignmentOperator_CoutBeginLine)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST(AlignmentOperator_Cout2)
+TEST(AlignmentOperator, Cout2)
 {
 	// Alignment of the operator<<
 	char text[] =
@@ -4857,7 +4857,7 @@ TEST(AlignmentOperator_Cout2)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -4865,7 +4865,7 @@ TEST(AlignmentOperator_Cout2)
 // AStyle SQL
 //----------------------------------------------------------------------------
 
-TEST(SQL)
+TEST(SQL, Standard)
 {
 	// standard SQL statements
 	char text[] =
@@ -4893,11 +4893,11 @@ TEST(SQL)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SQL_Comment)
+TEST(SQL, Comment)
 {
 	// SQL statements with comment
 	char text[] =
@@ -4913,11 +4913,11 @@ TEST(SQL_Comment)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SQL_LineComment)
+TEST(SQL, LineComment)
 {
 	// SQL statements with line comment
 	char text[] =
@@ -4931,11 +4931,11 @@ TEST(SQL_LineComment)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SQL_NonIndentingTabs)
+TEST(SQL, NonIndentingTabs)
 {
 	// SQL statements with non-indenting tabs
 	char textIn[] =
@@ -4956,11 +4956,11 @@ TEST(SQL_NonIndentingTabs)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SQL_NonHangingIndent)
+TEST(SQL, NonHangingIndent)
 {
 	// SQL statements with a non-hanging indent
 	// should format as a block
@@ -4982,11 +4982,11 @@ TEST(SQL_NonHangingIndent)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SQL_LowerCaseExtraSpaces)
+TEST(SQL, LowerCaseExtraSpaces)
 {
 	// SQL statements in lower case with extra spaces
 	char textIn[] =
@@ -5013,11 +5013,11 @@ TEST(SQL_LowerCaseExtraSpaces)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SQL_EndOfLine)
+TEST(SQL, EndOfLine)
 {
 	// SQL statements with EXEC SQL at end of line
 	char text[] =
@@ -5028,11 +5028,11 @@ TEST(SQL_EndOfLine)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SQL_BreakAfterSemi)
+TEST(SQL, BreakAfterSemi)
 {
 	// SQL statements should break line after the semi-colon
 	char textIn[] =
@@ -5052,11 +5052,11 @@ TEST(SQL_BreakAfterSemi)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SQL_Switch)
+TEST(SQL, Switch)
 {
 	// SQL statements in switch
 	char text[] =
@@ -5077,11 +5077,11 @@ TEST(SQL_Switch)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SQL_SwitchIndentCase)
+TEST(SQL, SwitchIndentCase)
 {
 	// SQL statements in switch with indent case
 	char text[] =
@@ -5102,11 +5102,11 @@ TEST(SQL_SwitchIndentCase)
 		"}\n";
 	char options[] = "indent-cases";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SQL_BracketsHorstmann)
+TEST(SQL, BracketsHorstmann)
 {
 	// SQL statements in horstmann brackets
 	char text[] =
@@ -5116,11 +5116,11 @@ TEST(SQL_BracketsHorstmann)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SQL_Sans)
+TEST(SQL, Sans)
 {
 	// not SQL statements (macros?)
 	// SQL statements will not be changed
@@ -5142,7 +5142,7 @@ TEST(SQL_Sans)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -5150,7 +5150,7 @@ TEST(SQL_Sans)
 // AStyle Assembler
 //----------------------------------------------------------------------------
 
-TEST(Assembler1)
+TEST(Assembler, Embedded1)
 {
 	// embedded assembler
 	char text[] =
@@ -5173,11 +5173,11 @@ TEST(Assembler1)
 		"}\n";
 	char options[] = "keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Assembler2)
+TEST(Assembler, Embedded2)
 {
 	// embedded assembler
 	char text[] =
@@ -5197,11 +5197,11 @@ TEST(Assembler2)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AssemblerMS1)
+TEST(Assembler, MS1)
 {
 	// microsoft specific embedded assembler
 	char text[] =
@@ -5212,11 +5212,11 @@ TEST(AssemblerMS1)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AssemblerMS2)
+TEST(Assembler, MS2)
 {
 	// microsoft specific embedded assembler
 	char text[] =
@@ -5236,7 +5236,7 @@ TEST(AssemblerMS2)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -5244,7 +5244,7 @@ TEST(AssemblerMS2)
 // AStyle Multiple Varables separated by commas
 //----------------------------------------------------------------------------
 
-TEST(MultipleVariableAssignments)
+TEST(MultipleVariableAssignments, Standard)
 {
 	// multiple assignments are aligned on the first variable
 	char text[] =
@@ -5265,11 +5265,11 @@ TEST(MultipleVariableAssignments)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MultipleVariableAssignments_Comments)
+TEST(MultipleVariableAssignments, Comments)
 {
 	// multiple assignments are aligned on the first variable
 	char text[] =
@@ -5292,11 +5292,11 @@ TEST(MultipleVariableAssignments_Comments)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MultipleVariableAssignments_Sans)
+TEST(MultipleVariableAssignments, Sans)
 {
 	// these are not multiple assignments
 	char text[] =
@@ -5314,12 +5314,12 @@ TEST(MultipleVariableAssignments_Sans)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST(MultipleVariable)
+TEST(MultipleVariable, Standard)
 {
 	// multiple variables are aligned on first variable
 	char text[] =
@@ -5331,11 +5331,11 @@ TEST(MultipleVariable)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MultipleVariable_MultipleStatementsPerLine)
+TEST(MultipleVariable, MultipleStatementsPerLine)
 {
 	// multiple variables with multiple statements per line
 	char text[] =
@@ -5347,11 +5347,11 @@ TEST(MultipleVariable_MultipleStatementsPerLine)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MultipleVariable_ClassInitializer1)
+TEST(MultipleVariable, ClassInitializer1)
 {
 	// class initializers are aligned on first variable
 	char text[] =
@@ -5363,11 +5363,11 @@ TEST(MultipleVariable_ClassInitializer1)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MultipleVariable_ClassInitializer2)
+TEST(MultipleVariable, ClassInitializer2)
 {
 	// class initializers are aligned on first variable
 	// colon on previous line
@@ -5380,11 +5380,11 @@ TEST(MultipleVariable_ClassInitializer2)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MultipleVariable_ClassInitializer3)
+TEST(MultipleVariable, ClassInitializer3)
 {
 	// class initializers are aligned on first variable
 	// multiple variables per line
@@ -5397,11 +5397,11 @@ TEST(MultipleVariable_ClassInitializer3)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MultipleVariable_ClassInitializer4)
+TEST(MultipleVariable, ClassInitializer4)
 {
 	// class initializers are aligned on first variable
 	// comments after comma
@@ -5414,11 +5414,11 @@ TEST(MultipleVariable_ClassInitializer4)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MultipleVariable_ClassInitializer5)
+TEST(MultipleVariable, ClassInitializer5)
 {
 	// class initializers are aligned on first variable
 	// last line with brackets should be indented
@@ -5430,14 +5430,14 @@ TEST(MultipleVariable_ClassInitializer5)
 		"      m_bar5(0), m_bar6(NULL) {}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MultipleVariable_ClassInitializer6)
+TEST(MultipleVariable, ClassInitializer6)
 {
 	// class initializers are aligned on first variable
-	// this checks if the variables have been reset
+	// this EXPECT_TRUEs if the variables have been reset
 	char text[] =
 		"\nFoo1::Foo1()\n"
 		"    : bar1(cmd),\n"
@@ -5450,13 +5450,13 @@ TEST(MultipleVariable_ClassInitializer6)
 		"{}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MultipleVariable_Misc1)
+TEST(MultipleVariable, Misc1)
 {
-	// this checks if the inStatementIndentStack is correctly popped
+	// this EXPECT_TRUEs if the inStatementIndentStack is correctly popped
 	char text[] =
 		"\nListBoxImpl::ListBoxImpl()\n"
 		"    : unicodeMode(false),\n"
@@ -5477,13 +5477,13 @@ TEST(MultipleVariable_Misc1)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MultipleVariable_Misc2)
+TEST(MultipleVariable, Misc2)
 {
-	// this checks for various conditions in getInStatementIndentComma()
+	// this EXPECT_TRUEs for various conditions in getInStatementIndentComma()
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -5502,7 +5502,7 @@ TEST(MultipleVariable_Misc2)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 

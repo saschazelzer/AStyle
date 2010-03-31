@@ -11,17 +11,21 @@
 				<Option object_output="objCond\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters="--terse_printer" />
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-DASTYLECON_LIB" />
+					<Add directory="..\..\srccon" />
+					<Add directory="..\..\srcx" />
 					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="..\..\..\UnitTest++\src" />
+					<Add directory="..\..\..\gtest-1.4.0\include" />
+					<Add directory="..\..\..\gtest-1.4.0" />
 				</Compiler>
 				<Linker>
-					<Add library="UnitTest++" />
-					<Add directory="..\..\..\UnitTest++" />
+					<Add library="gtestd" />
+					<Add directory="bin" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -34,13 +38,16 @@
 					<Add option="-Wall" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add option="-DNDEBUG" />
+					<Add directory="..\..\srccon" />
+					<Add directory="..\..\srcx" />
 					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="..\..\..\UnitTest++\src" />
+					<Add directory="..\..\..\gtest-1.4.0\include" />
+					<Add directory="..\..\..\gtest-1.4.0" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="UnitTest++" />
-					<Add directory="..\..\..\UnitTest++" />
+					<Add library="gtest" />
+					<Add directory="bin" />
 				</Linker>
 			</Target>
 			<Target title="Coverage">
@@ -55,13 +62,16 @@
 					<Add option="-ftest-coverage" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add option="-DASTYLECON_PRINT" />
+					<Add directory="..\..\srccon" />
+					<Add directory="..\..\srcx" />
 					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="..\..\..\UnitTest++\src" />
+					<Add directory="..\..\..\gtest-1.4.0\include" />
+					<Add directory="..\..\..\gtest-1.4.0" />
 				</Compiler>
 				<Linker>
-					<Add library="UnitTest++" />
+					<Add library="gtestd" />
 					<Add library="gcov" />
-					<Add directory="..\..\..\UnitTest++" />
+					<Add directory="bin" />
 				</Linker>
 			</Target>
 			<Target title="Print">
@@ -75,12 +85,15 @@
 					<Add option="-g" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add option="-DASTYLECON_PRINT" />
+					<Add directory="..\..\srccon" />
+					<Add directory="..\..\srcx" />
 					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="..\..\..\UnitTest++\src" />
+					<Add directory="..\..\..\gtest-1.4.0\include" />
+					<Add directory="..\..\..\gtest-1.4.0" />
 				</Compiler>
 				<Linker>
-					<Add library="UnitTest++" />
-					<Add directory="..\..\..\UnitTest++" />
+					<Add library="gtestd" />
+					<Add directory="bin" />
 				</Linker>
 			</Target>
 		</Build>
@@ -88,6 +101,8 @@
 		<Unit filename="..\..\srccon\AStyleTestCon_Console1.cpp" />
 		<Unit filename="..\..\srccon\AStyleTestCon_Console2.cpp" />
 		<Unit filename="..\..\srccon\AStyleTestCon_Main.cpp" />
+		<Unit filename="..\..\srcx\TersePrinter.cpp" />
+		<Unit filename="..\..\srcx\TersePrinter.h" />
 		<Unit filename="..\..\..\AStyle\src\ASBeautifier.cpp" />
 		<Unit filename="..\..\..\AStyle\src\ASEnhancer.cpp" />
 		<Unit filename="..\..\..\AStyle\src\ASFormatter.cpp" />

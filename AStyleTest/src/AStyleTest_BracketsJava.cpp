@@ -14,15 +14,15 @@
 //-----------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------
-// AStyle Java Common Text for Testing
+// AStyle Java Default Bracket Options
 //-------------------------------------------------------------------------
 
-struct javaText
+struct BracketsNoneJavaF : public ::testing::Test
 {
 	string textStr;
 	const char* textIn;
 
-	javaText()
+	BracketsNoneJavaF()
 	{
 		textStr =
 			"\npublic class FooClass\n"
@@ -44,11 +44,7 @@ struct javaText
 	}
 };
 
-//-------------------------------------------------------------------------
-// AStyle Java Default Bracket Options
-//-------------------------------------------------------------------------
-
-TEST_FIXTURE(javaText, JavaBracketsNone)
+TEST_F(BracketsNoneJavaF, Default)
 {
 	// test default brackets option (do not change)
 	char text[] =
@@ -69,11 +65,11 @@ TEST_FIXTURE(javaText, JavaBracketsNone)
 
 	char options[] = "mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsNone_Blocks)
+TEST_F(BracketsNoneJavaF, Blocks)
 {
 	// test default blocks option, with indent blocks
 	char text[] =
@@ -95,12 +91,12 @@ TEST_FIXTURE(javaText, JavaBracketsNone_Blocks)
 
 	char options[] = "indent-blocks, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST_FIXTURE(javaText, JavaBracketsNone_Brackets)
+TEST_F(BracketsNoneJavaF, Brackets)
 {
 	// test default brackets option, with indent brackets
 	char text[] =
@@ -122,11 +118,11 @@ TEST_FIXTURE(javaText, JavaBracketsNone_Brackets)
 
 	char options[] = "indent-brackets, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsNone_EmptyBrackets)
+TEST(BracketsNoneJava, EmptyBrackets)
 {
 	// test default brackets option (do not change)
 	// do not change empty brackets
@@ -139,11 +135,11 @@ TEST(JavaBracketsNone_EmptyBrackets)
 		"}\n";
 	char options[] = "mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsNone_Break)
+TEST(BracketsNoneJava, Break)
 {
 	// test default brackets option with broken brackets
 	char text[] =
@@ -160,11 +156,11 @@ TEST(JavaBracketsNone_Break)
 		"}\n";
 	char options[] = "mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsNone_Attach)
+TEST(BracketsNoneJava, Attach)
 {
 	// test default brackets option with attached brackets
 	char text[] =
@@ -177,11 +173,11 @@ TEST(JavaBracketsNone_Attach)
 		"}\n";
 	char options[] = "mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsNone_Linux)
+TEST(BracketsNoneJava, Linux)
 {
 	// test default brackets option with linux brackets
 	char text[] =
@@ -195,11 +191,11 @@ TEST(JavaBracketsNone_Linux)
 		"}\n";
 	char options[] = "mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsNone_Horstmann)
+TEST(BracketsNoneJava, Horstmann)
 {
 	// test default brackets option with horstmann brackets
 	char text[] =
@@ -213,11 +209,11 @@ TEST(JavaBracketsNone_Horstmann)
 		"}\n";
 	char options[] = "mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsNone_EnumConstructorBreak)
+TEST(BracketsNoneJava, EnumConstructorBreak)
 {
 	// test defzult brackets option with an enum constructor
 	char text[] =
@@ -239,11 +235,11 @@ TEST(JavaBracketsNone_EnumConstructorBreak)
 		"}\n";
 	char options[] = "mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsNone_EnumConstructorAttach)
+TEST(BracketsNoneJava, EnumConstructorAttach)
 {
 	// test default brackets option with an enum constructor
 	char text[] =
@@ -262,10 +258,10 @@ TEST(JavaBracketsNone_EnumConstructorAttach)
 		"}\n";
 	char options[] = "mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
-TEST(JavaBracketsNone_EnumConstructorHorstmann)
+TEST(BracketsNoneJava, EnumConstructorHorstmann)
 {
 	// test default brackets option with an enum constructor
 	char text[] =
@@ -284,7 +280,7 @@ TEST(JavaBracketsNone_EnumConstructorHorstmann)
 		"}\n";
 	char options[] = "mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -292,7 +288,34 @@ TEST(JavaBracketsNone_EnumConstructorHorstmann)
 // AStyle Java Break Bracket Options
 //-------------------------------------------------------------------------
 
-TEST_FIXTURE(javaText, JavaBracketsBreak)
+struct BracketsBreakJavaF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	BracketsBreakJavaF()
+	{
+		textStr =
+			"\npublic class FooClass\n"
+			"{\n"
+			"    private bool var1;\n"
+			"    private bool var2;\n"
+			"\n"
+			"    public void foo(bool isFoo)\n"
+			"    {\n"
+			"        if (isFoo) {\n"
+			"            bar();\n"
+			"        } else {\n"
+			"            anotherBar();\n"
+			"        }\n"
+			"    }\n"
+			"}\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(BracketsBreakJavaF, LongOption)
 {
 	// test break brackets option
 	char text[] =
@@ -316,11 +339,11 @@ TEST_FIXTURE(javaText, JavaBracketsBreak)
 
 	char options[] = "brackets=break, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsBreak_Short)
+TEST_F(BracketsBreakJavaF, ShortOption)
 {
 	// test break brackets short option
 	char text[] =
@@ -343,11 +366,11 @@ TEST_FIXTURE(javaText, JavaBracketsBreak_Short)
 		"}\n";
 	char options[] = "-b, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsBreak_Blocks)
+TEST_F(BracketsBreakJavaF, Blocks)
 {
 	// test break brackets option, with indent blocks
 	char text[] =
@@ -371,12 +394,12 @@ TEST_FIXTURE(javaText, JavaBracketsBreak_Blocks)
 
 	char options[] = "brackets=break, indent-blocks, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST_FIXTURE(javaText, JavaBracketsBreak_Brackets)
+TEST_F(BracketsBreakJavaF, Brackets)
 {
 	// test break brackets option, with indent brackets
 	char text[] =
@@ -400,11 +423,11 @@ TEST_FIXTURE(javaText, JavaBracketsBreak_Brackets)
 
 	char options[] = "brackets=break, indent-brackets, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsBreak_EmptyBrackets)
+TEST(BracketsBreakJava, EmptyBrackets)
 {
 	// test break brackets option
 	// do not change empty brackets
@@ -417,10 +440,10 @@ TEST(JavaBracketsBreak_EmptyBrackets)
 		"}\n";
 	char options[] = "brackets=break, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
-TEST(JavaBracketsBreak_Break)
+TEST(BracketsBreakJava, Break)
 {
 	// test break brackets option with broken brackets
 	char text[] =
@@ -437,11 +460,11 @@ TEST(JavaBracketsBreak_Break)
 		"}\n";
 	char options[] = "brackets=break, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsBreak_Attach)
+TEST(BracketsBreakJava, Attach)
 {
 	// test break brackets option with attached brackets
 	char textIn[] =
@@ -466,11 +489,11 @@ TEST(JavaBracketsBreak_Attach)
 		"}\n";
 	char options[] = "brackets=break, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsBreak_Linux)
+TEST(BracketsBreakJava, Linux)
 {
 	// test break brackets option with linux brackets
 	char textIn[] =
@@ -496,11 +519,11 @@ TEST(JavaBracketsBreak_Linux)
 		"}\n";
 	char options[] = "brackets=break, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsBreak_Horstmann)
+TEST(BracketsBreakJava, Horstmann)
 {
 	// test break brackets option with horstmann brackets
 	char textIn[] =
@@ -526,11 +549,11 @@ TEST(JavaBracketsBreak_Horstmann)
 		"}\n";
 	char options[] = "brackets=break, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsBreak_EnumConstructor)
+TEST(BracketsBreakJava, EnumConstructor)
 {
 	// test break brackets option with an enum constructor
 	char textIn[] =
@@ -566,7 +589,7 @@ TEST(JavaBracketsBreak_EnumConstructor)
 		"}\n";
 	char options[] = "brackets=break, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -574,7 +597,34 @@ TEST(JavaBracketsBreak_EnumConstructor)
 // AStyle Java Attach Bracket Options
 //-------------------------------------------------------------------------
 
-TEST_FIXTURE(javaText, JavaBracketsAttach)
+struct BracketsAttachJavaF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	BracketsAttachJavaF()
+	{
+		textStr =
+			"\npublic class FooClass\n"
+			"{\n"
+			"    private bool var1;\n"
+			"    private bool var2;\n"
+			"\n"
+			"    public void foo(bool isFoo)\n"
+			"    {\n"
+			"        if (isFoo) {\n"
+			"            bar();\n"
+			"        } else {\n"
+			"            anotherBar();\n"
+			"        }\n"
+			"    }\n"
+			"}\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(BracketsAttachJavaF, LongOption)
 {
 	// test attach brackets option
 	char text[] =
@@ -593,11 +643,11 @@ TEST_FIXTURE(javaText, JavaBracketsAttach)
 
 	char options[] = "brackets=attach, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsAttach_Short)
+TEST_F(BracketsAttachJavaF, ShortOption)
 {
 	// test attach brackets short option
 	char text[] =
@@ -615,11 +665,11 @@ TEST_FIXTURE(javaText, JavaBracketsAttach_Short)
 		"}\n";
 	char options[] = "-a, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsAttach_Blocks)
+TEST_F(BracketsAttachJavaF, Blocks)
 {
 	// test attach brackets option, with indent blocks
 	char text[] =
@@ -639,11 +689,11 @@ TEST_FIXTURE(javaText, JavaBracketsAttach_Blocks)
 
 	char options[] = "brackets=attach, indent-blocks, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsAttach_Brackets)
+TEST_F(BracketsAttachJavaF, Brackets)
 {
 	// test attach brackets option, with indent brackets
 	char text[] =
@@ -663,11 +713,11 @@ TEST_FIXTURE(javaText, JavaBracketsAttach_Brackets)
 
 	char options[] = "brackets=attach, indent-brackets, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsAttach_BreakClosing)
+TEST_F(BracketsAttachJavaF, BreakClosing)
 {
 	// test attach brackets option, with break closing brackets
 	char text[] =
@@ -687,11 +737,11 @@ TEST_FIXTURE(javaText, JavaBracketsAttach_BreakClosing)
 
 	char options[] = "brackets=attach, break-closing-brackets, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsAttach_EmptyBrackets)
+TEST(BracketsAttachJava, EmptyBrackets)
 {
 	// test attach brackets option
 	// do not change empty brackets
@@ -703,11 +753,11 @@ TEST(JavaBracketsAttach_EmptyBrackets)
 		"}\n";
 	char options[] = "brackets=attach, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsAttach_Break)
+TEST(BracketsAttachJava, Break)
 {
 	// test attach brackets option with broken brackets
 	char textIn[] =
@@ -732,11 +782,11 @@ TEST(JavaBracketsAttach_Break)
 		"}\n";
 	char options[] = "brackets=attach, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsAttach_Attach)
+TEST(BracketsAttachJava, Attach)
 {
 	// test attach brackets option with attached brackets
 	char text[] =
@@ -749,11 +799,11 @@ TEST(JavaBracketsAttach_Attach)
 		"}\n";
 	char options[] = "brackets=attach, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsAttach_Linux)
+TEST(BracketsAttachJava, Linux)
 {
 	// test attach brackets option with linux brackets
 	char textIn[] =
@@ -775,11 +825,11 @@ TEST(JavaBracketsAttach_Linux)
 		"}\n";
 	char options[] = "brackets=attach, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsAttach_Horstmann)
+TEST(BracketsAttachJava, Horstmann)
 {
 	// test attach brackets option with horstmann brackets
 	char textIn[] =
@@ -801,11 +851,11 @@ TEST(JavaBracketsAttach_Horstmann)
 		"}\n";
 	char options[] = "brackets=attach, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsAttach_EnumConstructor)
+TEST(BracketsAttachJava, EnumConstructor)
 {
 	// test attach brackets option with an enum constructor
 	char textIn[] =
@@ -841,7 +891,7 @@ TEST(JavaBracketsAttach_EnumConstructor)
 		"}\n";
 	char options[] = "brackets=attach, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -849,7 +899,34 @@ TEST(JavaBracketsAttach_EnumConstructor)
 // AStyle Java Linux Bracket Options
 //-------------------------------------------------------------------------
 
-TEST_FIXTURE(javaText, JavaBracketsLinux)
+struct BracketsLinuxJavaF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	BracketsLinuxJavaF()
+	{
+		textStr =
+			"\npublic class FooClass\n"
+			"{\n"
+			"    private bool var1;\n"
+			"    private bool var2;\n"
+			"\n"
+			"    public void foo(bool isFoo)\n"
+			"    {\n"
+			"        if (isFoo) {\n"
+			"            bar();\n"
+			"        } else {\n"
+			"            anotherBar();\n"
+			"        }\n"
+			"    }\n"
+			"}\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(BracketsLinuxJavaF, LongOption)
 {
 	// test linux brackets option
 	char text[] =
@@ -870,11 +947,11 @@ TEST_FIXTURE(javaText, JavaBracketsLinux)
 
 	char options[] = "brackets=linux, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsLinux_Short)
+TEST_F(BracketsLinuxJavaF, ShortOption)
 {
 	// test linux brackets short option
 	char text[] =
@@ -894,11 +971,11 @@ TEST_FIXTURE(javaText, JavaBracketsLinux_Short)
 		"}\n";
 	char options[] = "-l, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsLinux_Blocks)
+TEST_F(BracketsLinuxJavaF, Blocks)
 {
 	// test linux blocks option, with indent blocks
 	char text[] =
@@ -920,11 +997,11 @@ TEST_FIXTURE(javaText, JavaBracketsLinux_Blocks)
 
 	char options[] = "brackets=linux, indent-blocks, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsLinux_Brackets)
+TEST_F(BracketsLinuxJavaF, Brackets)
 {
 	// test linux brackets option, with indent brackets
 	char text[] =
@@ -946,11 +1023,11 @@ TEST_FIXTURE(javaText, JavaBracketsLinux_Brackets)
 
 	char options[] = "brackets=linux, indent-brackets, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsLinux_BreakClosing)
+TEST_F(BracketsLinuxJavaF, BreakClosing)
 {
 	// test linux brackets option, with break closing brackets
 	char text[] =
@@ -972,11 +1049,11 @@ TEST_FIXTURE(javaText, JavaBracketsLinux_BreakClosing)
 
 	char options[] = "brackets=linux, break-closing-brackets, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsLinux_EmptyBrackets)
+TEST(BracketsLinuxJava, EmptyBrackets)
 {
 	// test linux brackets option
 	// do not change empty brackets
@@ -989,10 +1066,10 @@ TEST(JavaBracketsLinux_EmptyBrackets)
 		"}\n";
 	char options[] = "brackets=linux, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
-TEST(JavaBracketsLinux_Break)
+TEST(BracketsLinuxJava, Break)
 {
 	// test linux brackets option with broken brackets
 	char textIn[] =
@@ -1018,11 +1095,11 @@ TEST(JavaBracketsLinux_Break)
 		"}\n";
 	char options[] = "brackets=linux, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsLinux_Attach)
+TEST(BracketsLinuxJava, Attach)
 {
 	// test linux brackets option with attached brackets
 	char textIn[] =
@@ -1044,11 +1121,11 @@ TEST(JavaBracketsLinux_Attach)
 		"}\n";
 	char options[] = "brackets=linux, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsLinux_Linux)
+TEST(BracketsLinuxJava, Linux)
 {
 	// test linux brackets option with linux brackets
 	char text[] =
@@ -1062,11 +1139,11 @@ TEST(JavaBracketsLinux_Linux)
 		"}\n";
 	char options[] = "brackets=linux, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsLinux_Horstmann)
+TEST(BracketsLinuxJava, Horstmann)
 {
 	// test linux brackets option with horstmann brackets
 	char textIn[] =
@@ -1089,11 +1166,11 @@ TEST(JavaBracketsLinux_Horstmann)
 		"}\n";
 	char options[] = "brackets=linux, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsLinux_EnumConstructor)
+TEST(BracketsLinuxJava, EnumConstructor)
 {
 	// test linux brackets option with an enum constructor
 	char textIn[] =
@@ -1130,7 +1207,7 @@ TEST(JavaBracketsLinux_EnumConstructor)
 		"}\n";
 	char options[] = "brackets=linux, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1138,7 +1215,34 @@ TEST(JavaBracketsLinux_EnumConstructor)
 // AStyle Java Stroustrup Bracket Options
 //-------------------------------------------------------------------------
 
-TEST_FIXTURE(javaText, JavaBracketsStroustrup)
+struct BracketsStroustrupJavaF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	BracketsStroustrupJavaF()
+	{
+		textStr =
+			"\npublic class FooClass\n"
+			"{\n"
+			"    private bool var1;\n"
+			"    private bool var2;\n"
+			"\n"
+			"    public void foo(bool isFoo)\n"
+			"    {\n"
+			"        if (isFoo) {\n"
+			"            bar();\n"
+			"        } else {\n"
+			"            anotherBar();\n"
+			"        }\n"
+			"    }\n"
+			"}\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(BracketsStroustrupJavaF, LongOption)
 {
 	// test stroustrup brackets option
 	char text[] =
@@ -1158,11 +1262,11 @@ TEST_FIXTURE(javaText, JavaBracketsStroustrup)
 
 	char options[] = "brackets=stroustrup, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsStroustrup_Short)
+TEST_F(BracketsStroustrupJavaF, ShortOption)
 {
 	// test stroustrup brackets short option
 	char text[] =
@@ -1181,11 +1285,11 @@ TEST_FIXTURE(javaText, JavaBracketsStroustrup_Short)
 		"}\n";
 	char options[] = "-u, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsStroustrup_Blocks)
+TEST_F(BracketsStroustrupJavaF, Blocks)
 {
 	// test stroustrup brackets option, with indent blocks
 	char text[] =
@@ -1206,11 +1310,11 @@ TEST_FIXTURE(javaText, JavaBracketsStroustrup_Blocks)
 
 	char options[] = "brackets=stroustrup, indent-blocks, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsStroustrup_Brackets)
+TEST_F(BracketsStroustrupJavaF, Brackets)
 {
 	// test stroustrup brackets option, with indent brackets
 	char text[] =
@@ -1231,11 +1335,11 @@ TEST_FIXTURE(javaText, JavaBracketsStroustrup_Brackets)
 
 	char options[] = "brackets=stroustrup, indent-brackets, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsStroustrup_BreakClosing)
+TEST_F(BracketsStroustrupJavaF, BreakClosing)
 {
 	// test stroustrup brackets option, with brea closing brackets
 	char text[] =
@@ -1256,11 +1360,11 @@ TEST_FIXTURE(javaText, JavaBracketsStroustrup_BreakClosing)
 
 	char options[] = "brackets=stroustrup, break-closing-brackets, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsStroustrup_EmptyBrackets)
+TEST(BracketsStroustrupJava, EmptyBrackets)
 {
 	// test stroustrup brackets option
 	// do not change empty brackets
@@ -1272,11 +1376,11 @@ TEST(JavaBracketsStroustrup_EmptyBrackets)
 		"}\n";
 	char options[] = "brackets=stroustrup, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsStroustrup_EnumConstructor)
+TEST(BracketsStroustrupJava, EnumConstructor)
 {
 	// test stroustrup brackets option with an enum constructor
 	char textIn[] =
@@ -1313,7 +1417,7 @@ TEST(JavaBracketsStroustrup_EnumConstructor)
 		"}\n";
 	char options[] = "brackets=stroustrup, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1321,7 +1425,34 @@ TEST(JavaBracketsStroustrup_EnumConstructor)
 // AStyle Java Horstmann Bracket Options
 //-------------------------------------------------------------------------
 
-TEST_FIXTURE(javaText, JavaBracketsHorstmann)
+struct BracketsHorstmannJavaF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	BracketsHorstmannJavaF()
+	{
+		textStr =
+			"\npublic class FooClass\n"
+			"{\n"
+			"    private bool var1;\n"
+			"    private bool var2;\n"
+			"\n"
+			"    public void foo(bool isFoo)\n"
+			"    {\n"
+			"        if (isFoo) {\n"
+			"            bar();\n"
+			"        } else {\n"
+			"            anotherBar();\n"
+			"        }\n"
+			"    }\n"
+			"}\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(BracketsHorstmannJavaF, LongOption)
 {
 	// test horstmann brackets option
 	char text[] =
@@ -1341,11 +1472,11 @@ TEST_FIXTURE(javaText, JavaBracketsHorstmann)
 
 	char options[] = "brackets=horstmann, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsHorstmann_Short)
+TEST_F(BracketsHorstmannJavaF, ShortOption)
 {
 	// test horstmann brackets short option
 	char text[] =
@@ -1364,11 +1495,11 @@ TEST_FIXTURE(javaText, JavaBracketsHorstmann_Short)
 		"}\n";
 	char options[] = "-g, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsHorstmann_Blocks)
+TEST_F(BracketsHorstmannJavaF, Blocks)
 {
 	// test horstmann brackets option, with indent blocks
 	char text[] =
@@ -1388,11 +1519,11 @@ TEST_FIXTURE(javaText, JavaBracketsHorstmann_Blocks)
 
 	char options[] = "brackets=horstmann, indent-blocks, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsHorstmann_EmptyBrackets)
+TEST(BracketsHorstmannJava, EmptyBrackets)
 {
 	// test horstmann brackets option
 	// do not change empty brackets
@@ -1404,11 +1535,11 @@ TEST(JavaBracketsHorstmann_EmptyBrackets)
 		"}\n";
 	char options[] = "brackets=horstmann, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsHorstmann_Break)
+TEST(BracketsHorstmannJava, Break)
 {
 	// test horstmann brackets option with broken brackets
 	char textIn[] =
@@ -1434,11 +1565,11 @@ TEST(JavaBracketsHorstmann_Break)
 		"}\n";
 	char options[] = "brackets=horstmann, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsHorstmann_Attach)
+TEST(BracketsHorstmannJava, Attach)
 {
 	// test horstmann brackets option with attached brackets
 	char textIn[] =
@@ -1460,11 +1591,11 @@ TEST(JavaBracketsHorstmann_Attach)
 		"}\n";
 	char options[] = "brackets=horstmann, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsHorstmann_Linux)
+TEST(BracketsHorstmannJava, Linux)
 {
 	// test horstmann brackets option with linux brackets
 	char textIn[] =
@@ -1487,11 +1618,11 @@ TEST(JavaBracketsHorstmann_Linux)
 		"}\n";
 	char options[] = "brackets=horstmann, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsHorstmann_Horstmann)
+TEST(BracketsHorstmannJava, Horstmann)
 {
 	// test horstmann brackets option with horstmann brackets
 	char text[] =
@@ -1505,11 +1636,11 @@ TEST(JavaBracketsHorstmann_Horstmann)
 		"}\n";
 	char options[] = "brackets=horstmann, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsHorstmann_EnumConstructor)
+TEST(BracketsHorstmannJava, EnumConstructor)
 {
 	// test horstmann brackets option with an enum constructor
 	char textIn[] =
@@ -1545,7 +1676,7 @@ TEST(JavaBracketsHorstmann_EnumConstructor)
 		"}\n";
 	char options[] = "brackets=horstmann, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1553,34 +1684,60 @@ TEST(JavaBracketsHorstmann_EnumConstructor)
 // AStyle Java Other Bracket Options
 //-------------------------------------------------------------------------
 
-TEST_FIXTURE(javaText, JavaBracketsOther_Namespace)
+struct BracketsOtherJavaF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	BracketsOtherJavaF()
+	{
+		textStr =
+			"\npublic class FooClass\n"
+			"{\n"
+			"    private bool var1;\n"
+			"    private bool var2;\n"
+			"\n"
+			"    public void foo(bool isFoo)\n"
+			"    {\n"
+			"        if (isFoo) {\n"
+			"            bar();\n"
+			"        } else {\n"
+			"            anotherBar();\n"
+			"        }\n"
+			"    }\n"
+			"}\n";
+
+		textIn = textStr.c_str();
+	}
+};
+TEST_F(BracketsOtherJavaF, IndentNamespaces)
 {
 	// indent namespaces should NOT affect java formatting
 	char options[] = "indent-namespaces, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(textIn, textOut);
+	EXPECT_STREQ(textIn, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsOther_Class)
+TEST_F(BracketsOtherJavaF, IndentClasses)
 {
 	// indent classes should NOT affect java formatting
 	char options[] = "indent-classes, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(textIn, textOut);
+	EXPECT_STREQ(textIn, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(javaText, JavaBracketsOther_NamespaceClass)
+TEST_F(BracketsOtherJavaF, IndentNamespaces_IndentClass)
 {
 	// indent namespaces and classes should NOT affect java formatting
 	char options[] = "indent-namespaces, indent-classes, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(textIn, textOut);
+	EXPECT_STREQ(textIn, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOther_ClassContinuationAttached)
+TEST(BracketsOtherJava, ClassContinuation_Attached)
 {
 	// test with class continuaton and attached brackets
 	char text[] =
@@ -1591,11 +1748,11 @@ TEST(JavaBracketsOther_ClassContinuationAttached)
 		"}\n";
 	char options[] = "mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOther_ClassContinuationBroken)
+TEST(BracketsOtherJava, ClassContinuation_Broken)
 {
 	// test with class continuaton and broken brackets
 	char text[] =
@@ -1607,11 +1764,11 @@ TEST(JavaBracketsOther_ClassContinuationBroken)
 		"}\n";
 	char options[] = "mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOther_Interface)
+TEST(BracketsOtherJava, Interface)
 {
 	// test default brackets option (do not change)
 	char text[] =
@@ -1623,11 +1780,11 @@ TEST(JavaBracketsOther_Interface)
 
 	char options[] = "mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOther_InterfaceBlocks)
+TEST(BracketsOtherJava, Interface_IndentBlocks)
 {
 	// test interface with indent blocks option
 	// should not indent the interface
@@ -1640,11 +1797,11 @@ TEST(JavaBracketsOther_InterfaceBlocks)
 
 	char options[] = "indent-blocks, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOther_InterfaceBrackets)
+TEST(BracketsOtherJava, Interface_IndentBrackets)
 {
 	// test interface with indent brackets option
 	char text[] =
@@ -1656,11 +1813,11 @@ TEST(JavaBracketsOther_InterfaceBrackets)
 
 	char options[] = "indent-brackets, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOther_NestedClass)
+TEST(BracketsOtherJava, NestedClass)
 {
 	// test interface with nested classes
 	char text[] =
@@ -1687,11 +1844,11 @@ TEST(JavaBracketsOther_NestedClass)
 
 	char options[] = "mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOther_NestedClassBlocks)
+TEST(BracketsOtherJava, NestedClass_IndentBlocks)
 {
 	// test interface with nested classes and indented blocks
 	char text[] =
@@ -1718,11 +1875,11 @@ TEST(JavaBracketsOther_NestedClassBlocks)
 
 	char options[] = "indent-blocks, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOther_NestedClassBrackets)
+TEST(BracketsOtherJava, NestedClass_IndentBrackets)
 {
 	// test interface with nested classes and indented brackets
 	char text[] =
@@ -1749,11 +1906,11 @@ TEST(JavaBracketsOther_NestedClassBrackets)
 
 	char options[] = "indent-brackets, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOther_StaticConstructor)
+TEST(BracketsOtherJava, StaticConstructor)
 {
 	// test gnu style option, with static constructor
 	// sould NOT indent the method opening bracket
@@ -1776,10 +1933,10 @@ TEST(JavaBracketsOther_StaticConstructor)
 		"\n";
 	char options[] = "mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
-TEST(JavaBracketsOther_StaticConstructorBlocks)
+TEST(BracketsOtherJava, StaticConstructor_IndentBlocks)
 {
 	// test gnu style option, with static constructor
 	// sould NOT indent the method opening bracket
@@ -1802,11 +1959,11 @@ TEST(JavaBracketsOther_StaticConstructorBlocks)
 		"\n";
 	char options[] = "indent-blocks, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOther_StaticConstructorBrackets)
+TEST(BracketsOtherJava, StaticConstructor_IndentBrackets)
 {
 	// test gnu style option, with static constructor
 	// should NOT indent the method opening bracket
@@ -1829,11 +1986,11 @@ TEST(JavaBracketsOther_StaticConstructorBrackets)
 		"\n";
 	char options[] = "indent-brackets, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOther_Throws)
+TEST(BracketsOtherJava, Throws)
 {
 	// test a method that contains a throws statement
 	// should be recognized as a block opener
@@ -1853,11 +2010,11 @@ TEST(JavaBracketsOther_Throws)
 		"}\n";
 	char options[] = "mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOther_ThrowsBlocks)
+TEST(BracketsOtherJava, Throws_IndentBlocks)
 {
 	// test a method that contains a throws statement, with indent blocks
 	// should be recognized as a block opener
@@ -1877,11 +2034,11 @@ TEST(JavaBracketsOther_ThrowsBlocks)
 		"}\n";
 	char options[] = "indent-blocks, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOther_ThrowsBrackets)
+TEST(BracketsOtherJava, Throws_IndentBrackets)
 {
 	// test a method that contains a throws statement, with indent brackets
 	// should be recognized as a block opener
@@ -1901,11 +2058,11 @@ TEST(JavaBracketsOther_ThrowsBrackets)
 		"    }\n";
 	char options[] = "indent-brackets, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOther_NewOperator1)
+TEST(BracketsOtherJava, NewOperator1)
 {
 	// test new operator ending with })
 	char text[] =
@@ -1926,11 +2083,11 @@ TEST(JavaBracketsOther_NewOperator1)
 		"}\n";
 	char options[] = "mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsOther_NewOperator2)
+TEST(BracketsOtherJava, NewOperator2)
 {
 	// test new operator ending with }.start();
 	char text[] =
@@ -1945,7 +2102,7 @@ TEST(JavaBracketsOther_NewOperator2)
 		"}\n";
 	char options[] = "mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1953,7 +2110,7 @@ TEST(JavaBracketsOther_NewOperator2)
 // AStyle Java Array Bracket Options
 //-------------------------------------------------------------------------
 
-TEST(JavaBracketsArrayNone_InStatement)
+TEST(BracketsArray, NoneJava_InStatement)
 {
 	// the following "new Type" array should have an in statement indent
 	char text[] =
@@ -1975,11 +2132,11 @@ TEST(JavaBracketsArrayNone_InStatement)
 		"}\n";
 	char options[] = "indent=tab, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsArrayNone_OneLineBlock1)
+TEST(BracketsArray, NoneJava_OneLineBlock1)
 {
 	// single line blocks should not be broken
 	char text[] =
@@ -1989,11 +2146,11 @@ TEST(JavaBracketsArrayNone_OneLineBlock1)
 		"}\n";
 	char options[] = "mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsArrayNone_OneLineBlock2)
+TEST(BracketsArray, NoneJava_OneLineBlock2)
 {
 	// the single line block "{io.toString()}" should not be broken
 	char text[] =
@@ -2007,11 +2164,11 @@ TEST(JavaBracketsArrayNone_OneLineBlock2)
 		"}\n";
 	char options[] = "mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsArrayBreak_OneLineBlock2)
+TEST(BracketsArray, BreakJava_OneLineBlock2)
 {
 	// the single line block "{io.toString()}" should not be broken
 	char text[] =
@@ -2025,11 +2182,11 @@ TEST(JavaBracketsArrayBreak_OneLineBlock2)
 		"}\n";
 	char options[] = "brackets=break, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsArrayAttach_OneLineBlock2)
+TEST(BracketsArray, AttachJava_OneLineBlock2)
 {
 	// the single line block "{io.toString()}" should not be broken
 	char text[] =
@@ -2041,11 +2198,11 @@ TEST(JavaBracketsArrayAttach_OneLineBlock2)
 		"}\n";
 	char options[] = "brackets=attach, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(JavaBracketsArrayHorstmann_OneLineBlock2)
+TEST(BracketsArray, HorstmannJava_OneLineBlock2)
 {
 	// the single line block "{io.toString()}" should not be broken
 	char text[] =
@@ -2057,6 +2214,6 @@ TEST(JavaBracketsArrayHorstmann_OneLineBlock2)
 		"}\n";
 	char options[] = "brackets=horstmann, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }

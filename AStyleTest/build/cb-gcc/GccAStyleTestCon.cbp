@@ -8,41 +8,50 @@
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/astyletestcond" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="bin/" />
 				<Option object_output="objCond/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters="--terse_printer" />
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-DASTYLECON_LIB" />
+					<Add directory="../../src" />
+					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="/usr/include/unittest++" />
+					<Add directory="../../../gtest-1.4.0/include" />
 				</Compiler>
 				<Linker>
-					<Add library="UnitTest++" />
+					<Add library="bin/libgtestd.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/astyletestcon" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="bin/" />
 				<Option object_output="objCon/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-O3" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add option="-DNDEBUG" />
+					<Add directory="../../src" />
+					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="/usr/include/unittest++" />
+					<Add directory="../../../gtest-1.4.0/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="UnitTest++" />
+					<Add library="bin/libgtestd.a" />
 				</Linker>
 			</Target>
 			<Target title="Coverage">
 				<Option output="bin/astyletestconc" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="bin/" />
 				<Option object_output="objConc/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -54,17 +63,20 @@
 					<Add option="-ftest-coverage" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add option="-DASTYLECON_PRINT" />
+					<Add directory="../../src" />
+					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="/usr/include/unittest++" />
+					<Add directory="../../../gtest-1.4.0/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg" />
-					<Add library="UnitTest++" />
 					<Add library="gcov" />
+					<Add library="bin/libgtestd.a" />
 				</Linker>
 			</Target>
 			<Target title="Print">
 				<Option output="bin/astyletestconp" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="bin/" />
 				<Option object_output="objConp/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -74,11 +86,13 @@
 					<Add option="-g" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add option="-DASTYLECON_PRINT" />
+					<Add directory="../../src" />
+					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="/usr/include/unittest++" />
+					<Add directory="../../../gtest-1.4.0/include" />
 				</Compiler>
 				<Linker>
-					<Add library="UnitTest++" />
+					<Add library="bin/libgtestd.a" />
 				</Linker>
 			</Target>
 		</Build>
@@ -96,6 +110,8 @@
 		<Unit filename="../../srccon/AStyleTestCon_Console1.cpp" />
 		<Unit filename="../../srccon/AStyleTestCon_Console2.cpp" />
 		<Unit filename="../../srccon/AStyleTestCon_Main.cpp" />
+		<Unit filename="../../srcx/TersePrinter.cpp" />
+		<Unit filename="../../srcx/TersePrinter.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />

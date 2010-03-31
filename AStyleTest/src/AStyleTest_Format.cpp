@@ -9,7 +9,7 @@
 // Additional tests are in the Brackets tests
 //-------------------------------------------------------------------------
 
-TEST(BreakClosingBrackets)
+TEST(BreakClosingBrackets, LongOption)
 {
 	// test NONE_MODE brackets with break closing headers
 	char textIn[] =
@@ -33,11 +33,11 @@ TEST(BreakClosingBrackets)
 		"\n";
 	char options[] = "break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakClosingBrackets_Short)
+TEST(BreakClosingBrackets, ShortOption)
 {
 	// test NONE_MODE brackets with break closing headers
 	char textIn[] =
@@ -61,11 +61,11 @@ TEST(BreakClosingBrackets_Short)
 		"\n";
 	char options[] = "-y";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakClosingBrackets_Break)
+TEST(BreakClosingBrackets, Break)
 {
 	// test BREAK_MODE brackets with break closing headers
 	char textIn[] =
@@ -92,11 +92,11 @@ TEST(BreakClosingBrackets_Break)
 		"\n";
 	char options[] = "brackets=break, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakClosingBrackets_Attach)
+TEST(BreakClosingBrackets, Attach)
 {
 	// test ATTACH_MODE brackets with break closing headers
 	char textIn[] =
@@ -120,11 +120,11 @@ TEST(BreakClosingBrackets_Attach)
 		"\n";
 	char options[] = "brackets=attach, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakClosingBrackets_Linux)
+TEST(BreakClosingBrackets, Linux)
 {
 	// test LINUX_MODE brackets with break closing headers
 	char textIn[] =
@@ -149,11 +149,11 @@ TEST(BreakClosingBrackets_Linux)
 		"\n";
 	char options[] = "brackets=linux, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakClosingBrackets_Stroustrup)
+TEST(BreakClosingBrackets, Stroustrup)
 {
 	// test STROUSTRUP_MODE brackets with break closing headers
 	char textIn[] =
@@ -178,11 +178,11 @@ TEST(BreakClosingBrackets_Stroustrup)
 		"\n";
 	char options[] = "brackets=stroustrup, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakClosingBrackets_KeepBlocks)
+TEST(BreakClosingBrackets, KeepBlocks)
 {
 	// test break closing headers with keep one line blocks
 	// it shouldn't make any difference
@@ -207,11 +207,11 @@ TEST(BreakClosingBrackets_KeepBlocks)
 		"\n";
 	char options[] = "brackets=attach, break-closing-brackets, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakClosingBrackets_ElseSans)
+TEST(BreakClosingBrackets, ElseSans)
 {
 	// test if/else without break closing brackets
 	// else statement should be attached to the closing bracket
@@ -236,11 +236,11 @@ TEST(BreakClosingBrackets_ElseSans)
 		"\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakClosingBrackets_Catch)
+TEST(BreakClosingBrackets, Catch)
 {
 	// test try/catch with break closing brackets
 	char textIn[] =
@@ -263,11 +263,11 @@ TEST(BreakClosingBrackets_Catch)
 
 	char options[] = "brackets=attach, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakClosingBrackets_CatchSans)
+TEST(BreakClosingBrackets, CatchSans)
 {
 	// test try/catch without break closing brackets
 	// catch statement should be attached to the closing bracket
@@ -291,11 +291,11 @@ TEST(BreakClosingBrackets_CatchSans)
 
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakClosingBrackets_While)
+TEST(BreakClosingBrackets, While)
 {
 	// test do/while with break closing brackets
 	char textIn[] =
@@ -314,11 +314,11 @@ TEST(BreakClosingBrackets_While)
 
 	char options[] = "brackets=attach, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakClosingBrackets_WhileSans)
+TEST(BreakClosingBrackets, WhileSans)
 {
 	// test do/while without break closing brackets
 	// while statement should be attached to the closing bracket
@@ -338,7 +338,7 @@ TEST(BreakClosingBrackets_WhileSans)
 
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -346,7 +346,7 @@ TEST(BreakClosingBrackets_WhileSans)
 // AStyle Break Else If
 //-------------------------------------------------------------------------
 
-TEST(BreakElseIfs)
+TEST(BreakElseIfs, LongOption)
 {
 	// test break else/if
 	// else/if statements should be broken
@@ -412,11 +412,11 @@ TEST(BreakElseIfs)
 		"}\n";
 	char options[] = "break-elseifs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakElseIfs_Short)
+TEST(BreakElseIfs, ShortOption)
 {
 	// test break else/if short options
 	// else/if statements should be broken
@@ -482,11 +482,11 @@ TEST(BreakElseIfs_Short)
 		"}\n";
 	char options[] = "-e";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakElseIfs_Sans)
+TEST(BreakElseIfs, Sans)
 {
 	// test without break else/if
 	// else/if statements should be joined
@@ -550,11 +550,11 @@ TEST(BreakElseIfs_Sans)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BreakElseIfs_KeepOneLine)
+TEST(BreakElseIfs, KeepOneLine)
 {
 	// test break else/if with keep one line statements
 	// else/if statements remain the same with breaking/attaching
@@ -618,7 +618,7 @@ TEST(BreakElseIfs_KeepOneLine)
 		"}\n";
 	char options[] = "break-elseifs, keep-one-line-statements";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -626,7 +626,7 @@ TEST(BreakElseIfs_KeepOneLine)
 // AStyle Keep One Line Statements
 //-------------------------------------------------------------------------
 
-TEST(KeepOneLineStatements)
+TEST(KeepOneLineStatements, LongOption)
 {
 	// test keep one line statements
 	char text[] =
@@ -639,11 +639,11 @@ TEST(KeepOneLineStatements)
 		"}\n";
 	char options[] = "keep-one-line-statements";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(KeepOneLineStatements_Short)
+TEST(KeepOneLineStatements, ShortOption)
 {
 	// // test keep one line statements short option
 	char text[] =
@@ -656,7 +656,7 @@ TEST(KeepOneLineStatements_Short)
 		"}\n";
 	char options[] = "-o";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -664,7 +664,7 @@ TEST(KeepOneLineStatements_Short)
 // AStyle Keep One Line Blocks
 //-------------------------------------------------------------------------
 
-TEST(KeepOneLineBlocks)
+TEST(KeepOneLineBlocks, LongOption)
 {
 	// test keep one line blocks
 	char text[] =
@@ -674,11 +674,11 @@ TEST(KeepOneLineBlocks)
 		"}\n";
 	char options[] = "keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocks_Short)
+TEST(KeepOneLineBlocks, ShortOption)
 {
 	// test keep one line blocks short option
 	char text[] =
@@ -688,11 +688,11 @@ TEST(KeepOneLineBlocks_Short)
 		"}\n";
 	char options[] = "-O";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocks_StartOfLine)
+TEST(KeepOneLineBlocks, StartOfLine)
 {
 	// line beginning with one-line blocks do NOT get a extra indent
 	char text[] =
@@ -704,11 +704,11 @@ TEST(KeepOneLineBlocks_StartOfLine)
 		"};\n";
 	char options[] = "keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocks_NoneBrackets)
+TEST(KeepOneLineBlocks, NoneBrackets)
 {
 	// test keep one line blocks
 	char text[] =
@@ -720,11 +720,11 @@ TEST(KeepOneLineBlocks_NoneBrackets)
 		"}\n";
 	char options[] = "keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocks_BreakBrackets)
+TEST(KeepOneLineBlocks, BreakBrackets)
 {
 	// test keep one line blocks
 	char text[] =
@@ -736,11 +736,11 @@ TEST(KeepOneLineBlocks_BreakBrackets)
 		"}\n";
 	char options[] = "keep-one-line-blocks, brackets=break";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocks_AttachBrackets)
+TEST(KeepOneLineBlocks, AttachBrackets)
 {
 	// test keep one line blocks
 	char text[] =
@@ -751,10 +751,10 @@ TEST(KeepOneLineBlocks_AttachBrackets)
 		"}\n";
 	char options[] = "keep-one-line-blocks, brackets=attach";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
-TEST(KeepOneLineBlocks_LinuxBrackets)
+TEST(KeepOneLineBlocks, LinuxBrackets)
 {
 	// test keep one line blocks
 	char text[] =
@@ -766,11 +766,11 @@ TEST(KeepOneLineBlocks_LinuxBrackets)
 		"}\n";
 	char options[] = "keep-one-line-blocks, brackets=linux";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocks_HorstmannBrackets)
+TEST(KeepOneLineBlocks, HorstmannBrackets)
 {
 	// test keep one line blocks
 	char text[] =
@@ -781,11 +781,11 @@ TEST(KeepOneLineBlocks_HorstmannBrackets)
 		"}\n";
 	char options[] = "keep-one-line-blocks, brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocks_BreakElseIf)
+TEST(KeepOneLineBlocks, BreakElseIf)
 {
 	// test keep one line blocks and break elseifs
 	char textIn[] =
@@ -807,11 +807,11 @@ TEST(KeepOneLineBlocks_BreakElseIf)
 		"}\n";
 	char options[] = "keep-one-line-blocks, break-elseifs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocks_KeepOneLineStatementsAndBreakElseIf)
+TEST(KeepOneLineBlocks, KeepOneLineStatementsAndBreakElseIf)
 {
 	// test keep one line blocks and keep one line statements
 	//     with if statement and break elseifs
@@ -824,11 +824,11 @@ TEST(KeepOneLineBlocks_KeepOneLineStatementsAndBreakElseIf)
 		"}\n";
 	char options[] = "keep-one-line-blocks, keep-one-line-statements, break-elseifs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocks_MultipleBrackets)
+TEST(KeepOneLineBlocks, MultipleBrackets)
 {
 	// test keep one line blocks with multiple brackets
 	char text[] =
@@ -840,11 +840,11 @@ TEST(KeepOneLineBlocks_MultipleBrackets)
 		"}\n";
 	char options[] = "keep-one-line-blocks, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocks_Sans1)
+TEST(KeepOneLineBlocks, Sans1)
 {
 	// test without keep one line blocks
 	// should not break {} when break brackets
@@ -862,11 +862,11 @@ TEST(KeepOneLineBlocks_Sans1)
 		"}\n";
 	char options[] = "brackets=break, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocks_Sans2)
+TEST(KeepOneLineBlocks, Sans2)
 {
 	// test without keep one line blocks
 	// test attach bracket inside comment on single line block
@@ -885,11 +885,11 @@ TEST(KeepOneLineBlocks_Sans2)
 		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocks_SansMultipleBrackets)
+TEST(KeepOneLineBlocks, SansMultipleBrackets)
 {
 	// test without keep one line blocks with multiple brackets
 	// TODO: this is wrong on the next-to-last line
@@ -917,11 +917,11 @@ TEST(KeepOneLineBlocks_SansMultipleBrackets)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocks_NoneRunIn)
+TEST(KeepOneLineBlocks, NoneRunIn)
 {
 	// test none brackets with keep one line blocks and run-in
 	// should not indent the run-in
@@ -933,11 +933,11 @@ TEST(KeepOneLineBlocks_NoneRunIn)
 		"}\n";
 	char options[] = "keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocks_HorstmannRunIn)
+TEST(KeepOneLineBlocks, HorstmannRunIn)
 {
 	// test horstmann brackets with keep one line blocks and run-in
 	// should not indent the run-in
@@ -949,11 +949,11 @@ TEST(KeepOneLineBlocks_HorstmannRunIn)
 		"}\n";
 	char options[] = "keep-one-line-blocks, brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocks_NoneClosingHeader)
+TEST(KeepOneLineBlocks, NoneClosingHeader)
 {
 	// test keep one line blocks followed by a closing header
 	// should not attach header to the one line statement
@@ -965,11 +965,11 @@ TEST(KeepOneLineBlocks_NoneClosingHeader)
 		"}\n";
 	char options[] = "keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocks_BreakClosingHeader)
+TEST(KeepOneLineBlocks, BreakClosingHeader)
 {
 	// test keep one line blocks followed by a closing header
 	// should not attach header to the one line statement
@@ -982,11 +982,11 @@ TEST(KeepOneLineBlocks_BreakClosingHeader)
 		"}\n";
 	char options[] = "keep-one-line-blocks, brackets=break";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocks_AttachClosingHeader)
+TEST(KeepOneLineBlocks, AttachClosingHeader)
 {
 	// test keep one line blocks followed by a closing header
 	// should not attach header to the one line statement
@@ -998,11 +998,11 @@ TEST(KeepOneLineBlocks_AttachClosingHeader)
 		"}\n";
 	char options[] = "keep-one-line-blocks, brackets=attach";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocks_LinuxClosingHeader)
+TEST(KeepOneLineBlocks, LinuxClosingHeader)
 {
 	// test keep one line blocks followed by a closing header
 	// should not attach header to the one line statement
@@ -1015,7 +1015,7 @@ TEST(KeepOneLineBlocks_LinuxClosingHeader)
 		"}\n";
 	char options[] = "keep-one-line-blocks, brackets=linux";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1023,7 +1023,7 @@ TEST(KeepOneLineBlocks_LinuxClosingHeader)
 // AStyle Add Brackets
 //-------------------------------------------------------------------------
 
-TEST(AddBrackets)
+TEST(AddBrackets, LongOption)
 {
 	// test add brackets
 	char textIn[] =
@@ -1041,11 +1041,11 @@ TEST(AddBrackets)
 		"}\n";
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddBrackets_Short)
+TEST(AddBrackets, ShortOption)
 {
 	// test add brackets short option
 	char textIn[] =
@@ -1063,12 +1063,12 @@ TEST(AddBrackets_Short)
 		"}\n";
 	char options[] = "-j";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST(AddBrackets_All)
+TEST(AddBrackets, All)
 {
 	// test add brackets for all headers
 	char textIn[] =
@@ -1121,11 +1121,11 @@ TEST(AddBrackets_All)
 		"}\n";
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddBrackets_ElseIf)
+TEST(AddBrackets, ElseIf)
 {
 	// test add brackets for "else if" statements
 	char textIn[] =
@@ -1148,11 +1148,11 @@ TEST(AddBrackets_ElseIf)
 		"}\n";
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddBrackets_Sharp)
+TEST(AddBrackets, Sharp)
 {
 	// test add brackets to C# headers
 	// 'delegate' statement contans brackets
@@ -1179,11 +1179,11 @@ TEST(AddBrackets_Sharp)
 		"}\n";
 	char options[] = "add-brackets, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddBrackets_KeepOneLiners)
+TEST(AddBrackets, KeepOneLiners)
 {
 	// add brackets with keep one liners
 	// should break the added brackets
@@ -1237,11 +1237,11 @@ TEST(AddBrackets_KeepOneLiners)
 		"}\n";
 	char options[] = "add-brackets, keep-one-line-blocks, keep-one-line-statements";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddBrackets_SingleLine)
+TEST(AddBrackets, SingleLine)
 {
 	// add brackets to one line statements
 	// should break the statements
@@ -1287,11 +1287,11 @@ TEST(AddBrackets_SingleLine)
 		"}\n";
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddBrackets_SingleLineKeepOneLiners)
+TEST(AddBrackets, SingleLineKeepOneLiners)
 {
 	// add brackets to one line statements with keep one liners
 	// should keep one line blocks with added brackets
@@ -1323,11 +1323,11 @@ TEST(AddBrackets_SingleLineKeepOneLiners)
 		"}\n";
 	char options[] = "add-brackets, keep-one-line-blocks, keep-one-line-statements";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddBrackets_Break)
+TEST(AddBrackets, Break)
 {
 	// test add brackets for broken brackets
 	char textIn[] =
@@ -1352,11 +1352,11 @@ TEST(AddBrackets_Break)
 		"}\n";
 	char options[] = "add-brackets, brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddBrackets_Attach)
+TEST(AddBrackets, Attach)
 {
 	// test add brackets for attached brackets
 	char textIn[] =
@@ -1378,11 +1378,11 @@ TEST(AddBrackets_Attach)
 		"}\n";
 	char options[] = "add-brackets, brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddBrackets_Horstmann)
+TEST(AddBrackets, Horstmann)
 {
 	// test add brackets for horstmann brakets
 	char textIn[] =
@@ -1404,11 +1404,11 @@ TEST(AddBrackets_Horstmann)
 		"}\n";
 	char options[] = "add-brackets, brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddBrackets_ExtraSpaces)
+TEST(AddBrackets, ExtraSpaces)
 {
 	// extra spaces should be removed
 	char textIn[] =
@@ -1425,11 +1425,11 @@ TEST(AddBrackets_ExtraSpaces)
 		"}\n";
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddBrackets_ElseParen)
+TEST(AddBrackets, ElseParen)
 {
 	// else statement with following paren
 	char textIn[] =
@@ -1450,11 +1450,11 @@ TEST(AddBrackets_ElseParen)
 		"}\n";
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddBrackets_Quote)
+TEST(AddBrackets, Quote)
 {
 	// must bypass quote with semi-colons and escaped quote marks
 	char textIn[] =
@@ -1479,11 +1479,11 @@ TEST(AddBrackets_Quote)
 		"}\n";
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddBrackets_QuoteSans)
+TEST(AddBrackets, QuoteSans)
 {
 	// must bypass multi-line quote
 	char text[] =
@@ -1496,11 +1496,11 @@ TEST(AddBrackets_QuoteSans)
 		"}\n";
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddBrackets_Comment)
+TEST(AddBrackets, Comment)
 {
 	// must bypass comment before a semi-colon
 	// the last statement should be bracketed
@@ -1532,11 +1532,11 @@ TEST(AddBrackets_Comment)
 		"}\n";
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddBrackets_Sans)
+TEST(AddBrackets, Sans)
 {
 	// brackets should be added to specified headers only
 	char text[] =
@@ -1548,7 +1548,7 @@ TEST(AddBrackets_Sans)
 		"}\n";
 	char options[] = "add-brackets, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1557,7 +1557,7 @@ TEST(AddBrackets_Sans)
 // Implies keep-one-line-blocks
 //-------------------------------------------------------------------------
 
-TEST(AddOneLineBrackets)
+TEST(AddOneLineBrackets, LongOption)
 {
 	// test add one line brackets
 	char textIn[] =
@@ -1574,11 +1574,11 @@ TEST(AddOneLineBrackets)
 		"}\n";
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddOneLineBrackets_Short)
+TEST(AddOneLineBrackets, ShortOption)
 {
 	// test add one line brackets short option
 	char textIn[] =
@@ -1595,12 +1595,12 @@ TEST(AddOneLineBrackets_Short)
 		"}\n";
 	char options[] = "-J";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST(AddOneLineBrackets_All)
+TEST(AddOneLineBrackets, All)
 {
 	// test add one line brackets for all headers
 	char textIn[] =
@@ -1647,11 +1647,11 @@ TEST(AddOneLineBrackets_All)
 		"}\n";
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddOneLineBrackets_ElseIf)
+TEST(AddOneLineBrackets, ElseIf)
 {
 	// test add one line brackets for "else if" statements
 	char textIn[] =
@@ -1672,11 +1672,11 @@ TEST(AddOneLineBrackets_ElseIf)
 		"}\n";
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddOneLineBrackets_Sharp)
+TEST(AddOneLineBrackets, Sharp)
 {
 	// test add one line brackets to C# headers
 	// 'delegate' statement contans brackets
@@ -1700,11 +1700,11 @@ TEST(AddOneLineBrackets_Sharp)
 		"}\n";
 	char options[] = "add-one-line-brackets, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddOneLineBrackets_SingleLine)
+TEST(AddOneLineBrackets, SingleLine)
 {
 	// add one line brackets to one line statements
 	// should keep the one line statements
@@ -1738,11 +1738,11 @@ TEST(AddOneLineBrackets_SingleLine)
 		"}\n";
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddOneLineBrackets_SingleLineKeepOneLiners)
+TEST(AddOneLineBrackets, SingleLineKeepOneLiners)
 {
 	// add one line brackets to one line statements with keep one liners
 	// should keep the one liners (keep blocks is implied)
@@ -1774,11 +1774,11 @@ TEST(AddOneLineBrackets_SingleLineKeepOneLiners)
 		"}\n";
 	char options[] = "add-one-line-brackets, keep-one-line-statements";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddOneLineBrackets_Break)
+TEST(AddOneLineBrackets, Break)
 {
 	// test add one line brackets for broken brackets
 	char textIn[] =
@@ -1799,11 +1799,11 @@ TEST(AddOneLineBrackets_Break)
 		"}\n";
 	char options[] = "add-one-line-brackets, brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddOneLineBrackets_Attach)
+TEST(AddOneLineBrackets, Attach)
 {
 	// test add one line brackets for attached brackets
 	char textIn[] =
@@ -1824,11 +1824,11 @@ TEST(AddOneLineBrackets_Attach)
 		"}\n";
 	char options[] = "add-one-line-brackets, brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddOneLineBrackets_Horstmann)
+TEST(AddOneLineBrackets, Horstmann)
 {
 	// test add one line brackets for horstmann brakets
 	char textIn[] =
@@ -1848,11 +1848,11 @@ TEST(AddOneLineBrackets_Horstmann)
 		"}\n";
 	char options[] = "add-one-line-brackets, brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddOneLineBrackets_ExtraSpaces)
+TEST(AddOneLineBrackets, ExtraSpaces)
 {
 	// extra spaces should not be removed
 	char textIn[] =
@@ -1867,11 +1867,11 @@ TEST(AddOneLineBrackets_ExtraSpaces)
 		"}\n";
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddOneLineBrackets_ElseParen)
+TEST(AddOneLineBrackets, ElseParen)
 {
 	// else statement with following paren
 	char textIn[] =
@@ -1888,11 +1888,11 @@ TEST(AddOneLineBrackets_ElseParen)
 		"}\n";
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddOneLineBrackets_Quote)
+TEST(AddOneLineBrackets, Quote)
 {
 	// must bypass quote with semi-colons and escaped quote marks
 	char textIn[] =
@@ -1911,11 +1911,11 @@ TEST(AddOneLineBrackets_Quote)
 		"}\n";
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddOneLineBrackets_QuoteSans)
+TEST(AddOneLineBrackets, QuoteSans)
 {
 	// must bypass multi-line quote
 	char text[] =
@@ -1928,11 +1928,11 @@ TEST(AddOneLineBrackets_QuoteSans)
 		"}\n";
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddOneLineBrackets_Comment)
+TEST(AddOneLineBrackets, Comment)
 {
 	// must bypass comment before a semi-colon
 	// the last statement should be bracketed
@@ -1962,11 +1962,11 @@ TEST(AddOneLineBrackets_Comment)
 		"}\n";
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AddOneLineBrackets_Sans)
+TEST(AddOneLineBrackets, Sans)
 {
 	// brackets should be added to specified headers only
 	char text[] =
@@ -1978,7 +1978,7 @@ TEST(AddOneLineBrackets_Sans)
 		"}\n";
 	char options[] = "add-one-line-brackets, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1986,7 +1986,7 @@ TEST(AddOneLineBrackets_Sans)
 // AStyle Convert Tabs
 //-------------------------------------------------------------------------
 
-TEST(ConvertTabs)
+TEST(ConvertTabs, LongOption)
 {
 	// test convert tabs
 	char textIn[] =
@@ -2055,11 +2055,11 @@ TEST(ConvertTabs)
 		"};\n";
 	char options[] = "convert-tabs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ConvertTabs_Short)
+TEST(ConvertTabs, ShortOption)
 {
 	// test convert tabs short option
 	char textIn[] =
@@ -2096,11 +2096,11 @@ TEST(ConvertTabs_Short)
 		"}\n";
 	char options[] = "-c";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ConvertTabs_Misc1)
+TEST(ConvertTabs, Misc1)
 {
 	// convert comments, line comments, preprocessor
 	// do NOT convert quotes
@@ -2163,11 +2163,11 @@ TEST(ConvertTabs_Misc1)
 
 	char options[] = "convert-tabs, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ConvertTabs_Misc2)
+TEST(ConvertTabs, Misc2)
 {
 	// test convert-tabs with comments
 	char textIn[] =
@@ -2186,11 +2186,11 @@ TEST(ConvertTabs_Misc2)
 		"}\n";
 	char options[] = "convert-tabs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ConvertTabs_Misc3)
+TEST(ConvertTabs, Misc3)
 {
 	// test convert-tabs with line comments and tabbed output
 	// should NOT convert the leading tabs in a non-indent comment
@@ -2208,11 +2208,11 @@ TEST(ConvertTabs_Misc3)
 		"}\n";
 	char options[] = "convert-tabs, --indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ConvertTabs_Misc4)
+TEST(ConvertTabs, Misc4)
 {
 	// test convert-tabs with unpad-paren and pad-paren-in
 	// should replace the tab after the opening paren
@@ -2231,11 +2231,11 @@ TEST(ConvertTabs_Misc4)
 
 	char options[] = "convert-tabs, unpad-paren, pad-paren-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ConvertTabs_Misc5)
+TEST(ConvertTabs, Misc5)
 {
 	// test convert-tabs with comment continuation
 	char textIn[] =
@@ -2256,11 +2256,11 @@ TEST(ConvertTabs_Misc5)
 		"}\n";
 	char options[] = "convert-tabs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ConvertTabs_Misc6)
+TEST(ConvertTabs, Misc6)
 {
 	// verify that tabs are still present within quotes
 	// should NOT have been replaced when AStyle was run
@@ -2270,15 +2270,15 @@ TEST(ConvertTabs_Misc6)
 		"    char* quote = \"this	is	a	quote \";\n"
 		"}\n";
 	// just check for the tab characters
-	CHECK_EQUAL('\t', text[37]);
-	CHECK_EQUAL('\t', text[40]);
-	CHECK_EQUAL('\t', text[42]);
+	EXPECT_EQ('\t', text[37]);
+	EXPECT_EQ('\t', text[40]);
+	EXPECT_EQ('\t', text[42]);
 }
 
 //-------------------------------------------------------------------------
 // AStyle Align Pointer
 //-------------------------------------------------------------------------
-TEST(AlignPointerNone)
+TEST(AlignPointerNone, LongOption)
 {
 	// pointers and references should not be changed
 	char text[] =
@@ -2297,11 +2297,11 @@ TEST(AlignPointerNone)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerNone_Tabs)
+TEST(AlignPointerNone, Tabs)
 {
 	// test with tab separators
 	char text[] =
@@ -2314,11 +2314,11 @@ TEST(AlignPointerNone_Tabs)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerNone_AddressOf)
+TEST(AlignPointerNone, AddressOf)
 {
 	// "address of" operator should NOT be changed
 	char text[] =
@@ -2332,11 +2332,11 @@ TEST(AlignPointerNone_AddressOf)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerNone_Dereference)
+TEST(AlignPointerNone, Dereference)
 {
 	// dereference should NOT be changed
 	char text[] =
@@ -2365,11 +2365,11 @@ TEST(AlignPointerNone_Dereference)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerNone_GlobalVariables)
+TEST(AlignPointerNone, GlobalVariables)
 {
 	// test with global variables
 	char textIn[] =
@@ -2384,11 +2384,11 @@ TEST(AlignPointerNone_GlobalVariables)
 		"stringstream *_err = NULL;\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerNone_GlobalDeclarations)
+TEST(AlignPointerNone, GlobalDeclarations)
 {
 	// test with global declarations
 	char text[] =
@@ -2397,11 +2397,11 @@ TEST(AlignPointerNone_GlobalDeclarations)
 		"char&bar(char&);\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerNone_Cast1)
+TEST(AlignPointerNone, Cast1)
 {
 	// cast should not be changed
 	char text[] =
@@ -2417,11 +2417,11 @@ TEST(AlignPointerNone_Cast1)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerNone_Cast2)
+TEST(AlignPointerNone, Cast2)
 {
 	// cast should not be changed
 	char text[] =
@@ -2431,11 +2431,11 @@ TEST(AlignPointerNone_Cast2)
 		"void foo(wxCommandEvent &);\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerNone_ConvertTabs)
+TEST(AlignPointerNone, ConvertTabs)
 {
 	// test tab conversion
 	char textIn[] =
@@ -2456,11 +2456,11 @@ TEST(AlignPointerNone_ConvertTabs)
 		"}\n";
 	char options[] = "convert-tabs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerNone_Paren)
+TEST(AlignPointerNone, Paren)
 {
 	// test pointer recognition in a paren
 	char text[] =
@@ -2475,11 +2475,11 @@ TEST(AlignPointerNone_Paren)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerNone_PointerToPointer)
+TEST(AlignPointerNone, PointerToPointer)
 {
 	// test double pointer
 	char text[] =
@@ -2494,11 +2494,11 @@ TEST(AlignPointerNone_PointerToPointer)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerNone_EndOfLine1)
+TEST(AlignPointerNone, EndOfLine1)
 {
 	// test pointer at end of line
 	char text[] =
@@ -2509,11 +2509,11 @@ TEST(AlignPointerNone_EndOfLine1)
 		"bar() {}\n";
 	char options[] = "keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerNone_EndOfLine2)
+TEST(AlignPointerNone, EndOfLine2)
 {
 	// test pointer at end of line with spaces or comment after
 	char textIn[] =
@@ -2548,11 +2548,11 @@ TEST(AlignPointerNone_EndOfLine2)
 		"bar() {}\n";
 	char options[] = "keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerNone_Comment)
+TEST(AlignPointerNone, Comment)
 {
 	// test pointer with comment after
 	char text[] =
@@ -2561,11 +2561,11 @@ TEST(AlignPointerNone_Comment)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerNone_OperatorOverload)
+TEST(AlignPointerNone, OperatorOverload)
 {
 	// test pointer with overloaded operator
 	char text[] =
@@ -2576,11 +2576,11 @@ TEST(AlignPointerNone_OperatorOverload)
 		"};\n";
 	char options[] = "keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerNone_ConversionOperator)
+TEST(AlignPointerNone, ConversionOperator)
 {
 	// test pointer with conversion operator
 	char text[] =
@@ -2600,11 +2600,11 @@ TEST(AlignPointerNone_ConversionOperator)
 		"bool bb      = (bool) tb;\n";
 	char options[] = "keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerNone_ScopeResolution)
+TEST(AlignPointerNone, ScopeResolution)
 {
 	// should not change scope resolution operator
 	char text[] =
@@ -2616,11 +2616,11 @@ TEST(AlignPointerNone_ScopeResolution)
 		"} cv;\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerNone_UnpadParen)
+TEST(AlignPointerNone, UnpadParen)
 {
 	// unpad-paren should NOT delete space padding
 	char text[] =
@@ -2628,11 +2628,11 @@ TEST(AlignPointerNone_UnpadParen)
 		"LUA_API const void     *(lua_topointer)(lua_State *L, int idx);\n";
 	char options[] = "unpad-paren";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType)
+TEST(AlignPointerType, LongOption)
 {
 	// test align pointer=type
 	char textIn[] =
@@ -2665,11 +2665,11 @@ TEST(AlignPointerType)
 		"}\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType_Short)
+TEST(AlignPointerType, ShortOption)
 {
 	// test align pointer=type short option
 	char textIn[] =
@@ -2686,11 +2686,11 @@ TEST(AlignPointerType_Short)
 		"}\n";
 	char options[] = "-k1";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType_FromCentered)
+TEST(AlignPointerType, FromCentered)
 {
 	// test align pointer=type when input is centered
 	// a space is deleted in certain circumstances
@@ -2738,11 +2738,11 @@ TEST(AlignPointerType_FromCentered)
 		"}\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType_Tabs)
+TEST(AlignPointerType, Tabs)
 {
 	// test with tab separators
 	char textIn[] =
@@ -2763,11 +2763,11 @@ TEST(AlignPointerType_Tabs)
 		"}\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType_AddressOf)
+TEST(AlignPointerType, AddressOf)
 {
 	// "address of" operator should NOT be separated from the name
 	char text[] =
@@ -2781,11 +2781,11 @@ TEST(AlignPointerType_AddressOf)
 		"}\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType_Dereference)
+TEST(AlignPointerType, Dereference)
 {
 	// dereference should NOT be separated from the name
 	char text[] =
@@ -2814,11 +2814,11 @@ TEST(AlignPointerType_Dereference)
 		"}\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType_GlobalVariables)
+TEST(AlignPointerType, GlobalVariables)
 {
 	// test with global variables
 	char textIn[] =
@@ -2833,11 +2833,11 @@ TEST(AlignPointerType_GlobalVariables)
 		"stringstream* _err = NULL;\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType_GlobalDeclarations)
+TEST(AlignPointerType, GlobalDeclarations)
 {
 	// test with global declarations
 	char textIn[] =
@@ -2850,11 +2850,11 @@ TEST(AlignPointerType_GlobalDeclarations)
 		"char& bar(char&);\n";;
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType_Cast1)
+TEST(AlignPointerType, Cast1)
 {
 	// cast should not be space padded
 	char textIn[] =
@@ -2881,11 +2881,11 @@ TEST(AlignPointerType_Cast1)
 		"}\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType_Cast2)
+TEST(AlignPointerType, Cast2)
 {
 	// cast should not be space padded
 	char textIn[] =
@@ -2896,11 +2896,11 @@ TEST(AlignPointerType_Cast2)
 		"void foo(void* fooBar, void* fooBar);\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType_ConvertTabs)
+TEST(AlignPointerType, ConvertTabs)
 {
 	// test tab conversion on type
 	char textIn[] =
@@ -2921,11 +2921,11 @@ TEST(AlignPointerType_ConvertTabs)
 		"}\n";
 	char options[] = "align-pointer=type, convert-tabs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType_Paren)
+TEST(AlignPointerType, Paren)
 {
 	// test pointer recognition in a paren
 	char textIn[] =
@@ -2942,11 +2942,11 @@ TEST(AlignPointerType_Paren)
 		"}\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType_PointerToPointer)
+TEST(AlignPointerType, PointerToPointer)
 {
 	// test double pointer
 	char textIn[] =
@@ -2971,11 +2971,11 @@ TEST(AlignPointerType_PointerToPointer)
 		"}\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType_EndOfLine1)
+TEST(AlignPointerType, EndOfLine1)
 {
 	// test pointer at end of line
 	char textIn[] =
@@ -2992,11 +2992,11 @@ TEST(AlignPointerType_EndOfLine1)
 		"bar() {}\n";
 	char options[] = "align-pointer=type, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType_EndOfLine2)
+TEST(AlignPointerType, EndOfLine2)
 {
 	// test pointer at end of line with spaces or comment after
 	char textIn[] =
@@ -3031,11 +3031,11 @@ TEST(AlignPointerType_EndOfLine2)
 		"bar() {}\n";
 	char options[] = "align-pointer=type, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType_Comment)
+TEST(AlignPointerType, Comment)
 {
 	// test pointer with comment after
 	char textIn[] =
@@ -3048,11 +3048,11 @@ TEST(AlignPointerType_Comment)
 		"}\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType_OperatorOverload)
+TEST(AlignPointerType, OperatorOverload)
 {
 	// test pointer with overloaded operator
 	char textIn[] =
@@ -3069,11 +3069,11 @@ TEST(AlignPointerType_OperatorOverload)
 		"};\n";
 	char options[] = "align-pointer=type, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType_ConversionOperator)
+TEST(AlignPointerType, ConversionOperator)
 {
 	// test pointer with conversion operator
 	char textIn[] =
@@ -3108,11 +3108,11 @@ TEST(AlignPointerType_ConversionOperator)
 		"bool bb      = (bool) tb;\n";
 	char options[] = "align-pointer=type, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType_ScopeResolution)
+TEST(AlignPointerType, ScopeResolution)
 {
 	// should pad scope resolution operator
 	char textIn[] =
@@ -3131,11 +3131,11 @@ TEST(AlignPointerType_ScopeResolution)
 		"} cv;\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType_UnpadParen)
+TEST(AlignPointerType, UnpadParen)
 {
 	// unpad-paren should NOT delete space padding
 	char textIn[] =
@@ -3146,11 +3146,11 @@ TEST(AlignPointerType_UnpadParen)
 		"LUA_API const void*     (lua_topointer)(lua_State* L, int idx);\n";
 	char options[] = "align-pointer=type, unpad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType_Catch)
+TEST(AlignPointerType, Catch)
 {
 	// 'catch' statement is a reference, not an operator
 	char textIn[] =
@@ -3175,11 +3175,11 @@ TEST(AlignPointerType_Catch)
 		"}\n";
 	char options[] = "align-pointer=type, pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType_AndOperator)
+TEST(AlignPointerType, AndOperator)
 {
 	// should not unpad && operator
 	char text[] =
@@ -3195,11 +3195,11 @@ TEST(AlignPointerType_AndOperator)
 		"}\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType_Sans1)
+TEST(AlignPointerType, Sans1)
 {
 	// these are not pointers
 	char text[] =
@@ -3214,11 +3214,11 @@ TEST(AlignPointerType_Sans1)
 		"}\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerType_Sans2)
+TEST(AlignPointerType, Sans2)
 {
 	// these should be padded as operators
 	char textIn[] =
@@ -3257,11 +3257,11 @@ TEST(AlignPointerType_Sans2)
 		"}\n";
 	char options[] = "align-pointer=type, pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle)
+TEST(AlignPointerMiddle, LongOption)
 {
 	// test align pointer=middle
 	char textIn[] =
@@ -3294,11 +3294,11 @@ TEST(AlignPointerMiddle)
 		"}\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle_Short)
+TEST(AlignPointerMiddle, ShortOption)
 {
 	// test align pointer=middle short option
 	char textIn[] =
@@ -3315,11 +3315,11 @@ TEST(AlignPointerMiddle_Short)
 		"}\n";
 	char options[] = "-k2";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle_Tabs)
+TEST(AlignPointerMiddle, Tabs)
 {
 	// test with tab separators
 	char textIn[] =
@@ -3340,11 +3340,11 @@ TEST(AlignPointerMiddle_Tabs)
 		"}\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle_AddressOf)
+TEST(AlignPointerMiddle, AddressOf)
 {
 	// "address of" operator should NOT be separated from the name
 	char text[] =
@@ -3358,11 +3358,11 @@ TEST(AlignPointerMiddle_AddressOf)
 		"}\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle_Dereference)
+TEST(AlignPointerMiddle, Dereference)
 {
 	// dereference should NOT be separated from the name
 	char text[] =
@@ -3391,11 +3391,11 @@ TEST(AlignPointerMiddle_Dereference)
 		"}\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle_GlobalVariables)
+TEST(AlignPointerMiddle, GlobalVariables)
 {
 	// test with global variables
 	char textIn[] =
@@ -3410,11 +3410,11 @@ TEST(AlignPointerMiddle_GlobalVariables)
 		"stringstream * _err = NULL;\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle_GlobalDeclarations)
+TEST(AlignPointerMiddle, GlobalDeclarations)
 {
 	// test with global declarations
 	char textIn[] =
@@ -3427,11 +3427,11 @@ TEST(AlignPointerMiddle_GlobalDeclarations)
 		"char & bar(char &);\n";;
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle_Cast1)
+TEST(AlignPointerMiddle, Cast1)
 {
 	// cast should be space padded
 	char textIn[] =
@@ -3458,11 +3458,11 @@ TEST(AlignPointerMiddle_Cast1)
 		"}\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle_Cast2)
+TEST(AlignPointerMiddle, Cast2)
 {
 	// cast should be space padded
 	char textIn[] =
@@ -3473,11 +3473,11 @@ TEST(AlignPointerMiddle_Cast2)
 		"void foo(void * fooBar, void * fooBar);\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle_ConvertTabs)
+TEST(AlignPointerMiddle, ConvertTabs)
 {
 	// test tab conversion on type
 	char textIn[] =
@@ -3498,11 +3498,11 @@ TEST(AlignPointerMiddle_ConvertTabs)
 		"}\n";
 	char options[] = "align-pointer=middle, convert-tabs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle_Paren)
+TEST(AlignPointerMiddle, Paren)
 {
 	// test pointer recognition in a paren
 	char textIn[] =
@@ -3519,11 +3519,11 @@ TEST(AlignPointerMiddle_Paren)
 		"}\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle_PointerToPointer)
+TEST(AlignPointerMiddle, PointerToPointer)
 {
 	// test double pointer
 	char textIn[] =
@@ -3548,11 +3548,11 @@ TEST(AlignPointerMiddle_PointerToPointer)
 		"}\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle_EndOfLine1)
+TEST(AlignPointerMiddle, EndOfLine1)
 {
 	// test pointer at end of line
 	char textIn[] =
@@ -3569,11 +3569,11 @@ TEST(AlignPointerMiddle_EndOfLine1)
 		"bar() {}\n";
 	char options[] = "align-pointer=middle, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle_EndOfLine2)
+TEST(AlignPointerMiddle, EndOfLine2)
 {
 	// test pointer at end of line with spaces or comment after
 	char textIn[] =
@@ -3608,11 +3608,11 @@ TEST(AlignPointerMiddle_EndOfLine2)
 		"bar() {}\n";
 	char options[] = "align-pointer=middle, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle_Comment)
+TEST(AlignPointerMiddle, Comment)
 {
 	// test pointer with comment after
 	char textIn[] =
@@ -3625,11 +3625,11 @@ TEST(AlignPointerMiddle_Comment)
 		"}\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle_OperatorOverload)
+TEST(AlignPointerMiddle, OperatorOverload)
 {
 	// test pointer with overloaded operator
 	char textIn[] =
@@ -3646,11 +3646,11 @@ TEST(AlignPointerMiddle_OperatorOverload)
 		"};\n";
 	char options[] = "align-pointer=middle, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle_ConversionOperator)
+TEST(AlignPointerMiddle, ConversionOperator)
 {
 	// test pointer with conversion operator
 	char textIn[] =
@@ -3685,11 +3685,11 @@ TEST(AlignPointerMiddle_ConversionOperator)
 		"bool bb      = (bool) tb;\n";
 	char options[] = "align-pointer=middle, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle_ScopeResolution)
+TEST(AlignPointerMiddle, ScopeResolution)
 {
 	// should pad scope resolution operator
 	char textIn[] =
@@ -3708,11 +3708,11 @@ TEST(AlignPointerMiddle_ScopeResolution)
 		"} cv;\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle_UnpadParen)
+TEST(AlignPointerMiddle, UnpadParen)
 {
 	// unpad-paren should NOT delete space padding
 	char textIn[] =
@@ -3723,11 +3723,11 @@ TEST(AlignPointerMiddle_UnpadParen)
 		"LUA_API const void   *  (lua_topointer)(lua_State * L, int idx);\n";
 	char options[] = "align-pointer=middle, unpad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle_Catch)
+TEST(AlignPointerMiddle, Catch)
 {
 	// 'catch' statement is a reference, not an operator
 	char textIn[] =
@@ -3752,11 +3752,11 @@ TEST(AlignPointerMiddle_Catch)
 		"}\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle_AndOperator)
+TEST(AlignPointerMiddle, AndOperator)
 {
 	// should not unpad && operator
 	char text[] =
@@ -3772,11 +3772,11 @@ TEST(AlignPointerMiddle_AndOperator)
 		"}\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle_Sans1)
+TEST(AlignPointerMiddle, Sans1)
 {
 	// these are not pointers
 	char text[] =
@@ -3791,11 +3791,11 @@ TEST(AlignPointerMiddle_Sans1)
 		"}\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle_Sans2)
+TEST(AlignPointerMiddle, Sans2)
 {
 	// these should be padded as operators
 	char textIn[] =
@@ -3834,11 +3834,11 @@ TEST(AlignPointerMiddle_Sans2)
 		"}\n";
 	char options[] = "align-pointer=middle, pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName)
+TEST(AlignPointerName, LongOption)
 {
 	// test align pointer=name
 	char textIn[] =
@@ -3871,11 +3871,11 @@ TEST(AlignPointerName)
 		"}\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName_Short)
+TEST(AlignPointerName, ShortOption)
 {
 	// test align pointer=name short option
 	char textIn[] =
@@ -3892,11 +3892,11 @@ TEST(AlignPointerName_Short)
 		"}\n";
 	char options[] = "-k3";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName_FromCentered)
+TEST(AlignPointerName, FromCentered)
 {
 	// test align pointer=name when input is centered
 	// a space is deleted in certain circumstances
@@ -3944,11 +3944,11 @@ TEST(AlignPointerName_FromCentered)
 		"}\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName_Tabs)
+TEST(AlignPointerName, Tabs)
 {
 	// test with tab separators
 	char textIn[] =
@@ -3969,11 +3969,11 @@ TEST(AlignPointerName_Tabs)
 		"}\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName_AddressOf)
+TEST(AlignPointerName, AddressOf)
 {
 	// "address of" operator should NOT be separated from the name
 	char text[] =
@@ -3987,11 +3987,11 @@ TEST(AlignPointerName_AddressOf)
 		"}\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName_Dereference)
+TEST(AlignPointerName, Dereference)
 {
 	// dereference should NOT be separated from the name
 	char text[] =
@@ -4020,11 +4020,11 @@ TEST(AlignPointerName_Dereference)
 		"}\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName_GlobalVariables)
+TEST(AlignPointerName, GlobalVariables)
 {
 	// test with global variables
 	char textIn[] =
@@ -4039,11 +4039,11 @@ TEST(AlignPointerName_GlobalVariables)
 		"stringstream *_err = NULL;\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName_GlobalDeclarations)
+TEST(AlignPointerName, GlobalDeclarations)
 {
 	// test with global declarations
 	char textIn[] =
@@ -4056,11 +4056,11 @@ TEST(AlignPointerName_GlobalDeclarations)
 		"char &bar(char &);\n";;
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName_Cast1)
+TEST(AlignPointerName, Cast1)
 {
 	// cast should be space padded
 	char textIn[] =
@@ -4087,11 +4087,11 @@ TEST(AlignPointerName_Cast1)
 		"}\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName_Cast2)
+TEST(AlignPointerName, Cast2)
 {
 	// cast should be space padded
 	char textIn[] =
@@ -4102,11 +4102,11 @@ TEST(AlignPointerName_Cast2)
 		"void foo(void *fooBar, void *fooBar);\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName_ConvertTabs)
+TEST(AlignPointerName, ConvertTabs)
 {
 	// test tab conversion on type
 	char textIn[] =
@@ -4127,11 +4127,11 @@ TEST(AlignPointerName_ConvertTabs)
 		"}\n";
 	char options[] = "align-pointer=name, convert-tabs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName_Paren)
+TEST(AlignPointerName, Paren)
 {
 	// test pointer recognition in a paren
 	char textIn[] =
@@ -4148,11 +4148,11 @@ TEST(AlignPointerName_Paren)
 		"}\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName_PointerToPointer)
+TEST(AlignPointerName, PointerToPointer)
 {
 	// test double pointer
 	char textIn[] =
@@ -4175,11 +4175,11 @@ TEST(AlignPointerName_PointerToPointer)
 		"}\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName_EndOfLine1)
+TEST(AlignPointerName, EndOfLine1)
 {
 	// test pointer at end of line
 	char textIn[] =
@@ -4196,11 +4196,11 @@ TEST(AlignPointerName_EndOfLine1)
 		"bar() {}\n";
 	char options[] = "align-pointer=name, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName_EndOfLine2)
+TEST(AlignPointerName, EndOfLine2)
 {
 	// test pointer at end of line with spaces or comment after
 	char textIn[] =
@@ -4235,11 +4235,11 @@ TEST(AlignPointerName_EndOfLine2)
 		"bar() {}\n";
 	char options[] = "align-pointer=name, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName_Comment)
+TEST(AlignPointerName, Comment)
 {
 	// test pointer with comment after
 	char textIn[] =
@@ -4252,11 +4252,11 @@ TEST(AlignPointerName_Comment)
 		"}\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName_OperatorOverload)
+TEST(AlignPointerName, OperatorOverload)
 {
 	// test pointer with overloaded operator
 	char textIn[] =
@@ -4273,11 +4273,11 @@ TEST(AlignPointerName_OperatorOverload)
 		"};\n";
 	char options[] = "align-pointer=name, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName_ConversionOperator)
+TEST(AlignPointerName, ConversionOperator)
 {
 	// test pointer with conversion operator
 	char textIn[] =
@@ -4312,11 +4312,11 @@ TEST(AlignPointerName_ConversionOperator)
 		"bool bb      = (bool) tb;\n";
 	char options[] = "align-pointer=name, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName_ScopeResolution)
+TEST(AlignPointerName, ScopeResolution)
 {
 	// should not pad scope resolution operator
 	char textIn[] =
@@ -4335,11 +4335,11 @@ TEST(AlignPointerName_ScopeResolution)
 		"} cv;\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName_UnpadParen)
+TEST(AlignPointerName, UnpadParen)
 {
 	// unpad-paren should NOT delete space padding
 	char textIn[] =
@@ -4350,11 +4350,11 @@ TEST(AlignPointerName_UnpadParen)
 		"LUA_API const void     *(lua_topointer)(lua_State *L, int idx);\n";
 	char options[] = "align-pointer=name, unpad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName_Catch)
+TEST(AlignPointerName, Catch)
 {
 	// 'catch' statement is a reference, not an operator
 	char textIn[] =
@@ -4379,11 +4379,11 @@ TEST(AlignPointerName_Catch)
 		"}\n";
 	char options[] = "align-pointer=name, pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName_AndOperator)
+TEST(AlignPointerName, AndOperator)
 {
 	// should not unpad && operator
 	char text[] =
@@ -4399,11 +4399,11 @@ TEST(AlignPointerName_AndOperator)
 		"}\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName_Sans1)
+TEST(AlignPointerName, Sans1)
 {
 	// these are not pointers
 	char text[] =
@@ -4418,11 +4418,11 @@ TEST(AlignPointerName_Sans1)
 		"}\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointerName_Sans2)
+TEST(AlignPointerName, Sans2)
 {
 	// these should be padded as operators
 	char textIn[] =
@@ -4461,11 +4461,11 @@ TEST(AlignPointerName_Sans2)
 		"}\n";
 	char options[] = "align-pointer=name, pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointer_ShortLowerLimit)
+TEST(AlignPointer, ShortLowerLimit)
 {
 	// test error handling for the short option lower limit
 	// should call the error handler
@@ -4479,11 +4479,11 @@ TEST(AlignPointer_ShortLowerLimit)
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
-	CHECK_EQUAL(errorsIn + 1, errorsOut);
+	EXPECT_EQ(errorsIn + 1, errorsOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointer_ShortUpperLimit)
+TEST(AlignPointer, ShortUpperLimit)
 {
 	// test error handling for the short option upper limit
 	// should call the error handler
@@ -4497,11 +4497,11 @@ TEST(AlignPointer_ShortUpperLimit)
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
-	CHECK_EQUAL(errorsIn + 1, errorsOut);
+	EXPECT_EQ(errorsIn + 1, errorsOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointer_Java)
+TEST(AlignPointer, Java)
 {
 	// align-pointer should have no effect on Java
 	// should pad-oper not align-pointer=type
@@ -4519,11 +4519,11 @@ TEST(AlignPointer_Java)
 		"}\n";
 	char options[] = "mode=java, pad-oper, align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(AlignPointer_Sharp)
+TEST(AlignPointer, Sharp)
 {
 	// align-pointer should have no effect on C#
 	// should pad-oper not align-pointer=type
@@ -4541,7 +4541,7 @@ TEST(AlignPointer_Sharp)
 		"}\n";
 	char options[] = "mode=cs, pad-oper, align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -4550,7 +4550,7 @@ TEST(AlignPointer_Sharp)
 // there are other tests in AStyleTestCon
 //----------------------------------------------------------------------------
 
-struct defaultLineEnds
+struct LineEndsDefaultF : public ::testing::Test
 {
 	string textLinuxStr;
 	string textWindowsStr;
@@ -4559,7 +4559,7 @@ struct defaultLineEnds
 	const char* textWindows;
 	const char* textMacOld;
 
-	defaultLineEnds()
+	LineEndsDefaultF()
 	{
 		textLinuxStr =
 			"\nvoid foo()\n"
@@ -4582,34 +4582,34 @@ struct defaultLineEnds
 	}
 };
 
-TEST_FIXTURE(defaultLineEnds, LineEndsDefault_Linux)
+TEST_F(LineEndsDefaultF, Linux)
 {
 	// test default Linux line ends
 	char options[] = "";
 	char* textOut = AStyleMain(textLinux, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(textLinux, textOut);
+	EXPECT_STREQ(textLinux, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(defaultLineEnds, LineEndsDefault_Windows)
+TEST_F(LineEndsDefaultF, Windows)
 {
 	// test default Windows line ends
 	char options[] = "";
 	char* textOut = AStyleMain(textWindows, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(textWindows, textOut);
+	EXPECT_STREQ(textWindows, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(defaultLineEnds, LineEndsDefault_MacOld)
+TEST_F(LineEndsDefaultF, MacOld)
 {
 	// test default MacOld line ends
 	char options[] = "";
 	char* textOut = AStyleMain(textMacOld, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(textMacOld, textOut);
+	EXPECT_STREQ(textMacOld, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(defaultLineEnds, LineEndsDefault_BadWindows)
+TEST_F(LineEndsDefaultF, BadWindows)
 {
 	// test default Windows with line end characters reversed
 	// should be converted to Windows
@@ -4620,6 +4620,6 @@ TEST_FIXTURE(defaultLineEnds, LineEndsDefault_BadWindows)
 		"}\n\r";
 	char options[] = "";
 	char* textOut = AStyleMain(textBadWindows, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(textWindows, textOut);
+	EXPECT_STREQ(textWindows, textOut);
 	delete [] textOut;
 }

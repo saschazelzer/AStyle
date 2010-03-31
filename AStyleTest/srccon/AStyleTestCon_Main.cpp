@@ -8,29 +8,66 @@
 // headers
 //----------------------------------------------------------------------------
 
+// NOTE: gtest.h must be BEFORE windows.h for the MinGW compiler.
+// This can be changed when MinGW fixes the error (reported apr 1, 2010).
+#include "gtest/gtest.h"
+
 #ifdef _WIN32
 #include <windows.h>
 #else
 #include <dirent.h>
-// #include <sys/stat.h>
-// #include <sys/types.h>
-// #include <unistd.h>
-#define min(a, b)  (((a) < (b)) ? (a) : (b))	// as defined in windows.h
 #endif
 
+#include "TersePrinter.h"
 #include "AStyleTestCon.h"
+
+//----------------------------------------------------------------------------
+// global variables
+//----------------------------------------------------------------------------
+
+string *_testDirectory = NULL;	// file path of the test directory
 
 //----------------------------------------------------------------------------
 // main function
 //----------------------------------------------------------------------------
 
-int main(int /*argc*/, char** /*argv*/)
-// run all tests
+int main(int argc, char **argv)
 {
+	// set global variable *_projectDirectory
+	setTestDirectory(argv[0]);
+	printf("Test directory: %s.\n", (*_testDirectory).c_str());
+
+	// parse command line BEFORE InitGoogleTest
+	bool use_terse_printer = false;
+	bool use_color = true;
+	for (int i = 1; i < argc; i++)
+	{
+		if (strcmp(argv[i], "--terse_printer") == 0 )
+			use_terse_printer = true;
+		else if (strcmp(argv[i], "--gtest_color=no") == 0 )
+			use_color = false;
+	}
+
+	// do this after parsing the command line but before changing printer
+	testing::InitGoogleTest(&argc, argv);
+
+	// change to TersePrinter
+	if (use_terse_printer)
+	{
+		UnitTest& unit_test = *UnitTest::GetInstance();
+		testing::TestEventListeners& listeners = unit_test.listeners();
+		delete listeners.Release(listeners.default_result_printer());
+		listeners.Append(new TersePrinter(use_color));
+	}
+
+	// begin unit testing
 	createTestDirectory(getTestDirectory());
-	int retval = UnitTest::RunAllTests();
-//	removeTestDirectory(getTestDirectory());
-	system("pause");		// sometimes needed for debug
+	int retval = RUN_ALL_TESTS();
+	
+	// end of unit testing
+	removeTestDirectory(getTestDirectory());
+	delete _testDirectory;
+//	system("pause");		// sometimes needed for debug
 	return retval;
 }
 
@@ -79,10 +116,7 @@ void cleanTestDirectory(const string &directory)
 	string firstFile = directory + "\\*";
 	HANDLE hFind = FindFirstFile(firstFile.c_str(), &FindFileData);
 	if (hFind == INVALID_HANDLE_VALUE)
-	{
-		systemPause("Cannot open directory for clean: " + directory);
-		return;
-	}
+		systemAbort("Cannot open directory for clean: " + directory);
 
 	// remove files and sub directories
 	do
@@ -113,10 +147,7 @@ void cleanTestDirectory(const string &directory)
 	FindClose(hFind);
 	DWORD dwError = GetLastError();
 	if (dwError != ERROR_NO_MORE_FILES)
-	{
-		systemPause("Error processing directory for clean: " + directory);
-		return;
-	}
+		systemAbort("Error processing directory for clean: " + directory);
 }
 #else
 void cleanTestDirectory(const string &directory)
@@ -134,8 +165,7 @@ void cleanTestDirectory(const string &directory)
 	if (errno)
 	{
 		perror("errno message");
-		systemPause("Cannot open directory for clean: " + directory);
-		return;
+		systemAbort("Cannot open directory for clean: " + directory);
 	}
 
 	// remove files and sub directories
@@ -196,7 +226,7 @@ void createConsoleGlobalObject(ASFormatter& formatter)
 {
 	if (g_console)
 	{
-		systemPause("Global object not deleted");
+		systemPause("Global object not deleted by previous test.");
 		deleteConsoleGlobalObject();
 	}
 	g_console = new ASConsole(formatter);
@@ -224,17 +254,13 @@ void createTestFile(const string& testFilePath, const char* testFileText, int si
 	if (testFilePath.compare(0, testDir.length(), testDir) != 0
 			|| !(testFilePath[testDir.length()] == '/'
 				 || testFilePath[testDir.length()] == '\\'))
-	{
-		systemPause("File not written to test directory: " + testFilePath);
-		return;
-	}
+		systemAbort("File not written to test directory: " + testFilePath);
+
 	// write the output file
 	ofstream fout(testFilePath.c_str(), ios::binary | ios::trunc);
 	if (!fout)
-	{
-		systemPause("Could not open output file: " + testFilePath);
-		return;
-	}
+		systemAbort("Could not open output file: " + testFilePath);
+
 	if (size == 0)
 		fout << testFileText;
 	else
@@ -273,25 +299,14 @@ string getCurrentDirectory()
 		gotDirectory = false;
 #endif
 	if (!gotDirectory)
-		systemPause("Cannot get current directory");
+		systemAbort("Cannot get current directory");
 	return currentDirectory;
 }
 
 string getTestDirectory()
-// get the file path of the test directory
+// return file path of the global test directory
 {
-	string dirPath;
-	string dirName = "ut-testcon";
-#ifdef _WIN32
-#ifdef _MSC_VER
-	dirPath = "..\\..\\..\\" + dirName;
-#else
-	dirPath = "..\\..\\" + dirName;
-#endif
-#else
-	dirPath = "../../" + dirName;
-#endif
-	return dirPath;
+	return (*_testDirectory);
 }
 
 void removeTestDirectory(const string &dirName)
@@ -315,6 +330,38 @@ void removeTestFile(const string& testFileName)
 		perror("errno message");
 		systemPause("Cannot remove test file: " + testFileName);
 	}
+}
+
+void setTestDirectory(char *argv)
+// set the global variable *_testDirectory
+{
+	assert(_testDirectory == NULL);
+	string testDirectory = argv;
+
+	// remove "build" directories
+#ifdef _WIN32
+	string buildDirectory = "\\build\\";
+	string separator = "\\";
+#else
+	string buildDirectory = "/build/";
+	string separator = "/";
+#endif
+	size_t i = testDirectory.rfind(buildDirectory);
+	if (i == string::npos)
+		systemAbort("Cannot extract test directory from: " + testDirectory);
+	testDirectory = testDirectory.substr(0, i);
+
+	// create global *_projectDirectory
+	testDirectory += separator + "ut-testcon";
+	_testDirectory = new string(testDirectory);
+}
+
+void systemAbort(const string& message)
+// accept keyboard input then abort
+// assures a console message is noticed
+{
+	systemPause(message);
+	exit(EXIT_FAILURE);
 }
 
 void systemPause(const string& message)

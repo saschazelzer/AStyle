@@ -9,7 +9,7 @@
 // Additional tests are in the Brackets tests
 //-------------------------------------------------------------------------
 
-TEST(IndentClasses)
+TEST(IndentClasses, LongOption)
 {
 	// test indent class blocks
 	char text[] =
@@ -41,11 +41,11 @@ TEST(IndentClasses)
 		"}   // end FooName\n";
 	char options[] = "indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses_Short)
+TEST(IndentClasses, ShortOption)
 {
 	// test indent class blocks short option
 	char text[] =
@@ -77,11 +77,11 @@ TEST(IndentClasses_Short)
 		"}   // end FooName\n";
 	char options[] = "-C";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses_EmptyClass)
+TEST(IndentClasses, EmptyClass)
 {
 	// empty brackets should not receive an extra indent
 	char text[] =
@@ -89,11 +89,11 @@ TEST(IndentClasses_EmptyClass)
 		"{};\n";
 	char options[] = "indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses_EmptyClassSans)
+TEST(IndentClasses, EmptyClassSans)
 {
 	// empty brackets should not receive an extra indent
 	char text[] =
@@ -101,11 +101,11 @@ TEST(IndentClasses_EmptyClassSans)
 		"{};\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses_Horstmann)
+TEST(IndentClasses, Horstmann)
 {
 	// test indent class blocks with horstmann brackets
 	// 'public' 'private' and 'protected' are run-in if class block is indented
@@ -131,11 +131,11 @@ TEST(IndentClasses_Horstmann)
 		"};\n";
 	char options[] = "indent-classes, brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses_HorstmannTab)
+TEST(IndentClasses, HorstmannTab)
 {
 	// test indent class blocks with horstmann brackets and tab indents
 	// 'public' 'private' and 'protected' are run-in if class block is indented
@@ -161,11 +161,11 @@ TEST(IndentClasses_HorstmannTab)
 		"};\n";
 	char options[] = "indent-classes, brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses_HorstmannSans)
+TEST(IndentClasses, HorstmannSans)
 {
 	// test without indent class blocks with horstmann brackets
 	// 'public' 'private' and 'protected' are NOT run-in if class block is not indented
@@ -192,11 +192,11 @@ TEST(IndentClasses_HorstmannSans)
 		"};\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses_HorstmannSansTab)
+TEST(IndentClasses, HorstmannSansTab)
 {
 	// test without indent class blocks with horstmann brackets and tab indents
 	// 'public' 'private' and 'protected' are NOT run-in if class block is not indented
@@ -223,11 +223,11 @@ TEST(IndentClasses_HorstmannSansTab)
 		"};\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses_HorstmannLineComment)
+TEST(IndentClasses, HorstmannLineComment)
 {
 	// test indent class blocks line comment with horstmann brackets
 	// is run-in if class block is indented and does not start in column 1
@@ -256,11 +256,11 @@ TEST(IndentClasses_HorstmannLineComment)
 		"};\n";
 	char options[] = "indent-classes, brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses_HorstmannLineCommentSans)
+TEST(IndentClasses, HorstmannLineCommentSans)
 {
 	// test without indent class blocks line comment with horstmann brackets
 	// currently are run-in and indented one indent if class block is not indented
@@ -289,11 +289,11 @@ TEST(IndentClasses_HorstmannLineCommentSans)
 		"};\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses_HorstmannComment)
+TEST(IndentClasses, HorstmannComment)
 {
 	// test indent class blocks comment with horstmann brackets
 	// is run-in if class block is indented and does not start in column 1
@@ -310,11 +310,11 @@ TEST(IndentClasses_HorstmannComment)
 		"};\n";
 	char options[] = "indent-classes, brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses_HorstmannCommentSans)
+TEST(IndentClasses, HorstmannCommentSans)
 {
 	// test without indent class blocks comment with horstmann brackets
 	// currently are run-in and indented one indent if class block is not indented
@@ -331,11 +331,11 @@ TEST(IndentClasses_HorstmannCommentSans)
 		"};\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses_Comment)
+TEST(IndentClasses, Comment)
 {
 	// test comment without indent class blocks
 	// comment is before the opening bracket
@@ -357,11 +357,11 @@ TEST(IndentClasses_Comment)
 		"}\n";
 	char options[] = "indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses_CommentSans)
+TEST(IndentClasses, CommentSans)
 {
 	// test comment without indent class blocks
 	// comment is before the opening bracket
@@ -383,11 +383,11 @@ TEST(IndentClasses_CommentSans)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses_Struct)
+TEST(IndentClasses, Struct)
 {
 	// struct with access modifiers should have extra indent
 	// struct WITHOUT should NOT have extra indent
@@ -407,11 +407,11 @@ TEST(IndentClasses_Struct)
 		"};\n";
 	char options[] = "indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses_StructComment)
+TEST(IndentClasses, StructComment)
 {
 	// struct with comments containing access modifiers
 	// should NOT have extra indent
@@ -426,11 +426,11 @@ TEST(IndentClasses_StructComment)
 		"};\n";
 	char options[] = "indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses_StructQuote)
+TEST(IndentClasses, StructQuote)
 {
 	// struct with quotes containing access modifiers and brackets
 	// should NOT have extra indent
@@ -463,11 +463,11 @@ TEST(IndentClasses_StructQuote)
 		"};\n";
 	char options[] = "indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses_StructSansLeadingModifier)
+TEST(IndentClasses, StructSansLeadingModifier)
 {
 	// struct without a leading access modifier
 	char text[] =
@@ -480,11 +480,11 @@ TEST(IndentClasses_StructSansLeadingModifier)
 		"};\n";
 	char options[] = "indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses_StructBrackets)
+TEST(IndentClasses, StructBrackets)
 {
 	// struct containing non-struct brackets
 	char text[] =
@@ -499,11 +499,11 @@ TEST(IndentClasses_StructBrackets)
 		"};\n";
 	char options[] = "indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses_StructHorstmann)
+TEST(IndentClasses, StructHorstmann)
 {
 	// struct containing horstmann brackets
 	char textIn[] =
@@ -534,11 +534,11 @@ TEST(IndentClasses_StructHorstmann)
 		"};\n";
 	char options[] = "indent-classes, brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses_StructHorstmannSans)
+TEST(IndentClasses, StructHorstmannSans)
 {
 	// struct containing horstmann brackets without indent-classes
 	char textIn[] =
@@ -570,11 +570,11 @@ TEST(IndentClasses_StructHorstmannSans)
 		"};\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses_StructUnmatchedBrackets)
+TEST(IndentClasses, StructUnmatchedBrackets)
 {
 	// struct with unmatched brackets should not cause an abort
 	char textIn[] =
@@ -593,11 +593,11 @@ TEST(IndentClasses_StructUnmatchedBrackets)
 		"    };\n";
 	char options[] = "indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses_StructSans)
+TEST(IndentClasses, StructSans)
 {
 	// struct without indent-classes should have not extra indent
 	char text[] =
@@ -616,11 +616,11 @@ TEST(IndentClasses_StructSans)
 		"};\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses_NestedStruct)
+TEST(IndentClasses, NestedStruct)
 {
 	// test indent with nested structs
 	char text[] =
@@ -640,7 +640,7 @@ TEST(IndentClasses_NestedStruct)
 		"};\n";
 	char options[] = "indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -648,7 +648,7 @@ TEST(IndentClasses_NestedStruct)
 // AStyle Indent Switches
 //-------------------------------------------------------------------------
 
-TEST(IndentSwitches_None)
+TEST(IndentSwitches, None)
 {
 	// test without indent switch blocks
 	char text[] =
@@ -669,11 +669,11 @@ TEST(IndentSwitches_None)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentSwitches)
+TEST(IndentSwitches, LongOption)
 {
 	// test indent switch blocks
 	char text[] =
@@ -694,11 +694,11 @@ TEST(IndentSwitches)
 		"}\n";
 	char options[] = "indent-switches";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentSwitches_Short)
+TEST(IndentSwitches, ShortOption)
 {
 	// test indent switch blocks short option
 	char text[] =
@@ -719,11 +719,11 @@ TEST(IndentSwitches_Short)
 		"}\n";
 	char options[] = "-S";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentSwitches_Horstmann)
+TEST(IndentSwitches, Horstmann)
 {
 	// test indent switch blocks with horstmann brackets
 	char textIn[] =
@@ -757,11 +757,11 @@ TEST(IndentSwitches_Horstmann)
 		"}\n";
 	char options[] = "indent-switches, brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentSwitches_HorstmannTab)
+TEST(IndentSwitches, HorstmannTab)
 {
 	// test indent switch blocks with horstmann brackets and tab indents
 	char textIn[] =
@@ -795,11 +795,11 @@ TEST(IndentSwitches_HorstmannTab)
 		"}\n";
 	char options[] = "indent-switches, brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentSwitches_HorstmannSans)
+TEST(IndentSwitches, HorstmannSans)
 {
 	// test without indent switch blocks with horstmann brackets
 	// 'case' statements should NOT be run-in
@@ -835,11 +835,11 @@ TEST(IndentSwitches_HorstmannSans)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentSwitches_HorstmannSansTab)
+TEST(IndentSwitches, HorstmannSansTab)
 {
 	// test without indent switch blocks with horstmann brackets and tab indents
 	// 'case' statements should NOT be run-in
@@ -875,11 +875,11 @@ TEST(IndentSwitches_HorstmannSansTab)
 		"}\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentSwitches_HorstmannLineComment)
+TEST(IndentSwitches, HorstmannLineComment)
 {
 	// test indent switch block line comments with horstmann brackets
 	// should run-in to indented switch blocks
@@ -905,11 +905,11 @@ TEST(IndentSwitches_HorstmannLineComment)
 		"}\n";
 	char options[] = "indent-switches, brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentSwitches_HorstmannLineCommentSans)
+TEST(IndentSwitches, HorstmannLineCommentSans)
 {
 	// test switch block NOT indented line comments with horstmann brackets
 	// currently is run-in and indented with switch blocks
@@ -935,11 +935,11 @@ TEST(IndentSwitches_HorstmannLineCommentSans)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentSwitches_HorstmannComment)
+TEST(IndentSwitches, HorstmannComment)
 {
 	// test indent switch block comments with horstmann brackets
 	// should run-in to indented switch blocks
@@ -965,11 +965,11 @@ TEST(IndentSwitches_HorstmannComment)
 		"}\n";
 	char options[] = "indent-switches, brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentSwitches_HorstmannCommentSans)
+TEST(IndentSwitches, HorstmannCommentSans)
 {
 	// test switch block NOT indented comments with horstmann brackets
 	// currently is run-in and indented with switch blocks
@@ -995,7 +995,7 @@ TEST(IndentSwitches_HorstmannCommentSans)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1003,7 +1003,7 @@ TEST(IndentSwitches_HorstmannCommentSans)
 // AStyle Indent Cases
 //-------------------------------------------------------------------------
 
-TEST(IndentCases)
+TEST(IndentCases, LongOption)
 {
 	// test indent case blocks
 	char text[] =
@@ -1024,11 +1024,11 @@ TEST(IndentCases)
 		"}\n";
 	char options[] = "indent-cases";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentCases_Short)
+TEST(IndentCases, ShortOption)
 {
 	// test indent case blocks
 	char text[] =
@@ -1049,11 +1049,11 @@ TEST(IndentCases_Short)
 		"}\n";
 	char options[] = "-K";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentCases_Sans1)
+TEST(IndentCases, Sans1)
 {
 	// test without indent case blocks
 	char text[] =
@@ -1074,11 +1074,11 @@ TEST(IndentCases_Sans1)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentCases_Multiple1)
+TEST(IndentCases, Multiple1)
 {
 	// test multiple case statements per line, with keep one line statements
 	char text[] =
@@ -1099,11 +1099,11 @@ TEST(IndentCases_Multiple1)
 		"}\n";
 	char options[] = "keep-one-line-statements";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentCases_Multiple2)
+TEST(IndentCases, Multiple2)
 {
 	// test multiple case statements per line, with break one line statements
 	char textIn[] =
@@ -1142,11 +1142,11 @@ TEST(IndentCases_Multiple2)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentCases_Switches)
+TEST(IndentCases, Switches)
 {
 	// test indent case blocks, with indent switch blocks
 	char text[] =
@@ -1167,7 +1167,7 @@ TEST(IndentCases_Switches)
 		"}\n";
 	char options[] = "indent-switches, indent-cases";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1176,7 +1176,7 @@ TEST(IndentCases_Switches)
 // Additional tests are in the Brackets tests
 //-------------------------------------------------------------------------
 
-TEST(IndentBlocks)
+TEST(IndentBlocks, LongOption)
 {
 	// test indent blocks
 	// per GNU standards the only extra indent is within function blocks
@@ -1234,11 +1234,11 @@ TEST(IndentBlocks)
 		"}   // end FooName\n";
 	char options[] = "indent-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentBlocks_Short)
+TEST(IndentBlocks, ShortOption)
 {
 	// test indent blocks short option
 	// per GNU standards the only extra indent is within function blocks
@@ -1296,11 +1296,11 @@ TEST(IndentBlocks_Short)
 		"}   // end FooName\n";
 	char options[] = "-G";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentBlocks_Brackets)
+TEST(IndentBlocks, Brackets)
 {
 	// test indent blocks and brackets
 	// these are mutually exclusive - indent blocks will be used
@@ -1333,11 +1333,11 @@ TEST(IndentBlocks_Brackets)
 		"}   // end FooName\n";
 	char options[] = "indent-brackets, indent-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentBlocks_Struct)
+TEST(IndentBlocks, Struct)
 {
 	// test indent blocks with structs and unions
 	// the opening bracket should NOT be indented
@@ -1394,7 +1394,7 @@ TEST(IndentBlocks_Struct)
 		"};\n";
 	char options[] = "indent-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1403,7 +1403,7 @@ TEST(IndentBlocks_Struct)
 // Additional tests are in the Brackets tests
 //-------------------------------------------------------------------------
 
-TEST(IndentBrackets)
+TEST(IndentBrackets, LongOption)
 {
 	// test indent brackets
 	char text[] =
@@ -1435,10 +1435,10 @@ TEST(IndentBrackets)
 		"}   // end FooName\n";
 	char options[] = "indent-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
-TEST(IndentBrackets_Short)
+TEST(IndentBrackets, ShortOption)
 {
 	// test indent brackets short option
 	char text[] =
@@ -1470,11 +1470,11 @@ TEST(IndentBrackets_Short)
 		"}   // end FooName\n";
 	char options[] = "-B";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentBrackets_Blocks)
+TEST(IndentBrackets, Blocks)
 {
 	// test indent brackets and blocks
 	// these are mutually exclusive - indent blocks will be used
@@ -1507,11 +1507,11 @@ TEST(IndentBrackets_Blocks)
 		"}   // end FooName\n";
 	char options[] = "indent-blocks, indent-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentBrackets_HorstmannComments)
+TEST(IndentBrackets, HorstmannComments)
 {
 	// test indent brackets with Horstmann comments
 	// will probably not be used, but it needs to work
@@ -1535,11 +1535,11 @@ TEST(IndentBrackets_HorstmannComments)
 		"    }\n";
 	char options[] = "indent-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentBrackets_Arrays)
+TEST(IndentBrackets, Arrays)
 {
 	// test indent brackets with arrays
 	char text[] =
@@ -1557,7 +1557,7 @@ TEST(IndentBrackets_Arrays)
 		"    };\n";
 	char options[] = "indent-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1566,7 +1566,7 @@ TEST(IndentBrackets_Arrays)
 // Additional tests are in the Brackets tests
 //-------------------------------------------------------------------------
 
-TEST(IndentNamespaces)
+TEST(IndentNamespaces, LongOption)
 {
 	// test indent namespaces
 	char text[] =
@@ -1598,11 +1598,11 @@ TEST(IndentNamespaces)
 		"}   // end FooName\n";
 	char options[] = "indent-namespaces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentNamespaces_Short)
+TEST(IndentNamespaces, ShortOption)
 {
 	// test indent namespaces short option
 	char text[] =
@@ -1634,11 +1634,11 @@ TEST(IndentNamespaces_Short)
 		"}   // end FooName\n";
 	char options[] = "-N";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentNamespaces_Horstmann)
+TEST(IndentNamespaces, Horstmann)
 {
 	// horstmann brackets should NOT run-in to namespaces
 	char text[] =
@@ -1658,7 +1658,7 @@ TEST(IndentNamespaces_Horstmann)
 		"}\n";
 	char options[] = "indent-namespaces, brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1666,7 +1666,7 @@ TEST(IndentNamespaces_Horstmann)
 // AStyle Indent Labels
 //-------------------------------------------------------------------------
 
-TEST(IndentLabels)
+TEST(IndentLabels, LongOption)
 {
 	// test indent labels
 	char textIn[] =
@@ -1691,11 +1691,11 @@ TEST(IndentLabels)
 		"}\n";
 	char options[] = "indent-labels";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentLabels_Short)
+TEST(IndentLabels, ShortOption)
 {
 	// test indent labels short option
 	char textIn[] =
@@ -1720,11 +1720,11 @@ TEST(IndentLabels_Short)
 		"}\n";
 	char options[] = "-L";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentLabels_Sans)
+TEST(IndentLabels, Sans)
 {
 	// test labels without indent labels option
 	char textIn[] =
@@ -1749,7 +1749,7 @@ TEST(IndentLabels_Sans)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1779,7 +1779,7 @@ TEST(IndentLabels_Sans)
 //		"}\n";
 //	char options[] = "indent-labels, mode=cs";
 //	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-//	CHECK_EQUAL(text, textOut);
+//	EXPECT_STREQ(text, textOut);
 //	delete [] textOut;
 //}
 
@@ -1787,7 +1787,7 @@ TEST(IndentLabels_Sans)
 // AStyle Indent Preprocessor
 //-------------------------------------------------------------------------
 
-TEST(IndentPreprocessor)
+TEST(IndentPreprocessor, LongOption)
 {
 	// test indent preprocessor
 	char textIn[] =
@@ -1800,11 +1800,11 @@ TEST(IndentPreprocessor)
 		"     || Is_Foo((arg), (b)))\n";
 	char options[] = "indent-preprocessor";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentPreprocessor_Short)
+TEST(IndentPreprocessor, ShortOption)
 {
 	// test indent preprocessor short option
 	char textIn[] =
@@ -1817,11 +1817,11 @@ TEST(IndentPreprocessor_Short)
 		"     || Is_Foo((arg), (b)))\n";
 	char options[] = "-w";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentPreprocessor_InStatement)
+TEST(IndentPreprocessor, InStatement)
 {
 	// test preprocessor statements with an in-statement indent
 	char textIn[] =
@@ -1834,11 +1834,11 @@ TEST(IndentPreprocessor_InStatement)
 		"                        wxCLIP_CHILDREN)\n";
 	char options[] = "indent-preprocessor";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentPreprocessor_Sans)
+TEST(IndentPreprocessor, Sans)
 {
 	// test preprocessor statements without indent preprocessor option
 	// they should not change
@@ -1860,7 +1860,7 @@ TEST(IndentPreprocessor_Sans)
 		"             || Is_Foo((arg), (b)))\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1868,7 +1868,7 @@ TEST(IndentPreprocessor_Sans)
 // AStyle Column one comment
 //-------------------------------------------------------------------------
 
-TEST(IndentCol1Comment)
+TEST(IndentCol1Comment, LongOption)
 {
 	// test indent column one comment
 	char textIn[] =
@@ -1889,11 +1889,11 @@ TEST(IndentCol1Comment)
 		"}\n";
 	char options[] = "indent-col1-comments";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentCol1Comment_Short)
+TEST(IndentCol1Comment, ShortOption)
 {
 	// test indent column one comment short option
 	char textIn[] =
@@ -1914,11 +1914,11 @@ TEST(IndentCol1Comment_Short)
 		"}\n";
 	char options[] = "-Y";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentCol1Comment_Sans)
+TEST(IndentCol1Comment, Sans)
 {
 	// test without indent column one comment
 	char textIn[] =
@@ -1939,7 +1939,7 @@ TEST(IndentCol1Comment_Sans)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1947,7 +1947,7 @@ TEST(IndentCol1Comment_Sans)
 // AStyle Max Instatement Indent
 //-------------------------------------------------------------------------
 
-TEST(MaxInstatementIndent)
+TEST(MaxInstatementIndent, LongOption)
 {
 	// test max instatement indent
 	char textIn[] =
@@ -1972,11 +1972,11 @@ TEST(MaxInstatementIndent)
 		"}\n";
 	char options[] = "max-instatement-indent=60";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MaxInstatementIndent_Short)
+TEST(MaxInstatementIndent, ShortOption)
 {
 	// test max instatement indent short option
 	char textIn[] =
@@ -2001,11 +2001,11 @@ TEST(MaxInstatementIndent_Short)
 		"}\n";
 	char options[] = "-M60";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MaxInstatementIndent_Max)
+TEST(MaxInstatementIndent, Max)
 {
 	// test max instatement indent with the max value
 	char textIn[] =
@@ -2030,11 +2030,11 @@ TEST(MaxInstatementIndent_Max)
 		"}\n";
 	char options[] = "max-instatement-indent=80";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MaxInstatementIndent_Sans)
+TEST(MaxInstatementIndent, Sans)
 {
 	// test max instatement indent with no value
 	// should use the default of 40
@@ -2050,11 +2050,11 @@ TEST(MaxInstatementIndent_Sans)
 		"}\n";
 	char options[] = "max-instatement-indent=";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MaxInstatementIndent_Misc1)
+TEST(MaxInstatementIndent, Misc1)
 {
 	// test instatement indent greater than max
 	// should use 2 * indent (8)
@@ -2067,11 +2067,11 @@ TEST(MaxInstatementIndent_Misc1)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MaxInstatementIndent_Error)
+TEST(MaxInstatementIndent, Error)
 {
 	// test max instatement indent with an invalid value
 	// should call the error handler
@@ -2090,7 +2090,7 @@ TEST(MaxInstatementIndent_Error)
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
-	CHECK_EQUAL(errorsIn + 1, errorsOut);
+	EXPECT_EQ(errorsIn + 1, errorsOut);
 	delete [] textOut;
 }
 
@@ -2098,7 +2098,7 @@ TEST(MaxInstatementIndent_Error)
 // AStyle Min Conditional Indent
 //-------------------------------------------------------------------------
 
-TEST(MinConditionalIndent)
+TEST(MinConditionalIndent, LongOption)
 {
 	// test min conditional indent default
 	char text[] =
@@ -2116,11 +2116,11 @@ TEST(MinConditionalIndent)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MinConditionalIndent_Short)
+TEST(MinConditionalIndent, ShortOption)
 {
 	// test min conditional indent short option with a value of zero
 	char textIn[] =
@@ -2151,11 +2151,11 @@ TEST(MinConditionalIndent_Short)
 		"}\n";
 	char options[] = "-m0";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MinConditionalIndent_Zero)
+TEST(MinConditionalIndent, Zero)
 {
 	// test min conditional indent with a value of 0
 	char textIn[] =
@@ -2186,11 +2186,11 @@ TEST(MinConditionalIndent_Zero)
 		"}\n";
 	char options[] = "min-conditional-indent=0";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MinConditionalIndent_One)
+TEST(MinConditionalIndent, One)
 {
 	// test min conditional indent with a value of 1
 	char text[] =
@@ -2208,11 +2208,11 @@ TEST(MinConditionalIndent_One)
 		"}\n";
 	char options[] = "min-conditional-indent=1";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MinConditionalIndent_Two)
+TEST(MinConditionalIndent, Two)
 {
 	// test min conditional indent with a value of 2
 	char text[] =
@@ -2230,11 +2230,11 @@ TEST(MinConditionalIndent_Two)
 		"}\n";
 	char options[] = "min-conditional-indent=2";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MinConditionalIndent_Three)
+TEST(MinConditionalIndent, Three)
 {
 	// test min conditional indent with a value of 3
 	char text[] =
@@ -2252,11 +2252,11 @@ TEST(MinConditionalIndent_Three)
 		"}\n";
 	char options[] = "min-conditional-indent=3, indent=spaces=8";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MinConditionalIndent_NoValue)
+TEST(MinConditionalIndent, NoValue)
 {
 	// test min conditional indent with no value
 	// should use the default
@@ -2275,11 +2275,11 @@ TEST(MinConditionalIndent_NoValue)
 		"}\n";
 	char options[] = "min-conditional-indent=";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MinConditionalIndent_OverMax)
+TEST(MinConditionalIndent, OverMax)
 {
 	// test min conditional indent over max
 	// should use 2 * indent
@@ -2305,11 +2305,11 @@ TEST(MinConditionalIndent_OverMax)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MinConditionalIndent_ParenOverMax)
+TEST(MinConditionalIndent, ParenOverMax)
 {
 	// test min conditional indent over max with line ending in a paren
 	// should use 2 * indent
@@ -2335,11 +2335,11 @@ TEST(MinConditionalIndent_ParenOverMax)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(MinConditionalIndent_Error)
+TEST(MinConditionalIndent, Error)
 {
 	// test min conditional indent with an invalid value
 	// should call the error handler
@@ -2361,7 +2361,7 @@ TEST(MinConditionalIndent_Error)
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
-	CHECK_EQUAL(errorsIn + 1, errorsOut);
+	EXPECT_EQ(errorsIn + 1, errorsOut);
 	delete [] textOut;
 }
 

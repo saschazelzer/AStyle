@@ -14,15 +14,15 @@
 //-----------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------
-// AStyle C# Common Text for Testing
+// AStyle C# Default Bracket Options
 //-------------------------------------------------------------------------
 
-struct sharpText
+struct BracketsNoneSharpF : public ::testing::Test
 {
 	string textStr;
 	const char* textIn;
 
-	sharpText()
+	BracketsNoneSharpF()
 	{
 		textStr =
 			"\nnamespace FooName\n"
@@ -55,11 +55,7 @@ struct sharpText
 	}
 };
 
-//-------------------------------------------------------------------------
-// AStyle C# Default Bracket Options
-//-------------------------------------------------------------------------
-
-TEST_FIXTURE(sharpText, SharpBracketsNone)
+TEST_F(BracketsNoneSharpF, Default)
 {
 	// test default brackets option (do not change)
 	char text[] =
@@ -94,11 +90,11 @@ TEST_FIXTURE(sharpText, SharpBracketsNone)
 
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsNone_Namespace)
+TEST_F(BracketsNoneSharpF, Namespace)
 {
 	// test default brackets option, with indented namespace
 	char text[] =
@@ -132,11 +128,11 @@ TEST_FIXTURE(sharpText, SharpBracketsNone_Namespace)
 		"}\n";
 	char options[] = "indent-namespaces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsNone_Blocks)
+TEST_F(BracketsNoneSharpF, Blocks)
 {
 	// test default blocks option, with indented blocks
 	char text[] =
@@ -171,12 +167,12 @@ TEST_FIXTURE(sharpText, SharpBracketsNone_Blocks)
 		"}\n";
 	char options[] = "indent-blocks, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST_FIXTURE(sharpText, SharpBracketsNone_Brackets)
+TEST_F(BracketsNoneSharpF, Brackets)
 {
 	// test default brackets option, with indent brackets
 	char text[] =
@@ -211,11 +207,11 @@ TEST_FIXTURE(sharpText, SharpBracketsNone_Brackets)
 		"}\n";
 	char options[] = "indent-brackets, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsNone_EmptyBrackets)
+TEST(BracketsNoneSharp, EmptyBrackets)
 {
 	// test default brackets option (do not change)
 	// do not change empty brackets
@@ -228,11 +224,11 @@ TEST(SharpBracketsNone_EmptyBrackets)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsNone_Break)
+TEST(BracketsNoneSharp, Break)
 {
 	// test default brackets option with broken brackets
 	char text[] =
@@ -249,11 +245,11 @@ TEST(SharpBracketsNone_Break)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsNone_Attach)
+TEST(BracketsNoneSharp, Attach)
 {
 	// test default brackets option with attached brackets
 	char text[] =
@@ -266,11 +262,11 @@ TEST(SharpBracketsNone_Attach)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsNone_Linux)
+TEST(BracketsNoneSharp, Linux)
 {
 	// test default brackets option with linux brackets
 	char text[] =
@@ -284,11 +280,11 @@ TEST(SharpBracketsNone_Linux)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsNone_Horstmann)
+TEST(BracketsNoneSharp, Horstmann)
 {
 	// test default brackets option with horstmann brackets
 	char text[] =
@@ -303,7 +299,7 @@ TEST(SharpBracketsNone_Horstmann)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -311,7 +307,45 @@ TEST(SharpBracketsNone_Horstmann)
 // AStyle C# Break Bracket Options
 //-------------------------------------------------------------------------
 
-TEST_FIXTURE(sharpText, SharpBracketsBreak)
+struct BracketsBreakSharpF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	BracketsBreakSharpF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"public interface FooInterface\n"
+			"{\n"
+			"    int FooGet {get; set;}\n"
+			"    void Write(string text);\n"
+			"}\n"
+			"\n"
+			"public class FooClass\n"
+			"{\n"
+			"    private bool var1;\n"
+			"    private bool var2;\n"
+			"\n"
+			"    public void foo(bool isFoo)\n"
+			"    {\n"
+			"        if (isFoo)\n"
+			"        {\n"
+			"            bar();\n"
+			"        } else {\n"
+			"            anotherBar();\n"
+			"        }\n"
+			"    }\n"
+			"}\n"
+			"}\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(BracketsBreakSharpF, LongOption)
 {
 	// test break brackets option
 	char text[] =
@@ -349,11 +383,11 @@ TEST_FIXTURE(sharpText, SharpBracketsBreak)
 
 	char options[] = "brackets=break, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsBreak_Short)
+TEST_F(BracketsBreakSharpF, ShortOption)
 {
 	// test break brackets short option
 	char text[] =
@@ -391,11 +425,11 @@ TEST_FIXTURE(sharpText, SharpBracketsBreak_Short)
 
 	char options[] = "-b, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsBreak_Namespace)
+TEST_F(BracketsBreakSharpF, Namespace)
 {
 	// test break brackets option, with indented namespace
 	char text[] =
@@ -432,11 +466,11 @@ TEST_FIXTURE(sharpText, SharpBracketsBreak_Namespace)
 		"}\n";
 	char options[] = "brackets=break, indent-namespaces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsBreak_Blocks)
+TEST_F(BracketsBreakSharpF, Blocks)
 {
 	// test break brackets option, with indent blocks
 	char text[] =
@@ -473,12 +507,12 @@ TEST_FIXTURE(sharpText, SharpBracketsBreak_Blocks)
 		"}\n";
 	char options[] = "brackets=break, indent-blocks, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST_FIXTURE(sharpText, SharpBracketsBreak_Brackets)
+TEST_F(BracketsBreakSharpF, Brackets)
 {
 	// test break brackets option, with indent brackets
 	char text[] =
@@ -515,11 +549,11 @@ TEST_FIXTURE(sharpText, SharpBracketsBreak_Brackets)
 		"}\n";
 	char options[] = "brackets=break, indent-brackets, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsBreak_EmptyBrackets)
+TEST(BracketsBreakSharp, EmptyBrackets)
 {
 	// test break brackets option
 	// do not change empty brackets
@@ -532,11 +566,11 @@ TEST(SharpBracketsBreak_EmptyBrackets)
 		"}\n";
 	char options[] = "brackets=break, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsBreak_Break)
+TEST(BracketsBreakSharp, Break)
 {
 	// test break brackets option with broken brackets
 	char text[] =
@@ -553,11 +587,11 @@ TEST(SharpBracketsBreak_Break)
 		"}\n";
 	char options[] = "brackets=break, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsBreak_Attach)
+TEST(BracketsBreakSharp, Attach)
 {
 	// test break brackets option with attached brackets
 	char textIn[] =
@@ -582,11 +616,11 @@ TEST(SharpBracketsBreak_Attach)
 		"}\n";
 	char options[] = "brackets=break, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsBreak_Linux)
+TEST(BracketsBreakSharp, Linux)
 {
 	// test break brackets option with linux brackets
 	char textIn[] =
@@ -612,11 +646,11 @@ TEST(SharpBracketsBreak_Linux)
 		"}\n";
 	char options[] = "brackets=break, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsBreak_Horstmann)
+TEST(BracketsBreakSharp, Horstmann)
 {
 	// test break brackets option with horstmann brackets
 	char textIn[] =
@@ -642,7 +676,7 @@ TEST(SharpBracketsBreak_Horstmann)
 		"}\n";
 	char options[] = "brackets=break, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -650,7 +684,45 @@ TEST(SharpBracketsBreak_Horstmann)
 // AStyle C# Attach Bracket Options
 //-------------------------------------------------------------------------
 
-TEST_FIXTURE(sharpText, SharpBracketsAttach)
+struct BracketsAttachSharpF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	BracketsAttachSharpF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"public interface FooInterface\n"
+			"{\n"
+			"    int FooGet {get; set;}\n"
+			"    void Write(string text);\n"
+			"}\n"
+			"\n"
+			"public class FooClass\n"
+			"{\n"
+			"    private bool var1;\n"
+			"    private bool var2;\n"
+			"\n"
+			"    public void foo(bool isFoo)\n"
+			"    {\n"
+			"        if (isFoo)\n"
+			"        {\n"
+			"            bar();\n"
+			"        } else {\n"
+			"            anotherBar();\n"
+			"        }\n"
+			"    }\n"
+			"}\n"
+			"}\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(BracketsAttachSharpF, LongOption)
 {
 	// test attach brackets option
 	char text[] =
@@ -680,11 +752,11 @@ TEST_FIXTURE(sharpText, SharpBracketsAttach)
 
 	char options[] = "brackets=attach, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsAttach_Short)
+TEST_F(BracketsAttachSharpF, ShortOption)
 {
 	// test attach brackets short option
 	char text[] =
@@ -714,11 +786,11 @@ TEST_FIXTURE(sharpText, SharpBracketsAttach_Short)
 
 	char options[] = "-a, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsAttach_Namespace)
+TEST_F(BracketsAttachSharpF, Namespace)
 {
 	// test attach brackets option, with indented namespace
 	char text[] =
@@ -748,11 +820,11 @@ TEST_FIXTURE(sharpText, SharpBracketsAttach_Namespace)
 
 	char options[] = "brackets=attach, indent-namespaces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsAttach_Blocks)
+TEST_F(BracketsAttachSharpF, Blocks)
 {
 	// test attach brackets option, with indent blocks
 	char text[] =
@@ -783,12 +855,12 @@ TEST_FIXTURE(sharpText, SharpBracketsAttach_Blocks)
 
 	char options[] = "brackets=attach, indent-blocks, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST_FIXTURE(sharpText, SharpBracketsAttach_Brackets)
+TEST_F(BracketsAttachSharpF, Brackets)
 {
 	// test attach brackets option, with indent brackets
 	char text[] =
@@ -818,11 +890,11 @@ TEST_FIXTURE(sharpText, SharpBracketsAttach_Brackets)
 		"}\n";
 	char options[] = "brackets=attach, indent-brackets, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsAttach_BreakClosing)
+TEST_F(BracketsAttachSharpF, BreakClosing)
 {
 	// test attach brackets option, with break closing brackets
 	char text[] =
@@ -853,11 +925,11 @@ TEST_FIXTURE(sharpText, SharpBracketsAttach_BreakClosing)
 
 	char options[] = "brackets=attach, break-closing-brackets, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsAttach_EmptyBrackets)
+TEST(BracketsAttachSharp, EmptyBrackets)
 {
 	// test attach brackets option
 	// do not change empty brackets
@@ -869,11 +941,11 @@ TEST(SharpBracketsAttach_EmptyBrackets)
 		"}\n";
 	char options[] = "brackets=attach, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsAttach_Break)
+TEST(BracketsAttachSharp, Break)
 {
 	// test attach brackets option with broken brackets
 	char textIn[] =
@@ -898,11 +970,11 @@ TEST(SharpBracketsAttach_Break)
 		"}\n";
 	char options[] = "brackets=attach, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsAttach_Attach)
+TEST(BracketsAttachSharp, Attach)
 {
 	// test attach brackets option with attached brackets
 	char text[] =
@@ -915,11 +987,11 @@ TEST(SharpBracketsAttach_Attach)
 		"}\n";
 	char options[] = "brackets=attach, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsAttach_Linux)
+TEST(BracketsAttachSharp, Linux)
 {
 	// test attach brackets option with linux brackets
 	char textIn[] =
@@ -941,11 +1013,11 @@ TEST(SharpBracketsAttach_Linux)
 		"}\n";
 	char options[] = "brackets=attach, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsAttach_Horstmann)
+TEST(BracketsAttachSharp, Horstmann)
 {
 	// test attach brackets option with horstmann brackets
 	char textIn[] =
@@ -967,7 +1039,7 @@ TEST(SharpBracketsAttach_Horstmann)
 		"}\n";
 	char options[] = "brackets=attach, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -975,7 +1047,45 @@ TEST(SharpBracketsAttach_Horstmann)
 // AStyle C# Linux Bracket Options
 //-------------------------------------------------------------------------
 
-TEST_FIXTURE(sharpText, SharpBracketsLinux)
+struct BracketsLinuxSharpF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	BracketsLinuxSharpF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"public interface FooInterface\n"
+			"{\n"
+			"    int FooGet {get; set;}\n"
+			"    void Write(string text);\n"
+			"}\n"
+			"\n"
+			"public class FooClass\n"
+			"{\n"
+			"    private bool var1;\n"
+			"    private bool var2;\n"
+			"\n"
+			"    public void foo(bool isFoo)\n"
+			"    {\n"
+			"        if (isFoo)\n"
+			"        {\n"
+			"            bar();\n"
+			"        } else {\n"
+			"            anotherBar();\n"
+			"        }\n"
+			"    }\n"
+			"}\n"
+			"}\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(BracketsLinuxSharpF, LongOption)
 {
 	// test linux brackets option
 	char text[] =
@@ -1009,11 +1119,11 @@ TEST_FIXTURE(sharpText, SharpBracketsLinux)
 
 	char options[] = "brackets=linux, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsLinux_Short)
+TEST_F(BracketsLinuxSharpF, ShortOption)
 {
 	// test linux brackets short option
 	char text[] =
@@ -1047,11 +1157,11 @@ TEST_FIXTURE(sharpText, SharpBracketsLinux_Short)
 
 	char options[] = "-l, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsLinux_Namespace)
+TEST_F(BracketsLinuxSharpF, Namespace)
 {
 	// test linux brackets option, with indented namespace
 	char text[] =
@@ -1085,11 +1195,11 @@ TEST_FIXTURE(sharpText, SharpBracketsLinux_Namespace)
 
 	char options[] = "brackets=linux, indent-namespaces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsLinux_Blocks)
+TEST_F(BracketsLinuxSharpF, Blocks)
 {
 	// test linux brackets option, with indent blocks
 	char text[] =
@@ -1124,12 +1234,12 @@ TEST_FIXTURE(sharpText, SharpBracketsLinux_Blocks)
 
 	char options[] = "brackets=linux, indent-blocks, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST_FIXTURE(sharpText, SharpBracketsLinux_Brackets)
+TEST_F(BracketsLinuxSharpF, Brackets)
 {
 	// test linux brackets option, with indent brackets
 	char text[] =
@@ -1163,11 +1273,11 @@ TEST_FIXTURE(sharpText, SharpBracketsLinux_Brackets)
 		"}\n";
 	char options[] = "brackets=linux, indent-brackets, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsLinux_BreakClosing)
+TEST_F(BracketsLinuxSharpF, BreakClosing)
 {
 	// test linux brackets option, with break closing brackets
 	char text[] =
@@ -1201,11 +1311,11 @@ TEST_FIXTURE(sharpText, SharpBracketsLinux_BreakClosing)
 		"}\n";
 	char options[] = "brackets=linux, break-closing-brackets, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsLinux_EmptyBrackets)
+TEST(BracketsLinuxSharp, EmptyBrackets)
 {
 	// test linux brackets option
 	// do not change empty brackets
@@ -1218,10 +1328,10 @@ TEST(SharpBracketsLinux_EmptyBrackets)
 		"}\n";
 	char options[] = "brackets=linux, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
-TEST(SharpBracketsLinux_Break)
+TEST(BracketsLinuxSharp, Break)
 {
 	// test linux brackets option with broken brackets
 	char textIn[] =
@@ -1247,11 +1357,11 @@ TEST(SharpBracketsLinux_Break)
 		"}\n";
 	char options[] = "brackets=linux, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsLinux_Attach)
+TEST(BracketsLinuxSharp, Attach)
 {
 	// test linux brackets option with attached brackets
 	char textIn[] =
@@ -1273,11 +1383,11 @@ TEST(SharpBracketsLinux_Attach)
 		"}\n";
 	char options[] = "brackets=linux, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsLinux_Linux)
+TEST(BracketsLinuxSharp, Linux)
 {
 	// test linux brackets option with linux brackets
 	char text[] =
@@ -1291,11 +1401,11 @@ TEST(SharpBracketsLinux_Linux)
 		"}\n";
 	char options[] = "brackets=linux, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsLinux_Horstmann)
+TEST(BracketsLinuxSharp, Horstmann)
 {
 	// test linux brackets option with horstmann brackets
 	char textIn[] =
@@ -1318,11 +1428,11 @@ TEST(SharpBracketsLinux_Horstmann)
 		"}\n";
 	char options[] = "brackets=linux, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsLinux_Formatting)
+TEST(BracketsLinuxSharp, Formatting)
 {
 	// test linux brackets option, for non-function top level objects
 	// brackets are attached for arrays, structs, and other top level objects
@@ -1368,11 +1478,11 @@ TEST(SharpBracketsLinux_Formatting)
 		"}\n";
 	char options[] = "brackets=linux, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsLinux_NestedNamespace)
+TEST(BracketsLinuxSharp, NestedNamespace)
 {
 	// test nested namespaces with linux brackets
 	char text[] =
@@ -1396,7 +1506,7 @@ TEST(SharpBracketsLinux_NestedNamespace)
 		"}\n";
 	char options[] = "brackets=linux, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1404,7 +1514,45 @@ TEST(SharpBracketsLinux_NestedNamespace)
 // AStyle C# Stroustrup Bracket Options
 //-------------------------------------------------------------------------
 
-TEST_FIXTURE(sharpText, SharpBracketsStroustrup)
+struct BracketsStroustrupSharpF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	BracketsStroustrupSharpF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"public interface FooInterface\n"
+			"{\n"
+			"    int FooGet {get; set;}\n"
+			"    void Write(string text);\n"
+			"}\n"
+			"\n"
+			"public class FooClass\n"
+			"{\n"
+			"    private bool var1;\n"
+			"    private bool var2;\n"
+			"\n"
+			"    public void foo(bool isFoo)\n"
+			"    {\n"
+			"        if (isFoo)\n"
+			"        {\n"
+			"            bar();\n"
+			"        } else {\n"
+			"            anotherBar();\n"
+			"        }\n"
+			"    }\n"
+			"}\n"
+			"}\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(BracketsStroustrupSharpF, LongOption)
 {
 	// test stroustrup brackets option
 	char text[] =
@@ -1435,11 +1583,11 @@ TEST_FIXTURE(sharpText, SharpBracketsStroustrup)
 
 	char options[] = "brackets=stroustrup, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsStroustrup_Short)
+TEST_F(BracketsStroustrupSharpF, ShortOption)
 {
 	// test stroustrup brackets short option
 	char text[] =
@@ -1470,11 +1618,11 @@ TEST_FIXTURE(sharpText, SharpBracketsStroustrup_Short)
 
 	char options[] = "-u, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsStroustrup_Namespace)
+TEST_F(BracketsStroustrupSharpF, Namespace)
 {
 	// test stroustrup brackets option, with indented namespace
 	char text[] =
@@ -1505,11 +1653,11 @@ TEST_FIXTURE(sharpText, SharpBracketsStroustrup_Namespace)
 
 	char options[] = "brackets=stroustrup, indent-namespaces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsStroustrup_Blocks)
+TEST_F(BracketsStroustrupSharpF, Blocks)
 {
 	// test stroustrup brackets option, with indent blocks
 	char text[] =
@@ -1541,12 +1689,12 @@ TEST_FIXTURE(sharpText, SharpBracketsStroustrup_Blocks)
 
 	char options[] = "brackets=stroustrup, indent-blocks, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST_FIXTURE(sharpText, SharpBracketsStroustrup_Brackets)
+TEST_F(BracketsStroustrupSharpF, Brackets)
 {
 	// test stroustrup brackets option, with indent brackets
 	char text[] =
@@ -1577,12 +1725,12 @@ TEST_FIXTURE(sharpText, SharpBracketsStroustrup_Brackets)
 		"}\n";
 	char options[] = "brackets=stroustrup, indent-brackets, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST_FIXTURE(sharpText, SharpBracketsStroustrup_BreakClosing)
+TEST_F(BracketsStroustrupSharpF, BreakClosing)
 {
 	// test stroustrup brackets option with break closing brackets
 	char text[] =
@@ -1614,11 +1762,11 @@ TEST_FIXTURE(sharpText, SharpBracketsStroustrup_BreakClosing)
 
 	char options[] = "brackets=stroustrup, break-closing-brackets, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsStroustrup_EmptyBrackets)
+TEST(BracketsStroustrupSharp, EmptyBrackets)
 {
 	// test stroustrup brackets option
 	// do not change empty brackets
@@ -1630,11 +1778,11 @@ TEST(SharpBracketsStroustrup_EmptyBrackets)
 		"}\n";
 	char options[] = "brackets=stroustrup, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsStroustrup_Formatting)
+TEST(BracketsStroustrupSharp, Formatting)
 {
 	// test stroustrup brackets option, for non-function top level objects
 	// brackets are attached for arrays, structs, and other top level objects
@@ -1678,11 +1826,11 @@ TEST(SharpBracketsStroustrup_Formatting)
 		"}\n";
 	char options[] = "brackets=stroustrup, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsStroustrup_NestedNamespace)
+TEST(BracketsStroustrupSharp, NestedNamespace)
 {
 	// test nested namespaces with stroustrup brackets
 	char text[] =
@@ -1700,7 +1848,7 @@ TEST(SharpBracketsStroustrup_NestedNamespace)
 		"}\n";
 	char options[] = "brackets=stroustrup, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1708,7 +1856,45 @@ TEST(SharpBracketsStroustrup_NestedNamespace)
 // AStyle C# Break Bracket Options
 //-------------------------------------------------------------------------
 
-TEST_FIXTURE(sharpText, SharpBracketsHorstmann)
+struct BracketsHorstmannSharpF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	BracketsHorstmannSharpF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"public interface FooInterface\n"
+			"{\n"
+			"    int FooGet {get; set;}\n"
+			"    void Write(string text);\n"
+			"}\n"
+			"\n"
+			"public class FooClass\n"
+			"{\n"
+			"    private bool var1;\n"
+			"    private bool var2;\n"
+			"\n"
+			"    public void foo(bool isFoo)\n"
+			"    {\n"
+			"        if (isFoo)\n"
+			"        {\n"
+			"            bar();\n"
+			"        } else {\n"
+			"            anotherBar();\n"
+			"        }\n"
+			"    }\n"
+			"}\n"
+			"}\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(BracketsHorstmannSharpF, LongOption)
 {
 	// test horstmann brackets option
 	char text[] =
@@ -1740,11 +1926,11 @@ TEST_FIXTURE(sharpText, SharpBracketsHorstmann)
 
 	char options[] = "brackets=horstmann, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsHorstmann_Short)
+TEST_F(BracketsHorstmannSharpF, ShortOption)
 {
 	// test horstmann brackets short option
 	char text[] =
@@ -1776,11 +1962,11 @@ TEST_FIXTURE(sharpText, SharpBracketsHorstmann_Short)
 
 	char options[] = "-g, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsHorstmann_Namespace)
+TEST_F(BracketsHorstmannSharpF, Namespace)
 {
 	// test horstmann brackets option, with indented namespace
 	char text[] =
@@ -1811,11 +1997,11 @@ TEST_FIXTURE(sharpText, SharpBracketsHorstmann_Namespace)
 		"}\n";
 	char options[] = "brackets=horstmann, indent-namespaces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_FIXTURE(sharpText, SharpBracketsHorstmann_Blocks)
+TEST_F(BracketsHorstmannSharpF, Blocks)
 {
 	// test horstmann brackets option, with indent blocks
 	char text[] =
@@ -1846,12 +2032,12 @@ TEST_FIXTURE(sharpText, SharpBracketsHorstmann_Blocks)
 		"}\n";
 	char options[] = "brackets=horstmann, indent-blocks, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 
-TEST(SharpBracketsHorstmann_EmptyBrackets)
+TEST(BracketsHorstmannSharp, EmptyBrackets)
 {
 	// test horstmann brackets option
 	// do not change empty brackets
@@ -1863,11 +2049,11 @@ TEST(SharpBracketsHorstmann_EmptyBrackets)
 		"}\n";
 	char options[] = "brackets=horstmann, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsHorstmann_Break)
+TEST(BracketsHorstmannSharp, Break)
 {
 	// test horstmann brackets option with broken brackets
 	char textIn[] =
@@ -1893,11 +2079,11 @@ TEST(SharpBracketsHorstmann_Break)
 		"}\n";
 	char options[] = "brackets=horstmann, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsHorstmann_Attach)
+TEST(BracketsHorstmannSharp, Attach)
 {
 	// test horstmann brackets option with attached brackets
 	char textIn[] =
@@ -1919,11 +2105,11 @@ TEST(SharpBracketsHorstmann_Attach)
 		"}\n";
 	char options[] = "brackets=horstmann, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsHorstmann_Linux)
+TEST(BracketsHorstmannSharp, Linux)
 {
 	// test break brackets option with linux brackets
 	char textIn[] =
@@ -1946,11 +2132,11 @@ TEST(SharpBracketsHorstmann_Linux)
 		"}\n";
 	char options[] = "brackets=horstmann, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsHorstmann_Horstmann)
+TEST(BracketsHorstmannSharp, Horstmann)
 {
 	// test break brackets option with horstmann brackets
 	char text[] =
@@ -1964,7 +2150,7 @@ TEST(SharpBracketsHorstmann_Horstmann)
 		"}\n";
 	char options[] = "brackets=horstmann, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1972,16 +2158,54 @@ TEST(SharpBracketsHorstmann_Horstmann)
 // AStyle C# Other Bracket Options
 //-------------------------------------------------------------------------
 
-TEST_FIXTURE(sharpText, SharpBracketsOther_Class)
+struct BracketsOtherSharpF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	BracketsOtherSharpF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"public interface FooInterface\n"
+			"{\n"
+			"    int FooGet {get; set;}\n"
+			"    void Write(string text);\n"
+			"}\n"
+			"\n"
+			"public class FooClass\n"
+			"{\n"
+			"    private bool var1;\n"
+			"    private bool var2;\n"
+			"\n"
+			"    public void foo(bool isFoo)\n"
+			"    {\n"
+			"        if (isFoo)\n"
+			"        {\n"
+			"            bar();\n"
+			"        } else {\n"
+			"            anotherBar();\n"
+			"        }\n"
+			"    }\n"
+			"}\n"
+			"}\n";
+
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(BracketsOtherSharpF, IndentClasses)
 {
 	// indent classes should NOT affect C# formatting
 	char options[] = "indent-classes, keep-one-line-blocks, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(textIn, textOut);
+	ASSERT_STREQ(textIn, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOther_ClassContinuationAttached)
+TEST(BracketsOtherSharp, ClassContinuation_Attached)
 {
 	// test with class continuation and attached brackets
 	char text[] =
@@ -1991,11 +2215,11 @@ TEST(SharpBracketsOther_ClassContinuationAttached)
 		"\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOther_ClassContinuationBroken)
+TEST(BracketsOtherSharp, ClassContinuation_Broken)
 {
 	// test with class continuation and broken brackets
 	char text[] =
@@ -2006,11 +2230,11 @@ TEST(SharpBracketsOther_ClassContinuationBroken)
 		"\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOther_Where)
+TEST(BracketsOtherSharp, Where)
 {
 	// test a method that contains a where statement
 	// should be recognized as a block opener
@@ -2027,11 +2251,11 @@ TEST(SharpBracketsOther_Where)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOther_WhereBlocks)
+TEST(BracketsOtherSharp, Where_IndentBlocks)
 {
 	// test a method that contains a where statement, with indent blocks
 	// should be recognized as a block opener
@@ -2048,11 +2272,11 @@ TEST(SharpBracketsOther_WhereBlocks)
 		"}\n";
 	char options[] = "indent-blocks, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOther_WhereBrackets)
+TEST(BracketsOtherSharp, Where_IndentBrackets)
 {
 	// test a method that contains a where statement, with indent brackets
 	// should be recognized as a block opener
@@ -2069,11 +2293,11 @@ TEST(SharpBracketsOther_WhereBrackets)
 		"    }\n";
 	char options[] = "indent-brackets, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOther_WhereClass)
+TEST(BracketsOtherSharp, WhereClass)
 {
 	// test a class that contains a where statement
 	char text[] =
@@ -2094,11 +2318,11 @@ TEST(SharpBracketsOther_WhereClass)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOther_WhereClassBlocks)
+TEST(BracketsOtherSharp, WhereClass_IndentBlocks)
 {
 	// test a class that contains a where statement, with indent blocks
 	char text[] =
@@ -2119,11 +2343,11 @@ TEST(SharpBracketsOther_WhereClassBlocks)
 		"}\n";
 	char options[] = "indent-blocks, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOther_WhereClassBrackets)
+TEST(BracketsOtherSharp, WhereClass_IndentBrackets)
 {
 	// test a class that contains a where statement, with indent brackets
 	char text[] =
@@ -2144,11 +2368,11 @@ TEST(SharpBracketsOther_WhereClassBrackets)
 		"    }\n";
 	char options[] = "indent-brackets, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOther_WhereClassClass)
+TEST(BracketsOtherSharp, WhereClassClass)
 {
 	// test a class that contains a where statement, with two 'class' statements
 	char text[] =
@@ -2159,11 +2383,11 @@ TEST(SharpBracketsOther_WhereClassClass)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOther_Accessors1)
+TEST(BracketsOtherSharp, Accessors1)
 {
 	// test indent of getters and setters
 	char text[] =
@@ -2185,11 +2409,11 @@ TEST(SharpBracketsOther_Accessors1)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOther_Accessors2)
+TEST(BracketsOtherSharp, Accessors2)
 {
 	// test indent of getters and setters, with comments and empty lines
 	char text[] =
@@ -2213,11 +2437,11 @@ TEST(SharpBracketsOther_Accessors2)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOther_NestedClass)
+TEST(BracketsOtherSharp, NestedClass)
 {
 	// test interface with nested classes
 	char text[] =
@@ -2244,11 +2468,11 @@ TEST(SharpBracketsOther_NestedClass)
 
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOther_NestedClassBlocks)
+TEST(BracketsOtherSharp, NestedClass_IndentBlocks)
 {
 	// test interface with nested classes and indented blocks
 	char text[] =
@@ -2275,11 +2499,11 @@ TEST(SharpBracketsOther_NestedClassBlocks)
 
 	char options[] = "indent-blocks, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOther_NestedClassBrackets)
+TEST(BracketsOtherSharp, NestedClass_IndentBrackets)
 {
 	// test interface with nested classes and indented brackets
 	char text[] =
@@ -2306,11 +2530,11 @@ TEST(SharpBracketsOther_NestedClassBrackets)
 
 	char options[] = "indent-brackets, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOther_NestedNamespace)
+TEST(BracketsOtherSharp, NestedNamespace)
 {
 	// test nested namespaces
 	char text[] =
@@ -2337,11 +2561,11 @@ TEST(SharpBracketsOther_NestedNamespace)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOther_NestedNamespaceBlocks)
+TEST(BracketsOtherSharp, NestedNamespace_IndentBlocks)
 {
 	// test nested namespaces and indented blocks
 	char text[] =
@@ -2368,11 +2592,11 @@ TEST(SharpBracketsOther_NestedNamespaceBlocks)
 		"}\n";
 	char options[] = "indent-blocks, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOther_NestedNamespaceBrackets)
+TEST(BracketsOtherSharp, NestedNamespace_IndentBrackets)
 {
 	// test nested namespaces and indented brackets
 	char text[] =
@@ -2399,11 +2623,11 @@ TEST(SharpBracketsOther_NestedNamespaceBrackets)
 		"}\n";
 	char options[] = "indent-brackets, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOther_NestedNamespaceIndent)
+TEST(BracketsOtherSharp, NestedNamespace_IndentNamespaces)
 {
 	// test nested indented namespaces
 	char text[] =
@@ -2430,11 +2654,11 @@ TEST(SharpBracketsOther_NestedNamespaceIndent)
 		"}\n";
 	char options[] = "indent-namespaces, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOther_NestedNamespaceIndentBlocks)
+TEST(BracketsOtherSharp, NestedNamespace_IndentNamespacesBlocks)
 {
 	// test nested indented namespaces and indented blocks
 	char text[] =
@@ -2461,11 +2685,11 @@ TEST(SharpBracketsOther_NestedNamespaceIndentBlocks)
 		"}\n";
 	char options[] = "indent-namespaces, indent-blocks, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOther_NestedNamespaceIndentBrackets)
+TEST(BracketsOtherSharp, NestedNamespace_IndentNamespacesBrackets)
 {
 	// test nested indented namespaces and indented brackets
 	char text[] =
@@ -2492,11 +2716,11 @@ TEST(SharpBracketsOther_NestedNamespaceIndentBrackets)
 		"    }\n";
 	char options[] = "indent-namespaces, indent-brackets, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsOther_NewOperator1)
+TEST(BracketsOtherSharp, NewOperator1)
 {
 	// test new operator ending with })
 	char text[] =
@@ -2513,12 +2737,12 @@ TEST(SharpBracketsOther_NewOperator1)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
 // TODO: fix the following
-TEST(SharpBracketsOther_NewOperator2)
+TEST(BracketsOtherSharp, NewOperator2)
 {
 	// test new operator ending with })
 	// C# does a full indent of brackets within a paren
@@ -2534,13 +2758,13 @@ TEST(SharpBracketsOther_NewOperator2)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 	*/
 }
 
 // TODO: fix the following
-TEST(SharpBracketsOther_NewOperator3)
+TEST(BracketsOtherSharp, NewOperator3)
 {
 	// test new operator ending with })
 	// C# does a full indent of brackets within a paren
@@ -2554,7 +2778,7 @@ TEST(SharpBracketsOther_NewOperator3)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 	*/
 }
@@ -2563,7 +2787,7 @@ TEST(SharpBracketsOther_NewOperator3)
 // AStyle C# Array Bracket Options
 //-------------------------------------------------------------------------
 
-TEST(SharpBracketsArrayNone_Comments)
+TEST(SharpBracketsArray, None_Comments)
 {
 	// comments preceding array entries should NOT break the line
 	char text[] =
@@ -2575,11 +2799,11 @@ TEST(SharpBracketsArrayNone_Comments)
 		"};\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(SharpBracketsArrayBreak_Comments)
+TEST(SharpBracketsArray, Break_Comments)
 {
 	// comments preceding array entries should NOT break the line
 	char text[] =
@@ -2592,10 +2816,10 @@ TEST(SharpBracketsArrayBreak_Comments)
 		"};\n";
 	char options[] = "brackets=break, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
-TEST(SharpBracketsArrayAttach_Comments)
+TEST(SharpBracketsArray, Attach_Comments)
 {
 	// comments preceding array entries should NOT break the line
 	char text[] =
@@ -2607,10 +2831,10 @@ TEST(SharpBracketsArrayAttach_Comments)
 		"};\n";
 	char options[] = "brackets=attach, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
-TEST(SharpBracketsArrayHorstmann_Comments)
+TEST(SharpBracketsArray, Horstmann_Comments)
 {
 	// comments preceding array entries should NOT break the line
 	char text[] =
@@ -2622,6 +2846,6 @@ TEST(SharpBracketsArrayHorstmann_Comments)
 		"};\n";
 	char options[] = "brackets=horstmann, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	CHECK_EQUAL(text, textOut);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }

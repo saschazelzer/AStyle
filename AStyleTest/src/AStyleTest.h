@@ -5,7 +5,7 @@
 // headers
 //-------------------------------------------------------------------------
 
-#include <UnitTest++.h>
+#include <gtest/gtest.h>
 #include <stdlib.h>
 #include <iostream>  // for cout
 

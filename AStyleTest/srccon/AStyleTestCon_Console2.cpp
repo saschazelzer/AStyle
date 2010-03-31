@@ -18,13 +18,13 @@
 // AStyle test getFilePaths(), wildcmp(), and fileName vector
 //----------------------------------------------------------------------------
 
-struct testFilePaths
+struct GetFilePathsF : public ::testing::Test
 {
 	ASFormatter formatter;
 	vector<string> fileNames;
 
 	// build fileNames vector and write the output files
-	testFilePaths()
+	GetFilePathsF()
 	{
 		char textIn[] =
 			"\nvoid foo()\n"
@@ -46,13 +46,13 @@ struct testFilePaths
 		}
 	}
 
-	~testFilePaths()
+	~GetFilePathsF()
 	{
 		deleteConsoleGlobalObject();
 	}
 };
 
-TEST_FIXTURE(testFilePaths, GetFilePaths1)
+TEST_F(GetFilePathsF, FilePaths1)
 // test fileName vector and getFilePaths with *.cpp
 {
 	assert(g_console != NULL);
@@ -61,20 +61,17 @@ TEST_FIXTURE(testFilePaths, GetFilePaths1)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
-	CHECK_EQUAL(fileNames.size(), fileName.size());
-
-	// use min size in case the vectors are not equal
-	size_t iMax = min(fileNames.size(), fileName.size());
-	for (size_t i = 0; i < iMax; i++)
-		CHECK_EQUAL(fileNames[i], fileName[i]);
+	ASSERT_EQ(fileNames.size(), fileName.size()) << "Vector sizes not equal.";
+	for (size_t i = 0; i < fileName.size(); i++)
+		EXPECT_EQ(fileNames[i], fileName[i]);
 }
 
-TEST_FIXTURE(testFilePaths, GetFilePaths2)
+TEST_F(GetFilePathsF, FilePaths2)
 // test fileName vector and getFilePaths with *.c??
 {
 	assert(g_console != NULL);
@@ -83,20 +80,17 @@ TEST_FIXTURE(testFilePaths, GetFilePaths2)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/*.c??", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles();	// initialize variables
 	vector<string> fileName = g_console->getFileName();
-	CHECK_EQUAL(fileNames.size(), fileName.size());
-
-	// use min size in case the vectors are not equal
-	size_t iMax = min(fileNames.size(), fileName.size());
-	for (size_t i = 0; i < iMax; i++)
-		CHECK_EQUAL(fileNames[i], fileName[i]);
+	ASSERT_EQ(fileNames.size(), fileName.size()) << "Vector sizes not equal.";
+	for (size_t i = 0; i < fileName.size(); i++)
+		EXPECT_EQ(fileNames[i], fileName[i]);
 }
 
-TEST_FIXTURE(testFilePaths, GetFilePaths3)
+TEST_F(GetFilePathsF, FilePaths3)
 // test fileName vector and getFilePaths with getFilePaths*.cpp
 {
 	assert(g_console != NULL);
@@ -105,20 +99,17 @@ TEST_FIXTURE(testFilePaths, GetFilePaths3)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/getFilePaths*.cpp", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
-	CHECK_EQUAL(fileNames.size(), fileName.size());
-
-	// use min size in case the vectors are not equal
-	size_t iMax = min(fileNames.size(), fileName.size());
-	for (size_t i = 0; i < iMax; i++)
-		CHECK_EQUAL(fileNames[i], fileName[i]);
+	ASSERT_EQ(fileNames.size(), fileName.size()) << "Vector sizes not equal.";
+	for (size_t i = 0; i < fileName.size(); i++)
+		EXPECT_EQ(fileNames[i], fileName[i]);
 }
 
-TEST_FIXTURE(testFilePaths, GetFilePaths4)
+TEST_F(GetFilePathsF, FilePaths4)
 // test fileName vector and getFilePaths with *.c*
 // * at the end WITH remaining data allows complete coverage of wildcmp function
 {
@@ -128,20 +119,17 @@ TEST_FIXTURE(testFilePaths, GetFilePaths4)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/*.c*", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
-	CHECK_EQUAL(fileNames.size(), fileName.size());
-
-	// use min size in case the vectors are not equal
-	size_t iMax = min(fileNames.size(), fileName.size());
-	for (size_t i = 0; i < iMax; i++)
-		CHECK_EQUAL(fileNames[i], fileName[i]);
+	ASSERT_EQ(fileNames.size(), fileName.size()) << "Vector sizes not equal.";
+	for (size_t i = 0; i < fileName.size(); i++)
+		EXPECT_EQ(fileNames[i], fileName[i]);
 }
 
-TEST_FIXTURE(testFilePaths, GetFilePaths5)
+TEST_F(GetFilePathsF, FilePaths5)
 // test fileName vector and getFilePaths with *.cpp*
 // * at the end WITHOUT remaining data allows complete coverage of wildcmp function
 {
@@ -151,20 +139,17 @@ TEST_FIXTURE(testFilePaths, GetFilePaths5)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/*.cpp*", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
-	CHECK_EQUAL(fileNames.size(), fileName.size());
-
-	// use min size in case the vectors are not equal
-	size_t iMax = min(fileNames.size(), fileName.size());
-	for (size_t i = 0; i < iMax; i++)
-		CHECK_EQUAL(fileNames[i], fileName[i]);
+	ASSERT_EQ(fileNames.size(), fileName.size()) << "Vector sizes not equal.";
+	for (size_t i = 0; i < fileName.size(); i++)
+		EXPECT_EQ(fileNames[i], fileName[i]);
 }
 
-TEST_FIXTURE(testFilePaths, GetFilePathsError)
+TEST_F(GetFilePathsF, FilePathsError)
 // test fileName vector and getFilePaths with bad path
 {
 	assert(g_console != NULL);
@@ -175,12 +160,12 @@ TEST_FIXTURE(testFilePaths, GetFilePathsError)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/AStyleError*", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
-	CHECK(fileName.size() == 0);
+	EXPECT_TRUE(fileName.size() == 0);
 
 	delete _err;
 	_err = &cerr;
@@ -189,13 +174,13 @@ TEST_FIXTURE(testFilePaths, GetFilePathsError)
 //----------------------------------------------------------------------------
 // AStyle test getFileType() - C_TYPE, JAVA_TYPE, SHARP_TYPE
 //----------------------------------------------------------------------------
-struct testFileType
+struct GetFileTypeF : public ::testing::Test
 {
 	ASFormatter formatter;
 	vector<string> fileNames;
 
 	// build fileNames vector and write the output files
-	testFileType()
+	GetFileTypeF()
 	{
 		char textIn[] =
 			"\nvoid foo()\n"
@@ -217,13 +202,13 @@ struct testFileType
 		}
 	}
 
-	~testFileType()
+	~GetFileTypeF()
 	{
 		deleteConsoleGlobalObject();
 	}
 };
 
-TEST_FIXTURE(testFileType, FileTypeC)
+TEST_F(GetFileTypeF, FileTypeC)
 // test getFileType with *.cpp
 {
 	assert(g_console != NULL);
@@ -232,15 +217,15 @@ TEST_FIXTURE(testFileType, FileTypeC)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
 
-	CHECK_EQUAL(formatter.getFileType(), C_TYPE);
+	EXPECT_EQ(formatter.getFileType(), C_TYPE);
 }
 
-TEST_FIXTURE(testFileType, FileTypeJave)
+TEST_F(GetFileTypeF, FileTypeJave)
 // test getFileType with *.java
 {
 	assert(g_console != NULL);
@@ -249,15 +234,15 @@ TEST_FIXTURE(testFileType, FileTypeJave)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/*.java", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
 
-	CHECK_EQUAL(formatter.getFileType(), JAVA_TYPE);
+	EXPECT_EQ(formatter.getFileType(), JAVA_TYPE);
 }
 
-TEST_FIXTURE(testFileType, FileTypeSharp)
+TEST_F(GetFileTypeF, FileTypeSharp)
 // test getFileType with *.cs
 {
 	assert(g_console != NULL);
@@ -266,15 +251,15 @@ TEST_FIXTURE(testFileType, FileTypeSharp)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/*.cs", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
 
-	CHECK_EQUAL(formatter.getFileType(), SHARP_TYPE);
+	EXPECT_EQ(formatter.getFileType(), SHARP_TYPE);
 }
 
-TEST_FIXTURE(testFileType, FileTypeError)
+TEST_F(GetFileTypeF, FileTypeError)
 // test getFileType with an invalid type, should return C_TYPE
 {
 	assert(g_console != NULL);
@@ -283,25 +268,25 @@ TEST_FIXTURE(testFileType, FileTypeError)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/*.error", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
 
-	CHECK_EQUAL(formatter.getFileType(), C_TYPE);
+	EXPECT_EQ(formatter.getFileType(), C_TYPE);
 }
 
 //----------------------------------------------------------------------------
 // AStyle test recursive option - getFilePaths(), wildcmp(), and fileName vector
 //----------------------------------------------------------------------------
 
-struct testRecursive
+struct RecursiveF : public ::testing::Test
 {
 	ASFormatter formatter;
 	vector<string> fileNames;
 
 	// build fileNames vector and write the output files
-	testRecursive()
+	RecursiveF()
 	{
 		char textIn[] =
 			"\nvoid foo()\n"
@@ -345,13 +330,13 @@ struct testRecursive
 		}
 	}
 
-	~testRecursive()
+	~RecursiveF()
 	{
 		deleteConsoleGlobalObject();
 	}
 };
 
-TEST_FIXTURE(testRecursive, Recursive)
+TEST_F(RecursiveF, Default)
 // test recursive option
 {
 	assert(g_console != NULL);
@@ -361,18 +346,18 @@ TEST_FIXTURE(testRecursive, Recursive)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
-	CHECK_EQUAL(fileNames.size(), fileName.size());
+	EXPECT_EQ(fileNames.size(), fileName.size());
 	sort(fileNames.begin(), fileNames.end());
 	for (size_t i = 0; i < fileNames.size(); i++)
-		CHECK_EQUAL(fileNames[i], fileName[i]);
+		EXPECT_EQ(fileNames[i], fileName[i]);
 }
 
-TEST_FIXTURE(testRecursive, Recursive_Sans)
+TEST_F(RecursiveF, Sans)
 // test *.cpp WITHOUT recursive
 {
 	assert(g_console != NULL);
@@ -382,7 +367,7 @@ TEST_FIXTURE(testRecursive, Recursive_Sans)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
@@ -401,15 +386,15 @@ TEST_FIXTURE(testRecursive, Recursive_Sans)
 		}
 	}
 	// check the files
-	CHECK(fileNames.size() > 0);
+	EXPECT_TRUE(fileNames.size() > 0);
 	vector<string> fileName = g_console->getFileName();
-	CHECK_EQUAL(fileNames.size(), fileName.size());
+	EXPECT_EQ(fileNames.size(), fileName.size());
 	sort(fileNames.begin(), fileNames.end());
 	for (size_t i = 0; i < fileNames.size(); i++)
-		CHECK_EQUAL(fileNames[i], fileName[i]);
+		EXPECT_EQ(fileNames[i], fileName[i]);
 }
 
-TEST_FIXTURE(testRecursive, Recursive_Exclude)
+TEST_F(RecursiveF, Exclude)
 // test recursive option with exclude
 {
 	assert(g_console != NULL);
@@ -419,7 +404,7 @@ TEST_FIXTURE(testRecursive, Recursive_Exclude)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// build exclude vector
 	size_t filesExcluded = 0;
@@ -439,10 +424,10 @@ TEST_FIXTURE(testRecursive, Recursive_Exclude)
 	// process entries in the fileNameVector
 	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
-	CHECK_EQUAL(fileNames.size() - filesExcluded, fileName.size());
+	EXPECT_EQ(fileNames.size() - filesExcluded, fileName.size());
 }
 
-TEST_FIXTURE(testRecursive, Recursive_ExcludeErrors)
+TEST_F(RecursiveF, ExcludeErrors)
 // test recursive option with exclude
 {
 	assert(g_console != NULL);
@@ -456,7 +441,7 @@ TEST_FIXTURE(testRecursive, Recursive_ExcludeErrors)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// build exclude vector
 	// partial match on file
@@ -471,17 +456,17 @@ TEST_FIXTURE(testRecursive, Recursive_ExcludeErrors)
 	string errMsg1 = "Unmatched exclude ecursive1.cpp";
 	size_t result1 = msgOut->str().find(errMsg1);
 	if (result1 == string::npos)
-		CHECK_EQUAL(errMsg1, "\"not found\"");
+		EXPECT_EQ(errMsg1, "\"not found\"");
 	string errMsg2 = "Unmatched exclude ubdir1a";
 	size_t result2 = msgOut->str().find(errMsg2);
 	if (result2 == string::npos)
-		CHECK_EQUAL(errMsg2, "\"not found\"");
+		EXPECT_EQ(errMsg2, "\"not found\"");
 
 	delete msgOut;
 	_err = &cerr;
 }
 
-TEST_FIXTURE(testRecursive, Recursive_HiddenFiles)
+TEST_F(RecursiveF, HiddenFiles)
 // test recursive option with hidden files
 {
 	assert(g_console != NULL);
@@ -491,7 +476,7 @@ TEST_FIXTURE(testRecursive, Recursive_HiddenFiles)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// write the hidden files
 	char textIn[] = "void foo(){}\n";
@@ -528,7 +513,7 @@ TEST_FIXTURE(testRecursive, Recursive_HiddenFiles)
 	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
 	// hidden files should not be in g_console vector
-	CHECK_EQUAL(fileNames.size(), fileName.size());
+	EXPECT_EQ(fileNames.size(), fileName.size());
 
 #ifdef _WIN32
 	// reset file attributes
@@ -543,7 +528,7 @@ TEST_FIXTURE(testRecursive, Recursive_HiddenFiles)
 // tests if a line end change formats the file
 //----------------------------------------------------------------------------
 
-struct testLineEndsFormatted
+struct LineEndsFormattedF : public ::testing::Test
 {
 	ASFormatter formatter;
 	vector<string> fileNames;
@@ -560,7 +545,7 @@ struct testLineEndsFormatted
 	string pathMacOld;
 
 	// build fileNames vector and write the output files
-	testLineEndsFormatted()
+	LineEndsFormattedF()
 	{
 		textLinuxStr =			// has macold line ends
 			"\rvoid foo()\r"
@@ -598,13 +583,13 @@ struct testLineEndsFormatted
 		createTestFile(pathMacOld, textMacOld);
 	}
 
-	~testLineEndsFormatted()
+	~LineEndsFormattedF()
 	{
 		deleteConsoleGlobalObject();
 	}
 };
 
-TEST_FIXTURE(testLineEndsFormatted, LineEndWindows_Formatted)
+TEST_F(LineEndsFormattedF, LineEndWindows)
 // test if lineend=windows formats the file
 {
 	assert(g_console != NULL);
@@ -614,7 +599,7 @@ TEST_FIXTURE(testLineEndsFormatted, LineEndWindows_Formatted)
 	vector<string> fileNameVector;
 	string fileWindows = pathWindows.substr(getTestDirectory().length());
 	int processReturn = buildFileNameVector(fileWindows, fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// build argv array of options
 	vector<string> optionsIn;
@@ -622,10 +607,10 @@ TEST_FIXTURE(testLineEndsFormatted, LineEndWindows_Formatted)
 	char** argv = buildArgv(optionsIn);
 	int argc = optionsIn.size() + 1;
 	processReturn = g_console->processOptions(argc, argv);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	vector<string> optionsVector = g_console->getOptionsVector();
-	CHECK_EQUAL(optionsIn.size(), optionsVector.size());
+	EXPECT_EQ(optionsIn.size(), optionsVector.size());
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
@@ -635,12 +620,12 @@ TEST_FIXTURE(testLineEndsFormatted, LineEndWindows_Formatted)
 	struct stat stBuf;
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
-		CHECK_EQUAL(origFileName.c_str(), "\"no file\"");
+		EXPECT_EQ(origFileName.c_str(), "\"no file\"");
 
 	delete [] argv;
 }
 
-TEST_FIXTURE(testLineEndsFormatted, LineEndLinux_Formatted)
+TEST_F(LineEndsFormattedF, LineEndLinux)
 // test if lineend=linux formats the file
 {
 	assert(g_console != NULL);
@@ -650,7 +635,7 @@ TEST_FIXTURE(testLineEndsFormatted, LineEndLinux_Formatted)
 	vector<string> fileNameVector;
 	string fileLinux = pathLinux.substr(getTestDirectory().length());
 	int processReturn = buildFileNameVector(fileLinux, fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// build argv array of options
 	vector<string> optionsIn;
@@ -658,10 +643,10 @@ TEST_FIXTURE(testLineEndsFormatted, LineEndLinux_Formatted)
 	char** argv = buildArgv(optionsIn);
 	int argc = optionsIn.size() + 1;
 	processReturn = g_console->processOptions(argc, argv);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	vector<string> optionsVector = g_console->getOptionsVector();
-	CHECK_EQUAL(optionsIn.size(), optionsVector.size());
+	EXPECT_EQ(optionsIn.size(), optionsVector.size());
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
@@ -671,12 +656,12 @@ TEST_FIXTURE(testLineEndsFormatted, LineEndLinux_Formatted)
 	struct stat stBuf;
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
-		CHECK_EQUAL(origFileName.c_str(), "\"no file\"");
+		EXPECT_EQ(origFileName.c_str(), "\"no file\"");
 
 	delete [] argv;
 }
 
-TEST_FIXTURE(testLineEndsFormatted, LineEndMacOld_Formatted)
+TEST_F(LineEndsFormattedF, LineEndMacOld)
 // test if lineend=macold formats the file
 {
 	assert(g_console != NULL);
@@ -686,7 +671,7 @@ TEST_FIXTURE(testLineEndsFormatted, LineEndMacOld_Formatted)
 	vector<string> fileNameVector;
 	string fileMacOld = pathMacOld.substr(getTestDirectory().length());
 	int processReturn = buildFileNameVector(fileMacOld, fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// build argv array of options
 	vector<string> optionsIn;
@@ -694,10 +679,10 @@ TEST_FIXTURE(testLineEndsFormatted, LineEndMacOld_Formatted)
 	char** argv = buildArgv(optionsIn);
 	int argc = optionsIn.size() + 1;
 	processReturn = g_console->processOptions(argc, argv);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	vector<string> optionsVector = g_console->getOptionsVector();
-	CHECK_EQUAL(optionsIn.size(), optionsVector.size());
+	EXPECT_EQ(optionsIn.size(), optionsVector.size());
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
@@ -707,7 +692,7 @@ TEST_FIXTURE(testLineEndsFormatted, LineEndMacOld_Formatted)
 	struct stat stBuf;
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
-		CHECK_EQUAL(origFileName.c_str(), "\"no file\"");
+		EXPECT_EQ(origFileName.c_str(), "\"no file\"");
 
 	delete [] argv;
 }
@@ -717,7 +702,7 @@ TEST_FIXTURE(testLineEndsFormatted, LineEndMacOld_Formatted)
 // tests if an unchanged line end leaves the file unchanged
 //----------------------------------------------------------------------------
 
-struct testLineEndsUnchanged
+struct LineEndsUnchangedF : public ::testing::Test
 {
 	ASFormatter formatter;
 	vector<string> fileNames;
@@ -734,7 +719,7 @@ struct testLineEndsUnchanged
 	string pathMacOld;
 
 	// build fileNames vector and write the output files
-	testLineEndsUnchanged()
+	LineEndsUnchangedF()
 	{
 		textLinuxStr =			// has linux line ends
 			"\nvoid foo()\n"
@@ -772,13 +757,13 @@ struct testLineEndsUnchanged
 		createTestFile(pathMacOld, textMacOld);
 	}
 
-	~testLineEndsUnchanged()
+	~LineEndsUnchangedF()
 	{
 		deleteConsoleGlobalObject();
 	}
 };
 
-TEST_FIXTURE(testLineEndsUnchanged, LineEndWindows_Unchanged)
+TEST_F(LineEndsUnchangedF, LineEndWindows)
 // test if lineend=windows leaves the file unchanged
 {
 	assert(g_console != NULL);
@@ -788,7 +773,7 @@ TEST_FIXTURE(testLineEndsUnchanged, LineEndWindows_Unchanged)
 	vector<string> fileNameVector;
 	string fileWindows = pathMacOld.substr(getTestDirectory().length());
 	int processReturn = buildFileNameVector(fileWindows, fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// build argv array of options
 	vector<string> optionsIn;
@@ -796,10 +781,10 @@ TEST_FIXTURE(testLineEndsUnchanged, LineEndWindows_Unchanged)
 	char** argv = buildArgv(optionsIn);
 	int argc = optionsIn.size() + 1;
 	processReturn = g_console->processOptions(argc, argv);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	vector<string> optionsVector = g_console->getOptionsVector();
-	CHECK_EQUAL(optionsIn.size(), optionsVector.size());
+	EXPECT_EQ(optionsIn.size(), optionsVector.size());
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
@@ -809,12 +794,12 @@ TEST_FIXTURE(testLineEndsUnchanged, LineEndWindows_Unchanged)
 	struct stat stBuf;
 	// display error if file is present
 	if (stat(origFileName.c_str(), &stBuf) != -1)
-		CHECK_EQUAL( "\"no file\"", origFileName.c_str());
+		EXPECT_EQ( "\"no file\"", origFileName.c_str());
 
 	delete [] argv;
 }
 
-TEST_FIXTURE(testLineEndsUnchanged, LineEndLinux_Unchanged)
+TEST_F(LineEndsUnchangedF, LineEndLinux)
 // test if lineend=linux leaves the file unchanged
 {
 	assert(g_console != NULL);
@@ -824,7 +809,7 @@ TEST_FIXTURE(testLineEndsUnchanged, LineEndLinux_Unchanged)
 	vector<string> fileNameVector;
 	string fileLinux = pathMacOld.substr(getTestDirectory().length());
 	int processReturn = buildFileNameVector(fileLinux, fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// build argv array of options
 	vector<string> optionsIn;
@@ -832,10 +817,10 @@ TEST_FIXTURE(testLineEndsUnchanged, LineEndLinux_Unchanged)
 	char** argv = buildArgv(optionsIn);
 	int argc = optionsIn.size() + 1;
 	processReturn = g_console->processOptions(argc, argv);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	vector<string> optionsVector = g_console->getOptionsVector();
-	CHECK_EQUAL(optionsIn.size(), optionsVector.size());
+	EXPECT_EQ(optionsIn.size(), optionsVector.size());
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
@@ -845,12 +830,12 @@ TEST_FIXTURE(testLineEndsUnchanged, LineEndLinux_Unchanged)
 	struct stat stBuf;
 	// display error if file is present
 	if (stat(origFileName.c_str(), &stBuf) != -1)
-		CHECK_EQUAL( "\"no file\"", origFileName.c_str());
+		EXPECT_EQ( "\"no file\"", origFileName.c_str());
 
 	delete [] argv;
 }
 
-TEST_FIXTURE(testLineEndsUnchanged, LineEndMacOld_Unchanged)
+TEST_F(LineEndsUnchangedF, LineEndMacOld)
 // test if lineend=macold leaves the file unchanged
 {
 	assert(g_console != NULL);
@@ -860,7 +845,7 @@ TEST_FIXTURE(testLineEndsUnchanged, LineEndMacOld_Unchanged)
 	vector<string> fileNameVector;
 	string fileMacOld = pathMacOld.substr(getTestDirectory().length());
 	int processReturn = buildFileNameVector(fileMacOld, fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// build argv array of options
 	vector<string> optionsIn;
@@ -868,10 +853,10 @@ TEST_FIXTURE(testLineEndsUnchanged, LineEndMacOld_Unchanged)
 	char** argv = buildArgv(optionsIn);
 	int argc = optionsIn.size() + 1;
 	processReturn = g_console->processOptions(argc, argv);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	vector<string> optionsVector = g_console->getOptionsVector();
-	CHECK_EQUAL(optionsIn.size(), optionsVector.size());
+	EXPECT_EQ(optionsIn.size(), optionsVector.size());
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
@@ -881,7 +866,7 @@ TEST_FIXTURE(testLineEndsUnchanged, LineEndMacOld_Unchanged)
 	struct stat stBuf;
 	// display error if file is present
 	if (stat(origFileName.c_str(), &stBuf) != -1)
-		CHECK_EQUAL( "\"no file\"", origFileName.c_str());
+		EXPECT_EQ( "\"no file\"", origFileName.c_str());
 
 	delete [] argv;
 }
@@ -891,7 +876,7 @@ TEST_FIXTURE(testLineEndsUnchanged, LineEndMacOld_Unchanged)
 // tests if default line end leaves the file unchanged
 //----------------------------------------------------------------------------
 
-struct testLineEndsDefault
+struct LineEndsDefaultF : public ::testing::Test
 {
 	ASFormatter formatter;
 	vector<string> fileNames;
@@ -908,7 +893,7 @@ struct testLineEndsDefault
 	string pathMacOld;
 
 	// build fileNames vector and write the output files
-	testLineEndsDefault()
+	LineEndsDefaultF()
 	{
 		textLinuxStr =			// has linux line ends
 			"\nvoid foo()\n"
@@ -946,13 +931,13 @@ struct testLineEndsDefault
 		createTestFile(pathMacOld, textMacOld);
 	}
 
-	~testLineEndsDefault()
+	~LineEndsDefaultF()
 	{
 		deleteConsoleGlobalObject();
 	}
 };
 
-TEST_FIXTURE(testLineEndsDefault, LineEndWindows_Default)
+TEST_F(LineEndsDefaultF, LineEndWindows)
 // test if default line end leaves a windows file unchanged
 {
 	assert(g_console != NULL);
@@ -962,7 +947,7 @@ TEST_FIXTURE(testLineEndsDefault, LineEndWindows_Default)
 	vector<string> fileNameVector;
 	string fileWindows = pathMacOld.substr(getTestDirectory().length());
 	int processReturn = buildFileNameVector(fileWindows, fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
@@ -972,10 +957,10 @@ TEST_FIXTURE(testLineEndsDefault, LineEndWindows_Default)
 	struct stat stBuf;
 	// display error if file is present
 	if (stat(origFileName.c_str(), &stBuf) != -1)
-		CHECK_EQUAL( "\"no file\"", origFileName.c_str());
+		EXPECT_EQ( "\"no file\"", origFileName.c_str());
 }
 
-TEST_FIXTURE(testLineEndsDefault, LineEndLinux_Default)
+TEST_F(LineEndsDefaultF, LineEndLinux)
 // test if default line end leaves a linux file unchanged
 {
 	assert(g_console != NULL);
@@ -985,7 +970,7 @@ TEST_FIXTURE(testLineEndsDefault, LineEndLinux_Default)
 	vector<string> fileNameVector;
 	string fileLinux = pathMacOld.substr(getTestDirectory().length());
 	int processReturn = buildFileNameVector(fileLinux, fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
@@ -995,10 +980,10 @@ TEST_FIXTURE(testLineEndsDefault, LineEndLinux_Default)
 	struct stat stBuf;
 	// display error if file is present
 	if (stat(origFileName.c_str(), &stBuf) != -1)
-		CHECK_EQUAL( "\"no file\"", origFileName.c_str());
+		EXPECT_EQ( "\"no file\"", origFileName.c_str());
 }
 
-TEST_FIXTURE(testLineEndsDefault, LineEndMacOld_Default)
+TEST_F(LineEndsDefaultF, LineEndMacOld)
 // test if default line end leaves a macold file unchanged
 {
 	assert(g_console != NULL);
@@ -1008,7 +993,7 @@ TEST_FIXTURE(testLineEndsDefault, LineEndMacOld_Default)
 	vector<string> fileNameVector;
 	string fileMacOld = pathMacOld.substr(getTestDirectory().length());
 	int processReturn = buildFileNameVector(fileMacOld, fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
@@ -1018,14 +1003,14 @@ TEST_FIXTURE(testLineEndsDefault, LineEndMacOld_Default)
 	struct stat stBuf;
 	// display error if file is present
 	if (stat(origFileName.c_str(), &stBuf) != -1)
-		CHECK_EQUAL( "\"no file\"", origFileName.c_str());
+		EXPECT_EQ( "\"no file\"", origFileName.c_str());
 }
 
 //----------------------------------------------------------------------------
 // AStyle line ends formatted
 // tests if default line ends calls the convertLineEnds() function when needed
 //----------------------------------------------------------------------------
-struct testLineEndsDefaultMixed
+struct LineEndsDefaultMixedF : public ::testing::Test
 {
 	ASFormatter formatter;
 	vector<string> fileNames;
@@ -1042,7 +1027,7 @@ struct testLineEndsDefaultMixed
 	string pathMacOld;
 
 	// build fileNames vector and write the output files
-	testLineEndsDefaultMixed()
+	LineEndsDefaultMixedF()
 	{
 		textLinuxStr =
 			"\r\nvoid foo()\r\n"	// not a linux line end
@@ -1083,13 +1068,13 @@ struct testLineEndsDefaultMixed
 		createTestFile(pathMacOld, textMacOld);
 	}
 
-	~testLineEndsDefaultMixed()
+	~LineEndsDefaultMixedF()
 	{
 		deleteConsoleGlobalObject();
 	}
 };
 
-TEST_FIXTURE(testLineEndsDefaultMixed, LineEndDefault_Mixed_Windows)
+TEST_F(LineEndsDefaultMixedF, LineEndWindows)
 // test if default line ends outputs windows line ends by calling convertLineEnds()
 {
 	assert(g_console != NULL);
@@ -1099,7 +1084,7 @@ TEST_FIXTURE(testLineEndsDefaultMixed, LineEndDefault_Mixed_Windows)
 	vector<string> fileNameVector;
 	string fileWindows = pathWindows.substr(getTestDirectory().length());
 	int processReturn = buildFileNameVector(fileWindows, fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
@@ -1109,14 +1094,14 @@ TEST_FIXTURE(testLineEndsDefaultMixed, LineEndDefault_Mixed_Windows)
 	struct stat stBuf;
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
-		CHECK_EQUAL("\"no file\"", origFileName.c_str());
+		EXPECT_EQ("\"no file\"", origFileName.c_str());
 	// check that convertLineEnds is called
-	CHECK(g_console->getLineEndsMixed());
+	EXPECT_TRUE(g_console->getLineEndsMixed());
 	// the line ends must be checked manually
 //	systemPause("Check Windows Line Ends");
 }
 
-TEST_FIXTURE(testLineEndsDefaultMixed, LineEndDefault_Mixed_Linux)
+TEST_F(LineEndsDefaultMixedF, LineEndLinux)
 // test if default line ends outputs linux line ends by calling convertLineEnds()
 {
 	assert(g_console != NULL);
@@ -1126,7 +1111,7 @@ TEST_FIXTURE(testLineEndsDefaultMixed, LineEndDefault_Mixed_Linux)
 	vector<string> fileNameVector;
 	string fileLinux = pathLinux.substr(getTestDirectory().length());
 	int processReturn = buildFileNameVector(fileLinux, fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
@@ -1136,14 +1121,14 @@ TEST_FIXTURE(testLineEndsDefaultMixed, LineEndDefault_Mixed_Linux)
 	struct stat stBuf;
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
-		CHECK_EQUAL("\"no file\"", origFileName.c_str());
+		EXPECT_EQ("\"no file\"", origFileName.c_str());
 	// check that convertLineEnds is called
-	CHECK(g_console->getLineEndsMixed());
+	EXPECT_TRUE(g_console->getLineEndsMixed());
 	// the line ends must be checked manually
 //	systemPause("Check Linux Line Ends");
 }
 
-TEST_FIXTURE(testLineEndsDefaultMixed, LineEndDefault_Mixed_MacOld)
+TEST_F(LineEndsDefaultMixedF, LineEndMacOld)
 // test if default line ends outputs linux line ends by calling convertLineEnds()
 {
 	assert(g_console != NULL);
@@ -1153,7 +1138,7 @@ TEST_FIXTURE(testLineEndsDefaultMixed, LineEndDefault_Mixed_MacOld)
 	vector<string> fileNameVector;
 	string fileMacOld = pathMacOld.substr(getTestDirectory().length());
 	int processReturn = buildFileNameVector(fileMacOld, fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
@@ -1163,9 +1148,9 @@ TEST_FIXTURE(testLineEndsDefaultMixed, LineEndDefault_Mixed_MacOld)
 	struct stat stBuf;
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
-		CHECK_EQUAL("\"no file\"", origFileName.c_str());
+		EXPECT_EQ("\"no file\"", origFileName.c_str());
 	// check that convertLineEnds is called
-	CHECK(g_console->getLineEndsMixed());
+	EXPECT_TRUE(g_console->getLineEndsMixed());
 	// the line ends must be checked manually
 //	systemPause("Check MacOld Line Ends");
 }
@@ -1175,7 +1160,7 @@ TEST_FIXTURE(testLineEndsDefaultMixed, LineEndDefault_Mixed_MacOld)
 // tests that default line ends does NOT call the convertLineEnds() function when not needed
 //----------------------------------------------------------------------------
 
-struct testLineEndsDefaultMixedSans
+struct LineEndsDefaultMixedSansF : public ::testing::Test
 {
 	ASFormatter formatter;
 	vector<string> fileNames;
@@ -1192,7 +1177,7 @@ struct testLineEndsDefaultMixedSans
 	string pathMacOld;
 
 	// build fileNames vector and write the output files
-	testLineEndsDefaultMixedSans()
+	LineEndsDefaultMixedSansF()
 	{
 		textLinuxStr =
 			"\nvoid foo()\n"
@@ -1230,13 +1215,13 @@ struct testLineEndsDefaultMixedSans
 		createTestFile(pathMacOld, textMacOld);
 	}
 
-	~testLineEndsDefaultMixedSans()
+	~LineEndsDefaultMixedSansF()
 	{
 		deleteConsoleGlobalObject();
 	}
 };
 
-TEST_FIXTURE(testLineEndsDefaultMixedSans, LineEndDefaultMixed_Windows_Sans)
+TEST_F(LineEndsDefaultMixedSansF, LineEndWindows)
 // test if default line ends outputs windows line ends without calling convertLineEnds()
 {
 	assert(g_console != NULL);
@@ -1246,7 +1231,7 @@ TEST_FIXTURE(testLineEndsDefaultMixedSans, LineEndDefaultMixed_Windows_Sans)
 	vector<string> fileNameVector;
 	string fileWindows = pathWindows.substr(getTestDirectory().length());
 	int processReturn = buildFileNameVector(fileWindows, fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
@@ -1256,14 +1241,14 @@ TEST_FIXTURE(testLineEndsDefaultMixedSans, LineEndDefaultMixed_Windows_Sans)
 	struct stat stBuf;
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
-		CHECK_EQUAL("\"no file\"", origFileName.c_str());
+		EXPECT_EQ("\"no file\"", origFileName.c_str());
 	// check that convertLineEnds is NOT called
-	CHECK(!g_console->getLineEndsMixed());
+	EXPECT_FALSE(g_console->getLineEndsMixed());
 	// the line ends must be checked manually
 //	systemPause("Check Windows Line Ends");
 }
 
-TEST_FIXTURE(testLineEndsDefaultMixedSans, LineEndDefaultMixed_Linux_Sans)
+TEST_F(LineEndsDefaultMixedSansF, LineEndLinux)
 // test if default line ends outputs linux line ends without calling convertLineEnds()
 {
 	assert(g_console != NULL);
@@ -1273,7 +1258,7 @@ TEST_FIXTURE(testLineEndsDefaultMixedSans, LineEndDefaultMixed_Linux_Sans)
 	vector<string> fileNameVector;
 	string fileLinux = pathLinux.substr(getTestDirectory().length());
 	int processReturn = buildFileNameVector(fileLinux, fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
@@ -1283,14 +1268,14 @@ TEST_FIXTURE(testLineEndsDefaultMixedSans, LineEndDefaultMixed_Linux_Sans)
 	struct stat stBuf;
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
-		CHECK_EQUAL("\"no file\"", origFileName.c_str());
+		EXPECT_EQ("\"no file\"", origFileName.c_str());
 	// check that convertLineEnds is NOT called
-	CHECK(!g_console->getLineEndsMixed());
+	EXPECT_FALSE(g_console->getLineEndsMixed());
 	// the line ends must be checked manually
 //	systemPause("Check Linux Line Ends");
 }
 
-TEST_FIXTURE(testLineEndsDefaultMixedSans, LineEndDefaultMixed_MacOld_Sans)
+TEST_F(LineEndsDefaultMixedSansF, LineEndMacOld)
 // test if default line ends outputs linux line ends without calling convertLineEnds()
 {
 	assert(g_console != NULL);
@@ -1300,7 +1285,7 @@ TEST_FIXTURE(testLineEndsDefaultMixedSans, LineEndDefaultMixed_MacOld_Sans)
 	vector<string> fileNameVector;
 	string fileMacOld = pathMacOld.substr(getTestDirectory().length());
 	int processReturn = buildFileNameVector(fileMacOld, fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// process entries in the fileNameVector
 	g_console->processFiles();
@@ -1310,9 +1295,9 @@ TEST_FIXTURE(testLineEndsDefaultMixedSans, LineEndDefaultMixed_MacOld_Sans)
 	struct stat stBuf;
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
-		CHECK_EQUAL("\"no file\"", origFileName.c_str());
+		EXPECT_EQ("\"no file\"", origFileName.c_str());
 	// check that convertLineEnds is NOT called
-	CHECK(!g_console->getLineEndsMixed());
+	EXPECT_FALSE(g_console->getLineEndsMixed());
 	// the line ends must be checked manually
 //	systemPause("Check MacOld Line Ends");
 }
@@ -1321,14 +1306,14 @@ TEST_FIXTURE(testLineEndsDefaultMixedSans, LineEndDefaultMixed_MacOld_Sans)
 // AStyle test print options for VISUAL checking - must define ASTYLECON_PRINT
 //----------------------------------------------------------------------------
 #ifdef ASTYLECON_PRINT
-struct testPrint
+struct PrintF : public ::testing::Test
 {
 	ASFormatter formatter;
 	vector<string> fileNames;
 	size_t filesExcluded;
 
 	// build fileNames vector and write the output files
-	testPrint() : filesExcluded(0)
+	PrintF() : filesExcluded(0)
 	{
 		char textFormatted[] =
 			"\nvoid foo()\n"
@@ -1353,7 +1338,7 @@ struct testPrint
 		createTestFile(fileNames.back(), textUnchanged);
 	}
 
-	~testPrint()
+	~PrintF()
 	{
 		cout << endl;
 		deleteConsoleGlobalObject();
@@ -1372,7 +1357,7 @@ struct testPrint
 	}
 };
 
-TEST_FIXTURE(testPrint, Print_Wildcard)
+TEST_F(PrintF, DefaultWildcard)
 // test print wildcard with no options
 {
 	assert(g_console != NULL);
@@ -1380,7 +1365,7 @@ TEST_FIXTURE(testPrint, Print_Wildcard)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// the results must be checked visually
 	cout << "DEFAULT WILDCARD" << endl;
@@ -1388,13 +1373,13 @@ TEST_FIXTURE(testPrint, Print_Wildcard)
 	// process entries in the fileNameVector
 	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
-	CHECK_EQUAL(fileNames.size() - filesExcluded, fileName.size());
+	EXPECT_EQ(fileNames.size() - filesExcluded, fileName.size());
 
 	// the results must be checked visually
 	cout << "END" << endl;
 }
 
-TEST_FIXTURE(testPrint, Print_Wildcard_Exclude)
+TEST_F(PrintF, DefaultWildcard_Exclude)
 // test print wildcard with an exclude
 {
 	assert(g_console != NULL);
@@ -1402,7 +1387,7 @@ TEST_FIXTURE(testPrint, Print_Wildcard_Exclude)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// the results must be checked visually
 	cout << "DEFAULT WILDCARD with exclude" << endl;
@@ -1411,13 +1396,13 @@ TEST_FIXTURE(testPrint, Print_Wildcard_Exclude)
 	// process entries in the fileNameVector
 	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
-	CHECK_EQUAL(fileNames.size() - filesExcluded, fileName.size());
+	EXPECT_EQ(fileNames.size() - filesExcluded, fileName.size());
 
 	// the results must be checked visually
 	cout << "END" << endl;
 }
 
-TEST_FIXTURE(testPrint, Print_Formatted_Wildcard)
+TEST_F(PrintF, FormattedWildcard)
 // test print with "formatted" wildcard
 {
 	assert(g_console != NULL);
@@ -1426,7 +1411,7 @@ TEST_FIXTURE(testPrint, Print_Formatted_Wildcard)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// the results must be checked visually
 	cout << "FORMATTED WILDCARD" << endl;
@@ -1434,13 +1419,13 @@ TEST_FIXTURE(testPrint, Print_Formatted_Wildcard)
 	// process entries in the fileNameVector
 	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
-	CHECK_EQUAL(fileNames.size() - filesExcluded, fileName.size());
+	EXPECT_EQ(fileNames.size() - filesExcluded, fileName.size());
 
 	// the results must be checked visually
 	cout << "END" << endl;
 }
 
-TEST_FIXTURE(testPrint, Print_Verbose_Wildcard)
+TEST_F(PrintF, VerboseWildcard_OptionsFile)
 // test print with "verbose" wildcard
 {
 	assert(g_console != NULL);
@@ -1449,7 +1434,7 @@ TEST_FIXTURE(testPrint, Print_Verbose_Wildcard)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// the results must be checked visually
 	cout << "VERBOSE WILDCARD with options file" << endl;
@@ -1460,13 +1445,13 @@ TEST_FIXTURE(testPrint, Print_Verbose_Wildcard)
 	// process entries in the fileNameVector
 	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
-	CHECK_EQUAL(fileNames.size() - filesExcluded, fileName.size());
+	EXPECT_EQ(fileNames.size() - filesExcluded, fileName.size());
 
 	// the results must be checked visually
 	cout << "END" << endl;
 }
 
-TEST_FIXTURE(testPrint, Print_Verbose_Formatted_Wildcard)
+TEST_F(PrintF, VerboseFormattedWildcard)
 // test print with "verbose" and "formatted" wildcard
 {
 	assert(g_console != NULL);
@@ -1476,7 +1461,7 @@ TEST_FIXTURE(testPrint, Print_Verbose_Formatted_Wildcard)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// the results must be checked visually
 	cout << "VERBOSE FORMATTED WILDCARD" << endl;
@@ -1484,13 +1469,13 @@ TEST_FIXTURE(testPrint, Print_Verbose_Formatted_Wildcard)
 	// process entries in the fileNameVector
 	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
-	CHECK_EQUAL(fileNames.size() - filesExcluded, fileName.size());
+	EXPECT_EQ(fileNames.size() - filesExcluded, fileName.size());
 
 	// the results must be checked visually
 	cout << "END" << endl;
 }
 
-TEST_FIXTURE(testPrint, Print_SingleFile)
+TEST_F(PrintF, DefaultSingleFile)
 // test print single file with no options
 {
 	assert(g_console != NULL);
@@ -1498,7 +1483,7 @@ TEST_FIXTURE(testPrint, Print_SingleFile)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/fileFormatted.cpp", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// the results must be checked visually
 	cout << "DEFAULT SINGLE FILE" << endl;
@@ -1506,13 +1491,13 @@ TEST_FIXTURE(testPrint, Print_SingleFile)
 	// process entries in the fileNameVector
 	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
-	CHECK_EQUAL((size_t) 1, fileName.size());
+	EXPECT_EQ((size_t) 1, fileName.size());
 
 	// the results must be checked visually
 	cout << "END" << endl;
 }
 
-TEST_FIXTURE(testPrint, Print_Formatted_SingleFile)
+TEST_F(PrintF, FormattedSingleFile)
 // test print with "formatted" single file
 {
 	assert(g_console != NULL);
@@ -1521,7 +1506,7 @@ TEST_FIXTURE(testPrint, Print_Formatted_SingleFile)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/fileFormatted.cpp", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// the results must be checked visually
 	cout << "FORMATTED SINGLE FILE" << endl;
@@ -1529,13 +1514,13 @@ TEST_FIXTURE(testPrint, Print_Formatted_SingleFile)
 	// process entries in the fileNameVector
 	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
-	CHECK_EQUAL((size_t) 1, fileName.size());
+	EXPECT_EQ((size_t) 1, fileName.size());
 
 	// the results must be checked visually
 	cout << "END" << endl;
 }
 
-TEST_FIXTURE(testPrint, Print_Verbose_SingleFile)
+TEST_F(PrintF, VerboseSingleFile_OptionsFile)
 // test print with "verbose" single file
 {
 	assert(g_console != NULL);
@@ -1544,7 +1529,7 @@ TEST_FIXTURE(testPrint, Print_Verbose_SingleFile)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/fileFormatted.cpp", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// the results must be checked visually
 	cout << "VERBOSE SINGLE FILE with options file" << endl;
@@ -1555,13 +1540,13 @@ TEST_FIXTURE(testPrint, Print_Verbose_SingleFile)
 	// process entries in the fileNameVector
 	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
-	CHECK_EQUAL((size_t) 1, fileName.size());
+	EXPECT_EQ((size_t) 1, fileName.size());
 
 	// the results must be checked visually
 	cout << "END" << endl;
 }
 
-TEST_FIXTURE(testPrint, Print_Quiet)
+TEST_F(PrintF, Quiet_AllOptions)
 // test print with "quiet" and all other options
 {
 	assert(g_console != NULL);
@@ -1572,7 +1557,7 @@ TEST_FIXTURE(testPrint, Print_Quiet)
 	// build the fileNameVector
 	vector<string> fileNameVector;
 	int processReturn = buildFileNameVector("/*.cpp", fileNameVector);
-	CHECK(processReturn == CONTINUE);
+	ASSERT_TRUE(processReturn == CONTINUE);
 
 	// the results must be checked visually
 	cout << "QUIET with all options (including exclude and options file)" << endl;
@@ -1584,7 +1569,7 @@ TEST_FIXTURE(testPrint, Print_Quiet)
 	// process entries in the fileNameVector
 	g_console->processFiles();
 	vector<string> fileName = g_console->getFileName();
-	CHECK_EQUAL(fileNames.size() - filesExcluded, fileName.size());
+	EXPECT_EQ(fileNames.size() - filesExcluded, fileName.size());
 
 	// the results must be checked visually
 	cout << "END" << endl;
