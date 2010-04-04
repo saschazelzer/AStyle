@@ -28,7 +28,7 @@ AStyleInterface::AStyleInterface()
     preprocessorIndent = false;             // --indent-preprocessor
     col1CommentIndent  = false;             // --indent-col1-comments
     maxInStatementIndent = 40;              // --max-instatement-indent=#
-    minConditionalIndent = indentLength * 2;  // --min-conditional-indent=#
+    minConditionalOption = MINCOND_TWO;     // --min-conditional-indent=#
 
     // padding options
     breakHeaderBlocks  = false;             // --break-blocks, --break-blocks=all
@@ -58,7 +58,7 @@ AStyleInterface::AStyleInterface()
     // save integer default values
     defaultIndentLength         = indentLength;
     defaultMaxInStatementIndent = maxInStatementIndent;
-    defaultMinConditionalIndent = minConditionalIndent;
+    defaultMinConditionalOption = minConditionalOption;
 }
 
 /**
@@ -189,9 +189,9 @@ string AStyleInterface::getOptions() const
                        + intToString(maxInStatementIndent));
         options.append(separator);
     }
-    if (minConditionalIndent != defaultMinConditionalIndent)
+    if (minConditionalOption != defaultMinConditionalOption)
     {   options.append("min-conditional-indent="
-                       + intToString(minConditionalIndent));
+                       + intToString(minConditionalOption));
         options.append(separator);
     }
     // begin break-blocks check
@@ -328,7 +328,7 @@ void AStyleInterface::setTestOptions()
     preprocessorIndent   = true;
     col1CommentIndent    = true;
     maxInStatementIndent = 50;
-    minConditionalIndent = 10;
+    minConditionalOption = 0;
 
     // padding options
     breakHeaderBlocks    = true;
@@ -418,7 +418,7 @@ char* AStyleInterface::formatSource(const char* textIn, FileMode fileModeArg)
 * @param  errorNumber   The error number from Artistic Style.
 * @param  errorMessage  The error message from Artistic Style.
 */
-void STDCALL AStyleInterface::errorHandler(int errorNumber, char* errorMessage)
+void STDCALL AStyleInterface::errorHandler(int errorNumber, const char* errorMessage)
 {   displayErrorMessage(string("astyle error "
                                + intToString(errorNumber)
                                + "\n" + errorMessage));

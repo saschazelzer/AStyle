@@ -23,7 +23,7 @@
 					<Add option="-c" />
 					<Add option="-Gn" />
 					<Add option="-x" />
-					<Add library="cw32" />
+					<Add library="cw32mt" />
 					<Add library="import32" />
 				</Linker>
 			</Target>

@@ -16,8 +16,8 @@
 				<Option projectResourceIncludeDirsRelation="1" />
 				<Compiler>
 					<Add option="-w" />
+					<Add option="-tWC" />
 					<Add option="-RT-" />
-					<Add option="-WCR" />
 					<Add option="-DNDEBUG" />
 				</Compiler>
 				<Linker>
@@ -27,14 +27,14 @@
 					<Add library="cw32" />
 					<Add library="import32" />
 				</Linker>
+				<ExtraCommands>
+					<Add after="cmd /c  del  bin\*.tds" />
+				</ExtraCommands>
 			</Target>
 		</Build>
 		<VirtualTargets>
 			<Add alias="All" targets="AStyle;" />
 		</VirtualTargets>
-		<ExtraCommands>
-			<Add after="cmd /c  del  bin\*.tds" />
-		</ExtraCommands>
 		<Unit filename="..\..\..\AStyle\src\ASBeautifier.cpp" />
 		<Unit filename="..\..\..\AStyle\src\ASEnhancer.cpp" />
 		<Unit filename="..\..\..\AStyle\src\ASFormatter.cpp" />

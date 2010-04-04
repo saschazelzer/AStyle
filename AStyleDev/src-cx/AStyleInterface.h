@@ -16,7 +16,7 @@ extern "C"
 {   char* STDCALL  AStyleGetVersion();
     char* STDCALL  AStyleMain(const char* textIn,
                               const char* options,
-                              void(STDCALL *errorHandler)(int, char*),
+                              void(STDCALL *errorHandler)(int, const char*),
                               char*(STDCALL *memoryAlloc)(unsigned long));
 }
 
@@ -30,7 +30,6 @@ class AStyleInterface
 public:
     // NOTE: enumerators are always static
 
-    // bracketFormatMode valid bracket modes
     enum BracketMode { BRACKETS_NONE,
                        BRACKETS_ATTACH,
                        BRACKETS_BREAK,
@@ -39,13 +38,11 @@ public:
                        BRACKETS_HORSTMANN
                      };
 
-    // indentType valid indent types
     enum IndentType { INDENT_SPACES,
                       INDENT_TABS,
                       INDENT_FTABS
                     };
 
-    // predefinedStyle valid predefined styles
     enum PredefinedStyle  { STYLE_NONE,
                             STYLE_ALLMAN,
                             STYLE_JAVA,
@@ -65,7 +62,13 @@ public:
                         ALIGN_NAME
                       };
 
-    // fileMode variable file modes
+    enum MinConditional { MINCOND_ZERO = 0,
+                          MINCOND_ONE = 1,
+                          MINCOND_TWO = 2,
+                          MINCOND_ONEHALF = 3,
+                          MINCOND_END
+                        };
+
     enum FileMode { FILEMODE_CPP,
                     FILEMODE_JAVA,
                     FILEMODE_SHARP
@@ -106,7 +109,7 @@ private:
     bool preprocessorIndent;            // --indent-preprocessor
     bool col1CommentIndent;             // --indent-col1-comments
     int  maxInStatementIndent;          // --max-instatement-indent=#
-    int  minConditionalIndent;          // --min-conditional-indent=#
+    int  minConditionalOption;          // --min-conditional-indent=#
 
     // padding options
     bool breakHeaderBlocks;             // --break-blocks, --break-blocks=all
@@ -135,7 +138,7 @@ private:
     // default values for integer variables, saved by constructor
     int defaultIndentLength;            // default indentLength
     int defaultMaxInStatementIndent;    // default maxInStatementIndent
-    int defaultMinConditionalIndent;    // default minConditionalIndent
+    int defaultMinConditionalOption;    // default minConditionalIndent
 
 private:
     // private functions
@@ -143,7 +146,7 @@ private:
     std::string getOptions() const;
     static std::string intToString(int intValue);
     // callback functions for Artistic Style
-    static void  STDCALL errorHandler(int errorNumber, char* errorMessage);
+    static void  STDCALL errorHandler(int errorNumber, const char* errorMessage);
     static char* STDCALL memoryAlloc(unsigned long memoryNeeded);
 
 };  // class AStyleInterface

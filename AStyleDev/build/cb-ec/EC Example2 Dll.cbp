@@ -24,7 +24,7 @@
 					<Add option="-Gn" />
 					<Add option="-x" />
 					<Add option="-Gi" />
-					<Add library="cw32" />
+					<Add library="cw32mt" />
 					<Add library="import32" />
 				</Linker>
 				<ExtraCommands>
@@ -53,7 +53,7 @@
 					<Add option="-c" />
 					<Add option="-Gn" />
 					<Add option="-x" />
-					<Add library="cw32" />
+					<Add library="cw32mt" />
 					<Add library="import32" />
 					<Add library="kernel32" />
 					<Add library="AStyle" />

@@ -40,6 +40,12 @@ public class AStyleInterface
     public static final int ALIGN_MIDDLE   = 2;
     public static final int ALIGN_NAME     = 3;
 
+    // minConditionalOption valid options
+    public static final int  MINCOND_ZERO = 0;
+    public static final int  MINCOND_ONE = 1;
+    public static final int  MINCOND_TWO = 2;
+    public static final int  MINCOND_ONEHALF = 3;
+
     // fileMode variable file modes
     public static final int FILEMODE_CPP   = 0;
     public static final int FILEMODE_JAVA  = 1;
@@ -70,7 +76,7 @@ public class AStyleInterface
     private boolean preprocessorIndent = false;     // --indent-preprocessor
     private boolean col1CommentIndent  = false;     // --indent-col1-comments
     private int maxInStatementIndent   = 40;        // --max-instatement-indent=#
-    private int minConditionalIndent   = 8;         // --min-conditional-indent=#
+    private int minConditionalOption = MINCOND_TWO; // --min-conditional-indent=#
 
     // padding options
     private boolean breakHeaderBlocks   = false;    // --break-blocks, --break-blocks=all
@@ -99,7 +105,7 @@ public class AStyleInterface
     // default values for integer variables, saved by constructor
     private int    defaultIndentLength;             // default indentLength
     private int    defaultMaxInStatementIndent;     // default maxInStatementIndent
-    private int    defaultMinConditionalIndent;     // default minConditionalIndent
+    private int    defaultMinConditionalOption;     // default minConditionalOption
 
     /**
     * The constructor saves the integer default values.
@@ -109,7 +115,7 @@ public class AStyleInterface
     {   // save integer default values
         defaultIndentLength         = indentLength;
         defaultMaxInStatementIndent = maxInStatementIndent;
-        defaultMinConditionalIndent = minConditionalIndent;
+        defaultMinConditionalOption = minConditionalOption;
     }
 
     /**
@@ -249,9 +255,9 @@ public class AStyleInterface
                            + String.valueOf(maxInStatementIndent));
             options.append(separator);
         }
-        if (minConditionalIndent != defaultMinConditionalIndent)
+        if (minConditionalOption != defaultMinConditionalOption)
         {   options.append("min-conditional-indent="
-                           + String.valueOf(minConditionalIndent));
+                           + String.valueOf(minConditionalOption));
             options.append(separator);
         }
         // begin break-blocks check
@@ -409,7 +415,7 @@ public class AStyleInterface
         preprocessorIndent   = true;
         col1CommentIndent    = true;
         maxInStatementIndent = 50;
-        minConditionalIndent = 10;
+        minConditionalOption = 0;
 
         // padding options
         breakHeaderBlocks    = true;
@@ -436,7 +442,7 @@ public class AStyleInterface
         /*  predefinedStyle   = 10;
         bracketFormatMode = 7;
         maxInStatementIndent = 90;
-        minConditionalIndent = 50;
+        minConditionalOption = 50;
         // cannot have both invalid indentLength and invalid indentType
         //indentLength      = 21;
         indentType        = 6;  */
