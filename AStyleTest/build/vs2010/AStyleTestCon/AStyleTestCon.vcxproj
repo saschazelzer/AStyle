@@ -72,15 +72,15 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Print|Win32'">$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Print|Win32'">false</LinkIncremental>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AStyleTestCond</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='LeakFinder|Win32'">AStyleTestCondl</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Print|Win32'">AStyleTestConp</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AStyleTestCon</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Print|Win32'">AStyleTestConp</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='LeakFinder|Win32'">AStyleTestCondl</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\UnitTest++\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gtest\include;..\..\..\srcx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -92,8 +92,8 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>AStyleConLibd.lib;UnitTest++.vsnet2010.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\debug;..\..\..\..\UnitTest++\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>AStyleConLibd.lib;gtestd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(ProjectDir)$(Configuration)\$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
@@ -102,13 +102,10 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <Optimization>Disabled</Optimization>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\UnitTest++\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gtest\include;..\..\..\srcx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
-      <BasicRuntimeChecks>
-      </BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -118,8 +115,8 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>AStyleConLib.lib;UnitTest++.vsnet2010.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\bin;..\..\..\..\UnitTest++\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>AStyleConLib.lib;gtest.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -131,7 +128,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\UnitTest++\src;..\..\..\..\LeakFinder-RC9;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gtest\include;..\..\..\srcx;..\..\..\..\LeakFinder-RC9;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;ASTYLECON_PRINT;LEAK_FINDER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -142,8 +139,8 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>AStyleConLibd.lib;UnitTest++.vsnet2010.lib;LeakFinder_VC10.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\debug;..\..\..\..\UnitTest++\Debug;..\..\..\..\LeakFinder-RC9\Debug_VC10;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>AStyleConLibd.lib;gtestd.lib;LeakFinder_VC10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\debug;..\..\..\..\LeakFinder-RC9\Debug_VC10;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(ProjectDir)$(Configuration)\$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
@@ -153,9 +150,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Print|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\UnitTest++\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;ASTYLECON_PRINT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gtest\include;..\..\..\srcx;..\..\..\..\LeakFinder-RC9;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;ASTYLE_LIB;ASTYLECON_PRINT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -166,8 +162,8 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>AStyleConLibd.lib;UnitTest++.vsnet2010.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\debug;..\..\..\..\UnitTest++\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>AStyleConLibd.lib;gtestd.lib;LeakFinder_VC9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\debug;..\..\..\..\LeakFinder-RC9\Debug_VC9;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(ProjectDir)$(Configuration)\$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
@@ -179,9 +175,14 @@
     <ClCompile Include="..\..\..\srccon\AStyleTestCon_Console1.cpp" />
     <ClCompile Include="..\..\..\srccon\AStyleTestCon_Console2.cpp" />
     <ClCompile Include="..\..\..\srccon\AStyleTestCon_Main.cpp" />
+    <ClCompile Include="..\..\..\srcx\TersePrinter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\srccon\AStyleTestCon.h" />
+    <ClInclude Include="..\..\..\srcx\TersePrinter.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\srcx\gtest-options.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="AStyleConLib.vcxproj">

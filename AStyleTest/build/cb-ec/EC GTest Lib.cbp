@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="EC GTest Lib" />
+		<Option pch_mode="2" />
+		<Option compiler="embarcadero_compiler_62" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin\gtestd" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="objGTd\" />
+				<Option type="2" />
+				<Option compiler="embarcadero_compiler_62" />
+				<Option projectCompilerOptionsRelation="1" />
+				<Option projectLinkerOptionsRelation="1" />
+				<Option projectIncludeDirsRelation="1" />
+				<Option projectResourceIncludeDirsRelation="1" />
+				<Option projectLibDirsRelation="1" />
+				<Compiler>
+					<Add option="-w" />
+					<Add option="-tWC" />
+					<Add option="-v" />
+					<Add option="-w-8004" />
+					<Add option="-w-8071" />
+					<Add option="-w-8080" />
+					<Add directory="..\..\..\gtest\include" />
+					<Add directory="..\..\..\gtest" />
+				</Compiler>
+				<Linker>
+					<Add option="-c" />
+					<Add option="-Gn" />
+					<Add option="-x" />
+				</Linker>
+				<ExtraCommands>
+					<Add after='cmd /c call &quot;EC tlibd.bat&quot;' />
+				</ExtraCommands>
+			</Target>
+			<Target title="Release">
+				<Option output="bin\gtest" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="objGT\" />
+				<Option type="2" />
+				<Option compiler="embarcadero_compiler_62" />
+				<Compiler>
+					<Add option="-w" />
+					<Add option="-tWC" />
+					<Add option="-v-" />
+					<Add option="-O2" />
+					<Add option="-w-8004" />
+					<Add option="-w-8071" />
+					<Add option="-w-8027" />
+					<Add option="-w-8080" />
+					<Add option="-DNDEBUG" />
+					<Add directory="..\..\..\gtest\include" />
+					<Add directory="..\..\..\gtest" />
+				</Compiler>
+				<Linker>
+					<Add option="-c" />
+					<Add option="-Gn" />
+					<Add option="-x" />
+				</Linker>
+				<ExtraCommands>
+					<Add after='cmd /c call &quot;EC tlib.bat&quot;' />
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<Unit filename="..\..\..\gtest\include\gtest\gtest-death-test.h">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="..\..\..\gtest\include\gtest\gtest.h">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="..\..\..\gtest\include\gtest\internal\gtest-death-test-internal.h">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="..\..\..\gtest\include\gtest\internal\gtest-filepath.h">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="..\..\..\gtest\include\gtest\internal\gtest-string.h">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="..\..\..\gtest\src\gtest-death-test.cc" />
+		<Unit filename="..\..\..\gtest\src\gtest-filepath.cc" />
+		<Unit filename="..\..\..\gtest\src\gtest-internal-inl.h" />
+		<Unit filename="..\..\..\gtest\src\gtest-port.cc" />
+		<Unit filename="..\..\..\gtest\src\gtest-test-part.cc" />
+		<Unit filename="..\..\..\gtest\src\gtest-typed-test.cc" />
+		<Unit filename="..\..\..\gtest\src\gtest.cc" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

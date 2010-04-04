@@ -11,14 +11,16 @@
 				<Option object_output="objd/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters="--terse_printer" />
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-DASTYLE_LIB" />
 					<Add directory="../../src" />
+					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gtest-1.4.0/include" />
+					<Add directory="../../../gtest/include" />
 				</Compiler>
 				<Linker>
 					<Add library="bin/libgtestd.a" />
@@ -36,8 +38,9 @@
 					<Add option="-DASTYLE_LIB" />
 					<Add option="-DNDEBUG" />
 					<Add directory="../../src" />
+					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gtest-1.4.0/include" />
+					<Add directory="../../../gtest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -58,12 +61,13 @@
 		<Unit filename="../../src/AStyleTest_BracketsSharp.cpp" />
 		<Unit filename="../../src/AStyleTest_Format.cpp" />
 		<Unit filename="../../src/AStyleTest_Indent.cpp" />
-		<Unit filename="../../src/AStyleTest_LeakFinder.cpp" />
 		<Unit filename="../../src/AStyleTest_Main.cpp" />
 		<Unit filename="../../src/AStyleTest_Other.cpp" />
 		<Unit filename="../../src/AStyleTest_Pad.cpp" />
 		<Unit filename="../../src/AStyleTest_Styles.cpp" />
 		<Unit filename="../../src/AStyleTest_Tabs.cpp" />
+		<Unit filename="../../srcx/TersePrinter.cpp" />
+		<Unit filename="../../srcx/TersePrinter.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />

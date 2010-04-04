@@ -373,7 +373,8 @@ void systemPause(const string& message)
 	system("pause");
 #else
 	cout << "Press ENTER to continue." << endl;
-	system("read x");
+	if (system("read x") > 0)
+		cout << "Bad return from 'system' call." << endl;
 #endif
 }
 

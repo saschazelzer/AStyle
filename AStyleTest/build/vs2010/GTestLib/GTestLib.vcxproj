@@ -11,15 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{8F7F6B41-5F56-4898-BD1F-22E08EA19818}</ProjectGuid>
-    <RootNamespace>AStyleLib</RootNamespace>
+    <ProjectGuid>{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}</ProjectGuid>
+    <RootNamespace>gtest</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
-    <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -30,9 +29,11 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
@@ -41,18 +42,17 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)bin\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AStyleLibd</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AStyleLib</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">gtestd</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">gtest</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;ASTYLE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>false</MinimalRebuild>
+      <AdditionalIncludeDirectories>..\..\..\..\gtest\include;..\..\..\..\gtest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <FloatingPointModel>Fast</FloatingPointModel>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
@@ -61,13 +61,9 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <Optimization>Disabled</Optimization>
-      <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;ASTYLE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\..\gtest\include;..\..\..\..\gtest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <FunctionLevelLinking>false</FunctionLevelLinking>
-      <FloatingPointModel>Fast</FloatingPointModel>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
@@ -75,21 +71,27 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\AStyle\src\ASBeautifier.cpp" />
-    <ClCompile Include="..\..\..\..\AStyle\src\ASEnhancer.cpp" />
-    <ClCompile Include="..\..\..\..\AStyle\src\ASFormatter.cpp" />
-    <ClCompile Include="..\..\..\..\AStyle\src\ASResource.cpp" />
-    <ClCompile Include="..\..\..\..\AStyle\src\astyle_main.cpp" />
+    <ClCompile Include="..\..\..\..\gtest\src\gtest-death-test.cc" />
+    <ClCompile Include="..\..\..\..\gtest\src\gtest-filepath.cc" />
+    <ClCompile Include="..\..\..\..\gtest\src\gtest-port.cc" />
+    <ClCompile Include="..\..\..\..\gtest\src\gtest-test-part.cc" />
+    <ClCompile Include="..\..\..\..\gtest\src\gtest-typed-test.cc" />
+    <ClCompile Include="..\..\..\..\gtest\src\gtest.cc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\AStyle\src\astyle.h" />
-    <ClInclude Include="..\..\..\..\AStyle\src\astyle_main.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GTestLib\GTestLib.vcxproj">
-      <Project>{c9032bce-2092-41de-8a7c-7e1d5ff5025c}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
+    <ClInclude Include="..\..\..\..\gtest\include\gtest\internal\gtest-death-test-internal.h" />
+    <ClInclude Include="..\..\..\..\gtest\include\gtest\gtest-death-test.h" />
+    <ClInclude Include="..\..\..\..\gtest\include\gtest\internal\gtest-filepath.h" />
+    <ClInclude Include="..\..\..\..\gtest\src\gtest-internal-inl.h" />
+    <ClInclude Include="..\..\..\..\gtest\include\gtest\internal\gtest-internal.h" />
+    <ClInclude Include="..\..\..\..\gtest\include\gtest\gtest-message.h" />
+    <ClInclude Include="..\..\..\..\gtest\include\gtest\internal\gtest-port.h" />
+    <ClInclude Include="..\..\..\..\gtest\include\gtest\gtest-spi.h" />
+    <ClInclude Include="..\..\..\..\gtest\include\gtest\internal\gtest-string.h" />
+    <ClInclude Include="..\..\..\..\gtest\include\gtest\gtest-test-part.h" />
+    <ClInclude Include="..\..\..\..\gtest\include\gtest\gtest.h" />
+    <ClInclude Include="..\..\..\..\gtest\include\gtest\gtest_pred_impl.h" />
+    <ClInclude Include="..\..\..\..\gtest\include\gtest\gtest_prod.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

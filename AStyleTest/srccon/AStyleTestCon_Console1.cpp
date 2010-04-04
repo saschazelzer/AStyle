@@ -1171,9 +1171,9 @@ struct PreserveDateF : public ::testing::Test
 
 		// Jan 1, 2008
 		struct tm t;
-		t.tm_mday  = 1;
-		t.tm_mon   = 0;
-		t.tm_year  = 108;
+		t.tm_mday  = 1;		// day of the month	1-31
+		t.tm_mon   = 0;		// months since January	0-11
+		t.tm_year  = 108;	// years since 1900
 		t.tm_hour  = 0;
 		t.tm_min   = 0;
 		t.tm_sec   = 0;

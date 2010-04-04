@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="MinGW AStyleTest">
-		<Project filename="MinGW gtest Lib.cbp" />
+		<Project filename="MinGW GTest Lib.cbp" />
 		<Project filename="MinGW AStyleTest.cbp" active="1" />
 	</Workspace>
 </CodeBlocks_workspace_file>

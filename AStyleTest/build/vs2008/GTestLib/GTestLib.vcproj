@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="gtest"
-	ProjectGUID="{C8F6C172-56F2-4E76-B5FA-C3B423B31BE7}"
+	Name="GTestLib"
+	ProjectGUID="{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}"
 	RootNamespace="gtest"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;..\..\..\..\gtest-1.4.0\include&quot;;&quot;..\..\..\..\gtest-1.4.0&quot;"
+				AdditionalIncludeDirectories="&quot;..\..\..\..\gtest\include&quot;;&quot;..\..\..\..\gtest&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -106,7 +106,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;..\..\..\..\gtest-1.4.0\include&quot;;&quot;..\..\..\..\gtest-1.4.0&quot;"
+				AdditionalIncludeDirectories="&quot;..\..\..\..\gtest\include&quot;;&quot;..\..\..\..\gtest&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -153,27 +153,27 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\..\..\gtest-1.4.0\src\gtest-death-test.cc"
+				RelativePath="..\..\..\..\gtest\src\gtest-death-test.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest-1.4.0\src\gtest-filepath.cc"
+				RelativePath="..\..\..\..\gtest\src\gtest-filepath.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest-1.4.0\src\gtest-port.cc"
+				RelativePath="..\..\..\..\gtest\src\gtest-port.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest-1.4.0\src\gtest-test-part.cc"
+				RelativePath="..\..\..\..\gtest\src\gtest-test-part.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest-1.4.0\src\gtest-typed-test.cc"
+				RelativePath="..\..\..\..\gtest\src\gtest-typed-test.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest-1.4.0\src\gtest.cc"
+				RelativePath="..\..\..\..\gtest\src\gtest.cc"
 				>
 			</File>
 		</Filter>
@@ -183,55 +183,55 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\..\..\gtest-1.4.0\include\gtest\internal\gtest-death-test-internal.h"
+				RelativePath="..\..\..\..\gtest\include\gtest\internal\gtest-death-test-internal.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest-1.4.0\include\gtest\gtest-death-test.h"
+				RelativePath="..\..\..\..\gtest\include\gtest\gtest-death-test.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest-1.4.0\include\gtest\internal\gtest-filepath.h"
+				RelativePath="..\..\..\..\gtest\include\gtest\internal\gtest-filepath.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest-1.4.0\src\gtest-internal-inl.h"
+				RelativePath="..\..\..\..\gtest\src\gtest-internal-inl.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest-1.4.0\include\gtest\internal\gtest-internal.h"
+				RelativePath="..\..\..\..\gtest\include\gtest\internal\gtest-internal.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest-1.4.0\include\gtest\gtest-message.h"
+				RelativePath="..\..\..\..\gtest\include\gtest\gtest-message.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest-1.4.0\include\gtest\internal\gtest-port.h"
+				RelativePath="..\..\..\..\gtest\include\gtest\internal\gtest-port.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest-1.4.0\include\gtest\gtest-spi.h"
+				RelativePath="..\..\..\..\gtest\include\gtest\gtest-spi.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest-1.4.0\include\gtest\internal\gtest-string.h"
+				RelativePath="..\..\..\..\gtest\include\gtest\internal\gtest-string.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest-1.4.0\include\gtest\gtest-test-part.h"
+				RelativePath="..\..\..\..\gtest\include\gtest\gtest-test-part.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest-1.4.0\include\gtest\gtest.h"
+				RelativePath="..\..\..\..\gtest\include\gtest\gtest.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest-1.4.0\include\gtest\gtest_pred_impl.h"
+				RelativePath="..\..\..\..\gtest\include\gtest\gtest_pred_impl.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest-1.4.0\include\gtest\gtest_prod.h"
+				RelativePath="..\..\..\..\gtest\include\gtest\gtest_prod.h"
 				>
 			</File>
 		</Filter>

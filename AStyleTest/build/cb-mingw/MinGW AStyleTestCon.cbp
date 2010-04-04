@@ -20,8 +20,7 @@
 					<Add directory="..\..\srccon" />
 					<Add directory="..\..\srcx" />
 					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="..\..\..\gtest-1.4.0\include" />
-					<Add directory="..\..\..\gtest-1.4.0" />
+					<Add directory="..\..\..\gtest\include" />
 				</Compiler>
 				<Linker>
 					<Add library="gtestd" />
@@ -41,8 +40,7 @@
 					<Add directory="..\..\srccon" />
 					<Add directory="..\..\srcx" />
 					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="..\..\..\gtest-1.4.0\include" />
-					<Add directory="..\..\..\gtest-1.4.0" />
+					<Add directory="..\..\..\gtest\include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -65,8 +63,7 @@
 					<Add directory="..\..\srccon" />
 					<Add directory="..\..\srcx" />
 					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="..\..\..\gtest-1.4.0\include" />
-					<Add directory="..\..\..\gtest-1.4.0" />
+					<Add directory="..\..\..\gtest\include" />
 				</Compiler>
 				<Linker>
 					<Add library="gtestd" />
@@ -88,8 +85,7 @@
 					<Add directory="..\..\srccon" />
 					<Add directory="..\..\srcx" />
 					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="..\..\..\gtest-1.4.0\include" />
-					<Add directory="..\..\..\gtest-1.4.0" />
+					<Add directory="..\..\..\gtest\include" />
 				</Compiler>
 				<Linker>
 					<Add library="gtestd" />

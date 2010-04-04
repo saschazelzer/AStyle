@@ -20,7 +20,7 @@
 					<Add directory="..\..\src" />
 					<Add directory="..\..\srcx" />
 					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="..\..\..\gtest-1.4.0\include" />
+					<Add directory="..\..\..\gtest\include" />
 				</Compiler>
 				<Linker>
 					<Add library="gtestd" />
@@ -41,7 +41,7 @@
 					<Add directory="..\..\src" />
 					<Add directory="..\..\srcx" />
 					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="..\..\..\gtest-1.4.0\include" />
+					<Add directory="..\..\..\gtest\include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -65,7 +65,7 @@
 					<Add directory="..\..\src" />
 					<Add directory="..\..\srcx" />
 					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="..\..\..\gtest-1.4.0\include" />
+					<Add directory="..\..\..\gtest\include" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />

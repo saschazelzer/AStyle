@@ -7,12 +7,14 @@
 		<Option compiler="embarcadero_compiler_62" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin\EC AStyleTestCon" prefix_auto="1" extension_auto="1" />
+				<Option output="bin\AStyleTestCond" prefix_auto="1" extension_auto="1" />
 				<Option object_output="objCond\" />
 				<Option type="1" />
 				<Option compiler="embarcadero_compiler_62" />
+				<Option parameters="--terse_printer" />
 				<Compiler>
 					<Add option="-w" />
+					<Add option="-tWC" />
 					<Add option="-v" />
 					<Add option="-w-8027" />
 					<Add option="-w-8074" />
@@ -21,14 +23,20 @@
 					<Add directory="..\..\srccon" />
 					<Add directory="..\..\srcx" />
 					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="..\..\..\gtest-1.4.0\include" />
-					<Add directory="..\..\..\gtest-1.4.0" />
+					<Add directory="..\..\..\gtest\include" />
 				</Compiler>
 				<Linker>
-					<Add option="-v" />
+					<Add option="-c" />
+					<Add option="-Gn" />
+					<Add option="-x" />
+					<Add library="cw32mt" />
+					<Add library="import32" />
 					<Add library="gtestd" />
 					<Add directory="bin" />
 				</Linker>
+				<ExtraCommands>
+					<Add after="cmd /c  del  bin\*.tds" />
+				</ExtraCommands>
 			</Target>
 			<Target title="Release">
 				<Option output="bin\EC AStyleTestCon" prefix_auto="1" extension_auto="1" />
@@ -37,6 +45,7 @@
 				<Option compiler="embarcadero_compiler_62" />
 				<Compiler>
 					<Add option="-w" />
+					<Add option="-tWC" />
 					<Add option="-v-" />
 					<Add option="-O2" />
 					<Add option="-w-8027" />
@@ -47,22 +56,22 @@
 					<Add directory="..\..\srccon" />
 					<Add directory="..\..\srcx" />
 					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="..\..\..\gtest-1.4.0\include" />
-					<Add directory="..\..\..\gtest-1.4.0" />
+					<Add directory="..\..\..\gtest\include" />
 				</Compiler>
 				<Linker>
+					<Add option="-c" />
+					<Add option="-Gn" />
+					<Add option="-x" />
+					<Add library="cw32mt" />
+					<Add library="import32" />
 					<Add library="gtest" />
 					<Add directory="bin" />
 				</Linker>
+				<ExtraCommands>
+					<Add after="cmd /c  del  bin\*.tds" />
+				</ExtraCommands>
 			</Target>
 		</Build>
-		<Compiler>
-			<Add option="-x" />
-		</Compiler>
-		<Linker>
-			<Add library="cw32mt.lib" />
-			<Add library="import32.lib" />
-		</Linker>
 		<Unit filename="..\..\srccon\AStyleTestCon.h" />
 		<Unit filename="..\..\srccon\AStyleTestCon_Console1.cpp" />
 		<Unit filename="..\..\srccon\AStyleTestCon_Console2.cpp" />

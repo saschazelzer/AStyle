@@ -5,6 +5,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleTestCon", "AStyleTest
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleConLib", "AStyleTestCon\AStyleConLib.vcxproj", "{8563FBDA-FEDC-4233-B585-EBDA55E1C599}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GTestLib", "GTestLib\GTestLib.vcxproj", "{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -29,6 +31,14 @@ Global
 		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Print|Win32.Build.0 = Debug|Win32
 		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|Win32.ActiveCfg = Release|Win32
 		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|Win32.Build.0 = Release|Win32
+		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Debug|Win32.Build.0 = Debug|Win32
+		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.LeakFinder|Win32.ActiveCfg = Debug|Win32
+		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.LeakFinder|Win32.Build.0 = Debug|Win32
+		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Print|Win32.ActiveCfg = Debug|Win32
+		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Print|Win32.Build.0 = Debug|Win32
+		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Release|Win32.ActiveCfg = Release|Win32
+		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

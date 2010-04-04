@@ -10,7 +10,7 @@ REM File paths without a dash work ok with TLIB.
 
 @echo Linking gtest.lib
 
-@%binpath%\tlib.exe /C /P32 bin\gtest.lib + "obj\gtest-1.4.0\src\gtest-filepath.obj" + "obj\gtest-1.4.0\src\gtest-port.obj" + "obj\gtest-1.4.0\src\gtest-test-part.obj" +   "obj\gtest-1.4.0\src\gtest-typed-test.obj" + "obj\gtest-1.4.0\src\gtest.obj" + "obj\gtest-1.4.0\src\gtest-death-test.obj"
+@%binpath%\tlib.exe /C /P32 bin\gtest.lib + "objGT\gtest\src\gtest-filepath.obj" + "objGT\gtest\src\gtest-port.obj" + "objGT\gtest\src\gtest-test-part.obj" +   "objGT\gtest\src\gtest-typed-test.obj" + "objGT\gtest\src\gtest.obj" + "objGT\gtest\src\gtest-death-test.obj"
 
 REM @echo -
 REM @pause

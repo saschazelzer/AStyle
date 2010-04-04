@@ -59,7 +59,6 @@
     <ClCompile Include="..\..\..\..\AStyle\src\ASFormatter.cpp" />
     <ClCompile Include="..\..\..\..\AStyle\src\ASResource.cpp" />
     <ClCompile Include="..\..\..\..\AStyle\src\astyle_main.cpp" />
-    <ClCompile Include="..\..\..\..\AStyle\src\Temp.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_LeakFinder.cpp" />
   </ItemGroup>
   <ItemGroup>

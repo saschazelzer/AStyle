@@ -41,8 +41,8 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)bin\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AStyleConLibd</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AStyleConLib</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AStyleConLibd</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -58,9 +58,6 @@
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
-    <Lib>
-      <OutputFile>$(OutDir)AStyleConLibd.lib</OutputFile>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -76,9 +73,6 @@
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
-    <Lib>
-      <OutputFile>$(OutDir)AStyleConLib.lib</OutputFile>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\AStyle\src\ASBeautifier.cpp" />
@@ -90,6 +84,12 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\..\AStyle\src\astyle.h" />
     <ClInclude Include="..\..\..\..\AStyle\src\astyle_main.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GTestLib\GTestLib.vcxproj">
+      <Project>{c9032bce-2092-41de-8a7c-7e1d5ff5025c}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

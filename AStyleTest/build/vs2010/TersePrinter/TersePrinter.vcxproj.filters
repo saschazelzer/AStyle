@@ -11,28 +11,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\AStyle\src\ASBeautifier.cpp">
+    <ClCompile Include="..\..\..\srcx\TersePrinter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\AStyle\src\ASEnhancer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\AStyle\src\ASFormatter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\AStyle\src\ASResource.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\AStyle\src\astyle_main.cpp">
+    <ClCompile Include="..\..\..\srcx\TersePrinter_Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\AStyle\src\astyle.h">
+    <ClInclude Include="..\..\..\srcx\TersePrinter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\AStyle\src\astyle_main.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\srcx\gtest-options.txt" />
   </ItemGroup>
 </Project>

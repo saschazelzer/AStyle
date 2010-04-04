@@ -14,25 +14,25 @@
 				<Option parameters="--terse_printer" />
 				<Compiler>
 					<Add option="-w" />
+					<Add option="-tWC" />
 					<Add option="-v" />
-					<Add option="-WCR" />
+					<Add option="-w-8080" />
 					<Add option="-DASTYLE_LIB" />
-					<Add directory="..\..\..\AStyle\src" />
 					<Add directory="..\..\srcx" />
-					<Add directory="..\..\..\gtest-1.4.0\include" />
-					<Add directory="..\..\..\gtest-1.4.0" />
+					<Add directory="..\..\..\AStyle\src" />
+					<Add directory="..\..\..\gtest\include" />
 				</Compiler>
 				<Linker>
 					<Add option="-c" />
 					<Add option="-Gn" />
 					<Add option="-x" />
-					<Add library="gtestd" />
 					<Add library="import32" />
-					<Add library="cw32" />
+					<Add library="cw32mt" />
+					<Add library="gtestd" />
 					<Add directory="bin" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cmd /c del  bin\*.tds" />
+					<Add after="cmd /c  del  bin\*.tds" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Release">
@@ -42,25 +42,25 @@
 				<Option compiler="embarcadero_compiler_62" />
 				<Compiler>
 					<Add option="-w" />
+					<Add option="-tWC" />
 					<Add option="-vi-" />
-					<Add option="-WCR" />
+					<Add option="-w-8080" />
 					<Add option="-DASTYLE_LIB" />
-					<Add directory="..\..\..\AStyle\src" />
 					<Add directory="..\..\srcx" />
-					<Add directory="..\..\..\gtest-1.4.0\include" />
-					<Add directory="..\..\..\gtest-1.4.0" />
+					<Add directory="..\..\..\AStyle\src" />
+					<Add directory="..\..\..\gtest\include" />
 				</Compiler>
 				<Linker>
 					<Add option="-c" />
 					<Add option="-Gn" />
 					<Add option="-x" />
-					<Add library="gtest" />
 					<Add library="import32" />
-					<Add library="cw32" />
+					<Add library="cw32mt" />
+					<Add library="gtest" />
 					<Add directory="bin" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cmd /c del  bin\*.tds" />
+					<Add after="cmd /c  del  bin\*.tds" />
 				</ExtraCommands>
 			</Target>
 		</Build>
@@ -85,25 +85,6 @@
 		<Unit filename="..\..\..\AStyle\src\astyle.h" />
 		<Unit filename="..\..\..\AStyle\src\astyle_main.cpp" />
 		<Unit filename="..\..\..\AStyle\src\astyle_main.h" />
-		<Unit filename="..\..\..\gtest-1.4.0\include\gtest\gtest-death-test.h" />
-		<Unit filename="..\..\..\gtest-1.4.0\include\gtest\gtest-message.h" />
-		<Unit filename="..\..\..\gtest-1.4.0\include\gtest\gtest-spi.h" />
-		<Unit filename="..\..\..\gtest-1.4.0\include\gtest\gtest-test-part.h" />
-		<Unit filename="..\..\..\gtest-1.4.0\include\gtest\gtest.h" />
-		<Unit filename="..\..\..\gtest-1.4.0\include\gtest\gtest_pred_impl.h" />
-		<Unit filename="..\..\..\gtest-1.4.0\include\gtest\gtest_prod.h" />
-		<Unit filename="..\..\..\gtest-1.4.0\include\gtest\internal\gtest-death-test-internal.h" />
-		<Unit filename="..\..\..\gtest-1.4.0\include\gtest\internal\gtest-filepath.h" />
-		<Unit filename="..\..\..\gtest-1.4.0\include\gtest\internal\gtest-internal.h" />
-		<Unit filename="..\..\..\gtest-1.4.0\include\gtest\internal\gtest-port.h" />
-		<Unit filename="..\..\..\gtest-1.4.0\include\gtest\internal\gtest-string.h" />
-		<Unit filename="..\..\..\gtest-1.4.0\src\gtest-death-test.cc" />
-		<Unit filename="..\..\..\gtest-1.4.0\src\gtest-filepath.cc" />
-		<Unit filename="..\..\..\gtest-1.4.0\src\gtest-internal-inl.h" />
-		<Unit filename="..\..\..\gtest-1.4.0\src\gtest-port.cc" />
-		<Unit filename="..\..\..\gtest-1.4.0\src\gtest-test-part.cc" />
-		<Unit filename="..\..\..\gtest-1.4.0\src\gtest-typed-test.cc" />
-		<Unit filename="..\..\..\gtest-1.4.0\src\gtest.cc" />
 		<Extensions>
 			<code_completion />
 			<envvars />

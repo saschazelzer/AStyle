@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="GccGTestA" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/libgtestd" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="objGTd/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add directory="../../../gtest/include" />
+					<Add directory="../../../gtest" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/libgtest" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="objGT/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add directory="../../../gtest/include" />
+					<Add directory="../../../gtest" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="../../../gtest/include/gtest/gtest-death-test.h" />
+		<Unit filename="../../../gtest/include/gtest/gtest-message.h" />
+		<Unit filename="../../../gtest/include/gtest/gtest-spi.h" />
+		<Unit filename="../../../gtest/include/gtest/gtest-test-part.h" />
+		<Unit filename="../../../gtest/include/gtest/gtest.h" />
+		<Unit filename="../../../gtest/include/gtest/gtest_pred_impl.h" />
+		<Unit filename="../../../gtest/include/gtest/gtest_prod.h" />
+		<Unit filename="../../../gtest/include/gtest/internal/gtest-death-test-internal.h" />
+		<Unit filename="../../../gtest/include/gtest/internal/gtest-filepath.h" />
+		<Unit filename="../../../gtest/include/gtest/internal/gtest-internal.h" />
+		<Unit filename="../../../gtest/include/gtest/internal/gtest-port.h" />
+		<Unit filename="../../../gtest/include/gtest/internal/gtest-string.h" />
+		<Unit filename="../../../gtest/src/gtest-death-test.cc" />
+		<Unit filename="../../../gtest/src/gtest-filepath.cc" />
+		<Unit filename="../../../gtest/src/gtest-internal-inl.h" />
+		<Unit filename="../../../gtest/src/gtest-port.cc" />
+		<Unit filename="../../../gtest/src/gtest-test-part.cc" />
+		<Unit filename="../../../gtest/src/gtest-typed-test.cc" />
+		<Unit filename="../../../gtest/src/gtest.cc" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
