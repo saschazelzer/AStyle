@@ -40,8 +40,7 @@ extern ostream* _err;
 //-------------------------------------------------------------------------
 
 // functions in AStyleTestCon_Main.cpp
-char** buildArgv(const vector<string>& argIn);
-int buildFileNameVector(string fileToProcess, vector<string>& fileNameVector);
+// char** buildArgv(const vector<string>& argIn);
 void cleanTestDirectory(const string &directory);
 void createConsoleGlobalObject(ASFormatter& formatter);
 void createTestDirectory(const string &dirName);
@@ -55,6 +54,21 @@ void setTestDirectory(char *argv);
 void systemAbort(const string& message);
 void systemPause(const string& message);
 bool writeOptionsFile(const string& optionsFileName, const char* fileIn);
+
+//-------------------------------------------------------------------------
+// macro
+//-------------------------------------------------------------------------
+
+// ASTYLE_ABORT(message) macro
+// Print an error message, including the file and line number,
+//  and then abort the program.
+#define ASTYLE_ABORT(message) \
+	{ \
+		(*_err) << endl << __FILE__ << " (" << __LINE__ << ")" << endl; \
+		(*_err) << message << endl; \
+		(*_err) << "\nArtistic Style has terminated!\n" << endl; \
+		exit(EXIT_FAILURE); \
+	}
 
 //-------------------------------------------------------------------------
 

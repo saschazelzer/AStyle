@@ -16,6 +16,7 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add option="-DGTEST_HAS_PTHREAD=0" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
@@ -35,6 +36,7 @@
 					<Add option="-O3" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-DGTEST_HAS_PTHREAD=0" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add option="-DNDEBUG" />
 					<Add directory="../../src" />
@@ -58,8 +60,8 @@
 					<Add option="-pg" />
 					<Add option="-fprofile-arcs" />
 					<Add option="-ftest-coverage" />
+					<Add option="-DGTEST_HAS_PTHREAD=0" />
 					<Add option="-DASTYLECON_LIB" />
-					<Add option="-DASTYLECON_PRINT" />
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
@@ -68,26 +70,6 @@
 				<Linker>
 					<Add option="-pg" />
 					<Add library="gcov" />
-					<Add library="bin/libgtestd.a" />
-				</Linker>
-			</Target>
-			<Target title="Print">
-				<Option output="bin/AStyleTestConp" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objConp/" />
-				<Option type="1" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-Wextra" />
-					<Add option="-Wall" />
-					<Add option="-g" />
-					<Add option="-DASTYLECON_LIB" />
-					<Add option="-DASTYLECON_PRINT" />
-					<Add directory="../../src" />
-					<Add directory="../../srcx" />
-					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gtest/include" />
-				</Compiler>
-				<Linker>
 					<Add library="bin/libgtestd.a" />
 				</Linker>
 			</Target>
@@ -106,6 +88,7 @@
 		<Unit filename="../../srccon/AStyleTestCon_Console1.cpp" />
 		<Unit filename="../../srccon/AStyleTestCon_Console2.cpp" />
 		<Unit filename="../../srccon/AStyleTestCon_Main.cpp" />
+		<Unit filename="../../srccon/AStyleTestCon_Print.cpp" />
 		<Unit filename="../../srcx/TersePrinter.cpp" />
 		<Unit filename="../../srcx/TersePrinter.h" />
 		<Extensions>

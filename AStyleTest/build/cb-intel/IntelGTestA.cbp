@@ -18,8 +18,9 @@
 					<Add option="-w1" />
 					<Add option="-no-multibyte-chars" />
 					<Add option="-vec-report0" />
-					<Add option="-DGTEST_HAS_TR1_TUPLE" />
-					<Add option="-DGTEST_USE_OWN_TR1_TUPLE" />
+					<Add option="-DGTEST_HAS_TR1_TUPLE=1" />
+					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
+					<Add option="-DGTEST_HAS_PTHREAD=0" />
 					<Add directory="../../../gtest/include" />
 					<Add directory="../../../gtest" />
 				</Compiler>
@@ -36,8 +37,9 @@
 					<Add option="-w1" />
 					<Add option="-no-multibyte-chars" />
 					<Add option="-vec-report0" />
-					<Add option="-DGTEST_HAS_TR1_TUPLE" />
-					<Add option="-DGTEST_USE_OWN_TR1_TUPLE" />
+					<Add option="-DGTEST_HAS_TR1_TUPLE=1" />
+					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
+					<Add option="-DGTEST_HAS_PTHREAD=0" />
 					<Add directory="../../../gtest/include" />
 					<Add directory="../../../gtest" />
 				</Compiler>

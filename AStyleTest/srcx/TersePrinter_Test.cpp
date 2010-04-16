@@ -4,6 +4,10 @@
 #include "gtest/gtest.h"
 #include "TersePrinter.h"
 
+void errorExit(const char *msg);
+void errorNoExit(const char *msg);
+
+
 TEST(TestCase1, SUCCEED)
 {
 	SUCCEED() << "SUCCEED() has been invoked from here";
@@ -19,7 +23,7 @@ TEST(TestCase2, Equal_Fails)
 	EXPECT_EQ(1, 2) << "EXPECT_EQ failure.";
 }
 
-TEST(TestCase2, STREQ1_Fails)
+TEST(TestCase2, CString1_Fails)
 {
 	char expected_str[] =
 	    "\nvoid foo() {\n"
@@ -34,7 +38,7 @@ TEST(TestCase2, STREQ1_Fails)
 	EXPECT_STREQ(expected_str, actual_str);
 }
 
-TEST(TestCase2, STREQ2_Fails)
+TEST(TestCase2, CString2_Fails)
 {
 	char expected_str[] =
 	    "\nvoid foo() {\n"
@@ -45,6 +49,30 @@ TEST(TestCase2, STREQ2_Fails)
 	    "     bar();\n"
 	    "}";
 	EXPECT_STREQ(expected_str, actual_str) << "EXPECT_STREQ 2 failure.";
+}
+
+TEST(TestCase2, DeathTest_WrongMessage)
+{
+	// test ok but wrong message
+	EXPECT_EXIT(errorExit("Actual message."),
+	            ::testing::ExitedWithCode(EXIT_FAILURE),
+	            "Expected message.");
+}
+
+TEST(TestCase2, DeathTest_Fails)
+{
+	// test fails with wrong return code
+	EXPECT_EXIT(errorExit("Expected message."),
+	            ::testing::ExitedWithCode(EXIT_SUCCESS),
+	            "Expected message.");
+}
+
+TEST(TestCase2, DeathTest_FailsToDie)
+{
+	// test fails with wrong return code
+	EXPECT_EXIT(errorNoExit("Expected message."),
+	            ::testing::ExitedWithCode(EXIT_SUCCESS),
+	            "Expected message.");
 }
 
 TEST(TestCase2, TrueFalse_Fails)
@@ -98,4 +126,19 @@ int main(int argc, char **argv)
 		listeners.Append(new TersePrinter(use_color));
 	}
 	return RUN_ALL_TESTS();
+}
+
+// function for death test
+// error message must go to cerr not cout
+void errorExit(const char *msg)
+{
+	cerr << msg << endl;
+	exit(EXIT_FAILURE);
+}
+
+// function for death test failed
+// error message must go to cerr not cout
+void errorNoExit(const char *msg)
+{
+	cerr << msg << endl;
 }

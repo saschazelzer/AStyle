@@ -12,10 +12,11 @@ REM  O - one-line=keep-blocks
 REM k1 - align-pointer=type
 REM  c - convert-tabs
 REM  v - verbose
-REM Q - formatted
+REM  w - indent-preprocessor
+REM  Q - formatted
 
-set options= -TbHCO  -vQ --options=none
-set optionsh= -TlHCO  -vQ --options=none
+set options= -TbHCOw  -vQ --options=none
+set optionsh= -TlHCOw  -vQ --options=none
 
 echo Formatting AStyleTest
 echo source%options%  headers%optionsh%

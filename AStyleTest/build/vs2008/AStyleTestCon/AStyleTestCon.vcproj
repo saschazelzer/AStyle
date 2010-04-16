@@ -175,7 +175,7 @@
 		</Configuration>
 		<Configuration
 			Name="LeakFinder|Win32"
-			OutputDirectory="$(SolutionDir)bin"
+			OutputDirectory="$(SolutionDir)debug"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="2"
@@ -200,7 +200,7 @@
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
 				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;&quot;..\..\..\..\gtest\include&quot;;..\..\..\srcx;&quot;..\..\..\..\LeakFinder-RC9&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;ASTYLECON_PRINT;LEAK_FINDER"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;LEAK_FINDER"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -221,83 +221,6 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="AStyleConLibd.lib gtestd.lib LeakFinder_VC9.lib"
 				OutputFile="$(OutDir)\$(ProjectName)l.exe"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\debug;&quot;..\..\..\..\LeakFinder-RC9\Debug_VC9&quot;"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(ProjectDir)$(ConfigurationName)\$(TargetName).pdb"
-				SubSystem="1"
-				TargetMachine="0"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Print|Win32"
-			OutputDirectory="$(SolutionDir)bin"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
-			CharacterSet="2"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;&quot;..\..\..\..\gtest\include&quot;;..\..\..\srcx;&quot;..\..\..\..\LeakFinder-RC9&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;ASTYLE_LIB;ASTYLECON_PRINT"
-				MinimalRebuild="false"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
-				FloatingPointModel="2"
-				UsePrecompiledHeader="0"
-				WarningLevel="4"
-				DebugInformationFormat="3"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="AStyleConLibd.lib gtestd.lib LeakFinder_VC9.lib"
-				OutputFile="$(OutDir)\$(ProjectName)p.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\debug;&quot;..\..\..\..\LeakFinder-RC9\Debug_VC9&quot;"
 				GenerateDebugInformation="true"
@@ -350,6 +273,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\srccon\AStyleTestCon_Main.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\srccon\AStyleTestCon_Print.cpp"
 				>
 			</File>
 			<File

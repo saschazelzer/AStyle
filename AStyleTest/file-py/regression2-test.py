@@ -34,7 +34,7 @@ options = libastyle.OPT1
 #options = "-tapOHUk3"
 
 # executables for test
-astyleexe1 = "astyle25b"
+astyleexe1 = "astyled"
 astyleexe2 = "astyled"
 
 # select one of the following to format files in the OLD directory

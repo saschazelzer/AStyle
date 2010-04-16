@@ -1,5 +1,6 @@
 // TersePrinter class is derived from gtest sample9_unittest.cc.
 // It prints only failed test cases and set-up and tear-down information.
+// To activate run the test program with the command argument --terse_printer.
 
 #include <vector>
 #include "TersePrinter.h"
@@ -44,16 +45,25 @@ void TersePrinter::OnTestPartResult(const TestPartResult& test_part_result)
 {
 	if (test_part_result.failed() )
 	{
-		ColoredPrint(COLOR_GREEN, "[  RUN     ] ");
+		ColoredPrint(COLOR_RED, "[  RUN     ] ");
 		printf("%s.%s", test_case_name_.c_str(), test_info_name_.c_str());
-		fprintf(stdout,
-		        " %s:(%d)\n",
-		        test_part_result.file_name(),
-		        test_part_result.line_number());
+		// remove directory information from the file path
+		string file_name = test_part_result.file_name();
+		size_t dir_end = file_name.find_last_of("\\/");
+		if (dir_end != string::npos)
+			file_name = file_name.substr(dir_end + 1);
+		printf("  %s:(%d)\n",
+		       file_name.c_str(),
+		       test_part_result.line_number());
 		PrintFailedTestSummary(string(test_part_result.summary()));
 		ColoredPrint(COLOR_RED, "[  FAILED  ] ");
-		printf("%s.%s\n\n", test_case_name_.c_str(), test_info_name_.c_str());
-
+		printf("%s.%s", test_case_name_.c_str(), test_info_name_.c_str());
+		string filler;
+		int filler_adjust = 50 - (test_case_name_.length() + test_info_name_.length());
+		if (filler_adjust < 0)
+			filler_adjust = 0;
+		filler.append(filler_adjust, '-');
+		printf("  %s\n\n", filler.c_str());
 		fflush(stdout);
 	}
 }
@@ -97,7 +107,7 @@ void TersePrinter::OnTestIterationEnd(const UnitTest& unit_test, int /*iteration
 		PrintFailedTestsList(unit_test);
 	}
 
-	printf("\n");
+	printf("%c", '\n');
 	fflush(stdout);
 }
 
@@ -108,28 +118,39 @@ void TersePrinter::PrintFailedTestSummary(string summary) const
 	// Separate the summary message into lines.
 	vector<string> line;		// vector for storing print lines
 	size_t prev_i = 0;			// i value of the previous \n
-	for (size_t i = 0; i < summary.length(); i++)
+	for (size_t i = 1; i < summary.length(); i++)
 	{
-		if (summary[i] != '\n')
+		// end the line when the previous char is the last \n in a sequence
+		if (summary[i-1] != '\n' || summary[i] == '\n')
 			continue;
 		line.push_back(summary.substr(prev_i, i - prev_i));
 		prev_i = i;
 	}
 	// Write the last line and append a return.
-	line.push_back(summary.substr(prev_i));
-	line.push_back("\n");
+	if (prev_i < (summary.length()))
+		line.push_back(summary.substr(prev_i) + '\n');
 
 	// Print the lines with added color.
 	for (size_t j = 0; j < line.size(); j++)
 	{
-		if (line[j].find("  Actual:") != string::npos
-		        || line[j].find("Which is:") != string::npos
-		        || line[j].find("Value of:") != string::npos
-		        || line[j].find("Expected:") != string::npos)
+		if (line[j].compare(0, 9, "  Actual:") == 0
+		        || line[j].compare(0, 9, "Which is:") == 0
+		        || line[j].compare(0, 9, "Value of:") == 0
+		        || line[j].compare(0, 9, "Expected:") == 0)
 		{
 			// Header portion is not colored.
 			printf("%s", line[j].substr(0, 10).c_str());
 			ColoredPrint(COLOR_CYAN, line[j].substr(10).c_str());
+		}
+		else if (line[j].compare(0, 11, "Death test:") == 0
+		         || line[j].compare(0, 11, "    Result:") == 0
+		         || line[j].compare(0, 11, "  Expected:") == 0
+		         || line[j].compare(0, 11, "Actual msg:") == 0
+		         || line[j].compare(0, 11, " Error msg:") == 0)
+		{
+			// Header portion is not colored.
+			printf("%s", line[j].substr(0, 12).c_str());
+			ColoredPrint(COLOR_CYAN, line[j].substr(12).c_str());
 		}
 		else
 		{
@@ -190,11 +211,15 @@ void TersePrinter::ColoredPrint(ConsoleColor color, const char* fmt) const
 	GetConsoleScreenBufferInfo(stdoutH, &bufferInfo);
 	const WORD oldColorAttrs = bufferInfo.wAttributes;
 
-	SetConsoleTextAttribute(stdoutH, 
-							GetColorAttribute(color) 
-							| static_cast<WORD>(FOREGROUND_INTENSITY));
-	printf(fmt);
-
+	// We need to flush the stream buffers into the console before each
+	// SetConsoleTextAttribute call lest it affect the text that is already
+	// printed but has not yet reached the console.
+	fflush(stdout);
+	SetConsoleTextAttribute(stdoutH,
+	                        GetColorAttribute(color)
+	                        | static_cast<WORD>(FOREGROUND_INTENSITY));
+	printf("%s", fmt);
+	fflush(stdout);
 	// restore the text color.
 	SetConsoleTextAttribute(stdoutH, oldColorAttrs);
 }
@@ -244,7 +269,6 @@ void TersePrinter::ColoredPrint(ConsoleColor color, const char* fmt) const
 }
 
 // Linux return the ANSI color code for the given color.
-// TODO: how to make it bold??
 string TersePrinter::GetAnsiColorCode(ConsoleColor color) const
 {
 	switch (color)

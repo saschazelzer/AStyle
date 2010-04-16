@@ -17,7 +17,6 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		LeakFinder|Win32 = LeakFinder|Win32
-		Print|Win32 = Print|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
@@ -25,24 +24,18 @@ Global
 		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Debug|Win32.Build.0 = Debug|Win32
 		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.LeakFinder|Win32.ActiveCfg = LeakFinder|Win32
 		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.LeakFinder|Win32.Build.0 = LeakFinder|Win32
-		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Print|Win32.ActiveCfg = Print|Win32
-		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Print|Win32.Build.0 = Print|Win32
 		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Release|Win32.ActiveCfg = Release|Win32
 		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Release|Win32.Build.0 = Release|Win32
 		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Debug|Win32.ActiveCfg = Debug|Win32
 		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Debug|Win32.Build.0 = Debug|Win32
 		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakFinder|Win32.ActiveCfg = Debug|Win32
 		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakFinder|Win32.Build.0 = Debug|Win32
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Print|Win32.ActiveCfg = Debug|Win32
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Print|Win32.Build.0 = Debug|Win32
 		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|Win32.ActiveCfg = Release|Win32
 		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|Win32.Build.0 = Release|Win32
 		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Debug|Win32.ActiveCfg = Debug|Win32
 		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Debug|Win32.Build.0 = Debug|Win32
 		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.LeakFinder|Win32.ActiveCfg = Debug|Win32
 		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.LeakFinder|Win32.Build.0 = Debug|Win32
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Print|Win32.ActiveCfg = Debug|Win32
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Print|Win32.Build.0 = Debug|Win32
 		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Release|Win32.ActiveCfg = Release|Win32
 		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection

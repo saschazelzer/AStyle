@@ -18,8 +18,8 @@ def process_files():
 
 	header_variables = []		# variables in astyle.h
 	class_variables = []			# variables in the class constructor
-	header_path = get_source_directory() + "/astyle.h"
-	formatter_path = get_source_directory() + "/ASFormatter.cpp"
+	header_path = libastyle.get_astyle_directory() + "/src/astyle.h"
+	formatter_path = libastyle.get_astyle_directory() + "/src/ASFormatter.cpp"
 
 	libastyle.set_text_color()
 	get_header_variables(header_variables, header_path)
@@ -254,16 +254,6 @@ def get_initializer_variables(class_variables, formatter_path):
 	file_in_init.close()
 	if print_detail:
 		print "{0} {1} class initializer".format(class_lines_init, class_total_init)
-
-# -----------------------------------------------------------------------------
-
-def get_source_directory():
-	"""Get the AStyle/src directory for the os environment"""
-	if os.name == "nt":
-		sourcedir = os.getenv("USERPROFILE") + "/Projects/AStyle/src"
-	else:
-		sourcedir = os.getenv("HOME") + "/Projects/AStyle/src"
-	return sourcedir
 
 # -----------------------------------------------------------------------------
 

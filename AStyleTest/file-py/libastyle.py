@@ -94,8 +94,16 @@ def compile_astyle_windows(astylepath, config):
 	sdk = "v3.5"
 	vsdir = "vs2008"
 	if astylepath.find("vs2010") != -1:
-		sdk = "v4.0.21006"
+		sdk = "v4.0.30319"
 		vsdir = "vs2010"
+	# remove the cache file as a precaution
+	cachepath = (get_astyle_directory() 
+			+ "/build/"
+			+ vsdir
+			+ "/AStyle.sln.cache")
+	if os.path.isfile(cachepath):
+		os.remove(cachepath)
+	# call MSBuild
 	buildpath =  (os.getenv("WINDIR")
 			+ "/Microsoft.NET/Framework/"
 			+ sdk
@@ -106,8 +114,8 @@ def compile_astyle_windows(astylepath, config):
 		configProp = "/property:Configuration=Static"
 	else:
 		configProp = "/property:Configuration=Release"
-	slnpath = (get_home_directory()
-			+ "/Projects/AStyle/build/"
+	slnpath = (get_astyle_directory()
+			+ "/build/"
 			+ vsdir
 			+ "/AStyle.sln")
 	msbuild = ([buildpath, configProp, slnpath])
@@ -121,13 +129,14 @@ def compile_astyle_windows(astylepath, config):
 
 # -----------------------------------------------------------------------------
 
-def get_7zip_path(endexe=False):
+def get_7zip_path():
 	"""Get the 7zip executable path for the os environment.
-	   endexe = True will add an ending '.exe' to Windows.
 	"""
 	if os.name == "nt":
-		exepath = os.getenv("PROGRAMFILES") + "/7-Zip/7z"
-		if endexe: exepath += ".exe"
+		exepath = os.getenv("PROGRAMFILES") + "/7-Zip/7z.exe"
+		if not os.path.isfile(exepath):
+			message = "Cannot find 7zip path: " + exepath
+			system_exit(message)
 	else:
 		exepath = "7z"
 	return exepath
@@ -138,7 +147,10 @@ def get_archive_directory(endsep=False):
 	"""Get the archives directory for the os environment.
 	   endsep = True will add an ending separator.
 	"""
-	arcdir = get_home_directory()  + "/Projects/TestArchives"
+	arcdir = get_project_directory()  + "/TestArchives"
+	if not os.path.isdir(arcdir):
+		message = "Cannot find archive directory: " + arcdir
+		system_exit(message)
 	if endsep: arcdir += '/'
 	return  arcdir
 
@@ -150,7 +162,10 @@ def get_astyle_directory(endsep=False):
 	"""
 	if endsep != True and endsep != False:
 		system_exit("Bad arg in get_astyle_directory(): " + endsep)
-	astyledir = get_home_directory() + "/Projects/AStyle"
+	astyledir = get_project_directory() + "/AStyle"
+	if not os.path.isdir(astyledir):
+		message = "Cannot find astyle directory: " + astyledir
+		system_exit(message)
 	if endsep: astyledir += '/'
 	return astyledir
 
@@ -162,7 +177,7 @@ def get_astyleexe_directory(config, endsep=False):
 	"""
 	if config != DEBUG and config != RELEASE and config != STATIC:
 		system_exit("Bad arg in get_astyleexe_directory(): " + config)
-	homedir = get_astyle_directory()
+	astyledir = get_astyle_directory()
 	if os.name == "nt":
 		subpath = "/build/vs2008/bin"
 		if config == DEBUG:
@@ -171,31 +186,36 @@ def get_astyleexe_directory(config, endsep=False):
 			subpath = subpath.replace("bin", "binstatic")
 	else:
 		subpath = "/build/gcc/bin"
-	astylepath = homedir + subpath
+	astylepath = astyledir + subpath
+	if not os.path.isdir(astylepath):
+		message = "Cannot find astyleexe directory: " + astylepath
+		system_exit(message)
 	if endsep: astylepath += '/'
 	return astylepath
 
 # -----------------------------------------------------------------------------
 
-def get_astyleexe_path(config, endexe=False):
+def get_astyleexe_path(config):
 	"""Get the AStyle executable path for the os environment.
-	   endexe = True will add an ending '.exe' to Windows.
 	"""
 	if config != DEBUG and config != RELEASE and config != STATIC:
 		system_exit("Bad arg in get_astyle_path(): " + config)
 	astyledir = get_astyleexe_directory(config, True)
 	if os.name == "nt":
 		if config == DEBUG:
-			progname = "AStyled"
+			progname = "AStyled.exe"
 		else:
-			progname = "AStyle"
-		if endexe: progname += ".exe"
+			progname = "AStyle.exe"
+		astylepath = astyledir + progname
+		if not os.path.isfile(astylepath):
+			message = "Cannot find astyleexe path: " + astylepath
+			system_exit(message)
 	else:
 		if config == DEBUG:
 			progname = "astyled"
 		else:
 			progname = "astyle"
-	astylepath = astyledir + progname
+		astylepath = astyledir + progname
 	return astylepath
 
 # -----------------------------------------------------------------------------
@@ -235,13 +255,15 @@ def getch():
 
 # -----------------------------------------------------------------------------
 
-def get_diff_path(endexe=False):
+def get_diff_path():
 	"""Get the diff executable path for the os environment.
 	   endexe = True will add an ending '.exe' to Windows.
 	"""
 	if os.name == "nt":
-		exepath = os.getenv("PROGRAMFILES") + "/WinMerge/WinMergeU"
-		if endexe: exepath += ".exe"
+		exepath = os.getenv("PROGRAMFILES") + "/WinMerge/WinMergeU.exe"
+		if not os.path.isfile(exepath):
+			message = "Cannot find diff path: " + exepath
+			system_exit(message)
 	else:
 		exepath = "diffuse"
 	return  exepath
@@ -252,7 +274,8 @@ def get_file_py_directory(endsep=False):
 	"""Get the file-py directory for the os environment.
 	   endsep = True will add an ending separator.
 	"""
-	pydir = get_home_directory() + "/Projects/AStyleTest/file-py"
+	# get the path where this file is located
+	pydir = sys.path[0]
 	if endsep: pydir += '/'
 	return  pydir
 
@@ -274,9 +297,14 @@ def get_home_directory(endsep=False):
 
 def get_project_directory(endsep=False):
 	"""Get the Project directory for the os environment.
+	   Extract the Project directory from path[0]
 	   endsep = True will add an ending separator.
 	"""
-	projdir = get_home_directory(True)  + "Projects"
+	# get the path where this file is located
+	pydir = sys.path[0]
+	# get project directory
+	testdir, tail = os.path.split(pydir)
+	projdir, tail = os.path.split(testdir)
 	if endsep: projdir += '/'
 	return  projdir
 
@@ -370,7 +398,10 @@ def get_test_directory(endsep=False):
 	"""Get the test directory for the os environment.
 	   endsep = True will add an ending separator.
 	"""
-	testdir = get_home_directory()  + "/Projects/TestData"
+	testdir = get_project_directory()  + "/TestData"
+	if not os.path.isdir(testdir):
+		message = "Cannot find test directory: " + testdir
+		system_exit(message)
 	if endsep: testdir += '/'
 	return  testdir
 
@@ -392,7 +423,7 @@ def set_error_color():
 	"""
 	if is_executed_from_console():
 		if os.name == "nt":
-			os.system("color 0C");
+			os.system("color 0C")
 		else:
 			os.system("echo -n '[1;31m'")
 
@@ -403,7 +434,7 @@ def set_ok_color():
 	"""
 	if is_executed_from_console():
 		if os.name == "nt":
-			os.system("color 0A");
+			os.system("color 0A")
 		else:
 			os.system("echo -n '[1;32m'")
 
@@ -414,7 +445,7 @@ def set_text_color():
 	"""
 	if is_executed_from_console():
 		if os.name == "nt":
-			os.system("color 0E");
+			os.system("color 0E")
 		else:
 			os.system("echo -n '[1;33m'")
 

@@ -25,7 +25,7 @@
 // global variables
 //----------------------------------------------------------------------------
 
-string *_testDirectory = NULL;	// file path of the test directory
+string *g_testDirectory = NULL;	// file path of the test directory
 
 //----------------------------------------------------------------------------
 // main function
@@ -35,7 +35,9 @@ int main(int argc, char **argv)
 {
 	// set global variable *_projectDirectory
 	setTestDirectory(argv[0]);
-	printf("Test directory: %s.\n", (*_testDirectory).c_str());
+	// the following statement will be printed at beginning of job
+	// and before a death test
+//	printf("Test directory: %s.\n", (*g_testDirectory).c_str());
 
 	// parse command line BEFORE InitGoogleTest
 	bool use_terse_printer = false;
@@ -63,10 +65,10 @@ int main(int argc, char **argv)
 	// begin unit testing
 	createTestDirectory(getTestDirectory());
 	int retval = RUN_ALL_TESTS();
-	
+
 	// end of unit testing
 	removeTestDirectory(getTestDirectory());
-	delete _testDirectory;
+	delete g_testDirectory;
 //	system("pause");		// sometimes needed for debug
 	return retval;
 }
@@ -75,36 +77,23 @@ int main(int argc, char **argv)
 // support functions
 //----------------------------------------------------------------------------
 
-char** buildArgv(const vector<string>& argIn)
-// build an array of pointers to be used as argv variable in function calls
-// the calling program must delete[] argv
-// argc will equal (argIn.size() + 1)
-{
-	// build argv array of pointers for input
-	int argc = argIn.size() + 1;
-
-	char** argv = new char* [sizeof(char*) * argc];
-	argv[0] = (char*)"AStyleTestCon.exe";	// first value is the program name
-	if (argIn.size() > 0)
-		for (int i = 1; i < argc; i++)		// next are the options
-			argv[i] = const_cast<char*>(argIn[i-1].c_str());
-//	for (int i = 0; i < argc; i++)
-//		cout << argv[i] << endl;
-	return argv;
-}
-
-int buildFileNameVector(string fileToProcess, vector<string>& fileNameVector)
-// build the g_console FileNameVector for testing
-// the return should be checked for "CONTINUE"
-{
-	// build argv array of pointers for input
-	fileNameVector.push_back(getTestDirectory() + fileToProcess);
-	char** argv = buildArgv(fileNameVector);
-	int argc = fileNameVector.size() + 1;
-	int processReturn = g_console->processOptions(argc, argv);
-	delete[] argv;
-	return processReturn;
-}
+//char** buildArgv(const vector<string>& argIn)
+//// build an array of pointers to be used as argv variable in function calls
+//// the calling program must delete[] argv
+//// argc will equal (argIn.size() + 1)
+//{
+//	// build argv array of pointers for input
+//	int argc = argIn.size() + 1;
+//
+//	char** argv = new char* [sizeof(char*) * argc];
+//	argv[0] = (char*)"AStyleTestCon.exe";	// first value is the program name
+//	if (argIn.size() > 0)
+//		for (int i = 1; i < argc; i++)		// next are the options
+//			argv[i] = const_cast<char*>(argIn[i-1].c_str());
+////	for (int i = 0; i < argc; i++)
+////		cout << argv[i] << endl;
+//	return argv;
+//}
 
 #ifdef _WIN32
 void cleanTestDirectory(const string &directory)
@@ -116,7 +105,7 @@ void cleanTestDirectory(const string &directory)
 	string firstFile = directory + "\\*";
 	HANDLE hFind = FindFirstFile(firstFile.c_str(), &FindFileData);
 	if (hFind == INVALID_HANDLE_VALUE)
-		systemAbort("Cannot open directory for clean: " + directory);
+		ASTYLE_ABORT("Cannot open directory for clean: " + directory);
 
 	// remove files and sub directories
 	do
@@ -147,7 +136,7 @@ void cleanTestDirectory(const string &directory)
 	FindClose(hFind);
 	DWORD dwError = GetLastError();
 	if (dwError != ERROR_NO_MORE_FILES)
-		systemAbort("Error processing directory for clean: " + directory);
+		ASTYLE_ABORT("Error processing directory for clean: " + directory);
 }
 #else
 void cleanTestDirectory(const string &directory)
@@ -163,10 +152,8 @@ void cleanTestDirectory(const string &directory)
 	// open directory stream
 	DIR *dp = opendir(directory.c_str());
 	if (errno)
-	{
-		perror("errno message");
-		systemAbort("Cannot open directory for clean: " + directory);
-	}
+		ASTYLE_ABORT(string(strerror(errno))
+					 +"\nCannot open directory for clean: " + directory);
 
 	// remove files and sub directories
 	while ((entry = readdir(dp)) != NULL)
@@ -175,11 +162,8 @@ void cleanTestDirectory(const string &directory)
 		string entryFilepath = directory + '/' + entry->d_name;
 		stat(entryFilepath.c_str(), &statbuf);
 		if (errno)
-		{
-			perror("errno message");
-			systemPause("Error getting file status for clean: " + directory);
-			continue;
-		}
+			ASTYLE_ABORT(string(strerror(errno))
+						 +"\nError getting file status for clean: " + directory);
 		// skip these
 		if (string(entry->d_name) == "."
 				|| string(entry->d_name) == "..")
@@ -191,11 +175,8 @@ void cleanTestDirectory(const string &directory)
 			cleanTestDirectory(subDirectoryPath);
 			rmdir(subDirectoryPath.c_str());
 			if (errno)
-			{
-				perror("errno message");
-				systemPause("Cannot remove directory for clean: " + subDirectoryPath);
-				return;
-			}
+				ASTYLE_ABORT(string(strerror(errno))
+							 +"\nCannot remove directory for clean: " + subDirectoryPath);
 			continue;
 		}
 
@@ -205,19 +186,15 @@ void cleanTestDirectory(const string &directory)
 			string filePathName = directory + '/' + entry->d_name;
 			remove(filePathName.c_str());
 			if (errno)
-			{
-				perror("errno message");
-				systemPause("Cannot remove file for clean: " + filePathName);
-			}
+				ASTYLE_ABORT(string(strerror(errno))
+							 + "\nCannot remove file for clean: " + filePathName);
 		}
 	}
 	closedir(dp);
 
 	if (errno)
-	{
-		perror("errno message");
-		systemPause("Error processing directory for clean: " + directory);
-	}
+		ASTYLE_ABORT(string(strerror(errno))
+					 + "\nError processing directory for clean: " + directory);
 }
 #endif
 
@@ -254,12 +231,12 @@ void createTestFile(const string& testFilePath, const char* testFileText, int si
 	if (testFilePath.compare(0, testDir.length(), testDir) != 0
 			|| !(testFilePath[testDir.length()] == '/'
 				 || testFilePath[testDir.length()] == '\\'))
-		systemAbort("File not written to test directory: " + testFilePath);
+		ASTYLE_ABORT("File not written to test directory: " + testFilePath);
 
 	// write the output file
 	ofstream fout(testFilePath.c_str(), ios::binary | ios::trunc);
 	if (!fout)
-		systemAbort("Could not open output file: " + testFilePath);
+		ASTYLE_ABORT("Could not open output file: " + testFilePath);
 
 	if (size == 0)
 		fout << testFileText;
@@ -299,14 +276,14 @@ string getCurrentDirectory()
 		gotDirectory = false;
 #endif
 	if (!gotDirectory)
-		systemAbort("Cannot get current directory");
+		ASTYLE_ABORT("Cannot get current directory");
 	return currentDirectory;
 }
 
 string getTestDirectory()
 // return file path of the global test directory
 {
-	return (*_testDirectory);
+	return (*g_testDirectory);
 }
 
 void removeTestDirectory(const string &dirName)
@@ -326,16 +303,14 @@ void removeTestFile(const string& testFileName)
 	errno = 0;
 	remove(testFileName.c_str());
 	if (errno)
-	{
-		perror("errno message");
-		systemPause("Cannot remove test file: " + testFileName);
-	}
+		ASTYLE_ABORT(string(strerror(errno))
+					 + "\nCannot remove test file: " + testFileName);
 }
 
 void setTestDirectory(char *argv)
-// set the global variable *_testDirectory
+// set the global variable *g_testDirectory
 {
-	assert(_testDirectory == NULL);
+	assert(g_testDirectory == NULL);
 	string testDirectory = argv;
 
 	// remove "build" directories
@@ -348,12 +323,12 @@ void setTestDirectory(char *argv)
 #endif
 	size_t i = testDirectory.rfind(buildDirectory);
 	if (i == string::npos)
-		systemAbort("Cannot extract test directory from: " + testDirectory);
+		ASTYLE_ABORT("Cannot extract test directory from: " + testDirectory);
 	testDirectory = testDirectory.substr(0, i);
 
 	// create global *_projectDirectory
 	testDirectory += separator + "ut-testcon";
-	_testDirectory = new string(testDirectory);
+	g_testDirectory = new string(testDirectory);
 }
 
 void systemAbort(const string& message)

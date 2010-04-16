@@ -18,8 +18,8 @@ def process_files():
 
 	header_variables = []			# protected variables in astyle.h
 	beautifier_variables = []		# activeBeautifierStack variables in ASBeautifier.cpp
-	header_path = get_source_directory() + "/astyle.h"
-	beautifier_path = get_source_directory() + "/ASBeautifier.cpp"
+	header_path = libastyle.get_astyle_directory() + "/src/astyle.h"
+	beautifier_path = libastyle.get_astyle_directory() + "/src/ASBeautifier.cpp"
 
 	libastyle.set_text_color()
 	get_header_variables(header_variables, header_path)
@@ -143,16 +143,6 @@ def get_header_variables(header_variables, header_path):
 	file_in.close()
 	if print_detail:
 		print "{0} {1} header protected".format(header_lines, header_total)
-
-# -----------------------------------------------------------------------------
-
-def get_source_directory():
-	"""Get the AStyle/src directory for the os environment"""
-	if os.name == "nt":
-		sourcedir = os.getenv("USERPROFILE") + "/Projects/AStyle/src"
-	else:
-		sourcedir = os.getenv("HOME") + "/Projects/AStyle/src"
-	return sourcedir
 
 # -----------------------------------------------------------------------------
 
