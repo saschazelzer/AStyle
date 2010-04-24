@@ -8,7 +8,7 @@ set bindir=..\build\%1\debug
 set sdk=no
 if %1 == vs2005  set sdk=v2.0.50727
 if %1 == vs2008  set sdk=v3.5
-if %1 == vs2010  set sdk=v4.0.21006
+if %1 == vs2010  set sdk=v4.0.30319
 set errors=no
 set called=no
 

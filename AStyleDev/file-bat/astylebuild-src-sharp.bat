@@ -8,7 +8,7 @@ set bindir2=..\src-sx
 set sdk=v3.5
 if %astyle:~-6% == vs2005  set sdk=v2.0.50727
 if %astyle:~-6% == vs2008  set sdk=v3.5
-if %astyle:~-6% == vs2010  set sdk=v4.0.21006
+if %astyle:~-6% == vs2010  set sdk=v4.0.30319
 set errors=no
 
 echo BUILDING ASTYLE DLL

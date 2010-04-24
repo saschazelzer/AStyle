@@ -369,12 +369,12 @@ void AStyleInterface::setTestOptions()
 * @param   textIn  A pointer to the source code to be formatted.
 * @return  A pointer to the formatted source from Artistic Style.
 */
-char* AStyleInterface::formatSource(const char* textIn)
+char *AStyleInterface::formatSource(const char *textIn)
 {   string options = getOptions();
 //	displayErrorMessage("--------------------");
 //	displayErrorMessage(options);
 //	displayErrorMessage("--------------------");
-    char* textOut = AStyleMain(textIn,
+    char *textOut = AStyleMain(textIn,
                                options.c_str(),
                                errorHandler,
                                memoryAlloc);
@@ -388,10 +388,10 @@ char* AStyleInterface::formatSource(const char* textIn)
 * @param   fileName  A pointer to the name of the file being formatted.
 * @return  A char pointer to the formatted source from Artistic Style.
 */
-char* AStyleInterface::formatSource(const char* textIn, string& filePath)
+char *AStyleInterface::formatSource(const char *textIn, string &filePath)
 {   // set file mode before formatting source
     setFileMode(filePath);
-    char* textOut = formatSource(textIn);
+    char *textOut = formatSource(textIn);
     return textOut;
 }
 
@@ -402,10 +402,10 @@ char* AStyleInterface::formatSource(const char* textIn, string& filePath)
 * @param   fileModeArg  A FileMode enum of the file being formatted.
 * @return  A char pointer to the formatted source from Artistic Style.
 */
-char* AStyleInterface::formatSource(const char* textIn, FileMode fileModeArg)
+char *AStyleInterface::formatSource(const char *textIn, FileMode fileModeArg)
 {   // set file mode before formatting source
     fileMode = fileModeArg;
-    char* textOut = formatSource(textIn);
+    char *textOut = formatSource(textIn);
     return textOut;
 }
 
@@ -418,7 +418,7 @@ char* AStyleInterface::formatSource(const char* textIn, FileMode fileModeArg)
 * @param  errorNumber   The error number from Artistic Style.
 * @param  errorMessage  The error message from Artistic Style.
 */
-void STDCALL AStyleInterface::errorHandler(int errorNumber, const char* errorMessage)
+void STDCALL AStyleInterface::errorHandler(int errorNumber, const char *errorMessage)
 {   displayErrorMessage(string("astyle error "
                                + intToString(errorNumber)
                                + "\n" + errorMessage));
@@ -432,8 +432,8 @@ void STDCALL AStyleInterface::errorHandler(int errorNumber, const char* errorMes
 *
 * @param  memoryNeeded  The amount of memory needed by Artistic Style.
 */
-char* STDCALL AStyleInterface::memoryAlloc(unsigned long memoryNeeded)
+char *STDCALL AStyleInterface::memoryAlloc(unsigned long memoryNeeded)
 {   // error condition should be checked by calling procedure
-    char* buffer = new(nothrow) char [memoryNeeded];
+    char *buffer = new(nothrow) char [memoryNeeded];
     return buffer;
 }

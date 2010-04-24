@@ -13,10 +13,10 @@
 
 // external functions calls in Artistic Style shared or static library
 extern "C"
-{   char* STDCALL  AStyleGetVersion();
-    char* STDCALL  AStyleMain(const char* textIn,
-                              const char* options,
-                              void(STDCALL *errorHandler)(int, const char*),
+{   char *STDCALL  AStyleGetVersion();
+    char *STDCALL  AStyleMain(const char *textIn,
+                              const char *options,
+                              void(STDCALL *errorHandler)(int, const char *),
                               char*(STDCALL *memoryAlloc)(unsigned long));
 }
 
@@ -77,9 +77,9 @@ public:
 public:
     // public functions
     AStyleInterface();
-    char* formatSource(const char* textIn);
-    char* formatSource(const char* textIn, std::string& filePath);
-    char* formatSource(const char* textIn, FileMode fileModeArg);
+    char *formatSource(const char *textIn);
+    char *formatSource(const char *textIn, std::string &filePath);
+    char *formatSource(const char *textIn, FileMode fileModeArg);
     void  setFileMode(std::string fileName);
     void  setTestOptions();
 
@@ -146,8 +146,8 @@ private:
     std::string getOptions() const;
     static std::string intToString(int intValue);
     // callback functions for Artistic Style
-    static void  STDCALL errorHandler(int errorNumber, const char* errorMessage);
-    static char* STDCALL memoryAlloc(unsigned long memoryNeeded);
+    static void  STDCALL errorHandler(int errorNumber, const char *errorMessage);
+    static char *STDCALL memoryAlloc(unsigned long memoryNeeded);
 
 };  // class AStyleInterface
 
