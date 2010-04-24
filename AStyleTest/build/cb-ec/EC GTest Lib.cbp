@@ -65,21 +65,18 @@
 				</ExtraCommands>
 			</Target>
 		</Build>
-		<Unit filename="..\..\..\gtest\include\gtest\gtest-death-test.h">
-			<Option target="Release" />
-		</Unit>
-		<Unit filename="..\..\..\gtest\include\gtest\gtest.h">
-			<Option target="Release" />
-		</Unit>
-		<Unit filename="..\..\..\gtest\include\gtest\internal\gtest-death-test-internal.h">
-			<Option target="Release" />
-		</Unit>
-		<Unit filename="..\..\..\gtest\include\gtest\internal\gtest-filepath.h">
-			<Option target="Release" />
-		</Unit>
-		<Unit filename="..\..\..\gtest\include\gtest\internal\gtest-string.h">
-			<Option target="Release" />
-		</Unit>
+		<Unit filename="..\..\..\gtest\include\gtest\gtest-death-test.h" />
+		<Unit filename="..\..\..\gtest\include\gtest\gtest-message.h" />
+		<Unit filename="..\..\..\gtest\include\gtest\gtest-spi.h" />
+		<Unit filename="..\..\..\gtest\include\gtest\gtest-test-part.h" />
+		<Unit filename="..\..\..\gtest\include\gtest\gtest.h" />
+		<Unit filename="..\..\..\gtest\include\gtest\gtest_pred_impl.h" />
+		<Unit filename="..\..\..\gtest\include\gtest\gtest_prod.h" />
+		<Unit filename="..\..\..\gtest\include\gtest\internal\gtest-death-test-internal.h" />
+		<Unit filename="..\..\..\gtest\include\gtest\internal\gtest-filepath.h" />
+		<Unit filename="..\..\..\gtest\include\gtest\internal\gtest-internal.h" />
+		<Unit filename="..\..\..\gtest\include\gtest\internal\gtest-port.h" />
+		<Unit filename="..\..\..\gtest\include\gtest\internal\gtest-string.h" />
 		<Unit filename="..\..\..\gtest\src\gtest-death-test.cc" />
 		<Unit filename="..\..\..\gtest\src\gtest-filepath.cc" />
 		<Unit filename="..\..\..\gtest\src\gtest-internal-inl.h" />

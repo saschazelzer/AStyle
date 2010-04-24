@@ -16,7 +16,6 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
-					<Add option="-DGTEST_HAS_PTHREAD=0" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
@@ -36,7 +35,6 @@
 					<Add option="-O3" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
-					<Add option="-DGTEST_HAS_PTHREAD=0" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add option="-DNDEBUG" />
 					<Add directory="../../src" />
@@ -54,13 +52,13 @@
 				<Option object_output="objConc/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters="--terse_printer" />
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-pg" />
 					<Add option="-fprofile-arcs" />
 					<Add option="-ftest-coverage" />
-					<Add option="-DGTEST_HAS_PTHREAD=0" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />

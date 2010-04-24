@@ -16,6 +16,7 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add option="-Wno-unused-function" />
 					<Add option="-DGTEST_HAS_PTHREAD=0" />
 					<Add directory="../../../gtest/include" />
 					<Add directory="../../../gtest" />
@@ -31,6 +32,7 @@
 					<Add option="-O2" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-Wno-unused-function" />
 					<Add option="-DGTEST_HAS_PTHREAD=0" />
 					<Add directory="../../../gtest/include" />
 					<Add directory="../../../gtest" />

@@ -4,6 +4,13 @@
 
 #include "AStyleTest.h"
 
+//----------------------------------------------------------------------------
+// anonymous namespace
+//----------------------------------------------------------------------------
+
+namespace
+{
+
 //-------------------------------------------------------------------------
 // AStyle Break Closing Brackets
 // Additional tests are in the Brackets tests
@@ -4623,3 +4630,7 @@ TEST_F(LineEndsDefaultF, BadWindows)
 	EXPECT_STREQ(textWindows, textOut);
 	delete [] textOut;
 }
+
+//----------------------------------------------------------------------------
+
+}  // namespace

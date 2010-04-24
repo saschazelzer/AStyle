@@ -15,6 +15,20 @@
 #endif
 
 //----------------------------------------------------------------------------
+// global variables
+//----------------------------------------------------------------------------
+
+// defined in astyle_main.cpp
+extern int _CRT_glob;
+	
+//----------------------------------------------------------------------------
+// anonymous namespace
+//----------------------------------------------------------------------------
+
+namespace
+{
+
+//----------------------------------------------------------------------------
 // AStyle test getFilePaths(), wildcmp(), and fileName vector
 //----------------------------------------------------------------------------
 
@@ -184,7 +198,7 @@ TEST_F(GetFilePathsF, FilePathsError)
 				   "\nDid you intend to use --recursive.";
 
 	// cannot use death test with leak finder
-#ifndef LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// test processFiles with bad file path
 	EXPECT_EXIT(g_console->processFiles(),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -217,7 +231,7 @@ TEST_F(GetFilePathsF, FilePathsErrorRecursive)
 	string regex = "No file to process " + astyleOptionsVector.back();
 
 	// cannot use death test with leak finder
-#ifndef LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// test processFiles with bad file path
 	EXPECT_EXIT(g_console->processFiles(),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -508,7 +522,7 @@ TEST_F(RecursiveF, ExcludeErrors)
 				   "Did you intend to use --recursive.";
 
 	// cannot use death test with leak finder
-#ifndef LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// test processFiles with unmatched excludes
 	EXPECT_EXIT(g_console->processFiles(),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -537,7 +551,7 @@ TEST_F(RecursiveF, ExcludeErrorsRecursive)
 				   "Unmatched exclude ubdir1a";
 
 	// cannot use death test with leak finder
-#ifndef LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// test processFiles with unmatched excludes
 	EXPECT_EXIT(g_console->processFiles(),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -1304,7 +1318,6 @@ TEST(Other, MingwFileGlobbing)
 {
 	// _CRT_glob is a global variable defined in astyle_main.cpp
 	// will get a link error if it is not defined in the GLOBAL namespace
-	extern int _CRT_glob;
 	EXPECT_TRUE(_CRT_glob == 0);
 }
 
@@ -1314,7 +1327,7 @@ TEST(Other, ErrorExit)
 	ASFormatter formatter;
 	createConsoleGlobalObject(formatter);
 	// cannot use death test with leak finder
-#ifndef LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// death test without error message
 	EXPECT_EXIT(g_console->error(),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -1329,7 +1342,7 @@ TEST(Other, ErrorExitWihMessage)
 	ASFormatter formatter;
 	createConsoleGlobalObject(formatter);
 	// cannot use death test with leak finder
-#ifndef LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// death test with error message
 	EXPECT_EXIT(g_console->error("why", "what"),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -1338,5 +1351,10 @@ TEST(Other, ErrorExitWihMessage)
 	deleteConsoleGlobalObject();
 }
 
+//----------------------------------------------------------------------------
+
+}  // namespace
+
+//----------------------------------------------------------------------------
 
 // TODO: test waitForRemove function - line 1925

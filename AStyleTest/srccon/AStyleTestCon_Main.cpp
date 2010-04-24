@@ -21,6 +21,21 @@
 #include "TersePrinter.h"
 #include "AStyleTestCon.h"
 
+//-------------------------------------------------------------------------
+// macro
+//-------------------------------------------------------------------------
+
+// ASTYLE_ABORT(message) macro
+// Print an error message, including the file and line number,
+//  and then abort the program.
+#define ASTYLE_ABORT(message) \
+	{ \
+		(*_err) << endl << __FILE__ << " (" << __LINE__ << ")" << endl; \
+		(*_err) << (message) << endl; \
+		(*_err) << "\nThe test has terminated!\n" << endl; \
+		exit(EXIT_FAILURE); \
+	}
+
 //----------------------------------------------------------------------------
 // global variables
 //----------------------------------------------------------------------------

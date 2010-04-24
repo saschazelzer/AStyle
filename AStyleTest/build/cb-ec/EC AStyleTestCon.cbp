@@ -76,6 +76,7 @@
 		<Unit filename="..\..\srccon\AStyleTestCon_Console1.cpp" />
 		<Unit filename="..\..\srccon\AStyleTestCon_Console2.cpp" />
 		<Unit filename="..\..\srccon\AStyleTestCon_Main.cpp" />
+		<Unit filename="..\..\srccon\AStyleTestCon_Print.cpp" />
 		<Unit filename="..\..\srcx\TersePrinter.cpp" />
 		<Unit filename="..\..\srcx\TersePrinter.h" />
 		<Unit filename="..\..\..\AStyle\src\ASBeautifier.cpp" />

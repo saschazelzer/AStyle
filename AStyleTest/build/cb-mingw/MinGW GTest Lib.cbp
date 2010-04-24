@@ -17,6 +17,7 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add option="-Wno-unused-function" />
 					<Add directory="..\..\..\gtest\include" />
 					<Add directory="..\..\..\gtest" />
 				</Compiler>
@@ -32,6 +33,7 @@
 					<Add option="-O2" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-Wno-unused-function" />
 					<Add directory="..\..\..\gtest\include" />
 					<Add directory="..\..\..\gtest" />
 				</Compiler>

@@ -1,7 +1,7 @@
 @echo off
 REM Create a gtest link to the directory with the version number
 
-set gtdir=gtest-1.4.0
+set gtdir=gtest-1.5.0
 
 :ckDir
 if not exist ..\..\%gtdir% (

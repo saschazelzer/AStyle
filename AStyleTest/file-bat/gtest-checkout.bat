@@ -1,4 +1,5 @@
 @echo off
+REM check out google test
 
 set progdir=C:\Program Files\SlikSvn\bin
 REM get today's date and convert to yy.mm.dd

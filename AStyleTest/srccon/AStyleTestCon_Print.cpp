@@ -6,26 +6,26 @@
 #include "AStyleTestCon.h"
 #ifdef _WIN32
 #include <windows.h>
+#else
+#include <fcntl.h>
 #endif
 
 //----------------------------------------------------------------------------
 // global variables
 //----------------------------------------------------------------------------
 
-#if defined(_MSC_VER) || defined(__BORLANDC__)
-// MSVC and C++Builder do not provide a definition of STDERR_FILENO.
-const int g_stdOutFileno = 1;
-const int g_stdErrFileno = 2;
-#else
-const int g_stdOutFileno = STDOUT_FILENO;
-const int g_stdErrFileno = STDERR_FILENO;
-#endif  // _MSC_VER
-
 // defined in astyle_main.cpp
 namespace astyle
 {
 extern const char* g_version;
 }
+
+//----------------------------------------------------------------------------
+// anonymous namespace
+//----------------------------------------------------------------------------
+
+namespace
+{
 
 //----------------------------------------------------------------------------
 // AStyle PrintF Class
@@ -58,7 +58,7 @@ class PrintF : public ::testing::Test
 		// make adjustments to textOut
 		void adjustTextOut(string &textOut);
 
-		// buildExcludeVector() is called by the test functions
+		// build a vector of files to exclude
 		void buildExcludeVector();
 
 		// redirect the stdout stream to a temporary file
@@ -76,10 +76,17 @@ class PrintF : public ::testing::Test
 };
 
 PrintF::PrintF()
+// c'tor
 {
+#if defined(_MSC_VER) || defined(__BORLANDC__)
+	// MSVC and C++Builder do not provide a definition of STDERR_FILENO.
+	const int stdOutFileno = 1;
+#else
+	const int stdOutFileno = STDOUT_FILENO;
+#endif  // _MSC_VER
 	// initialize variables
-	fd_ = g_stdOutFileno;
-	uncaptured_fd_ = dup(g_stdOutFileno);
+	fd_ = stdOutFileno;
+	uncaptured_fd_ = dup(stdOutFileno);
 	filesExcluded = 0;
 	// create test objects
 	createConsoleGlobalObject(formatter);
@@ -87,6 +94,7 @@ PrintF::PrintF()
 }
 
 PrintF::~PrintF()
+// d'tor
 {
 	if (uncaptured_fd_ != -1)
 	{
@@ -145,10 +153,22 @@ void PrintF::adjustTextOut(string &textOut)
 			break;
 		textOut[i] = '/';
 	}
+	
+	// delete any decimals in the time (problem with Embarcadero)
+	size_t decimal = textOut.rfind('.');
+	if (decimal != string::npos 
+		&& textOut.length() > 30
+		&& decimal > textOut.length() - 30)
+	{
+		// delete to the next space
+		size_t space = textOut.find(' ', decimal);
+		if (space != string::npos)
+			textOut.erase(decimal, space - decimal);
+	}
 }
 
 void PrintF::buildExcludeVector()
-// buildExcludeVector() is called by the test functions
+// build a vector of files to exclude
 {
 	char textExcluded[] = "\nvoid foo() { bar(); }\n";
 	// add files to fileNames vector
@@ -215,27 +235,24 @@ void PrintF::redirectStream()
 // redirect the stdout stream to a temporary file
 {
 #ifdef _WIN32
-	char temp_dir_path[MAX_PATH + 1] = { '\0' };
 	char temp_file_path[MAX_PATH + 1] = { '\0' };
-
-	::GetTempPathA(sizeof(temp_dir_path), temp_dir_path);
-	const UINT success = ::GetTempFileNameA(temp_dir_path,
-											"gtest_redir",
-											0,  // Generate unique file name.
-											temp_file_path);
-	if (success == 0)
-		ASTYLE_ABORT("Unable to create a temporary file in " + string(temp_dir_path));
+	const DWORD success = GetTempPath(sizeof(temp_file_path), temp_file_path);
+	GTEST_CHECK_(success > 0)
+		<< "Unable to get temporary directory path";
+	strcat(temp_file_path, "AStyleTestCon.tmp");
 	const int captured_fd = creat(temp_file_path, _S_IREAD | _S_IWRITE);
-	if (captured_fd == -1)
-		ASTYLE_ABORT("Unable to open temporary file " + string(temp_file_path));
+	GTEST_CHECK_(captured_fd != -1)
+		<< "Unable to open temporary file " << temp_file_path;
 	filename_ = temp_file_path;
 #else
 	// There's no guarantee that a test has write access to the
 	// current directory, so we create the temporary file in the /tmp
 	// directory instead.
-	char name_template[] = "/tmp/captured_stream.XXXXXX";
-	const int captured_fd = mkstemp(name_template);
-	filename_ = name_template;
+	char temp_file_path[] = "/tmp/AStyleTestCon.tmp";
+ 	const int captured_fd = creat(temp_file_path, S_IREAD | S_IWRITE);
+	GTEST_CHECK_(captured_fd != -1)
+		<< "Unable to open temporary file " << temp_file_path;
+	filename_ = temp_file_path;
 #endif
 	fflush(NULL);
 	dup2(captured_fd, fd_);
@@ -582,3 +599,6 @@ TEST_F(PrintF, Quiet_AllOptions)
 	EXPECT_EQ(text, textOut);
 }
 
+//----------------------------------------------------------------------------
+
+}  // namespace

@@ -13,6 +13,9 @@
 // Fired before each iteration of tests starts.
 void TersePrinter::OnTestIterationStart(const UnitTest& unit_test, int /*iteration*/)
 {
+#if !GTEST_HAS_DEATH_TEST || LEAK_FINDER
+	ColoredPrint(COLOR_RED, "No death tests.\n");
+#endif
 	ColoredPrint(COLOR_YELLOW, "Using terse printer.\n");
 	ColoredPrint(COLOR_GREEN, "[==========] ");
 	printf("Running %d tests from %d test cases.\n",
@@ -297,6 +300,7 @@ bool TersePrinter::ShouldUseColor(bool stdoutIsTty) const
 {
 	// use the TERM variable.
 	const char* const term = getenv("TERM");
+	if (term == NULL) return false;
 	const bool termSupportsColor = strcmp(term, "xterm") == 0
 	                               || strcmp(term, "xterm-color") == 0
 	                               || strcmp(term, "xterm-256color") == 0

@@ -18,8 +18,8 @@
 					<Add option="-no-multibyte-chars" />
 					<Add option="-vec-report0" />
 					<Add option="-w1" />
-					<Add option="-DGTEST_HAS_TR1_TUPLE" />
-					<Add option="-DGTEST_USE_OWN_TR1_TUPLE" />
+					<Add option="-DGTEST_HAS_TR1_TUPLE=1" />
+					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
 					<Add option="-DASTYLE_LIB" />
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
@@ -41,8 +41,8 @@
 					<Add option="-no-multibyte-chars" />
 					<Add option="-vec-report0" />
 					<Add option="-w1" />
-					<Add option="-DGTEST_HAS_TR1_TUPLE" />
-					<Add option="-DGTEST_USE_OWN_TR1_TUPLE" />
+					<Add option="-DGTEST_HAS_TR1_TUPLE=1" />
+					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
 					<Add option="-DASTYLE_LIB" />
 					<Add option="-DNDEBUG" />
 					<Add directory="../../src" />

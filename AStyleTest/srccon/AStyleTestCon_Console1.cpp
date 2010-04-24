@@ -12,6 +12,13 @@
 #include "AStyleTestCon.h"
 
 //----------------------------------------------------------------------------
+// anonymous namespace
+//----------------------------------------------------------------------------
+
+namespace
+{
+
+//----------------------------------------------------------------------------
 // AStyle processOptions() for console and file options
 // test vectors excludeVector, excludeHitsVector, fileNameVector, optionsVector, fileOptionsVector
 //----------------------------------------------------------------------------
@@ -396,7 +403,7 @@ TEST(ProcessOptions, FileOptionsVector_Error)
 	optionsIn.push_back("--options=" + optionsFileName);
 
 	// cannot use death test with leak finder
-#ifndef LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// test processOptions with invalid file options
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -426,7 +433,7 @@ TEST(ProcessOptions, FileOptionsVector_FileError1)
 	optionsIn.push_back("--options=" + optionsFileName);
 
 	// cannot use death test with leak finder
-#ifndef LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// test processOptions with options file error
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -448,7 +455,7 @@ TEST(ProcessOptions, FileOptionsVector_FileError2)
 	optionsIn.push_back("--options=");
 
 	// cannot use death test with leak finder
-#ifndef LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// test processOptions with options file error
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -578,7 +585,7 @@ TEST(ProcessOptions, ConsoleOptions_Error)
 	optionsIn.push_back("--indent-classes");
 
 	// cannot use death test with leak finder
-#ifndef LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// test processOptions with invalid command line options
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -607,7 +614,7 @@ TEST(ProcessOptions, HelpOption)
 	optionsIn.push_back("--help");
 
 	// cannot use death test with leak finder
-#ifndef LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// test processOptions for help option display
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_SUCCESS),
@@ -628,7 +635,7 @@ TEST(ProcessOptions, HelpOption_Short1)
 	optionsIn.push_back("-h");
 
 	// cannot use death test with leak finder
-#ifndef LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// test processOptions for help option display
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_SUCCESS),
@@ -649,7 +656,7 @@ TEST(ProcessOptions, HelpOption_Short2)
 	optionsIn.push_back("-?");
 
 	// cannot use death test with leak finder
-#ifndef LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// test processOptions for help option display
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_SUCCESS),
@@ -670,7 +677,7 @@ TEST(ProcessOptions, VersionOption)
 	optionsIn.push_back("--version");
 
 	// cannot use death test with leak finder
-#ifndef LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// test processOptions for version option display
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_SUCCESS),
@@ -691,7 +698,7 @@ TEST(ProcessOptions, VersionOption_Short)
 	optionsIn.push_back("-V");
 
 	// cannot use death test with leak finder
-#ifndef LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// test processOptions for version option display
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_SUCCESS),
@@ -1431,3 +1438,8 @@ TEST(HeaderVectorSequence, BuildPreDefinitionHeaders)
 		prevHeader = (*preDefinitionHeaders[i]);
 	}
 }
+
+//----------------------------------------------------------------------------
+
+}  // namespace
+
