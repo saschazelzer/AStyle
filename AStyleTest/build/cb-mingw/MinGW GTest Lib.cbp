@@ -18,8 +18,8 @@
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-Wno-unused-function" />
-					<Add directory="..\..\..\gtest\include" />
-					<Add directory="..\..\..\gtest" />
+					<Add directory="..\..\..\gmock\gtest\include" />
+					<Add directory="..\..\..\gmock\gtest" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -34,33 +34,33 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-Wno-unused-function" />
-					<Add directory="..\..\..\gtest\include" />
-					<Add directory="..\..\..\gtest" />
+					<Add directory="..\..\..\gmock\gtest\include" />
+					<Add directory="..\..\..\gmock\gtest" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="..\..\..\gtest\include\gtest\gtest-death-test.h" />
-		<Unit filename="..\..\..\gtest\include\gtest\gtest-message.h" />
-		<Unit filename="..\..\..\gtest\include\gtest\gtest-spi.h" />
-		<Unit filename="..\..\..\gtest\include\gtest\gtest-test-part.h" />
-		<Unit filename="..\..\..\gtest\include\gtest\gtest.h" />
-		<Unit filename="..\..\..\gtest\include\gtest\gtest_pred_impl.h" />
-		<Unit filename="..\..\..\gtest\include\gtest\gtest_prod.h" />
-		<Unit filename="..\..\..\gtest\include\gtest\internal\gtest-death-test-internal.h" />
-		<Unit filename="..\..\..\gtest\include\gtest\internal\gtest-filepath.h" />
-		<Unit filename="..\..\..\gtest\include\gtest\internal\gtest-internal.h" />
-		<Unit filename="..\..\..\gtest\include\gtest\internal\gtest-port.h" />
-		<Unit filename="..\..\..\gtest\include\gtest\internal\gtest-string.h" />
-		<Unit filename="..\..\..\gtest\src\gtest-death-test.cc" />
-		<Unit filename="..\..\..\gtest\src\gtest-filepath.cc" />
-		<Unit filename="..\..\..\gtest\src\gtest-internal-inl.h" />
-		<Unit filename="..\..\..\gtest\src\gtest-port.cc" />
-		<Unit filename="..\..\..\gtest\src\gtest-test-part.cc" />
-		<Unit filename="..\..\..\gtest\src\gtest-typed-test.cc" />
-		<Unit filename="..\..\..\gtest\src\gtest.cc" />
+		<Unit filename="..\..\..\gmock\gtest\include\gtest\gtest-death-test.h" />
+		<Unit filename="..\..\..\gmock\gtest\include\gtest\gtest-message.h" />
+		<Unit filename="..\..\..\gmock\gtest\include\gtest\gtest-spi.h" />
+		<Unit filename="..\..\..\gmock\gtest\include\gtest\gtest-test-part.h" />
+		<Unit filename="..\..\..\gmock\gtest\include\gtest\gtest.h" />
+		<Unit filename="..\..\..\gmock\gtest\include\gtest\gtest_pred_impl.h" />
+		<Unit filename="..\..\..\gmock\gtest\include\gtest\gtest_prod.h" />
+		<Unit filename="..\..\..\gmock\gtest\include\gtest\internal\gtest-death-test-internal.h" />
+		<Unit filename="..\..\..\gmock\gtest\include\gtest\internal\gtest-filepath.h" />
+		<Unit filename="..\..\..\gmock\gtest\include\gtest\internal\gtest-internal.h" />
+		<Unit filename="..\..\..\gmock\gtest\include\gtest\internal\gtest-port.h" />
+		<Unit filename="..\..\..\gmock\gtest\include\gtest\internal\gtest-string.h" />
+		<Unit filename="..\..\..\gmock\gtest\src\gtest-death-test.cc" />
+		<Unit filename="..\..\..\gmock\gtest\src\gtest-filepath.cc" />
+		<Unit filename="..\..\..\gmock\gtest\src\gtest-internal-inl.h" />
+		<Unit filename="..\..\..\gmock\gtest\src\gtest-port.cc" />
+		<Unit filename="..\..\..\gmock\gtest\src\gtest-test-part.cc" />
+		<Unit filename="..\..\..\gmock\gtest\src\gtest-typed-test.cc" />
+		<Unit filename="..\..\..\gmock\gtest\src\gtest.cc" />
 		<Extensions>
 			<code_completion />
 			<envvars />

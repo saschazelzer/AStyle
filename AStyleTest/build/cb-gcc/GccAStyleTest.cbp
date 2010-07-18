@@ -16,13 +16,16 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add option="-pthread" />
+					<Add option="-DGTEST_HAS_PTHREAD=1" />
 					<Add option="-DASTYLE_LIB" />
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gtest/include" />
+					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
+					<Add option="-pthread" />
 					<Add library="bin/libgtestd.a" />
 				</Linker>
 			</Target>
@@ -35,15 +38,18 @@
 					<Add option="-O3" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-pthread" />
+					<Add option="-DGTEST_HAS_PTHREAD=1" />
 					<Add option="-DASTYLE_LIB" />
 					<Add option="-DNDEBUG" />
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gtest/include" />
+					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-pthread" />
 					<Add library="bin/libgtest.a" />
 				</Linker>
 			</Target>

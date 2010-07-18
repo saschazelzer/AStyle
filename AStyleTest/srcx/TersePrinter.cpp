@@ -2,9 +2,7 @@
 // It prints only failed test cases and set-up and tear-down information.
 // To activate run the test program with the command argument --terse_printer.
 
-#include <vector>
 #include "TersePrinter.h"
-
 
 // TersePrinter class.
 // Provides alternative output mode which displays only
@@ -13,11 +11,14 @@
 // Fired before each iteration of tests starts.
 void TersePrinter::OnTestIterationStart(const UnitTest& unit_test, int /*iteration*/)
 {
-#if !GTEST_HAS_DEATH_TEST || LEAK_FINDER
-	ColoredPrint(COLOR_RED, "No death tests.\n");
+#ifdef __BORLANDC__
+	ColoredPrintf(COLOR_YELLOW, "No mock tests.\n");
 #endif
-	ColoredPrint(COLOR_YELLOW, "Using terse printer.\n");
-	ColoredPrint(COLOR_GREEN, "[==========] ");
+#if !GTEST_HAS_DEATH_TEST || LEAK_FINDER
+	ColoredPrintf(COLOR_YELLOW, "No death tests.\n");
+#endif
+	ColoredPrintf(COLOR_YELLOW, "Using terse printer.\n");
+	ColoredPrintf(COLOR_GREEN, "[==========] ");
 	printf("Running %d tests from %d test cases.\n",
 	       unit_test.test_to_run_count(),
 	       unit_test.test_case_to_run_count());
@@ -27,42 +28,67 @@ void TersePrinter::OnTestIterationStart(const UnitTest& unit_test, int /*iterati
 // Fired before environment set-up for each iteration of tests starts.
 void TersePrinter::OnEnvironmentsSetUpStart(const UnitTest& /*unit_test*/)
 {
-	ColoredPrint(COLOR_GREEN, "[----------] ");
+	ColoredPrintf(COLOR_GREEN, "[----------] ");
 	printf("Global test environment set-up.\n\n");
 	fflush(stdout);
 }
 
 // Fired before the test starts.
+// Save information for the failure message.
+// The test start information is actually printed by
+// OnTestPartResult() and prints the failures only.
 void TersePrinter::OnTestStart(const TestInfo& test_info)
 {
-	// Saves information for the failure message.
-	// The test start information is printed by
-	// OnTestPartResult() to print the failures only.
+	test_header_printed_ = false;
 	test_case_name_ = test_info.test_case_name();
 	test_info_name_ = test_info.name();
 	test_info_comment_ == test_info.comment();
 }
 
 // Called after a failed assertion or a SUCCESS().
+// Print the test header for the first error or
+// a continuation line for additional errors.
+// Then print the failed test summary.
 void TersePrinter::OnTestPartResult(const TestPartResult& test_part_result)
 {
 	if (test_part_result.failed() )
 	{
-		ColoredPrint(COLOR_RED, "[  RUN     ] ");
-		printf("%s.%s", test_case_name_.c_str(), test_info_name_.c_str());
-		// remove directory information from the file path
-		string file_name = test_part_result.file_name();
-		size_t dir_end = file_name.find_last_of("\\/");
-		if (dir_end != string::npos)
-			file_name = file_name.substr(dir_end + 1);
-		printf("  %s:(%d)\n",
-		       file_name.c_str(),
-		       test_part_result.line_number());
+		if (!test_header_printed_)
+		{
+			test_header_printed_ = true;
+			// print the message header
+			ColoredPrintf(COLOR_YELLOW, "[  RUN     ] ");
+			printf("%s.%s", test_case_name_.c_str(), test_info_name_.c_str());
+			// remove directory information from the file path
+			string file_name = test_part_result.file_name();
+			size_t dir_end = file_name.find_last_of("\\/");
+			if (dir_end != string::npos)
+				file_name = file_name.substr(dir_end + 1);
+			// print the test name
+			printf("  %s:(%d)\n",
+			       file_name.c_str(),
+			       test_part_result.line_number());
+		}
+		else
+		{
+			ColoredPrintf(COLOR_YELLOW, "[          ]\n");
+		}
+		// print the failed test summary
 		PrintFailedTestSummary(string(test_part_result.summary()));
-		ColoredPrint(COLOR_RED, "[  FAILED  ] ");
+		fflush(stdout);
+	}
+}
+
+// Fired after the test ends.
+// Print a summary only if the test failed.
+void TersePrinter::OnTestEnd(const TestInfo& test_info)
+{
+	if (!test_info.result()->Passed())
+	{
+		ColoredPrintf(COLOR_RED, "[  FAILED  ] ");
 		printf("%s.%s", test_case_name_.c_str(), test_info_name_.c_str());
 		string filler;
-		int filler_adjust = 50 - (test_case_name_.length() + test_info_name_.length());
+		int filler_adjust = 60 - (test_case_name_.length() + test_info_name_.length());
 		if (filler_adjust < 0)
 			filler_adjust = 0;
 		filler.append(filler_adjust, '-');
@@ -74,7 +100,7 @@ void TersePrinter::OnTestPartResult(const TestPartResult& test_part_result)
 // Fired before environment tear-down for each iteration of tests starts.
 void TersePrinter::OnEnvironmentsTearDownStart(const UnitTest& /*unit_test*/)
 {
-	ColoredPrint(COLOR_GREEN, "[----------] ");
+	ColoredPrintf(COLOR_GREEN, "[----------] ");
 	printf("Global test environment tear-down.\n");
 	fflush(stdout);
 }
@@ -82,7 +108,7 @@ void TersePrinter::OnEnvironmentsTearDownStart(const UnitTest& /*unit_test*/)
 // Fired after each iteration of tests finishes.
 void TersePrinter::OnTestIterationEnd(const UnitTest& unit_test, int /*iteration*/)
 {
-	ColoredPrint(COLOR_GREEN, "[==========] ");
+	ColoredPrintf(COLOR_GREEN, "[==========] ");
 	printf("%d tests from %d test cases ran.",
 	       unit_test.test_to_run_count(),
 	       unit_test.test_case_to_run_count());
@@ -90,26 +116,28 @@ void TersePrinter::OnTestIterationEnd(const UnitTest& unit_test, int /*iteration
 	printf(" (%1.2f seconds total)\n", time_in_ms / 1000);
 
 	// Print total passed.
-	ColoredPrint(COLOR_GREEN, "[  PASSED  ] ");
+	ColoredPrintf(COLOR_GREEN, "[  PASSED  ] ");
 	printf("%d tests.\n", unit_test.successful_test_count());
-
-	// Print total disabled.
-	int num_disabled = unit_test.disabled_test_count();
-	if (num_disabled)
-	{
-		ColoredPrint(COLOR_YELLOW, "[ DISABLED ] ");
-		printf("%d tests.\n", num_disabled);
-	}
-
 	// Print total failed.
 	int num_failures = unit_test.failed_test_count();
 	if (num_failures)
 	{
-		ColoredPrint(COLOR_RED, "[  FAILED  ] ");
+		ColoredPrintf(COLOR_RED, "[  FAILED  ] ");
 		printf("%d tests, listed below:\n", num_failures);
 		PrintFailedTestsList(unit_test);
+		printf("\n%2d FAILED TESTS\n", num_failures);
 	}
-
+	// Print total disabled.
+	int num_disabled = unit_test.disabled_test_count();
+	if (num_disabled)
+	{
+		if (!num_failures)
+		{
+			printf("\n");  // Add a spacer if no FAILURE banner is displayed.
+		}
+		ColoredPrintf(COLOR_YELLOW, "  YOU HAVE %d DISABLED TESTS\n", num_disabled);
+	}
+	// Ensure that Google Test output is printed before, e.g., heapchecker output.
 	printf("%c", '\n');
 	fflush(stdout);
 }
@@ -131,7 +159,12 @@ void TersePrinter::PrintFailedTestSummary(string summary) const
 	}
 	// Write the last line and append a return.
 	if (prev_i < (summary.length()))
-		line.push_back(summary.substr(prev_i) + '\n');
+	{
+		line.push_back(summary.substr(prev_i));
+		int last_char = line.back().length() - 1;
+		if (last_char > 0 && line.back()[last_char] != '\n')
+			line.back().append("\n");
+	}
 
 	// Print the lines with added color.
 	for (size_t j = 0; j < line.size(); j++)
@@ -143,7 +176,7 @@ void TersePrinter::PrintFailedTestSummary(string summary) const
 		{
 			// Header portion is not colored.
 			printf("%s", line[j].substr(0, 10).c_str());
-			ColoredPrint(COLOR_CYAN, line[j].substr(10).c_str());
+			ColoredPrintf(COLOR_CYAN, line[j].substr(10).c_str());
 		}
 		else if (line[j].compare(0, 11, "Death test:") == 0
 		         || line[j].compare(0, 11, "    Result:") == 0
@@ -153,11 +186,11 @@ void TersePrinter::PrintFailedTestSummary(string summary) const
 		{
 			// Header portion is not colored.
 			printf("%s", line[j].substr(0, 12).c_str());
-			ColoredPrint(COLOR_CYAN, line[j].substr(12).c_str());
+			ColoredPrintf(COLOR_CYAN, line[j].substr(12).c_str());
 		}
 		else
 		{
-			ColoredPrint(COLOR_CYAN, line[j].c_str());
+			ColoredPrintf(COLOR_CYAN, line[j].c_str());
 		}
 	}
 }
@@ -180,6 +213,7 @@ void TersePrinter::PrintFailedTestsList(const UnitTest& unit_test) const
 			const TestInfo& test_info = *test_case.GetTestInfo(j);
 			if (!test_info.should_run() || test_info.result()->Passed())
 				continue;
+			ColoredPrintf(COLOR_RED, "[  FAILED  ] ");
 			printf("%s.%s\n", test_case.name(), test_info.name());
 		}
 	}
@@ -198,33 +232,68 @@ char TersePrinter::PeekNextChar(const string &line, int i) const
 
 #ifdef _WIN32
 
+//// Windows print colored string to stdout.
+//void TersePrinter::ColoredPrint(ConsoleColor color, const char* fmt) const
+//{
+//	if (!use_color_)
+//	{
+//		printf("%s", fmt);
+//		return;
+//	}
+//
+//	const HANDLE stdout_handle = GetStdHandle(STD_OUTPUT_HANDLE);
+//
+//	// get the current text color
+//	CONSOLE_SCREEN_BUFFER_INFO bufferInfo;
+//	GetConsoleScreenBufferInfo(stdout_handle, &bufferInfo);
+//	const WORD oldColorAttrs = bufferInfo.wAttributes;
+//
+//	// We need to flush the stream buffers into the console before each
+//	// SetConsoleTextAttribute call lest it affect the text that is already
+//	// printed but has not yet reached the console.
+//	fflush(stdout);
+//	SetConsoleTextAttribute(stdout_handle,
+//	                        GetColorAttribute(color)
+//	                        | static_cast<WORD>(FOREGROUND_INTENSITY));
+//	printf("%s", fmt);
+//	fflush(stdout);
+//	// restore the text color.
+//	SetConsoleTextAttribute(stdout_handle, oldColorAttrs);
+//}
+
 // Windows print colored string to stdout.
-void TersePrinter::ColoredPrint(ConsoleColor color, const char* fmt) const
+void TersePrinter::ColoredPrintf(ConsoleColor color, const char* fmt, ...) const
 {
+	va_list args;
+	va_start(args, fmt);
+
 	if (!use_color_)
 	{
-		printf("%s", fmt);
+		vprintf(fmt, args);
+		va_end(args);
 		return;
 	}
 
-	const HANDLE stdoutH = GetStdHandle(STD_OUTPUT_HANDLE);
+	const HANDLE stdout_handle = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	// get the current text color
-	CONSOLE_SCREEN_BUFFER_INFO bufferInfo;
-	GetConsoleScreenBufferInfo(stdoutH, &bufferInfo);
-	const WORD oldColorAttrs = bufferInfo.wAttributes;
+	// Gets the current text color.
+	CONSOLE_SCREEN_BUFFER_INFO buffer_info;
+	GetConsoleScreenBufferInfo(stdout_handle, &buffer_info);
+	const WORD old_color_attrs = buffer_info.wAttributes;
 
 	// We need to flush the stream buffers into the console before each
 	// SetConsoleTextAttribute call lest it affect the text that is already
 	// printed but has not yet reached the console.
 	fflush(stdout);
-	SetConsoleTextAttribute(stdoutH,
+	SetConsoleTextAttribute(stdout_handle,
 	                        GetColorAttribute(color)
 	                        | static_cast<WORD>(FOREGROUND_INTENSITY));
-	printf("%s", fmt);
+	vprintf(fmt, args);
+
 	fflush(stdout);
-	// restore the text color.
-	SetConsoleTextAttribute(stdoutH, oldColorAttrs);
+	// Restores the text color.
+	SetConsoleTextAttribute(stdout_handle, old_color_attrs);
+	va_end(args);
 }
 
 // Windows return the character attribute for the given color.
@@ -253,22 +322,41 @@ WORD TersePrinter::GetColorAttribute(ConsoleColor color) const
 
 #else
 
-// Linux print colored string to stdout.
-void TersePrinter::ColoredPrint(ConsoleColor color, const char* fmt) const
-{
-	static const bool in_color_mode =
-	    ShouldUseColor(isatty(fileno(stdout)) != 0);
-	bool use_color_print = in_color_mode && use_color_;
+//// Linux print colored string to stdout.
+//void TersePrinter::ColoredPrint(ConsoleColor color, const char* fmt) const
+//{
+//	static const bool in_color_mode =
+//	    ShouldUseColor(isatty(fileno(stdout)) != 0);
+//	bool use_color_print = in_color_mode && use_color_;
+//
+//	if (!use_color_print)
+//	{
+//		printf("%s", fmt);
+//		return;
+//	}
+//	string color_code = GetAnsiColorCode(color);
+//	printf("%s", color_code.c_str());
+//	printf("%s", fmt);
+//	printf("%s", "\033[m");	// reset the terminal to default.
+//}
 
-	if (!use_color_print)
+// Linux print colored string to stdout.
+void TersePrinter::ColoredPrintf(ConsoleColor color, const char* fmt, ...) const
+{
+	va_list args;
+	va_start(args, fmt);
+
+	if (!use_color_)
 	{
-		printf("%s", fmt);
+		vprintf(fmt, args);
+		va_end(args);
 		return;
 	}
 	string color_code = GetAnsiColorCode(color);
 	printf("%s", color_code.c_str());
-	printf("%s", fmt);
+	vprintf(fmt, args);
 	printf("%s", "\033[m");	// reset the terminal to default.
+	va_end(args);
 }
 
 // Linux return the ANSI color code for the given color.

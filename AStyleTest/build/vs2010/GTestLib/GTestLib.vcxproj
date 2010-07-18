@@ -10,6 +10,9 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\gmock\gtest\src\gtest-all.cc" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}</ProjectGuid>
     <RootNamespace>gtest</RootNamespace>
@@ -48,7 +51,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\..\gtest\include;..\..\..\..\gtest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\gmock\gtest\include;..\..\..\..\gmock\gtest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -61,7 +64,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\gtest\include;..\..\..\..\gtest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\gmock\gtest\include;..\..\..\..\gmock\gtest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>
@@ -70,29 +73,6 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\..\gtest\src\gtest-death-test.cc" />
-    <ClCompile Include="..\..\..\..\gtest\src\gtest-filepath.cc" />
-    <ClCompile Include="..\..\..\..\gtest\src\gtest-port.cc" />
-    <ClCompile Include="..\..\..\..\gtest\src\gtest-test-part.cc" />
-    <ClCompile Include="..\..\..\..\gtest\src\gtest-typed-test.cc" />
-    <ClCompile Include="..\..\..\..\gtest\src\gtest.cc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\..\gtest\include\gtest\internal\gtest-death-test-internal.h" />
-    <ClInclude Include="..\..\..\..\gtest\include\gtest\gtest-death-test.h" />
-    <ClInclude Include="..\..\..\..\gtest\include\gtest\internal\gtest-filepath.h" />
-    <ClInclude Include="..\..\..\..\gtest\src\gtest-internal-inl.h" />
-    <ClInclude Include="..\..\..\..\gtest\include\gtest\internal\gtest-internal.h" />
-    <ClInclude Include="..\..\..\..\gtest\include\gtest\gtest-message.h" />
-    <ClInclude Include="..\..\..\..\gtest\include\gtest\internal\gtest-port.h" />
-    <ClInclude Include="..\..\..\..\gtest\include\gtest\gtest-spi.h" />
-    <ClInclude Include="..\..\..\..\gtest\include\gtest\internal\gtest-string.h" />
-    <ClInclude Include="..\..\..\..\gtest\include\gtest\gtest-test-part.h" />
-    <ClInclude Include="..\..\..\..\gtest\include\gtest\gtest.h" />
-    <ClInclude Include="..\..\..\..\gtest\include\gtest\gtest_pred_impl.h" />
-    <ClInclude Include="..\..\..\..\gtest\include\gtest\gtest_prod.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

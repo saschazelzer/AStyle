@@ -8,16 +8,13 @@
 // headers
 //----------------------------------------------------------------------------
 
-// NOTE: gtest.h must be BEFORE windows.h for the MinGW compiler.
-// This can be changed when MinGW fixes the error (reported apr 1, 2010).
-#include "gtest/gtest.h"
-
 #ifdef _WIN32
 #include <windows.h>
 #else
 #include <dirent.h>
 #endif
 
+#include "gtest/gtest.h"
 #include "TersePrinter.h"
 #include "AStyleTestCon.h"
 
@@ -40,7 +37,12 @@
 // global variables
 //----------------------------------------------------------------------------
 
-string *g_testDirectory = NULL;	// file path of the test directory
+// directory paths to use for testing
+#ifdef _WIN32
+string g_testDirectory = "%USERPROFILE%\\Projects\\AstyleTest\\ut-testcon";
+#else
+string g_testDirectory = "$HOME/Projects/AstyleTest/ut-testcon";
+#endif
 
 //----------------------------------------------------------------------------
 // main function
@@ -48,8 +50,8 @@ string *g_testDirectory = NULL;	// file path of the test directory
 
 int main(int argc, char **argv)
 {
-	// set global variable *_projectDirectory
-	setTestDirectory(argv[0]);
+	// set global variable g_testDirectory
+	setTestDirectory();
 	// the following statement will be printed at beginning of job
 	// and before a death test
 //	printf("Test directory: %s.\n", (*g_testDirectory).c_str());
@@ -83,7 +85,6 @@ int main(int argc, char **argv)
 
 	// end of unit testing
 	removeTestDirectory(getTestDirectory());
-	delete g_testDirectory;
 //	system("pause");		// sometimes needed for debug
 	return retval;
 }
@@ -117,6 +118,7 @@ void cleanTestDirectory(const string &directory)
 	WIN32_FIND_DATA FindFileData;
 
 	// Find the first file in the directory
+	// Find will get at least "." and "..".
 	string firstFile = directory + "\\*";
 	HANDLE hFind = FindFirstFile(firstFile.c_str(), &FindFileData);
 	if (hFind == INVALID_HANDLE_VALUE)
@@ -126,8 +128,8 @@ void cleanTestDirectory(const string &directory)
 	do
 	{
 		// skip these
-		if (string(FindFileData.cFileName) == "."
-				|| string(FindFileData.cFileName) == "..")
+		if (strcmp(FindFileData.cFileName, ".") == 0
+				||  strcmp(FindFileData.cFileName, "..") == 0)
 			continue;
 		// clean and remove sub directories
 		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
@@ -136,14 +138,18 @@ void cleanTestDirectory(const string &directory)
 			cleanTestDirectory(subDirectoryPath);
 			BOOL isRemoved = RemoveDirectory(subDirectoryPath.c_str());
 			if (!isRemoved)
-				systemPause("Cannot remove directory for clean: " + subDirectoryPath);
+				retryRemoveDirectory(subDirectoryPath);
 			continue;
 		}
 		// remove the file
 		string filePathName = directory + '\\' + FindFileData.cFileName;
 		BOOL isRemoved = DeleteFile(filePathName.c_str());
 		if (!isRemoved)
-			systemPause("Cannot remove file for clean: " + filePathName);
+		{
+			cout << "Cannot remove file for clean: " << filePathName << endl;
+			displayLastError();
+			systemPause();
+		}
 	}
 	while (FindNextFile(hFind, &FindFileData) != 0);
 
@@ -153,7 +159,54 @@ void cleanTestDirectory(const string &directory)
 	if (dwError != ERROR_NO_MORE_FILES)
 		ASTYLE_ABORT("Error processing directory for clean: " + directory);
 }
+
+void displayLastError()
+{
+	LPSTR msgBuf;
+	DWORD lastError = GetLastError();
+	FormatMessage(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+		NULL,
+		lastError,
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),  // Default language
+		(LPSTR) &msgBuf,
+		0,
+		NULL
+	);
+	// Display the string.
+	cout << "Error (" << lastError << ") " << msgBuf << endl;
+	// Free the buffer.
+	LocalFree(msgBuf);
+}
+
+void retryRemoveDirectory(const string& directory)
+// wait for files and sub-directories to be removed
+{
+	// sleep a max of 20 seconds for the remove
+	for (size_t seconds = 1; seconds <= 20; seconds++)
+	{
+		sleep(1);
+		BOOL isRemoved = RemoveDirectory(directory.c_str());
+		if (isRemoved)
+		{
+//			cout << "remove retry: " << seconds << " seconds" << endl;
+			return;
+		}
+	}
+	cout << "Cannot remove file for clean: " << directory << endl;
+	displayLastError();
+	systemPause();
+}
+
+void sleep(int seconds)
+{
+	clock_t endwait;
+	endwait = clock_t (clock () + seconds * CLOCKS_PER_SEC);
+	while (clock() < endwait) {}
+}
+
 #else
+
 void cleanTestDirectory(const string &directory)
 // POSIX remove files and sub directories from the test directory
 {
@@ -180,8 +233,8 @@ void cleanTestDirectory(const string &directory)
 			ASTYLE_ABORT(string(strerror(errno))
 						 +"\nError getting file status for clean: " + directory);
 		// skip these
-		if (string(entry->d_name) == "."
-				|| string(entry->d_name) == "..")
+		if (strcmp(entry->d_name, ".") == 0
+				|| strcmp(entry->d_name, "..") == 0)
 			continue;
 		// clean and remove sub directories
 		if (S_ISDIR(statbuf.st_mode))
@@ -224,17 +277,22 @@ void createConsoleGlobalObject(ASFormatter& formatter)
 	g_console = new ASConsole(formatter);
 }
 
-void createTestDirectory(const string &dirName)
+void createTestDirectory(const string &dirPath)
 // create a test directory
 {
 #ifdef _WIN32
-	CreateDirectory(dirName.c_str(), NULL);
+	BOOL ok = ::CreateDirectory(dirPath.c_str(), NULL);
+	if (!ok && GetLastError() != ERROR_ALREADY_EXISTS)
+	{
+		displayLastError();
+		ASTYLE_ABORT("Cannot create directory: " + dirPath)
+	}
 #else
-	mkdir(dirName.c_str(), 00770);
-	chmod(dirName.c_str(), 00770);
+	mkdir(dirPath.c_str(), 00770);
+	chmod(dirPath.c_str(), 00770);
 #endif
-	// clean a pre-existing directory
-	cleanTestDirectory(dirName);
+		// clean a pre-existing directory
+		cleanTestDirectory(dirPath);
 }
 
 void createTestFile(const string& testFilePath, const char* testFileText, int size /*0*/)
@@ -251,7 +309,7 @@ void createTestFile(const string& testFilePath, const char* testFileText, int si
 	// write the output file
 	ofstream fout(testFilePath.c_str(), ios::binary | ios::trunc);
 	if (!fout)
-		ASTYLE_ABORT("Could not open output file: " + testFilePath);
+		ASTYLE_ABORT("Cannot open output file: " + testFilePath);
 
 	if (size == 0)
 		fout << testFileText;
@@ -295,10 +353,10 @@ string getCurrentDirectory()
 	return currentDirectory;
 }
 
-string getTestDirectory()
+string& getTestDirectory()
 // return file path of the global test directory
 {
-	return (*g_testDirectory);
+	return (g_testDirectory);
 }
 
 void removeTestDirectory(const string &dirName)
@@ -322,29 +380,59 @@ void removeTestFile(const string& testFileName)
 					 + "\nCannot remove test file: " + testFileName);
 }
 
-void setTestDirectory(char *argv)
-// set the global variable *g_testDirectory
+void setTestDirectory()
+// set the global variable g_testDirectory
 {
-	assert(g_testDirectory == NULL);
-	string testDirectory = argv;
-
-	// remove "build" directories
+	// define unicode and multi-byte variables
 #ifdef _WIN32
-	string buildDirectory = "\\build\\";
-	string separator = "\\";
+	string envVar = "%USERPROFILE%";
+	string varName = envVar.substr(1, envVar.length()-2);
 #else
-	string buildDirectory = "/build/";
-	string separator = "/";
+	string envVar = "$HOME";
+	string varName = envVar.substr(1, envVar.length()-1);
 #endif
-	size_t i = testDirectory.rfind(buildDirectory);
-	if (i == string::npos)
-		ASTYLE_ABORT("Cannot extract test directory from: " + testDirectory);
-	testDirectory = testDirectory.substr(0, i);
-
-	// create global *_projectDirectory
-	testDirectory += separator + "ut-testcon";
-	g_testDirectory = new string(testDirectory);
+	// get replacement for environment variable
+	char* envPath = getenv(varName.c_str());
+	if (envPath == NULL)
+		ASTYLE_ABORT("Bad char in wide character string: " + envVar);
+	// replace the environment variable
+	size_t iEnv = g_testDirectory.find(envVar.c_str());
+	if (iEnv == string::npos)
+		ASTYLE_ABORT("Cannot find environmental variable: " + envVar);
+	g_testDirectory.replace(iEnv, envVar.length(), envPath);
+	// check that the primary directory exists
+	size_t iPrim = g_testDirectory.find_last_of("\\/");
+	if (iPrim == string::npos)
+		ASTYLE_ABORT("Cannot find ending separator: " + g_testDirectory);
+	string primaryDirectory = g_testDirectory.substr(0, iPrim);
+	struct stat stBuf;
+	if (stat(primaryDirectory.c_str(), &stBuf) == -1)
+		ASTYLE_ABORT("Primary directory does not exist: " + primaryDirectory);
 }
+
+//void setTestDirectoryX(char *argv)
+//// set the global variable *g_testDirectory
+//{
+//	assert(g_testDirectory == NULL);
+//	string testDirectory = argv;
+//
+//	// remove "build" directories
+//#ifdef _WIN32
+//	string buildDirectory = "\\build\\";
+//	string separator = "\\";
+//#else
+//	string buildDirectory = "/build/";
+//	string separator = "/";
+//#endif
+//	size_t i = testDirectory.rfind(buildDirectory);
+//	if (i == string::npos)
+//		ASTYLE_ABORT("Cannot extract test directory from: " + testDirectory);
+//	testDirectory = testDirectory.substr(0, i);
+//
+//	// create global *_projectDirectory
+//	testDirectory += separator + "ut-testcon";
+//	g_testDirectory = new string(testDirectory);
+//}
 
 void systemAbort(const string& message)
 // accept keyboard input then abort
@@ -358,7 +446,8 @@ void systemPause(const string& message)
 // accept keyboard input to continue
 // assures a console message is noticed
 {
-	cout << message << endl;
+	if (message.length() > 4)
+		cout << message << endl;
 #ifdef _WIN32
 	system("pause");
 #else

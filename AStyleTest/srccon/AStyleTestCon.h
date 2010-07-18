@@ -47,13 +47,20 @@ void createTestDirectory(const string &dirName);
 void createTestFile(const string& testFilePath, const char* testFileText, int size = 0);
 void deleteConsoleGlobalObject();
 string getCurrentDirectory();
-string getTestDirectory();
+string& getTestDirectory();
 void removeTestDirectory(const string &dirName);
 void removeTestFile(const string& testFileName);
-void setTestDirectory(char *argv);
+void setTestDirectory();
 void systemAbort(const string& message);
-void systemPause(const string& message);
+void systemPause(const string& message = "");
 bool writeOptionsFile(const string& optionsFileName, const char* fileIn);
+
+// windows specific functions
+#ifdef _WIN32
+void displayLastError();
+void retryRemoveDirectory(const string& directory);
+void sleep(int seconds);
+#endif
 
 //-------------------------------------------------------------------------
 

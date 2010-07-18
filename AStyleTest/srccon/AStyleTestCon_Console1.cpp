@@ -211,7 +211,7 @@ TEST(ProcessOptions, FileOptionsVector_EnvironmentVariable)
 	int isError = putenv(const_cast<char*>(envValue.c_str()));
 	if (isError)
 	{
-		systemPause("Could not set ARTISTIC_STYLE_OPTIONS environment variable");
+		systemPause("Cannot set ARTISTIC_STYLE_OPTIONS environment variable");
 		return;
 	}
 
@@ -263,7 +263,7 @@ TEST(ProcessOptions, FileOptionsVector_Home)
 #endif
 	if (env == NULL)
 	{
-		systemPause("Could not get $HOME directory");
+		systemPause("Cannot get $HOME directory");
 		return;
 	}
 
@@ -309,7 +309,7 @@ TEST(ProcessOptions, FileOptionsVector_None)
 #endif
 	if (env == NULL)
 	{
-		systemPause("Could not get $HOME directory");
+		systemPause("Cannot get $HOME directory");
 		return;
 	}
 	string optionsFileName = string(env) + name;
@@ -437,7 +437,7 @@ TEST(ProcessOptions, FileOptionsVector_FileError1)
 	// test processOptions with options file error
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_FAILURE),
-				"Could not open options file: ");
+				"Cannot open options file: ");
 #endif
 
 	deleteConsoleGlobalObject();
@@ -459,7 +459,7 @@ TEST(ProcessOptions, FileOptionsVector_FileError2)
 	// test processOptions with options file error
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_FAILURE),
-				"Could not open options file: ");
+				"Cannot open options file: ");
 #endif
 
 	deleteConsoleGlobalObject();
@@ -484,7 +484,7 @@ TEST(ProcessOptions, GetCurrentDirectory)
 	ofstream fout(testFilePath.c_str(), ios::binary | ios::trunc);
 	if (!fout)
 	{
-		systemPause("Could not open output file: " + testFilePath);
+		systemPause("Cannot open output file: " + testFilePath);
 		return;
 	}
 	fout << textIn;
@@ -761,7 +761,7 @@ TEST_F(FileSuffixF, None)
 	g_console->processFiles();
 
 	// all files should be formatted
-	EXPECT_EQ((int)fileNames.size(), g_console->getFilesFormatted());
+	ASSERT_EQ((int)fileNames.size(), g_console->getFilesFormatted());
 
 	// check for .orig file on disk
 	for (size_t i = 0; i < fileNames.size(); i++)
@@ -793,7 +793,7 @@ TEST_F(FileSuffixF, DotOld)
 
 	// all files should be formatted
 	EXPECT_TRUE(fileNames.size() > 0);
-	EXPECT_EQ((int)fileNames.size(), g_console->getFilesFormatted());
+	ASSERT_EQ((int)fileNames.size(), g_console->getFilesFormatted());
 
 	// check for .old file on disk
 	for (size_t i = 0; i < fileNames.size(); i++)
@@ -825,7 +825,7 @@ TEST_F(FileSuffixF, SansDot)
 
 	// all files should be formatted
 	EXPECT_TRUE(fileNames.size() > 0);
-	EXPECT_EQ((int)fileNames.size(), g_console->getFilesFormatted());
+	ASSERT_EQ((int)fileNames.size(), g_console->getFilesFormatted());
 
 	// check for xxx file on disk
 	for (size_t i = 0; i < fileNames.size(); i++)

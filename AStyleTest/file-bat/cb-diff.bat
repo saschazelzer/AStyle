@@ -23,7 +23,7 @@ exit 1
 )
 
 REM display the files and write to output
-echo Compare %indir:~30% to %indirOLD:~30% 
+echo Compare %indir:~32% to %indirOLD:~32% 
 echo directory1  %indir% >> %errfile%
 echo directory2  %indirOLD% >> %errfile%
 echo ---------------------------------------------- >> %errfile%

@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;..\..\..\..\gtest\include&quot;;&quot;..\..\..\..\gtest&quot;"
+				AdditionalIncludeDirectories="..\..\..\..\gmock\gtest\include;..\..\..\..\gmock\gtest"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -106,7 +106,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;..\..\..\..\gtest\include&quot;;&quot;..\..\..\..\gtest&quot;"
+				AdditionalIncludeDirectories="..\..\..\..\gmock\gtest\include;..\..\..\..\gmock\gtest"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -153,27 +153,27 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\..\..\gtest\src\gtest-death-test.cc"
+				RelativePath="..\..\..\..\gmock\gtest\src\gtest-death-test.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest\src\gtest-filepath.cc"
+				RelativePath="..\..\..\..\gmock\gtest\src\gtest-filepath.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest\src\gtest-port.cc"
+				RelativePath="..\..\..\..\gmock\gtest\src\gtest-port.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest\src\gtest-test-part.cc"
+				RelativePath="..\..\..\..\gmock\gtest\src\gtest-test-part.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest\src\gtest-typed-test.cc"
+				RelativePath="..\..\..\..\gmock\gtest\src\gtest-typed-test.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest\src\gtest.cc"
+				RelativePath="..\..\..\..\gmock\gtest\src\gtest.cc"
 				>
 			</File>
 		</Filter>
@@ -183,55 +183,55 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\..\..\gtest\include\gtest\internal\gtest-death-test-internal.h"
+				RelativePath="..\..\..\..\gmock\gtest\include\gtest\internal\gtest-death-test-internal.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest\include\gtest\gtest-death-test.h"
+				RelativePath="..\..\..\..\gmock\gtest\include\gtest\gtest-death-test.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest\include\gtest\internal\gtest-filepath.h"
+				RelativePath="..\..\..\..\gmock\gtest\include\gtest\internal\gtest-filepath.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest\src\gtest-internal-inl.h"
+				RelativePath="..\..\..\..\gmock\gtest\src\gtest-internal-inl.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest\include\gtest\internal\gtest-internal.h"
+				RelativePath="..\..\..\..\gmock\gtest\include\gtest\internal\gtest-internal.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest\include\gtest\gtest-message.h"
+				RelativePath="..\..\..\..\gmock\gtest\include\gtest\gtest-message.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest\include\gtest\internal\gtest-port.h"
+				RelativePath="..\..\..\..\gmock\gtest\include\gtest\internal\gtest-port.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest\include\gtest\gtest-spi.h"
+				RelativePath="..\..\..\..\gmock\gtest\include\gtest\gtest-spi.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest\include\gtest\internal\gtest-string.h"
+				RelativePath="..\..\..\..\gmock\gtest\include\gtest\internal\gtest-string.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest\include\gtest\gtest-test-part.h"
+				RelativePath="..\..\..\..\gmock\gtest\include\gtest\gtest-test-part.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest\include\gtest\gtest.h"
+				RelativePath="..\..\..\..\gmock\gtest\include\gtest\gtest.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest\include\gtest\gtest_pred_impl.h"
+				RelativePath="..\..\..\..\gmock\gtest\include\gtest\gtest_pred_impl.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\gtest\include\gtest\gtest_prod.h"
+				RelativePath="..\..\..\..\gmock\gtest\include\gtest\gtest_prod.h"
 				>
 			</File>
 		</Filter>

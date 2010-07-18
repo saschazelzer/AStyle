@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)debug"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			CharacterSet="2"
+			CharacterSet="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
-				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;&quot;..\..\..\..\gtest\include&quot;;..\..\..\srcx"
+				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -101,7 +101,7 @@
 			OutputDirectory="$(SolutionDir)bin"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			CharacterSet="2"
+			CharacterSet="0"
 			WholeProgramOptimization="0"
 			>
 			<Tool
@@ -122,7 +122,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				EnableIntrinsicFunctions="false"
-				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;&quot;..\..\..\..\gtest\include&quot;;..\..\..\srcx"
+				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				MinimalRebuild="false"
 				RuntimeLibrary="2"
@@ -182,7 +182,7 @@
 			OutputDirectory="$(SolutionDir)debug"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			CharacterSet="2"
+			CharacterSet="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -202,7 +202,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;&quot;..\..\..\..\gtest\include&quot;;..\..\..\srcx;&quot;..\..\..\..\LeakFinder-RC9&quot;"
+				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx;..\..\..\..\LeakFinder"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;ASTYLE_LIB;LEAK_FINDER"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -226,7 +226,7 @@
 				AdditionalDependencies="AStyleLibd.lib gtestd.lib LeakFinder_VC9.lib"
 				OutputFile="$(OutDir)\$(ProjectName)dl.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\debug;&quot;..\..\..\..\LeakFinder-RC9\Debug_VC9&quot;"
+				AdditionalLibraryDirectories="..\debug;&quot;..\..\..\..\LeakFinder\Debug_VC9&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(ProjectDir)$(ConfigurationName)\$(TargetName).pdb"
 				SubSystem="1"

@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="GccAStyleTestCon" />
+		<Option title="GccAStyleTestI18n" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/AStyleTestCond" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/AStyleTestI18nd" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objCond/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -16,18 +16,21 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add option="-pthread" />
+					<Add option="-DGTEST_HAS_PTHREAD=1" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gtest/include" />
+					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
+					<Add option="-pthread" />
 					<Add library="bin/libgtestd.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/AStyleTestCon" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/AStyleTestI18n" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objCon/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -35,20 +38,23 @@
 					<Add option="-O3" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
-					<Add option="-DASTYLECON_LIB" />
+					<Add option="-pthread" />
+					<Add option="-DGTEST_HAS_PTHREAD=1" />
 					<Add option="-DNDEBUG" />
+					<Add option="-DASTYLECON_LIB" />
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gtest/include" />
+					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-pthread" />
 					<Add library="bin/libgtestd.a" />
 				</Linker>
 			</Target>
 			<Target title="Coverage">
-				<Option output="bin/AStyleTestConc" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/AStyleTestI18nc" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objConc/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -57,16 +63,20 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-pg" />
+					<Add option="-pthread" />
 					<Add option="-fprofile-arcs" />
 					<Add option="-ftest-coverage" />
+					<Add option="-DGTEST_HAS_PTHREAD=1" />
+					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gtest/include" />
+					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg" />
+					<Add option="-pthread" />
 					<Add library="gcov" />
 					<Add library="bin/libgtestd.a" />
 				</Linker>

@@ -1,7 +1,7 @@
 @REM formats the astyletest source code in the test directory
 @echo off
 
-set PATH=PATH;"%PROGRAMFILES%\AStyle
+set PATH=PATH;"C:\Program Files (x86)\AStyle
 set prog=AStyle
 
 REM  T - indent=force-tabs
@@ -29,6 +29,10 @@ echo -
 %prog%  %options%  ..\srccon\*.cpp
 echo -
 %prog%  %options%  ..\srccon\*.h
+echo -
+%prog%  %options%  ..\srci18n\*.cpp
+echo -
+%prog%  %options%  ..\srci18n\*.h
 echo -
 REM override force-tabs with tabs
 %prog%  %options%  -t  ..\srcx\*.cpp

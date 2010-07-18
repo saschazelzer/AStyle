@@ -20,9 +20,10 @@
 					<Add directory="..\..\srccon" />
 					<Add directory="..\..\srcx" />
 					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="..\..\..\gtest\include" />
+					<Add directory="..\..\..\gmock\gtest\include" />
 				</Compiler>
 				<Linker>
+					<Add option="-Wl,--enable-auto-import" />
 					<Add library="gtestd" />
 					<Add directory="bin" />
 				</Linker>
@@ -40,10 +41,11 @@
 					<Add directory="..\..\srccon" />
 					<Add directory="..\..\srcx" />
 					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="..\..\..\gtest\include" />
+					<Add directory="..\..\..\gmock\gtest\include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-Wl,--enable-auto-import" />
 					<Add library="gtest" />
 					<Add directory="bin" />
 				</Linker>
@@ -62,9 +64,10 @@
 					<Add directory="..\..\srccon" />
 					<Add directory="..\..\srcx" />
 					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="..\..\..\gtest\include" />
+					<Add directory="..\..\..\gmock\gtest\include" />
 				</Compiler>
 				<Linker>
+					<Add option="-Wl,--enable-auto-import" />
 					<Add library="gtestd" />
 					<Add library="gcov" />
 					<Add directory="bin" />

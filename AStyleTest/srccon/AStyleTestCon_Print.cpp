@@ -153,12 +153,12 @@ void PrintF::adjustTextOut(string &textOut)
 			break;
 		textOut[i] = '/';
 	}
-	
+
 	// delete any decimals in the time (problem with Embarcadero)
 	size_t decimal = textOut.rfind('.');
-	if (decimal != string::npos 
-		&& textOut.length() > 30
-		&& decimal > textOut.length() - 30)
+	if (decimal != string::npos
+			&& textOut.length() > 30
+			&& decimal > textOut.length() - 30)
 	{
 		// delete to the next space
 		size_t space = textOut.find(' ', decimal);
@@ -238,20 +238,20 @@ void PrintF::redirectStream()
 	char temp_file_path[MAX_PATH + 1] = { '\0' };
 	const DWORD success = GetTempPath(sizeof(temp_file_path), temp_file_path);
 	GTEST_CHECK_(success > 0)
-		<< "Unable to get temporary directory path";
+			<< "Unable to get temporary directory path";
 	strcat(temp_file_path, "AStyleTestCon.tmp");
 	const int captured_fd = creat(temp_file_path, _S_IREAD | _S_IWRITE);
 	GTEST_CHECK_(captured_fd != -1)
-		<< "Unable to open temporary file " << temp_file_path;
+			<< "Unable to open temporary file " << temp_file_path;
 	filename_ = temp_file_path;
 #else
 	// There's no guarantee that a test has write access to the
 	// current directory, so we create the temporary file in the /tmp
 	// directory instead.
 	char temp_file_path[] = "/tmp/AStyleTestCon.tmp";
- 	const int captured_fd = creat(temp_file_path, S_IREAD | S_IWRITE);
+	const int captured_fd = creat(temp_file_path, S_IREAD | S_IWRITE);
 	GTEST_CHECK_(captured_fd != -1)
-		<< "Unable to open temporary file " << temp_file_path;
+			<< "Unable to open temporary file " << temp_file_path;
 	filename_ = temp_file_path;
 #endif
 	fflush(NULL);

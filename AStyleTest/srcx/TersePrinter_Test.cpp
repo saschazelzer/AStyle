@@ -79,13 +79,21 @@ TEST(TestCase2, TrueFalse_Fails)
 {
 	int process_return = 1;
 	int CONTINUE = 0;
-	EXPECT_TRUE(process_return == CONTINUE) << "EXPECT_TRUE failure.";;
+	EXPECT_TRUE(process_return == CONTINUE) << "EXPECT_TRUE failure.";
 }
 
 TEST(DISABLED_TestCase2, Disabled)
 {
 }
 
+TEST(TestCase3, MultipleFailures)
+{
+	int process_return = 1;
+	int CONTINUE = 0;
+	EXPECT_TRUE(process_return == CONTINUE) << "EXPECT_TRUE failure 1.";
+	EXPECT_TRUE(process_return == CONTINUE) << "EXPECT_TRUE failure 2.";
+	EXPECT_TRUE(process_return == CONTINUE) << "EXPECT_TRUE failure 3.";
+}
 
 int main(int argc, char **argv)
 {

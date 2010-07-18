@@ -15,6 +15,23 @@ namespace
 // AStyle version 1.25 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(v125, UnpadParens_ConvertTabs)
+{
+	// Unpad parens with convert tabs and a paren ending the line
+	// caused a "string subscript out of range" with VS2010
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(isFoo)\n"
+		"        Bar(\n"
+		"            foo + 1);\n"
+		"}";
+	char options[] = "unpad-paren, convert-tabs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(v125, DeleteEmptyLines_BreakBlocks)
 {
 	// a missing closing bracket with delete-empty-lines and break-blocks
@@ -2126,7 +2143,7 @@ TEST(AStyleMainInputError, InvalidOption)
 
 //----------------------------------------------------------------------------
 // AStyle Macro formatting
-// Test macros recognized by AStyle
+// Test wxWidgets and MFC macros recognized by AStyle
 //----------------------------------------------------------------------------
 
 TEST(Macro, wxWidgetsEventHandler)
@@ -2162,6 +2179,35 @@ TEST(Macro, wxWidgetsEventHandlerNonIndentComment)
 	delete [] textOut;
 }
 
+TEST(Macro, MfcDispatchMap)
+{
+	// MFC dispatch map should be indented
+	char text[] =
+		"\nBEGIN_DISPATCH_MAP(CblahCtrl, COleControl)\n"
+		"    DISP_FUNCTION_ID(CMySink,\"Quit\",2,OnObjQuit,VT_EMPTY,VTS_I4 VTS_I4)\n"
+		"    DISP_FUNCTION_ID(CblahCtrl,\"AboutBox\",2,AboutBox,VT_EMPTY,VTS_NONE)\n"
+		"END_DISPATCH_MAP()\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Macro, MfcEventMap)
+{
+	// MFC event map should be indented
+	char text[] =
+		"\nBEGIN_EVENT_MAP(CDataqSdkCtrl, COleControl)\n"
+		"    EVENT_CUSTOM(\"NewData\", FireNewData, VTS_I2)\n"
+		"    EVENT_CUSTOM(\"OverRun\", FireOverRun, VTS_NONE)\n"
+		"    EVENT_CUSTOM(\"ControlError\", FireControlError, VTS_I4)\n"
+		"END_EVENT_MAP()\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(Macro, MfcMessageMap)
 {
 	// MFC message map should be indented
@@ -2172,6 +2218,20 @@ TEST(Macro, MfcMessageMap)
 		"    ON_COMMAND(IDM_ABOUT, OnAbout)\n"
 		"    ON_COMMAND(IDM_EXIT,  OnExit)\n"
 		"END_MESSAGE_MAP()\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Macro, MfcPropertyPages)
+{
+	// MFC property pages should be indented
+	char text[] =
+		"\nBEGIN_PROPPAGEIDS(CblahCtrl, 1)\n"
+		"    PROPPAGEID( CLSID_CFontPropPage )\n"
+		"    PROPPAGEID( CLSID_CColorPropPage )\n"
+		"END_PROPPAGEIDS(CblahCtrl)\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	EXPECT_STREQ(text, textOut);

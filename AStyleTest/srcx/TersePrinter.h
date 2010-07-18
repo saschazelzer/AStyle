@@ -2,13 +2,16 @@
 // which displays only the failed tests but in an enhanced form.
 // It is a modified sample9_unittest.cc from gtest.
 
-#ifndef ASTYLE_TERSE_PRINTER_H
-#define ASTYLE_TERSE_PRINTER_H
+#ifndef TERSE_PRINTER_H
+#define TERSE_PRINTER_H
 
 #ifdef _WIN32
 #include <windows.h>
 #endif
 
+#include <stdarg.h>
+// this MUST be included before windows.h because of a
+// bug in the MinGW limits header
 #include "gtest/gtest.h"
 
 enum ConsoleColor
@@ -44,6 +47,7 @@ class TersePrinter : public EmptyTestEventListener
 	private:
 
 		bool use_color_;			// from initializer
+		bool test_header_printed_;	// true if the test case header has been printed
 		string test_case_name_;		// from OnTestStart
 		string test_info_name_;		// from OnTestStart
 		string test_info_comment_;	// from OnTestStart
@@ -62,6 +66,9 @@ class TersePrinter : public EmptyTestEventListener
 		// Fired after a failed assertion or a SUCCESS().
 		virtual void OnTestPartResult(const TestPartResult& test_part_result);
 
+		// Fired after the test ends.
+		void OnTestEnd(const TestInfo& test_info);
+
 		// Fired before environment tear-down for each iteration of tests starts.
 		void OnEnvironmentsTearDownStart(const UnitTest& /*unit_test*/);
 
@@ -74,7 +81,8 @@ class TersePrinter : public EmptyTestEventListener
 		char PeekNextChar(const string &line, int i) const;
 
 		// Color print functions.
-		void ColoredPrint(ConsoleColor color, const char* fmt) const;
+//	void ColoredPrint(ConsoleColor color, const char* fmt) const;
+		void ColoredPrintf(ConsoleColor color, const char* fmt, ...) const;
 #ifdef _WIN32
 		WORD GetColorAttribute(ConsoleColor color) const;
 #else
@@ -84,4 +92,4 @@ class TersePrinter : public EmptyTestEventListener
 
 };  // class TersePrinter
 
-#endif	// closes ASTYLE_TERSE_PRINTER_H
+#endif	// closes TERSE_PRINTER_H

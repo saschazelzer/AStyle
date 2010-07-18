@@ -1,7 +1,7 @@
 @REM formats the astyle source code
 @echo off
 
-set PATH=PATH;"%PROGRAMFILES%\AStyle
+set PATH=PATH;"C:\Program Files (x86)\AStyle
 set prog=AStyle
 
 REM  b - brackets=break

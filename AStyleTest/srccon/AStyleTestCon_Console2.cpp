@@ -20,7 +20,7 @@
 
 // defined in astyle_main.cpp
 extern int _CRT_glob;
-	
+
 //----------------------------------------------------------------------------
 // anonymous namespace
 //----------------------------------------------------------------------------
@@ -400,6 +400,9 @@ struct RecursiveF : public ::testing::Test
 			g_console->standardizePath(fileNames[i]);
 			createTestFile(fileNames[i], textIn);
 		}
+
+		// sort file names for comparison
+		sort(fileNames.begin(), fileNames.end());
 	}
 
 	~RecursiveF()
@@ -425,8 +428,7 @@ TEST_F(RecursiveF, Default)
 
 	// check the fileName vector
 	vector<string> fileName = g_console->getFileName();
-	EXPECT_EQ(fileNames.size(), fileName.size());
-	sort(fileNames.begin(), fileNames.end());
+	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
 		EXPECT_EQ(fileNames[i], fileName[i]);
 }
@@ -462,8 +464,7 @@ TEST_F(RecursiveF, Sans)
 	// check the files
 	EXPECT_TRUE(fileNames.size() > 0);
 	vector<string> fileName = g_console->getFileName();
-	EXPECT_EQ(fileNames.size(), fileName.size());
-	sort(fileNames.begin(), fileNames.end());
+	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
 		EXPECT_EQ(fileNames[i], fileName[i]);
 }

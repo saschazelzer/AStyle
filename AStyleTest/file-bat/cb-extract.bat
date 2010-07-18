@@ -11,9 +11,9 @@ echo Removing directory CodeBlocks
 rmdir  /s  "%testdata%\CodeBlocks"
 )
 REM remove codeblocks-8.02 if it wasn't renamed
-if exist "%testdata%\codeblocks-8.02" (
+if exist "%testdata%\codeblocks-10.05-release" (
 REM echo Removing directory codeblocks-8.02
-rmdir  /s /q  "%testdata%\codeblocks-8.02"
+rmdir  /s /q  "%testdata%\codeblocks-10.05-release"
 )
 
 REM uncompress tar.bz to tar

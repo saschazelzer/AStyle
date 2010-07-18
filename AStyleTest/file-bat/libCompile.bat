@@ -28,7 +28,7 @@ echo No Build %builddir%
 goto :END
 )
 if %builddir:~0,6% == vs2008  set sdk=v3.5
-if %builddir:~0,6% == vs2010  set sdk=v4.0.21006
+if %builddir:~0,6% == vs2010  set sdk=v4.0.30319
 
 
 REM check if release or debug
@@ -45,7 +45,7 @@ goto :END
 )
 )
 
-%WINDIR%\Microsoft.NET\Framework\%sdk%\MSBuild  "/property:Configuration=%config%"  "%vsdir%\AStyle.sln"  > NUL
+%WINDIR%\Microsoft.NET\Framework\%sdk%\MSBuild  "/property:Configuration=%config%"  "/property:Platform=Win32"  "%vsdir%\AStyle.sln" > NUL
 if %ERRORLEVEL% NEQ 0 (
 echo errors on compile
 pause

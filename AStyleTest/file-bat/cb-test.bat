@@ -18,9 +18,9 @@ set exclude2= --exclude=wx\propgrid\propgrid.h --exclude=propgrid\propgrid.cpp
 
 :: set options= -vRQ
 REM indent-brackets (B), add-brackets (j), break-blocks=all (F), align-pointer=type (k1)
-set options= -CSKBNLwM50m10yejoOcFpPHUxEk1 -vRQ
+set options= -CSKBNLwM50m0yejoOcFpPHUxEk1 -vRQ
 REM indent-blocks (G), add-one-line-brackets (J), break-blocks (f), align-pointer=middle (k2)
-:: set options= -CSKGNLwM50m10yeJoOcfpPHUxEk2 -vRQ
+:: set options= -CSKGNLwM50m1yeJoOcfpPHUxEk2 -vRQ
 
 
 call  libCompile.bat  %astyle%
