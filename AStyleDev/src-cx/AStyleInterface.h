@@ -3,6 +3,7 @@
 #define ASTYLE_INTERFACE_H
 
 #include <string>
+using namespace std;
 
 // allow for different calling conventions in Linux and Windows
 #ifdef _WIN32
@@ -78,9 +79,9 @@ public:
     // public functions
     AStyleInterface();
     char *formatSource(const char *textIn);
-    char *formatSource(const char *textIn, std::string &filePath);
+    char *formatSource(const char *textIn, string &filePath);
     char *formatSource(const char *textIn, FileMode fileModeArg);
-    void  setFileMode(std::string fileName);
+    void  setFileMode(string fileName);
     void  setTestOptions();
 
 private:
@@ -142,9 +143,9 @@ private:
 
 private:
     // private functions
-    static void  displayErrorMessage(std::string errorMessage);
-    std::string getOptions() const;
-    static std::string intToString(int intValue);
+    static void  displayErrorMessage(string errorMessage);
+    string getOptions() const;
+    static string intToString(int intValue);
     // callback functions for Artistic Style
     static void  STDCALL errorHandler(int errorNumber, const char *errorMessage);
     static char *STDCALL memoryAlloc(unsigned long memoryNeeded);

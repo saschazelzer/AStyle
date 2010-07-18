@@ -10,7 +10,6 @@
 #include <stdlib.h>
 #include <fstream>
 #include <iostream>
-using namespace std;
 
 // function declarations
 void error(const char *why, const char *what = "");

@@ -35,7 +35,7 @@
 				<Option object_output="objd" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='-atOP  &quot;../../test-c/*.cpp&quot;  &quot;../../test-c/*.h&quot;' />
+				<Option parameters='-atOP  &quot;&apos;/home/jimp/Projects/AStyleDev/test-c/*.cpp&apos;&quot;  -rv' />
 				<Option projectCompilerOptionsRelation="1" />
 				<Option projectLinkerOptionsRelation="1" />
 				<Option projectIncludeDirsRelation="1" />

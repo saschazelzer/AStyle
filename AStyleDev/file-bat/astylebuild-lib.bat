@@ -20,7 +20,7 @@ set bindir=..\..\%bindir%
 )
 
 echo BUILDING ASTYLE LIB
-%windir%\microsoft.net\framework\%sdk%\msbuild  /nologo  "/property:Configuration=Release"  "%astyle%\AStyleLib.sln"
+%windir%\microsoft.net\framework\%sdk%\msbuild  /nologo  "/property:Configuration=Release"  "/property:Platform=Win32"  "%astyle%\AStyleLib.sln"
 if %ERRORLEVEL% NEQ 0  set errors=yes
 
 REM don't copy if compile errors

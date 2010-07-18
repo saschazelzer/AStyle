@@ -20,7 +20,7 @@ set bindir=..\..\%bindir%
 )
 
 echo BUILDING ASTYLE DEBUG DLL
-%windir%\microsoft.net\framework\%sdk%\msbuild  /nologo  "/property:Configuration=Debug"  "%astyle%\AStyleDll.sln"
+%windir%\microsoft.net\framework\%sdk%\msbuild  /nologo  "/property:Configuration=Debug"  "/property:Platform=Win32"  "%astyle%\AStyleDll.sln"
 if %ERRORLEVEL% NEQ 0  set errors=yes
 
 REM don't copy if compile errors

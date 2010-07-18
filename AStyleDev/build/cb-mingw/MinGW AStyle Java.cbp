@@ -19,18 +19,19 @@
 				<Option projectLibDirsRelation="1" />
 				<Compiler>
 					<Add option="-O3" />
-					<Add option="-W" />
 					<Add option="-Wall" />
+					<Add option="-W" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLE_JNI" />
-					<Add directory="C:\Program Files\Java\jdk1.6.0_17\include" />
-					<Add directory="C:\Program Files\Java\jdk1.6.0_17\include\win32" />
+					<Add directory="C:\Program Files\Java\jdk1.6.0_15\include" />
+					<Add directory="C:\Program Files\Java\jdk1.6.0_15\include\win32" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 					<Add option="-Wl,--add-stdcall-alias" />
+					<Add option="-Wl,--enable-auto-import" />
 				</Linker>
 				<ExtraCommands>
 					<Add after="cmd /c  copy /y  bin\AStylej.dll  ..\..\src-j\  &gt; NUL" />

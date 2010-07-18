@@ -1,7 +1,6 @@
 #include "AStyleInterface.h"
 #include <iostream>
 #include <sstream>
-using namespace std;
 
 /*
 * The constructor sets the variable default values.

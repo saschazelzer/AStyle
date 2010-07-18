@@ -19,7 +19,7 @@ void error(const char *why, const char* what);
 // MinGW can also do POSIX
 #if defined(_WIN32) && !defined(MINGW_POSIX)
 #include <windows.h>  // for FindFirstFile and FindNextFile
-char* g_type = "Win32";
+const char* g_type = "Win32";
 void getFileNames(const string &directory, const string &wildcard, vector<string> &filename)
 {
     vector<string> subDirectory;    // sub directories of directory
@@ -77,7 +77,7 @@ void getFileNames(const string &directory, const string &wildcard, vector<string
 #else
 #include <dirent.h>
 #include <sys/stat.h>
-char* g_type = "POSIX";
+const char* g_type = "POSIX";
 void getFileNames(const string &directory, const string &wildcard, vector<string> &filename)
 {
     struct dirent *entry;           // entry from readdir()
