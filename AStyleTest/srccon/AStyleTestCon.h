@@ -42,6 +42,8 @@ extern ostream* _err;
 // functions in AStyleTestCon_Main.cpp
 // char** buildArgv(const vector<string>& argIn);
 void cleanTestDirectory(const string &directory);
+string convertToMultiByte(const wstring& wideStr);
+wstring convertToWideChar(const string& mbStr);
 void createConsoleGlobalObject(ASFormatter& formatter);
 void createTestDirectory(const string &dirName);
 void createTestFile(const string& testFilePath, const char* testFileText, int size = 0);
@@ -52,14 +54,17 @@ void removeTestDirectory(const string &dirName);
 void removeTestFile(const string& testFileName);
 void setTestDirectory();
 void systemAbort(const string& message);
-void systemPause(const string& message = "");
+void systemPause(const string& message);
 bool writeOptionsFile(const string& optionsFileName, const char* fileIn);
 
 // windows specific functions
 #ifdef _WIN32
+void cleanTestDirectory(const wstring &directory);
 void displayLastError();
-void retryRemoveDirectory(const string& directory);
+void retryCreateDirectory(const string& directory);
+void retryRemoveDirectory(const wstring& directory);
 void sleep(int seconds);
+void systemAbort(const wstring& message);
 #endif
 
 //-------------------------------------------------------------------------

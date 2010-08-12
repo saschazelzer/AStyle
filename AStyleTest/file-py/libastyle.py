@@ -54,11 +54,8 @@ def build_astyle_executable(config):
 		print "Building AStyle Static"
 	else:
 		system_exit("Bad arg in build_astyle_executable(): " + config)
-	astylepath = get_astyleexe_path(config)
+	astylepath = get_astyle_build_directory(config)
 	if os.name == "nt":
-		# must have the extension for this
-		if not astylepath.endswith(".exe"):
-			astylepath += ".exe"
 		compile_astyle_windows(astylepath, config)
 	else:
 		compile_astyle_linux(astylepath, config)
@@ -68,19 +65,13 @@ def build_astyle_executable(config):
 def compile_astyle_linux(astylepath, config):
 	"""Compile the astyle executable for Linux.
 	"""
-	# get makefile directory
-	sep = astylepath.find("bin")
-	if sep == -1:
-		message = "Cannot find bin directory: " + filepath
-		system_exit(message)
-	makedir = astylepath[:sep]
 	if config == DEBUG:
 		build = ["make", "debug"]
 	else:
 		build = ["make", "release"]
 	buildfile = get_temp_directory() + "/build.txt"
 	outfile = open(buildfile, 'w')
-	retval = subprocess.call(build, cwd=makedir, stdout=outfile)
+	retval = subprocess.call(build, cwd=astylepath, stdout=outfile)
 	if retval:
 		system_exit("Bad build return: " + str(retval))
 	outfile.close()
@@ -118,7 +109,8 @@ def compile_astyle_windows(astylepath, config):
 			+ "/build/"
 			+ vsdir
 			+ "/AStyle.sln")
-	msbuild = ([buildpath, configProp, slnpath])
+	platform = "/property:Platform=Win32"  
+	msbuild = ([buildpath, configProp, platform, slnpath])
 	buildfile = get_temp_directory() + "/build.txt"
 	outfile = open(buildfile, 'w')
 	retval = subprocess.call(msbuild, stdout=outfile)
@@ -133,7 +125,8 @@ def get_7zip_path():
 	"""Get the 7zip executable path for the os environment.
 	"""
 	if os.name == "nt":
-		exepath = os.getenv("PROGRAMFILES") + "/7-Zip/7z.exe"
+		# exepath = os.getenv("PROGRAMFILES") + "/7-Zip/7z.exe"
+		exepath = "C:/Program Files" + "/7-Zip/7z.exe"
 		if not os.path.isfile(exepath):
 			message = "Cannot find 7zip path: " + exepath
 			system_exit(message)
@@ -153,6 +146,24 @@ def get_archive_directory(endsep=False):
 		system_exit(message)
 	if endsep: arcdir += '/'
 	return  arcdir
+
+# -----------------------------------------------------------------------------
+
+def get_astyle_build_directory(config):
+	"""Get the AStyle build path for the os environment.
+	"""
+	if config != DEBUG and config != RELEASE and config != STATIC:
+		system_exit("Bad arg in get_astyleexe_directory(): " + config)
+	astyledir = get_astyle_directory()
+	if os.name == "nt":
+		subpath = "/build/vs2008"
+	else:
+		subpath = "/build/gcc"
+	astylepath = astyledir + subpath
+	if not os.path.isdir(astylepath):
+		message = "Cannot find astyle build directory: " + astylepath
+		system_exit(message)
+	return astylepath
 
 # -----------------------------------------------------------------------------
 

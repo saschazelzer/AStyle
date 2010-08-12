@@ -2,13 +2,13 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="IntelAStyleTestCon" />
+		<Option title="IntelAStyleTestI18n" />
 		<Option pch_mode="2" />
 		<Option compiler="icc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/AStyleTestCond" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objCond/" />
+				<Option output="bin/AStyleTestI18nd" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objI18nd/" />
 				<Option type="1" />
 				<Option compiler="icc" />
 				<Option parameters="--terse_printer" />
@@ -21,7 +21,7 @@
 					<Add option="-DGTEST_HAS_TR1_TUPLE=1" />
 					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
 					<Add option="-DASTYLECON_LIB" />
-					<Add directory="../../src" />
+					<Add directory="../../srccon" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
 					<Add directory="../../../gmock/gtest/include" />
@@ -31,8 +31,8 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/AStyleTestCon" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objCon/" />
+				<Option output="bin/AStyleTestI18n" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objI18n/" />
 				<Option type="1" />
 				<Option compiler="icc" />
 				<Compiler>
@@ -45,7 +45,7 @@
 					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add option="-DNDEBUG" />
-					<Add directory="../../src" />
+					<Add directory="../../srccon" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
 					<Add directory="../../../gmock/gtest/include" />
@@ -56,9 +56,6 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Compiler>
-			<Add option="-fexceptions" />
-		</Compiler>
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
 		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
 		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />
@@ -67,10 +64,8 @@
 		<Unit filename="../../../AStyle/src/astyle_main.cpp" />
 		<Unit filename="../../../AStyle/src/astyle_main.h" />
 		<Unit filename="../../srccon/AStyleTestCon.h" />
-		<Unit filename="../../srccon/AStyleTestCon_Console1.cpp" />
-		<Unit filename="../../srccon/AStyleTestCon_Console2.cpp" />
 		<Unit filename="../../srccon/AStyleTestCon_Main.cpp" />
-		<Unit filename="../../srccon/AStyleTestCon_Print.cpp" />
+		<Unit filename="../../srci18n/AStyleTestI18n_I18n.cpp" />
 		<Unit filename="../../srcx/TersePrinter.cpp" />
 		<Unit filename="../../srcx/TersePrinter.h" />
 		<Extensions>

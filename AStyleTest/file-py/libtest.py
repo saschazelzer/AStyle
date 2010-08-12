@@ -85,8 +85,8 @@ def get_astyle_totals(filename):
 	for line in infile:
 		# use regular expressions to search the lines
 		# find total line (with following commas)
-		if (re.search("formatted,", line) != None
-		and re.search("unchanged,", line) != None):
+		if (re.search("formatted;", line) != None
+		and re.search("unchanged;", line) != None):
 			totline = line.split()
 			formatted = int(totline[0])
 			unchanged = int(totline[2])
@@ -118,8 +118,8 @@ def  get_formatted_files(filename):
 			directory = extract_directory_from_line(line)
 			continue
 		# total line (with a following comma)
-		if (re.search("formatted,", line) != None
-		and re.search("unchanged,", line) != None):
+		if (re.search("formatted;", line) != None
+		and re.search("unchanged;", line) != None):
 			continue
 		# formatted file line (start of line with a following space)
 		if re.match("formatted ", line) != None:

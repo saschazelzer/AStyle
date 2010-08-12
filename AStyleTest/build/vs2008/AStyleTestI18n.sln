@@ -1,17 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleTestCon", "AStyleTestCon\AStyleTestCon.vcproj", "{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleTestI18n", "AStyleTestI18n\AStyleTestI18n.vcproj", "{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}"
 	ProjectSection(ProjectDependencies) = postProject
+		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C} = {C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}
 		{8563FBDA-FEDC-4233-B585-EBDA55E1C599} = {8563FBDA-FEDC-4233-B585-EBDA55E1C599}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleConLib", "AStyleTestCon\AStyleConLib.vcproj", "{8563FBDA-FEDC-4233-B585-EBDA55E1C599}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C} = {C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GTestLib", "GTestLib\GTestLib.vcproj", "{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleConLib", "AStyleTestCon\AStyleConLib.vcproj", "{8563FBDA-FEDC-4233-B585-EBDA55E1C599}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,18 +33,6 @@ Global
 		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Release|Win32.Build.0 = Release|Win32
 		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Release|x64.ActiveCfg = Release|x64
 		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Release|x64.Build.0 = Release|x64
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Debug|Win32.ActiveCfg = Debug|Win32
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Debug|Win32.Build.0 = Debug|Win32
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Debug|x64.ActiveCfg = Debug|x64
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Debug|x64.Build.0 = Debug|x64
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakFinder|Win32.ActiveCfg = Debug|Win32
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakFinder|Win32.Build.0 = Debug|Win32
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakFinder|x64.ActiveCfg = Debug|x64
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakFinder|x64.Build.0 = Debug|x64
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|Win32.ActiveCfg = Release|Win32
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|Win32.Build.0 = Release|Win32
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|x64.ActiveCfg = Release|x64
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|x64.Build.0 = Release|x64
 		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Debug|Win32.ActiveCfg = Debug|Win32
 		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Debug|Win32.Build.0 = Debug|Win32
 		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Debug|x64.ActiveCfg = Debug|x64
@@ -59,6 +45,18 @@ Global
 		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Release|Win32.Build.0 = Release|Win32
 		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Release|x64.ActiveCfg = Release|x64
 		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Release|x64.Build.0 = Release|x64
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Debug|Win32.Build.0 = Debug|Win32
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Debug|x64.ActiveCfg = Debug|x64
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Debug|x64.Build.0 = Debug|x64
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakFinder|Win32.ActiveCfg = Debug|Win32
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakFinder|Win32.Build.0 = Debug|Win32
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakFinder|x64.ActiveCfg = Debug|x64
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakFinder|x64.Build.0 = Debug|x64
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|Win32.ActiveCfg = Release|Win32
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|Win32.Build.0 = Release|Win32
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|x64.ActiveCfg = Release|x64
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

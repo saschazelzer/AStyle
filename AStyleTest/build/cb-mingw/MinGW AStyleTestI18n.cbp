@@ -2,23 +2,20 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="EC AStyleTestCon" />
+		<Option title="MinGW AStyleTestI18n" />
 		<Option pch_mode="2" />
-		<Option compiler="embarcadero_compiler_62" />
+		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin\AStyleTestCond" prefix_auto="1" extension_auto="1" />
-				<Option object_output="objCond\" />
+				<Option output="bin\AStyleTestI18nd.exe" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objI18nd\" />
 				<Option type="1" />
-				<Option compiler="embarcadero_compiler_62" />
+				<Option compiler="gcc" />
 				<Option parameters="--terse_printer" />
 				<Compiler>
-					<Add option="-w" />
-					<Add option="-tWC" />
-					<Add option="-v" />
-					<Add option="-w-8027" />
-					<Add option="-w-8074" />
-					<Add option="-w-8080" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-g" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add directory="..\..\srccon" />
 					<Add directory="..\..\srcx" />
@@ -26,31 +23,19 @@
 					<Add directory="..\..\..\gmock\gtest\include" />
 				</Compiler>
 				<Linker>
-					<Add option="-c" />
-					<Add option="-Gn" />
-					<Add option="-x" />
-					<Add library="cw32mt" />
-					<Add library="import32" />
+					<Add option="-Wl,--enable-auto-import" />
 					<Add library="gtestd" />
 					<Add directory="bin" />
 				</Linker>
-				<ExtraCommands>
-					<Add after="cmd /c  del  bin\*.tds" />
-				</ExtraCommands>
 			</Target>
 			<Target title="Release">
-				<Option output="bin\EC AStyleTestCon" prefix_auto="1" extension_auto="1" />
-				<Option object_output="objCon\" />
+				<Option output="bin\AStyleTestI18n.exe" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objI18n\" />
 				<Option type="1" />
-				<Option compiler="embarcadero_compiler_62" />
+				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-w" />
-					<Add option="-tWC" />
-					<Add option="-v-" />
-					<Add option="-O2" />
-					<Add option="-w-8027" />
-					<Add option="-w-8074" />
-					<Add option="-w-8080" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add option="-DNDEBUG" />
 					<Add directory="..\..\srccon" />
@@ -59,24 +44,39 @@
 					<Add directory="..\..\..\gmock\gtest\include" />
 				</Compiler>
 				<Linker>
-					<Add option="-c" />
-					<Add option="-Gn" />
-					<Add option="-x" />
-					<Add library="cw32mt" />
-					<Add library="import32" />
+					<Add option="-s" />
+					<Add option="-Wl,--enable-auto-import" />
 					<Add library="gtest" />
 					<Add directory="bin" />
 				</Linker>
-				<ExtraCommands>
-					<Add after="cmd /c  del  bin\*.tds" />
-				</ExtraCommands>
+			</Target>
+			<Target title="Coverage">
+				<Option output="bin\AStyleTestI18nc.exe" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objI18nc\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-fprofile-arcs" />
+					<Add option="-ftest-coverage" />
+					<Add option="-DASTYLECON_LIB" />
+					<Add directory="..\..\srccon" />
+					<Add directory="..\..\srcx" />
+					<Add directory="..\..\..\AStyle\src" />
+					<Add directory="..\..\..\gmock\gtest\include" />
+				</Compiler>
+				<Linker>
+					<Add option="-Wl,--enable-auto-import" />
+					<Add library="gcov" />
+					<Add library="gtestd" />
+					<Add directory="bin" />
+				</Linker>
 			</Target>
 		</Build>
 		<Unit filename="..\..\srccon\AStyleTestCon.h" />
-		<Unit filename="..\..\srccon\AStyleTestCon_Console1.cpp" />
-		<Unit filename="..\..\srccon\AStyleTestCon_Console2.cpp" />
 		<Unit filename="..\..\srccon\AStyleTestCon_Main.cpp" />
-		<Unit filename="..\..\srccon\AStyleTestCon_Print.cpp" />
+		<Unit filename="..\..\srci18n\AStyleTestI18n_I18n.cpp" />
 		<Unit filename="..\..\srcx\TersePrinter.cpp" />
 		<Unit filename="..\..\srcx\TersePrinter.h" />
 		<Unit filename="..\..\..\AStyle\src\ASBeautifier.cpp" />
@@ -88,8 +88,8 @@
 		<Unit filename="..\..\..\AStyle\src\astyle_main.h" />
 		<Extensions>
 			<code_completion />
-			<envvars />
 			<debugger />
+			<envvars />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

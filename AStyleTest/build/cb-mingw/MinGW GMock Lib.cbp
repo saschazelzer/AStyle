@@ -2,14 +2,14 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="MinGW GTest Lib" />
+		<Option title="MinGW GMock Lib" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin\libgtestd" prefix_auto="1" extension_auto="1" />
+				<Option output="bin\libgmockd" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="objGTd\" />
+				<Option object_output="objGMd\" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -18,14 +18,16 @@
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-Wno-unused-function" />
-					<Add directory="..\..\..\gmock\gtest\include" />
+					<Add directory="..\..\..\gmock" />
 					<Add directory="..\..\..\gmock\gtest" />
+					<Add directory="..\..\..\gmock\include" />
+					<Add directory="..\..\..\gmock\gtest\include" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin\libgtest" prefix_auto="1" extension_auto="1" />
+				<Option output="bin\libgmock" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="objGT\" />
+				<Option object_output="objGM\" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -34,8 +36,10 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-Wno-unused-function" />
-					<Add directory="..\..\..\gmock\gtest\include" />
+					<Add directory="..\..\..\gmock" />
 					<Add directory="..\..\..\gmock\gtest" />
+					<Add directory="..\..\..\gmock\include" />
+					<Add directory="..\..\..\gmock\gtest\include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -43,6 +47,7 @@
 			</Target>
 		</Build>
 		<Unit filename="..\..\..\gmock\gtest\src\gtest-all.cc" />
+		<Unit filename="..\..\..\gmock\src\gmock-all.cc" />
 		<Extensions>
 			<code_completion />
 			<envvars />

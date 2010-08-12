@@ -2,13 +2,13 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="EC AStyleTestCon" />
+		<Option title="EC AStyleTestI18n" />
 		<Option pch_mode="2" />
 		<Option compiler="embarcadero_compiler_62" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin\AStyleTestCond" prefix_auto="1" extension_auto="1" />
-				<Option object_output="objCond\" />
+				<Option output="bin\AStyleTestI18nd" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objI18nd\" />
 				<Option type="1" />
 				<Option compiler="embarcadero_compiler_62" />
 				<Option parameters="--terse_printer" />
@@ -39,8 +39,8 @@
 				</ExtraCommands>
 			</Target>
 			<Target title="Release">
-				<Option output="bin\EC AStyleTestCon" prefix_auto="1" extension_auto="1" />
-				<Option object_output="objCon\" />
+				<Option output="bin\EC AStyleTestI18n" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objI18n\" />
 				<Option type="1" />
 				<Option compiler="embarcadero_compiler_62" />
 				<Compiler>
@@ -73,10 +73,8 @@
 			</Target>
 		</Build>
 		<Unit filename="..\..\srccon\AStyleTestCon.h" />
-		<Unit filename="..\..\srccon\AStyleTestCon_Console1.cpp" />
-		<Unit filename="..\..\srccon\AStyleTestCon_Console2.cpp" />
 		<Unit filename="..\..\srccon\AStyleTestCon_Main.cpp" />
-		<Unit filename="..\..\srccon\AStyleTestCon_Print.cpp" />
+		<Unit filename="..\..\srci18n\AStyleTestI18n_I18n.cpp" />
 		<Unit filename="..\..\srcx\TersePrinter.cpp" />
 		<Unit filename="..\..\srcx\TersePrinter.h" />
 		<Unit filename="..\..\..\AStyle\src\ASBeautifier.cpp" />

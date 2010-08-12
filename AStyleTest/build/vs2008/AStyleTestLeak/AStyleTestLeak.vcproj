@@ -12,6 +12,9 @@
 		<Platform
 			Name="Win32"
 		/>
+		<Platform
+			Name="x64"
+		/>
 	</Platforms>
 	<ToolFiles>
 	</ToolFiles>
@@ -63,13 +66,91 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="LeakFinder_VC9.lib"
-				OutputFile="$(OutDir)\$(ProjectName)dl.exe"
+				OutputFile="$(OutDir)\$(ProjectName)l.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\..\..\LeakFinder\Debug_VC9"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(ProjectDir)$(ConfigurationName)\$(TargetName).pdb"
 				SubSystem="1"
 				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="LeakFinder|x64"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\debug"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="1"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				EnableIntrinsicFunctions="false"
+				AdditionalIncludeDirectories="..\..\..\..\LeakFinder"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;LEAK_FINDER"
+				MinimalRebuild="false"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="LeakFinder_VC9.lib"
+				OutputFile="$(OutDir)\$(ProjectName)l.exe"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="..\..\..\..\LeakFinder\$(PlatformName)\Debug_VC9"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(ProjectDir)$(PlatformName)\$(ConfigurationName)\$(TargetName).pdb"
+				SubSystem="1"
+				TargetMachine="17"
 			/>
 			<Tool
 				Name="VCALinkTool"

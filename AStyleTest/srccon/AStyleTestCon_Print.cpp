@@ -287,9 +287,9 @@ TEST_F(PrintF, DefaultWildcard)
 
 	// expected text
 	string text =
-		"--------------------------------------------------\n"
+		"------------------------------------------------------------\n"
 		"directory <test_directory>/*.cpp\n"
-		"--------------------------------------------------\n"
+		"------------------------------------------------------------\n"
 		"formatted  fileFormatted.cpp\n"
 		"unchanged* fileUnchanged.cpp\n";
 	adjustText(text);
@@ -321,10 +321,10 @@ TEST_F(PrintF, DefaultWildcard_Exclude)
 
 	// expected text
 	string text =
-		"--------------------------------------------------\n"
+		"------------------------------------------------------------\n"
 		"directory <test_directory>/*.cpp\n"
 		"exclude fileExcluded.cpp\n"
-		"--------------------------------------------------\n"
+		"------------------------------------------------------------\n"
 		"formatted  fileFormatted.cpp\n"
 		"unchanged* fileUnchanged.cpp\n";
 	adjustText(text);
@@ -360,9 +360,9 @@ TEST_F(PrintF, FormattedWildcard)
 
 	// expected text
 	string text =
-		"--------------------------------------------------\n"
+		"------------------------------------------------------------\n"
 		"directory <test_directory>/*.cpp\n"
-		"--------------------------------------------------\n"
+		"------------------------------------------------------------\n"
 		"formatted  fileFormatted.cpp\n";
 	adjustText(text);
 
@@ -396,13 +396,13 @@ TEST_F(PrintF, VerboseWildcard_OptionsFile)
 	string text =
 		"Artistic Style <version>\n"
 		"Using default options file <test_directory>/astylerc.txt\n"
-		"--------------------------------------------------\n"
+		"------------------------------------------------------------\n"
 		"directory <test_directory>/*.cpp\n"
-		"--------------------------------------------------\n"
+		"------------------------------------------------------------\n"
 		"formatted  fileFormatted.cpp\n"
 		"unchanged* fileUnchanged.cpp\n"
-		"--------------------------------------------------\n"
-		"1 formatted, 1 unchanged, 0 seconds, 12 lines\n";
+		"------------------------------------------------------------\n"
+		" 1 formatted;  1 unchanged;  0 seconds;  12 lines\n";
 	adjustText(text);
 
 	// call astyle processOptions()
@@ -438,12 +438,12 @@ TEST_F(PrintF, VerboseFormattedWildcard)
 	// expected text
 	string text =
 		"Artistic Style <version>\n"
-		"--------------------------------------------------\n"
+		"------------------------------------------------------------\n"
 		"directory <test_directory>/*.cpp\n"
-		"--------------------------------------------------\n"
+		"------------------------------------------------------------\n"
 		"formatted  fileFormatted.cpp\n"
-		"--------------------------------------------------\n"
-		"1 formatted, 1 unchanged, 0 seconds, 12 lines\n";
+		"------------------------------------------------------------\n"
+		" 1 formatted;  1 unchanged;  0 seconds;  12 lines\n";
 	adjustText(text);
 
 	// call astyle processOptions()
@@ -538,7 +538,7 @@ TEST_F(PrintF, VerboseSingleFile_OptionsFile)
 		"Artistic Style <version>\n"
 		"Using default options file <test_directory>/astylerc.txt\n"
 		"formatted  <test_directory>/fileFormatted.cpp\n"
-		"1 formatted, 0 unchanged, 0 seconds, 6 lines\n";
+		" 1 formatted;  0 unchanged;  0 seconds;  6 lines\n";
 	adjustText(text);
 
 	// call astyle processOptions()

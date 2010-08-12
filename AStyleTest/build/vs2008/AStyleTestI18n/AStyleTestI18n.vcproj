@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="AStyleTestCon"
+	Name="AStyleTestI18n"
 	ProjectGUID="{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}"
-	RootNamespace="AStyleTestCon"
+	RootNamespace="AStyleTestI18n"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -45,7 +45,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
-				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx"
+				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srccon;..\..\..\srcx"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -124,7 +124,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
-				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx"
+				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srccon;..\..\..\srcx"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -202,7 +202,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				EnableIntrinsicFunctions="false"
-				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx"
+				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srccon;..\..\..\srcx"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				MinimalRebuild="false"
 				RuntimeLibrary="2"
@@ -223,7 +223,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="AStyleConLib.lib gtest.lib"
+				AdditionalDependencies="AStyleConLib.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\bin"
@@ -282,7 +282,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				EnableIntrinsicFunctions="false"
-				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx"
+				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srccon;..\..\..\srcx"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				MinimalRebuild="false"
 				RuntimeLibrary="2"
@@ -303,7 +303,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="AStyleConLib.lib gtest.lib"
+				AdditionalDependencies="AStyleConLib.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\$(PlatformName)\bin"
@@ -361,7 +361,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
-				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx;&quot;..\..\..\..\LeakFinder&quot;"
+				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srccon;..\..\..\srcx;..\..\..\..\LeakFinder"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;LEAK_FINDER"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -381,7 +381,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="AStyleConLibd.lib gtestd.lib LeakFinder_VC9.lib"
+				AdditionalDependencies="AStyleConLibd.lib LeakFinder_VC9.lib"
 				OutputFile="$(OutDir)\$(ProjectName)l.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\debug;&quot;..\..\..\..\LeakFinder\Debug_VC9&quot;"
@@ -439,7 +439,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
-				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx;..\..\..\..\LeakFinder"
+				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srccon;..\..\..\srcx;..\..\..\..\LeakFinder"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;LEAK_FINDER"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -459,7 +459,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="AStyleConLibd.lib gtestd.lib LeakFinder_VC9.lib"
+				AdditionalDependencies="AStyleConLibd.lib LeakFinder_VC9.lib"
 				OutputFile="$(OutDir)\$(ProjectName)l.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;..\$(PlatformName)\debug&quot;;&quot;..\..\..\..\LeakFinder\$(PlatformName)\Debug_VC9&quot;"
@@ -504,19 +504,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\srccon\AStyleTestCon_Console1.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\srccon\AStyleTestCon_Console2.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\srccon\AStyleTestCon_Main.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\srccon\AStyleTestCon_Print.cpp"
+				RelativePath="..\..\..\srci18n\AStyleTestI18n_I18n.cpp"
 				>
 			</File>
 			<File

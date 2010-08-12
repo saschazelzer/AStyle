@@ -10,8 +10,6 @@
 #endif
 
 #include <stdarg.h>
-// this MUST be included before windows.h because of a
-// bug in the MinGW limits header
 #include "gtest/gtest.h"
 
 enum ConsoleColor

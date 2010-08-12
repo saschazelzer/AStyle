@@ -14,8 +14,8 @@ REM  c - convert-tabs
 REM  v - verbose
 REM Q - formatted
 
-set options= -tbHCO  -vQ --options=none
-set optionsh= -tlHCO  -vQ --options=none
+set options= -tbHCO  -Q --options=none
+set optionsh= -tlHCO  -Q --options=none
 
 echo Formatting AStyle
 echo source%options%  headers%optionsh%

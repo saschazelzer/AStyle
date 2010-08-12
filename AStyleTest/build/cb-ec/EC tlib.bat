@@ -10,7 +10,7 @@ if exist bin\gtestd.lib del  bin\gtest.lib
 
 echo Linking gtest.lib
 
-%binpath%\tlib.exe /C /P64 bin\gtest.lib + "objGT\gmock\gtest\src\gtest-filepath.obj" + "objGT\gmock\gtest\src\gtest-port.obj" + "objGT\gmock\gtest\src\gtest-test-part.obj" +   "objGT\gmock\gtest\src\gtest-typed-test.obj" + "objGT\gmock\gtest\src\gtest.obj" + "objGT\gmock\gtest\src\gtest-death-test.obj"
+%binpath%\tlib.exe /C /P64 bin\gtest.lib + "objGT\gmock\gtest\src\gtest-all.obj"
 
 REM echo -
 REM pause

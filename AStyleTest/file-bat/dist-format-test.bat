@@ -15,8 +15,8 @@ REM  v - verbose
 REM  w - indent-preprocessor
 REM  Q - formatted
 
-set options= -TbHCOw  -vQ --options=none
-set optionsh= -TlHCOw  -vQ --options=none
+set options= -TbHCOw  -Q --options=none
+set optionsh= -TlHCOw  -Q --options=none
 
 echo Formatting AStyleTest
 echo source%options%  headers%optionsh%
@@ -31,8 +31,6 @@ echo -
 %prog%  %options%  ..\srccon\*.h
 echo -
 %prog%  %options%  ..\srci18n\*.cpp
-echo -
-%prog%  %options%  ..\srci18n\*.h
 echo -
 REM override force-tabs with tabs
 %prog%  %options%  -t  ..\srcx\*.cpp

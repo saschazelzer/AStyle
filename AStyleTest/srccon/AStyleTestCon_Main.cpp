@@ -5,6 +5,20 @@
 // of the program.
 
 //----------------------------------------------------------------------------
+// compiler unicode notes
+//----------------------------------------------------------------------------
+
+/*  MINGW
+    MinGW does NOT support the wide char function wmain().
+
+    EMBARCADERO
+    Embarcadero files MUST have a Byte Order Mark (BOM) to recognize the encoding.
+
+    INTEL (Linux)
+    Intel (Linux) files must NOT have a Byte Order Mark (BOM) or it gets a compile error.
+*/
+
+//----------------------------------------------------------------------------
 // headers
 //----------------------------------------------------------------------------
 
@@ -39,10 +53,15 @@
 
 // directory paths to use for testing
 #ifdef _WIN32
-string g_testDirectory = "%USERPROFILE%\\Projects\\AstyleTest\\ut-testcon";
+string g_testDirectory = "%USERPROFILE%\\Projects\\AStyleTest\\ut-testcon";
 #else
-string g_testDirectory = "$HOME/Projects/AstyleTest/ut-testcon";
+string g_testDirectory = "$HOME/Projects/AStyleTest/ut-testcon";
 #endif
+
+bool g_testedJapanese = true;
+bool g_testedGreek = true;
+bool g_testedRussian = true;
+bool g_testedMultiLanguage = true;
 
 //----------------------------------------------------------------------------
 // main function
@@ -83,8 +102,23 @@ int main(int argc, char **argv)
 	createTestDirectory(getTestDirectory());
 	int retval = RUN_ALL_TESTS();
 
+	// print i18n message for Windows tests
+	if (!g_testedJapanese || !g_testedGreek || !g_testedRussian || !g_testedMultiLanguage)
+	{
+		printf("%c", '\n');
+		if (!g_testedJapanese)
+			printf("%s\n", "Language not tested: Japanese.");
+		if (!g_testedGreek)
+			printf("%s\n", "Language not tested: Greek.");
+		if (!g_testedRussian)
+			printf("%s\n", "Language not tested: Russian.");
+		if (!g_testedMultiLanguage)
+			printf("%s\n", "Language not tested: Multi-Language.");
+	}
+	printf("%c", '\n');
+
 	// end of unit testing
-	removeTestDirectory(getTestDirectory());
+	//	removeTestDirectory(getTestDirectory());
 //	system("pause");		// sometimes needed for debug
 	return retval;
 }
@@ -112,52 +146,61 @@ int main(int argc, char **argv)
 //}
 
 #ifdef _WIN32
-void cleanTestDirectory(const string &directory)
+void cleanTestDirectory(const string &directoryMB)
 // Windows remove files and sub directories from the test directory
 {
-	WIN32_FIND_DATA FindFileData;
+	wstring directory = convertToWideChar(directoryMB);
+	cleanTestDirectory(directory);
+}
+
+void cleanTestDirectory(const wstring &directory)
+// Windows remove files and sub directories from the test directory
+{
+	WIN32_FIND_DATAW FindFileData;
 
 	// Find the first file in the directory
 	// Find will get at least "." and "..".
-	string firstFile = directory + "\\*";
-	HANDLE hFind = FindFirstFile(firstFile.c_str(), &FindFileData);
+	wstring firstFile = directory + L"\\*";
+	HANDLE hFind = ::FindFirstFileW(firstFile.c_str(), &FindFileData);
 	if (hFind == INVALID_HANDLE_VALUE)
-		ASTYLE_ABORT("Cannot open directory for clean: " + directory);
+	{
+		displayLastError();
+		systemAbort(L"Cannot open directory for clean: " + directory);
+	}
 
 	// remove files and sub directories
 	do
 	{
 		// skip these
-		if (strcmp(FindFileData.cFileName, ".") == 0
-				||  strcmp(FindFileData.cFileName, "..") == 0)
+		if (wcscmp(FindFileData.cFileName, L".") == 0
+				||  wcscmp(FindFileData.cFileName, L"..") == 0)
 			continue;
 		// clean and remove sub directories
 		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 		{
-			string subDirectoryPath = directory + '\\' + FindFileData.cFileName;
+			wstring subDirectoryPath = directory + L"\\" + FindFileData.cFileName;
 			cleanTestDirectory(subDirectoryPath);
-			BOOL isRemoved = RemoveDirectory(subDirectoryPath.c_str());
+			BOOL isRemoved = ::RemoveDirectoryW(subDirectoryPath.c_str());
 			if (!isRemoved)
 				retryRemoveDirectory(subDirectoryPath);
 			continue;
 		}
 		// remove the file
-		string filePathName = directory + '\\' + FindFileData.cFileName;
-		BOOL isRemoved = DeleteFile(filePathName.c_str());
+		wstring filePathName = directory + L"\\" + FindFileData.cFileName;
+		BOOL isRemoved = ::DeleteFileW(filePathName.c_str());
 		if (!isRemoved)
 		{
-			cout << "Cannot remove file for clean: " << filePathName << endl;
 			displayLastError();
-			systemPause();
+			systemAbort(L"Cannot remove file for clean: " + filePathName);
 		}
 	}
-	while (FindNextFile(hFind, &FindFileData) != 0);
+	while (::FindNextFileW(hFind, &FindFileData) != 0);
 
 	// check for processing error
 	FindClose(hFind);
 	DWORD dwError = GetLastError();
 	if (dwError != ERROR_NO_MORE_FILES)
-		ASTYLE_ABORT("Error processing directory for clean: " + directory);
+		systemAbort(L"Error processing directory for clean: " + directory);
 }
 
 void displayLastError()
@@ -179,23 +222,49 @@ void displayLastError()
 	LocalFree(msgBuf);
 }
 
-void retryRemoveDirectory(const string& directory)
-// wait for files and sub-directories to be removed
+void removeTestDirectory(const string &dirName)
+// WINDOWS remove a test directory
+{
+	cleanTestDirectory(dirName);
+	RemoveDirectory(dirName.c_str());
+}
+
+void retryCreateDirectory(const string& directory)
+// WINDOWS wait for directories to be removed
 {
 	// sleep a max of 20 seconds for the remove
 	for (size_t seconds = 1; seconds <= 20; seconds++)
 	{
 		sleep(1);
-		BOOL isRemoved = RemoveDirectory(directory.c_str());
+		BOOL ok = ::CreateDirectory(directory.c_str(), NULL);
+		if (ok || GetLastError() == ERROR_ALREADY_EXISTS)
+		{
+//			cout << "create retry: " << seconds << " seconds" << endl;
+			return;
+		}
+	}
+	displayLastError();
+	systemAbort("Cannot create directory: " + directory);
+
+}
+
+void retryRemoveDirectory(const wstring& directory)
+// WINDOWS wait for files and sub-directories to be removed
+{
+	// sleep a max of 20 seconds for the remove
+	for (size_t seconds = 1; seconds <= 20; seconds++)
+	{
+		sleep(1);
+		BOOL isRemoved = ::RemoveDirectoryW(directory.c_str());
 		if (isRemoved)
 		{
 //			cout << "remove retry: " << seconds << " seconds" << endl;
 			return;
 		}
 	}
-	cout << "Cannot remove file for clean: " << directory << endl;
 	displayLastError();
-	systemPause();
+	systemAbort(L"Cannot remove file for clean: " + directory);
+
 }
 
 void sleep(int seconds)
@@ -205,10 +274,18 @@ void sleep(int seconds)
 	while (clock() < endwait) {}
 }
 
+void systemAbort(const wstring& message)
+// accept keyboard input then abort
+// assures a console message is noticed
+{
+	wcout << message << endl;
+	exit(EXIT_FAILURE);
+}
+
 #else
 
 void cleanTestDirectory(const string &directory)
-// POSIX remove files and sub directories from the test directory
+// LINUX remove files and sub directories from the test directory
 {
 	struct dirent *entry;           // entry from readdir()
 	struct stat statbuf;            // entry from stat()
@@ -264,7 +341,56 @@ void cleanTestDirectory(const string &directory)
 		ASTYLE_ABORT(string(strerror(errno))
 					 + "\nError processing directory for clean: " + directory);
 }
+
+void displayLastError()
+// LINUX does nothing, for Windows messages only
+{
+}
+
+void removeTestDirectory(const string &dirName)
+// LINUX remove a test directory
+{
+	cleanTestDirectory(dirName);
+	rmdir(dirName.c_str());
+}
+
 #endif
+
+string convertToMultiByte(const wstring& wideStr)
+// convert wchat_t to multibyte using the currently assigned locale
+{
+	// get length of the output excluding the NULL and validate the parameters
+	size_t mbLen = wcstombs(NULL, wideStr.c_str(), 0);
+	if (mbLen == string::npos)
+		ASTYLE_ABORT("Bad char in wide character string");
+	// convert the characters
+	char* mbStr = new(nothrow) char[mbLen+1];
+	if (mbStr == NULL)
+		ASTYLE_ABORT("Bad memory alloc for multi-byte string");
+	wcstombs(mbStr, wideStr.c_str(), mbLen+1);
+	// return the string
+	string returnStr = mbStr;
+	delete [] mbStr;
+	return returnStr;
+}
+
+wstring convertToWideChar(const string& mbStr)
+// convert multibyte to wchar_t using the currently assigned locale
+{
+	// get length of the output excluding the NULL and validate the parameters
+	size_t wcLen = mbstowcs(NULL, mbStr.c_str(), 0);
+	if (wcLen == string::npos)
+		ASTYLE_ABORT("Bad char in multi-byte string");
+	// convert the characters
+	wchar_t* wcStr = new(nothrow) wchar_t[wcLen+1];
+	if (wcStr == NULL)
+		ASTYLE_ABORT("Bad memory alloc for wide character string");
+	mbstowcs(wcStr, mbStr.c_str(), wcLen+1);
+	// return the string
+	wstring returnStr = wcStr;
+	delete [] wcStr;
+	return returnStr;
+}
 
 void createConsoleGlobalObject(ASFormatter& formatter)
 // creates the g_console object
@@ -283,16 +409,13 @@ void createTestDirectory(const string &dirPath)
 #ifdef _WIN32
 	BOOL ok = ::CreateDirectory(dirPath.c_str(), NULL);
 	if (!ok && GetLastError() != ERROR_ALREADY_EXISTS)
-	{
-		displayLastError();
-		ASTYLE_ABORT("Cannot create directory: " + dirPath)
-	}
+		retryCreateDirectory(dirPath);
 #else
 	mkdir(dirPath.c_str(), 00770);
 	chmod(dirPath.c_str(), 00770);
 #endif
-		// clean a pre-existing directory
-		cleanTestDirectory(dirPath);
+	// clean a pre-existing directory
+//	cleanTestDirectory(dirPath);		// cannot use with Embarcadero
 }
 
 void createTestFile(const string& testFilePath, const char* testFileText, int size /*0*/)
@@ -309,8 +432,10 @@ void createTestFile(const string& testFilePath, const char* testFileText, int si
 	// write the output file
 	ofstream fout(testFilePath.c_str(), ios::binary | ios::trunc);
 	if (!fout)
+	{
+		displayLastError();
 		ASTYLE_ABORT("Cannot open output file: " + testFilePath);
-
+	}
 	if (size == 0)
 		fout << testFileText;
 	else
@@ -357,17 +482,6 @@ string& getTestDirectory()
 // return file path of the global test directory
 {
 	return (g_testDirectory);
-}
-
-void removeTestDirectory(const string &dirName)
-// remove a test directory
-{
-	cleanTestDirectory(dirName);
-#ifdef _WIN32
-	RemoveDirectory(dirName.c_str());
-#else
-	rmdir(dirName.c_str());
-#endif
 }
 
 void removeTestFile(const string& testFileName)
@@ -438,7 +552,7 @@ void systemAbort(const string& message)
 // accept keyboard input then abort
 // assures a console message is noticed
 {
-	systemPause(message);
+	cout << message << endl;
 	exit(EXIT_FAILURE);
 }
 
@@ -446,8 +560,7 @@ void systemPause(const string& message)
 // accept keyboard input to continue
 // assures a console message is noticed
 {
-	if (message.length() > 4)
-		cout << message << endl;
+	cout << message << endl;
 #ifdef _WIN32
 	system("pause");
 #else

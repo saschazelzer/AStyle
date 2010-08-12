@@ -88,7 +88,8 @@ void TersePrinter::OnTestEnd(const TestInfo& test_info)
 		ColoredPrintf(COLOR_RED, "[  FAILED  ] ");
 		printf("%s.%s", test_case_name_.c_str(), test_info_name_.c_str());
 		string filler;
-		int filler_adjust = 60 - (test_case_name_.length() + test_info_name_.length());
+		size_t name_length = test_case_name_.length() + test_info_name_.length() + 1;
+		int filler_adjust = 60 - static_cast<int>(name_length);
 		if (filler_adjust < 0)
 			filler_adjust = 0;
 		filler.append(filler_adjust, '-');
@@ -138,7 +139,6 @@ void TersePrinter::OnTestIterationEnd(const UnitTest& unit_test, int /*iteration
 		ColoredPrintf(COLOR_YELLOW, "  YOU HAVE %d DISABLED TESTS\n", num_disabled);
 	}
 	// Ensure that Google Test output is printed before, e.g., heapchecker output.
-	printf("%c", '\n');
 	fflush(stdout);
 }
 
@@ -161,7 +161,7 @@ void TersePrinter::PrintFailedTestSummary(string summary) const
 	if (prev_i < (summary.length()))
 	{
 		line.push_back(summary.substr(prev_i));
-		int last_char = line.back().length() - 1;
+		int last_char = static_cast<int>(line.back().length() - 1);
 		if (last_char > 0 && line.back()[last_char] != '\n')
 			line.back().append("\n");
 	}

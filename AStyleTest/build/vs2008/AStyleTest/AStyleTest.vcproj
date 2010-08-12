@@ -12,6 +12,9 @@
 		<Platform
 			Name="Win32"
 		/>
+		<Platform
+			Name="x64"
+		/>
 	</Platforms>
 	<ToolFiles>
 	</ToolFiles>
@@ -43,7 +46,7 @@
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
 				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				PreprocessorDefinitions="_DEBUG"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -97,6 +100,87 @@
 			/>
 		</Configuration>
 		<Configuration
+			Name="Debug|x64"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\debug"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="1"
+			CharacterSet="0"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				EnableIntrinsicFunctions="false"
+				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx"
+				PreprocessorDefinitions="_DEBUG"
+				MinimalRebuild="false"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				FloatingPointModel="2"
+				UsePrecompiledHeader="0"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="AStyleLibd.lib gtestd.lib"
+				OutputFile="$(OutDir)\$(ProjectName)d.exe"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="..\$(PlatformName)\debug"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(ProjectDir)$(PlatformName)\$(ConfigurationName)\$(TargetName).pdb"
+				SubSystem="1"
+				TargetMachine="17"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="Removing $(TargetName).lib and $(TargetName).exp"
+				CommandLine="cmd /c  del  $(TargetDir)$(TargetName).lib  $(TargetDir)$(TargetName).exp"
+			/>
+		</Configuration>
+		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)bin"
 			IntermediateDirectory="$(ConfigurationName)"
@@ -123,7 +207,7 @@
 				Name="VCCLCompilerTool"
 				EnableIntrinsicFunctions="false"
 				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
+				PreprocessorDefinitions="NDEBUG"
 				MinimalRebuild="false"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="false"
@@ -178,6 +262,88 @@
 			/>
 		</Configuration>
 		<Configuration
+			Name="Release|x64"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\bin"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="1"
+			CharacterSet="0"
+			WholeProgramOptimization="0"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				EnableIntrinsicFunctions="false"
+				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx"
+				PreprocessorDefinitions="NDEBUG"
+				MinimalRebuild="false"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="false"
+				FloatingPointModel="2"
+				UsePrecompiledHeader="0"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="AStyleLib.lib gtest.lib"
+				OutputFile="$(OutDir)\$(ProjectName).exe"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="..\$(PlatformName)\bin"
+				GenerateDebugInformation="false"
+				SubSystem="1"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				TargetMachine="17"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="Removing $(TargetName).lib and $(TargetName).exp"
+				CommandLine="cmd /c  del  $(TargetDir)$(TargetName).lib  $(TargetDir)$(TargetName).exp"
+			/>
+		</Configuration>
+		<Configuration
 			Name="LeakFinder|Win32"
 			OutputDirectory="$(SolutionDir)debug"
 			IntermediateDirectory="$(ConfigurationName)"
@@ -203,7 +369,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx;..\..\..\..\LeakFinder"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;ASTYLE_LIB;LEAK_FINDER"
+				PreprocessorDefinitions="_DEBUG;ASTYLE_LIB;LEAK_FINDER"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -224,13 +390,93 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="AStyleLibd.lib gtestd.lib LeakFinder_VC9.lib"
-				OutputFile="$(OutDir)\$(ProjectName)dl.exe"
+				OutputFile="$(OutDir)\$(ProjectName)l.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\debug;&quot;..\..\..\..\LeakFinder\Debug_VC9&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(ProjectDir)$(ConfigurationName)\$(TargetName).pdb"
 				SubSystem="1"
 				TargetMachine="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="Removing $(TargetName).lib and $(TargetName).exp"
+				CommandLine="cmd /c  del  $(TargetDir)$(TargetName).lib  $(TargetDir)$(TargetName).exp"
+			/>
+		</Configuration>
+		<Configuration
+			Name="LeakFinder|x64"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\debug"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="1"
+			CharacterSet="0"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx;..\..\..\..\LeakFinder"
+				PreprocessorDefinitions="_DEBUG;ASTYLE_LIB;LEAK_FINDER"
+				MinimalRebuild="false"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				FloatingPointModel="2"
+				UsePrecompiledHeader="0"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="AStyleLibd.lib gtestd.lib LeakFinder_VC9.lib"
+				OutputFile="$(OutDir)\$(ProjectName)l.exe"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="&quot;..\$(PlatformName)\debug&quot;;&quot;..\..\..\..\LeakFinder\$(PlatformName)\Debug_VC9&quot;"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(ProjectDir)$(PlatformName)\$(ConfigurationName)\$(TargetName).pdb"
+				SubSystem="1"
+				TargetMachine="17"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -325,6 +571,14 @@
 			</File>
 			<File
 				RelativePath="..\..\..\..\gtest\include\gtest\gtest-test-part.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\LeakFinder\LeakFinder.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\LeakFinder\StackWalker.h"
 				>
 			</File>
 			<File
