@@ -6,10 +6,13 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		LeakFinder|Win32 = LeakFinder|Win32
+		LeakFinder|x64 = LeakFinder|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{EB3ECF86-37D6-458D-9B5A-A0E18B9C8B71}.LeakFinder|Win32.ActiveCfg = LeakFinder|Win32
 		{EB3ECF86-37D6-458D-9B5A-A0E18B9C8B71}.LeakFinder|Win32.Build.0 = LeakFinder|Win32
+		{EB3ECF86-37D6-458D-9B5A-A0E18B9C8B71}.LeakFinder|x64.ActiveCfg = LeakFinder|x64
+		{EB3ECF86-37D6-458D-9B5A-A0E18B9C8B71}.LeakFinder|x64.Build.0 = LeakFinder|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

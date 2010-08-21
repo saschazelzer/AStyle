@@ -1,6 +1,6 @@
-﻿// AStyleTestI18n tests the internationalization component of the ASConsole 
-// class only. It uses the following source files from AStyleTestCon and 
-// AStyleTest: AStyleTestCon.h, TersePrinter.h AStyleTestCon_Main.cpp, 
+﻿// AStyleTestI18n tests the internationalization component of the ASConsole
+// class only. It uses the following source files from AStyleTestCon and
+// AStyleTest: AStyleTestCon.h, TersePrinter.h AStyleTestCon_Main.cpp,
 // AStyleTest_leakFinder.cpp, and TersePrinter.cpp.
 
 //----------------------------------------------------------------------------
@@ -22,6 +22,7 @@ extern bool g_testedJapanese;
 extern bool g_testedGreek;
 extern bool g_testedRussian;
 extern bool g_testedMultiLanguage;
+extern bool g_testedCodepage1252;
 
 //-------------------------------------------------------------------------
 // declarations for this module only
@@ -36,7 +37,6 @@ string createLocaleDirectory(wstring subDirectory);
 string getLanguageString(const string& languageIn);
 bool setGlobalLocale(const string& name);
 void standardizePath(string &path);
-void standardizePathW(wstring &path);
 
 //----------------------------------------------------------------------------
 // support functions
@@ -85,19 +85,6 @@ void standardizePath(string &path)
 	for (size_t i = 0; i < path.length(); i++)
 	{
 		i = path.find_first_of("/\\", i);
-		if (i == string::npos)
-			break;
-		path[i] = g_fileSeparator;
-	}
-}
-
-void standardizePathW(wstring &path)
-// wide char make sure file separators are correct type (Windows or Linux)
-{
-	// make sure separators are correct type (Windows or Linux)
-	for (size_t i = 0; i < path.length(); i++)
-	{
-		i = path.find_first_of(L"/\\", i);
 		if (i == string::npos)
 			break;
 		path[i] = g_fileSeparator;
@@ -197,7 +184,7 @@ struct JapaneseF : public ::testing::Test
 		}
 
 		// sort test strings for alpha compare
-		sort(fileNames.begin(), fileNames.end() /*, sortCompare*/);
+		sort(fileNames.begin(), fileNames.end());
 	}	// end c'tor
 
 	~JapaneseF()
@@ -440,7 +427,7 @@ struct GreekF : public ::testing::Test
 		cleanTestDirectory(getTestDirectory());
 		createConsoleGlobalObject(formatter);
 
-		// Greek symbols are copied from 
+		// Greek symbols are copied from
 		subdir1  = createLocaleDirectory(L"/ΓΔΘΛ");
 		subdir1a = createLocaleDirectory(L"/ΓΔΘΛ/αβγλ");
 		subdir1b = createLocaleDirectory(L"/ΓΔΘΛ/ξπρσ");
@@ -466,7 +453,7 @@ struct GreekF : public ::testing::Test
 		}
 
 		// sort test strings for alpha compare
-		sort(fileNames.begin(), fileNames.end() /*, sortCompare*/);
+		sort(fileNames.begin(), fileNames.end());
 	}	// end c'tor
 
 	~GreekF()
@@ -496,6 +483,11 @@ TEST_F(GreekF, Recursive1)
 
 	// check the fileName vector
 	vector<string> fileName = g_console->getFileName();
+#ifdef __BORLANDC__
+	// The Embarcadero FindNextFile() function in Artistic Style
+	// doesn't follow locale sort sequence for Greek.
+	sort(fileName.begin(), fileName.end());
+#endif
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
 		EXPECT_EQ(fileNames[i], fileName[i]);
@@ -610,6 +602,11 @@ TEST_F(GreekF, RecursiveExclude)
 
 	// check the fileName vector
 	vector<string> fileName = g_console->getFileName();
+#ifdef __BORLANDC__
+	// The Embarcadero FindNextFile() function in Artistic Style
+	// doesn't follow locale sort sequence for Greek.
+	sort(fileName.begin(), fileName.end());
+#endif
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
 		EXPECT_EQ(fileNames[i], fileName[i]);
@@ -652,7 +649,6 @@ TEST_F(GreekF, RecursiveSuffix)
 
 //----------------------------------------------------------------------------
 // AStyle test i18n processing with single-byte Russian language
-// In Windows Russian uses the same 1251 locale as Windows
 //----------------------------------------------------------------------------
 
 struct RussianF : public ::testing::Test
@@ -733,7 +729,7 @@ struct RussianF : public ::testing::Test
 		}
 
 		// sort test strings for alpha compare
-		sort(fileNames.begin(), fileNames.end() /*, sortCompare*/);
+		sort(fileNames.begin(), fileNames.end());
 	}	// end c'tor
 
 	~RussianF()
@@ -978,7 +974,6 @@ struct MultiLanguageF : public ::testing::Test
 
 		// create a directory and files in Russian
 		// Russian symbols are copied from http://en.wikipedia.org/wiki/Russian_alphabet
-		// this directory is ALWAYS created in Russian
 		wstring subdir2 = L"\\ЗИФЫЫЯ";
 		string russianPath = getTestDirectory() + convertToMultiByte(subdir2);
 		g_console->standardizePath(russianPath);
@@ -989,7 +984,7 @@ struct MultiLanguageF : public ::testing::Test
 		fileNames.push_back(russianPath  + "/recursive5.cpp");
 		createTestFile(fileNames.back(), textOut);
 		// sort test strings for alpha compare
-		sort(fileNames.begin(), fileNames.end() /*, sortCompare*/);
+		sort(fileNames.begin(), fileNames.end());
 	}	// end c'tor
 
 	~MultiLanguageF()
@@ -1001,6 +996,139 @@ struct MultiLanguageF : public ::testing::Test
 
 TEST_F(MultiLanguageF, Recursive1)
 // test multi-language recursive option
+{
+	// check valid locale
+	if (!isValidLocale)
+		return;
+
+	// set processing variables
+	assert(g_console != NULL);
+	g_console->setIsQuiet(true);		// change this to see results
+	g_console->setIsRecursive(true);
+
+	// run the test
+	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
+	g_console->processOptions(astyleOptionsVector);
+	g_console->processFiles();
+
+	// check the fileName vector
+	vector<string> fileName = g_console->getFileName();
+	ASSERT_EQ(fileNames.size(), fileName.size());
+	for (size_t i = 0; i < fileNames.size(); i++)
+		EXPECT_EQ(fileNames[i], fileName[i]);
+}
+
+//----------------------------------------------------------------------------
+// AStyle test i18n processing with codepage 1252
+// Coddepage 1252 contains Danish, Dutch, English, Finnish, French, German,
+// Icelandic, Italian, Norwegian, Portuguese, Spanish, Swedish
+//----------------------------------------------------------------------------
+
+struct Codepage1252F : public ::testing::Test
+{
+	ASFormatter formatter;		// formatter object
+	bool isValidLocale;			// the locale is set
+	vector<string> fileNames;	// filenames written to disk
+	// text out data
+	string textOutStr;			// text out source file
+	const char* textOut;		// text out source file
+
+	// c'tor - build fileNames vector and write the output files
+	Codepage1252F()
+	{
+#ifdef _WIN32
+		// Windows must check for codepage 1252.
+		// get buffer for codepage
+		int bufSize = GetLocaleInfo(LOCALE_SYSTEM_DEFAULT, LOCALE_IDEFAULTANSICODEPAGE,
+									NULL, 0);
+		char* value = new(nothrow) char[bufSize];
+		if (value == NULL)
+			systemAbort("Bad memory alloc for GetLocaleInfo in Codepage1252F");
+		// get codepage
+		GetLocaleInfo(LOCALE_SYSTEM_DEFAULT, LOCALE_IDEFAULTANSICODEPAGE,
+					  value, sizeof(value) / sizeof(char));
+		int codepage = atoi(value);
+		delete [] value;
+		if (codepage != 1252)
+		{
+			g_testedCodepage1252 = false;
+			isValidLocale = false;
+			return;
+		}
+#endif
+		// Linux can use the UTF-8 locale for all languages
+		isValidLocale = setGlobalLocale("");
+		if (!isValidLocale)
+			return;
+		// set textOut variables
+		textOutStr =
+			"\nvoid foo()\n"
+			"{\n"
+			"bar();\n"
+			"}\n";
+		textOut = textOutStr.c_str();
+
+		cleanTestDirectory(getTestDirectory());
+		createConsoleGlobalObject(formatter);
+
+		// create fileNames vector
+		// create a directory and files in English
+		// German symbols are the same as English
+		string englishPath = getTestDirectory() + "/english";
+		createTestDirectory(englishPath);
+		fileNames.push_back(englishPath + "/english1.cpp");
+
+		// create a directory and files in French
+		// French symbols are copied from http://french.typeit.org/
+		string frenchPath = getTestDirectory() + "/french ùûüÿàâçéèêëïîôœ";
+		createTestDirectory(frenchPath);
+		fileNames.push_back(frenchPath + "/french1.cpp");
+
+		// create a directory and files in Spanish
+		// Spanish symbols are copied from http://www.studyspanish.com/pronunciation/alphabet.htm
+		string spanishPath = getTestDirectory() + "/spanish Ññ";
+		createTestDirectory(spanishPath);
+		fileNames.push_back(spanishPath + "/spanish1.cpp");
+
+		// create a directory and files in Danish
+		// Spanish symbols are copied from http://users.cybercity.dk/~nmb3879/tree.html
+		string danishPath = getTestDirectory() + "/danish æøå";
+		createTestDirectory(danishPath);
+		fileNames.push_back(danishPath + "/danish1.cpp");
+
+		// create a directory and files in Sweedish
+		// Sweedish symbols are copied from http://www.omniglot.com/writing/swedish.htm
+		string sweedishPath = getTestDirectory() + "/sweedish åäö";
+		createTestDirectory(sweedishPath);
+		fileNames.push_back(sweedishPath + "/sweedish1.cpp");
+
+		// create a directory and files in Icelandic
+		// Icelandic symbols are copied from http://www.omniglot.com/writing/icelandic.htm
+		string icelandicPath = getTestDirectory() + "/icelandic ðéóúæö";
+		createTestDirectory(icelandicPath);
+		fileNames.push_back(icelandicPath + "/icelandic1.cpp");
+
+		// write the test files
+		for (size_t i = 0; i < fileNames.size(); i++)
+		{
+			g_console->standardizePath(fileNames[i]);
+			createTestFile(fileNames[i], textOut);
+		}
+
+		// sort test strings for alpha compare
+		sort(fileNames.begin(), fileNames.end());
+	}	// end c'tor
+
+	~Codepage1252F()
+	{
+		deleteConsoleGlobalObject();
+		setGlobalLocale("C");
+	}
+};
+
+TEST_F(Codepage1252F, Recursive1)
+// test codepage 1252 recursive option
 {
 	// check valid locale
 	if (!isValidLocale)
@@ -1238,6 +1366,7 @@ TEST(Other, LanguageStrings)
 		bool ok = setGlobalLocale(language[i]);
 		EXPECT_TRUE(ok) << "Unsupported language: " << language[i];
 #ifdef __BORLANDC__
+		// Embarcadero 6.20 fails this test for Chinese
 		if (ok && strncmp(language[i], "chinese", 7) == 0)
 			EXPECT_FALSE(ok) << "EMBARCADERO NOW SUPPORTS: " << language[i];
 #endif	// __BORLANDC__
@@ -1290,10 +1419,10 @@ TEST(Other, CppImbue)
 	{
 		FAIL() << "Cannot find native locale";
 	}
-	test << 1234.56;
+	test << 123456;
 	string testNumber = test.str();
 	// is the number unformatted
-	EXPECT_NE("1234.56", testNumber) << "This compiler does not support imbue()";
+	EXPECT_NE("123456", testNumber) << "This compiler does not support imbue()";
 }
 
 //----------------------------------------------------------------------------

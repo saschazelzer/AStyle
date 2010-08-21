@@ -23,7 +23,8 @@
 					<Add directory="..\..\..\gmock\gtest\include" />
 				</Compiler>
 				<Linker>
-					<Add option="-Wl,--enable-auto-import" />
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
 					<Add library="gtestd" />
 					<Add directory="bin" />
 				</Linker>
@@ -45,7 +46,8 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add option="-Wl,--enable-auto-import" />
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
 					<Add library="gtest" />
 					<Add directory="bin" />
 				</Linker>
@@ -67,7 +69,8 @@
 					<Add directory="..\..\..\gmock\gtest\include" />
 				</Compiler>
 				<Linker>
-					<Add option="-Wl,--enable-auto-import" />
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
 					<Add library="gcov" />
 					<Add library="gtestd" />
 					<Add directory="bin" />

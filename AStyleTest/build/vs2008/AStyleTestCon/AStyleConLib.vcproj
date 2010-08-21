@@ -45,7 +45,72 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\AStyle\src"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;ASTYLECON_LIB"
+				PreprocessorDefinitions="_DEBUG;ASTYLECON_LIB"
+				MinimalRebuild="false"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				FloatingPointModel="2"
+				UsePrecompiledHeader="0"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\AStyleConLibd.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|x64"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\debug"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			CharacterSet="0"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\..\..\..\AStyle\src"
+				PreprocessorDefinitions="_DEBUG;ASTYLECON_LIB"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -111,7 +176,7 @@
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
 				AdditionalIncludeDirectories="..\..\..\..\AStyle\src"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;ASTYLECON_LIB"
+				PreprocessorDefinitions="NDEBUG;ASTYLECON_LIB"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="false"
 				FloatingPointModel="2"
@@ -131,71 +196,6 @@
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="$(OutDir)\AStyleConLib.lib"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Debug|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\debug"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="4"
-			CharacterSet="0"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				TargetEnvironment="3"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\AStyle\src"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;ASTYLECON_LIB"
-				MinimalRebuild="false"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
-				FloatingPointModel="2"
-				UsePrecompiledHeader="0"
-				WarningLevel="4"
-				DebugInformationFormat="3"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\AStyleConLibd.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -242,7 +242,7 @@
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
 				AdditionalIncludeDirectories="..\..\..\..\AStyle\src"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;ASTYLECON_LIB"
+				PreprocessorDefinitions="NDEBUG;ASTYLECON_LIB"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="false"
 				FloatingPointModel="2"

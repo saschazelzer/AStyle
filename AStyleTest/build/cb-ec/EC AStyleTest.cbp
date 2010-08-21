@@ -20,7 +20,7 @@
 					<Add option="-DASTYLE_LIB" />
 					<Add directory="..\..\srcx" />
 					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="..\..\..\gtest\include" />
+					<Add directory="..\..\..\gmock\gtest\include" />
 				</Compiler>
 				<Linker>
 					<Add option="-c" />
@@ -48,7 +48,7 @@
 					<Add option="-DASTYLE_LIB" />
 					<Add directory="..\..\srcx" />
 					<Add directory="..\..\..\AStyle\src" />
-					<Add directory="..\..\..\gtest\include" />
+					<Add directory="..\..\..\gmock\gtest\include" />
 				</Compiler>
 				<Linker>
 					<Add option="-c" />

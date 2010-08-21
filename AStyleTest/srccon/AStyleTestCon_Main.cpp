@@ -62,6 +62,7 @@ bool g_testedJapanese = true;
 bool g_testedGreek = true;
 bool g_testedRussian = true;
 bool g_testedMultiLanguage = true;
+bool g_testedCodepage1252 = true;
 
 //----------------------------------------------------------------------------
 // main function
@@ -103,23 +104,11 @@ int main(int argc, char **argv)
 	int retval = RUN_ALL_TESTS();
 
 	// print i18n message for Windows tests
-	if (!g_testedJapanese || !g_testedGreek || !g_testedRussian || !g_testedMultiLanguage)
-	{
-		printf("%c", '\n');
-		if (!g_testedJapanese)
-			printf("%s\n", "Language not tested: Japanese.");
-		if (!g_testedGreek)
-			printf("%s\n", "Language not tested: Greek.");
-		if (!g_testedRussian)
-			printf("%s\n", "Language not tested: Russian.");
-		if (!g_testedMultiLanguage)
-			printf("%s\n", "Language not tested: Multi-Language.");
-	}
-	printf("%c", '\n');
+	printI18nMessage();
 
 	// end of unit testing
 	//	removeTestDirectory(getTestDirectory());
-//	system("pause");		// sometimes needed for debug
+//	system("pause");		// sometimes needed for Windows debug
 	return retval;
 }
 
@@ -482,6 +471,39 @@ string& getTestDirectory()
 // return file path of the global test directory
 {
 	return (g_testDirectory);
+}
+
+void printI18nMessage()
+{
+	// print i18n message for Windows tests
+	if (!g_testedJapanese || !g_testedGreek || !g_testedRussian
+			|| !g_testedMultiLanguage || g_testedCodepage1252)
+	{
+		printf("%c", '\n');
+		// print tested
+		if (g_testedJapanese)
+			printf("%s\n", "Language tested: Japanese.");
+		if (g_testedGreek)
+			printf("%s\n", "Language tested: Greek.");
+		if (g_testedRussian)
+			printf("%s\n", "Language tested: Russian.");
+		if (g_testedMultiLanguage)
+			printf("%s\n", "Language tested: Multi-Language.");
+		if (g_testedCodepage1252)
+			printf("%s\n", "Codepage tested: 1252.");
+		// print not tested
+		if (!g_testedJapanese)
+			printf("%s\n", "Language not tested: Japanese.");
+		if (!g_testedGreek)
+			printf("%s\n", "Language not tested: Greek.");
+		if (!g_testedRussian)
+			printf("%s\n", "Language not tested: Russian.");
+		if (!g_testedMultiLanguage)
+			printf("%s\n", "Language not tested: Multi-Language.");
+		if (!g_testedCodepage1252)
+			printf("%s\n", "Codepage not tested: 1252.");
+	}
+	printf("%c", '\n');
 }
 
 void removeTestFile(const string& testFileName)

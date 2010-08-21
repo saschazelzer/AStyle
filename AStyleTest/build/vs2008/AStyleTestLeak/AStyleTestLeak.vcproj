@@ -46,7 +46,7 @@
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
 				AdditionalIncludeDirectories="..\..\..\..\LeakFinder"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;LEAK_FINDER"
+				PreprocessorDefinitions="_DEBUG;LEAK_FINDER"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -70,7 +70,7 @@
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\..\..\LeakFinder\Debug_VC9"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(ProjectDir)$(ConfigurationName)\$(TargetName).pdb"
+				ProgramDatabaseFile="&quot;$(ProjectDir)$(ConfigurationName)\$(TargetName).pdb&quot;"
 				SubSystem="1"
 				TargetMachine="0"
 			/>
@@ -124,7 +124,7 @@
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
 				AdditionalIncludeDirectories="..\..\..\..\LeakFinder"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;LEAK_FINDER"
+				PreprocessorDefinitions="_DEBUG;LEAK_FINDER"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -148,9 +148,9 @@
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\..\..\LeakFinder\$(PlatformName)\Debug_VC9"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(ProjectDir)$(PlatformName)\$(ConfigurationName)\$(TargetName).pdb"
+				ProgramDatabaseFile="&quot;$(ProjectDir)$(PlatformName)\$(ConfigurationName)\$(TargetName).pdb&quot;"
 				SubSystem="1"
-				TargetMachine="17"
+				TargetMachine="0"
 			/>
 			<Tool
 				Name="VCALinkTool"

@@ -50,6 +50,7 @@ void createTestFile(const string& testFilePath, const char* testFileText, int si
 void deleteConsoleGlobalObject();
 string getCurrentDirectory();
 string& getTestDirectory();
+void printI18nMessage();
 void removeTestDirectory(const string &dirName);
 void removeTestFile(const string& testFileName);
 void setTestDirectory();
