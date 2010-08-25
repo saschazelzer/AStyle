@@ -9,6 +9,7 @@
 import libastyle		#local directory
 import libextract		#local directory
 import libtest			#local directory
+import locale
 import os
 import subprocess
 import sys
@@ -21,16 +22,17 @@ import time
 #   CODELITE
 #   JEDIT
 #   KDEVELOP
+#   MONODEVELOP
 #  SCITE
 #  SHARPDEVELOP
 # TESTPROJECT
-project = libastyle.CODEBLOCKS
+project = libastyle.SCITE
 
 # select OPT0 thru OPT3, or use customized options
 options = libastyle.OPT0
 
 # executables for test
-astyleexe1 = "astyled"
+astyleexe1 = "astyle25b"
 astyleexe2 = "astyled"
 
 # select one of the following to unarchive files
@@ -45,6 +47,7 @@ def process_files():
 	# initialization
 	starttime = time.time()
 	libastyle.set_text_color()
+	locale.setlocale(locale.LC_ALL, "")
 	print "Testing " +  project
 	print "Using {0} {1}".format(astyleexe1, astyleexe2)
 	os.chdir(libastyle.get_file_py_directory())
@@ -117,13 +120,13 @@ def print_astyle_totals(filename):
 	"""Print total information from the astyle total line.
 	   Returns files formatted and total files from the report total line.
 	"""
-	formatted, unchanged, min, sec = libtest.get_astyle_totals(filename)
-	totfiles = formatted + unchanged
+	# the native locale should be set to get the numeric formatting
+	formatted, totfiles, min, sec = libtest.get_astyle_totals(filename)
 	if min == 0:
-		printline = "{0} formatted, {1} files, {2} seconds"
+		printline = "{0:n} formatted, {1:n} files, {2} seconds"
 		print printline.format(formatted, totfiles, sec)
 	else:
-		printline = "{0} formatted, {1} files, {2} min {3} seconds"
+		printline = "{0:n} formatted, {1:n} files, {2} min {3} seconds"
 		print printline.format(formatted, totfiles, min, sec)
 	return (formatted, totfiles)
 

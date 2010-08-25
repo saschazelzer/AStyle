@@ -36,6 +36,8 @@ def extract_project(project):
 		extract_jedit()
 	elif project == libastyle.KDEVELOP:
 		extract_kdevelop()
+	elif project == libastyle.MONODEVELOP:
+		extract_monodevelop()
 	elif project == libastyle.SCITE:
 		extract_scite()
 	elif project == libastyle.SHARPDEVELOP:
@@ -123,10 +125,20 @@ def extract_jedit():
 def extract_kdevelop():
 	"""Extract KDevelop files from archive to test directory.
 	"""
-	remove_test_directory("kdevelop-*")
+	remove_test_directory("kdevplatform-*")
 	remove_test_directory("[Kk][Dd]evelop")
-	extract_test_tar("kdevelop*.gz", "hpO5ya.tar", ["*.cpp", "*.h"])
-	rename_test_directory("kdevelop-*", "KDevelop")
+	extract_test_tar("kdevplatform*.bz2", "kdevplatform*.tar", ["*.cpp", "*.h"])
+	rename_test_directory("kdevplatform-*", "KDevelop")
+
+# -----------------------------------------------------------------------------
+
+def extract_monodevelop():
+	"""Extract MonoDevelop files from archive to test directory.
+	"""
+	remove_test_directory("monodevelop-*")
+	remove_test_directory("[Mm]ono[Dd]evelop")
+	extract_test_tar("monodevelop*.bz2", "monodevelop*.tar", ["*.cs"])
+	rename_test_directory("monodevelop-*", "MonoDevelop")
 
 # -----------------------------------------------------------------------------
 
@@ -225,9 +237,9 @@ def remove_test_directory(pattern):
 		for i in range(0, imax):
 			shutil.rmtree(file, True)
 			if not os.path.isdir(file): break
-			if i == imax:
+			if i == imax - 1:
 				libastyle.system_exit("Directory not removed: " + file)
-			time.sleep(5)
+			time.sleep(4)
 
 # -----------------------------------------------------------------------------
 
@@ -243,7 +255,10 @@ def rename_test_directory(source, destination):
 	prtsrc = strip_directory_prefix(dir)
 	prtdst = strip_directory_prefix(destpath)
 	print "rename {0} {1}".format(prtsrc, prtdst)
-	shutil.move(dir, destpath)
+	try:
+		shutil.move(dir, destpath)
+	except WindowsError as e:
+		print e
 
 # -----------------------------------------------------------------------------
 
@@ -271,12 +286,14 @@ def test_all_compressed():
 		print "remove tar " + prtfile
 		os.remove(file)
 	print
-	extract_project(libastyle.CODEBLOCKS); print
-	extract_project(libastyle.CODELITE); print
-	extract_project(libastyle.JEDIT); print
-	extract_project(libastyle.KDEVELOP); print
-	extract_project(libastyle.SHARPDEVELOP); print
-	extract_project(libastyle.TESTPROJECT); print
+	#extract_project(libastyle.CODEBLOCKS); print
+	#extract_project(libastyle.CODELITE); print
+	#extract_project(libastyle.JEDIT); print
+	#extract_project(libastyle.KDEVELOP); print
+	extract_project(libastyle.MONODEVELOP); print
+	#extract_project(libastyle.SCITE); print
+	#extract_project(libastyle.SHARPDEVELOP); print
+	#extract_project(libastyle.TESTPROJECT); print
 	stoptime = time.time()
 	test_print_time(starttime, stoptime); print
 
@@ -289,12 +306,14 @@ def test_all_tarballs():
 	starttime = time.time()
 	print "TEST TARBALLS"
 	print
-	extract_project(libastyle.CODEBLOCKS); print
-	extract_project(libastyle.CODELITE); print
-	extract_project(libastyle.JEDIT); print
-	extract_project(libastyle.KDEVELOP); print
+	#extract_project(libastyle.CODEBLOCKS); print
+	#extract_project(libastyle.CODELITE); print
+	#extract_project(libastyle.JEDIT); print
+	#extract_project(libastyle.KDEVELOP); print
+	extract_project(libastyle.MONODEVELOP); print
+	# no tarball for SCITE
 	# no tarball for SHARPDEVELOP
-	extract_project(libastyle.TESTPROJECT); print
+	#extract_project(libastyle.TESTPROJECT); print
 	stoptime = time.time()
 	test_print_time(starttime, stoptime)
 

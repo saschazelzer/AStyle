@@ -36,6 +36,7 @@ def diff_formatted_files(filepaths, diffOLD=False):
 		msg = "Run {0} from the console to view the diffs"
 		print msg.format(diffprog)
 		return
+	print "press m or n to skip, z to end"
 	numin = 0
 	processed = 0
 	for filepath in filepaths:
@@ -76,20 +77,31 @@ def get_astyle_totals(filename):
 	"""Print total information from the astyle total line.
 	   The filename must be in the current directory.
 	   Return 1 - Number of files formatted
-	   Return 2 - Number of files unchanged
+	   Return 2 - Number of files processed
 	   Return 3 - Runtime minutes
 	   Return 4 - Runtime seconds
 	"""
 	infile = open_filein(filename, 'rb')
 	infile.seek(-100, os.SEEK_END)
+
 	for line in infile:
 		# use regular expressions to search the lines
 		# find total line (with following commas)
-		if (re.search("formatted;", line) != None
-		and re.search("unchanged;", line) != None):
+		if (re.search("formatted", line) != None
+		and re.search("unchanged", line) != None):
 			totline = line.split()
+			 # get the thousands separator from the total number of lines
+			sep = get_thousands_sep(totline[-2])  
+			# cannot extract if the separator is a space (French)
+			if sep == None:
+				print "Cannot extract totals from file"
+				return (0, 0, 0, 0)
+			#extract the totals
+			totline[0] = totline[0].translate(None, sep)
 			formatted = int(totline[0])
+			totline[2] = totline[2].translate(None, sep)
 			unchanged = int(totline[2])
+			totfiles = formatted + unchanged
 			if totline[5] == "min":
 				minutes = int(totline[4])
 				seconds = int(totline[6])
@@ -99,8 +111,9 @@ def get_astyle_totals(filename):
 					seconds = int(totline[4])
 				else:
 					seconds = float(totline[4])
-			return (formatted, unchanged, minutes, seconds)
-	libastyle.system_exit("Could Not find total line in libtest")
+			return (formatted, totfiles, minutes, seconds)
+
+	libastyle.system_exit("Could not find total line in libtest.py")
 
 # -----------------------------------------------------------------------------
 
@@ -118,8 +131,8 @@ def  get_formatted_files(filename):
 			directory = extract_directory_from_line(line)
 			continue
 		# total line (with a following comma)
-		if (re.search("formatted;", line) != None
-		and re.search("unchanged;", line) != None):
+		if (re.search("formatted", line) != None
+		and re.search("unchanged", line) != None):
 			continue
 		# formatted file line (start of line with a following space)
 		if re.match("formatted ", line) != None:
@@ -140,6 +153,19 @@ def  get_old_filepath(filepath):
 	dirname = subdir[:sep]
 	oldpath = testdir + dirname + "OLD" + subdir[len(dirname):]
 	return oldpath
+
+# -----------------------------------------------------------------------------
+
+def get_thousands_sep(num):
+	"""Get the thousands separator from a number string.
+	   Return the separator.
+	"""
+	sep = ','
+	if not len(num) > 3:
+		return None
+	if not num[-4].isdigit():
+		sep = num[-4]
+	return sep
 
 # -----------------------------------------------------------------------------
 

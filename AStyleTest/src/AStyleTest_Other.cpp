@@ -12,10 +12,47 @@ namespace
 {
 
 //----------------------------------------------------------------------------
-// AStyle version 1.25 TEST functions
+// AStyle version 2.01 TEST functions
 //----------------------------------------------------------------------------
 
-TEST(v125, UnpadParens_ConvertTabs)
+TEST(v201, CloseingBracket_FollowsEndComment)
+{
+	// A closing bracket following a end comment 
+	// caused the previous line to be deleted.
+	// In version 2.01 it caused an assert failure
+	// with the checksum.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (foo1) {\n"
+		"/*      closing bracket following comment end\n"
+		"        this line should not be deleted\n"
+		"*/  }\n"
+		"\n"
+		"    if (foo2) {\n"
+		"/*      this line should not be deleted\n"
+		"*/}\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (foo1) {\n"
+		"        /*      closing bracket following comment end\n"
+		"                this line should not be deleted\n"
+		"        */\n"
+		"    }\n"
+		"\n"
+		"    if (foo2) {\n"
+		"        /*      this line should not be deleted\n"
+		"        */\n"
+		"    }\n"
+		"}";	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(v201, UnpadParens_ConvertTabs)
 {
 	// Unpad parens with convert tabs and a paren ending the line
 	// caused a "string subscript out of range" with VS2010
@@ -32,7 +69,7 @@ TEST(v125, UnpadParens_ConvertTabs)
 	delete [] textOut;
 }
 
-TEST(v125, DeleteEmptyLines_BreakBlocks)
+TEST(v201, DeleteEmptyLines_BreakBlocks)
 {
 	// a missing closing bracket with delete-empty-lines and break-blocks
 	// should not cause an assert error on the call to sourceIterator->peekNextLine()
@@ -56,7 +93,7 @@ TEST(v125, DeleteEmptyLines_BreakBlocks)
 	delete [] textOut;
 }
 
-TEST(v125, BreakBlocks_DeleteEmptyLines_Comment)
+TEST(v201, BreakBlocks_DeleteEmptyLines_Comment)
 {
 	// the following comment should not abort or duplicate code in the output
 	// both break-blocks and delete-empty-lines must be used
@@ -84,7 +121,7 @@ TEST(v125, BreakBlocks_DeleteEmptyLines_Comment)
 	delete [] textOut;
 }
 
-TEST(v125, SharpLambdaOperatorIndent)
+TEST(v201, SharpLambdaOperatorIndent)
 {
 	// C# => is not an assignment operator
 	// following lines should not be aligned on the =>
@@ -114,7 +151,7 @@ TEST(v125, SharpLambdaOperatorIndent)
 	delete [] textOut;
 }
 
-TEST(v125, KeywordsNotHeaders)
+TEST(v201, KeywordsNotHeaders)
 {
 	// header is not a keyword if part of a definition
 	char text[] =
@@ -131,7 +168,7 @@ TEST(v125, KeywordsNotHeaders)
 	delete [] textOut;
 }
 
-TEST(v125, TwoGreaterSymblolsClosingTemplate)
+TEST(v201, TwoGreaterSymblolsClosingTemplate)
 {
 	// two >> symbols closing a template
 	char text[] =
@@ -146,7 +183,7 @@ TEST(v125, TwoGreaterSymblolsClosingTemplate)
 	delete [] textOut;
 }
 
-TEST(v125, PossibleAssignmentInStatementIndentWithParenLineBegin)
+TEST(v201, PossibleAssignmentInStatementIndentWithParenLineBegin)
 {
 	// a paren begins a line with an in-statement indent
 	char text[] =
@@ -163,7 +200,7 @@ TEST(v125, PossibleAssignmentInStatementIndentWithParenLineBegin)
 	delete [] textOut;
 }
 
-TEST(v125, Col1ElseWithPreceedingBracket)
+TEST(v201, Col1ElseWithPreceedingBracket)
 {
 	// else in col 1 with preceeding bracket tests a seldom used branch
 	char textIn[] =
@@ -192,7 +229,7 @@ TEST(v125, Col1ElseWithPreceedingBracket)
 	delete [] textOut;
 }
 
-TEST(v125, TryCatchInHeader)
+TEST(v201, TryCatchInHeader)
 {
 	// try-catch within a header
 	// header must be restored from lastTempStack in ASBeautifier
@@ -214,7 +251,7 @@ TEST(v125, TryCatchInHeader)
 	delete [] textOut;
 }
 
-TEST(v125, TryCatchFinallyInHeader)
+TEST(v201, TryCatchFinallyInHeader)
 {
 	// try-catch within a header
 	// header must be restored from lastTempStack in ASBeautifier
@@ -238,7 +275,7 @@ TEST(v125, TryCatchFinallyInHeader)
 	delete [] textOut;
 }
 
-TEST(v125, DoWhileInHeader)
+TEST(v201, DoWhileInHeader)
 {
 	// do-while within a header
 	// header must be restored from lastTempStack in ASBeautifier
@@ -258,7 +295,7 @@ TEST(v125, DoWhileInHeader)
 	delete [] textOut;
 }
 
-TEST(v125, TemplateASBeautifier)
+TEST(v201, TemplateASBeautifier)
 {
 	// template on multiple lines should be recognized by ASBeautifier
 	// template within a template should be recognized by ASBeautifier
@@ -275,7 +312,7 @@ TEST(v125, TemplateASBeautifier)
 	delete [] textOut;
 }
 
-TEST(v125, ExtraClosingBrackets)
+TEST(v201, ExtraClosingBrackets)
 {
 	// should not abort with extra closing brackets
 	char text[] =
@@ -294,7 +331,7 @@ TEST(v125, ExtraClosingBrackets)
 	delete [] textOut;
 }
 
-TEST(v125, ExtraClosingParens)
+TEST(v201, ExtraClosingParens)
 {
 	// should not abort with extra closing parens
 	char text[] =
@@ -311,7 +348,7 @@ TEST(v125, ExtraClosingParens)
 	delete [] textOut;
 }
 
-TEST(v125, ExtraClosingBlockParens)
+TEST(v201, ExtraClosingBlockParens)
 {
 	// should not abort with extra closing block parens
 	char text[] =
@@ -328,7 +365,7 @@ TEST(v125, ExtraClosingBlockParens)
 	delete [] textOut;
 }
 
-TEST(v125, DefinitionsNotHeaders)
+TEST(v201, DefinitionsNotHeaders)
 {
 	// definitions are not headers
 	char text[] =
@@ -345,7 +382,7 @@ TEST(v125, DefinitionsNotHeaders)
 	delete [] textOut;
 }
 
-TEST(v125, SharpPeekNextTextMultiLineComment)
+TEST(v201, SharpPeekNextTextMultiLineComment)
 {
 	// test C# peekNextText() with multi-ine comment before the text
 	char text[] =
@@ -363,7 +400,7 @@ TEST(v125, SharpPeekNextTextMultiLineComment)
 	delete [] textOut;
 }
 
-TEST(v125, SharpNotPotentialHeader)
+TEST(v201, SharpNotPotentialHeader)
 {
 	// test C# isNextWordSharpNonParenHeader() for !isCharPotentialHeader()
 	char text[] =
@@ -377,7 +414,7 @@ TEST(v125, SharpNotPotentialHeader)
 	delete [] textOut;
 }
 
-TEST(v125, EmptyLineComment)
+TEST(v201, EmptyLineComment)
 {
 	// test recognition of an empty line comment
 	char text[] =
@@ -391,7 +428,7 @@ TEST(v125, EmptyLineComment)
 	delete [] textOut;
 }
 
-TEST(v125, ColZeroPointerOrReference)
+TEST(v201, ColZeroPointerOrReference)
 {
 	// test pointer or reference in column zero
 	char textIn[] =

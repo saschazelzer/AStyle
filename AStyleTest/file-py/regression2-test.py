@@ -9,6 +9,7 @@
 import libastyle		#local directory
 import libextract		#local directory
 import libtest			#local directory
+import locale
 import glob
 import os
 import subprocess
@@ -22,19 +23,20 @@ import time
 #   CODELITE
 #   JEDIT
 #   KDEVELOP
+#   MONODEVELOP
 #  SCITE
 #  SHARPDEVELOP
 #  TESTPROJECT
-project = libastyle.SHARPDEVELOP
+project = libastyle.MONODEVELOP
 
 # select OPT0 thru OPT3, or use customized options
-options = libastyle.OPT1
+options = libastyle.OPT3
 
 # scite formatting options
 #options = "-tapOHUk3"
 
 # executables for test
-astyleexe1 = "astyled"
+astyleexe1 = "astyle25b"
 astyleexe2 = "astyled"
 
 # select one of the following to format files in the OLD directory
@@ -49,6 +51,7 @@ def process_files():
 	# initialization
 	starttime = time.time()
 	libastyle.set_text_color()
+	locale.setlocale(locale.LC_ALL, "")
 	print "Testing " +  project
 	print "Using {0} {1}".format(astyleexe1, astyleexe2)
 	os.chdir(libastyle.get_file_py_directory())
@@ -82,7 +85,7 @@ def process_files():
 	print_astyle_totals(testfile)
 
 	# process formatted files
-	diffs = compare_formatted_files(filepaths)
+	diffs = compare_formatted_files(filepaths, len(excludes))
 	print_run_total(starttime)
 	libtest.diff_formatted_files(diffs, True)
 
@@ -119,7 +122,7 @@ def call_file_compare_program(filepath, testout, fcout):
 
 # -----------------------------------------------------------------------------
 
-def compare_formatted_files(filepaths):
+def compare_formatted_files(filepaths, numExcludes):
 	"""Walk thru the top-level directory tree
 	   and diff the files in the current and OLD directories.
 	   Returns a list of the files with a diff.
@@ -129,6 +132,8 @@ def compare_formatted_files(filepaths):
 	totdiffs = 0
 	diffs = []
 	print
+	if numExcludes > 0:
+		print "Compare includes excluded files"
 	fcfile = libastyle.get_temp_directory() + "/filecompare.txt"
 	fcout = open(fcfile, 'w')
 	testfile = "test-diff.txt"
@@ -157,7 +162,11 @@ def compare_formatted_files(filepaths):
 		# print a total for each filepath
 		print "{0} files  {1} diffs".format(totfiles, totdiffs)
 	fcout.close()
-	os.remove(fcfile)
+	# files may not be removed due to an active process from a previous run
+	try:
+		os.remove(fcfile)
+	except WindowsError as e:
+		print e		# print error and continue
 	testout.close()
 	return diffs
 
@@ -200,13 +209,13 @@ def print_astyle_totals(filename):
 	"""Print total information from the astyle total line.
 	   Returns files formatted and total files from the report total line.
 	"""
-	formatted, unchanged, min, sec = libtest.get_astyle_totals(filename)
-	totfiles = formatted + unchanged
+	# the native locale should be set to get the numeric formatting
+	formatted, totfiles, min, sec = libtest.get_astyle_totals(filename)
 	if min == 0:
-		printline = "{0} formatted, {1} files, {2} seconds"
+		printline = "{0:n} formatted; {1:n} files; {2} seconds"
 		print printline.format(formatted, totfiles, sec)
 	else:
-		printline = "{0} formatted, {1} files, {2} min {3} seconds"
+		printline = "{0:n} formatted; {1:n} files; {2} min {3} seconds"
 		print printline.format(formatted, totfiles, min, sec)
 	return (formatted, totfiles)
 

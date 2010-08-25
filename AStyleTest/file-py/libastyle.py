@@ -17,6 +17,7 @@ CODEBLOCKS   = "CodeBlocks"
 CODELITE     = "CodeLite"
 JEDIT        = "jEdit"
 KDEVELOP     = "KDevelop"
+MONODEVELOP  = "MonoDevelop"
 SCITE        = "SciTE"
 SHARPDEVELOP = "SharpDevelop"
 TESTPROJECT  = "TestProject"
@@ -342,7 +343,9 @@ def get_project_excludes(project):
 	elif project == JEDIT:
 		None
 	elif project == KDEVELOP:
-		excludes.append("--exclude=app_templates")
+		None  # excludes.append("--exclude=app_templates")
+	elif project == MONODEVELOP:
+		None 
 	elif project == SCITE:
 		excludes.append("--exclude=lua")
 	elif project == SHARPDEVELOP:
@@ -375,6 +378,8 @@ def get_project_filepaths(project):
 	elif project == KDEVELOP:
 		filepaths.append(testDirectory + "/KDevelop/*.cpp")
 		filepaths.append(testDirectory + "/KDevelop/*.h")
+	elif project == MONODEVELOP:
+		filepaths.append(testDirectory + "/MonoDevelop/src/*.cs")
 	elif project == SCITE:
 		filepaths.append(testDirectory + "/SciTE/*.cxx")
 		filepaths.append(testDirectory + "/SciTE/*.h")

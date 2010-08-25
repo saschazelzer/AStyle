@@ -117,8 +117,7 @@ def create_test_files():
 		try:
 			os.mkdir(testdir)
 		except WindowsError:
-			# print a message and retry
-			print "mkdir WindowsError"
+			print "mkdir WindowsError"	# print a message and retry
 		if os.path.isdir(testdir): break
 		if i == imax - 1:
 			libastyle.system_exit("mkdir WindowsError " + testdir)
