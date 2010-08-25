@@ -75,6 +75,39 @@
 					<Add option="-Wl,--enable-auto-import" />
 				</Linker>
 			</Target>
+			<Target title="Lint">
+				<Option output="bin\AStylel" prefix_auto="0" extension_auto="1" />
+				<Option object_output="objl" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wshadow" />
+					<Add option="-Winit-self" />
+					<Add option="-Wredundant-decls" />
+					<Add option="-Wcast-align" />
+					<Add option="-Wundef" />
+					<Add option="-Wfloat-equal" />
+					<Add option="-Winline" />
+					<Add option="-Wunreachable-code" />
+					<Add option="-Wmissing-declarations" />
+					<Add option="-Wmissing-include-dirs" />
+					<Add option="-Wswitch-enum" />
+					<Add option="-Wswitch-default" />
+					<Add option="-Wmain" />
+					<Add option="-pedantic" />
+					<Add option="-std=c++0x" />
+					<Add option="-std=c++98" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-fno-exceptions" />
+					<Add option="-fno-rtti" />
+					<Add option="-Wwrite-strings" />
+					<Add option="-Woverloaded-virtual" />
+				</Compiler>
+				<Linker>
+					<Add option="-Wl,--enable-auto-import" />
+				</Linker>
+			</Target>
 		</Build>
 		<VirtualTargets>
 			<Add alias="All" targets="AStyle;" />
@@ -85,6 +118,7 @@
 		<Unit filename="..\..\..\AStyle\src\ASResource.cpp" />
 		<Unit filename="..\..\..\AStyle\src\astyle.h" />
 		<Unit filename="..\..\..\AStyle\src\astyle_main.cpp" />
+		<Unit filename="..\..\..\AStyle\src\astyle_main.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

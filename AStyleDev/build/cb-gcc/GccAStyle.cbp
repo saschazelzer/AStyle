@@ -4,7 +4,6 @@
 	<Project>
 		<Option title="Gcc AStyle" />
 		<Option pch_mode="0" />
-		<Option default_target="Release" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Release">
@@ -45,6 +44,35 @@
 					<Add option="-W" />
 					<Add option="-Wall" />
 					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Lint">
+				<Option output="bin/astyled" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objl" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wshadow" />
+					<Add option="-Winit-self" />
+					<Add option="-Wredundant-decls" />
+					<Add option="-Wcast-align" />
+					<Add option="-Wundef" />
+					<Add option="-Wfloat-equal" />
+					<Add option="-Winline" />
+					<Add option="-Wmissing-declarations" />
+					<Add option="-Wmissing-include-dirs" />
+					<Add option="-Wswitch-enum" />
+					<Add option="-Wswitch-default" />
+					<Add option="-Wmain" />
+					<Add option="-pedantic" />
+					<Add option="-std=c++0x" />
+					<Add option="-std=c++98" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-fno-exceptions" />
+					<Add option="-fno-rtti" />
+					<Add option="-Wwrite-strings" />
+					<Add option="-Woverloaded-virtual" />
 				</Compiler>
 			</Target>
 			<Target title="Release So">
@@ -91,9 +119,6 @@
 				</Linker>
 			</Target>
 		</Build>
-		<VirtualTargets>
-			<Add alias="All" targets="Release;" />
-		</VirtualTargets>
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
 		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
 		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />
@@ -104,6 +129,7 @@
 			<Option target="Release" />
 			<Option target="Debug" />
 			<Option target="Release Java" />
+			<Option target="Lint" />
 		</Unit>
 		<Extensions>
 			<code_completion />
