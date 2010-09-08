@@ -20,26 +20,21 @@ import time
 
 # global variables ------------------------------------------------------------
 
-# select one of the following from libastyle
-#   CODEBLOCKS
-#   CODELITE
-#   DRJAVA			# cannot compile
-#   JEDIT
-#   KDEVELOP
-#  MONODEVELOP		# can compile on Linux only
-#  SCITE
-#  SHARPDEVELOP
-#  TESTPROJECT
-project = libastyle.MONODEVELOP
+
+# enter the following
+# JBoss.org ***********************************
+archive = "Greenfoot-source-1.5.6.zip"
+project = "Greenfoot-source-1.5.6"		# primary directory in archive
+source = [ "*.java" ]					# extensions to format
 
 # select OPT1 thru OPT4, or use customized options
-options = libastyle.OPT3
-
-# executable for test
-astyleexe = "astyle"
+options = libastyle.OPT1
 
 # test number to start with (usually 1)
 start = 1
+
+# executable for test
+astyleexe = "astyle"
 
 # select one of the following to unarchive files
 extractfiles = True
@@ -62,13 +57,13 @@ def process_files():
 	locale.setlocale(locale.LC_ALL, "")
 	print_run_header()
 	os.chdir(libastyle.get_file_py_directory())
-	filepaths = libastyle.get_project_filepaths(project)
-	excludes = libastyle.get_project_excludes(project)
+	filepaths = get_file_paths()
+	excludes = []
 	index = set_test_start(brackets)
 	libastyle.build_astyle_executable(get_astyle_config())
 	if extractfiles:
 		print "\nExtracting files"
-		libextract.extract_project(project)
+		extract_project()
 
 	# process the bracket options
 	while index < len(brackets):
@@ -136,6 +131,34 @@ def copy_formatted_files(files, testfile, index):
 
 # -----------------------------------------------------------------------------
 
+def extract_project():
+	"""Extract files from archive to test directory.
+	"""
+	tarfile, ext = os.path.splitext(archive)
+	print tarfile
+	if ext == ".bz2":
+		extract_test_tar(tarfile)
+	if ext == ".zip" or ext == ".7z":
+		extract_test_zip(tarfile)
+	
+# -----------------------------------------------------------------------------
+
+def extract_test_tar(tarfile):
+	"""Extract tar files from archive to test directory.
+	"""
+	libextract.remove_test_directory(project)
+	libextract.extract_test_tar(archive, tarfile, source)
+
+# -----------------------------------------------------------------------------
+
+def extract_test_zip(tarfile):
+	"""Extract zip files, including 7-zip, from archive to test directory.
+	"""
+	libextract.remove_test_directory(project)
+	libextract.extract_test_zip(archive, tarfile, source)
+
+# -----------------------------------------------------------------------------
+
 def get_astyle_config():
 	"""Get the build configuration from the executalbe name.
 	"""
@@ -143,6 +166,17 @@ def get_astyle_config():
 	if astyleexe.lower() == "astyle":
 		config = libastyle.RELEASE
 	return config
+	
+# -----------------------------------------------------------------------------
+
+def get_file_paths():
+	"""Build filepaths variable from globals.
+	"""
+	filepaths = []
+	for wildcard in source:
+		filepaths.append(libastyle.get_test_directory(True) 
+		                 + project + '/' +wildcard)
+	return filepaths
 
 # -----------------------------------------------------------------------------
 

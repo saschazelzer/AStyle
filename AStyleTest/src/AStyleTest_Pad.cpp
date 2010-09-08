@@ -3082,6 +3082,52 @@ TEST(DeleteEmptyLines, BreakBlocksComment2)
 	delete [] textOut;
 }
 
+TEST(DeleteEmptyLines, BreakBlocksComment3)
+{
+	// delete-empty-lines (-x) with break-blocks (-f).
+	// Test mixing comments and line comments.
+	// The combination of empty lines and comments caused an
+	// "assert(peekStart == 0)" failure in "ASStreamIterator<T>::nextLine()".
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    //    bar1();\n"
+		"\n"
+		"    /* */ bar2();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    //    bar1();\n"
+		"    /* */ bar2();\n"
+		"}\n";
+	char options[] = "delete-empty-lines, break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(DeleteEmptyLines, BreakBlocksComment4)
+{
+	// delete-empty-lines (-x) with break-blocks (-f).
+	// The empty line should NOT be deleted.
+	// Test mixing comments and line comments.
+	// The combination of empty lines and comments caused an
+	// "assert(peekStart == 0)" failure in "ASStreamIterator<T>::nextLine()".
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    //    bar1();\n"
+		"\n"
+		"    /* */   if (isBar)\n"
+		"        bar2();\n"
+		"}\n";
+	char options[] = "delete-empty-lines, break-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Fill Empty Lines
 //-------------------------------------------------------------------------

@@ -13,25 +13,20 @@ import subprocess
 import sys
 import time
 
-# global variables ------------------------------------------------------------
-
-# select one of the following
-# use sourceOnly for speed
-sourceOnly = True
-#sourceOnly = False
-
 # -----------------------------------------------------------------------------
 
 def extract_project(project):
 	"""Call the procedure to extract the requested project.
 	   The main processing procedure called by other functions.
 	"""
-	if not sourceOnly:
+	if not libastyle.SOURCE_ONLY:
 		print "extracting ALL files"
 	if project == libastyle.CODEBLOCKS:
 		extract_codeblocks()
 	elif project == libastyle.CODELITE:
 		extract_codelite()
+	elif project == libastyle.DRJAVA:
+		extract_drjava()
 	elif project == libastyle.JEDIT:
 		extract_jedit()
 	elif project == libastyle.KDEVELOP:
@@ -57,7 +52,7 @@ def call_7zip(filepath, outdir, fileext):
 	print "extract " + prtfile
 	exepath = libastyle.get_7zip_path()
 	extract = [exepath, "x", "-ry", "-o" + outdir, filepath]
-	if sourceOnly:
+	if libastyle.SOURCE_ONLY:
 		extract.extend(fileext)
 	filename = libastyle.get_temp_directory() + "/extract.txt"
 	outfile = open(filename, 'w')
@@ -98,7 +93,7 @@ def extract_codeblocks():
 	"""
 	remove_test_directory("codeblocks-*")
 	remove_test_directory("[Cc]ode[Bb]locks")
-	extract_test_tar("codeblocks*.gz", "codeblocks*.tar", ["*.cpp", "*.h"])
+	extract_test_tar("codeblocks*.bz2", "codeblocks*.tar", ["*.cpp", "*.h"])
 	rename_test_directory("codeblocks-*", "CodeBlocks")
 
 # -----------------------------------------------------------------------------
@@ -110,6 +105,16 @@ def extract_codelite():
 	remove_test_directory("[Cc]ode[Ll]ite")
 	extract_test_tar("codelite*.gz", "codelite*.tar", ["*.cpp", "*.cxx", "*.h"])
 	rename_test_directory("codelite-*", "CodeLite")
+
+# -----------------------------------------------------------------------------
+
+def extract_drjava():
+	"""Extract drjava files from archive to test directory.
+	"""
+	remove_test_directory("drjava-*")
+	remove_test_directory("[Dd]r[Jj]ava")
+	extract_test_zip("drjava*.zip", "", ["*.java"])
+	rename_test_directory("drjava-*", "DrJava")
 
 # -----------------------------------------------------------------------------
 
@@ -218,7 +223,7 @@ def extract_test_zip(pattern, dirname, fileext):
 		libastyle.system_exit("No zip to extract")
 	if len(files) > 1:
 		libastyle.system_exit(str(files) + "\nToo many zips to extract")
-	call_7zip(files[0], testdir + dirname, fileext)
+	call_7zip(files[0], testdir + dirname.strip(), fileext)
 
 # -----------------------------------------------------------------------------
 
@@ -233,7 +238,7 @@ def remove_test_directory(pattern):
 		prtfile = strip_directory_prefix(file)
 		print "remove " + prtfile
 		# removed the directory - this is a problem with Windows only
-		imax = 2
+		imax = 5
 		for i in range(0, imax):
 			shutil.rmtree(file, True)
 			if not os.path.isdir(file): break
@@ -258,7 +263,11 @@ def rename_test_directory(source, destination):
 	try:
 		shutil.move(dir, destpath)
 	except WindowsError as e:
-		print e
+		time.sleep(2)
+		try:
+			shutil.move(dir, destpath)
+		except WindowsError as e:
+			libastyle.system_exit(e.value)
 
 # -----------------------------------------------------------------------------
 
@@ -288,9 +297,10 @@ def test_all_compressed():
 	print
 	#extract_project(libastyle.CODEBLOCKS); print
 	#extract_project(libastyle.CODELITE); print
+	extract_project(libastyle.DRJAVA); print
 	#extract_project(libastyle.JEDIT); print
 	#extract_project(libastyle.KDEVELOP); print
-	extract_project(libastyle.MONODEVELOP); print
+	#extract_project(libastyle.MONODEVELOP); print
 	#extract_project(libastyle.SCITE); print
 	#extract_project(libastyle.SHARPDEVELOP); print
 	#extract_project(libastyle.TESTPROJECT); print
@@ -308,9 +318,10 @@ def test_all_tarballs():
 	print
 	#extract_project(libastyle.CODEBLOCKS); print
 	#extract_project(libastyle.CODELITE); print
+	# no tarball for DRJAVA
 	#extract_project(libastyle.JEDIT); print
 	#extract_project(libastyle.KDEVELOP); print
-	extract_project(libastyle.MONODEVELOP); print
+	#extract_project(libastyle.MONODEVELOP); print
 	# no tarball for SCITE
 	# no tarball for SHARPDEVELOP
 	#extract_project(libastyle.TESTPROJECT); print

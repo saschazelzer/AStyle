@@ -539,7 +539,7 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath="..\..\..\srcx\gtest-options.txt"
+			RelativePath="..\..\..\srcx\gtest-options.lst"
 			>
 		</File>
 	</Files>

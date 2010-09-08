@@ -15,11 +15,12 @@ else: import termios, tty				# Linux only for getch()
 # test project IDs
 CODEBLOCKS   = "CodeBlocks"
 CODELITE     = "CodeLite"
-JEDIT        = "jEdit"
+DRJAVA       = "DrJava"			# Java
+JEDIT        = "jEdit"			# Java
 KDEVELOP     = "KDevelop"
-MONODEVELOP  = "MonoDevelop"
+MONODEVELOP  = "MonoDevelop"	# C#
 SCITE        = "SciTE"
-SHARPDEVELOP = "SharpDevelop"
+SHARPDEVELOP = "SharpDevelop"	# C#
 TESTPROJECT  = "TestProject"
 
 # astyle test options
@@ -37,10 +38,18 @@ OPT2 = "-CSKGNLwM60m3yeJoOcfpPHUxEk2"
 #     break-blocks (f,F), pad-oper (p), pad-paren (P), delete-empty-lines (x)
 OPT3 = "-CSKNLwM80m1yeoOcHUEk3"
 
+# extract options, use True for speed
+#SOURCE_ONLY = True
+SOURCE_ONLY = False
+
 # compile configurations
 DEBUG   = "debug"
 RELEASE = "release"
 STATIC  = "static"
+
+# Visual Studio release
+#VS_RELEASE = "vs2008"
+VS_RELEASE = "vs2010"
 
 # -----------------------------------------------------------------------------
 
@@ -157,7 +166,7 @@ def get_astyle_build_directory(config):
 		system_exit("Bad arg in get_astyleexe_directory(): " + config)
 	astyledir = get_astyle_directory()
 	if os.name == "nt":
-		subpath = "/build/vs2008"
+		subpath = "/build/" + VS_RELEASE
 	else:
 		subpath = "/build/gcc"
 	astylepath = astyledir + subpath
@@ -191,7 +200,7 @@ def get_astyleexe_directory(config, endsep=False):
 		system_exit("Bad arg in get_astyleexe_directory(): " + config)
 	astyledir = get_astyle_directory()
 	if os.name == "nt":
-		subpath = "/build/vs2008/bin"
+		subpath = "/build/" + VS_RELEASE + "/bin"
 		if config == DEBUG:
 			subpath = subpath.replace("bin", "debug")
 		elif  config == STATIC:
@@ -340,6 +349,8 @@ def get_project_excludes(project):
 		excludes.append("--exclude=propgrid/propgrid.cpp")
 	elif project == CODELITE:
 		None
+	elif project == DRJAVA:
+		None
 	elif project == JEDIT:
 		None
 	elif project == KDEVELOP:
@@ -373,6 +384,8 @@ def get_project_filepaths(project):
 		filepaths.append(testDirectory + "/CodeLite/*.cpp")
 		filepaths.append(testDirectory + "/CodeLite/*.cxx")
 		filepaths.append(testDirectory + "/CodeLite/*.h")
+	elif project == DRJAVA:
+		filepaths.append(testDirectory + "/DrJava/*.java")
 	elif project == JEDIT:
 		filepaths.append(testDirectory + "/jEdit/*.java")
 	elif project == KDEVELOP:

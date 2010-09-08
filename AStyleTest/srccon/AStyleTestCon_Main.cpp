@@ -477,7 +477,7 @@ void printI18nMessage()
 {
 	// print i18n message for Windows tests
 	if (!g_testedJapanese || !g_testedGreek || !g_testedRussian
-			|| !g_testedMultiLanguage || g_testedCodepage1252)
+			|| !g_testedMultiLanguage || !g_testedCodepage1252)
 	{
 		printf("%c", '\n');
 		// print tested

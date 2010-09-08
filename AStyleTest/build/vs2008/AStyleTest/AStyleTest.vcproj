@@ -512,7 +512,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\..\src\AStyleTest_BracketsCpp.cpp"
+				RelativePath="..\..\..\src\AStyleTest_BracketsCpp1.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\AStyleTest_BracketsCpp2.cpp"
 				>
 			</File>
 			<File
@@ -521,6 +525,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\AStyleTest_BracketsSharp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\AStyleTest_BugFix.cpp"
 				>
 			</File>
 			<File
@@ -587,7 +595,7 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath="..\..\..\srcx\gtest-options.txt"
+			RelativePath="..\..\..\srcx\gtest-options.lst"
 			>
 		</File>
 	</Files>

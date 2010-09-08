@@ -19,20 +19,14 @@ import time
 
 # global variables ------------------------------------------------------------
 
-# select one of the following from libastyle
-#   CODEBLOCKS
-#   CODELITE
-#   DRJAVA
-#   JEDIT
-#   KDEVELOP
-#   MONODEVELOP
-#  SCITE
-#  SHARPDEVELOP
-#  TESTPROJECT
-project = libastyle.MONODEVELOP
+# enter the following
+# JBoss.org ***********************************
+archive = "Greenfoot-source-1.5.6.zip"
+project = "Greenfoot-source-1.5.6"		# primary directory in archive
+source = [ "*.java" ]					# extensions to format
 
 # select OPT0 thru OPT3, or use customized options
-options = libastyle.OPT3
+options = libastyle.OPT1
 
 # scite formatting options
 #options = "-tapOHUk3"
@@ -47,6 +41,17 @@ formatOLD = True
 
 # -----------------------------------------------------------------------------
 
+# ProjectsTested
+#
+# FileZilla			C++
+# Greenfoot			**Java
+# Notepad++			C++
+# SportsTracker		Java
+# TestDisk			C
+
+# -----------------------------------------------------------------------------
+
+
 def process_files():
 	"""Main processing function.
 	"""
@@ -58,13 +63,13 @@ def process_files():
 	os.chdir(libastyle.get_file_py_directory())
 	libastyle.build_astyle_executable(get_astyle_config())
 	verify_astyle_executables(astyleexe1, astyleexe2)
-	filepaths = libastyle.get_project_filepaths(project)
-	excludes = libastyle.get_project_excludes(project)
+	filepaths = get_file_paths()
+	excludes = []
 	testfile = "test.txt"
 	# run test 1
 	if formatOLD:
 		print "\nExtracting Test 1"
-		libextract.extract_project(project)
+		extract_project()
 		print_test_header(1, astyleexe1)
 		astyle = set_astyle_args(filepaths, excludes, astyleexe1)
 		print_formatting_message(astyle, project)
@@ -78,7 +83,7 @@ def process_files():
 
 	# run test 2
 	print "\nExtracting Test 2"
-	libextract.extract_project(project)
+	extract_project()
 	print_test_header(2, astyleexe2)
 	astyle = set_astyle_args(filepaths, excludes, astyleexe2)
 	print_formatting_message(astyle, project)
@@ -176,6 +181,34 @@ def compare_formatted_files(filepaths, numExcludes):
 
 # -----------------------------------------------------------------------------
 
+def extract_project():
+	"""Extract files from archive to test directory.
+	"""
+	tarfile, ext = os.path.splitext(archive)
+	print tarfile
+	if ext == ".bz2":
+		extract_test_tar(tarfile)
+	if ext == ".zip" or ext == ".7z":
+		extract_test_zip(tarfile)
+	
+# -----------------------------------------------------------------------------
+
+def extract_test_tar(tarfile):
+	"""Extract tar files from archive to test directory.
+	"""
+	libextract.remove_test_directory(project)
+	libextract.extract_test_tar(archive, tarfile, source)
+
+# -----------------------------------------------------------------------------
+
+def extract_test_zip(tarfile):
+	"""Extract zip files, including 7-zip, from archive to test directory.
+	"""
+	libextract.remove_test_directory(project)
+	libextract.extract_test_zip(archive, tarfile, source)
+
+# -----------------------------------------------------------------------------
+
 def get_astyle_config():
 	"""Get the build configuration from the executalbe name.
 	"""
@@ -206,6 +239,17 @@ def get_file_compare_list(filepath, oldpath):
 	else:
 		fclist = ["diff", "-q", "-a", filepath, oldpath]
 	return fclist
+	
+# -----------------------------------------------------------------------------
+
+def get_file_paths():
+	"""Build filepaths variable from globals.
+	"""
+	filepaths = []
+	for wildcard in source:
+		filepaths.append(libastyle.get_test_directory(True) 
+		                 + project + '/' +wildcard)
+	return filepaths
 
 # -----------------------------------------------------------------------------
 

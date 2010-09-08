@@ -899,7 +899,6 @@ TEST(KeepOneLineBlocks, Sans2)
 TEST(KeepOneLineBlocks, SansMultipleBrackets)
 {
 	// test without keep one line blocks with multiple brackets
-	// TODO: this is wrong on the next-to-last line
 	char textIn[] =
 		"\npublic class FooClass\n"
 		"{\n"
@@ -920,7 +919,8 @@ TEST(KeepOneLineBlocks, SansMultipleBrackets)
 		"    }\n"
 		"\n"
 		"    public event EventHandler Cancelled {\n"
-		"        add { } remove { } }\n"
+		"        add { } remove { }\n"
+		"    }\n"
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);

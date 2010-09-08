@@ -6,9 +6,9 @@
 # Changes will cause files in the second run to be formatted.
 # The differences can be checked with a diff program.
 
-import libastyle		#local directory
-import libextract		#local directory
-import libtest			#local directory
+import libastyle		# local directory
+import libextract		# local directory
+import libtest			# local directory
 import locale
 import os
 import subprocess
@@ -20,16 +20,17 @@ import time
 # select one of the following from libastyle
 #   CODEBLOCKS
 #   CODELITE
+#   DRJAVA
 #   JEDIT
 #   KDEVELOP
 #   MONODEVELOP
 #  SCITE
 #  SHARPDEVELOP
 # TESTPROJECT
-project = libastyle.SCITE
+project = libastyle.DRJAVA
 
 # select OPT0 thru OPT3, or use customized options
-options = libastyle.OPT0
+options = libastyle.OPT1
 
 # executables for test
 astyleexe1 = "astyle25b"
@@ -48,8 +49,7 @@ def process_files():
 	starttime = time.time()
 	libastyle.set_text_color()
 	locale.setlocale(locale.LC_ALL, "")
-	print "Testing " +  project
-	print "Using {0} {1}".format(astyleexe1, astyleexe2)
+	print_run_header()
 	os.chdir(libastyle.get_file_py_directory())
 	libastyle.build_astyle_executable(get_astyle_config())
 	verify_astyle_executables(astyleexe1, astyleexe2)
@@ -123,10 +123,10 @@ def print_astyle_totals(filename):
 	# the native locale should be set to get the numeric formatting
 	formatted, totfiles, min, sec = libtest.get_astyle_totals(filename)
 	if min == 0:
-		printline = "{0:n} formatted, {1:n} files, {2} seconds"
+		printline = "{0:n} formatted; {1:n} files; {2} seconds"
 		print printline.format(formatted, totfiles, sec)
 	else:
-		printline = "{0:n} formatted, {1:n} files, {2} min {3} seconds"
+		printline = "{0:n} formatted; {1:n} files; {2} min {3} seconds"
 		print printline.format(formatted, totfiles, min, sec)
 	return (formatted, totfiles)
 
@@ -146,7 +146,19 @@ def print_formatting_message(args, project):
 
 # -----------------------------------------------------------------------------
 
-def print_run_total(formatted, totfiles, starttime):
+def print_run_header():
+	"""Print run header information.
+	"""
+	print "Testing {0}".format(project)
+	if os.name == "nt":
+		print "Using ({0}) {1} {2}".format(libastyle.VS_RELEASE,
+				astyleexe1, astyleexe2)
+	else:
+		print "Using {0} {1}".format(astyleexe1, astyleexe2)
+
+# -----------------------------------------------------------------------------
+
+def print_run_total(starttime):
 	"""Print total information for the entire run.
 	"""
 	print
@@ -155,9 +167,9 @@ def print_run_total(formatted, totfiles, starttime):
 	min = runtime / 60
 	sec = runtime % 60
 	if min == 0:
-		print "{0} seconds total".format(sec)
+		print "{0} seconds total run time".format(sec)
 	else:
-		print "{0} min {1} seconds total".format(min, sec)
+		print "{0} min {1} seconds total run time".format(min, sec)
 	print
 	print "{0} diffs in {1} files".format(formatted, totfiles)
 	print

@@ -276,7 +276,7 @@
     <ClInclude Include="..\..\..\srcx\TersePrinter.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\srcx\gtest-options.txt" />
+    <None Include="..\..\..\srcx\gtest-options.lst" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AStyleTestCon\AStyleConLib.vcxproj">

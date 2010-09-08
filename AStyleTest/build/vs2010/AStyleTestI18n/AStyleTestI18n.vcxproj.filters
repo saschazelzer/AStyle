@@ -33,6 +33,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\srcx\gtest-options.txt" />
+    <None Include="..\..\..\srcx\gtest-options.lst" />
   </ItemGroup>
 </Project>

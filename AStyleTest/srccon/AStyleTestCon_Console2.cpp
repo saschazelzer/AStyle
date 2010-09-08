@@ -1353,6 +1353,51 @@ TEST(Other, ErrorExitWihMessage)
 }
 
 //----------------------------------------------------------------------------
+// AStyle BugFix tests
+//----------------------------------------------------------------------------
+
+TEST(BugFix, V201_CheckSumError)
+// Test with --break-blocks and --delete-empty-lines and missing closing bracket
+// Caused a checksum assert failure. This must be run in debug configuration.
+{
+	char textIn[] =
+		// this file is missing a closing bracket
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isBar)\n"
+		"        fooBar1();\n"
+		"\n"
+		"    fooBar2();\n";
+
+	// initialization
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
+	g_console->setIsQuiet(true);		// change this to see results
+	g_console->setNoBackup(true);
+
+	// write test file
+	cleanTestDirectory(getTestDirectory());
+	string fileNames = getTestDirectory() + "/test1.cpp";
+	g_console->standardizePath(fileNames);
+	createTestFile(fileNames, textIn);
+
+	// set the formatter options
+	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
+	astyleOptionsVector.push_back("--break-blocks");
+	astyleOptionsVector.push_back("--delete-empty-lines");
+	// process the file
+	g_console->processOptions(astyleOptionsVector);
+	g_console->processFiles();
+
+	// Will actually get an assert error in astyle_main.cpp if this is not true.
+	EXPECT_EQ(0, formatter.getChecksumDiff());
+
+	deleteConsoleGlobalObject();
+}
+
+
+//----------------------------------------------------------------------------
 
 }  // namespace
 

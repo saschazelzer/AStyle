@@ -18,7 +18,8 @@ set options= -tbHCO  -Q --options=none
 set optionsh= -tlHCO  -Q --options=none
 
 echo Formatting AStyle
-echo source%options%  headers%optionsh%
+echo source %options%  
+echo headers%optionsh%
 echo -
 
 %prog%  %options%  ..\..\AStyle\src\*.cpp

@@ -19,7 +19,8 @@ set options= -TbHCOw  -Q --options=none
 set optionsh= -TlHCOw  -Q --options=none
 
 echo Formatting AStyleTest
-echo source%options%  headers%optionsh%
+echo source %options%
+echo headers%optionsh%
 echo -
 
 %prog%  %options%  ..\src\*.cpp

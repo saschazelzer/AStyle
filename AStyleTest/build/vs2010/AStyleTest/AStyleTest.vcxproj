@@ -302,9 +302,11 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\AStyleTest_BracketsCpp.cpp" />
+    <ClCompile Include="..\..\..\src\AStyleTest_BracketsCpp1.cpp" />
+    <ClCompile Include="..\..\..\src\AStyleTest_BracketsCpp2.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_BracketsJava.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_BracketsSharp.cpp" />
+    <ClCompile Include="..\..\..\src\AStyleTest_BugFix.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_Format.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_Indent.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_LeakFinder.cpp" />
@@ -323,7 +325,7 @@
     <ClInclude Include="..\..\..\srcx\TersePrinter.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\srcx\gtest-options.txt" />
+    <None Include="..\..\..\srcx\gtest-options.lst" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GTestLib\GTestLib.vcxproj">
