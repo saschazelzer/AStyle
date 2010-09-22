@@ -11,7 +11,7 @@ import sys
 # global variables ------------------------------------------------------------
 
 # release number for distribution file
-release = "1.24"
+release = "2.01"
 # inut from AStyle directory
 astyleDir = libastyle.get_astyle_directory()
 # output to AStyle directory
@@ -162,15 +162,19 @@ def build_windows_distribution():
 	print "*             Copying Windows Distribution              *"
 	print "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 	distBase = baseDir + "/DistWindows"
-	distAStyle = distBase + "/astyle"
+	distAStyle = distBase + "/AStyle"
 	os.makedirs(distAStyle)
 
 	# Windows includes an executable in the bin directory
 	libastyle.build_astyle_executable(libastyle.STATIC)
 	distAStyleBin = distAStyle +  "/bin/"
 	os.mkdir(distAStyleBin)
-	shutil.copy(astyleDir + "/build/vs2008/binstatic/AStyle.exe", distAStyleBin)
-	print "exe copied"
+	astyle_build_directory = libastyle.get_astyle_build_directory(libastyle.STATIC)
+	shutil.copy(astyle_build_directory + "/binstatic/AStyle.exe", distAStyleBin)
+	vsi = astyle_build_directory.find("vs20")
+	if vsi != -1:
+		vsdir = astyle_build_directory[vsi:vsi+6]
+	print "exe copied ({0})".format(vsdir)
 	
 	# doc directory
 	distDoc = distAStyle + "/doc/"
@@ -186,7 +190,7 @@ def build_windows_distribution():
 	astyleBuildDir = astyleDir + "/build"
 	distAStyleBuild = distAStyle +  "/build"
 	os.mkdir(distAStyleBuild)
-	copy_vs2003_directory(astyleBuildDir, distAStyleBuild)
+	# copy_vs2003_directory(astyleBuildDir, distAStyleBuild)
 	copy_vs20xx_directories(astyleBuildDir, distAStyleBuild)
 	
 	# create zip
@@ -269,14 +273,14 @@ def copy_astyle_src(distSrc, toDos=False):
 
 # -----------------------------------------------------------------------------
 
-def copy_vs2003_directory(astyleBuildDir, distAStyleBuild):
-	"""Copy the build/vs2003 directory to the distribution directory.
-	"""
-	distAStyleVS2003 = distAStyleBuild +  "/vs2003/"
-	os.mkdir(distAStyleVS2003)
-	shutil.copy(astyleBuildDir + "/vs2003/AStyle.sln", distAStyleVS2003)
-	shutil.copy(astyleBuildDir + "/vs2003/AStyle.vcproj", distAStyleVS2003)
-	print "build/vs2003 copied"
+#~ def copy_vs2003_directory(astyleBuildDir, distAStyleBuild):
+	#~ """Copy the build/vs2003 directory to the distribution directory.
+	#~ """
+	#~ distAStyleVS2003 = distAStyleBuild +  "/vs2003/"
+	#~ os.mkdir(distAStyleVS2003)
+	#~ shutil.copy(astyleBuildDir + "/vs2003/AStyle.sln", distAStyleVS2003)
+	#~ shutil.copy(astyleBuildDir + "/vs2003/AStyle.vcproj", distAStyleVS2003)
+	#~ print "build/vs2003 copied"
 
 # -----------------------------------------------------------------------------
 

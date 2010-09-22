@@ -1284,19 +1284,19 @@ TEST(Other, GetNumberFormat)
 	number = g_console->getNumberFormat(123456789);
 	EXPECT_EQ(result, number) << "english locale (assumes default formatting)";
 
-	// LINUX German locale
-	bool deOk = setGlobalLocale("german");
-	ASSERT_TRUE(deOk) << "Cannot set German locale";
-	result = "123.456.789";
-	number = g_console->getNumberFormat(123456789);
-	EXPECT_EQ(result, number) << "german locale (assumes default formatting)";
-
 	// LINUX French locale
 	bool frOk = setGlobalLocale("french");
 	ASSERT_TRUE(frOk) << "Cannot set French locale";
 	result = "123 456 789";
 	number = g_console->getNumberFormat(123456789);
 	EXPECT_EQ(result, number) << "french locale (assumes default formatting)";
+
+	// LINUX German locale
+	bool deOk = setGlobalLocale("german");
+	ASSERT_TRUE(deOk) << "Cannot set German locale";
+	result = "123.456.789";
+	number = g_console->getNumberFormat(123456789);
+	EXPECT_EQ(result, number) << "german locale (assumes default formatting)";
 
 	// LINUX French Swiss locale
 	// Linux currently does not have a Swiss locale

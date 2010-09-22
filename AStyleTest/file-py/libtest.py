@@ -36,7 +36,7 @@ def diff_formatted_files(filepaths, diffOLD=False):
 		msg = "Run {0} from the console to view the diffs"
 		print msg.format(diffprog)
 		return
-	print "press m or n to skip, z to end"
+	print "Press m or n to skip, z to end"
 	numin = 0
 	processed = 0
 	for filepath in filepaths:

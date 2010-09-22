@@ -36,6 +36,10 @@ options = libastyle.OPT1
 astyleexe1 = "astyle25b"
 astyleexe2 = "astyled"
 
+# extract all files options, use False for speed
+#all_files_option = True
+all_files_option = False
+
 # select one of the following to unarchive files
 extractfiles = True
 #extractfiles = False
@@ -58,7 +62,7 @@ def process_files():
 	testfile = "test.txt"
 	if extractfiles:
 		print "\nExtracting files"
-		libextract.extract_project(project)
+		libextract.extract_project(project, all_files_option)
 
 	# run test 1
 	print_test_header(1, astyleexe1)
@@ -152,9 +156,19 @@ def print_run_header():
 	print "Testing {0}".format(project)
 	if os.name == "nt":
 		print "Using ({0}) {1} {2}".format(libastyle.VS_RELEASE,
-				astyleexe1, astyleexe2)
+				astyleexe1, astyleexe2),
 	else:
-		print "Using {0} {1}".format(astyleexe1, astyleexe2)
+		print "Using {0} {1}".format(astyleexe1, astyleexe2),
+	if options == libastyle.OPT0:
+		print "OPT0" 
+	elif options == libastyle.OPT1:
+		print "OPT1" 
+	elif options == libastyle.OPT2:
+		print "OPT2"
+	elif options == libastyle.OPT3:
+		print "OPT3" 
+	else:
+		print options
 
 # -----------------------------------------------------------------------------
 

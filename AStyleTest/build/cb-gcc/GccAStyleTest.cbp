@@ -22,11 +22,10 @@
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-pthread" />
-					<Add library="bin/libgtestd.a" />
+					<Add library="gtest" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -45,12 +44,11 @@
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 					<Add option="-pthread" />
-					<Add library="bin/libgtest.a" />
+					<Add library="gtest" />
 				</Linker>
 			</Target>
 			<Target title="Coverage">
@@ -72,13 +70,12 @@
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg" />
 					<Add option="-pthread" />
 					<Add library="gcov" />
-					<Add library="bin/libgtestd.a" />
+					<Add library="gtest" />
 				</Linker>
 			</Target>
 		</Build>
@@ -90,9 +87,11 @@
 		<Unit filename="../../../AStyle/src/astyle_main.cpp" />
 		<Unit filename="../../../AStyle/src/astyle_main.h" />
 		<Unit filename="../../src/AStyleTest.h" />
-		<Unit filename="../../src/AStyleTest_BracketsCpp.cpp" />
+		<Unit filename="../../src/AStyleTest_BracketsCpp1.cpp" />
+		<Unit filename="../../src/AStyleTest_BracketsCpp2.cpp" />
 		<Unit filename="../../src/AStyleTest_BracketsJava.cpp" />
 		<Unit filename="../../src/AStyleTest_BracketsSharp.cpp" />
+		<Unit filename="../../src/AStyleTest_BugFix.cpp" />
 		<Unit filename="../../src/AStyleTest_Format.cpp" />
 		<Unit filename="../../src/AStyleTest_Indent.cpp" />
 		<Unit filename="../../src/AStyleTest_Main.cpp" />

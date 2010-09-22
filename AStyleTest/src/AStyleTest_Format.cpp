@@ -2627,6 +2627,27 @@ TEST(AlignPointerNone, ScopeResolution)
 	delete [] textOut;
 }
 
+TEST(AlignPointerNone, PadParenOutside)
+{
+	// should not change scope resolution operator
+	char text[] =
+		"\nBOOL RegisterServer() {\n"
+		"    static DOREGSTRUCT ClsidEntries[] = {\n"
+		"        { ShowIcon, (LPTSTR)& showIcon},\n"
+		"        { Dynamic,  (LPTSTR) & isDynamic},\n"
+		"        { Maxtext,  (LPTSTR) &maxText},\n"
+		"        { IconID,   (LPTSTR)&iconID},\n"
+		"    };\n"
+		"}";
+	char options[] = "pad-paren-out";
+	char* textOut1 = AStyleMain(text, options, errorHandler, memoryAlloc);
+	// format twice to be sure an extra space is not added
+	char* textOut = AStyleMain(textOut1, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut1;
+	delete [] textOut;
+}
+
 TEST(AlignPointerNone, UnpadParen)
 {
 	// unpad-paren should NOT delete space padding
@@ -3139,6 +3160,36 @@ TEST(AlignPointerType, ScopeResolution)
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, PadParenOutside)
+{
+	// should not change scope resolution operator
+	char textIn[] =
+		"\nBOOL RegisterServer() {\n"
+		"    static DOREGSTRUCT ClsidEntries[] = {\n"
+		"        { ShowIcon, (LPTSTR)& showIcon},\n"
+		"        { Dynamic,  (LPTSTR) & isDynamic},\n"
+		"        { Maxtext,  (LPTSTR) &maxText},\n"
+		"        { IconID,   (LPTSTR)&iconID},\n"
+		"    };\n"
+		"}";
+	char text[] =
+		"\nBOOL RegisterServer() {\n"
+		"    static DOREGSTRUCT ClsidEntries[] = {\n"
+		"        { ShowIcon, (LPTSTR)& showIcon},\n"
+		"        { Dynamic,  (LPTSTR)& isDynamic},\n"
+		"        { Maxtext,  (LPTSTR)& maxText},\n"
+		"        { IconID,   (LPTSTR)& iconID},\n"
+		"    };\n"
+		"}";
+	char options[] = "align-pointer=type, pad-paren-out";
+	char* textOut1 = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	// format twice to be sure an extra space is not added
+	char* textOut = AStyleMain(textOut1, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut1;
 	delete [] textOut;
 }
 
@@ -3716,6 +3767,36 @@ TEST(AlignPointerMiddle, ScopeResolution)
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, PadParenOutside)
+{
+	// should not change scope resolution operator
+	char textIn[] =
+		"\nBOOL RegisterServer() {\n"
+		"    static DOREGSTRUCT ClsidEntries[] = {\n"
+		"        { ShowIcon, (LPTSTR)& showIcon},\n"
+		"        { Dynamic,  (LPTSTR) & isDynamic},\n"
+		"        { Maxtext,  (LPTSTR) &maxText},\n"
+		"        { IconID,   (LPTSTR)&iconID},\n"
+		"    };\n"
+		"}";
+	char text[] =
+		"\nBOOL RegisterServer() {\n"
+		"    static DOREGSTRUCT ClsidEntries[] = {\n"
+		"        { ShowIcon, (LPTSTR) & showIcon},\n"
+		"        { Dynamic,  (LPTSTR) & isDynamic},\n"
+		"        { Maxtext,  (LPTSTR) & maxText},\n"
+		"        { IconID,   (LPTSTR) & iconID},\n"
+		"    };\n"
+		"}";
+	char options[] = "align-pointer=middle, pad-paren-out";
+	char* textOut1 = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	// format twice to be sure an extra space is not added
+	char* textOut = AStyleMain(textOut1, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut1;
 	delete [] textOut;
 }
 
@@ -4343,6 +4424,36 @@ TEST(AlignPointerName, ScopeResolution)
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, PadParenOutside)
+{
+	// test align-pointer with pad-paren-out
+	char textIn[] =
+		"\nBOOL RegisterServer() {\n"
+		"    static DOREGSTRUCT ClsidEntries[] = {\n"
+		"        { ShowIcon, (LPTSTR)& showIcon},\n"
+		"        { Dynamic,  (LPTSTR) & isDynamic},\n"
+		"        { Maxtext,  (LPTSTR) &maxText},\n"
+		"        { IconID,   (LPTSTR)&iconID},\n"
+		"    };\n"
+		"}";
+	char text[] =
+		"\nBOOL RegisterServer() {\n"
+		"    static DOREGSTRUCT ClsidEntries[] = {\n"
+		"        { ShowIcon, (LPTSTR) &showIcon},\n"
+		"        { Dynamic,  (LPTSTR) &isDynamic},\n"
+		"        { Maxtext,  (LPTSTR) &maxText},\n"
+		"        { IconID,   (LPTSTR) &iconID},\n"
+		"    };\n"
+		"}";
+	char options[] = "align-pointer=name, pad-paren-out";
+	char* textOut1 = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	// format twice to be sure an extra space is not added
+	char* textOut = AStyleMain(textOut1, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut1;
 	delete [] textOut;
 }
 

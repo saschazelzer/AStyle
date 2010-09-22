@@ -13,13 +13,19 @@ import subprocess
 import sys
 import time
 
+# global variables ------------------------------------------------------------
+
+# set by extract_project function
+extract_all_files = False
+
 # -----------------------------------------------------------------------------
 
-def extract_project(project):
+def extract_project(project, all_files_option):
 	"""Call the procedure to extract the requested project.
 	   The main processing procedure called by other functions.
 	"""
-	if not libastyle.SOURCE_ONLY:
+	if all_files_option == True:
+		extract_all_files = True
 		print "extracting ALL files"
 	if project == libastyle.CODEBLOCKS:
 		extract_codeblocks()
@@ -52,7 +58,7 @@ def call_7zip(filepath, outdir, fileext):
 	print "extract " + prtfile
 	exepath = libastyle.get_7zip_path()
 	extract = [exepath, "x", "-ry", "-o" + outdir, filepath]
-	if libastyle.SOURCE_ONLY:
+	if extract_all_files:
 		extract.extend(fileext)
 	filename = libastyle.get_temp_directory() + "/extract.txt"
 	outfile = open(filename, 'w')
@@ -285,8 +291,7 @@ def test_all_compressed():
 	"""Test extracts for all compressed files.
 	"""
 	starttime = time.time()
-	print "TEST COMPRESSED"
-	print
+	print "TEST COMPRESSED\n"
 	arcdir = libastyle.get_archive_directory()
 	files = glob.glob(arcdir  + "/*.tar")
 	for file in files:
@@ -295,15 +300,15 @@ def test_all_compressed():
 		print "remove tar " + prtfile
 		os.remove(file)
 	print
-	#extract_project(libastyle.CODEBLOCKS); print
-	#extract_project(libastyle.CODELITE); print
-	extract_project(libastyle.DRJAVA); print
-	#extract_project(libastyle.JEDIT); print
-	#extract_project(libastyle.KDEVELOP); print
-	#extract_project(libastyle.MONODEVELOP); print
-	#extract_project(libastyle.SCITE); print
-	#extract_project(libastyle.SHARPDEVELOP); print
-	#extract_project(libastyle.TESTPROJECT); print
+	#extract_project(libastyle.CODEBLOCKS, False); print
+	#extract_project(libastyle.CODELITE, False); print
+	#extract_project(libastyle.DRJAVA, False); print
+	#extract_project(libastyle.JEDIT, False); print
+	#extract_project(libastyle.KDEVELOP, False); print
+	#extract_project(libastyle.MONODEVELOP, False); print
+	#extract_project(libastyle.SCITE, False); print
+	extract_project(libastyle.SHARPDEVELOP, False); print
+	extract_project(libastyle.TESTPROJECT, False); print
 	stoptime = time.time()
 	test_print_time(starttime, stoptime); print
 
@@ -314,17 +319,16 @@ def test_all_tarballs():
 	    Assumes tarballs are present in the archive.
 	"""
 	starttime = time.time()
-	print "TEST TARBALLS"
-	print
-	#extract_project(libastyle.CODEBLOCKS); print
-	#extract_project(libastyle.CODELITE); print
+	print "TEST TARBALLS\n"
+	extract_project(libastyle.CODEBLOCKS, False); print
+	extract_project(libastyle.CODELITE, False); print
 	# no tarball for DRJAVA
-	#extract_project(libastyle.JEDIT); print
-	#extract_project(libastyle.KDEVELOP); print
-	#extract_project(libastyle.MONODEVELOP); print
+	extract_project(libastyle.JEDIT, False); print
+	extract_project(libastyle.KDEVELOP, False); print
+	extract_project(libastyle.MONODEVELOP, False); print
 	# no tarball for SCITE
 	# no tarball for SHARPDEVELOP
-	#extract_project(libastyle.TESTPROJECT); print
+	extract_project(libastyle.TESTPROJECT, False); print
 	stoptime = time.time()
 	test_print_time(starttime, stoptime)
 

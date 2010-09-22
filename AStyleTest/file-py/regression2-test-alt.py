@@ -20,13 +20,12 @@ import time
 # global variables ------------------------------------------------------------
 
 # enter the following
-# JBoss.org ***********************************
-archive = "Greenfoot-source-1.5.6.zip"
-project = "Greenfoot-source-1.5.6"		# primary directory in archive
-source = [ "*.java" ]					# extensions to format
+archive = "testdisk-6.11.tar.bz2"
+project = "testdisk-6.11"		# primary directory in archive
+source = ["*.c","*.h"]					# extensions to format
 
 # select OPT0 thru OPT3, or use customized options
-options = libastyle.OPT1
+options = libastyle.OPT3
 
 # scite formatting options
 #options = "-tapOHUk3"
@@ -43,9 +42,13 @@ formatOLD = True
 
 # ProjectsTested
 #
+# ### Fixed and Rechecked ###
+# CppCheck			C++
 # FileZilla			C++
-# Greenfoot			**Java
+# GMock				C++
+# Greenfoot			Java
 # Notepad++			C++
+# QuickSharp		C#
 # SportsTracker		Java
 # TestDisk			C
 
@@ -184,12 +187,16 @@ def compare_formatted_files(filepaths, numExcludes):
 def extract_project():
 	"""Extract files from archive to test directory.
 	"""
+	if not os.path.isfile(libastyle.get_archive_directory(True) + archive):
+		 libastyle.system_exit("Cannot find archive: " + archive)
 	tarfile, ext = os.path.splitext(archive)
 	print tarfile
-	if ext == ".bz2":
+	if ext == ".gz" or ext == ".bz2":
 		extract_test_tar(tarfile)
-	if ext == ".zip" or ext == ".7z":
+	elif ext == ".zip" or ext == ".7z":
 		extract_test_zip(tarfile)
+	else:
+		libastyle.system_exit("Cannot open archive: " + archive)
 	
 # -----------------------------------------------------------------------------
 
@@ -205,7 +212,8 @@ def extract_test_zip(tarfile):
 	"""Extract zip files, including 7-zip, from archive to test directory.
 	"""
 	libextract.remove_test_directory(project)
-	libextract.extract_test_zip(archive, tarfile, source)
+	# libextract.extract_test_zip(archive, tarfile, source)
+	libextract.extract_test_zip(archive, project, source)
 
 # -----------------------------------------------------------------------------
 
@@ -289,9 +297,19 @@ def print_run_header():
 	print "Testing {0}".format(project)
 	if os.name == "nt":
 		print "Using ({0}) {1} {2}".format(libastyle.VS_RELEASE,
-				astyleexe1, astyleexe2)
+				astyleexe1, astyleexe2),
 	else:
-		print "Using {0} {1}".format(astyleexe1, astyleexe2)
+		print "Using {0} {1}".format(astyleexe1, astyleexe2),
+	if options == libastyle.OPT0:
+		print "OPT0" 
+	elif options == libastyle.OPT1:
+		print "OPT1" 
+	elif options == libastyle.OPT2:
+		print "OPT2"
+	elif options == libastyle.OPT3:
+		print "OPT3" 
+	else:
+		print options
 
 # -----------------------------------------------------------------------------
 

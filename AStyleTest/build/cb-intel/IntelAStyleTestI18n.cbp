@@ -17,6 +17,7 @@
 					<Add option="-g" />
 					<Add option="-no-multibyte-chars" />
 					<Add option="-vec-report0" />
+					<Add option="-pthread" />
 					<Add option="-w1" />
 					<Add option="-DGTEST_HAS_TR1_TUPLE=1" />
 					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
@@ -24,10 +25,10 @@
 					<Add directory="../../srccon" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
-					<Add library="bin/libgtestd.a" />
+					<Add option="-pthread" />
+					<Add library="gtest" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -40,6 +41,7 @@
 					<Add option="-Wall" />
 					<Add option="-no-multibyte-chars" />
 					<Add option="-vec-report0" />
+					<Add option="-pthread" />
 					<Add option="-w1" />
 					<Add option="-DGTEST_HAS_TR1_TUPLE=1" />
 					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
@@ -48,11 +50,11 @@
 					<Add directory="../../srccon" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
+					<Add option="-pthread" />
 					<Add option="-s" />
-					<Add library="bin/libgtest.a" />
+					<Add library="gtest" />
 				</Linker>
 			</Target>
 		</Build>

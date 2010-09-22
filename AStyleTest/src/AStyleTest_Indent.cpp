@@ -1849,14 +1849,6 @@ TEST(IndentPreprocessor, Sans)
 {
 	// test preprocessor statements without indent preprocessor option
 	// they should not change
-	char textIn[] =
-		"\n#define Is_Bar(arg,a,b) \\\n"
-		"  (Is_Foo((arg), (a)) \\\n"
-		"   || Is_Foo((arg), (b)))\n"
-		"\n"
-		"#define Is_Bar(arg,a,b) \\\n"
-		"      (Is_Foo((arg), (a)) \\\n"
-		"             || Is_Foo((arg), (b)))\n";
 	char text[] =
 		"\n#define Is_Bar(arg,a,b) \\\n"
 		"  (Is_Foo((arg), (a)) \\\n"
@@ -1866,6 +1858,145 @@ TEST(IndentPreprocessor, Sans)
 		"      (Is_Foo((arg), (a)) \\\n"
 		"             || Is_Foo((arg), (b)))\n";
 	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocessor, SwitchSans1)
+{
+	// test preprocessor switch statements without indent preprocessor option
+	// they should not change
+	char text[] =
+		"\n#define GTEST_DEATH_TEST_(fail) \\\n"
+		"    {\\\n"
+		"       switch (fail) { \\\n"
+		"       case ::DeathTest: { \\\n"
+		"          SUPPRESS_CODE(); \\\n"
+		"          break; \\\n"
+		"          } \\\n"
+		"       } \\\n"
+		"    }"
+		"\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocessor, SwitchSans2)
+{
+	// test preprocessor switch statements without indent preprocessor option
+	// but with indent-switches and indent-cases
+	// they should not change
+	char text[] =
+		"\n#define GTEST_DEATH_TEST_(fail) \\\n"
+		"    {\\\n"
+		"       switch (fail) { \\\n"
+		"       case ::DeathTest: { \\\n"
+		"          SUPPRESS_CODE(); \\\n"
+		"          break; \\\n"
+		"          } \\\n"
+		"       } \\\n"
+		"    }"
+		"\n";
+	char options[] = "indent-switches, indent-cases";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocessor, SwitchIndent)
+{
+	// test preprocessor switch statements with switch indent
+	// they should be indented
+	char textIn[] =
+		"\n#define GTEST_DEATH_TEST_(fail) \\\n"
+		"    {\\\n"
+		"       switch (fail) { \\\n"
+		"       case ::DeathTest: { \\\n"
+		"          SUPPRESS_CODE(); \\\n"
+		"          break; \\\n"
+		"          } \\\n"
+		"       } \\\n"
+		"    }"
+		"\n";
+	char text[] =
+		"\n#define GTEST_DEATH_TEST_(fail) \\\n"
+		"    {\\\n"
+		"        switch (fail) { \\\n"
+		"            case ::DeathTest: { \\\n"
+		"                SUPPRESS_CODE(); \\\n"
+		"                break; \\\n"
+		"            } \\\n"
+		"        } \\\n"
+		"    }"
+		"\n";
+	char options[] = "indent-preprocessor, indent-switches";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocessor, CaseIndent)
+{
+	// test preprocessor switch statements with case indent
+	// they should be indented
+	char textIn[] =
+		"\n#define GTEST_DEATH_TEST_(fail) \\\n"
+		"    {\\\n"
+		"       switch (fail) { \\\n"
+		"       case ::DeathTest: { \\\n"
+		"          SUPPRESS_CODE(); \\\n"
+		"          break; \\\n"
+		"          } \\\n"
+		"       } \\\n"
+		"    }"
+		"\n";
+	char text[] =
+		"\n#define GTEST_DEATH_TEST_(fail) \\\n"
+		"    {\\\n"
+		"        switch (fail) { \\\n"
+		"        case ::DeathTest: { \\\n"
+		"                SUPPRESS_CODE(); \\\n"
+		"                break; \\\n"
+		"            } \\\n"
+		"        } \\\n"
+		"    }"
+		"\n";
+	char options[] = "indent-preprocessor, indent-cases";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocessor, SwitchCaseIndent)
+{
+	// test preprocessor switch statements with switch and case indent
+	// they should be indented
+	char textIn[] =
+		"\n#define GTEST_DEATH_TEST_(fail) \\\n"
+		"    {\\\n"
+		"       switch (fail) { \\\n"
+		"       case ::DeathTest: { \\\n"
+		"          SUPPRESS_CODE(); \\\n"
+		"          break; \\\n"
+		"          } \\\n"
+		"       } \\\n"
+		"    }"
+		"\n";
+	char text[] =
+		"\n#define GTEST_DEATH_TEST_(fail) \\\n"
+		"    {\\\n"
+		"        switch (fail) { \\\n"
+		"            case ::DeathTest: { \\\n"
+		"                    SUPPRESS_CODE(); \\\n"
+		"                    break; \\\n"
+		"                } \\\n"
+		"        } \\\n"
+		"    }"
+		"\n";
+	char options[] = "indent-preprocessor, indent-switches, indent-cases";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;

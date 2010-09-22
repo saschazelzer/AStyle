@@ -22,11 +22,10 @@
 					<Add directory="../../srccon" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-pthread" />
-					<Add library="bin/libgtestd.a" />
+					<Add library="gtest" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -45,12 +44,11 @@
 					<Add directory="../../srccon" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 					<Add option="-pthread" />
-					<Add library="bin/libgtest.a" />
+					<Add library="gtest" />
 				</Linker>
 			</Target>
 			<Target title="Coverage">
@@ -72,13 +70,12 @@
 					<Add directory="../../srccon" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg" />
 					<Add option="-pthread" />
 					<Add library="gcov" />
-					<Add library="bin/libgtestd.a" />
+					<Add library="gtest" />
 				</Linker>
 			</Target>
 		</Build>

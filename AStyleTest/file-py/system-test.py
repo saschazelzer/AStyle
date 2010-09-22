@@ -25,18 +25,23 @@ import time
 #   CODELITE
 #   DRJAVA			# cannot compile
 #   JEDIT
-#   KDEVELOP
+#   KDEVELOP			problem with opt3
 #  MONODEVELOP		# can compile on Linux only
 #  SCITE
 #  SHARPDEVELOP
 #  TESTPROJECT
-project = libastyle.MONODEVELOP
+project = libastyle.KDEVELOP
 
-# select OPT1 thru OPT4, or use customized options
-options = libastyle.OPT3
+# select OPT0 thru OPT3, or use customized options
+#options = "-tapO"
+options = libastyle.OPT0
 
 # executable for test
 astyleexe = "astyle"
+
+# extract all files option, use False for speed, use True to compile
+#all_files_option = True
+all_files_option = False
 
 # test number to start with (usually 1)
 start = 1
@@ -48,8 +53,8 @@ extractfiles = True
 # -----------------------------------------------------------------------------
 
 def process_files():
-	"""Main processing function."""
-
+	"""Main processing function.
+	"""
 	# bracket options and the order they are tested
 	brackets = "__aa_bb_ll_gg_aa_ll_bb_gg_bb_aa_gg_ll_aa_"
 	# total files formatted in error
@@ -68,7 +73,7 @@ def process_files():
 	libastyle.build_astyle_executable(get_astyle_config())
 	if extractfiles:
 		print "\nExtracting files"
-		libextract.extract_project(project)
+		libextract.extract_project(project, all_files_option)
 
 	# process the bracket options
 	while index < len(brackets):
@@ -194,9 +199,19 @@ def print_run_header():
 	"""
 	print "Testing {0}".format(project)
 	if os.name == "nt":
-		print "Using ({0}) {1}".format(libastyle.VS_RELEASE, astyleexe)
+		print "Using ({0}) {1}".format(libastyle.VS_RELEASE, astyleexe),
 	else:
-		print "Using {0}".format(astyleexe)
+		print "Using {0}".format(astyleexe),
+	if options == libastyle.OPT0:
+		print "OPT0" 
+	elif options == libastyle.OPT1:
+		print "OPT1" 
+	elif options == libastyle.OPT2:
+		print "OPT2"
+	elif options == libastyle.OPT3:
+		print "OPT3" 
+	else:
+		print options
 		
 # -----------------------------------------------------------------------------
 
@@ -204,16 +219,7 @@ def print_run_total(errors, errtests, starttime):
 	"""Print total information for the entire run.
 	"""
 	print
-	print '-' * 50
-	if errors == 0: libastyle.set_ok_color()
-	else: libastyle.set_error_color()
-	if errors == 0:
-		print str(errors) + " errors"
-	else:
-		print str(errors) + " errors in",
-		for test in errtests:
-			print test,
-		print
+	print '-' * 60
 	stoptime = time.time()
 	runtime = int(stoptime - starttime + 0.5)
 	min = runtime / 60
@@ -222,6 +228,14 @@ def print_run_total(errors, errtests, starttime):
 		print "{0} seconds total run time".format(sec)
 	else:
 		print "{0} min {1} seconds total run time".format(min, sec)
+	if errors == 0:
+		print str(errors) + " errors"
+	else:
+		libastyle.set_error_color()
+		print str(errors) + " errors in",
+		for test in errtests:
+			print test,
+		print
 
 # -----------------------------------------------------------------------------
 
@@ -229,7 +243,7 @@ def print_test_header(brackets, index):
 	"""Print header information for a test.
 	"""
 	testNo = index + 1
-	print '\n' + ('-' * 50) + '\n'
+	print '\n' + ('-' * 60) + '\n'
 	print "TEST {0} OF {1}".format(testNo, len(brackets))
 	print brackets[:testNo]
 	print brackets

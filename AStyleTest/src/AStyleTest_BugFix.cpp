@@ -15,6 +15,400 @@ namespace
 // AStyle version 2.01 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V201, PointerOrReferenceAtEndOfLine)
+{
+	// Test align-pointer=name mis-aligining a pointer followed by a space at end of line .
+	// The following test has a space after the * and & at end of line.
+	// It was causing the * or & to be attached to the type on the first format.
+	// Following formats moved it to the correct position.
+	char textIn[] =
+		"\nconst char * \n"
+		"foo1() const\n"
+		"{\n"
+		"    return bar1;\n"
+		"}\n"
+		"\n"
+		"const Path & \n"
+		"foo2() const\n"
+		"{\n"
+		"    return bar2;\n"
+		"}";
+	char text[] =
+		"\nconst char *\n"
+		"foo1() const\n"
+		"{\n"
+		"    return bar1;\n"
+		"}\n"
+		"\n"
+		"const Path &\n"
+		"foo2() const\n"
+		"{\n"
+		"    return bar2;\n"
+		"}";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V201, ExtraSpaceLineComment_PadParen_DeleteEmptyLines)
+{
+	// Test pad paren and delete empty lines options.
+	// The line before the empty line was receiving an extra space after the semi-colon.
+	// The empty line had to be followed by a line comment line for this to happen.
+	char textIn[] =
+		"\nvoid areaConstruction()\n"
+		"{\n"
+		"    QCOMPARE(toolViewsPrinter1, QString(\"\\\n"
+		"toolview1.1.1 [ left ]\\\n"
+		"toolview1.2.1 [ bottom ]\\\n"
+		"\"));\n"
+		"\n"
+		"    // line comment follows empty line\n"
+		"    AreaViewsPrinter viewsPrinter2;\n"
+		"}";
+	char text[] =
+		"\nvoid areaConstruction()\n"
+		"{\n"
+		"    QCOMPARE ( toolViewsPrinter1, QString ( \"\\\n"
+		"toolview1.1.1 [ left ]\\\n"
+		"toolview1.2.1 [ bottom ]\\\n"
+		"\" ) );\n"
+		"    // line comment follows empty line\n"
+		"    AreaViewsPrinter viewsPrinter2;\n"
+		"}";
+	char options[] = "pad-paren, delete-empty-lines";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V201, ExtraSpaceComment_PadParen_DeleteEmptyLines)
+{
+	// Test pad paren and delete empty lines options.
+	// The line before the empty line was receiving an extra space after the semi-colon.
+	// The empty line had to be followed by a comment line for this to happen.
+	char textIn[] =
+		"\nvoid areaConstruction()\n"
+		"{\n"
+		"    QCOMPARE(toolViewsPrinter1, QString(\"\\\n"
+		"toolview1.1.1 [ left ]\\\n"
+		"toolview1.2.1 [ bottom ]\\\n"
+		"\"));\n"
+		"\n"
+		"    /* comment follows empty line */\n"
+		"    AreaViewsPrinter viewsPrinter2;\n"
+		"}";
+	char text[] =
+		"\nvoid areaConstruction()\n"
+		"{\n"
+		"    QCOMPARE ( toolViewsPrinter1, QString ( \"\\\n"
+		"toolview1.1.1 [ left ]\\\n"
+		"toolview1.2.1 [ bottom ]\\\n"
+		"\" ) );\n"
+		"    /* comment follows empty line */\n"
+		"    AreaViewsPrinter viewsPrinter2;\n"
+		"}";
+	char options[] = "pad-paren, delete-empty-lines";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V201, Switch_FillEmptyLines_BreakBlocks)
+{
+	// Test fill empty lines and break blocks options in a switch.
+	// This bug was caused by the ASEnhancer object not being called for new empty lines.
+	// The line added after "return" should be correctly filled.
+	char textIn[] =
+		"\nbool foo()\n"
+		"{\n"
+		"    switch (type) {\n"
+		"    case WindowDeactivate:\n"
+		"    {\n"
+		"        if (insideThis(object))\n"
+		"            return false;\n"
+		"        break();\n"
+		"    }\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nbool foo()\n"
+		"{\n"
+		"    switch (type) {\n"
+		"    case WindowDeactivate:\n"
+		"    {\n"
+		"        if (insideThis(object))\n"
+		"            return false;\n"
+		"            \n"
+		"        break();\n"
+		"    }\n"
+		"    }\n"
+		"}";
+	char options[] = "fill-empty-lines, break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V201, AppendCharInsideCommentsPostPreprocessor)
+{
+	// An opening bracket should not be appended to a preprocessor statement.
+	// This bug occurred only when comments followed the preprocessor.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"#if wxUSE_UXTHEME\n"
+		"    if (isFoo)\n"
+		"        bar1();\n"
+		"    else\n"
+		"#endif //wxUSE_UXTHEME\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid foo() {\n"
+		"#if wxUSE_UXTHEME\n"
+		"    if (isFoo)\n"
+		"        bar1();\n"
+		"    else\n"
+		"#endif //wxUSE_UXTHEME\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"}";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V201, SwitchBracketInPreprocessor1)
+{
+	// Test that the bracket before a preprocessor statement in a "switch" is recognized.
+	// If enhance is called with the argument isInPreprocessor instead of isImmediatelyPostPreprocessor,
+	// the preceeding bracket will not be recognized. This causes the "switch" statement closing
+	// bracket to be incorrectly indented.
+	char text[] =
+		"\nvoid wxsListBox::OnBuildCreatingCode()\n"
+		"{\n"
+		"    switch(GetLanguage()) {\n"
+		"    case wxsCPP: {\n"
+		"        if(DefaultSelection == (int)i) {\n"
+		"            Codef(ASetSelection));\n"
+		"        }\n"
+		"#if wxCHECK_VERSION(2, 9, 0)\n"
+		"        Codef(ArrayChoices[i].wx_str());\n"
+		"#endif\n"
+		"        return;\n"
+		"    }\n"
+		"    } // possible wrong indent\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V201, SwitchBracketInPreprocessor2)
+{
+	// Test that the bracket after a preprocessor statement in a "switch" is recognized.
+	// If the variable isImmediatelyPostPreprocessor is not cleared at a line break
+	// and brackets are changed from attached to broken, a bracket will be incorrectly indented.
+	char textIn[] =
+		"\nvoid OnBuildCreatingCode() {\n"
+		"    switch (GetLanguage()) {\n"
+		"    case wxsCPP: {\n"
+		"        if (!Defaults) {\n"
+		"#if wxCHECK_VERSION(2, 9, 0)\n"
+		"            Codef(ColourDataName());\n"
+		"#endif\n"
+		"        } else {\n"
+		"            Codef(\"%C(%W);\");\n"
+		"        }\n"
+		"        return;\n"
+		"    }\n"
+		"    } // possible wrong indent\n"
+		"}";
+	char text[] =
+		"\nvoid OnBuildCreatingCode()\n"
+		"{\n"
+		"    switch (GetLanguage())\n"
+		"    {\n"
+		"    case wxsCPP:\n"
+		"    {\n"
+		"        if (!Defaults)\n"
+		"        {\n"
+		"#if wxCHECK_VERSION(2, 9, 0)\n"
+		"            Codef(ColourDataName());\n"
+		"#endif\n"
+		"        }\n"
+		"        else\n"
+		"        {\n"
+		"            Codef(\"%C(%W);\");\n"
+		"        }\n"
+		"        return;\n"
+		"    }\n"
+		"    } // possible wrong indent\n"
+		"}";
+	char options[] = "brackets=break";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V201, PopParenStackOnBracket)
+{
+	// Test that paren stack is popped when an attached bracket preceeding a comment is broken.
+	// In the test case it caused the bracket following line "public bool ShowingDialog {"
+	// to not be broken.
+	char textIn[] =
+		"\nvoid OnRootMonitorDisposed() {\n"
+		"    eventThread.BeginInvoke (\n"
+		"    ( Action ) delegate {\n"
+		"        if ( rootMonitorIsDisposed ) { // ignore double dispose\n"
+		"                return;\n"
+		"        }\n"
+		"    });\n"
+		"}\n"
+		"\n"
+		"sealed class MonitorImpl : IProgressMonitor {\n"
+		"    public bool ShowingDialog\n"
+		"    {   get { return collector.ShowingDialog; }\n"
+		"\n"
+		"        set { collector.SetShowingDialog ( value ); }\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid OnRootMonitorDisposed()\n"
+		"{   eventThread.BeginInvoke (\n"
+		"        ( Action ) delegate\n"
+		"    {   if ( rootMonitorIsDisposed )   // ignore double dispose\n"
+		"        {   return;\n"
+		"        }\n"
+		"    });\n"
+		"}\n"
+		"\n"
+		"sealed class MonitorImpl : IProgressMonitor\n"
+		"{   public bool ShowingDialog\n"
+		"    {   get\n"
+		"        {   return collector.ShowingDialog;\n"
+		"        }\n"
+		"\n"
+		"        set\n"
+		"        {   collector.SetShowingDialog ( value );\n"
+		"        }\n"
+		"    }\n"
+		"}";
+	char options[] = "brackets=horstmann, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V201, SharpBreakSingleLineStatements)
+{
+	// Test a breaking a sharp abstract method single line block.
+	// Both of the ending brackets should be broken.
+	// TODO: The bracket in-statement formatting could be improved.
+	char textIn[] =
+		"\nvoid LoadToc()\n"
+		"{\n"
+		"    if (!IsLocalHelp) DataContext = null;\n"
+		"    else DataContext = new[] { new TocEntry(-1) {Title = StringParser.Parse(\"${HelpLibraryRootTitle}\")}};\n"
+		"}";
+	char text[] =
+		"\nvoid LoadToc()\n"
+		"{\n"
+		"    if (!IsLocalHelp) DataContext = null;\n"
+		"    else DataContext = new[] { new TocEntry(-1) {\n"
+		"        Title = StringParser.Parse(\"${HelpLibraryRootTitle}\")\n"
+		"            }\n"
+		"                             };\n"
+		"}";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V201, ClearNonInStatement)
+{
+	// Setting of clearNonInStatement flag.
+	// The isNonInStatementArray flag should be cleared at the end of the array.
+	// If it is not, the continuation lines in the "for" statement will not be indented.
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    int folderID[nbGrpFolder][nbControl] = {\\\n"
+		"        {IDC_FOLDEROPEN_FG, IDC_FOLDEROPEN_BG},\\\n"
+		"        {IDC_FOLDERCLOSE_FG, IDC_FOLDERCLOSE_BG}\\\n"
+		"    };\n"
+		"\n"
+		"    for (TiXmlNodeA *childNode = node->ChildElement(Item);\n"
+		"            childNode ;\n"
+		"            childNode = childNode->NextSibling(Item))\n"
+		"    {\n"
+		"        TiXmlElementA *element = childNode->ToElement();\n"
+		"    }\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V201, JavaBreakOneLineBlocks1)
+{
+	// This tests changes in ASFormatter::isOneLineBlockReached().
+	char textIn[] =
+		"\npublic class MutableFileProperty extends FileProperty {\n"
+		"    public MutableFileProperty(String name, File initialFile, String help) {\n"
+		"        super(name,new Thunk<File>() { public File value() { return null; } }, help);\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\npublic class MutableFileProperty extends FileProperty {\n"
+		"    public MutableFileProperty(String name, File initialFile, String help) {\n"
+		"        super(name,new Thunk<File>() {\n"
+		"            public File value() {\n"
+		"                return null;\n"
+		"            }\n"
+		"        }, help);\n"
+		"    }\n"
+		"}";
+	char options[] = "mode=java";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V201, JavaBreakOneLineBlocks2)
+{
+	// This tests changes in ASFormatter::isOneLineBlockReached().
+	char textIn[] =
+		"\nprotected void makePopupMenuActions() {\n"
+		"    AbstractAction[] acts = new AbstractAction[] {\n"
+		"        new AbstractAction() { public void actionPerformed(ActionEvent e) { goToRegion(); } },\n"
+		"    };\n"
+		"}";
+	char text[] =
+		"\nprotected void makePopupMenuActions() {\n"
+		"    AbstractAction[] acts = new AbstractAction[] {\n"
+		"    new AbstractAction() {\n"
+		"        public void actionPerformed(ActionEvent e) {\n"
+		"            goToRegion();\n"
+		"        }\n"
+		"    },\n"
+		"    };\n"
+		"}";
+	char options[] = "mode=java";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BugFix_V201, DontAttachBracketToComment)
 {
 	// This is for array type brackets.

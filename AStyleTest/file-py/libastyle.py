@@ -31,16 +31,12 @@ OPT0 = ""
 #     min-conditional-indent=0 (m0)
 OPT1 = "-CSKBNLwM50m0yejoOcFpPHUxEk1"
 # align-pointer=middle (k2), indent-blocks (G), add-one-line-brackets (J)
-#     break-blocks (f), min-conditional-indent=3 (m3)
-OPT2 = "-CSKGNLwM60m3yeJoOcfpPHUxEk2"
-# align-pointer=name (k3), , min-conditional-indent=1 (m1)
+#     break-blocks (f), min-conditional-indent=3 (m3), pad-paren-out(d)
+OPT2 = "-CSKGNLwM60m3yeJoOcfpdHUxEk2"
+# align-pointer=name (k3), , min-conditional-indent=1 (m1), pad-paren-in(D)
 # WITHOUT: indent-blocks (G), add-brackets (j,J),
-#     break-blocks (f,F), pad-oper (p), pad-paren (P), delete-empty-lines (x)
-OPT3 = "-CSKNLwM80m1yeoOcHUEk3"
-
-# extract options, use True for speed
-#SOURCE_ONLY = True
-SOURCE_ONLY = False
+#     break-blocks (f,F), pad-oper (p), delete-empty-lines (x)
+OPT3 = "-CSKNLwM80m1yeoOcDHUEk3"
 
 # compile configurations
 DEBUG   = "debug"
@@ -360,7 +356,7 @@ def get_project_excludes(project):
 	elif project == SCITE:
 		excludes.append("--exclude=lua")
 	elif project == SHARPDEVELOP:
-		None
+		excludes.append("--exclude=ExpressionEvaluator_Tests.cs")
 	elif project == TESTPROJECT:
 		None
 	else:

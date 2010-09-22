@@ -21,7 +21,7 @@ import time
 
 # select one of the following from libastyle
 #   CODEBLOCKS
-#   CODELITE
+#   CODELITE    problem with opt1 in astyle25b.exe
 #   DRJAVA
 #   JEDIT
 #   KDEVELOP
@@ -29,10 +29,10 @@ import time
 #  SCITE
 #  SHARPDEVELOP
 #  TESTPROJECT
-project = libastyle.MONODEVELOP
+project = libastyle.KDEVELOP
 
 # select OPT0 thru OPT3, or use customized options
-options = libastyle.OPT3
+options = libastyle.OPT0
 
 # scite formatting options
 #options = "-tapOHUk3"
@@ -40,6 +40,10 @@ options = libastyle.OPT3
 # executables for test
 astyleexe1 = "astyle25b"
 astyleexe2 = "astyle"
+
+# extract all files options, use False for speed
+all_files_option = True
+#all_files_option = False
 
 # select one of the following to format files in the OLD directory
 formatOLD = True
@@ -64,7 +68,7 @@ def process_files():
 	# run test 1
 	if formatOLD:
 		print "\nExtracting Test 1"
-		libextract.extract_project(project)
+		libextract.extract_project(project, all_files_option)
 		print_test_header(1, astyleexe1)
 		astyle = set_astyle_args(filepaths, excludes, astyleexe1)
 		print_formatting_message(astyle, project)
@@ -78,7 +82,7 @@ def process_files():
 
 	# run test 2
 	print "\nExtracting Test 2"
-	libextract.extract_project(project)
+	libextract.extract_project(project, all_files_option)
 	print_test_header(2, astyleexe2)
 	astyle = set_astyle_args(filepaths, excludes, astyleexe2)
 	print_formatting_message(astyle, project)
@@ -245,9 +249,19 @@ def print_run_header():
 	print "Testing {0}".format(project)
 	if os.name == "nt":
 		print "Using ({0}) {1} {2}".format(libastyle.VS_RELEASE,
-				astyleexe1, astyleexe2)
+				astyleexe1, astyleexe2),
 	else:
-		print "Using {0} {1}".format(astyleexe1, astyleexe2)
+		print "Using {0} {1}".format(astyleexe1, astyleexe2),
+	if options == libastyle.OPT0:
+		print "OPT0" 
+	elif options == libastyle.OPT1:
+		print "OPT1" 
+	elif options == libastyle.OPT2:
+		print "OPT2"
+	elif options == libastyle.OPT3:
+		print "OPT3" 
+	else:
+		print options
 
 # -----------------------------------------------------------------------------
 

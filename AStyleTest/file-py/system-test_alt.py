@@ -20,15 +20,14 @@ import time
 
 # global variables ------------------------------------------------------------
 
-
 # enter the following
-# JBoss.org ***********************************
-archive = "Greenfoot-source-1.5.6.zip"
-project = "Greenfoot-source-1.5.6"		# primary directory in archive
-source = [ "*.java" ]					# extensions to format
+archive = "testdisk-6.11.tar.bz2"
+project = "testdisk-6.11"		# primary directory in archive
+source = ["*.c","*.h"]					# extensions to format
 
-# select OPT1 thru OPT4, or use customized options
-options = libastyle.OPT1
+# select OPT0 thru OPT3, or use customized options
+#options = "-tapO"
+options = libastyle.OPT3
 
 # test number to start with (usually 1)
 start = 1
@@ -36,7 +35,7 @@ start = 1
 # executable for test
 astyleexe = "astyle"
 
-# select one of the following to unarchive files
+# extract all files option, use False for speed, use True to compile
 extractfiles = True
 #extractfiles = False
 
@@ -228,9 +227,19 @@ def print_run_header():
 	"""
 	print "Testing {0}".format(project)
 	if os.name == "nt":
-		print "Using ({0}) {1}".format(libastyle.VS_RELEASE, astyleexe)
+		print "Using ({0}) {1}".format(libastyle.VS_RELEASE, astyleexe),
 	else:
-		print "Using {0}".format(astyleexe)
+		print "Using {0}".format(astyleexe),
+	if options == libastyle.OPT0:
+		print "OPT0" 
+	elif options == libastyle.OPT1:
+		print "OPT1" 
+	elif options == libastyle.OPT2:
+		print "OPT2"
+	elif options == libastyle.OPT3:
+		print "OPT3" 
+	else:
+		print options
 		
 # -----------------------------------------------------------------------------
 
@@ -238,16 +247,7 @@ def print_run_total(errors, errtests, starttime):
 	"""Print total information for the entire run.
 	"""
 	print
-	print '-' * 50
-	if errors == 0: libastyle.set_ok_color()
-	else: libastyle.set_error_color()
-	if errors == 0:
-		print str(errors) + " errors"
-	else:
-		print str(errors) + " errors in",
-		for test in errtests:
-			print test,
-		print
+	print '-' * 60
 	stoptime = time.time()
 	runtime = int(stoptime - starttime + 0.5)
 	min = runtime / 60
@@ -256,6 +256,14 @@ def print_run_total(errors, errtests, starttime):
 		print "{0} seconds total run time".format(sec)
 	else:
 		print "{0} min {1} seconds total run time".format(min, sec)
+	if errors == 0:
+		print str(errors) + " errors"
+	else:
+		libastyle.set_error_color()
+		print str(errors) + " errors in",
+		for test in errtests:
+			print test,
+		print
 
 # -----------------------------------------------------------------------------
 
@@ -263,7 +271,7 @@ def print_test_header(brackets, index):
 	"""Print header information for a test.
 	"""
 	testNo = index + 1
-	print '\n' + ('-' * 50) + '\n'
+	print '\n' + ('-' * 60) + '\n'
 	print "TEST {0} OF {1}".format(testNo, len(brackets))
 	print brackets[:testNo]
 	print brackets
