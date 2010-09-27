@@ -15,9 +15,42 @@ namespace
 // AStyle version 2.01 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V201, NotInTemplate)
+{
+	// The following statements were incorrectly flagged as templates.
+	// This caused add-brackets to attach the opening bracket in the wrong place.
+	// The function checkIfTemplateOpener() was corrected.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    for(k=31; k>=0; k-=2)\n"
+		"    {\n"
+		"        if(hi & (1 << (k >> 1))) y32u += 1 << k;\n"
+		"        if(lo & (1 << (k >> 1))) y32u += 1 << (k-1);\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    for(k=31; k>=0; k-=2)\n"
+		"    {\n"
+		"        if(hi & (1 << (k >> 1))) {\n"
+		"            y32u += 1 << k;\n"
+		"        }\n"
+		"        if(lo & (1 << (k >> 1))) {\n"
+		"            y32u += 1 << (k-1);\n"
+		"        }\n"
+		"    }\n"
+		"}";
+	char options[] = "add-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BugFix_V201, PointerOrReferenceAtEndOfLine)
 {
-	// Test align-pointer=name mis-aligining a pointer followed by a space at end of line .
+	// Test align-pointer=name mis-aligining a pointer followed by a space at end of line.
 	// The following test has a space after the * and & at end of line.
 	// It was causing the * or & to be attached to the type on the first format.
 	// Following formats moved it to the correct position.

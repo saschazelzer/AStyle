@@ -33,7 +33,7 @@ project = libastyle.DRJAVA
 options = libastyle.OPT1
 
 # executables for test
-astyleexe1 = "astyle25b"
+astyleexe1 = "astyle25c"
 astyleexe2 = "astyled"
 
 # extract all files options, use False for speed

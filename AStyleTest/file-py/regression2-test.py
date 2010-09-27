@@ -29,16 +29,16 @@ import time
 #  SCITE
 #  SHARPDEVELOP
 #  TESTPROJECT
-project = libastyle.KDEVELOP
+project = libastyle.JEDIT
 
 # select OPT0 thru OPT3, or use customized options
-options = libastyle.OPT0
+options = libastyle.OPT3
 
 # scite formatting options
 #options = "-tapOHUk3"
 
 # executables for test
-astyleexe1 = "astyle25b"
+astyleexe1 = "astyle25c"
 astyleexe2 = "astyle"
 
 # extract all files options, use False for speed

@@ -1352,6 +1352,23 @@ TEST(Other, ErrorExitWihMessage)
 	deleteConsoleGlobalObject();
 }
 
+TEST(Other, VerifyCinPeek)
+// test the verifyCinPeek() method for failure.
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
+	// cannot use death test with leak finder
+#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+	// set the position of the get pointer past the end of file.
+	cin.seekg (1, ios_base::end);
+	EXPECT_EXIT(g_console->verifyCinPeek(),
+				::testing::ExitedWithCode(EXIT_FAILURE),
+				"Cannot process the input stream.\n"
+				"\nArtistic Style has terminated!\n");
+#endif
+	deleteConsoleGlobalObject();
+}
+
 //----------------------------------------------------------------------------
 // AStyle BugFix tests
 //----------------------------------------------------------------------------

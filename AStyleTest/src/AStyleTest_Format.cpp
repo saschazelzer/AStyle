@@ -1159,6 +1159,38 @@ TEST(AddBrackets, ElseIf)
 	delete [] textOut;
 }
 
+TEST(AddBrackets, SemiFollows)
+{
+	// test add brackets when a semi-colon follows the statement
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (a == 0) ; func1(); i++;\n"
+		"    while (isFoo)  // comment\n"
+		"            ;\n" 
+		"    while (isFoo); // comment\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (a == 0) {\n"
+		"        ;\n"
+		"    }\n"
+		"    func1();\n"
+		"    i++;\n"
+		"    while (isFoo) { // comment\n"
+		"        ;\n"
+		"    }\n"
+		"    while (isFoo) {\n"
+		"        ;    // comment\n"
+		"    }\n"
+		"}\n";
+	char options[] = "add-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AddBrackets, Sharp)
 {
 	// test add brackets to C# headers
@@ -1676,6 +1708,33 @@ TEST(AddOneLineBrackets, ElseIf)
 		"        { return false; }\n"
 		"    else if (isFoo())\n"
 		"        { return false; }\n"
+		"}\n";
+	char options[] = "add-one-line-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddOneLineBrackets, SemiFollows)
+{
+	// test add brackets when a semi-colon follows the statement
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (a == 0) ; func1(); i++;\n"
+		"    while (isFoo)  // comment\n"
+		"            ;\n" 
+		"    while (isFoo); // comment\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (a == 0) { ; }\n"
+		"    func1();\n"
+		"    i++;\n"
+		"    while (isFoo)  // comment\n"
+		"        { ; }\n"
+		"    while (isFoo) { ; } // comment\n"
 		"}\n";
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);

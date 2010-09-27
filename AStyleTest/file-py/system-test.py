@@ -21,20 +21,20 @@ import time
 # global variables ------------------------------------------------------------
 
 # select one of the following from libastyle
-#   CODEBLOCKS
-#   CODELITE
-#   DRJAVA			# cannot compile
-#   JEDIT
-#   KDEVELOP			problem with opt3
+#  CODEBLOCKS
+#  CODELITE
+#  DRJAVA			# cannot compile
+#  JEDIT
+#  KDEVELOP			# cannot compile
 #  MONODEVELOP		# can compile on Linux only
 #  SCITE
 #  SHARPDEVELOP
 #  TESTPROJECT
-project = libastyle.KDEVELOP
+project = libastyle.JEDIT
 
 # select OPT0 thru OPT3, or use customized options
 #options = "-tapO"
-options = libastyle.OPT0
+options = libastyle.OPT3
 
 # executable for test
 astyleexe = "astyle"

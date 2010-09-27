@@ -876,6 +876,136 @@ TEST(Struct, Horstmann)
 }
 
 //----------------------------------------------------------------------------
+// AStyle Volatile Type Qualifier
+//----------------------------------------------------------------------------
+
+TEST(Volatile, ConstVolatile)
+{
+	// Test with "const volatile".
+	// The keyword "Volatile" used as a  type qualifier caused the data after the "if"
+	// statement to receive 1 less indent than needed.
+	char text[] =
+		"\nbool MDMsgBatchManager::IsReindexRequired () const volatile\n"
+		"{\n"
+		"    bool result = false;\n"
+		"    if (isReindexed)\n"
+		"    {\n"
+		"        result = true;\n"
+		"    }\n"
+		"    return result;\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Volatile, VolatileConst)
+{
+	// Test with "volatile const".
+	// The keyword "Volatile" used as a  type qualifier caused the data after the "if"
+	// statement to receive 1 less indent than needed.
+	char text[] =
+		"\nbool MDMsgBatchManager::IsReindexRequired () volatile const\n"
+		"{\n"
+		"    bool result = false;\n"
+		"    if (isReindexed)\n"
+		"    {\n"
+		"        result = true;\n"
+		"    }\n"
+		"    return result;\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Volatile, VolatileOnly)
+{
+	// Test with "volatile" only.
+	// The keyword "Volatile" used as a  type qualifier caused the data after the "if"
+	// statement to receive 1 less indent than needed.
+	char text[] =
+		"\nbool MDMsgBatchManager::IsReindexRequired () volatile\n"
+		"{\n"
+		"    bool result = false;\n"
+		"    if (isReindexed)\n"
+		"    {\n"
+		"        result = true;\n"
+		"    }\n"
+		"    return result;\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Volatile, ConstVolatile_IndentBlocks)
+{
+	// Test with "const volatile" and indent-blocks.
+	// The keyword "Volatile" used as a  type qualifier caused the data after the "if"
+	// statement to receive 1 less indent than needed.
+	char text[] =
+		"\nbool MDMsgBatchManager::IsReindexRequired () const volatile\n"
+		"{\n"
+		"    bool result = false;\n"
+		"    if (isReindexed)\n"
+		"        {\n"
+		"            result = true;\n"
+		"        }\n"
+		"    return result;\n"
+		"}";
+	char options[] = "indent-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Volatile, VolatileConst_IndentBlocks)
+{
+	// Test with "volatile const" and indent-blocks.
+	// The keyword "Volatile" used as a  type qualifier caused the data after the "if"
+	// statement to receive 1 less indent than needed.
+	char text[] =
+		"\nbool MDMsgBatchManager::IsReindexRequired () volatile const\n"
+		"{\n"
+		"    bool result = false;\n"
+		"    if (isReindexed)\n"
+		"        {\n"
+		"            result = true;\n"
+		"        }\n"
+		"    return result;\n"
+		"}";
+	char options[] = "indent-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Volatile, VolatileOnly_IndentBlocks)
+{
+	// Test with "volatil" only and indent-blocks.
+	// The keyword "Volatile" used as a  type qualifier caused the data after the "if"
+	// statement to receive 1 less indent than needed.
+	char text[] =
+		"\nbool MDMsgBatchManager::IsReindexRequired () volatile\n"
+		"{\n"
+		"    bool result = false;\n"
+		"    if (isReindexed)\n"
+		"        {\n"
+		"            result = true;\n"
+		"        }\n"
+		"    return result;\n"
+		"}";
+	char options[] = "indent-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+//----------------------------------------------------------------------------
 // AStyle Preprocessor
 //----------------------------------------------------------------------------
 

@@ -24,7 +24,7 @@ SHARPDEVELOP = "SharpDevelop"	# C#
 TESTPROJECT  = "TestProject"
 
 # astyle test options
-# NOTE: release 1.25, use after  astyle25b because of min-conditional-indent
+# NOTE: release 2.01, use after  astyle25b because of min-conditional-indent
 # no options
 OPT0 = ""
 # align-pointer=type (k1), indent-brackets (B), add-brackets (j), break-blocks=all (F)
