@@ -15,8 +15,8 @@ REM  v - verbose
 REM  w - indent-preprocessor
 REM  Q - formatted
 
-set options= -TbHCOw  -Q --options=none
-set optionsh= -TlHCOw  -Q --options=none
+set options= -TbHCOw  -Qz1  --options=none
+set optionsh= -TlHCOw  -Qz1  --options=none
 
 echo Formatting AStyleTest
 echo source %options%

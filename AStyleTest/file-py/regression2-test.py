@@ -29,21 +29,21 @@ import time
 #  SCITE
 #  SHARPDEVELOP
 #  TESTPROJECT
-project = libastyle.JEDIT
+project = libastyle.SHARPDEVELOP
 
 # select OPT0 thru OPT3, or use customized options
-options = libastyle.OPT3
+options = libastyle.OPT1
 
 # scite formatting options
 #options = "-tapOHUk3"
 
 # executables for test
-astyleexe1 = "astyle25c"
+astyleexe1 = "astyle25d"
 astyleexe2 = "astyle"
 
 # extract all files options, use False for speed
-all_files_option = True
-#all_files_option = False
+#all_files_option = True
+all_files_option = False
 
 # select one of the following to format files in the OLD directory
 formatOLD = True
@@ -78,7 +78,7 @@ def process_files():
 		libextract.rename_test_directory(project, project + "OLD")
 	else:
 		verify_test_directory(project + "OLD")
-		print "No Test 1"
+		print "\nNo Test 1"
 
 	# run test 2
 	print "\nExtracting Test 2"

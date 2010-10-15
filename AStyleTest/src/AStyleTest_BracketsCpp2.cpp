@@ -1360,7 +1360,7 @@ TEST(BracketsOtherCpp, NestedClass)
 	delete [] textOut;
 }
 
-TEST(BracketsOtherCpp, NestedClass_IndentBlocks)
+TEST(BracketsOtherCpp, NestedClass_IndentBlock)
 {
 	// test nested classes and indented blocks
 	char text[] =
@@ -1394,7 +1394,7 @@ TEST(BracketsOtherCpp, NestedClass_IndentBlocks)
 	delete [] textOut;
 }
 
-TEST(BracketsOtherCpp, NestedClass_IndentBracketsBrackets)
+TEST(BracketsOtherCpp, NestedClass_IndentBracketsBracket)
 {
 	// test nested classes and indented brackets
 	char text[] =
@@ -1428,7 +1428,7 @@ TEST(BracketsOtherCpp, NestedClass_IndentBracketsBrackets)
 	delete [] textOut;
 }
 
-TEST(BracketsOtherCpp, NestedClass_IndentClasses)
+TEST(BracketsOtherCpp, NestedClass_IndentClass)
 {
 	// test nested classes with indented classes
 	char text[] =
@@ -1462,7 +1462,7 @@ TEST(BracketsOtherCpp, NestedClass_IndentClasses)
 	delete [] textOut;
 }
 
-TEST(BracketsOtherCpp, NestedClass_IndentClasses_IndentBlocks)
+TEST(BracketsOtherCpp, NestedClass_IndentClass_IndentBlock)
 {
 	// test nested classes with indented classes and indented blocks
 	char text[] =
@@ -1496,7 +1496,7 @@ TEST(BracketsOtherCpp, NestedClass_IndentClasses_IndentBlocks)
 	delete [] textOut;
 }
 
-TEST(BracketsOtherCpp, NestedClass_IndentClasses_IndentBrackets)
+TEST(BracketsOtherCpp, NestedClass_IndentClass_IndentBracket)
 {
 	// test nested classes with indented classes and indented brackets
 	char text[] =
@@ -1559,7 +1559,7 @@ TEST(BracketsOtherCpp, NestedNamespace)
 	delete [] textOut;
 }
 
-TEST(BracketsOtherCpp, NestedNamespace_IndentBlocks)
+TEST(BracketsOtherCpp, NestedNamespace_IndentBlock)
 {
 	// test nested namespaces and indented blocks
 	char text[] =
@@ -1588,7 +1588,7 @@ TEST(BracketsOtherCpp, NestedNamespace_IndentBlocks)
 	delete [] textOut;
 }
 
-TEST(BracketsOtherCpp, NestedNamespace_IndentBrackets)
+TEST(BracketsOtherCpp, NestedNamespace_IndentBracket)
 {
 	// test nested namespaces and indented brackets
 	char text[] =
@@ -1617,7 +1617,7 @@ TEST(BracketsOtherCpp, NestedNamespace_IndentBrackets)
 	delete [] textOut;
 }
 
-TEST(BracketsOtherCpp, NestedNamespace_IndentNamespaces)
+TEST(BracketsOtherCpp, NestedNamespace_IndentNamespace)
 {
 	// test nested indented namespaces
 	char text[] =
@@ -1646,7 +1646,7 @@ TEST(BracketsOtherCpp, NestedNamespace_IndentNamespaces)
 	delete [] textOut;
 }
 
-TEST(BracketsOtherCpp, NestedNamespace_IndentNamespacesBlocks)
+TEST(BracketsOtherCpp, NestedNamespace_IndentNamespaceBlock)
 {
 	// test nested indented namespaces and indented blocks
 	char text[] =
@@ -1675,7 +1675,7 @@ TEST(BracketsOtherCpp, NestedNamespace_IndentNamespacesBlocks)
 	delete [] textOut;
 }
 
-TEST(BracketsOtherCpp, NestedNamespace_IndentNamespacesBrackets)
+TEST(BracketsOtherCpp, NestedNamespace_IndentNamespaceBracket)
 {
 	// test nested indented namespaces and indented brackets
 	char text[] =
@@ -1704,7 +1704,7 @@ TEST(BracketsOtherCpp, NestedNamespace_IndentNamespacesBrackets)
 	delete [] textOut;
 }
 
-TEST(BracketsOtherCpp, NestedNamespaceInClass)
+TEST(BracketsOtherCpp, NestedNamespaceClass)
 {
 	// test namespaces within a class
 	char text[] =
@@ -1745,7 +1745,7 @@ TEST(BracketsOtherCpp, NestedNamespaceInClass)
 	delete [] textOut;
 }
 
-TEST(BracketsOtherCpp, NestedNamespaceInClass_IndentBlocks)
+TEST(BracketsOtherCpp, NestedNamespaceClass_IndentBlock)
 {
 	// test namespaces within a class with indented blocks
 	char text[] =
@@ -1786,7 +1786,7 @@ TEST(BracketsOtherCpp, NestedNamespaceInClass_IndentBlocks)
 	delete [] textOut;
 }
 
-TEST(BracketsOtherCpp, NestedNamespaceInClass_IndentBrackets)
+TEST(BracketsOtherCpp, NestedNamespaceClass_IndentBracket)
 {
 	// test namespaces within a class with indented brackets
 	char text[] =
@@ -1827,7 +1827,7 @@ TEST(BracketsOtherCpp, NestedNamespaceInClass_IndentBrackets)
 	delete [] textOut;
 }
 
-TEST(BracketsOtherCpp, NestedNamespaceInClass_IndentNamespaces)
+TEST(BracketsOtherCpp, NestedNamespaceClass_IndentNamespace)
 {
 	// test indented namespaces within a class
 	char text[] =
@@ -1868,7 +1868,7 @@ TEST(BracketsOtherCpp, NestedNamespaceInClass_IndentNamespaces)
 	delete [] textOut;
 }
 
-TEST(BracketsOtherCpp, NestedNamespaceInClass_IndentNamespacesBlocks)
+TEST(BracketsOtherCpp, NestedNamespaceClass_IndentNamespaceBlock)
 {
 	// test indented namespaces within a class with indented blocks
 	char text[] =
@@ -1909,7 +1909,7 @@ TEST(BracketsOtherCpp, NestedNamespaceInClass_IndentNamespacesBlocks)
 	delete [] textOut;
 }
 
-TEST(BracketsOtherCpp, NestedNamespaceInClass_IndentNamespacesBrackets)
+TEST(BracketsOtherCpp, NestedNamespaceClass_IndentNamespaceBracket)
 {
 	// test indented namespaces within a class with indented brackets
 	char text[] =
@@ -1950,7 +1950,7 @@ TEST(BracketsOtherCpp, NestedNamespaceInClass_IndentNamespacesBrackets)
 	delete [] textOut;
 }
 
-TEST(BracketsOtherCpp, NestedNamespaceInClass_IndentNamespacesClasses)
+TEST(BracketsOtherCpp, NestedNamespaceClass_IndentNamespaceClass)
 {
 	// test indented namespaces within an indented class
 	char text[] =
@@ -1991,7 +1991,7 @@ TEST(BracketsOtherCpp, NestedNamespaceInClass_IndentNamespacesClasses)
 	delete [] textOut;
 }
 
-TEST(BracketsOtherCpp, NestedNamespaceInClass_IndentNamespacesClassesBlocks)
+TEST(BracketsOtherCpp, NestedNamespaceClass_IndentNamespaceClassBlock)
 {
 	// test indented namespaces within an indented class with indented blocks
 	char text[] =
@@ -2032,7 +2032,7 @@ TEST(BracketsOtherCpp, NestedNamespaceInClass_IndentNamespacesClassesBlocks)
 	delete [] textOut;
 }
 
-TEST(BracketsOtherCpp, NestedNamespaceInClass_IndentNamespacesClassesBrackets)
+TEST(BracketsOtherCpp, NestedNamespaceClass_IndentNamespaceClassBracket)
 {
 	// test indented namespaces within an indented class with indented brackets
 	char text[] =
@@ -3848,6 +3848,36 @@ TEST(BracketsArrayHorstmannCpp, InStatement3)
 		"}\n";
 	char options[] = "brackets=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle C++ Array Bracket Non-In-Statement Options
+//-------------------------------------------------------------------------
+
+TEST(BracketsArrayCpp, ClearNonInStatementArray1)
+{
+	// Setting of clearNonInStatement flag.
+	// The isNonInStatementArray flag should be cleared at the end of the array.
+	// If it is not, the continuation lines in the "for" statement will not be indented.
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    int folderID[nbGrpFolder][nbControl] = {\\\n"
+		"        {IDC_FOLDEROPEN_FG, IDC_FOLDEROPEN_BG},\\\n"
+		"        {IDC_FOLDERCLOSE_FG, IDC_FOLDERCLOSE_BG}\\\n"
+		"    };\n"
+		"\n"
+		"    for (TiXmlNodeA *childNode = node->ChildElement(Item);\n"
+		"            childNode ;\n"
+		"            childNode = childNode->NextSibling(Item))\n"
+		"    {\n"
+		"        TiXmlElementA *element = childNode->ToElement();\n"
+		"    }\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }

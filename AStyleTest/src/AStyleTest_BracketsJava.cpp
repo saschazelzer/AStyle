@@ -2117,7 +2117,7 @@ TEST(BracketsOtherJava, NewOperator2)
 // AStyle Java Array Bracket Options
 //-------------------------------------------------------------------------
 
-TEST(BracketsArray, NoneJava_InStatement)
+TEST(BracketsArrayJava, None_InStatement)
 {
 	// the following "new Type" array should have an in statement indent
 	char text[] =
@@ -2143,7 +2143,7 @@ TEST(BracketsArray, NoneJava_InStatement)
 	delete [] textOut;
 }
 
-TEST(BracketsArray, NoneJava_OneLineBlock1)
+TEST(BracketsArrayJava, None_OneLineBlock1)
 {
 	// single line blocks should not be broken
 	char text[] =
@@ -2157,7 +2157,7 @@ TEST(BracketsArray, NoneJava_OneLineBlock1)
 	delete [] textOut;
 }
 
-TEST(BracketsArray, NoneJava_OneLineBlock2)
+TEST(BracketsArrayJava, None_OneLineBlock2)
 {
 	// the single line block "{io.toString()}" should not be broken
 	char text[] =
@@ -2175,7 +2175,7 @@ TEST(BracketsArray, NoneJava_OneLineBlock2)
 	delete [] textOut;
 }
 
-TEST(BracketsArray, BreakJava_OneLineBlock2)
+TEST(BracketsArrayJava, Break_OneLineBlock2)
 {
 	// the single line block "{io.toString()}" should not be broken
 	char text[] =
@@ -2193,7 +2193,7 @@ TEST(BracketsArray, BreakJava_OneLineBlock2)
 	delete [] textOut;
 }
 
-TEST(BracketsArray, AttachJava_OneLineBlock2)
+TEST(BracketsArrayJava, Attach_OneLineBlock2)
 {
 	// the single line block "{io.toString()}" should not be broken
 	char text[] =
@@ -2209,7 +2209,7 @@ TEST(BracketsArray, AttachJava_OneLineBlock2)
 	delete [] textOut;
 }
 
-TEST(BracketsArray, HorstmannJava_OneLineBlock2)
+TEST(BracketsArrayJava, Horstmann_OneLineBlock2)
 {
 	// the single line block "{io.toString()}" should not be broken
 	char text[] =
@@ -2224,6 +2224,103 @@ TEST(BracketsArray, HorstmannJava_OneLineBlock2)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
+
+//-------------------------------------------------------------------------
+// AStyle Java Array Bracket Non-In-Statement Options
+//-------------------------------------------------------------------------
+
+TEST(BracketsArrayJava, InStatementArray1)
+{
+	// TODO: This should be indented as an in-statement array.
+	//       Why is it indented 9 spaces?
+	char text[] =
+		"\nvoid LoadToc()\n"
+		"{\n"
+		"    File[] files = new File[] { new File(dir1, \"test.java\"),\n"
+		"             new File(dir2, \"test.class\"),\n"
+		"             new File(dir3, \"that.java\")\n"
+		"    };\n"
+		"}";
+	char options[] = "mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsArrayJava, InStatementArray2)
+{
+	// TODO: This should be indented as an in-statement array.
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    String footerText = jEdit.getProperty ( \"print.footerText\",\n"
+		"    new Object[] { new Date(), valueOf(pageIndex + 1)});\n"
+		"}";
+	char options[] = "mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsArrayJava, InStatement_LineCommentClear)
+{
+	// isNonInStatementArray should be cleared when a // follows a }
+	// if not cleared the "? ERROR" line will not be correctly indented
+	char text[] =
+		"\npublic enum KeyboardCommand\n"
+		"{\n"
+		"    TAB_OUT_FORWARD,\n"
+		"    TAB_OUT_BACK\n"
+		"} // this comment\n"
+		"\n"
+		"static class Entry\n"
+		"{\n"
+		"    Entry(PluginJAR jar)\n"
+		"    {\n"
+		"        if (plugin != null)\n"
+		"        {\n"
+		"            status = plugin instanceof EditPlugin.Broken\n"
+		"                     ? ERROR : LOADED;\n"
+		"            clazz = plugin.getClassName();\n"
+		"        }\n"
+		"    }\n"
+		"}\n";
+	char options[] = "mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsArrayJava, InStatement_CommentClear)
+{
+	// isNonInStatementArray should be cleared when a /* follows a }
+	// if not cleared the "? ERROR" line will not be correctly indented
+	char text[] =
+		"\npublic enum KeyboardCommand\n"
+		"{\n"
+		"    TAB_OUT_FORWARD,\n"
+		"    TAB_OUT_BACK\n"
+		"} /* this comment */\n"
+		"\n"
+		"static class Entry\n"
+		"{\n"
+		"    Entry(PluginJAR jar)\n"
+		"    {\n"
+		"        if (plugin != null)\n"
+		"        {\n"
+		"            status = plugin instanceof EditPlugin.Broken\n"
+		"                     ? ERROR : LOADED;\n"
+		"            clazz = plugin.getClassName();\n"
+		"        }\n"
+		"    }\n"
+		"}\n";
+	char options[] = "mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 
 //----------------------------------------------------------------------------
 

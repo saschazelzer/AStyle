@@ -425,7 +425,7 @@ TEST(ConsoleShortOption, FormattedShort)
 
 TEST(ConsoleShortOption, QuietShort)
 {
-	// test preserve-date short option
+	// test quiet short option
 	// should get an error unless it has been duplicated by another option
 	// the source will be formatted without the option
 	char text[] =
@@ -434,6 +434,63 @@ TEST(ConsoleShortOption, QuietShort)
 		"    bar();\n"
 		"}\n";
 	char options[] = "-q";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != NULL);
+	delete [] textOut;
+}
+
+TEST(ConsoleShortOption, LineEndWindowsShort)
+{
+	// test lineend=windows short option
+	// should get an error unless it has been duplicated by another option
+	// the source will be formatted without the option
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "-z1";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != NULL);
+	delete [] textOut;
+}
+
+TEST(ConsoleShortOption, LineEndLinuxShort)
+{
+	// test lineend=linux short option
+	// should get an error unless it has been duplicated by another option
+	// the source will be formatted without the option
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "-z2";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != NULL);
+	delete [] textOut;
+}
+
+TEST(ConsoleShortOption, LineEndMacOldShort)
+{
+	// test lineend=macold short option
+	// should get an error unless it has been duplicated by another option
+	// the source will be formatted without the option
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "-z3";
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
@@ -496,6 +553,86 @@ TEST(ConsoleShortOption, Help2Short)
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_TRUE(textOut != NULL);
+	delete [] textOut;
+}
+
+
+//----------------------------------------------------------------------------
+// AStyle default line ends
+// there are other tests in AStyleTestCon
+//----------------------------------------------------------------------------
+
+struct LineEndsDefaultF : public ::testing::Test
+{
+	string textLinuxStr;
+	string textWindowsStr;
+	string textMacOldStr;
+	const char* textLinux;
+	const char* textWindows;
+	const char* textMacOld;
+
+	LineEndsDefaultF()
+	{
+		textLinuxStr =
+			"\nvoid foo()\n"
+			"{\n"
+			"    bar()\n"
+			"}\n";
+		textWindowsStr =
+			"\r\nvoid foo()\r\n"
+			"{\r\n"
+			"    bar()\r\n"
+			"}\r\n";
+		textMacOldStr =
+			"\rvoid foo()\r"
+			"{\r"
+			"    bar()\r"
+			"}\r";
+		textLinux = textLinuxStr.c_str();
+		textWindows = textWindowsStr.c_str();
+		textMacOld = textMacOldStr.c_str();
+	}
+};
+
+TEST_F(LineEndsDefaultF, DefaultLinux)
+{
+	// test default Linux line ends
+	char options[] = "";
+	char* textOut = AStyleMain(textLinux, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(textLinux, textOut);
+	delete [] textOut;
+}
+
+TEST_F(LineEndsDefaultF, DefaultWindows)
+{
+	// test default Windows line ends
+	char options[] = "";
+	char* textOut = AStyleMain(textWindows, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(textWindows, textOut);
+	delete [] textOut;
+}
+
+TEST_F(LineEndsDefaultF, DefaultMacOld)
+{
+	// test default MacOld line ends
+	char options[] = "";
+	char* textOut = AStyleMain(textMacOld, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(textMacOld, textOut);
+	delete [] textOut;
+}
+
+TEST_F(LineEndsDefaultF, DefaultBadWindows)
+{
+	// test default Windows with line end characters reversed
+	// should be converted to Windows
+	char textBadWindows[] =
+		"\n\rvoid foo()\n\r"
+		"{\n\r"
+		"    bar()\n\r"
+		"}\n\r";
+	char options[] = "";
+	char* textOut = AStyleMain(textBadWindows, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(textWindows, textOut);
 	delete [] textOut;
 }
 

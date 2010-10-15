@@ -28,13 +28,13 @@ import time
 #  KDEVELOP			# cannot compile
 #  MONODEVELOP		# can compile on Linux only
 #  SCITE
-#  SHARPDEVELOP
+#  SHARPDEVELOP		# can compile on Windows only
 #  TESTPROJECT
-project = libastyle.JEDIT
+project = libastyle.SHARPDEVELOP
 
 # select OPT0 thru OPT3, or use customized options
 #options = "-tapO"
-options = libastyle.OPT3
+options = libastyle.OPT1
 
 # executable for test
 astyleexe = "astyle"
@@ -45,10 +45,6 @@ all_files_option = False
 
 # test number to start with (usually 1)
 start = 1
-
-# select one of the following to unarchive files
-extractfiles = True
-#extractfiles = False
 
 # -----------------------------------------------------------------------------
 
@@ -71,9 +67,8 @@ def process_files():
 	excludes = libastyle.get_project_excludes(project)
 	index = set_test_start(brackets)
 	libastyle.build_astyle_executable(get_astyle_config())
-	if extractfiles:
-		print "\nExtracting files"
-		libextract.extract_project(project, all_files_option)
+	print "\nExtracting files"
+	libextract.extract_project(project, all_files_option)
 
 	# process the bracket options
 	while index < len(brackets):

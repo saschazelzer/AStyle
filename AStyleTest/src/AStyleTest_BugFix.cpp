@@ -15,6 +15,44 @@ namespace
 // AStyle version 2.01 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V201, TwoBracketsOnLine)
+{
+	// Test bracket alignment with two brackets on a line.
+	char text[] =
+		"\nvoid LoadToc()\n"
+		"{\n"
+		"    if (!IsLocalHelp) DataContext = null;\n"
+		"    else DataContext = new[] { new TocEntry(-1)\n"
+		"        {\n"
+		"            Title = StringParser.Parse(\"${HelpLibraryRootTitle}\")\n"
+		"        }\n"
+		"    };\n"
+		"}";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V201, IndentBracketsSingleLineArray)
+{
+	// Test indent-brackets with a single line array.
+	// The last single line entry should be correctly indented.
+	char text[] =
+		"\npublic void foo()\n"
+		"    {\n"
+		"    optionSet = new OptionSet () {\n"
+		"            { 0, \"Assemblies\" },\n"
+		"            { 1, \"Namespaces\" },\n"
+		"            { 2, \"Help\" }\n"
+		"        };\n"
+		"    }";
+	char options[] = "indent-brackets, mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BugFix_V201, NotInTemplate)
 {
 	// The following statements were incorrectly flagged as templates.
@@ -356,38 +394,12 @@ TEST(BugFix_V201, SharpBreakSingleLineStatements)
 		"{\n"
 		"    if (!IsLocalHelp) DataContext = null;\n"
 		"    else DataContext = new[] { new TocEntry(-1) {\n"
-		"        Title = StringParser.Parse(\"${HelpLibraryRootTitle}\")\n"
-		"            }\n"
-		"                             };\n"
+		"            Title = StringParser.Parse(\"${HelpLibraryRootTitle}\")\n"
+		"        }\n"
+		"    };\n"
 		"}";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(BugFix_V201, ClearNonInStatement)
-{
-	// Setting of clearNonInStatement flag.
-	// The isNonInStatementArray flag should be cleared at the end of the array.
-	// If it is not, the continuation lines in the "for" statement will not be indented.
-	char text[] =
-		"\nvoid foo()\n"
-		"{\n"
-		"    int folderID[nbGrpFolder][nbControl] = {\\\n"
-		"        {IDC_FOLDEROPEN_FG, IDC_FOLDEROPEN_BG},\\\n"
-		"        {IDC_FOLDERCLOSE_FG, IDC_FOLDERCLOSE_BG}\\\n"
-		"    };\n"
-		"\n"
-		"    for (TiXmlNodeA *childNode = node->ChildElement(Item);\n"
-		"            childNode ;\n"
-		"            childNode = childNode->NextSibling(Item))\n"
-		"    {\n"
-		"        TiXmlElementA *element = childNode->ToElement();\n"
-		"    }\n"
-		"}";
-	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -821,23 +833,6 @@ TEST(BugFix_V201, TwoGreaterSymblolsClosingTemplate)
 		"    get {\n"
 		"        return typeConversionTable;\n"
 		"    }\n"
-		"}\n";
-	char options[] = "mode=cs";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(BugFix_V201, InStatementIndentWithParenLineBegin)
-{
-	// a paren begins a line with an in-statement indent
-	char text[] =
-		"\nprivate void foo()\n"
-		"{\n"
-		"    search(\n"
-		"        () => DoSearch(Select(i => i.Node).ToList()),\n"
-		"        result => SearchCompleted(result),\n"
-		"    );\n"
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -1292,64 +1287,6 @@ TEST(BugFix_V124, SharpDelegate)
 		"}\n";
 	char options[] = "brackets=linux, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(BugFix_V124, JavaInStatement_LineCommentClear)
-{
-	// isNonInStatementArray should be cleared when a // follows a }
-	// if not cleared the "? ERROR" line will not be correctly indented
-	char text[] =
-		"\npublic enum KeyboardCommand\n"
-		"{\n"
-		"    TAB_OUT_FORWARD,\n"
-		"    TAB_OUT_BACK\n"
-		"} // this comment\n"
-		"\n"
-		"static class Entry\n"
-		"{\n"
-		"    Entry(PluginJAR jar)\n"
-		"    {\n"
-		"        if (plugin != null)\n"
-		"        {\n"
-		"            status = plugin instanceof EditPlugin.Broken\n"
-		"                     ? ERROR : LOADED;\n"
-		"            clazz = plugin.getClassName();\n"
-		"        }\n"
-		"    }\n"
-		"}\n";
-	char options[] = "mode=java";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(BugFix_V124, JavaInStatement_CommentClear)
-{
-	// isNonInStatementArray should be cleared when a /* follows a }
-	// if not cleared the "? ERROR" line will not be correctly indented
-	char text[] =
-		"\npublic enum KeyboardCommand\n"
-		"{\n"
-		"    TAB_OUT_FORWARD,\n"
-		"    TAB_OUT_BACK\n"
-		"} /* this comment */\n"
-		"\n"
-		"static class Entry\n"
-		"{\n"
-		"    Entry(PluginJAR jar)\n"
-		"    {\n"
-		"        if (plugin != null)\n"
-		"        {\n"
-		"            status = plugin instanceof EditPlugin.Broken\n"
-		"                     ? ERROR : LOADED;\n"
-		"            clazz = plugin.getClassName();\n"
-		"        }\n"
-		"    }\n"
-		"}\n";
-	char options[] = "mode=java";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }

@@ -1167,7 +1167,7 @@ TEST(AddBrackets, SemiFollows)
 		"{\n"
 		"    if (a == 0) ; func1(); i++;\n"
 		"    while (isFoo)  // comment\n"
-		"            ;\n" 
+		"            ;\n"
 		"    while (isFoo); // comment\n"
 		"}\n";
 	char text[] =
@@ -1723,7 +1723,7 @@ TEST(AddOneLineBrackets, SemiFollows)
 		"{\n"
 		"    if (a == 0) ; func1(); i++;\n"
 		"    while (isFoo)  // comment\n"
-		"            ;\n" 
+		"            ;\n"
 		"    while (isFoo); // comment\n"
 		"}\n";
 	char text[] =
@@ -4719,85 +4719,6 @@ TEST(AlignPointer, Sharp)
 	char options[] = "mode=cs, pad-oper, align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-//----------------------------------------------------------------------------
-// AStyle default line ends
-// there are other tests in AStyleTestCon
-//----------------------------------------------------------------------------
-
-struct LineEndsDefaultF : public ::testing::Test
-{
-	string textLinuxStr;
-	string textWindowsStr;
-	string textMacOldStr;
-	const char* textLinux;
-	const char* textWindows;
-	const char* textMacOld;
-
-	LineEndsDefaultF()
-	{
-		textLinuxStr =
-			"\nvoid foo()\n"
-			"{\n"
-			"    bar()\n"
-			"}\n";
-		textWindowsStr =
-			"\r\nvoid foo()\r\n"
-			"{\r\n"
-			"    bar()\r\n"
-			"}\r\n";
-		textMacOldStr =
-			"\rvoid foo()\r"
-			"{\r"
-			"    bar()\r"
-			"}\r";
-		textLinux = textLinuxStr.c_str();
-		textWindows = textWindowsStr.c_str();
-		textMacOld = textMacOldStr.c_str();
-	}
-};
-
-TEST_F(LineEndsDefaultF, Linux)
-{
-	// test default Linux line ends
-	char options[] = "";
-	char* textOut = AStyleMain(textLinux, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(textLinux, textOut);
-	delete [] textOut;
-}
-
-TEST_F(LineEndsDefaultF, Windows)
-{
-	// test default Windows line ends
-	char options[] = "";
-	char* textOut = AStyleMain(textWindows, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(textWindows, textOut);
-	delete [] textOut;
-}
-
-TEST_F(LineEndsDefaultF, MacOld)
-{
-	// test default MacOld line ends
-	char options[] = "";
-	char* textOut = AStyleMain(textMacOld, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(textMacOld, textOut);
-	delete [] textOut;
-}
-
-TEST_F(LineEndsDefaultF, BadWindows)
-{
-	// test default Windows with line end characters reversed
-	// should be converted to Windows
-	char textBadWindows[] =
-		"\n\rvoid foo()\n\r"
-		"{\n\r"
-		"    bar()\n\r"
-		"}\n\r";
-	char options[] = "";
-	char* textOut = AStyleMain(textBadWindows, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(textWindows, textOut);
 	delete [] textOut;
 }
 

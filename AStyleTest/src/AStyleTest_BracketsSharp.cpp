@@ -2727,6 +2727,11 @@ TEST(BracketsOtherSharp, NestedNamespace_IndentNamespacesBrackets)
 	delete [] textOut;
 }
 
+
+//-------------------------------------------------------------------------
+// AStyle C# Other Bracket Options
+//-------------------------------------------------------------------------
+
 TEST(BracketsOtherSharp, NewOperator1)
 {
 	// test new operator ending with })
@@ -2790,11 +2795,28 @@ TEST(BracketsOtherSharp, NewOperator3)
 	*/
 }
 
+TEST(BracketsOtherSharp, ReturnStatement)
+{
+	// test return statement ending with };
+	// }; should not have an in-statement indent.
+	char text[] =
+		"\npublic IViewContent CreateContentForFile(OpenedFile file)\n"
+		"{\n"
+		"    return new SimpleViewContent(errorMessage) {\n"
+		"        TitleName = Path.GetFileName(file.FileName)\n"
+		"    };\n"
+		"}\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	ASSERT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle C# Array Bracket Options
 //-------------------------------------------------------------------------
 
-TEST(SharpBracketsArray, None_Comments)
+TEST(BracketsArraySharp, None_Comments)
 {
 	// comments preceding array entries should NOT break the line
 	char text[] =
@@ -2810,7 +2832,43 @@ TEST(SharpBracketsArray, None_Comments)
 	delete [] textOut;
 }
 
-TEST(SharpBracketsArray, Break_Comments)
+TEST(BracketsArraySharp, None_Misc1)
+{
+	// The following unusual C# array was badly formatted.
+	// It could be better but this is an improvement over what it was.
+	char textIn[] =
+		"\nprivate static readonly SplashIdMapping[] SplashIdMappings = {\n"
+		"    new SplashIdMapping(\"Bank Accts\", PwIcon.Homebanking,\n"
+		"        new string[]{ PwDefs.TitleField, \"Account #\", PwDefs.PasswordField,\n"
+		"            PwDefs.UserNameField, \"Branch\", \"Phone #\" }),\n"
+		"    new SplashIdMapping(\"Birthdays\", PwIcon.UserCommunication,\n"
+		"        new string[]{ PwDefs.TitleField, \"Date\" }),\n"
+		"    new SplashIdMapping(\"Calling Cards\", PwIcon.EMail,\n"
+		"        new string[]{ PwDefs.TitleField, PwDefs.UserNameField,\n"
+		"            PwDefs.PasswordField }),\n"
+		"};";
+	char text[] =
+		"\nprivate static readonly SplashIdMapping[] SplashIdMappings = {\n"
+		"    new SplashIdMapping(\"Bank Accts\", PwIcon.Homebanking,\n"
+		"    new string[]{\n"
+		"        PwDefs.TitleField, \"Account #\", PwDefs.PasswordField,\n"
+		"        PwDefs.UserNameField, \"Branch\", \"Phone #\"\n"
+		"    }),\n"
+		"    new SplashIdMapping(\"Birthdays\", PwIcon.UserCommunication,\n"
+		"    new string[]{ PwDefs.TitleField, \"Date\" }),\n"
+		"    new SplashIdMapping(\"Calling Cards\", PwIcon.EMail,\n"
+		"    new string[]{\n"
+		"        PwDefs.TitleField, PwDefs.UserNameField,\n"
+		"        PwDefs.PasswordField\n"
+		"    }),\n"
+		"};";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsArraySharp, Break_Comments)
 {
 	// comments preceding array entries should NOT break the line
 	char text[] =
@@ -2826,7 +2884,45 @@ TEST(SharpBracketsArray, Break_Comments)
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
-TEST(SharpBracketsArray, Attach_Comments)
+
+TEST(BracketsArraySharp, Break_Misc1)
+{
+	// The following unusual C# array was badly formatted.
+	// It could be better but this is an improvement over what it was.
+	char textIn[] =
+		"\nprivate static readonly SplashIdMapping[] SplashIdMappings = {\n"
+		"    new SplashIdMapping(\"Bank Accts\", PwIcon.Homebanking,\n"
+		"        new string[]{ PwDefs.TitleField, \"Account #\", PwDefs.PasswordField,\n"
+		"            PwDefs.UserNameField, \"Branch\", \"Phone #\" }),\n"
+		"    new SplashIdMapping(\"Birthdays\", PwIcon.UserCommunication,\n"
+		"        new string[]{ PwDefs.TitleField, \"Date\" }),\n"
+		"    new SplashIdMapping(\"Calling Cards\", PwIcon.EMail,\n"
+		"        new string[]{ PwDefs.TitleField, PwDefs.UserNameField,\n"
+		"            PwDefs.PasswordField }),\n"
+		"};";
+	char text[] =
+		"\nprivate static readonly SplashIdMapping[] SplashIdMappings =\n"
+		"{\n"
+		"    new SplashIdMapping(\"Bank Accts\", PwIcon.Homebanking,\n"
+		"    new string[]{\n"
+		"        PwDefs.TitleField, \"Account #\", PwDefs.PasswordField,\n"
+		"        PwDefs.UserNameField, \"Branch\", \"Phone #\"\n"
+		"    }),\n"
+		"    new SplashIdMapping(\"Birthdays\", PwIcon.UserCommunication,\n"
+		"    new string[]{ PwDefs.TitleField, \"Date\" }),\n"
+		"    new SplashIdMapping(\"Calling Cards\", PwIcon.EMail,\n"
+		"    new string[]{\n"
+		"        PwDefs.TitleField, PwDefs.UserNameField,\n"
+		"        PwDefs.PasswordField\n"
+		"    }),\n"
+		"};";
+	char options[] = "brackets=break, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsArraySharp, Attach_Comments)
 {
 	// comments preceding array entries should NOT break the line
 	char text[] =
@@ -2841,7 +2937,45 @@ TEST(SharpBracketsArray, Attach_Comments)
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
-TEST(SharpBracketsArray, Horstmann_Comments)
+
+TEST(BracketsArraySharp, Attach_Misc1)
+{
+	// The following unusual C# array was badly formatted.
+	// It could be better but this is an improvement over what it was.
+	char textIn[] =
+		"\nprivate static readonly SplashIdMapping[] SplashIdMappings =\n"
+		"{\n"
+		"    new SplashIdMapping(\"Bank Accts\", PwIcon.Homebanking,\n"
+		"        new string[]{ PwDefs.TitleField, \"Account #\", PwDefs.PasswordField,\n"
+		"            PwDefs.UserNameField, \"Branch\", \"Phone #\" }),\n"
+		"    new SplashIdMapping(\"Birthdays\", PwIcon.UserCommunication,\n"
+		"        new string[]{ PwDefs.TitleField, \"Date\" }),\n"
+		"    new SplashIdMapping(\"Calling Cards\", PwIcon.EMail,\n"
+		"        new string[]{ PwDefs.TitleField, PwDefs.UserNameField,\n"
+		"            PwDefs.PasswordField }),\n"
+		"};";
+	char text[] =
+		"\nprivate static readonly SplashIdMapping[] SplashIdMappings = {\n"
+		"    new SplashIdMapping(\"Bank Accts\", PwIcon.Homebanking,\n"
+		"    new string[]{\n"
+		"        PwDefs.TitleField, \"Account #\", PwDefs.PasswordField,\n"
+		"        PwDefs.UserNameField, \"Branch\", \"Phone #\"\n"
+		"    }),\n"
+		"    new SplashIdMapping(\"Birthdays\", PwIcon.UserCommunication,\n"
+		"    new string[]{ PwDefs.TitleField, \"Date\" }),\n"
+		"    new SplashIdMapping(\"Calling Cards\", PwIcon.EMail,\n"
+		"    new string[]{\n"
+		"        PwDefs.TitleField, PwDefs.UserNameField,\n"
+		"        PwDefs.PasswordField\n"
+		"    }),\n"
+		"};";
+	char options[] = "brackets=attach, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsArraySharp, Horstmann_Comments)
 {
 	// comments preceding array entries should NOT break the line
 	char text[] =
@@ -2854,6 +2988,164 @@ TEST(SharpBracketsArray, Horstmann_Comments)
 	char options[] = "brackets=horstmann, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsArraySharp, Horstmann_Misc1)
+{
+	// The following unusual C# array was badly formatted.
+	// It could be better but this is an improvement over what it was.
+	char textIn[] =
+		"\nprivate static readonly SplashIdMapping[] SplashIdMappings = {\n"
+		"    new SplashIdMapping(\"Bank Accts\", PwIcon.Homebanking,\n"
+		"        new string[]{ PwDefs.TitleField, \"Account #\", PwDefs.PasswordField,\n"
+		"            PwDefs.UserNameField, \"Branch\", \"Phone #\" }),\n"
+		"    new SplashIdMapping(\"Birthdays\", PwIcon.UserCommunication,\n"
+		"        new string[]{ PwDefs.TitleField, \"Date\" }),\n"
+		"    new SplashIdMapping(\"Calling Cards\", PwIcon.EMail,\n"
+		"        new string[]{ PwDefs.TitleField, PwDefs.UserNameField,\n"
+		"            PwDefs.PasswordField }),\n"
+		"};";
+	char text[] =
+		"\nprivate static readonly SplashIdMapping[] SplashIdMappings =\n"
+		"{   new SplashIdMapping(\"Bank Accts\", PwIcon.Homebanking,\n"
+		"    new string[]{ PwDefs.TitleField, \"Account #\", PwDefs.PasswordField,\n"
+		"        PwDefs.UserNameField, \"Branch\", \"Phone #\"\n"
+		"    }),\n"
+		"    new SplashIdMapping(\"Birthdays\", PwIcon.UserCommunication,\n"
+		"    new string[]{ PwDefs.TitleField, \"Date\" }),\n"
+		"    new SplashIdMapping(\"Calling Cards\", PwIcon.EMail,\n"
+		"    new string[]{ PwDefs.TitleField, PwDefs.UserNameField,\n"
+		"        PwDefs.PasswordField\n"
+		"    }),\n"
+		"};";
+	char options[] = "brackets=horstmann, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle C# Array Bracket Non-In-Statement Options
+// Currently with C# some commands are handled as non-in-statement arrays
+//-------------------------------------------------------------------------
+
+TEST(BracketsArraySharp, InStatementIndentWithParenLineBegin)
+{
+	// a paren begins a line with an in-statement indent
+	char text[] =
+		"\nprivate void foo()\n"
+		"{\n"
+		"    search(\n"
+		"        () => DoSearch(Select(i => i.Node).ToList()),\n"
+		"        result => SearchCompleted(result),\n"
+		"    );\n"
+		"}\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsArraySharp, Clear_NonInStatementArray1)
+{
+	// The isNonInStatementArray should NOT be cleared if a one-line statement is created.
+	// If cleared the GetComponentType line is not indented.
+	char textIn[] =
+		"\npublic void ResolveIdentifier()\n"
+		"{\n"
+		"    ResolveResult groupByResolve = visitor(GroupBy);\n"
+		"    DomReturnType resolved = new DomReturnType(GetType(new IReturnType[] {\n"
+		"        GetComponentType(initializerResolve), groupByResolve}));\n"
+		"}";
+	char text[] =
+		"\npublic void ResolveIdentifier()\n"
+		"    {   ResolveResult groupByResolve = visitor(GroupBy);\n"
+		"    DomReturnType resolved = new DomReturnType(GetType(new IReturnType[]\n"
+		"        {   GetComponentType(initializerResolve), groupByResolve\n"
+		"        }));\n"
+		"    }";
+	char options[] = "brackets=horstmann, indent-brackets, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsArraySharp, Clear_NonInStatementArray2)
+{
+	// The isNonInStatementArray should be cleared before brackets are added.
+	// If not cleared the CreateDirectory line is wrong.
+	char textIn[] =
+		"\npublic void CreateEntry()\n"
+		"{\n"
+		"    workspaceItem.Name = StringParser(new string[,] {{SolutionName}});\n"
+		"    if (!Directory.Exists(SolutionPath))\n"
+		"        CreateDirectory(SolutionPath);\n"
+		"}";
+	char text[] =
+		"\npublic void CreateEntry()\n"
+		"{\n"
+		"    workspaceItem.Name = StringParser(new string[,] {{SolutionName}});\n"
+		"    if (!Directory.Exists(SolutionPath)) {\n"
+		"        CreateDirectory(SolutionPath);\n"
+		"    }\n"
+		"}";
+	char options[] = "add-brackets, keep-one-line-blocks, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+TEST(BracketsArraySharp, Clear_NonInStatementArray3)
+{
+	// The isNonInStatementArray should be cleared before brackets are added.
+	// If not cleared the final in-statement indent will be wrong.
+	char text[] =
+		"\nstatic void LoadProjectInternal()\n"
+		"{\n"
+		"    string[,] parseArgs = {{solutionFile}, {fileName}};\n"
+		"    int res = ShowCustomDialog(MessageService.ProductName,\n"
+		"                               StringParser.Parse(parseArgs1),\n"
+		"                               0, 2);\n"
+		"}";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsArraySharp, Clear_NonInStatementArray4)
+{
+	// The isNonInStatementArray should be cleared before brackets are added.
+	// If not cleared the last two lines will be wrong.
+	char text[] =
+		"\nstatic void NeedsToClear()\n"
+		"{\n"
+		"    Message.Show(Parse(new string[,] {{ count.ToString() }}));\n"
+		"    MessageBox.Show(WorkbenchSingleton.MainWin32Window,\n"
+		"                    MessageBoxButtons.OK,\n"
+		"                    MessageBoxIcon.Information);\n"
+		"}";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsArraySharp, Clear_NonInStatementArray5)
+{
+	// The following "help" line should be indented with indent-brackets.
+	// A line beginning with '{' caused isNonInStatementArray to be cleared.
+	char text[] =
+		"\npublic static int Main ( string[] args )\n"
+		"    {\n"
+		"    optionSet = new OptionSet () {\n"
+		"            { \"a=\", ( s, p ) => ProcessorValues[s] = p },\n"
+		"            { \"h|?|help\", s => ShowHelp ( false ) }\n"
+		"        };\n"
+		"    }";
+	char options[] = "indent-brackets, mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 

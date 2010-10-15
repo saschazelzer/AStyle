@@ -21,23 +21,19 @@ import time
 # global variables ------------------------------------------------------------
 
 # enter the following
-archive = "testdisk-6.11.tar.bz2"
-project = "testdisk-6.11"		# primary directory in archive
-source = ["*.c","*.h"]					# extensions to format
+archive = "KeePass-2.13-Source.zip"
+project = "KeePass-2.13-Source"		# primary directory in archive
+source = ["*.cs"]					# extensions to format
 
 # select OPT0 thru OPT3, or use customized options
 #options = "-tapO"
-options = libastyle.OPT3
+options = libastyle.OPT2
 
 # test number to start with (usually 1)
 start = 1
 
 # executable for test
 astyleexe = "astyle"
-
-# extract all files option, use False for speed, use True to compile
-extractfiles = True
-#extractfiles = False
 
 # -----------------------------------------------------------------------------
 
@@ -60,9 +56,8 @@ def process_files():
 	excludes = []
 	index = set_test_start(brackets)
 	libastyle.build_astyle_executable(get_astyle_config())
-	if extractfiles:
-		print "\nExtracting files"
-		extract_project()
+	print "\nExtracting files"
+	extract_project()
 
 	# process the bracket options
 	while index < len(brackets):

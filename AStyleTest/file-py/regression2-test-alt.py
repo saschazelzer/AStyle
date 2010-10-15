@@ -82,7 +82,7 @@ def process_files():
 		libextract.rename_test_directory(project, project + "OLD")
 	else:
 		verify_test_directory(project + "OLD")
-		print "No Test 1"
+		print "\nNo Test 1"
 
 	# run test 2
 	print "\nExtracting Test 2"
