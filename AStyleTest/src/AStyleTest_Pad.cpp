@@ -1815,6 +1815,59 @@ TEST(PadOperator, Comments)
 	delete [] textOut;
 }
 
+TEST(PadOperator, BlockParens)
+{
+	// operators in block paren should be padded
+	// this was added in release 2.01
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    str[i+2] = 2;\n"
+		"    str[i-2] = 2;\n"
+		"    str[i*2] = 2;\n"
+		"    str[i/2] = 2;\n"
+		"    str[i%2] = 2;\n"
+		"    str[boo*foo] = 2;\n"
+		"    str[2*i] = 2;\n"
+		"    crc = crc_table[(crc^(*text++))&0xFF];\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    str[i + 2] = 2;\n"
+		"    str[i - 2] = 2;\n"
+		"    str[i * 2] = 2;\n"
+		"    str[i / 2] = 2;\n"
+		"    str[i % 2] = 2;\n"
+		"    str[boo * foo] = 2;\n"
+		"    str[2 * i] = 2;\n"
+		"    crc = crc_table[(crc ^ (*text++)) & 0xFF];\n"
+		"}\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperator, BlockParensSans)
+{
+	// dereference or address-of in block parens should NOT be padded
+	// this was added in release 2.01
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    int step = utf8ByteTable[*((char*) p)];\n"
+		"    *output = (char) (input[*length]);\n"
+		"    char style = ptr[-1];\n"
+		"    tabs += charLengths[size_t (*c)] - 1;\n"
+		"    targets[(CompileTargetBase*) cbp] = globalUsedLibs;\n"
+		"}\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Pad Paren
 //-------------------------------------------------------------------------
@@ -1893,6 +1946,27 @@ TEST(PadParen, Template)
 		"};\n";
 	char options[] = "pad-paren";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadParen, BlockParenSans)
+{
+	// do NOT pad a closing paren followed by a block paren ")]"
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (buffer[6+font->GetSize1()] == 128)\n"
+		"        bar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if ( buffer[6+font->GetSize1()] == 128 )\n"
+		"        bar();\n"
+		"}\n";
+	char options[] = "pad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }

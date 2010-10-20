@@ -3732,6 +3732,21 @@ TEST(MultipleVariable, MultipleStatementsPerLine)
 	delete [] textOut;
 }
 
+TEST(MultipleVariable, MultipleSpacesToName)
+{
+	// multiple variables with multiple spaces before the name
+	char text[] =
+		"\nstruct foo\n"
+		"{\n"
+		"    char   bl: 4,\n"
+		"           bh: 4;\n"
+		"};\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(MultipleVariable, ClassInitializer1)
 {
 	// class initializers are aligned on first variable
@@ -3816,6 +3831,28 @@ TEST(MultipleVariable, ClassInitializer5)
 }
 
 TEST(MultipleVariable, ClassInitializer6)
+{
+	// class initializers are aligned on first variable
+	// isInStatement should be reset for the initializer
+	// it was NOT if the initializer followed an "extern" statement
+	// m_bar(0) was aligned with the colon instead of the variable
+	char text[] =
+		"\nextern \"C\" {\n"
+		"    int fubar_c();\n"
+		"}\n"
+		"\n"
+		"Fubar::Fubar(void)\n"
+		"    : m_foo(0),\n"
+		"      m_bar(0)\n"
+		"{\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MultipleVariable, ClassInitializer7)
 {
 	// class initializers are aligned on first variable
 	// this EXPECT_TRUEs if the variables have been reset

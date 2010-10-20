@@ -524,7 +524,7 @@ TEST(BracketsHorstmannCpp, Linux)
 	delete [] textOut;
 }
 
-TEST(BracketsHorstmannCpp, Horstmann)
+TEST(BracketsHorstmannCpp, Horstmann1)
 {
 	// test horstmann brackets option with horstmann brackets
 	char text[] =
@@ -538,6 +538,28 @@ TEST(BracketsHorstmannCpp, Horstmann)
 		"}\n";
 	char options[] = "brackets=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsHorstmannCpp, Horstmann2)
+{
+	// test default brackets option with horstmann brackets
+	// and 2 brackets on the same line
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{   if(isFoo) {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{   if(isFoo)\n"
+		"    {   bar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }

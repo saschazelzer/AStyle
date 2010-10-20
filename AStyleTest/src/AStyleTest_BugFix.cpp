@@ -15,6 +15,28 @@ namespace
 // AStyle version 2.01 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V201, UnpadParen_PadParenIn)
+{
+	// Using both --unpad-paren and --pad-paren-in, becomes "if(( isFoo ) )"'
+	// The leading paren was unpadded by the unpad-paren option.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if ((isFoo))\n"
+		"        bar();\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if( ( isFoo ) )\n"
+		"        bar();\n"
+		"}";
+	char options[] = "unpad-paren, pad-paren-in";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BugFix_V201, TwoBracketsOnLine)
 {
 	// Test bracket alignment with two brackets on a line.

@@ -1601,7 +1601,7 @@ TEST(BracketsBreakCpp, Linux)
 	delete [] textOut;
 }
 
-TEST(BracketsBreakCpp, Horstmann)
+TEST(BracketsBreakCpp, Horstmann1)
 {
 	// test break brackets option with horstmann brackets
 	char textIn[] =
@@ -1623,6 +1623,30 @@ TEST(BracketsBreakCpp, Horstmann)
 		"    else\n"
 		"    {\n"
 		"        anotherBar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=break";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsBreakCpp, Horstmann2)
+{
+	// test default brackets option with horstmann brackets
+	// and 2 brackets on the same line
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{   if(isFoo) {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(isFoo)\n"
+		"    {\n"
+		"        bar();\n"
 		"    }\n"
 		"}\n";
 	char options[] = "brackets=break";
@@ -2724,7 +2748,7 @@ TEST(BracketsAttachCpp, Linux)
 	delete [] textOut;
 }
 
-TEST(BracketsAttachCpp, Horstmann)
+TEST(BracketsAttachCpp, Horstmann1)
 {
 	// test attach brackets option with horstmann brackets
 	char textIn[] =
@@ -2742,6 +2766,28 @@ TEST(BracketsAttachCpp, Horstmann)
 		"        bar();\n"
 		"    } else {\n"
 		"        anotherBar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsAttachCpp, Horstmann2)
+{
+	// test default brackets option with horstmann brackets
+	// and 2 brackets on the same line
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{   if(isFoo) {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo() {\n"
+		"    if(isFoo) {\n"
+		"        bar();\n"
 		"    }\n"
 		"}\n";
 	char options[] = "brackets=attach";
@@ -3917,7 +3963,7 @@ TEST(BracketsLinuxCpp, Extern)
 
 TEST(BracketsLinuxCpp, Assembler)
 {
-	// assembler statement should be formatted
+	// assembler statements should be attached
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -4017,7 +4063,7 @@ TEST(BracketsLinuxCpp, Linux)
 	delete [] textOut;
 }
 
-TEST(BracketsLinuxCpp, Horstmann)
+TEST(BracketsLinuxCpp, Horstmann1)
 {
 	// test linux brackets option with horstmann brackets
 	char textIn[] =
@@ -4036,6 +4082,29 @@ TEST(BracketsLinuxCpp, Horstmann)
 		"        bar();\n"
 		"    } else {\n"
 		"        anotherBar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=linux";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsLinuxCpp, Horstmann2)
+{
+	// test default brackets option with horstmann brackets
+	// and 2 brackets on the same line
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{   if(isFoo) {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(isFoo) {\n"
+		"        bar();\n"
 		"    }\n"
 		"}\n";
 	char options[] = "brackets=linux";
@@ -4130,7 +4199,7 @@ TEST(BracketsLinuxCpp, Misc3)
 	delete [] textOut;
 }
 
-TEST(BracketsLinuxCpp, Formatting)
+TEST(BracketsLinuxCpp, Formatting1)
 {
 	// test linux brackets option, for non-function top level objects
 	// brackets are attached for function definitions within a class
@@ -4185,7 +4254,38 @@ TEST(BracketsLinuxCpp, Formatting)
 		"}\n"
 		"\n"
 		"}\n";
+	char options[] = "brackets=linux";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
 
+TEST(BracketsLinuxCpp, Formatting2)
+{
+	// test linux brackets option, for non-function objects within a function
+	// brackets are attached for arrays, structs, enums and other objects  within a function.
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"\n"
+		"    // arrays are NOT broken\n"
+		"    fooArray[] = {\n"
+		"        red,\n"
+		"        green,\n"
+		"        darkblue\n"
+		"    };\n"
+		"\n"
+		"    // structs are NOT broken\n"
+		"    struct fooStruct {\n"
+		"        int foo;\n"
+		"    }\n"
+		"\n"
+		"    // enums are NOT broken\n"
+		"    enum fooEnum {\n"
+		"        foo,\n"
+		"        bar\n"
+		"    }\n"
+		"}\n";
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -5304,7 +5404,7 @@ TEST(BracketsStroustrupCpp, Extern)
 
 TEST(BracketsStroustrupCpp, Assembler)
 {
-	// assembler statement should be formatted
+	// assembler statements should be attached
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -5404,7 +5504,7 @@ TEST(BracketsStroustrupCpp, Linux)
 	delete [] textOut;
 }
 
-TEST(BracketsStroustrupCpp, Horstmann)
+TEST(BracketsStroustrupCpp, Horstmann1)
 {
 	// test stroustrup brackets option with horstmann brackets
 	char textIn[] =
@@ -5423,6 +5523,29 @@ TEST(BracketsStroustrupCpp, Horstmann)
 		"        bar();\n"
 		"    } else {\n"
 		"        anotherBar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=stroustrup";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsStroustrupCpp, Horstmann2)
+{
+	// test default brackets option with horstmann brackets
+	// and 2 brackets on the same line
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{   if(isFoo) {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(isFoo) {\n"
+		"        bar();\n"
 		"    }\n"
 		"}\n";
 	char options[] = "brackets=stroustrup";
@@ -5517,7 +5640,7 @@ TEST(BracketsStroustrupCpp, Misc3)
 	delete [] textOut;
 }
 
-TEST(BracketsStroustrupCpp, Formatting)
+TEST(BracketsStroustrupCpp, Formatting1)
 {
 	// test stroustrup brackets option, for non-function top level objects
 	// brackets are attached for function definitions within a class
@@ -5571,6 +5694,38 @@ TEST(BracketsStroustrupCpp, Formatting)
 		"\n"
 		"}\n";
 
+	char options[] = "brackets=stroustrup";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsStroustrupCpp, Formatting2)
+{
+	// test stroustrup brackets option, for non-function objects within a function
+	// brackets are attached for arrays, structs, enums and other objects  within a function.
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"\n"
+		"    // arrays are NOT broken\n"
+		"    fooArray[] = {\n"
+		"        red,\n"
+		"        green,\n"
+		"        darkblue\n"
+		"    };\n"
+		"\n"
+		"    // structs are NOT broken\n"
+		"    struct fooStruct {\n"
+		"        int foo;\n"
+		"    }\n"
+		"\n"
+		"    // enums are NOT broken\n"
+		"    enum fooEnum {\n"
+		"        foo,\n"
+		"        bar\n"
+		"    }\n"
+		"}\n";
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
