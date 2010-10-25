@@ -37,6 +37,23 @@ TEST(BugFix_V201, UnpadParen_PadParenIn)
 	delete [] textOut;
 }
 
+TEST(BugFix_V201, AlignOnBracket)
+{
+	// Test alignment on a bracket.
+	char text[] =
+		"\n[Browsable(true),\n"
+		" DisplayName(\"Display ordinal\"),\n"
+		" CustomAttribute(2)]\n"
+		"public int DisplayOrdinal\n"
+		"{\n"
+		"//...\n"
+		"}";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BugFix_V201, TwoBracketsOnLine)
 {
 	// Test bracket alignment with two brackets on a line.

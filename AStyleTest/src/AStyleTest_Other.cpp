@@ -1205,6 +1205,59 @@ TEST(Preprocessor, Elif)
 	delete [] textOut;
 }
 
+TEST(Preprocessor, NestedIfElse1)
+{
+	// nested #if, #else, updates a different waitingBeautifierStack entry
+	char text[] =
+		"\nvoid MyClass::MyFunc()\n"
+		"{\n"
+		"#ifdef DEF_1\n"
+		"    do1();\n"
+		"#else\n"
+		"    if(featureEnabled)\n"
+		"    {\n"
+		"        do3();\n"
+		"#ifdef DEF_2\n"
+		"        do4();\n"
+		"#else\n"
+		"        do5(); // This line should be aligned with do4().\n"
+		"#endif\n"
+		"    }\n"
+		"#endif\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Preprocessor, NestedIfElse2)
+{
+	// nested #if, #else, updates a different waitingBeautifierStack entry
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"#if 0\n"
+		"    int a = 0;\n"
+		"#else\n"
+		"    int b = 0;\n"
+		"    {\n"
+		"#if 0\n"
+		"        int c = 0;\n"
+		"#else\n"
+		"        int d = 0;   // This line should be aligned.\n"
+		"#endif\n"
+		"        int e = 0;\n"
+		"    }\n"
+		"#endif\n"
+		"    int f = 0;\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(Preprocessor, EndOnEmptyLine)
 {
 	// TODO: AStyle adds a space to the empty line
