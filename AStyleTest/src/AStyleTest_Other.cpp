@@ -1175,6 +1175,28 @@ TEST(Preprocessor, CommandType)
 	delete [] textOut;
 }
 
+TEST(Preprocessor, FollowsConditional)
+{
+	// A preprocessor directive follows an unbracketed conditional.
+	// Tests the indent following the conditional statement.
+	// After the #endif should be aligned under the if().
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"#ifdef __cplusplus\n"
+		"        bar1;\n"
+		"#else\n"
+		"        bar2;\n"
+		"#endif\n"
+		"    isFoo = false;\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(Preprocessor, Elif)
 {
 	// #elif updates the waitingBeautifierStack

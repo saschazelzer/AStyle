@@ -8,14 +8,14 @@ REM  b - brackets=break
 REM  l - brackets=linux
 REM  H - pad-header
 REM  C - indent-classes
-REM  O - one-line=keep-blocks
+REM  O - keep-one-line-blocks
 REM k1 - align-pointer=type
-REM  c - convert-tabs
 REM  v - verbose
-REM Q - formatted
+REM  Q - formatted
+REM z1 - windows lineends
 
-set options= -tbHCO  -Qz1  --options=none
-set optionsh= -tlHCO  -Qz1  --options=none
+set options= -tbHCOk1  -Qz1  --options=none
+set optionsh= -tlHCOk1  -Qz1  --options=none
 
 echo Formatting AStyle
 echo source %options%  

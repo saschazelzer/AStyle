@@ -76,7 +76,7 @@ class TersePrinter : public EmptyTestEventListener
 		// Internal helper functions.
 		void PrintFailedTestSummary(string summary_) const;
 		void PrintFailedTestsList(const UnitTest& unit_test) const;
-		char PeekNextChar(const string &line, int i) const;
+		char PeekNextChar(const string& line, int i) const;
 
 		// Color print functions.
 //	void ColoredPrint(ConsoleColor color, const char* fmt) const;

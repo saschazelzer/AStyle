@@ -53,10 +53,10 @@ class PrintF : public ::testing::Test
 		~PrintF();
 
 		// make adjustments to expected text
-		void adjustText(string &text);
+		void adjustText(string& text);
 
 		// make adjustments to textOut
-		void adjustTextOut(string &textOut);
+		void adjustTextOut(string& textOut);
 
 		// build a vector of files to exclude
 		void buildExcludeVector();
@@ -106,7 +106,7 @@ PrintF::~PrintF()
 	deleteConsoleGlobalObject();
 }
 
-void PrintF::adjustText(string &text)
+void PrintF::adjustText(string& text)
 // make adjustments to expected text
 {
 	// replace first line with the current version number
@@ -139,7 +139,7 @@ void PrintF::adjustText(string &text)
 	}
 }
 
-void PrintF::adjustTextOut(string &textOut)
+void PrintF::adjustTextOut(string& textOut)
 // make adjustments to textOut
 {
 	// insert linefeed as first character for readability

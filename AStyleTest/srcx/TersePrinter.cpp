@@ -220,7 +220,7 @@ void TersePrinter::PrintFailedTestsList(const UnitTest& unit_test) const
 }
 
 // Internal helper to return the next non-whitespace character.
-char TersePrinter::PeekNextChar(const string &line, int i) const
+char TersePrinter::PeekNextChar(const string& line, int i) const
 {
 	char ch = ' ';
 	size_t peekNum = line.find_first_not_of(" \t", i + 1);

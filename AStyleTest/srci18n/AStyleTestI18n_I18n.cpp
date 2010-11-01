@@ -36,7 +36,7 @@ extern char g_fileSeparator;
 string createLocaleDirectory(wstring subDirectory);
 string getLanguageString(const string& languageIn);
 bool setGlobalLocale(const string& name);
-void standardizePath(string &path);
+void standardizePath(string& path);
 
 //----------------------------------------------------------------------------
 // support functions
@@ -54,31 +54,16 @@ string createLocaleDirectory(wstring subDirectory)
 	return subdir;
 }
 
-string getLanguageString(const string& languageIn)
-// convert Windows language strings to Linux, if necessary
-{
-	string language = languageIn;
-	// these locales should be installed on Linux
-#ifndef _WIN32
-	if (languageIn == "english") language = "en_US.UTF-8";
-	if (languageIn == "french") language = "fr_FR.UTF-8";
-	if (languageIn == "german") language = "de_DE.UTF-8";
-	if (languageIn == "japanese") language = "ja_JP.UTF-8";
-#endif
-	return language;
-}
-
-bool setGlobalLocale(const string& name)
+bool setGlobalLocale(const string& localeName)
 // set the global locale and verify the result
 {
-	string localeName = getLanguageString(name);
 	char* locName = setlocale(LC_ALL, localeName.c_str());
 	if (locName == NULL)
 		return false;
 	return true;
 }
 
-void standardizePath(string &path)
+void standardizePath(string& path)
 // make sure file separators are correct type (Windows or Linux)
 {
 	// make sure separators are correct type (Windows or Linux)
@@ -1278,21 +1263,21 @@ TEST(Other, GetNumberFormat)
 	EXPECT_EQ(result, number) << "format zero";
 
 	// LINUX English locale
-	bool enOk = setGlobalLocale("english");
+	bool enOk = setGlobalLocale("en_US.UTF-8");
 	ASSERT_TRUE(enOk) << "Cannot set English locale";
 	result = "123,456,789";
 	number = g_console->getNumberFormat(123456789);
 	EXPECT_EQ(result, number) << "english locale (assumes default formatting)";
 
 	// LINUX French locale
-	bool frOk = setGlobalLocale("french");
+	bool frOk = setGlobalLocale("fr_FR.UTF-8");
 	ASSERT_TRUE(frOk) << "Cannot set French locale";
 	result = "123 456 789";
 	number = g_console->getNumberFormat(123456789);
 	EXPECT_EQ(result, number) << "french locale (assumes default formatting)";
 
 	// LINUX German locale
-	bool deOk = setGlobalLocale("german");
+	bool deOk = setGlobalLocale("de_DE.UTF-8");
 	ASSERT_TRUE(deOk) << "Cannot set German locale";
 	result = "123.456.789";
 	number = g_console->getNumberFormat(123456789);

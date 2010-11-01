@@ -1,10 +1,13 @@
 #! /usr/bin/python
 # Create the distribution files for Artistic Style.
+# Windows distribution is created on Winsows.
+# Linux distribution is created on Linux.
 
 import glob
 import libastyle		#local directory
 import os
 import shutil
+import stat
 import subprocess
 import sys
 
@@ -14,8 +17,8 @@ import sys
 release = "2.01"
 # inut from AStyle directory
 astyleDir = libastyle.get_astyle_directory()
-# output to AStyle directory
-baseDir =  libastyle.get_astyle_directory() 
+# output to Project directory
+baseDir =  libastyle.get_project_directory()
 
 # -----------------------------------------------------------------------------
 
@@ -25,10 +28,12 @@ def create_distributions():
 	libastyle.set_text_color()
 	os.chdir(libastyle.get_file_py_directory())
 	remove_dist_directories()
-	build_linux_distribution()
-	build_mac_distribution()
-	build_vms_distribution()
-	build_windows_distribution()
+	if os.name == "nt":
+		build_windows_distribution()
+	else:
+		build_linux_distribution()
+		build_mac_distribution()
+		build_vms_distribution()
 
 # -----------------------------------------------------------------------------
 
@@ -57,15 +62,28 @@ def build_linux_distribution():
 	astyleBuildGcc = astyleDir + "/build/gcc/"
 	distBuildGcc = distAStyle +  "/build/gcc/"
 	os.makedirs(distBuildGcc)
-	shutil.copy(astyleBuildGcc + "/Makefile", distBuildGcc)
+	makePathGcc = astyleBuildGcc + "/Makefile"
+	shutil.copy(makePathGcc, distBuildGcc)
+	# permissions = read/write by the owner and read only by everyone else
+	mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
+	os.chmod(makePathGcc, mode)
 	print "build/gcc copied"
 
 	# build/intel directory
 	astyleBuildIntel = astyleDir + "/build/intel/"
 	distBuildIntel = distAStyle +  "/build/intel/"
 	os.makedirs(distBuildIntel)
-	shutil.copy(astyleBuildIntel + "/Makefile", distBuildIntel)
-	shutil.copy(astyleBuildIntel + "/make.sh", distBuildIntel)
+	makePathIntel = astyleBuildIntel + "/Makefile"
+	bashPathIntel = astyleBuildIntel + "/make.sh"
+	shutil.copy(makePathIntel, distBuildIntel)
+	shutil.copy(bashPathIntel, distBuildIntel)
+	# permissions = read/write by the owner and read only by everyone else
+	mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
+	os.chmod(makePathIntel, mode)
+	# permissions = read/write/exe by the owner and read only by everyone else
+	mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | 
+	        stat.S_IRGRP | stat.S_IROTH)
+	os.chmod(bashPathIntel, mode)
 	print "build/intel copied"
 
 	# create tar.bz2
@@ -73,7 +91,6 @@ def build_linux_distribution():
 	call_7zip(distBase, tarname)
 	bz2name = tarname + ".gz"
 	call_7zip(distBase, bz2name)
-	
 
 # -----------------------------------------------------------------------------
 
@@ -101,10 +118,14 @@ def build_mac_distribution():
 	# build/mac directory
 	astyleBuildMac = astyleDir + "/build/mac/"
 	distBuildMac = distAStyle +  "/build/mac/"
+	makePathMac = astyleBuildMac + "/Makefile"
 	os.makedirs(distBuildMac)
-	shutil.copy(astyleBuildMac + "/Makefile", distBuildMac)
+	shutil.copy(makePathMac, distBuildMac)
+	# permissions = read/write by the owner and read only by everyone else
+	mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
+	os.chmod(makePathMac, mode)
 	print "build/mac copied"
-	
+
 	# create tar.gz
 	tarname = "astyle_{0}_macosx.tar".format(release)
 	call_7zip(distBase, tarname)
@@ -154,9 +175,6 @@ def build_vms_distribution():
 def build_windows_distribution():
 	"""Copy astyle files to the windows directory.
 	"""
-	# windows files are not available on linux
-	if os.name != "nt":
-		return
 	print
 	print "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 	print "*             Copying Windows Distribution              *"
@@ -175,7 +193,7 @@ def build_windows_distribution():
 	if vsi != -1:
 		vsdir = astyle_build_directory[vsi:vsi+6]
 	print "exe copied ({0})".format(vsdir)
-	
+
 	# doc directory
 	distDoc = distAStyle + "/doc/"
 	os.mkdir(distDoc)
@@ -192,7 +210,7 @@ def build_windows_distribution():
 	os.mkdir(distAStyleBuild)
 	# copy_vs2003_directory(astyleBuildDir, distAStyleBuild)
 	copy_vs20xx_directories(astyleBuildDir, distAStyleBuild)
-	
+
 	# create zip
 	zipfile = "AStyle_{0}_windows.zip".format(release)
 	call_7zip(distBase, zipfile)
@@ -202,7 +220,7 @@ def build_windows_distribution():
 def call_7zip(distBase, compressedFile):
 	"""Call 7zip to create an archive.
 	   arg 1- the directory to compress.
-	   arg 2- name of the compressed file.	  
+	   arg 2- name of the compressed file.
 	"""
 	exepath = libastyle.get_7zip_path()
 	compress = [exepath, "a", compressedFile]
@@ -238,7 +256,7 @@ def convert_line_ends(distDir, toDos):
 	retval = subprocess.call(call_list)
 	if retval:
 		libastyle.system_exit("Bad tofro return: " + str(retval))
-	
+
 # -----------------------------------------------------------------------------
 
 def copy_astyle_doc(distDoc, toDos=False):
@@ -249,12 +267,17 @@ def copy_astyle_doc(distDoc, toDos=False):
 		shutil.copy(filepath, distDoc)
 	convert_line_ends(distDoc, toDos)
 	# verify copy - had a problem with bad filenames
-	distfiles = (glob.glob(distDoc + "/*.html") 
+	distfiles = (glob.glob(distDoc + "/*.html")
 					+ glob.glob(distDoc + "/*.css"))
 	if len(distfiles) != len(docfiles):
 		libastyle.system_exit("Error copying doc: " + str(len(distfiles)))
+	# change file permissions
+	for srcfile in distfiles:
+		# read/write by the owner and read only by everyone else (-rw-r--r--)
+		mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
+		os.chmod(srcfile, mode)
 	print "doc copied"
-	
+
 # -----------------------------------------------------------------------------
 
 def copy_astyle_src(distSrc, toDos=False):
@@ -265,10 +288,15 @@ def copy_astyle_src(distSrc, toDos=False):
 		shutil.copy(srcpath, distSrc)
 	convert_line_ends(distSrc, toDos)
 	# verify copy - had a problem with bad filenames
-	distfiles = (glob.glob(distSrc + "/*.cpp") 
+	distfiles = (glob.glob(distSrc + "/*.cpp")
 					+ glob.glob(distSrc + "/*.h"))
 	if len(distfiles) != len(srcfiles):
 		libastyle.system_exit("Error copying src: " + str(len(distfiles)))
+	# change file permissions
+	for srcfile in distfiles:
+		# read/write by the owner and read only by everyone else (-rw-r--r--)
+		mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
+		os.chmod(srcfile, mode)
 	print "src copied"
 
 # -----------------------------------------------------------------------------
@@ -316,7 +344,7 @@ def copy_vs20xx_directories(astyleBuildDir, distAStyleBuild):
 					shutil.copy(filter, distAStyleProj)
 
 		print "build/" + vsdir[1:-1] + " copied"
-		
+
 # -----------------------------------------------------------------------------
 
 def remove_dist_directories():

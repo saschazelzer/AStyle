@@ -4,8 +4,8 @@
 #include "gtest/gtest.h"
 #include "TersePrinter.h"
 
-void errorExit(const char *msg);
-void errorNoExit(const char *msg);
+void errorExit(const char* msg);
+void errorNoExit(const char* msg);
 
 
 TEST(TestCase1, SUCCEED)
@@ -95,7 +95,7 @@ TEST(TestCase3, MultipleFailures)
 	EXPECT_TRUE(process_return == CONTINUE) << "EXPECT_TRUE failure 3.";
 }
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
 	// Parse command line BEFORE testing::InitGoogleTest.
 	bool use_terse_printer = false;
@@ -138,7 +138,7 @@ int main(int argc, char **argv)
 
 // function for death test
 // error message must go to cerr not cout
-void errorExit(const char *msg)
+void errorExit(const char* msg)
 {
 	cerr << msg << endl;
 	exit(EXIT_FAILURE);
@@ -146,7 +146,7 @@ void errorExit(const char *msg)
 
 // function for death test failed
 // error message must go to cerr not cout
-void errorNoExit(const char *msg)
+void errorNoExit(const char* msg)
 {
 	cerr << msg << endl;
 }

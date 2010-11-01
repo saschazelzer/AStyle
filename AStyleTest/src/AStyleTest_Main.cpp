@@ -16,7 +16,7 @@ int errorHandler2Calls;
 // main function
 //----------------------------------------------------------------------------
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
 	// parse command line BEFORE InitGoogleTest
 	bool useTersePrinter = false;

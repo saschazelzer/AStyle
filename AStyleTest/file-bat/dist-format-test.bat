@@ -8,15 +8,15 @@ REM  T - indent=force-tabs
 REM  b - brackets=break
 REM  H - pad-header
 REM  C - indent-classes
-REM  O - one-line=keep-blocks
+REM  O - keep-one-line-blocks
 REM k1 - align-pointer=type
-REM  c - convert-tabs
 REM  v - verbose
 REM  w - indent-preprocessor
 REM  Q - formatted
+REM z1 - windows lineends
 
-set options= -TbHCOw  -Qz1  --options=none
-set optionsh= -TlHCOw  -Qz1  --options=none
+set options= -TbHCOwk1  -Qz1  --options=none
+set optionsh= -TlHCOwk1  -Qz1  --options=none
 
 echo Formatting AStyleTest
 echo source %options%

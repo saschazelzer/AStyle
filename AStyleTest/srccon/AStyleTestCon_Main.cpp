@@ -68,7 +68,7 @@ bool g_testedCodepage1252 = true;
 // main function
 //----------------------------------------------------------------------------
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
 	// set global variable g_testDirectory
 	setTestDirectory();
@@ -135,14 +135,14 @@ int main(int argc, char **argv)
 //}
 
 #ifdef _WIN32
-void cleanTestDirectory(const string &directoryMB)
+void cleanTestDirectory(const string& directoryMB)
 // Windows remove files and sub directories from the test directory
 {
 	wstring directory = convertToWideChar(directoryMB);
 	cleanTestDirectory(directory);
 }
 
-void cleanTestDirectory(const wstring &directory)
+void cleanTestDirectory(const wstring& directory)
 // Windows remove files and sub directories from the test directory
 {
 	WIN32_FIND_DATAW FindFileData;
@@ -211,7 +211,7 @@ void displayLastError()
 	LocalFree(msgBuf);
 }
 
-void removeTestDirectory(const string &dirName)
+void removeTestDirectory(const string& dirName)
 // WINDOWS remove a test directory
 {
 	cleanTestDirectory(dirName);
@@ -273,10 +273,10 @@ void systemAbort(const wstring& message)
 
 #else
 
-void cleanTestDirectory(const string &directory)
+void cleanTestDirectory(const string& directory)
 // LINUX remove files and sub directories from the test directory
 {
-	struct dirent *entry;           // entry from readdir()
+	struct dirent* entry;           // entry from readdir()
 	struct stat statbuf;            // entry from stat()
 	vector<string> subDirectory;    // sub directories of this directory
 
@@ -284,7 +284,7 @@ void cleanTestDirectory(const string &directory)
 	errno = 0;
 
 	// open directory stream
-	DIR *dp = opendir(directory.c_str());
+	DIR* dp = opendir(directory.c_str());
 	if (errno)
 		ASTYLE_ABORT(string(strerror(errno))
 					 +"\nCannot open directory for clean: " + directory);
@@ -336,7 +336,7 @@ void displayLastError()
 {
 }
 
-void removeTestDirectory(const string &dirName)
+void removeTestDirectory(const string& dirName)
 // LINUX remove a test directory
 {
 	cleanTestDirectory(dirName);
@@ -392,7 +392,7 @@ void createConsoleGlobalObject(ASFormatter& formatter)
 	g_console = new ASConsole(formatter);
 }
 
-void createTestDirectory(const string &dirPath)
+void createTestDirectory(const string& dirPath)
 // create a test directory
 {
 #ifdef _WIN32
