@@ -1227,6 +1227,73 @@ TEST(Preprocessor, Elif)
 	delete [] textOut;
 }
 
+TEST(Preprocessor, SharpRegionEndRegion)
+{
+	// C# #region and #endregion should be indented with the code
+	char text[] =
+		"\npublic interface IDocument\n"
+		"{\n"
+		"    #region ILineManager interface\n"
+		"    /// <value>\n"
+		"    /// A collection of all line segments\n"
+		"    #endregion\n"
+		"\n"
+		"    #region Nested enumerator class\n"
+		"    private sealed class Enumerator : IEnumerator, IPluginCollectionEnumerator\n"
+		"    {\n"
+		"        private readonly PluginCollection m_collection;\n"
+		"    }\n"
+		"    #endregion\n"
+		"}\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Preprocessor, PragmaOpenMP)
+{
+	// C++ "#pragma omp" should be indented with the code
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    #pragma omp parallel for\n"
+		"    for (int i = 0; i < 10; i++) {\n"
+		"        // do nothing\n"
+		"    }\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Preprocessor, PragmaOpenMPSans)
+{
+	// C++ not "#pragma omp" branches
+	// Will not be indented.
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"#pragma\n"
+		"    for (int i = 0; i < 10; i++) {\n"
+		"        // do nothing\n"
+		"    }\n"
+		"# pragma  om\n"
+		"    for (int i = 0; i < 10; i++) {\n"
+		"        // do nothing\n"
+		"    }\n"
+		"# pragma  omx\n"
+		"    for (int i = 0; i < 10; i++) {\n"
+		"        // do nothing\n"
+		"    }\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(Preprocessor, NestedIfElse1)
 {
 	// nested #if, #else, updates a different waitingBeautifierStack entry
@@ -1351,6 +1418,80 @@ TEST(Preprocessor, WxWidgetsMacro)
 		"#endif\n"
 		"    EVT_BUTTON(XRCID(\"btnImplDir\"), ClassWizardDlg::OnImplDirClick)\n"
 		"END_EVENT_TABLE()\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Preprocessor, Detached_Elif)
+{
+	// The # may be detached from the following directive
+	// # elif updates the waitingBeautifierStack
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"# if USE64\n"
+		"        if (c < 64)\n"
+		"#    elif USE128\n"
+		"        if (c < 128)\n"
+		"#    elif USE256\n"
+		"        if (c < 256)\n"
+		"# endif\n"
+		"        {\n"
+		"            w += 1000;\n"
+		"        }\n"
+		"        else\n"
+		"        {\n"
+		"            w += 2000;\n"
+		"        }\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Preprocessor, Detached_SharpRegionEndRegion)
+{
+	// The # may be detached from the following directive
+	// C# # region and # endregion should be indented with the code
+	char text[] =
+		"\npublic interface IDocument\n"
+		"{\n"
+		"    # region ILineManager interface\n"
+		"    /// <value>\n"
+		"    /// A collection of all line segments\n"
+		"    # endregion\n"
+		"\n"
+		"    #  region Nested enumerator class\n"
+		"    private sealed class Enumerator : IEnumerator, IPluginCollectionEnumerator\n"
+		"    {\n"
+		"        private readonly PluginCollection m_collection;\n"
+		"    }\n"
+		"    #  endregion\n"
+		"}\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Preprocessor, Detached_PragmaOpenMP)
+{
+	// The # may be detached from the following directive
+	// C++ "# pragma omp" should be indented with the code
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    # pragma omp parallel for\n"
+		"    for (int i = 0; i < 10; i++) {\n"
+		"        // do nothing\n"
+		"    }\n"
+		"}";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);

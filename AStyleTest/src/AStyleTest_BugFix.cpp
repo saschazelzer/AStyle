@@ -2155,31 +2155,6 @@ TEST(BugFix_V123, ClassBitIndent)
 	delete [] textOut;
 }
 
-TEST(BugFix_V123, RegionIndent)
-{
-	// no extra indent after a C# #region statement containing a keyword
-	char text[] =
-		"\npublic interface IDocument\n"
-		"{\n"
-		"    #region ILineManager interface\n"
-		"    /// <value>\n"
-		"    /// A collection of all line segments\n"
-		"    #endregion\n"
-		"\n"
-		"    #region Nested enumerator class\n"
-		"    private sealed class Enumerator : IEnumerator, IPluginCollectionEnumerator\n"
-		"    {\n"
-		"        private readonly PluginCollection m_collection;\n"
-		"    }\n"
-		"    #endregion\n"
-		"}\n"
-		"\n";
-	char options[] = "mode=cs";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
 TEST(BugFix_V123, StructIndent)
 {
 	// no extra indent when struct declaration is used
