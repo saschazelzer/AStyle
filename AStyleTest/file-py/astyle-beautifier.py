@@ -220,7 +220,7 @@ def get_copy_variables(copy_variables, beautifier_path):
 			continue
 
 		# start between the following lines
-		if line.find("ASBeautifier(const ASBeautifier &other)") != -1:
+		if line.find("ASBeautifier(const ASBeautifier") != -1:
 			copy_lines[0] = lines + 1
 			copy_brackets += 1
 			continue

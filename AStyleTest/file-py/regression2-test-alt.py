@@ -44,6 +44,7 @@ formatOLD = True
 #
 # ### Fixed and Rechecked ###
 # CppCheck			C++
+# CodeLite			C++
 # FileZilla			C++
 # GMock				C++
 # Greenfoot			Java

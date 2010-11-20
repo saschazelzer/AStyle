@@ -68,6 +68,8 @@ def convert_class_functions(line):
 		line = ''
 	elif line.find("getIndentString") != -1:
 		line = ''
+	elif line.find("getPreprocessorIndent") != -1:
+		line = ''
 	else:
 		line = "unidentified function: " + line
 	return line

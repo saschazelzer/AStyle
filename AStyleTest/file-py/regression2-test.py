@@ -21,7 +21,6 @@ import time
 
 # select one of the following from libastyle
 #   CODEBLOCKS
-#   CODELITE    problem with opt1 in astyle25b.exe
 #   DRJAVA
 #   JEDIT
 #   KDEVELOP
@@ -29,16 +28,16 @@ import time
 #  SCITE
 #  SHARPDEVELOP
 #  TESTPROJECT
-project = libastyle.KDEVELOP
+project = libastyle.SCITE
 
 # select OPT0 thru OPT3, or use customized options
-options = libastyle.OPT1
+options = libastyle.OPT0
 
 # scite formatting options
 #options = "-tapOHUk3"
 
 # executables for test
-astyleexe1 = "astyle25e"
+astyleexe1 = "astyle24"
 astyleexe2 = "astyled"
 
 # extract all files options, use False for speed

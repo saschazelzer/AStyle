@@ -49,7 +49,7 @@ def convert_class_functions(line):
 		line = ''
 	elif line.find("if ") != -1:
 		line = ''
-	elif line.find("swVector.clear()") != -1:
+	elif line.find("switchStack.clear()") != -1:
 		line = ''
 	else:
 		line = "unidentified function: " + line
@@ -206,6 +206,7 @@ def get_initializer_variables(class_variables, enhancer_path):
 	class_lines_init = [0,0]		# line numbers for class init() function
 	class_total_init = 0			# total variables for class init() function
 	lines_init = 0					# current input line number
+	find_init_bracket = False		# looking for bracket after init funcyion
 	file_in_init = open(enhancer_path, 'r')
 
 	# get class initializer lines
@@ -218,8 +219,12 @@ def get_initializer_variables(class_variables, enhancer_path):
 			continue
 		# start between the following lines
 		if line.find("void ASEnhancer::init(") != -1:
-			class_lines_init[0] = lines_init + 5
+			find_init_bracket = True
 			continue
+		if (find_init_bracket == True
+		and line.find("{") != -1):
+			class_lines_init[0] = lines_init + 1
+			find_init_bracket = False
 		if (class_lines_init[0]  == 0
 		or class_lines_init[0]  >= lines_init):
 			continue

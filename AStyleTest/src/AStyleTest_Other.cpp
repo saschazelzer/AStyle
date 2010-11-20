@@ -2440,7 +2440,7 @@ TEST(Comment, LeadingSpaceCorrection1)
 		"{\n"
 		"    /*   EXEC SQL INSERT\n"
 		"    INTO   branch (branch_id, branch_name, branch_addr,\n"
-		"             branch_city, branch_phone)\n"
+		"          branch_city, branch_phone)\n"
 		"    VALUES (:bid, :bname, :baddr:baddr_ind);\n"
 		"    */\n"
 		"}\n";
@@ -2498,7 +2498,7 @@ TEST(Comment, LeadingSpaceCorrection3)
 		"{\n"
 		"    /*   EXEC SQL INSERT\n"
 		"    INTO   branch (branch_id, branch_name, branch_addr,\n"
-		"             branch_city, branch_phone)\n"
+		"          branch_city, branch_phone)\n"
 		"    VALUES (:bid, :bname, :baddr:baddr_ind);\n"
 		"    */\n"
 		"}\n";
@@ -3574,7 +3574,7 @@ TEST(SQL, NonHangingIndent)
 		"{\n"
 		"    EXEC SQL INSERT\n"
 		"    INTO   branch (branch_id, branch_name, branch_addr,\n"
-		"           branch_city, branch_phone)\n"
+		"       branch_city, branch_phone)\n"
 		"    VALUES (:bid, :bname, :baddr:baddr_ind);\n"
 		"}\n";
 	char options[] = "";

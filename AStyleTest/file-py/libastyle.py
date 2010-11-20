@@ -14,7 +14,6 @@ else: import termios, tty				# Linux only for getch()
 
 # test project IDs
 CODEBLOCKS   = "CodeBlocks"
-CODELITE     = "CodeLite"
 DRJAVA       = "DrJava"			# Java
 JEDIT        = "jEdit"			# Java
 KDEVELOP     = "KDevelop"
@@ -343,8 +342,6 @@ def get_project_excludes(project):
 		excludes.append("--exclude=wx/propgrid/manager.h")
 		excludes.append("--exclude=wx/propgrid/propgrid.h")
 		excludes.append("--exclude=propgrid/propgrid.cpp")
-	elif project == CODELITE:
-		None
 	elif project == DRJAVA:
 		None
 	elif project == JEDIT:
@@ -376,10 +373,6 @@ def get_project_filepaths(project):
 		filepaths.append(testDirectory + "/CodeBlocks/src/*.cpp")
 		# filepath.append(testDirectory + "/CodeBlocks/src/*.cxx")
 		filepaths.append(testDirectory + "/CodeBlocks/src/*.h")
-	elif project == CODELITE:
-		filepaths.append(testDirectory + "/CodeLite/*.cpp")
-		filepaths.append(testDirectory + "/CodeLite/*.cxx")
-		filepaths.append(testDirectory + "/CodeLite/*.h")
 	elif project == DRJAVA:
 		filepaths.append(testDirectory + "/DrJava/*.java")
 	elif project == JEDIT:

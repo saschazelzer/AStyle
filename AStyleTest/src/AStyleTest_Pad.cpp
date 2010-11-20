@@ -2273,6 +2273,25 @@ TEST(PadHeader, Comments)
 	delete [] textOut;
 }
 
+TEST(PadHeader, ShortLine)
+{
+	// Line with a header and no paren.
+	// With VS2010 in debug this could get an exception.
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if\n"
+		"    (c == 0)\n"
+		"    {\n"
+		"        char c2 = readCh();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "pad-header";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Unpad Paren
 //-------------------------------------------------------------------------

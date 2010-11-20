@@ -19,7 +19,6 @@ import time
 
 # select one of the following from libastyle
 #   CODEBLOCKS
-#   CODELITE
 #   DRJAVA
 #   JEDIT
 #   KDEVELOP

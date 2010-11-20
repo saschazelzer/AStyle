@@ -10,8 +10,8 @@ REM set directory of build.properties and build.xml
 set testdata=..\..\TestData
 
 REM set variables for ant
-set ANT_HOME=%PROGRAMFILES%\Java\apache-ant-1.7.1
-set JAVA_HOME=%PROGRAMFILES%\Java\jdk1.6.0_17
+set ANT_HOME=%PROGRAMFILES%\Java\apache-ant-1.8.1
+set JAVA_HOME=%PROGRAMFILES%\Java\jdk1.6.0_15
 set PATH=%PATH%;%ANT_HOME%\bin
 
 if not exist "%testdata%\jEdit" (

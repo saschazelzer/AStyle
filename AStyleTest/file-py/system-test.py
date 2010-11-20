@@ -22,7 +22,6 @@ import time
 
 # select one of the following from libastyle
 #  CODEBLOCKS
-#  CODELITE
 #  DRJAVA			# cannot compile
 #  JEDIT
 #  KDEVELOP			# cannot compile
@@ -30,18 +29,18 @@ import time
 #  SCITE
 #  SHARPDEVELOP		# can compile on Windows only
 #  TESTPROJECT
-project = libastyle.SHARPDEVELOP
+project = libastyle.JEDIT
 
 # select OPT0 thru OPT3, or use customized options
 #options = "-tapO"
-options = libastyle.OPT1
+options = libastyle.OPT2
 
 # executable for test
-astyleexe = "astyle"
+astyleexe = "astyled"
 
 # extract all files option, use False for speed, use True to compile
-#all_files_option = True
-all_files_option = False
+all_files_option = True
+#all_files_option = False
 
 # test number to start with (usually 1)
 start = 1

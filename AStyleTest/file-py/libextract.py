@@ -29,8 +29,6 @@ def extract_project(project, all_files_option):
 		print "extracting ALL files"
 	if project == libastyle.CODEBLOCKS:
 		extract_codeblocks()
-	elif project == libastyle.CODELITE:
-		extract_codelite()
 	elif project == libastyle.DRJAVA:
 		extract_drjava()
 	elif project == libastyle.JEDIT:
@@ -101,16 +99,6 @@ def extract_codeblocks():
 	remove_test_directory("[Cc]ode[Bb]locks")
 	extract_test_tar("codeblocks*.bz2", "codeblocks*.tar", ["*.cpp", "*.h"])
 	rename_test_directory("codeblocks-*", "CodeBlocks")
-
-# -----------------------------------------------------------------------------
-
-def extract_codelite():
-	"""Extract CodeLite files from archive to test directory.
-	"""
-	remove_test_directory("codelite-*")
-	remove_test_directory("[Cc]ode[Ll]ite")
-	extract_test_tar("codelite*.gz", "codelite*.tar", ["*.cpp", "*.cxx", "*.h"])
-	rename_test_directory("codelite-*", "CodeLite")
 
 # -----------------------------------------------------------------------------
 
@@ -301,7 +289,6 @@ def test_all_compressed():
 		os.remove(file)
 	print
 	#extract_project(libastyle.CODEBLOCKS, False); print
-	#extract_project(libastyle.CODELITE, False); print
 	#extract_project(libastyle.DRJAVA, False); print
 	#extract_project(libastyle.JEDIT, False); print
 	#extract_project(libastyle.KDEVELOP, False); print
@@ -321,7 +308,6 @@ def test_all_tarballs():
 	starttime = time.time()
 	print "TEST TARBALLS\n"
 	extract_project(libastyle.CODEBLOCKS, False); print
-	extract_project(libastyle.CODELITE, False); print
 	# no tarball for DRJAVA
 	extract_project(libastyle.JEDIT, False); print
 	extract_project(libastyle.KDEVELOP, False); print

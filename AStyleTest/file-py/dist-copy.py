@@ -74,16 +74,10 @@ def build_linux_distribution():
 	distBuildIntel = distAStyle +  "/build/intel/"
 	os.makedirs(distBuildIntel)
 	makePathIntel = astyleBuildIntel + "/Makefile"
-	bashPathIntel = astyleBuildIntel + "/make.sh"
 	shutil.copy(makePathIntel, distBuildIntel)
-	shutil.copy(bashPathIntel, distBuildIntel)
 	# permissions = read/write by the owner and read only by everyone else
 	mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
 	os.chmod(makePathIntel, mode)
-	# permissions = read/write/exe by the owner and read only by everyone else
-	mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | 
-	        stat.S_IRGRP | stat.S_IROTH)
-	os.chmod(bashPathIntel, mode)
 	print "build/intel copied"
 
 	# create tar.bz2
