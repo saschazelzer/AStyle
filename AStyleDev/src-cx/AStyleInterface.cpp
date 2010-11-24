@@ -354,7 +354,7 @@ void AStyleInterface::setTestOptions()
     /*    predefinedStyle    = (AStyleInterface::PredefinedStyle) 10;
         bracketFormatMode  = (AStyleInterface::BracketMode) 7;
         maxInStatementIndent = 90;
-        minConditionalIndent = 50;
+        minConditionalOption = 9;
         // cannot have both invalid indentLength and invalid indentType
     //    indentLength     = 21;
         indentType         = (AStyleInterface::IndentType) 6;  */

@@ -442,7 +442,7 @@ public class AStyleInterface
         /*  predefinedStyle   = 10;
         bracketFormatMode = 7;
         maxInStatementIndent = 90;
-        minConditionalOption = 50;
+        minConditionalOption = 9;
         // cannot have both invalid indentLength and invalid indentType
         //indentLength      = 21;
         indentType        = 6;  */
