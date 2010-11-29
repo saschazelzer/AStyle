@@ -15,10 +15,11 @@
 				<Option createStaticLib="1" />
 				<Compiler>
 					<Add option="-O3" />
-					<Add option="-W" />
 					<Add option="-Wall" />
+					<Add option="-W" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
+					<Add option="-fpic" />
 					<Add option="-DASTYLE_LIB" />
 					<Add option="-DDNDEBUG" />
 				</Compiler>

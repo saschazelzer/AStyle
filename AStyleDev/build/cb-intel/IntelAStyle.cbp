@@ -78,6 +78,8 @@
 					<Add option="-fno-exceptions" />
 					<Add option="-vec-report0" />
 					<Add option="-no-multibyte-chars" />
+					<Add option="-Wwrite-strings" />
+					<Add option="-Woverloaded-virtual" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-intel" />
@@ -124,8 +126,7 @@
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLE_LIB" />
 					<Add option="-DASTYLE_JNI" />
-					<Add directory="/usr/lib/jvm/java-6-sun-1.6.0.16/include" />
-					<Add directory="/usr/lib/jvm/java-6-sun-1.6.0.16/include/linux" />
+					<Add directory="/usr/lib/jvm/default-java/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -133,6 +134,9 @@
 				</Linker>
 			</Target>
 		</Build>
+		<VirtualTargets>
+			<Add alias="All" targets="Release;" />
+		</VirtualTargets>
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
 		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
 		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />
