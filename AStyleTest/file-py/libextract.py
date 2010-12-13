@@ -122,12 +122,12 @@ def extract_jedit():
 # -----------------------------------------------------------------------------
 
 def extract_kdevelop():
-	"""Extract KDevelop files from archive to test directory.
+	"""Extract KDevelop 3.5.5 files from archive to test directory.
 	"""
-	remove_test_directory("kdevplatform-*")
+	remove_test_directory("kdevelop_*")
 	remove_test_directory("[Kk][Dd]evelop")
-	extract_test_tar("kdevplatform*.bz2", "kdevplatform*.tar", ["*.cpp", "*.h"])
-	rename_test_directory("kdevplatform-*", "KDevelop")
+	extract_test_tar("kdevelop*.gz", "hpO5ya*.tar", ["*.cpp", "*.h"])
+	rename_test_directory("kdevelop-*", "KDevelop")
 
 # -----------------------------------------------------------------------------
 

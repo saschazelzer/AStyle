@@ -26,13 +26,13 @@ import time
 #  SCITE
 #  SHARPDEVELOP
 # TESTPROJECT
-project = libastyle.DRJAVA
+project = libastyle.SCITE
 
 # select OPT0 thru OPT3, or use customized options
-options = libastyle.OPT1
+options = libastyle.OPT2
 
 # executables for test
-astyleexe1 = "astyle25c"
+astyleexe1 = "astyle01"
 astyleexe2 = "astyled"
 
 # extract all files options, use False for speed
@@ -80,7 +80,7 @@ def process_files():
 	verify_formatted_files(len(files), totformat)
 
 	# process formatted files
-	print_run_total(totformat, totfiles, starttime)
+	print_run_total(starttime)
 	libtest.diff_formatted_files(files)
 
 # -----------------------------------------------------------------------------
@@ -183,8 +183,6 @@ def print_run_total(starttime):
 		print "{0} seconds total run time".format(sec)
 	else:
 		print "{0} min {1} seconds total run time".format(min, sec)
-	print
-	print "{0} diffs in {1} files".format(formatted, totfiles)
 	print
 
 # -----------------------------------------------------------------------------

@@ -28,16 +28,16 @@ import time
 #  SCITE
 #  SHARPDEVELOP
 #  TESTPROJECT
-project = libastyle.SCITE
+project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
-options = libastyle.OPT0
+options = libastyle.OPT2
 
 # scite formatting options
 #options = "-tapOHUk3"
 
 # executables for test
-astyleexe1 = "astyle24"
+astyleexe1 = "astyle01"
 astyleexe2 = "astyled"
 
 # extract all files options, use False for speed
@@ -73,14 +73,15 @@ def process_files():
 		print_formatting_message(astyle, project)
 		call_artistic_style(astyle, testfile)
 		print_astyle_totals(testfile)
-		libextract.remove_test_directory(project + "OLD")
-		libextract.rename_test_directory(project, project + "OLD")
 	else:
 		verify_test_directory(project + "OLD")
 		print "\nNo Test 1"
 
 	# run test 2
 	print "\nExtracting Test 2"
+	if formatOLD:
+		libextract.remove_test_directory(project + "OLD")
+		libextract.rename_test_directory(project, project + "OLD")
 	libextract.extract_project(project, all_files_option)
 	print_test_header(2, astyleexe2)
 	astyle = set_astyle_args(filepaths, excludes, astyleexe2)
@@ -313,7 +314,7 @@ def verify_astyle_executables(exe1, exe2):
 	# get paths
 	exe1path = get_astyle_path(exe1)
 	exe2path = get_astyle_path(exe2)
-	regress1path = libastyle.get_astyle_directory() + "/regress/" + astyleexe1
+	regress1path = libastyle.get_astyle_directory() + "/regress/" + exe1
 	# add "exe" extension
 	if os.name == "nt":
 		if not exe1path.endswith(".exe"):

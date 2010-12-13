@@ -23,8 +23,8 @@ echo -
 echo --------------------------
 echo copying trunk to %rel% directory
 echo --------------------------
-svn  copy  "%repos%/trunk/AStyle"  "%svndir%/%rel%/AStyle"  -m "Create AStyle release %rel%"
 svn  copy  "%repos%/trunk/AStyleTest"  "%svndir%/%rel%/AStyleTest"  -m "Create AStyleTest release %rel%"
+svn  copy  "%repos%/trunk/AStyle"  "%svndir%/%rel%/AStyle"  -m "Create AStyle release %rel%"
 )
 
 echo -

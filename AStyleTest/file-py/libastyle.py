@@ -353,7 +353,8 @@ def get_project_excludes(project):
 	elif project == SCITE:
 		excludes.append("--exclude=lua")
 	elif project == SHARPDEVELOP:
-		excludes.append("--exclude=ExpressionEvaluator_Tests.cs")
+		# excludes.append("--exclude=ExpressionEvaluator_Tests.cs")
+		None
 	elif project == TESTPROJECT:
 		None
 	else:
