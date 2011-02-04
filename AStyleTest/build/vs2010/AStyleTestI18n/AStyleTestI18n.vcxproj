@@ -266,6 +266,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\srci18n\AStyleTestI18n_Utf16.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_LeakFinder.cpp" />
     <ClCompile Include="..\..\..\srccon\AStyleTestCon_Main.cpp" />
     <ClCompile Include="..\..\..\srci18n\AStyleTestI18n_I18n.cpp" />

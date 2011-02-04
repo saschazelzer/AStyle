@@ -80,6 +80,7 @@
 		<Unit filename="..\..\srccon\AStyleTestCon.h" />
 		<Unit filename="..\..\srccon\AStyleTestCon_Main.cpp" />
 		<Unit filename="..\..\srci18n\AStyleTestI18n_I18n.cpp" />
+		<Unit filename="..\..\srci18n\AStyleTestI18n_Utf16.cpp" />
 		<Unit filename="..\..\srcx\TersePrinter.cpp" />
 		<Unit filename="..\..\srcx\TersePrinter.h" />
 		<Unit filename="..\..\..\AStyle\src\ASBeautifier.cpp" />

@@ -345,24 +345,6 @@ void removeTestDirectory(const string& dirName)
 
 #endif
 
-string convertToMultiByte(const wstring& wideStr)
-// convert wchat_t to multibyte using the currently assigned locale
-{
-	// get length of the output excluding the NULL and validate the parameters
-	size_t mbLen = wcstombs(NULL, wideStr.c_str(), 0);
-	if (mbLen == string::npos)
-		ASTYLE_ABORT("Bad char in wide character string");
-	// convert the characters
-	char* mbStr = new(nothrow) char[mbLen+1];
-	if (mbStr == NULL)
-		ASTYLE_ABORT("Bad memory alloc for multi-byte string");
-	wcstombs(mbStr, wideStr.c_str(), mbLen+1);
-	// return the string
-	string returnStr = mbStr;
-	delete [] mbStr;
-	return returnStr;
-}
-
 wstring convertToWideChar(const string& mbStr)
 // convert multibyte to wchar_t using the currently assigned locale
 {

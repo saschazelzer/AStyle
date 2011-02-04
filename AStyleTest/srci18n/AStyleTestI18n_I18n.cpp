@@ -42,6 +42,24 @@ void standardizePath(string& path);
 // support functions
 //----------------------------------------------------------------------------
 
+string convertToMultiByte(const wstring& wideStr)
+// convert wchar_t to a multibyte string using the currently assigned locale
+{
+	// get length of the output excluding the NULL and validate the parameters
+	size_t mbLen = wcstombs(NULL, wideStr.c_str(), 0);
+	if (mbLen == string::npos)
+		systemAbort("Bad char in wide character string");
+	// convert the characters
+	char* mbStr = new(nothrow) char[mbLen+1];
+	if (mbStr == NULL)
+		systemAbort("Bad memory alloc for multi-byte string");
+	wcstombs(mbStr, wideStr.c_str(), mbLen+1);
+	// return the string
+	string returnStr = mbStr;
+	delete [] mbStr;
+	return returnStr;
+}
+
 string createLocaleDirectory(wstring subDirectory)
 // create a directory in the language of the current locale
 // the locale must be set before calling this function
