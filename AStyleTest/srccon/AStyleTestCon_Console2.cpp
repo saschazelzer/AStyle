@@ -242,6 +242,7 @@ TEST_F(GetFilePathsF, FilePathsErrorRecursive)
 //----------------------------------------------------------------------------
 // AStyle test getFileType() - C_TYPE, JAVA_TYPE, SHARP_TYPE
 //----------------------------------------------------------------------------
+
 struct GetFileTypeF : public ::testing::Test
 {
 	ASFormatter formatter;
@@ -291,10 +292,10 @@ TEST_F(GetFileTypeF, FileTypeC)
 	g_console->processFiles();
 
 	// check the file type
-	EXPECT_EQ(formatter.getFileType(), C_TYPE);
+	EXPECT_EQ(C_TYPE, formatter.getFileType());
 }
 
-TEST_F(GetFileTypeF, FileTypeJave)
+TEST_F(GetFileTypeF, FileTypeJava)
 // test getFileType with *.java
 {
 	assert(g_console != NULL);
@@ -309,7 +310,7 @@ TEST_F(GetFileTypeF, FileTypeJave)
 	g_console->processFiles();
 
 	// check the file type
-	EXPECT_EQ(formatter.getFileType(), JAVA_TYPE);
+	EXPECT_EQ(JAVA_TYPE, formatter.getFileType());
 }
 
 TEST_F(GetFileTypeF, FileTypeSharp)
@@ -327,7 +328,7 @@ TEST_F(GetFileTypeF, FileTypeSharp)
 	g_console->processFiles();
 
 	// check the file type
-	EXPECT_EQ(formatter.getFileType(), SHARP_TYPE);
+	EXPECT_EQ(SHARP_TYPE, formatter.getFileType());
 }
 
 TEST_F(GetFileTypeF, FileTypeError)
@@ -345,7 +346,147 @@ TEST_F(GetFileTypeF, FileTypeError)
 	g_console->processFiles();
 
 	// check the file type
-	EXPECT_EQ(formatter.getFileType(), C_TYPE);
+	EXPECT_EQ(C_TYPE, formatter.getFileType());
+}
+
+//----------------------------------------------------------------------------
+// AStyle Language Vectors
+//----------------------------------------------------------------------------
+
+struct LanguageVectorsF : public ::testing::Test
+{
+	ASFormatter formatter;
+	vector<string> fileNames;
+
+	// build fileNames vector and write the output files
+	LanguageVectorsF()
+	{
+		char textIn[] =
+			"\nvoid foo()\n"
+			"{\n"
+			"    bar();\n"
+			"}\n";
+
+		cleanTestDirectory(getTestDirectory());
+		createConsoleGlobalObject(formatter);
+		fileNames.push_back(getTestDirectory() + "/getFileType1.cpp");
+		fileNames.push_back(getTestDirectory() + "/getFileType2.java");
+		fileNames.push_back(getTestDirectory() + "/getFileType3.cs");
+		fileNames.push_back(getTestDirectory() + "/getFileType4.error");
+
+		for (size_t i = 0; i < fileNames.size(); i++)
+		{
+			g_console->standardizePath(fileNames[i]);
+			createTestFile(fileNames[i], textIn);
+		}
+	}
+
+	~LanguageVectorsF()
+	{
+		deleteConsoleGlobalObject();
+	}
+};
+
+TEST_F(LanguageVectorsF, FileTypeC)
+// Test the language vector setting with *.cpp.
+{
+	assert(g_console != NULL);
+	g_console->setIsQuiet(true);		// change this to see results
+
+	// verify initial setting
+	EXPECT_EQ(9, formatter.getFormatterFileType());
+	EXPECT_EQ(9, formatter.getBeautifierFileType());
+	// test language vectors for C++ files
+	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
+	g_console->processOptions(astyleOptionsVector);
+	g_console->processFiles();
+	EXPECT_EQ(C_TYPE, formatter.getFormatterFileType());
+	EXPECT_EQ(C_TYPE, formatter.getBeautifierFileType());
+}
+
+TEST_F(LanguageVectorsF, FileTypeJava)
+// Test the language vector setting with *.java.
+{
+	assert(g_console != NULL);
+	g_console->setIsQuiet(true);		// change this to see results
+
+	// verify initial setting
+	EXPECT_EQ(9, formatter.getFormatterFileType());
+	EXPECT_EQ(9, formatter.getBeautifierFileType());
+	// test language vectors for Java files
+	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back(getTestDirectory() + "/*.java");
+	g_console->processOptions(astyleOptionsVector);
+	g_console->processFiles();
+	EXPECT_EQ(JAVA_TYPE, formatter.getFormatterFileType());
+	EXPECT_EQ(JAVA_TYPE, formatter.getBeautifierFileType());
+}
+
+TEST_F(LanguageVectorsF, FileTypeSharp)
+// Test the language vector setting with *.cs.
+{
+	assert(g_console != NULL);
+	g_console->setIsQuiet(true);		// change this to see results
+
+	// verify initial setting
+	EXPECT_EQ(9, formatter.getFormatterFileType());
+	EXPECT_EQ(9, formatter.getBeautifierFileType());
+	// test language vectors for C# files
+	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back(getTestDirectory() + "/*.cs");
+	g_console->processOptions(astyleOptionsVector);
+	g_console->processFiles();
+	EXPECT_EQ(SHARP_TYPE, formatter.getFormatterFileType());
+	EXPECT_EQ(SHARP_TYPE, formatter.getBeautifierFileType());
+}
+
+TEST(LanguageVectors, MultipleObjects)
+// Static language vectors were removed in release 2.02 
+// to allow multiple ASFormatter objects.
+// This was requested by KDevelop to allow multiple objects
+// via the factory method.
+// This checks initialization of the previously static vectors.
+// Additional tests are done by the "GetFileTypeF" and 
+// "LanguageVectorsF" tests.
+{
+	ASFormatter formatter1;
+	// Aborted here in Debug for static objects:
+	// "Assertion `container == __null' failed."
+	ASFormatter formatter2;
+	ASFormatter formatter3;
+
+	// verify initial value
+	EXPECT_EQ(9, formatter1.getFormatterFileType());
+	EXPECT_EQ(9, formatter2.getFormatterFileType());
+	EXPECT_EQ(9, formatter3.getFormatterFileType());
+	EXPECT_EQ(9, formatter1.getBeautifierFileType());
+	EXPECT_EQ(9, formatter2.getBeautifierFileType());
+	EXPECT_EQ(9, formatter3.getBeautifierFileType());
+
+	// initialize formatter1 with C++
+	stringstream in;
+	formatter1.setCStyle();
+	ASStreamIterator<istream> streamIterator1(&in);
+	formatter1.init(&streamIterator1);
+
+	// initialize formatter2 with Java
+	formatter2.setJavaStyle();
+	ASStreamIterator<istream> streamIterator2(&in);
+	formatter2.init(&streamIterator2);
+
+	// initialize formatter3 with C#
+	formatter3.setSharpStyle();
+	ASStreamIterator<istream> streamIterator3(&in);
+	formatter3.init(&streamIterator3);
+
+	// check the file types
+	EXPECT_EQ(C_TYPE, formatter1.getFormatterFileType());
+	EXPECT_EQ(C_TYPE, formatter1.getBeautifierFileType());
+	EXPECT_EQ(JAVA_TYPE, formatter2.getFormatterFileType());
+	EXPECT_EQ(JAVA_TYPE, formatter2.getBeautifierFileType());
+	EXPECT_EQ(SHARP_TYPE, formatter3.getFormatterFileType());
+	EXPECT_EQ(SHARP_TYPE, formatter3.getBeautifierFileType());
 }
 
 //----------------------------------------------------------------------------
@@ -704,7 +845,7 @@ TEST_F(LineEndsFormattedF, LineEndWindows)
 	struct stat stBuf;
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
-		EXPECT_EQ(origFileName.c_str(), "\"no file\"");
+		EXPECT_EQ("\"no file\"", origFileName.c_str());
 }
 
 TEST_F(LineEndsFormattedF, LineEndLinux)
@@ -727,7 +868,7 @@ TEST_F(LineEndsFormattedF, LineEndLinux)
 	struct stat stBuf;
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
-		EXPECT_EQ(origFileName.c_str(), "\"no file\"");
+		EXPECT_EQ("\"no file\"", origFileName.c_str());
 }
 
 TEST_F(LineEndsFormattedF, LineEndMacOld)
@@ -750,7 +891,7 @@ TEST_F(LineEndsFormattedF, LineEndMacOld)
 	struct stat stBuf;
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
-		EXPECT_EQ(origFileName.c_str(), "\"no file\"");
+		EXPECT_EQ("\"no file\"", origFileName.c_str());
 }
 
 //----------------------------------------------------------------------------
@@ -839,7 +980,7 @@ TEST_F(LineEndsUnchangedF, LineEndWindows)
 	struct stat stBuf;
 	// display error if file is present
 	if (stat(origFileName.c_str(), &stBuf) != -1)
-		EXPECT_EQ( "\"no file\"", origFileName.c_str());
+		EXPECT_EQ("\"no file\"", origFileName.c_str());
 }
 
 TEST_F(LineEndsUnchangedF, LineEndLinux)
@@ -862,7 +1003,7 @@ TEST_F(LineEndsUnchangedF, LineEndLinux)
 	struct stat stBuf;
 	// display error if file is present
 	if (stat(origFileName.c_str(), &stBuf) != -1)
-		EXPECT_EQ( "\"no file\"", origFileName.c_str());
+		EXPECT_EQ("\"no file\"", origFileName.c_str());
 }
 
 TEST_F(LineEndsUnchangedF, LineEndMacOld)
@@ -885,7 +1026,7 @@ TEST_F(LineEndsUnchangedF, LineEndMacOld)
 	struct stat stBuf;
 	// display error if file is present
 	if (stat(origFileName.c_str(), &stBuf) != -1)
-		EXPECT_EQ( "\"no file\"", origFileName.c_str());
+		EXPECT_EQ("\"no file\"", origFileName.c_str());
 }
 
 //----------------------------------------------------------------------------
@@ -973,7 +1114,7 @@ TEST_F(LineEndsDefaultF, LineEndWindows)
 	struct stat stBuf;
 	// display error if file is present
 	if (stat(origFileName.c_str(), &stBuf) != -1)
-		EXPECT_EQ( "\"no file\"", origFileName.c_str());
+		EXPECT_EQ("\"no file\"", origFileName.c_str());
 }
 
 TEST_F(LineEndsDefaultF, LineEndLinux)
@@ -995,7 +1136,7 @@ TEST_F(LineEndsDefaultF, LineEndLinux)
 	struct stat stBuf;
 	// display error if file is present
 	if (stat(origFileName.c_str(), &stBuf) != -1)
-		EXPECT_EQ( "\"no file\"", origFileName.c_str());
+		EXPECT_EQ("\"no file\"", origFileName.c_str());
 }
 
 TEST_F(LineEndsDefaultF, LineEndMacOld)
@@ -1017,7 +1158,7 @@ TEST_F(LineEndsDefaultF, LineEndMacOld)
 	struct stat stBuf;
 	// display error if file is present
 	if (stat(origFileName.c_str(), &stBuf) != -1)
-		EXPECT_EQ( "\"no file\"", origFileName.c_str());
+		EXPECT_EQ("\"no file\"", origFileName.c_str());
 }
 
 //----------------------------------------------------------------------------

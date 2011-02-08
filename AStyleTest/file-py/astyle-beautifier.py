@@ -54,9 +54,6 @@ def convert_class_functions(line):
 		if first_comma != -1:
 			line = line[:first_comma]
 		line = line.strip()
-	# bypass static vector initialization
-	elif line.find("initVector") != -1:
-		line = ''
 	elif line.find("->") != -1:
 		line = ''
 	elif line.find("ASBase::init") != -1:
@@ -176,9 +173,6 @@ def get_constructor_variables(class_variables, beautifier_path):
 		if line.find('}') != -1:
 			class_lines[1] = lines
 			break
-		# bypass static variable
-		if line.find("beautifierFileType") != -1:
-			continue
 		# get the variable name
 		variable_name = line
 		if line.find('(') != -1:
@@ -286,9 +280,6 @@ def get_header_variables(header_variables, header_path):
 		# bypass functions
 		if (line.find('(') != -1
 		or line.find(')') != -1):
-			continue
-		# bypass static variables
-		if line.startswith("static"):
 			continue
 		# get the variable name
 		semi_colon = line.find(';');

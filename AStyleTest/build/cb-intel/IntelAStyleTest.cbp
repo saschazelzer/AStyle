@@ -74,7 +74,6 @@
 		<Unit filename="../../src/AStyleTest_Format.cpp" />
 		<Unit filename="../../src/AStyleTest_Indent.cpp" />
 		<Unit filename="../../src/AStyleTest_Main.cpp" />
-		<Unit filename="../../src/AStyleTest_Other.cpp" />
 		<Unit filename="../../src/AStyleTest_Pad.cpp" />
 		<Unit filename="../../src/AStyleTest_Styles.cpp" />
 		<Unit filename="../../src/AStyleTest_Tabs.cpp" />
