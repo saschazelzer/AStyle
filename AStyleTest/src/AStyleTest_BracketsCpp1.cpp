@@ -50,7 +50,6 @@ struct BracketsNoneCppF : public ::testing::Test
 			"}\n"
 			"\n"
 			"}   // end FooName\n";
-
 		textIn = textStr.c_str();
 	}
 };
@@ -189,146 +188,6 @@ TEST_F(BracketsNoneCppF, NamespaceClass)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
-
-TEST_F(BracketsNoneCppF, Blocks)
-{
-	// test default blocks option (do not change brackets)
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"class FooClass\n"
-		"{\n"
-		"private:\n"
-		"    bool var1;\n"
-		"    void func1();\n"
-		"protected:\n"
-		"    bool var2;\n"
-		"    void func2();\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"{\n"
-		"    if (isFoo) {\n"
-		"            bar();\n"
-		"        }\n"
-		"    else {\n"
-		"            anotherBar();\n"
-		"        }\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "indent-blocks";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(BracketsNoneCppF, NamespaceBlocks)
-{
-	// test default brackets option (do not change brackets)
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"    class FooClass\n"
-		"    {\n"
-		"    private:\n"
-		"        bool var1;\n"
-		"        void func1();\n"
-		"    protected:\n"
-		"        bool var2;\n"
-		"        void func2();\n"
-		"    };\n"
-		"\n"
-		"    void FooClass::Foo(bool isFoo)\n"
-		"    {\n"
-		"        if (isFoo) {\n"
-		"                bar();\n"
-		"            }\n"
-		"        else {\n"
-		"                anotherBar();\n"
-		"            }\n"
-		"    }\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "indent-blocks, indent-namespaces";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(BracketsNoneCppF, Brackets)
-{
-	// test default brackets option (do not change)
-	// indent brackets
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"class FooClass\n"
-		"    {\n"
-		"private:\n"
-		"    bool var1;\n"
-		"    void func1();\n"
-		"protected:\n"
-		"    bool var2;\n"
-		"    void func2();\n"
-		"    };\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"    {\n"
-		"    if (isFoo) {\n"
-		"        bar();\n"
-		"        }\n"
-		"    else {\n"
-		"        anotherBar();\n"
-		"        }\n"
-		"    }\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "indent-brackets";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-
-TEST_F(BracketsNoneCppF, NamespaceBrackets)
-{
-	// test default brackets option (do not change)
-	// indent brackets, indent namespaces
-	char text[] =
-		"\nnamespace FooName\n"
-		"    {\n"
-		"\n"
-		"    class FooClass\n"
-		"        {\n"
-		"    private:\n"
-		"        bool var1;\n"
-		"        void func1();\n"
-		"    protected:\n"
-		"        bool var2;\n"
-		"        void func2();\n"
-		"        };\n"
-		"\n"
-		"    void FooClass::Foo(bool isFoo)\n"
-		"        {\n"
-		"        if (isFoo) {\n"
-		"            bar();\n"
-		"            }\n"
-		"        else {\n"
-		"            anotherBar();\n"
-		"            }\n"
-		"        }\n"
-		"\n"
-		"    }   // end FooName\n";
-	char options[] = "indent-brackets, indent-namespaces";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
 
 TEST(BracketsNoneCpp, EmptyBrackets)
 {
@@ -563,6 +422,37 @@ TEST(BracketsNoneCpp, Misc3)
 		"    { BEGIN(list); return CONT; }\n"
 		"    YY_BREAK\n"
 		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsNoneCpp, ClassContinuation_Attach)
+{
+	// test with class continuaton and attached brackets
+	char text[] =
+		"\nclass Foo :\n"
+		"    public Bar {\n"
+		"public:\n"
+		"    Foo(T *in);\n"
+		"};\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsNoneCpp, ClassContinuation_Break)
+{
+	// test with class continuaton and broken brackets
+	char text[] =
+		"\nclass Foo :\n"
+		"    public Bar\n"
+		"{\n"
+		"public:\n"
+		"    Foo(T *in);\n"
+		"};\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -1096,7 +986,6 @@ struct BracketsBreakCppF : public ::testing::Test
 			"}\n"
 			"\n"
 			"}   // end FooName\n";
-
 		textIn = textStr.c_str();
 	}
 };
@@ -1279,155 +1168,6 @@ TEST_F(BracketsBreakCppF, NamespaceClass)
 		"\n"
 		"}   // end FooName\n";
 	char options[] = "brackets=break, indent-namespaces, indent-classes";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(BracketsBreakCppF, Blocks)
-{
-	// test break brackets option
-	// indent blocks
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"class FooClass\n"
-		"{\n"
-		"private:\n"
-		"    bool var1;\n"
-		"    void func1();\n"
-		"protected:\n"
-		"    bool var2;\n"
-		"    void func2();\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"{\n"
-		"    if (isFoo)\n"
-		"        {\n"
-		"            bar();\n"
-		"        }\n"
-		"    else\n"
-		"        {\n"
-		"            anotherBar();\n"
-		"        }\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "brackets=break, indent-blocks";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(BracketsBreakCppF, NamespaceBlocks)
-{
-	// test break brackets option
-	// indent blocks, indent namespaces
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"    class FooClass\n"
-		"    {\n"
-		"    private:\n"
-		"        bool var1;\n"
-		"        void func1();\n"
-		"    protected:\n"
-		"        bool var2;\n"
-		"        void func2();\n"
-		"    };\n"
-		"\n"
-		"    void FooClass::Foo(bool isFoo)\n"
-		"    {\n"
-		"        if (isFoo)\n"
-		"            {\n"
-		"                bar();\n"
-		"            }\n"
-		"        else\n"
-		"            {\n"
-		"                anotherBar();\n"
-		"            }\n"
-		"    }\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "brackets=break, indent-blocks, indent-namespaces";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(BracketsBreakCppF, Brackets)
-{
-	// test break brackets option
-	// indent brackets
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"class FooClass\n"
-		"    {\n"
-		"private:\n"
-		"    bool var1;\n"
-		"    void func1();\n"
-		"protected:\n"
-		"    bool var2;\n"
-		"    void func2();\n"
-		"    };\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"    {\n"
-		"    if (isFoo)\n"
-		"        {\n"
-		"        bar();\n"
-		"        }\n"
-		"    else\n"
-		"        {\n"
-		"        anotherBar();\n"
-		"        }\n"
-		"    }\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "brackets=break, indent-brackets";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-
-TEST_F(BracketsBreakCppF, NamespaceBrackets)
-{
-	// test break brackets option
-	// indent brackets, indent namespaces
-	char text[] =
-		"\nnamespace FooName\n"
-		"    {\n"
-		"\n"
-		"    class FooClass\n"
-		"        {\n"
-		"    private:\n"
-		"        bool var1;\n"
-		"        void func1();\n"
-		"    protected:\n"
-		"        bool var2;\n"
-		"        void func2();\n"
-		"        };\n"
-		"\n"
-		"    void FooClass::Foo(bool isFoo)\n"
-		"        {\n"
-		"        if (isFoo)\n"
-		"            {\n"
-		"            bar();\n"
-		"            }\n"
-		"        else\n"
-		"            {\n"
-		"            anotherBar();\n"
-		"            }\n"
-		"        }\n"
-		"\n"
-		"    }   // end FooName\n";
-	char options[] = "brackets=break, indent-brackets, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1742,6 +1482,22 @@ TEST(BracketsBreakCpp, Misc3)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+TEST(BracketsBreakCpp, ClassContinuation)
+{
+	// test with class continuaton and broken brackets
+	char text[] =
+		"\nclass Foo :\n"
+		"    public Bar\n"
+		"{\n"
+		"public:\n"
+		"    Foo(T *in);\n"
+		"};\n";
+	char options[] = "brackets=break";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BracketsBreakCpp, LineCommentsBreak)
 {
 	// comments following broken brackets should be unchanged
@@ -2272,7 +2028,6 @@ struct BracketsAttachCppF : public ::testing::Test
 			"}\n"
 			"\n"
 			"}   // end FooName\n";
-
 		textIn = textStr.c_str();
 	}
 };
@@ -2429,136 +2184,6 @@ TEST_F(BracketsAttachCppF, NamespaceClass)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
-
-TEST_F(BracketsAttachCppF, Blocks)
-{
-	// test attach brackets option
-	// indent blocks
-	char text[] =
-		"\nnamespace FooName {\n"
-		"\n"
-		"class FooClass {\n"
-		"private:\n"
-		"    bool var1;\n"
-		"    void func1();\n"
-		"protected:\n"
-		"    bool var2;\n"
-		"    void func2();\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo) {\n"
-		"    if (isFoo) {\n"
-		"            bar();\n"
-		"        }\n"
-		"    else {\n"
-		"            anotherBar();\n"
-		"        }\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "brackets=attach, indent-blocks";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(BracketsAttachCppF, NamespaceBlocks)
-{
-	// test attach brackets option
-	// indent blocks, indent namespaces
-	char text[] =
-		"\nnamespace FooName {\n"
-		"\n"
-		"    class FooClass {\n"
-		"    private:\n"
-		"        bool var1;\n"
-		"        void func1();\n"
-		"    protected:\n"
-		"        bool var2;\n"
-		"        void func2();\n"
-		"    };\n"
-		"\n"
-		"    void FooClass::Foo(bool isFoo) {\n"
-		"        if (isFoo) {\n"
-		"                bar();\n"
-		"            }\n"
-		"        else {\n"
-		"                anotherBar();\n"
-		"            }\n"
-		"    }\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "brackets=attach, indent-blocks, indent-namespaces";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(BracketsAttachCppF, Brackets)
-{
-	// test attach brackets option
-	// indent brackets
-	char text[] =
-		"\nnamespace FooName {\n"
-		"\n"
-		"class FooClass {\n"
-		"private:\n"
-		"    bool var1;\n"
-		"    void func1();\n"
-		"protected:\n"
-		"    bool var2;\n"
-		"    void func2();\n"
-		"    };\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo) {\n"
-		"    if (isFoo) {\n"
-		"        bar();\n"
-		"        }\n"
-		"    else {\n"
-		"        anotherBar();\n"
-		"        }\n"
-		"    }\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "brackets=attach, indent-brackets";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-
-TEST_F(BracketsAttachCppF, NamespaceBrackets)
-{
-	// test attach brackets option
-	// indent brackets, indent namespaces
-	char text[] =
-		"\nnamespace FooName {\n"
-		"\n"
-		"    class FooClass {\n"
-		"    private:\n"
-		"        bool var1;\n"
-		"        void func1();\n"
-		"    protected:\n"
-		"        bool var2;\n"
-		"        void func2();\n"
-		"        };\n"
-		"\n"
-		"    void FooClass::Foo(bool isFoo) {\n"
-		"        if (isFoo) {\n"
-		"            bar();\n"
-		"            }\n"
-		"        else {\n"
-		"            anotherBar();\n"
-		"            }\n"
-		"        }\n"
-		"\n"
-		"    }   // end FooName\n";
-	char options[] = "brackets=attach, indent-brackets, indent-namespaces";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
 
 TEST_F(BracketsAttachCppF, BreakClosing)
 {
@@ -2871,6 +2496,21 @@ TEST(BracketsAttachCpp, Misc3)
 		"    { BEGIN(list); return CONT; }\n"
 		"    YY_BREAK\n"
 		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsAttachCpp, ClassContinuation)
+{
+	// test with class continuaton and attached brackets
+	char text[] =
+		"\nclass Foo :\n"
+		"    public Bar {\n"
+		"public:\n"
+		"    Foo(T *in);\n"
+		"};\n";
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -3552,7 +3192,6 @@ struct BracketsLinuxCppF : public ::testing::Test
 			"}\n"
 			"\n"
 			"}   // end FooName\n";
-
 		textIn = textStr.c_str();
 	}
 };
@@ -3720,146 +3359,6 @@ TEST_F(BracketsLinuxCppF, NamespaceClass)
 		"\n"
 		"}   // end FooName\n";
 	char options[] = "brackets=linux, indent-namespaces, indent-classes";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(BracketsLinuxCppF, Blocks)
-{
-	// test linux brackets option
-	// indent blocks
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"class FooClass\n"
-		"{\n"
-		"private:\n"
-		"    bool var1;\n"
-		"    void func1();\n"
-		"protected:\n"
-		"    bool var2;\n"
-		"    void func2();\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"{\n"
-		"    if (isFoo) {\n"
-		"            bar();\n"
-		"        }\n"
-		"    else {\n"
-		"            anotherBar();\n"
-		"        }\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "brackets=linux, indent-blocks";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(BracketsLinuxCppF, NamespaceBlocks)
-{
-	// test linux brackets option
-	// indent blocks, indent namespaces
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"    class FooClass\n"
-		"    {\n"
-		"    private:\n"
-		"        bool var1;\n"
-		"        void func1();\n"
-		"    protected:\n"
-		"        bool var2;\n"
-		"        void func2();\n"
-		"    };\n"
-		"\n"
-		"    void FooClass::Foo(bool isFoo)\n"
-		"    {\n"
-		"        if (isFoo) {\n"
-		"                bar();\n"
-		"            }\n"
-		"        else {\n"
-		"                anotherBar();\n"
-		"            }\n"
-		"    }\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "brackets=linux, indent-blocks, indent-namespaces";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(BracketsLinuxCppF, Brackets)
-{
-	// test linux brackets option
-	// indent brackets
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"class FooClass\n"
-		"    {\n"
-		"private:\n"
-		"    bool var1;\n"
-		"    void func1();\n"
-		"protected:\n"
-		"    bool var2;\n"
-		"    void func2();\n"
-		"    };\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"    {\n"
-		"    if (isFoo) {\n"
-		"        bar();\n"
-		"        }\n"
-		"    else {\n"
-		"        anotherBar();\n"
-		"        }\n"
-		"    }\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "brackets=linux, indent-brackets";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(BracketsLinuxCppF, NamespaceBrackets)
-{
-	// test linux brackets option
-	// indent brackets, indent namespaces
-	char text[] =
-		"\nnamespace FooName\n"
-		"    {\n"
-		"\n"
-		"    class FooClass\n"
-		"        {\n"
-		"    private:\n"
-		"        bool var1;\n"
-		"        void func1();\n"
-		"    protected:\n"
-		"        bool var2;\n"
-		"        void func2();\n"
-		"        };\n"
-		"\n"
-		"    void FooClass::Foo(bool isFoo)\n"
-		"        {\n"
-		"        if (isFoo) {\n"
-		"            bar();\n"
-		"            }\n"
-		"        else {\n"
-		"            anotherBar();\n"
-		"            }\n"
-		"        }\n"
-		"\n"
-		"    }   // end FooName\n";
-	char options[] = "brackets=linux, indent-brackets, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -4199,6 +3698,22 @@ TEST(BracketsLinuxCpp, Misc3)
 	delete [] textOut;
 }
 
+TEST(BracketsLinuxCpp, ClassContinuation)
+{
+	// test with class continuaton and linux brackets
+	char text[] =
+		"\nclass Foo :\n"
+		"    public Bar\n"
+		"{\n"
+		"public:\n"
+		"    Foo(T *in);\n"
+		"};\n";
+	char options[] = "brackets=linux";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BracketsLinuxCpp, Formatting1)
 {
 	// test linux brackets option, for non-function top level objects
@@ -4317,7 +3832,6 @@ TEST(BracketsLinuxCpp, NestedNamespace)
 		"    }\n"
 		"}\n"
 		"}\n";
-
 	char options[] = "brackets=linux";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -5014,7 +4528,6 @@ struct BracketsStroustrupCppF : public ::testing::Test
 			"}\n"
 			"\n"
 			"}   // end FooName\n";
-
 		textIn = textStr.c_str();
 	}
 };
@@ -5172,138 +4685,6 @@ TEST_F(BracketsStroustrupCppF, NamespaceClass)
 		"\n"
 		"}   // end FooName\n";
 	char options[] = "brackets=stroustrup, indent-namespaces, indent-classes";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(BracketsStroustrupCppF, Blocks)
-{
-	// test stroustrup brackets option
-	// indent blocks
-	char text[] =
-		"\nnamespace FooName {\n"
-		"\n"
-		"class FooClass {\n"
-		"private:\n"
-		"    bool var1;\n"
-		"    void func1();\n"
-		"protected:\n"
-		"    bool var2;\n"
-		"    void func2();\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"{\n"
-		"    if (isFoo) {\n"
-		"            bar();\n"
-		"        }\n"
-		"    else {\n"
-		"            anotherBar();\n"
-		"        }\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "brackets=stroustrup, indent-blocks";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(BracketsStroustrupCppF, NamespaceBlocks)
-{
-	// test stroustrup brackets option
-	// indent blocks, indent namespaces
-	char text[] =
-		"\nnamespace FooName {\n"
-		"\n"
-		"    class FooClass {\n"
-		"    private:\n"
-		"        bool var1;\n"
-		"        void func1();\n"
-		"    protected:\n"
-		"        bool var2;\n"
-		"        void func2();\n"
-		"    };\n"
-		"\n"
-		"    void FooClass::Foo(bool isFoo)\n"
-		"    {\n"
-		"        if (isFoo) {\n"
-		"                bar();\n"
-		"            }\n"
-		"        else {\n"
-		"                anotherBar();\n"
-		"            }\n"
-		"    }\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "brackets=stroustrup, indent-blocks, indent-namespaces";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(BracketsStroustrupCppF, Brackets)
-{
-	// test stroustrup brackets option
-	// indent brackets
-	char text[] =
-		"\nnamespace FooName {\n"
-		"\n"
-		"class FooClass {\n"
-		"private:\n"
-		"    bool var1;\n"
-		"    void func1();\n"
-		"protected:\n"
-		"    bool var2;\n"
-		"    void func2();\n"
-		"    };\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"    {\n"
-		"    if (isFoo) {\n"
-		"        bar();\n"
-		"        }\n"
-		"    else {\n"
-		"        anotherBar();\n"
-		"        }\n"
-		"    }\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "brackets=stroustrup, indent-brackets";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(BracketsStroustrupCppF, NamespaceBrackets)
-{
-	// test stroustrup brackets option
-	// indent brackets, indent namespaces
-	char text[] =
-		"\nnamespace FooName {\n"
-		"\n"
-		"    class FooClass {\n"
-		"    private:\n"
-		"        bool var1;\n"
-		"        void func1();\n"
-		"    protected:\n"
-		"        bool var2;\n"
-		"        void func2();\n"
-		"        };\n"
-		"\n"
-		"    void FooClass::Foo(bool isFoo)\n"
-		"        {\n"
-		"        if (isFoo) {\n"
-		"            bar();\n"
-		"            }\n"
-		"        else {\n"
-		"            anotherBar();\n"
-		"            }\n"
-		"        }\n"
-		"\n"
-		"    }   // end FooName\n";
-	char options[] = "brackets=stroustrup, indent-brackets, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -5640,6 +5021,20 @@ TEST(BracketsStroustrupCpp, Misc3)
 	delete [] textOut;
 }
 
+TEST(BracketsStroustrupCpp, ClassContinuation)
+{
+	// test with class continuaton and stroustrup brackets
+	char text[] =
+		"\nclass Foo :\n"
+		"    public Bar {\n"
+		"public:\n"
+		"    Foo(T *in);\n"
+		"};\n";
+	char options[] = "brackets=stroustrup";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
 TEST(BracketsStroustrupCpp, Formatting1)
 {
 	// test stroustrup brackets option, for non-function top level objects
@@ -5693,7 +5088,6 @@ TEST(BracketsStroustrupCpp, Formatting1)
 		"}\n"
 		"\n"
 		"}\n";
-
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -5751,7 +5145,6 @@ TEST(BracketsStroustrupCpp, NestedNamespace)
 		"    }\n"
 		"}\n"
 		"}\n";
-
 	char options[] = "brackets=stroustrup";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);

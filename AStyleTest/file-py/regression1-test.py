@@ -26,13 +26,15 @@ import time
 #  SCITE
 #  SHARPDEVELOP
 # TESTPROJECT
-project = libastyle.SCITE
+project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
-options = libastyle.OPT2
+# optionsX can be a bracket style or any other option
+options = libastyle.OPT1
+optionsX = "-A11"
 
 # executables for test
-astyleexe1 = "astyle01"
+astyleexe1 = "astylexxx"
 astyleexe2 = "astyled"
 
 # extract all files options, use False for speed
@@ -159,15 +161,17 @@ def print_run_header():
 	else:
 		print "Using {0} {1}".format(astyleexe1, astyleexe2),
 	if options == libastyle.OPT0:
-		print "OPT0" 
+		print "OPT0",
 	elif options == libastyle.OPT1:
-		print "OPT1" 
+		print "OPT1",
 	elif options == libastyle.OPT2:
-		print "OPT2"
+		print "OPT2",
 	elif options == libastyle.OPT3:
-		print "OPT3" 
+		print "OPT3",
 	else:
 		print options
+	if len(optionsX.strip()) > 0:
+		print optionsX
 
 # -----------------------------------------------------------------------------
 
@@ -207,6 +211,8 @@ def set_astyle_args(filepath, excludes, astyleexe):
 	args.append("-vRQ")
 	if len(options.strip()) > 0:
 		args.append(options)
+	if len(optionsX.strip()) > 0:
+		args.append(optionsX)
 	# set excludes
 	for exclude in excludes:
 		args.append(exclude)

@@ -31,13 +31,15 @@ import time
 project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
-options = libastyle.OPT2
+# optionsX can be a bracket style or any other option
+options  = libastyle.OPT1
+optionsX = "-A2"
 
 # scite formatting options
 #options = "-tapOHUk3"
 
 # executables for test
-astyleexe1 = "astyle01"
+astyleexe1 = "astyle1"
 astyleexe2 = "astyled"
 
 # extract all files options, use False for speed
@@ -253,15 +255,17 @@ def print_run_header():
 	else:
 		print "Using {0} {1}".format(astyleexe1, astyleexe2),
 	if options == libastyle.OPT0:
-		print "OPT0" 
+		print "OPT0", 
 	elif options == libastyle.OPT1:
-		print "OPT1" 
+		print "OPT1",
 	elif options == libastyle.OPT2:
-		print "OPT2"
+		print "OPT2",
 	elif options == libastyle.OPT3:
-		print "OPT3" 
+		print "OPT3", 
 	else:
-		print options
+		print options,
+	if len(optionsX.strip()) > 0:
+		print optionsX
 
 # -----------------------------------------------------------------------------
 
@@ -301,6 +305,8 @@ def set_astyle_args(filepath, excludes, astyleexe):
 	args.append("-vRQ")
 	if len(options.strip()) > 0:
 		args.append(options)
+	if len(optionsX.strip()) > 0:
+		args.append(optionsX)
 	# set excludes
 	for exclude in excludes:
 		args.append(exclude)
@@ -331,10 +337,39 @@ def verify_astyle_executables(exe1, exe2):
 			shutil.copy(regress1path, exe1path)
 		else:
 			libastyle.system_exit("Cannot find executable 1: " + exe1path)
+	# check exe1 for most current by bumping the ending letter by 1
+	if not verify_current_exe1(regress1path):
+		libastyle.system_exit("Executable 1 is not current: " + regress1path)
 	# verify exe2
 	if not os.path.exists(exe2path):
 		libastyle.system_exit("Cannot find executable 2: " + exe2path)
 
+# -----------------------------------------------------------------------------
+
+def verify_current_exe1(regress1path):
+	"""Check that the requested exe1 is the most current version.
+	"""
+	# check exe1 for most current by bumping the ending letter by 1
+	alphas = "abcdefghijklmnopqrstuvwxyz"
+	if os.name == "nt":
+		if regress1path[-5].isdigit():	# for first file from last release (AStyle1.exe)
+			return True
+		index = alphas.find(regress1path[-5])
+		if index == -1:
+			libastyle.system_exit("Bad index for alpha: " + index)
+		test1path = regress1path[:-5] + alphas[index+1] + regress1path[-5+1:]
+	else:
+		if regress1path[-1].isdigit():	# for first file from last release (astyle1)
+			return True
+		index = alphas.find(regress1path[-1])
+		if index == -1:
+			libastyle.system_exit("Bad index for alpha: " + index)
+		test1path = regress1path[:-1] + alphas[index+1]
+	# is NOT most current if the next version exista
+	if os.path.exists(test1path):
+		return False
+	return True
+	
 # -----------------------------------------------------------------------------
 
 def verify_formatted_files(numformat, totformat):

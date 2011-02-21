@@ -192,15 +192,12 @@ TEST_F(DetectEncodingF, Utf32LE_Abort)
 // test rejection of UTF-32 files
 {
 	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
-
 	// initialize variables
 	g_console->setIsQuiet(true);		// change this to see results
-
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	g_console->processOptions(astyleOptionsVector);
-
 	// call astyle processFiles()
 	// NOTE: some string functions don't work with NULLs (e.g. length())
 	char textIn[] = "this text will not be readable";
@@ -211,7 +208,6 @@ TEST_F(DetectEncodingF, Utf32LE_Abort)
 	memcpy(textBOM+4, textIn, sizeof(textIn));
 	fileNames.push_back(getTestDirectory() + "/UTF-32LE.cpp");
 	createTestFile(fileNames.back(), textBOM, textsize);
-	
 	// expect abort
 	EXPECT_EXIT(g_console->processFiles(),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -222,15 +218,12 @@ TEST_F(DetectEncodingF, Utf32BE_Abort)
 // test rejection of UTF-32 files
 {
 	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
-
 	// initialize variables
 	g_console->setIsQuiet(true);		// change this to see results
-
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	g_console->processOptions(astyleOptionsVector);
-
 	// call astyle processFiles()
 	// NOTE: some string functions don't work with NULLs (e.g. length())
 	char textIn[] = "this text will not be readable";
@@ -241,7 +234,6 @@ TEST_F(DetectEncodingF, Utf32BE_Abort)
 	memcpy(textBOM+4, textIn, sizeof(textIn));
 	fileNames.push_back(getTestDirectory() + "/UTF-32BE.cpp");
 	createTestFile(fileNames.back(), textBOM, textsize);
-
 	// expect abort
 	EXPECT_EXIT(g_console->processFiles(),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -272,7 +264,6 @@ struct Utf_8_16 : public ::testing::Test
 		text8Len = 0;
 		text16Bit = NULL;
 		text16Len = 0;
-
 		// set textOut variables
 		wchar_t textIn[] =
 			L"\xfeff"						// 16 bit LE byte order mark (BOM)
@@ -296,12 +287,10 @@ struct Utf_8_16 : public ::testing::Test
 			L"	// ÄÄ ÖÖ ÜÜ ßßßß\n"			// German (ß can cause problem with conversions)
 			L"	German(\"ää öö üü\");\n"
 			L"}\n";
-
 		// compute 8 bit values using native functions
 		text8BitStr = WideCharToUtf8Str(textIn, wcslen(textIn));
 		text8Bit = text8BitStr.c_str();
 		text8Len = text8BitStr.length();
-
 		// compute 16 bit values using native functions
 		size_t text16Buf = wcslen(textIn) * sizeof(wchar_t) + sizeof(wchar_t);
 		text16Bit = new char[text16Buf];

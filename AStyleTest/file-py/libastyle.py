@@ -26,15 +26,15 @@ TESTPROJECT  = "TestProject"
 # NOTE: release 2.01, use after  astyle25b because of min-conditional-indent
 # no options
 OPT0 = ""
-# align-pointer=type (k1), indent-brackets (B), add-brackets (j), break-blocks=all (F)
+# align-pointer=type (k1), add-brackets (j), break-blocks=all (F),
 #     min-conditional-indent=0 (m0)
-OPT1 = "-CSKBNLwM50m0yejoOcFpPHUxEk1"
-# align-pointer=middle (k2), indent-blocks (G), add-one-line-brackets (J)
-#     break-blocks (f), min-conditional-indent=3 (m3), pad-paren-out(d)
-OPT2 = "-CSKGNLwM60m3yeJoOcfpdHUxEk2"
+OPT1 = "-CSKNLwM50m0yejoOcFpPHUxEk1"
+# align-pointer=middle (k2), add-one-line-brackets (J), break-blocks (f), 
+#     min-conditional-indent=3 (m3), pad-paren-out(d)
+OPT2 = "-CSKNLwM60m3yeJoOcfpdHUxEk2"
 # align-pointer=name (k3), , min-conditional-indent=1 (m1), pad-paren-in(D)
-# WITHOUT: indent-blocks (G), add-brackets (j,J),
-#     break-blocks (f,F), pad-oper (p), delete-empty-lines (x)
+# WITHOUT: add-brackets (j,J), break-blocks (f,F), 
+#     pad-oper (p), delete-empty-lines (x)
 OPT3 = "-CSKNLwM80m1yeoOcDHUEk3"
 
 # compile configurations

@@ -34,7 +34,6 @@ TEST(BreakBlocks, LongOption)
 		"    fooBar2 = 2;\n"
 		"    fooBar3 = 3;\n"
 		"}\n";
-
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -54,7 +53,6 @@ TEST(BreakBlocks, LongOption)
 		"    fooBar2 = 2;\n"
 		"    fooBar3 = 3;\n"
 		"}\n";
-
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -80,7 +78,6 @@ TEST(BreakBlocks, ShortOption)
 		"    fooBar2 = 2;\n"
 		"    fooBar3 = 3;\n"
 		"}\n";
-
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -100,7 +97,6 @@ TEST(BreakBlocks, ShortOption)
 		"    fooBar2 = 2;\n"
 		"    fooBar3 = 3;\n"
 		"}\n";
-
 	char options[] = "-f";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -121,7 +117,6 @@ TEST(BreakBlocks, WithBrackets)
 		"        Bar2();\n"
 		"    }\n"
 		"}\n";
-
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -133,7 +128,6 @@ TEST(BreakBlocks, WithBrackets)
 		"        Bar2();\n"
 		"    }\n"
 		"}\n";
-
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -165,7 +159,6 @@ TEST(BreakBlocks, WithElse)
 		"    fooBar2 = 2;\n"
 		"    fooBar3 = 3;\n"
 		"}\n";
-
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -191,7 +184,6 @@ TEST(BreakBlocks, WithElse)
 		"    fooBar2 = 2;\n"
 		"    fooBar3 = 3;\n"
 		"}\n";
-
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -222,7 +214,6 @@ TEST(BreakBlocks, WithForLoop)
 		"            bar4++;\n"
 		"    fooBar5 = 5;\n"
 		"}\n";
-
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -252,7 +243,6 @@ TEST(BreakBlocks, WithForLoop)
 		"\n"
 		"    fooBar5 = 5;\n"
 		"}\n";
-
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -281,7 +271,6 @@ TEST(BreakBlocks, WithSwitch)
 		"    }\n"
 		"    int bar = true;\n"
 		"}\n";
-
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -302,7 +291,6 @@ TEST(BreakBlocks, WithSwitch)
 		"\n"
 		"    int bar = true;\n"
 		"}\n";
-
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -325,7 +313,6 @@ TEST(BreakBlocks, WithPreprocessor)
 		"    if (isBar3)\n"
 		"        fooBar3();\n"
 		"}\n";
-
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -344,7 +331,6 @@ TEST(BreakBlocks, WithPreprocessor)
 		"    if (isBar3)\n"
 		"        fooBar3();\n"
 		"}\n";
-
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -451,7 +437,6 @@ TEST(BreakBlocks, WithComment1)
 		"        Bar4();\n"
 		"    }\n"
 		"}\n";
-
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -479,7 +464,6 @@ TEST(BreakBlocks, WithComment2)
 		"        Bar4();\n"
 		"    }\n"
 		"}\n";
-
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -500,7 +484,6 @@ TEST(BreakBlocks, WithComment2)
 		"        Bar4();\n"
 		"    }\n"
 		"}\n";
-
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -527,7 +510,6 @@ TEST(BreakBlocks, WithComment3)
 		"    }\n"
 		"    fooBar3 = 3;\n"
 		"}\n";
-
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -548,7 +530,6 @@ TEST(BreakBlocks, WithComment3)
 		"\n"
 		"    fooBar3 = 3;\n"
 		"}\n";
-
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -581,7 +562,6 @@ TEST(BreakBlocks, WithComment4)
 		"        Bar4();\n"
 		"    fooBar3 = 3;\n"
 		"}\n";
-
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -607,7 +587,6 @@ TEST(BreakBlocks, WithComment4)
 		"\n"
 		"    fooBar3 = 3;\n"
 		"}\n";
-
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -1093,7 +1072,6 @@ TEST(BreakAllBlocks, WithComment3)
 		"        Bar2();\n"
 		"    }\n"
 		"}\n";
-
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"

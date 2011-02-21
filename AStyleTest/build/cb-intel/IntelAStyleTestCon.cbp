@@ -37,7 +37,7 @@
 				<Option type="1" />
 				<Option compiler="icc" />
 				<Compiler>
-					<Add option="-O2" />
+					<Add option="-O0" />
 					<Add option="-Wall" />
 					<Add option="-no-multibyte-chars" />
 					<Add option="-vec-report0" />

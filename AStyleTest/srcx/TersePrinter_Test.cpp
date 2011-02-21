@@ -110,23 +110,19 @@ int main(int argc, char** argv)
 	if (!use_terse_printer)
 		printf("%s\n", "Run this program with --terse_printer to change the way "
 		       "it prints its output.");
-
 	// Do this after parsing the command line but before changing printer.
 	testing::InitGoogleTest(&argc, argv);
-
 	// If we are given the --terse_printer command line flag, suppresses the
 	// standard output and attaches own result printer.
 	if (use_terse_printer)
 	{
 		UnitTest& unit_test = *UnitTest::GetInstance();
 		testing::TestEventListeners& listeners = unit_test.listeners();
-
 		// Removes the default console output listener from the list so it will
 		// not receive events from Google Test and won't print any output. Since
 		// this operation transfers ownership of the listener to the caller we
 		// have to delete it as well.
 		delete listeners.Release(listeners.default_result_printer());
-
 		// Adds the custom output listener to the list. It will now receive
 		// events from Google Test and print the alternative output. We don't
 		// have to worry about deleting it since Google Test assumes ownership

@@ -6,7 +6,7 @@ REM infile is the AStyle recursive ouput file
 REM winmerge is the path to the WinMerge executable, includig the executable filename
 REM tempfile is the workfile for the directory and file names
 set infile=test.txt
-set winmerge=%PROGRAMFILES%\WinMerge\WinMergeU
+set winmerge=C:\Program Files (x86)\WinMerge\WinMergeU
 set tempfile=%TEMP%\astyle.tmp
 
 

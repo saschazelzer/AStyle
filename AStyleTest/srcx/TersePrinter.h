@@ -42,6 +42,8 @@ class TersePrinter : public EmptyTestEventListener
 		explicit TersePrinter(bool use_color) : use_color_(use_color)
 		{};
 
+		static void PrintTestTotals(int all_test_total_check, const char* file, int line);
+
 	private:
 
 		bool use_color_;			// from initializer
@@ -77,17 +79,15 @@ class TersePrinter : public EmptyTestEventListener
 		void PrintFailedTestSummary(string summary_) const;
 		void PrintFailedTestsList(const UnitTest& unit_test) const;
 		char PeekNextChar(const string& line, int i) const;
-
-		// Color print functions.
-//	void ColoredPrint(ConsoleColor color, const char* fmt) const;
-		void ColoredPrintf(ConsoleColor color, const char* fmt, ...) const;
-#ifdef _WIN32
-		WORD GetColorAttribute(ConsoleColor color) const;
-#else
-		string GetAnsiColorCode(ConsoleColor color) const;
-		bool ShouldUseColor(bool stdoutIsTty) const;
-#endif
-
 };  // class TersePrinter
+
+// Color print functions.
+void ColoredPrintf(ConsoleColor color, const char* fmt, ...);
+#ifdef _WIN32
+WORD GetColorAttribute(ConsoleColor color);
+#else
+string GetAnsiColorCode(ConsoleColor color);
+bool ShouldUseColor(bool stdoutIsTty);
+#endif
 
 #endif	// closes TERSE_PRINTER_H

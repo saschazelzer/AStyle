@@ -73,20 +73,21 @@ TEST(BugFix_V201, TwoBracketsOnLine)
 	delete [] textOut;
 }
 
-TEST(BugFix_V201, IndentBracketsSingleLineArray)
+TEST(BugFix_V201, WhitesmithSingleLineArray)
 {
-	// Test indent-brackets with a single line array.
+	// Test whitesmith style with a single line array.
 	// The last single line entry should be correctly indented.
 	char text[] =
 		"\npublic void foo()\n"
 		"    {\n"
-		"    optionSet = new OptionSet () {\n"
+		"    optionSet = new OptionSet ()\n"
+		"        {\n"
 		"            { 0, \"Assemblies\" },\n"
 		"            { 1, \"Namespaces\" },\n"
 		"            { 2, \"Help\" }\n"
 		"        };\n"
 		"    }";
-	char options[] = "indent-brackets, mode=cs";
+	char options[] = "style=whitesmith, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -411,7 +412,7 @@ TEST(BugFix_V201, PopParenStackOnBracket)
 		"        }\n"
 		"    }\n"
 		"}";
-	char options[] = "brackets=horstmann, mode=cs";
+	char options[] = "brackets=run-in, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -541,9 +542,9 @@ TEST(BugFix_V201, SharpTemplateArrayDefinition)
 	delete [] textOut;
 }
 
-TEST(BugFix_V201, HorstmannCommentEndsWithBracket)
+TEST(BugFix_V201, RunInCommentEndsWithBracket)
 {
-	// Horstmann brackets did not break line if the line ends with a bracket.
+	// Run-in brackets did not break line if the line ends with a bracket.
 	char textIn[] =
 		"\npublic CSharpSpanParser ()\n"
 		"{\n"
@@ -559,7 +560,7 @@ TEST(BugFix_V201, HorstmannCommentEndsWithBracket)
 		"            }\n"
 		"        }*/\n"
 		"}";
-	char options[] = "brackets=horstmann, mode=cs";
+	char options[] = "brackets=run-in, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1144,7 +1145,7 @@ TEST(BugFix_V201, ColZeroPointerOrReference)
 // AStyle version 1.24 TEST functions
 //----------------------------------------------------------------------------
 
-TEST(BugFix_V124, AddBracketsHorstmannNestedIfStatements)
+TEST(BugFix_V124, AddBracketsRunInNestedIfStatements)
 {
 	// add on line brackets to nested "if" statements
 	// with keep one line brackets
@@ -1160,15 +1161,15 @@ TEST(BugFix_V124, AddBracketsHorstmannNestedIfStatements)
 		"{   if (isBar1)\n"
 		"        if (isBar2) { return true; }\n"
 		"}\n";
-	char options[] = "add-brackets, brackets=horstmann, keep-one-line-blocks";
+	char options[] = "add-brackets, brackets=run-in, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BugFix_V124, ClassHorstmannComment)
+TEST(BugFix_V124, ClassRunInComment)
 {
-	// handle special case of horstmann comment in a class statement
+	// handle special case of run-in comment in a class statement
 	char text[] =
 		"\nclass Foo\n"
 		"{   /*enum ResolutionFlags {\n"
@@ -1183,9 +1184,9 @@ TEST(BugFix_V124, ClassHorstmannComment)
 	delete [] textOut;
 }
 
-TEST(BugFix_V124, ClassIndentHorstmannComment)
+TEST(BugFix_V124, ClassIndentRunInComment)
 {
-	// handle special case of horstmann comment in an indented class statement
+	// handle special case of run-in comment in an indented class statement
 	char text[] =
 		"\nclass Foo\n"
 		"{   /*enum ResolutionFlags {\n"
@@ -1463,7 +1464,7 @@ TEST(BugFix_V124, BracketsBreak_PadParen)
 TEST(BugFix_V124, BracketsAttach_CommentsMisc1)
 {
 	// attach bracket inside a line end comment
-	// when multi-line comments follow a horstmann bracket
+	// when multi-line comments follow a run-in bracket
 	char textIn[] =
 		"\nvoid foo2(bool isFoo) /* comment0 */\n"
 		"{   /* comment1\n"
@@ -1514,7 +1515,7 @@ TEST(BugFix_V124, BracketsAttach_CommentMisc2)
 TEST(BugFix_V124, BracketsAttach_CommentMisc3)
 {
 	// when a bracket is NOT attached
-	// following horstmann comments should be broken and correctly formatted
+	// following run-in comments should be broken and correctly formatted
 	char textIn[] =
 		"\nvoid foo() {\n"
 		"    if (isBar())   /* comment0 */ // comment0line\n"
@@ -1578,9 +1579,9 @@ TEST(BugFix_V124, BracketsAttach_CommentMisc4)
 	delete [] textOut;
 }
 
-TEST(BugFix_V124, BracketsHorstmann_Tabs)
+TEST(BugFix_V124, BracketsRunIn_Tabs)
 {
-	// test horstmann brackets with tab indents
+	// test run-in brackets with tab indents
 	char textIn[] =
 		"\nvoid Foo()\n"
 		"{\n"
@@ -1595,15 +1596,15 @@ TEST(BugFix_V124, BracketsHorstmann_Tabs)
 		"	{	bar();\n"
 		"	}\n"
 		"}\n";
-	char options[] = "brackets=horstmann, indent=tab";
+	char options[] = "brackets=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BugFix_V124, BracketsHorstmann_Array1)
+TEST(BugFix_V124, BracketsRunIn_Array1)
 {
-	// test horstmann brackets with single line array
+	// test run-in brackets with single line array
 	char textIn[] =
 		"\nvoid Foo()\n"
 		"{\n"
@@ -1615,15 +1616,15 @@ TEST(BugFix_V124, BracketsHorstmann_Array1)
 		"{   wxChar name[MAX_PATH] = {0};\n"
 		"    bar();\n"
 		"}\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BugFix_V124, BracketsHorstmann_Array2)
+TEST(BugFix_V124, BracketsRunIn_Array2)
 {
-	// test horstmann brackets with structs and arrays
+	// test run-in brackets with structs and arrays
 	char textIn[] =
 		"\nstruct runinClass2\n"
 		"{\n"
@@ -1644,15 +1645,15 @@ TEST(BugFix_V124, BracketsHorstmann_Array2)
 		"{   \"Bugs\",\n"
 		"    \"Daffy\",\n"
 		"};\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BugFix_V124, BracketsHorstmann_Spaces1)
+TEST(BugFix_V124, BracketsRunIn_Spaces1)
 {
-	// test horstmann brackets with extra spaces
+	// test run-in brackets with extra spaces
 	// extra spaces should be deleted
 	char textIn[] =
 		"\nvoid Foo()\n"
@@ -1666,15 +1667,15 @@ TEST(BugFix_V124, BracketsHorstmann_Spaces1)
 		"    {   bar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BugFix_V124, BracketsHorstmann_Spaces2)
+TEST(BugFix_V124, BracketsRunIn_Spaces2)
 {
-	// test multiple horstmann brackets runs
+	// test multiple run-in brackets runs
 	// extra spaces should not be added on subsequent runs
 	char textIn[] =
 		"\nvoid Foo()\n"
@@ -1690,7 +1691,7 @@ TEST(BugFix_V124, BracketsHorstmann_Spaces2)
 		"    {   bar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOne = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	char* textOut = AStyleMain(textOne, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -1698,9 +1699,9 @@ TEST(BugFix_V124, BracketsHorstmann_Spaces2)
 	delete [] textOut;
 }
 
-TEST(BugFix_V124, BracketsHorstmann_Preprocessor)
+TEST(BugFix_V124, BracketsRunIn_Preprocessor)
 {
-	// test horstmann brackets with preprocessor
+	// test run-in brackets with preprocessor
 	// preprocessor should NOT be attached
 	char textIn[] =
 		"\nvoid Foo()\n"
@@ -1720,15 +1721,15 @@ TEST(BugFix_V124, BracketsHorstmann_Preprocessor)
 		"    bar2();\n"
 		"#endif\n"
 		"}\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BugFix_V124, BracketsHorstmann_EmptyLine)
+TEST(BugFix_V124, BracketsRunIn_EmptyLine)
 {
-	// test horstmann brackets with following empty line
+	// test run-in brackets with following empty line
 	// empty line should NOT be deleted
 	char text[] =
 		"\nvoid Foo()\n"
@@ -1737,15 +1738,15 @@ TEST(BugFix_V124, BracketsHorstmann_EmptyLine)
 		"    if (isFoo())\n"
 		"        bar();\n"
 		"}\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BugFix_V124, BracketsHorstmann_Comment1)
+TEST(BugFix_V124, BracketsRunIn_Comment1)
 {
-	// test horstmann brackets with following comment
+	// test run-in brackets with following comment
 	// second comment should NOT be attached to the first
 	char textIn[] =
 		"\nvoid Foo()\n"
@@ -1762,15 +1763,15 @@ TEST(BugFix_V124, BracketsHorstmann_Comment1)
 		"    if (isFoo())\n"
 		"        bar();\n"
 		"}\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BugFix_V124, BracketsHorstmann_Comment2)
+TEST(BugFix_V124, BracketsRunIn_Comment2)
 {
-	// test horstmann brackets with following comment in column 1
+	// test run-in brackets with following comment in column 1
 	// the comment should NOT be attached
 	char text[] =
 		"\nvoid Foo()\n"
@@ -1780,45 +1781,45 @@ TEST(BugFix_V124, BracketsHorstmann_Comment2)
 		"    if (isFoo())\n"
 		"        bar();\n"
 		"}\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BugFix_V124, BracketsHorstmann_Comment3)
+TEST(BugFix_V124, BracketsRunIn_Comment3)
 {
-	// test horstmann brackets with following comment
+	// test run-in brackets with following comment
 	// the comment should NOT be attached to the previous line
 	char text[] =
 		"\nvoid foo()\n"
 		"{   foo1();\n"
 		"    /* comment */\n"
 		"}\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BugFix_V124, BracketsHorstmann_Comment4)
+TEST(BugFix_V124, BracketsRunIn_Comment4)
 {
-	// test horstmann brackets with following comment
+	// test run-in brackets with following comment
 	// the comment should NOT be attached to the previous line
 	char text[] =
 		"\nvoid foo()\n"
 		"{   // comment1\n"
 		"    /*comment2*/\n"
 		"}\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BugFix_V124, BracketsHorstmann_Comment5)
+TEST(BugFix_V124, BracketsRunIn_Comment5)
 {
-	// test horstmann brackets with following comment
+	// test run-in brackets with following comment
 	// the comment on unattached lines should be correctly indented
 	char textIn[] =
 		"\nnamespace fooName\n"
@@ -1845,15 +1846,15 @@ TEST(BugFix_V124, BracketsHorstmann_Comment5)
 		"     */\n"
 		"}\n"
 		"}\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BugFix_V124, BracketsHorstmann_Comment6)
+TEST(BugFix_V124, BracketsRunIn_Comment6)
 {
-	// test horstmann brackets with following comment
+	// test run-in brackets with following comment
 	// the comment on unattached lines should be correctly indented
 	char textIn[] =
 		"\nnamespace fooName\n"
@@ -1880,15 +1881,15 @@ TEST(BugFix_V124, BracketsHorstmann_Comment6)
 		"         */\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=horstmann, indent-namespaces";
+	char options[] = "brackets=run-in, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BugFix_V124, BracketsHorstmann_Comment7)
+TEST(BugFix_V124, BracketsRunIn_Comment7)
 {
-	// test horstmann brackets with comment following line comment
+	// test run-in brackets with comment following line comment
 	// the comment should NOT be attached to the previous line
 	char textIn[] =
 		"\nvoid foo(bool isFoo)\n"
@@ -1908,15 +1909,15 @@ TEST(BugFix_V124, BracketsHorstmann_Comment7)
 		"        bar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BugFix_V124, BracketsHorstmann_BreakAllBlocks1)
+TEST(BugFix_V124, BracketsRunIn_BreakAllBlocks1)
 {
-	// test horstmann brackets with break all blocks
+	// test run-in brackets with break all blocks
 	// the blocks should be correctly broken
 	char textIn[] =
 		"\nvoid foo()\n"
@@ -1948,15 +1949,15 @@ TEST(BugFix_V124, BracketsHorstmann_BreakAllBlocks1)
 		"\n"
 		"    bar4();\n"
 		"}\n";
-	char options[] = "brackets=horstmann, break-blocks=all";
+	char options[] = "brackets=run-in, break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BugFix_V124, BracketsHorstmann_BreakAllBlocks2)
+TEST(BugFix_V124, BracketsRunIn_BreakAllBlocks2)
 {
-	// test horstmann brackets with break all blocks and delete empty lines
+	// test run-in brackets with break all blocks and delete empty lines
 	// and comments separated by an empty line
 	// the empty line should NOT be deleted
 	char textIn[] =
@@ -1976,15 +1977,15 @@ TEST(BugFix_V124, BracketsHorstmann_BreakAllBlocks2)
 		"    if (isFoo)\n"
 		"        bar();\n"
 		"}\n";
-	char options[] = "brackets=horstmann, break-blocks=all, delete-empty-lines";
+	char options[] = "brackets=run-in, break-blocks=all, delete-empty-lines";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BugFix_V124, BracketsHorstmann_UnpadParen1)
+TEST(BugFix_V124, BracketsRunIn_UnpadParen1)
 {
-	// test horstmann brackets with unpad parens
+	// test run-in brackets with unpad parens
 	// the indent should NOT be removed
 	char textIn[] =
 		"\nvoid foo()\n"
@@ -2002,15 +2003,15 @@ TEST(BugFix_V124, BracketsHorstmann_UnpadParen1)
 		"        (*_err) << arg;    // comment2\n"
 		"    }\n"
 		"}\n";
-	char options[] = ", brackets=horstmann, unpad-paren";
+	char options[] = ", brackets=run-in, unpad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BugFix_V124, BracketsHorstmann_UnpadParen2)
+TEST(BugFix_V124, BracketsRunIn_UnpadParen2)
 {
-	// test horstmann brackets with unpad parens and pad-parens
+	// test run-in brackets with unpad parens and pad-parens
 	// the indent should NOT be removed
 	char textIn[] =
 		"\nvoid foo()\n"
@@ -2028,15 +2029,15 @@ TEST(BugFix_V124, BracketsHorstmann_UnpadParen2)
 		"        ( *_err ) << arg; // comment2\n"
 		"    }\n"
 		"}\n";
-	char options[] = ", brackets=horstmann, unpad-paren, pad-paren";
+	char options[] = ", brackets=run-in, unpad-paren, pad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BugFix_V124, BracketsHorstmann_UnpadParen3)
+TEST(BugFix_V124, BracketsRunIn_UnpadParen3)
 {
-	// test horstmann brackets with unpad parens and pad-parens
+	// test run-in brackets with unpad parens and pad-parens
 	//	and tab indents
 	// the indent should NOT be removed
 	char textIn[] =
@@ -2055,15 +2056,15 @@ TEST(BugFix_V124, BracketsHorstmann_UnpadParen3)
 		"		( *_err ) << arg; // comment2\n"
 		"	}\n"
 		"}\n";
-	char options[] = ", brackets=horstmann, unpad-paren, pad-paren, indent=tab";
+	char options[] = ", brackets=run-in, unpad-paren, pad-paren, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BugFix_V124, BracketsHorstmann_SingleLineBlock1)
+TEST(BugFix_V124, BracketsRunIn_SingleLineBlock1)
 {
-	// test horstmann brackets with single line block
+	// test run-in brackets with single line block
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{ bar1(); bar2() }\n";
@@ -2072,19 +2073,19 @@ TEST(BugFix_V124, BracketsHorstmann_SingleLineBlock1)
 		"{   bar1();\n"
 		"    bar2()\n"
 		"}\n";
-	char options[] = ", brackets=horstmann";
+	char options[] = ", brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BugFix_V124, BracketsHorstmann_SingleLineBlock2)
+TEST(BugFix_V124, BracketsRunIn_SingleLineBlock2)
 {
-	// test horstmann brackets with single line block
+	// test run-in brackets with single line block
 	char text[] =
 		"\nvoid foo()\n"
 		"{ bar1(); bar2() }\n";
-	char options[] = ", brackets=horstmann, keep-one-line-blocks";
+	char options[] = ", brackets=run-in, keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2195,7 +2196,6 @@ TEST(BugFix_V123, PreprocessorErrorStatement)
 		"/* @param\n"
 		" * callee has in_region's ownership.\n"
 		" */\n";
-
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -2257,9 +2257,9 @@ TEST(BugFix_V123, BreakElseIfWithCatch)
 	delete [] textOut;
 }
 
-TEST(BugFix_V123, IndentBracketsInComment)
+TEST(BugFix_V123, WhitesmithInComment)
 {
-	// test indent brackets with brackets in comment
+	// test whitesmith style with brackets in comment
 	// should not indent brackets in comments
 	char text[] =
 		"\nvoid foo()\n"
@@ -2269,7 +2269,7 @@ TEST(BugFix_V123, IndentBracketsInComment)
 		"        int found = -1;\n"
 		"    }*/\n"
 		"    }\n";
-	char options[] = "indent-brackets";
+	char options[] = "style=whitesmith";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2410,7 +2410,6 @@ TEST(BugFix_V123, CSharp_NullableTypes)
 		"        int?[] arr = new int?[10];\n"
 		"    }\n"
 		"}\n";
-
 	char options[] = "pad-oper, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -2490,7 +2489,6 @@ TEST(BugFix_V123, CSharp_BreakBlocks_KeepOneLineBlocks)
 		"{\n"
 		"    public bool Foo { get { return Count > 0; } }\n"
 		"}\n";
-
 	char options[] = "break-blocks, keep-one-line-blocks, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);

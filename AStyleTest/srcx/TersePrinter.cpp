@@ -4,6 +4,9 @@
 
 #include "TersePrinter.h"
 
+// This will have a value after OnTestIterationEnd is called.
+int g_test_to_run = 0;
+
 // TersePrinter class.
 // Provides alternative output mode which displays only
 // the failed tests but in an enhanced form.
@@ -17,7 +20,7 @@ void TersePrinter::OnTestIterationStart(const UnitTest& unit_test, int /*iterati
 #if !GTEST_HAS_DEATH_TEST || LEAK_FINDER
 	ColoredPrintf(COLOR_YELLOW, "No death tests.\n");
 #endif
-	ColoredPrintf(COLOR_YELLOW, "Using terse printer.\n");
+	ColoredPrintf(COLOR_GREEN, "Using terse printer.\n");
 	ColoredPrintf(COLOR_GREEN, "[==========] ");
 	printf("Running %d tests from %d test cases.\n",
 	       unit_test.test_to_run_count(),
@@ -109,13 +112,13 @@ void TersePrinter::OnEnvironmentsTearDownStart(const UnitTest& /*unit_test*/)
 // Fired after each iteration of tests finishes.
 void TersePrinter::OnTestIterationEnd(const UnitTest& unit_test, int /*iteration*/)
 {
+	g_test_to_run = unit_test.test_to_run_count();
 	ColoredPrintf(COLOR_GREEN, "[==========] ");
 	printf("%d tests from %d test cases ran.",
 	       unit_test.test_to_run_count(),
 	       unit_test.test_case_to_run_count());
 	float time_in_ms = static_cast<float>(unit_test.elapsed_time());
 	printf(" (%1.2f seconds total)\n", time_in_ms / 1000);
-
 	// Print total passed.
 	ColoredPrintf(COLOR_GREEN, "[  PASSED  ] ");
 	printf("%d tests.\n", unit_test.successful_test_count());
@@ -165,7 +168,6 @@ void TersePrinter::PrintFailedTestSummary(string summary) const
 		if (last_char > 0 && line.back()[last_char] != '\n')
 			line.back().append("\n");
 	}
-
 	// Print the lines with added color.
 	for (size_t j = 0; j < line.size(); j++)
 	{
@@ -201,13 +203,11 @@ void TersePrinter::PrintFailedTestsList(const UnitTest& unit_test) const
 	const int failed_test_count = unit_test.failed_test_count();
 	if (failed_test_count == 0)
 		return;
-
 	for (int i = 0; i < unit_test.total_test_case_count(); ++i)
 	{
 		const TestCase& test_case = *unit_test.GetTestCase(i);
 		if (!test_case.should_run() || (test_case.failed_test_count() == 0))
 			continue;
-
 		for (int j = 0; j < test_case.total_test_count(); ++j)
 		{
 			const TestInfo& test_info = *test_case.GetTestInfo(j);
@@ -230,57 +230,53 @@ char TersePrinter::PeekNextChar(const string& line, int i) const
 	return ch;
 }
 
+// Static function to print the test total.
+// Called from the "main" test program at end of job.
+void TersePrinter::PrintTestTotals(int all_test_total_check, const char* file, int line)
+{
+	// Get the file name.
+	string file_path(file);
+	size_t start = file_path.find_last_of("/\\");
+	if (start == string::npos)
+		start = 0;
+	else
+		start++;
+	string file_name = file_path.substr(start);
+	// Check the totals.
+	if (g_test_to_run < all_test_total_check - 10)
+	{
+		ColoredPrintf(COLOR_YELLOW,
+		              "\nMISSING TESTS: %d (%d)  %s(%d)\n",
+		              all_test_total_check, g_test_to_run, file_name.c_str(), line);
+	}
+	else if (g_test_to_run > all_test_total_check + 10)
+	{
+		ColoredPrintf(COLOR_YELLOW,
+		              "\nUpdate test variable: %d (%d)  %s(%d)\n",
+		              all_test_total_check, g_test_to_run, file_name.c_str(), line);
+	}
+	else
+		ColoredPrintf(COLOR_GREEN, "\nAll tests run.\n");
+}
+
 #ifdef _WIN32
 
-//// Windows print colored string to stdout.
-//void TersePrinter::ColoredPrint(ConsoleColor color, const char* fmt) const
-//{
-//	if (!use_color_)
-//	{
-//		printf("%s", fmt);
-//		return;
-//	}
-//
-//	const HANDLE stdout_handle = GetStdHandle(STD_OUTPUT_HANDLE);
-//
-//	// get the current text color
-//	CONSOLE_SCREEN_BUFFER_INFO bufferInfo;
-//	GetConsoleScreenBufferInfo(stdout_handle, &bufferInfo);
-//	const WORD oldColorAttrs = bufferInfo.wAttributes;
-//
-//	// We need to flush the stream buffers into the console before each
-//	// SetConsoleTextAttribute call lest it affect the text that is already
-//	// printed but has not yet reached the console.
-//	fflush(stdout);
-//	SetConsoleTextAttribute(stdout_handle,
-//	                        GetColorAttribute(color)
-//	                        | static_cast<WORD>(FOREGROUND_INTENSITY));
-//	printf("%s", fmt);
-//	fflush(stdout);
-//	// restore the text color.
-//	SetConsoleTextAttribute(stdout_handle, oldColorAttrs);
-//}
-
 // Windows print colored string to stdout.
-void TersePrinter::ColoredPrintf(ConsoleColor color, const char* fmt, ...) const
+void ColoredPrintf(ConsoleColor color, const char* fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-
-	if (!use_color_)
-	{
-		vprintf(fmt, args);
-		va_end(args);
-		return;
-	}
-
+//	if (!use_color_)
+//	{
+//		vprintf(fmt, args);
+//		va_end(args);
+//		return;
+//	}
 	const HANDLE stdout_handle = GetStdHandle(STD_OUTPUT_HANDLE);
-
 	// Gets the current text color.
 	CONSOLE_SCREEN_BUFFER_INFO buffer_info;
 	GetConsoleScreenBufferInfo(stdout_handle, &buffer_info);
 	const WORD old_color_attrs = buffer_info.wAttributes;
-
 	// We need to flush the stream buffers into the console before each
 	// SetConsoleTextAttribute call lest it affect the text that is already
 	// printed but has not yet reached the console.
@@ -289,7 +285,6 @@ void TersePrinter::ColoredPrintf(ConsoleColor color, const char* fmt, ...) const
 	                        GetColorAttribute(color)
 	                        | static_cast<WORD>(FOREGROUND_INTENSITY));
 	vprintf(fmt, args);
-
 	fflush(stdout);
 	// Restores the text color.
 	SetConsoleTextAttribute(stdout_handle, old_color_attrs);
@@ -297,7 +292,7 @@ void TersePrinter::ColoredPrintf(ConsoleColor color, const char* fmt, ...) const
 }
 
 // Windows return the character attribute for the given color.
-WORD TersePrinter::GetColorAttribute(ConsoleColor color) const
+WORD GetColorAttribute(ConsoleColor color)
 {
 	switch (color)
 	{
@@ -322,36 +317,17 @@ WORD TersePrinter::GetColorAttribute(ConsoleColor color) const
 
 #else
 
-//// Linux print colored string to stdout.
-//void TersePrinter::ColoredPrint(ConsoleColor color, const char* fmt) const
-//{
-//	static const bool in_color_mode =
-//	    ShouldUseColor(isatty(fileno(stdout)) != 0);
-//	bool use_color_print = in_color_mode && use_color_;
-//
-//	if (!use_color_print)
-//	{
-//		printf("%s", fmt);
-//		return;
-//	}
-//	string color_code = GetAnsiColorCode(color);
-//	printf("%s", color_code.c_str());
-//	printf("%s", fmt);
-//	printf("%s", "\033[m");	// reset the terminal to default.
-//}
-
 // Linux print colored string to stdout.
-void TersePrinter::ColoredPrintf(ConsoleColor color, const char* fmt, ...) const
+void ColoredPrintf(ConsoleColor color, const char* fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-
-	if (!use_color_)
-	{
-		vprintf(fmt, args);
-		va_end(args);
-		return;
-	}
+//	if (!use_color_)
+//	{
+//		vprintf(fmt, args);
+//		va_end(args);
+//		return;
+//	}
 	string color_code = GetAnsiColorCode(color);
 	printf("%s", color_code.c_str());
 	vprintf(fmt, args);
@@ -360,7 +336,7 @@ void TersePrinter::ColoredPrintf(ConsoleColor color, const char* fmt, ...) const
 }
 
 // Linux return the ANSI color code for the given color.
-string TersePrinter::GetAnsiColorCode(ConsoleColor color) const
+string GetAnsiColorCode(ConsoleColor color)
 {
 	switch (color)
 	{
@@ -384,7 +360,7 @@ string TersePrinter::GetAnsiColorCode(ConsoleColor color) const
 }
 
 // Linux return true if colors should be in output terminal.
-bool TersePrinter::ShouldUseColor(bool stdoutIsTty) const
+bool ShouldUseColor(bool stdoutIsTty)
 {
 	// use the TERM variable.
 	const char* const term = getenv("TERM");

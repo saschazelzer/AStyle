@@ -11,7 +11,7 @@ set indir=%USERPROFILE%
 set indirOLD=%USERPROFILE%
 
 set infile=test-diff.txt
-set winmerge=%PROGRAMFILES%\WinMerge\WinMergeU
+set winmerge=C:\Program Files (x86)\WinMerge\WinMergeU
 set tempfile=%TEMP%\astyle.tmp
 
 
@@ -66,8 +66,8 @@ echo -
 echo N,M to skip
 echo Z to end
 echo -
-echo %indir:~30%
-echo %indirOLD:~30%
+echo %indir:~32%
+echo %indirOLD:~32%
 echo -
 echo %total% diffs in %totalfiles% files
 echo -

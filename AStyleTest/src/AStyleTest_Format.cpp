@@ -267,7 +267,6 @@ TEST(BreakClosingBrackets, Catch)
 		"        cout << i << endl;\n"
 		"    }\n"
 		"}\n";
-
 	char options[] = "brackets=attach, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -295,7 +294,6 @@ TEST(BreakClosingBrackets, CatchSans)
 		"        cout << i << endl;\n"
 		"    }\n"
 		"}\n";
-
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -318,7 +316,6 @@ TEST(BreakClosingBrackets, While)
 		"    }\n"
 		"    while (int x < 9);\n"
 		"}\n";
-
 	char options[] = "brackets=attach, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -342,7 +339,6 @@ TEST(BreakClosingBrackets, WhileSans)
 		"        bar();\n"
 		"    } while (int x < 9);\n"
 		"}\n";
-
 	char options[] = "brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -777,7 +773,7 @@ TEST(KeepOneLineBlocks, LinuxBrackets)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocks, HorstmannBrackets)
+TEST(KeepOneLineBlocks, RunInBrackets)
 {
 	// test keep one line blocks
 	char text[] =
@@ -786,7 +782,7 @@ TEST(KeepOneLineBlocks, HorstmannBrackets)
 		"    else if (comment) { ++comment_lines; }\n"
 		"    else if (code) { ++code_lines; }\n"
 		"}\n";
-	char options[] = "keep-one-line-blocks, brackets=horstmann";
+	char options[] = "keep-one-line-blocks, brackets=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -806,11 +802,11 @@ TEST(KeepOneLineBlocks, BreakElseIf)
 		"\nvoid foo()\n"
 		"{\n"
 		"    if (!j)\n"
-		"        { j=1; if (i) i=i-10; }\n"
+		"    { j=1; if (i) i=i-10; }\n"
 		"    if (!j)\n"
-		"        { j=1; if (i) i=i-10; else i=i-20; }\n"
+		"    { j=1; if (i) i=i-10; else i=i-20; }\n"
 		"    if (!j)\n"
-		"        { j=1; if (i) i=i-10; else if (j) j=j-10; }\n"
+		"    { j=1; if (i) i=i-10; else if (j) j=j-10; }\n"
 		"}\n";
 	char options[] = "keep-one-line-blocks, break-elseifs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -935,7 +931,7 @@ TEST(KeepOneLineBlocks, NoneRunIn)
 	char text[] =
 		"\nvoid foo()\n"
 		"{   if (isFoo)\n"
-		"        {/*ok*/;}\n"
+		"    {/*ok*/;}\n"
 		"    else {bar();}\n"
 		"}\n";
 	char options[] = "keep-one-line-blocks";
@@ -944,17 +940,17 @@ TEST(KeepOneLineBlocks, NoneRunIn)
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocks, HorstmannRunIn)
+TEST(KeepOneLineBlocks, RunInRunIn)
 {
-	// test horstmann brackets with keep one line blocks and run-in
+	// test run-in brackets with keep one line blocks and run-in
 	// should not indent the run-in
 	char text[] =
 		"\nvoid foo()\n"
 		"{   if (isFoo)\n"
-		"        {/*ok*/;}\n"
+		"    {/*ok*/;}\n"
 		"    else {bar();}\n"
 		"}\n";
-	char options[] = "keep-one-line-blocks, brackets=horstmann";
+	char options[] = "keep-one-line-blocks, brackets=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -967,7 +963,7 @@ TEST(KeepOneLineBlocks, NoneClosingHeader)
 	char text[] =
 		"\nvoid foo() {\n"
 		"    if (isFoo)\n"
-		"        {/*ok*/;}\n"
+		"    {/*ok*/;}\n"
 		"    else {bar();}\n"
 		"}\n";
 	char options[] = "keep-one-line-blocks";
@@ -984,7 +980,7 @@ TEST(KeepOneLineBlocks, BreakClosingHeader)
 		"\nvoid foo()\n"
 		"{\n"
 		"    if (isFoo)\n"
-		"        {/*ok*/;}\n"
+		"    {/*ok*/;}\n"
 		"    else {bar();}\n"
 		"}\n";
 	char options[] = "keep-one-line-blocks, brackets=break";
@@ -1000,7 +996,7 @@ TEST(KeepOneLineBlocks, AttachClosingHeader)
 	char text[] =
 		"\nvoid foo() {\n"
 		"    if (isFoo)\n"
-		"        {/*ok*/;}\n"
+		"    {/*ok*/;}\n"
 		"    else {bar();}\n"
 		"}\n";
 	char options[] = "keep-one-line-blocks, brackets=attach";
@@ -1017,10 +1013,127 @@ TEST(KeepOneLineBlocks, LinuxClosingHeader)
 		"\nvoid foo()\n"
 		"{\n"
 		"    if (isFoo)\n"
-		"        {/*ok*/;}\n"
+		"    {/*ok*/;}\n"
 		"    else {bar();}\n"
 		"}\n";
 	char options[] = "keep-one-line-blocks, brackets=linux";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, IndentSwitchBlock)
+{
+	// test one-line blocks with switch blocks
+	char text[] =
+		"\nvoid Foo(int fooBar)\n"
+		"{\n"
+		"    switch (fooBar)\n"
+		"    {\n"
+		"    case 1:\n"
+		"        fooBar = 1;\n"
+		"        break;\n"
+		"    case 2:\n"
+		"    { fooBar = 2; }\n"
+		"    break;\n"
+		"    default:\n"
+		"    { break; }\n"
+		"    }\n"
+		"    int bar = true;\n"
+		"}\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, IndentSwitchBlock_IndentSwitches)
+{
+	// test one-line blocks with indented switch blocks
+	char text[] =
+		"\nvoid Foo(int fooBar)\n"
+		"{\n"
+		"    switch (fooBar)\n"
+		"    {\n"
+		"        case 1:\n"
+		"            fooBar = 1;\n"
+		"            break;\n"
+		"        case 2:\n"
+		"        { fooBar = 2; }\n"
+		"        break;\n"
+		"        default:\n"
+		"        { break; }\n"
+		"    }\n"
+		"    int bar = true;\n"
+		"}\n";
+	char options[] = "keep-one-line-blocks, indent-switches";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, IndentAfterHeader)
+{
+	// test one line blocks indentation following a header
+	char text[] =
+		"\nvoid foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"    { bar(); }\n"
+		"    else\n"
+		"    { anotherBar(); }\n"
+		"}\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, IndentAfterHeaderSansBrackets)
+{
+	// Test one line blocks indentation following a header
+	// when the header does not contain brackets.
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isBar1)\n"
+		"        if (isBar2)\n"
+		"        { return true; }\n"
+		"\n"
+		"    if (isBar1)\n"
+		"        if (isBar2) { return true; }\n"
+		"}\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, IndentSansHeader)
+{
+	// test one line blocks indentation withouta header
+	char text[] =
+		"\nvoid foo(bool isFoo)\n"
+		"{\n"
+		"    bar()\n"
+		"    { anotherBar(); }\n"
+		"}\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+TEST(KeepOneLineBlocks, IndentWithConstMethod)
+{
+	// Test one line blocks indentation following a header
+	// when the header does not contain brackets.
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    virtual bool foo() const\n"
+		"    { return false; }\n"
+		"};\n";
+	char options[] = "keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1421,9 +1534,9 @@ TEST(AddBrackets, Attach)
 	delete [] textOut;
 }
 
-TEST(AddBrackets, Horstmann)
+TEST(AddBrackets, RunIn)
 {
-	// test add brackets for horstmann brakets
+	// test add brackets for run-in brakets
 	char textIn[] =
 		"\nvoid Foo()\n"
 		"{\n"
@@ -1441,7 +1554,7 @@ TEST(AddBrackets, Horstmann)
 		"    {   return true;\n"
 		"    }\n"
 		"}\n";
-	char options[] = "add-brackets, brackets=horstmann";
+	char options[] = "add-brackets, brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1609,7 +1722,7 @@ TEST(AddOneLineBrackets, LongOption)
 		"\nvoid Foo()\n"
 		"{\n"
 		"    if (isFoo())\n"
-		"        { return false; }\n"
+		"    { return false; }\n"
 		"}\n";
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -1630,7 +1743,7 @@ TEST(AddOneLineBrackets, ShortOption)
 		"\nvoid Foo()\n"
 		"{\n"
 		"    if (isFoo())\n"
-		"        { return false; }\n"
+		"    { return false; }\n"
 		"}\n";
 	char options[] = "-J";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -1667,21 +1780,21 @@ TEST(AddOneLineBrackets, All)
 		"\nvoid Foo()\n"
 		"{\n"
 		"    if (isFoo())\n"
-		"        { return false; }\n"
+		"    { return false; }\n"
 		"\n"
 		"    if (isFoo())\n"
-		"        { return false; }\n"
+		"    { return false; }\n"
 		"    else\n"
-		"        { return true; }\n"
+		"    { return true; }\n"
 		"\n"
 		"    for (int i = 0; i <= 12; ++i)\n"
-		"        { bar &= ::FooBar(); }\n"
+		"    { bar &= ::FooBar(); }\n"
 		"\n"
 		"    while (isFoo)\n"
-		"        { bar(); }\n"
+		"    { bar(); }\n"
 		"\n"
 		"    do\n"
-		"        { bar(); }\n"
+		"    { bar(); }\n"
 		"    while (isFoo);\n"
 		"}\n";
 	char options[] = "add-one-line-brackets";
@@ -1705,9 +1818,9 @@ TEST(AddOneLineBrackets, ElseIf)
 		"\nvoid Foo()\n"
 		"{\n"
 		"    if (isFoo())\n"
-		"        { return false; }\n"
+		"    { return false; }\n"
 		"    else if (isFoo())\n"
-		"        { return false; }\n"
+		"    { return false; }\n"
 		"}\n";
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -1733,7 +1846,7 @@ TEST(AddOneLineBrackets, SemiFollows)
 		"    func1();\n"
 		"    i++;\n"
 		"    while (isFoo)  // comment\n"
-		"        { ; }\n"
+		"    { ; }\n"
 		"    while (isFoo) { ; } // comment\n"
 		"}\n";
 	char options[] = "add-one-line-brackets";
@@ -1759,7 +1872,7 @@ TEST(AddOneLineBrackets, Sharp)
 		"\nvoid Foo()\n"
 		"{\n"
 		"    foreach (int i in fibarray)\n"
-		"        { System.Console.WriteLine(i); }\n"
+		"    { System.Console.WriteLine(i); }\n"
 		"\n"
 		"    if (isFoo)\n"
 		"        bar(delegate { fooBar* = null; });\n"
@@ -1859,9 +1972,9 @@ TEST(AddOneLineBrackets, Break)
 		"\nvoid Foo()\n"
 		"{\n"
 		"    if (isFoo())\n"
-		"        { return false; }\n"
+		"    { return false; }\n"
 		"    else\n"
-		"        { return true; }\n"
+		"    { return true; }\n"
 		"}\n";
 	char options[] = "add-one-line-brackets, brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -1884,9 +1997,9 @@ TEST(AddOneLineBrackets, Attach)
 		"\nvoid Foo()\n"
 		"{\n"
 		"    if (isFoo())\n"
-		"        { return false; }\n"
+		"    { return false; }\n"
 		"    else\n"
-		"        { return true; }\n"
+		"    { return true; }\n"
 		"}\n";
 	char options[] = "add-one-line-brackets, brackets=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -1894,9 +2007,9 @@ TEST(AddOneLineBrackets, Attach)
 	delete [] textOut;
 }
 
-TEST(AddOneLineBrackets, Horstmann)
+TEST(AddOneLineBrackets, RunIn)
 {
-	// test add one line brackets for horstmann brakets
+	// test add one line brackets for run-in brakets
 	char textIn[] =
 		"\nvoid Foo()\n"
 		"{\n"
@@ -1908,11 +2021,11 @@ TEST(AddOneLineBrackets, Horstmann)
 	char text[] =
 		"\nvoid Foo()\n"
 		"{   if (isFoo())\n"
-		"        { return false; }\n"
+		"    { return false; }\n"
 		"    else\n"
-		"        { return true; }\n"
+		"    { return true; }\n"
 		"}\n";
-	char options[] = "add-one-line-brackets, brackets=horstmann";
+	char options[] = "add-one-line-brackets, brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2226,7 +2339,6 @@ TEST(ConvertTabs, Misc1)
 		"  	quote 		continuation  \\\n"
 		"	quote  		continuation\";\n"
 		"}\n";
-
 	char options[] = "convert-tabs, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -2294,7 +2406,6 @@ TEST(ConvertTabs, Misc4)
 		"    if( isFoo )\n"
 		"        bar;\n"
 		"}\n";
-
 	char options[] = "convert-tabs, unpad-paren, pad-paren-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);

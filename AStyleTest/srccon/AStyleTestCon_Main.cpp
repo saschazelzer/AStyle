@@ -58,6 +58,9 @@ string g_testDirectory = "%USERPROFILE%\\Projects\\AStyleTest\\ut-testcon";
 string g_testDirectory = "$HOME/Projects/AStyleTest/ut-testcon";
 #endif
 
+// indicates i18n test
+bool g_isI18nTest = false;
+// for i18n tests in Windows
 bool g_testedJapanese = true;
 bool g_testedGreek = true;
 bool g_testedRussian = true;
@@ -75,7 +78,6 @@ int main(int argc, char** argv)
 	// the following statement will be printed at beginning of job
 	// and before a death test
 //	printf("Test directory: %s.\n", (*g_testDirectory).c_str());
-
 	// parse command line BEFORE InitGoogleTest
 	bool use_terse_printer = false;
 	bool use_color = true;
@@ -86,10 +88,8 @@ int main(int argc, char** argv)
 		else if (strcmp(argv[i], "--gtest_color=no") == 0 )
 			use_color = false;
 	}
-
 	// do this after parsing the command line but before changing printer
 	testing::InitGoogleTest(&argc, argv);
-
 	// change to TersePrinter
 	if (use_terse_printer)
 	{
@@ -98,14 +98,27 @@ int main(int argc, char** argv)
 		delete listeners.Release(listeners.default_result_printer());
 		listeners.Append(new TersePrinter(use_color));
 	}
-
 	// begin unit testing
 	createTestDirectory(getTestDirectory());
 	int retval = RUN_ALL_TESTS();
-
-	// print i18n message for Windows tests
-	printI18nMessage();
-
+	// Print verification if terse_printer.
+	// Verify that all tests were run. This can occur if a source file
+	// is missing from the project. The UnitTest reflection API in
+	// example 9 will not work here because of user modifications.
+	if (use_terse_printer)
+	{
+		if (g_isI18nTest)
+			// Change the following value to the number of tests (within 10).
+			TersePrinter::PrintTestTotals( 34 , __FILE__, __LINE__ );
+		else
+			// Change the following value to the number of tests (within 10).
+			TersePrinter::PrintTestTotals( 94 , __FILE__, __LINE__);
+	}
+	if (g_isI18nTest)
+		printI18nMessage();
+#ifdef __WIN32
+	printf("%c", '\n');
+#endif
 	// end of unit testing
 	//	removeTestDirectory(getTestDirectory());
 //	system("pause");		// sometimes needed for Windows debug
@@ -146,7 +159,6 @@ void cleanTestDirectory(const wstring& directory)
 // Windows remove files and sub directories from the test directory
 {
 	WIN32_FIND_DATAW FindFileData;
-
 	// Find the first file in the directory
 	// Find will get at least "." and "..".
 	wstring firstFile = directory + L"\\*";
@@ -156,7 +168,6 @@ void cleanTestDirectory(const wstring& directory)
 		displayLastError();
 		systemAbort(L"Cannot open directory for clean: " + directory);
 	}
-
 	// remove files and sub directories
 	do
 	{
@@ -184,7 +195,6 @@ void cleanTestDirectory(const wstring& directory)
 		}
 	}
 	while (::FindNextFileW(hFind, &FindFileData) != 0);
-
 	// check for processing error
 	FindClose(hFind);
 	DWORD dwError = GetLastError();
@@ -234,7 +244,6 @@ void retryCreateDirectory(const string& directory)
 	}
 	displayLastError();
 	systemAbort("Cannot create directory: " + directory);
-
 }
 
 void retryRemoveDirectory(const wstring& directory)
@@ -253,7 +262,6 @@ void retryRemoveDirectory(const wstring& directory)
 	}
 	displayLastError();
 	systemAbort(L"Cannot remove file for clean: " + directory);
-
 }
 
 void sleep(int seconds)
@@ -279,16 +287,13 @@ void cleanTestDirectory(const string& directory)
 	struct dirent* entry;           // entry from readdir()
 	struct stat statbuf;            // entry from stat()
 	vector<string> subDirectory;    // sub directories of this directory
-
 	// errno is defined in <errno.h> and is set for errors in opendir, readdir, or stat
 	errno = 0;
-
 	// open directory stream
 	DIR* dp = opendir(directory.c_str());
 	if (errno)
 		ASTYLE_ABORT(string(strerror(errno))
 					 +"\nCannot open directory for clean: " + directory);
-
 	// remove files and sub directories
 	while ((entry = readdir(dp)) != NULL)
 	{
@@ -313,7 +318,6 @@ void cleanTestDirectory(const string& directory)
 							 +"\nCannot remove directory for clean: " + subDirectoryPath);
 			continue;
 		}
-
 		// remove the file
 		if (S_ISREG(statbuf.st_mode))
 		{
@@ -325,7 +329,6 @@ void cleanTestDirectory(const string& directory)
 		}
 	}
 	closedir(dp);
-
 	if (errno)
 		ASTYLE_ABORT(string(strerror(errno))
 					 + "\nError processing directory for clean: " + directory);
@@ -399,7 +402,6 @@ void createTestFile(const string& testFilePath, const char* testFileText, int si
 			|| !(testFilePath[testDir.length()] == '/'
 				 || testFilePath[testDir.length()] == '\\'))
 		ASTYLE_ABORT("File not written to test directory: " + testFilePath);
-
 	// write the output file
 	ofstream fout(testFilePath.c_str(), ios::binary | ios::trunc);
 	if (!fout)
@@ -461,7 +463,7 @@ void printI18nMessage()
 	if (!g_testedJapanese || !g_testedGreek || !g_testedRussian
 			|| !g_testedMultiLanguage || !g_testedCodepage1252)
 	{
-		printf("%c", '\n');
+		printf("%c", '\n');		// double space
 		// print tested
 		if (g_testedJapanese)
 			printf("%s\n", "Language tested: Japanese.");
@@ -485,7 +487,6 @@ void printI18nMessage()
 		if (!g_testedCodepage1252)
 			printf("%s\n", "Codepage not tested: 1252.");
 	}
-	printf("%c", '\n');
 }
 
 void removeTestFile(const string& testFileName)

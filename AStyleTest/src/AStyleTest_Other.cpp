@@ -995,7 +995,7 @@ TEST(Struct, Attach)
 	delete [] textOut;
 }
 
-TEST(Struct, Horstmann)
+TEST(Struct, RunIn)
 {
 	// struct with attached brackets
 	char text[] =
@@ -1006,7 +1006,7 @@ TEST(Struct, Horstmann)
 		"{   {\"IDM_MRUFILE\", IDM_MRUFILE},\n"
 		"    {\"IDM_TOOLS\",   IDM_TOOLS},\n"
 		"};\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1074,69 +1074,6 @@ TEST(Volatile, VolatileOnly)
 		"    return result;\n"
 		"}";
 	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(Volatile, ConstVolatile_IndentBlocks)
-{
-	// Test with "const volatile" and indent-blocks.
-	// The keyword "Volatile" used as a  type qualifier caused the data after the "if"
-	// statement to receive 1 less indent than needed.
-	char text[] =
-		"\nbool MDMsgBatchManager::IsReindexRequired () const volatile\n"
-		"{\n"
-		"    bool result = false;\n"
-		"    if (isReindexed)\n"
-		"        {\n"
-		"            result = true;\n"
-		"        }\n"
-		"    return result;\n"
-		"}";
-	char options[] = "indent-blocks";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(Volatile, VolatileConst_IndentBlocks)
-{
-	// Test with "volatile const" and indent-blocks.
-	// The keyword "Volatile" used as a  type qualifier caused the data after the "if"
-	// statement to receive 1 less indent than needed.
-	char text[] =
-		"\nbool MDMsgBatchManager::IsReindexRequired () volatile const\n"
-		"{\n"
-		"    bool result = false;\n"
-		"    if (isReindexed)\n"
-		"        {\n"
-		"            result = true;\n"
-		"        }\n"
-		"    return result;\n"
-		"}";
-	char options[] = "indent-blocks";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(Volatile, VolatileOnly_IndentBlocks)
-{
-	// Test with "volatil" only and indent-blocks.
-	// The keyword "Volatile" used as a  type qualifier caused the data after the "if"
-	// statement to receive 1 less indent than needed.
-	char text[] =
-		"\nbool MDMsgBatchManager::IsReindexRequired () volatile\n"
-		"{\n"
-		"    bool result = false;\n"
-		"    if (isReindexed)\n"
-		"        {\n"
-		"            result = true;\n"
-		"        }\n"
-		"    return result;\n"
-		"}";
-	char options[] = "indent-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1536,9 +1473,9 @@ TEST(Preprocessor, ArrayMissingOpener)
 	delete [] textOut;
 }
 
-TEST(Preprocessor, ArrayHorstmann_Break)
+TEST(Preprocessor, ArrayRunIn_Break)
 {
-	// EXPECT_TRUE broken brackets to horstmann
+	// EXPECT_TRUE broken brackets to run-in
 	// should NOT run-in a preprocessor directive
 	char text[] =
 		"\nchar *section_list[] =\n"
@@ -1551,15 +1488,15 @@ TEST(Preprocessor, ArrayHorstmann_Break)
 		"    \"2\", \"System Calls\",\n"
 		"#endif\n"
 		"};\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Preprocessor, ArrayHorstmann_Attach)
+TEST(Preprocessor, ArrayRunIn_Attach)
 {
-	// EXPECT_TRUE attached brackets to horstmann
+	// EXPECT_TRUE attached brackets to run-in
 	// should NOT run-in a preprocessor directive
 	char textIn[] =
 		"\nchar *section_list[] = {\n"
@@ -1582,15 +1519,15 @@ TEST(Preprocessor, ArrayHorstmann_Attach)
 		"    \"2\", \"System Calls\",\n"
 		"#endif\n"
 		"};\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Preprocessor, ArrayHorstmann_Horstmann)
+TEST(Preprocessor, ArrayRunIn_RunIn)
 {
-	// EXPECT_TRUE horstmann brackets to horstmann
+	// EXPECT_TRUE run-in brackets to run-in
 	// should NOT run-in a preprocessor directive
 	char text[] =
 		"\nchar *section_list[] =\n"
@@ -1603,7 +1540,7 @@ TEST(Preprocessor, ArrayHorstmann_Horstmann)
 		"    \"2\", \"System Calls\",\n"
 		"#endif\n"
 		"};\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1757,10 +1694,10 @@ TEST(Comment, BracketsNone_NamespaceClassIndent_Attach)
 	delete [] textOut;
 }
 
-TEST(Comment, BracketsNone_NamespaceClassIndent_Horstmann)
+TEST(Comment, BracketsNone_NamespaceClassIndent_RunIn)
 {
 	// comments should indent with namespaces and classes
-	// brackets=none with with horstmann brackets
+	// brackets=none with with run-in brackets
 	char textIn[] =
 		"\nnamespace FooName\n"
 		"{\n"
@@ -1896,10 +1833,10 @@ TEST(Comment, BracketsBreak_NamespaceClassIndent_Attach)
 	delete [] textOut;
 }
 
-TEST(Comment, BracketsBreak_NamespaceClassIndent_Horstmann)
+TEST(Comment, BracketsBreak_NamespaceClassIndent_RunIn)
 {
 	// comments should indent with namespaces and classes
-	// brackets=break with horstmann brackets
+	// brackets=break with run-in brackets
 	char textIn[] =
 		"\nnamespace FooName\n"
 		"{\n"
@@ -2030,10 +1967,10 @@ TEST(Comment, BracketsAttach_NamespaceClassIndent_Attach)
 	delete [] textOut;
 }
 
-TEST(Comment, BracketsAttach_NamespaceClassIndent_Horstmann)
+TEST(Comment, BracketsAttach_NamespaceClassIndent_RunIn)
 {
 	// comments should indent with namespaces and classes
-	// brackets=attach with horstmann brackets
+	// brackets=attach with run-in brackets
 	char textIn[] =
 		"\nnamespace FooName\n"
 		"{\n"
@@ -2070,10 +2007,10 @@ TEST(Comment, BracketsAttach_NamespaceClassIndent_Horstmann)
 	delete [] textOut;
 }
 
-TEST(Comment, BracketsHorstmann_NamespaceClassIndent_Break)
+TEST(Comment, BracketsRunIn_NamespaceClassIndent_Break)
 {
 	// comments should indent with namespaces and classes
-	// brackets=horstmann with broken brackets
+	// brackets=run-in with broken brackets
 	char textIn[] =
 		"\nnamespace FooName\n"
 		"{\n"
@@ -2106,16 +2043,16 @@ TEST(Comment, BracketsHorstmann_NamespaceClassIndent_Break)
 		"            }\n"
 		"    };\n"
 		"}\n";
-	char options[] = "brackets=horstmann, indent-namespaces, indent-classes";
+	char options[] = "brackets=run-in, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Comment, BracketsHorstmann_NamespaceClassIndent_Attach)
+TEST(Comment, BracketsRunIn_NamespaceClassIndent_Attach)
 {
 	// comments should indent with namespaces and classes
-	// brackets=horstmann with attached brackets
+	// brackets=run-in with attached brackets
 	char textIn[] =
 		"\nnamespace FooName {\n"
 		"class FooClass {\n"
@@ -2145,16 +2082,16 @@ TEST(Comment, BracketsHorstmann_NamespaceClassIndent_Attach)
 		"            }\n"
 		"    };\n"
 		"}\n";
-	char options[] = "brackets=horstmann, indent-namespaces, indent-classes";
+	char options[] = "brackets=run-in, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Comment, BracketsHorstmann_NamespaceClassIndent_Horstmann)
+TEST(Comment, BracketsRunIn_NamespaceClassIndent_RunIn)
 {
 	// comments should indent with namespaces and classes
-	// brackets=horstmann with horstmann brackets
+	// brackets=run-in with run-in brackets
 	char textIn[] =
 		"\nnamespace FooName\n"
 		"{\n"
@@ -2186,7 +2123,7 @@ TEST(Comment, BracketsHorstmann_NamespaceClassIndent_Horstmann)
 		"            }\n"
 		"    };\n"
 		"}\n";
-	char options[] = "brackets=horstmann, indent-namespaces, indent-classes";
+	char options[] = "brackets=run-in, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2557,10 +2494,10 @@ TEST(Continuation, BracketsNone_Attach)
 	delete [] textOut;
 }
 
-TEST(Continuation, BracketsNone_Horstmann)
+TEST(Continuation, BracketsNone_RunIn)
 {
 	// continuation lines
-	// brackets=none and input of horstmann brackets
+	// brackets=none and input of run-in brackets
 	char text[] =
 		"\nvoid foo()\n"
 		"{   if (isFoo1())\n"
@@ -2637,10 +2574,10 @@ TEST(Continuation, BracketsBreak_Attach)
 	delete [] textOut;
 }
 
-TEST(Continuation, BracketsBreak_Horstmann)
+TEST(Continuation, BracketsBreak_RunIn)
 {
 	// continuation lines
-	// brackets=break and input of horstmann brackets
+	// brackets=break and input of run-in brackets
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{   if (isFoo1())\n"
@@ -2728,10 +2665,10 @@ TEST(Continuation, BracketsAttach_Attach)
 	delete [] textOut;
 }
 
-TEST(Continuation, BracketsAttach_Horstmann)
+TEST(Continuation, BracketsAttach_RunIn)
 {
 	// continuation lines
-	// brackets=attach and input of horstmann brackets
+	// brackets=attach and input of run-in brackets
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{   if (isFoo1())\n"
@@ -2760,10 +2697,10 @@ TEST(Continuation, BracketsAttach_Horstmann)
 	delete [] textOut;
 }
 
-TEST(Continuation, BracketsHorstmann_Break)
+TEST(Continuation, BracketsRunIn_Break)
 {
 	// continuation lines
-	// brackets=horstmann and input of broken brackets
+	// brackets=run-in and input of broken brackets
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -2789,16 +2726,16 @@ TEST(Continuation, BracketsHorstmann_Break)
 		"                      Ypos);\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Continuation, BracketsHorstmann_Attach)
+TEST(Continuation, BracketsRunIn_Attach)
 {
 	// continuation lines
-	// brackets=horstmann and input of attached brackets
+	// brackets=run-in and input of attached brackets
 	char textIn[] =
 		"\nvoid foo() {\n"
 		"    if (isFoo1()) {\n"
@@ -2821,16 +2758,16 @@ TEST(Continuation, BracketsHorstmann_Attach)
 		"                      Ypos);\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(Continuation, BracketsHorstmann_Horstmann)
+TEST(Continuation, BracketsRunIn_RunIn)
 {
 	// continuation lines
-	// brackets=horstmann and input of horstmann brackets
+	// brackets=run-in and input of run-in brackets
 	char text[] =
 		"\nvoid foo()\n"
 		"{   if (isFoo1())\n"
@@ -2842,7 +2779,7 @@ TEST(Continuation, BracketsHorstmann_Horstmann)
 		"                      Ypos);\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2853,7 +2790,6 @@ TEST(Continuation, InlineTab1)
 {
 	// continuation lines
 	// with inline tabs
-
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -2959,10 +2895,10 @@ TEST(ContinuationTab, BracketsNone_Attach)
 	delete [] textOut;
 }
 
-TEST(ContinuationTab, BracketsNone_Horstmann)
+TEST(ContinuationTab, BracketsNone_RunIn)
 {
 	// continuation lines with tabs
-	// brackets=none and input of horstmann brackets
+	// brackets=none and input of run-in brackets
 	char text[] =
 		"\nvoid foo()\n"
 		"{	if (isFoo1())\n"
@@ -3039,10 +2975,10 @@ TEST(ContinuationTab, BracketsBreak_Attach)
 	delete [] textOut;
 }
 
-TEST(ContinuationTab, BracketsBreak_Horstmann)
+TEST(ContinuationTab, BracketsBreak_RunIn)
 {
 	// continuation lines with tabs
-	// brackets=break and input of horstmann brackets
+	// brackets=break and input of run-in brackets
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{	if (isFoo1())\n"
@@ -3130,10 +3066,10 @@ TEST(ContinuationTab, BracketsAttach_Attach)
 	delete [] textOut;
 }
 
-TEST(ContinuationTab, BracketsAttach_Horstmann)
+TEST(ContinuationTab, BracketsAttach_RunIn)
 {
 	// continuation lines with tabs
-	// brackets=attach and input of horstmann brackets
+	// brackets=attach and input of run-in brackets
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{	if (isFoo1())\n"
@@ -3162,10 +3098,10 @@ TEST(ContinuationTab, BracketsAttach_Horstmann)
 	delete [] textOut;
 }
 
-TEST(ContinuationTab, BracketsHorstmann_Break)
+TEST(ContinuationTab, BracketsRunIn_Break)
 {
 	// continuation lines with tabs
-	// brackets=horstmann and input of broken brackets
+	// brackets=run-in and input of broken brackets
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -3191,16 +3127,16 @@ TEST(ContinuationTab, BracketsHorstmann_Break)
 		"		              Ypos);\n"
 		"	}\n"
 		"}\n";
-	char options[] = "brackets=horstmann, indent=tab";
+	char options[] = "brackets=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ContinuationTab, BracketsHorstmann_Attach)
+TEST(ContinuationTab, BracketsRunIn_Attach)
 {
 	// continuation lines with tabs
-	// brackets=horstmann and input of attached brackets
+	// brackets=run-in and input of attached brackets
 	char textIn[] =
 		"\nvoid foo() {\n"
 		"	if (isFoo1()) {\n"
@@ -3223,16 +3159,16 @@ TEST(ContinuationTab, BracketsHorstmann_Attach)
 		"		              Ypos);\n"
 		"	}\n"
 		"}\n";
-	char options[] = "brackets=horstmann, indent=tab";
+	char options[] = "brackets=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ContinuationTab, BracketsHorstmann_Horstmann)
+TEST(ContinuationTab, BracketsRunIn_RunIn)
 {
 	// continuation lines with tabs
-	// brackets=horstmann and input of horstmann brackets
+	// brackets=run-in and input of run-in brackets
 	char text[] =
 		"\nvoid foo()\n"
 		"{	if (isFoo1())\n"
@@ -3244,7 +3180,7 @@ TEST(ContinuationTab, BracketsHorstmann_Horstmann)
 		"		              Ypos);\n"
 		"	}\n"
 		"}\n";
-	char options[] = "brackets=horstmann, indent=tab";
+	char options[] = "brackets=run-in, indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3313,7 +3249,6 @@ TEST(ContinuationForceTab, InlineTab1)
 {
 	// continuation lines with force tabs
 	// with inline tabs
-
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -3703,9 +3638,9 @@ TEST(SQL, SwitchIndentCase)
 	delete [] textOut;
 }
 
-TEST(SQL, BracketsHorstmann)
+TEST(SQL, BracketsRunIn)
 {
-	// SQL statements in horstmann brackets
+	// SQL statements in run-in brackets
 	char text[] =
 		"\nvoid foo()\n"
 		"{   EXEC SQL SELECT BLP_PIN_TYPE\n"
@@ -3766,7 +3701,7 @@ TEST(Assembler, Embedded1)
 		"    asm volatile (\"mcr\t\" \"14, 0, %0, c1, c0\"::\"r\" (data));\n"
 		"\n"
 		"    if (bar())\n"
-		"        { asm(\"int3\"); }\n"
+		"    { asm(\"int3\"); }\n"
 		"}\n";
 	char options[] = "keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);

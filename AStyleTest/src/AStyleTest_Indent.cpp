@@ -112,9 +112,9 @@ TEST(IndentClasses, EmptyClassSans)
 	delete [] textOut;
 }
 
-TEST(IndentClasses, Horstmann)
+TEST(IndentClasses, RunIn)
 {
-	// test indent class blocks with horstmann brackets
+	// test indent class blocks with run-in brackets
 	// 'public' 'private' and 'protected' are run-in if class block is indented
 	char textIn[] =
 		"\nclass fooClass1\n"
@@ -136,15 +136,15 @@ TEST(IndentClasses, Horstmann)
 		"class fooClass2\n"
 		"{       bool foo2;\n"
 		"};\n";
-	char options[] = "indent-classes, brackets=horstmann";
+	char options[] = "indent-classes, brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses, HorstmannTab)
+TEST(IndentClasses, RunInTab)
 {
-	// test indent class blocks with horstmann brackets and tab indents
+	// test indent class blocks with run-in brackets and tab indents
 	// 'public' 'private' and 'protected' are run-in if class block is indented
 	char textIn[] =
 		"\nclass fooClass1\n"
@@ -166,15 +166,15 @@ TEST(IndentClasses, HorstmannTab)
 		"class fooClass2\n"
 		"{		bool foo2;\n"
 		"};\n";
-	char options[] = "indent-classes, brackets=horstmann, indent=tab";
+	char options[] = "indent-classes, brackets=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses, HorstmannSans)
+TEST(IndentClasses, RunInSans)
 {
-	// test without indent class blocks with horstmann brackets
+	// test without indent class blocks with run-in brackets
 	// 'public' 'private' and 'protected' are NOT run-in if class block is not indented
 	char textIn[] =
 		"\nclass fooClass1\n"
@@ -197,15 +197,15 @@ TEST(IndentClasses, HorstmannSans)
 		"class fooClass2\n"
 		"{   bool foo2;\n"
 		"};\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses, HorstmannSansTab)
+TEST(IndentClasses, RunInSansTab)
 {
-	// test without indent class blocks with horstmann brackets and tab indents
+	// test without indent class blocks with run-in brackets and tab indents
 	// 'public' 'private' and 'protected' are NOT run-in if class block is not indented
 	char textIn[] =
 		"\nclass fooClass1\n"
@@ -228,15 +228,15 @@ TEST(IndentClasses, HorstmannSansTab)
 		"class fooClass2\n"
 		"{	bool foo2;\n"
 		"};\n";
-	char options[] = "brackets=horstmann, indent=tab";
+	char options[] = "brackets=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses, HorstmannLineComment)
+TEST(IndentClasses, RunInLineComment)
 {
-	// test indent class blocks line comment with horstmann brackets
+	// test indent class blocks line comment with run-in brackets
 	// is run-in if class block is indented and does not start in column 1
 	char textIn[] =
 		"\nclass fooClass1\n"
@@ -261,15 +261,15 @@ TEST(IndentClasses, HorstmannLineComment)
 		"// comment2\n"
 		"    public:\n"
 		"};\n";
-	char options[] = "indent-classes, brackets=horstmann";
+	char options[] = "indent-classes, brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses, HorstmannLineCommentSans)
+TEST(IndentClasses, RunInLineCommentSans)
 {
-	// test without indent class blocks line comment with horstmann brackets
+	// test without indent class blocks line comment with run-in brackets
 	// currently are run-in and indented one indent if class block is not indented
 	char textIn[] =
 		"\nclass fooClass1\n"
@@ -294,15 +294,15 @@ TEST(IndentClasses, HorstmannLineCommentSans)
 		"// comment2\n"
 		"public:\n"
 		"};\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses, HorstmannComment)
+TEST(IndentClasses, RunInComment)
 {
-	// test indent class blocks comment with horstmann brackets
+	// test indent class blocks comment with run-in brackets
 	// is run-in if class block is indented and does not start in column 1
 	char textIn[] =
 		"\nclass fooClass1\n"
@@ -315,15 +315,15 @@ TEST(IndentClasses, HorstmannComment)
 		"{   /* coment1 */\n"
 		"    public:\n"
 		"};\n";
-	char options[] = "indent-classes, brackets=horstmann";
+	char options[] = "indent-classes, brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses, HorstmannCommentSans)
+TEST(IndentClasses, RunInCommentSans)
 {
-	// test without indent class blocks comment with horstmann brackets
+	// test without indent class blocks comment with run-in brackets
 	// currently are run-in and indented one indent if class block is not indented
 	char textIn[] =
 		"\nclass fooClass1\n"
@@ -336,7 +336,7 @@ TEST(IndentClasses, HorstmannCommentSans)
 		"{   /* coment1 */\n"
 		"public:\n"
 		"};\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -510,9 +510,9 @@ TEST(IndentClasses, StructBrackets)
 	delete [] textOut;
 }
 
-TEST(IndentClasses, StructHorstmann)
+TEST(IndentClasses, StructRunIn)
 {
-	// struct containing horstmann brackets
+	// struct containing run-in brackets
 	char textIn[] =
 		"\nstruct FooClass1\n"
 		"{\n"
@@ -539,15 +539,15 @@ TEST(IndentClasses, StructHorstmann)
 		"    private:\n"
 		"        bool var2;\n"
 		"};\n";
-	char options[] = "indent-classes, brackets=horstmann";
+	char options[] = "indent-classes, brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentClasses, StructHorstmannSans)
+TEST(IndentClasses, StructRunInSans)
 {
-	// struct containing horstmann brackets without indent-classes
+	// struct containing run-in brackets without indent-classes
 	char textIn[] =
 		"\nstruct FooClass1\n"
 		"{\n"
@@ -575,7 +575,7 @@ TEST(IndentClasses, StructHorstmannSans)
 		"private:\n"
 		"    bool var2;\n"
 		"};\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -730,9 +730,9 @@ TEST(IndentSwitches, ShortOption)
 	delete [] textOut;
 }
 
-TEST(IndentSwitches, Horstmann)
+TEST(IndentSwitches, RunIn)
 {
-	// test indent switch blocks with horstmann brackets
+	// test indent switch blocks with run-in brackets
 	char textIn[] =
 		"\nvoid Foo()\n"
 		"{\n"
@@ -762,15 +762,15 @@ TEST(IndentSwitches, Horstmann)
 		"        }\n"
 		"    }\n"
 		"}\n";
-	char options[] = "indent-switches, brackets=horstmann";
+	char options[] = "indent-switches, brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentSwitches, HorstmannTab)
+TEST(IndentSwitches, RunInTab)
 {
-	// test indent switch blocks with horstmann brackets and tab indents
+	// test indent switch blocks with run-in brackets and tab indents
 	char textIn[] =
 		"\nvoid Foo()\n"
 		"{\n"
@@ -800,15 +800,15 @@ TEST(IndentSwitches, HorstmannTab)
 		"		}\n"
 		"	}\n"
 		"}\n";
-	char options[] = "indent-switches, brackets=horstmann, indent=tab";
+	char options[] = "indent-switches, brackets=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentSwitches, HorstmannSans)
+TEST(IndentSwitches, RunInSans)
 {
-	// test without indent switch blocks with horstmann brackets
+	// test without indent switch blocks with run-in brackets
 	// 'case' statements should NOT be run-in
 	char textIn[] =
 		"\nvoid Foo()\n"
@@ -840,15 +840,15 @@ TEST(IndentSwitches, HorstmannSans)
 		"    }\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentSwitches, HorstmannSansTab)
+TEST(IndentSwitches, RunInSansTab)
 {
-	// test without indent switch blocks with horstmann brackets and tab indents
+	// test without indent switch blocks with run-in brackets and tab indents
 	// 'case' statements should NOT be run-in
 	char textIn[] =
 		"\nvoid Foo()\n"
@@ -880,15 +880,15 @@ TEST(IndentSwitches, HorstmannSansTab)
 		"	}\n"
 		"	}\n"
 		"}\n";
-	char options[] = "brackets=horstmann, indent=tab";
+	char options[] = "brackets=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentSwitches, HorstmannLineComment)
+TEST(IndentSwitches, RunInLineComment)
 {
-	// test indent switch block line comments with horstmann brackets
+	// test indent switch block line comments with run-in brackets
 	// should run-in to indented switch blocks
 	char textIn[] =
 		"\nvoid Foo()\n"
@@ -910,15 +910,15 @@ TEST(IndentSwitches, HorstmannLineComment)
 		"            break;\n"
 		"    }\n"
 		"}\n";
-	char options[] = "indent-switches, brackets=horstmann";
+	char options[] = "indent-switches, brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentSwitches, HorstmannLineCommentSans)
+TEST(IndentSwitches, RunInLineCommentSans)
 {
-	// test switch block NOT indented line comments with horstmann brackets
+	// test switch block NOT indented line comments with run-in brackets
 	// currently is run-in and indented with switch blocks
 	char textIn[] =
 		"\nvoid Foo()\n"
@@ -940,15 +940,15 @@ TEST(IndentSwitches, HorstmannLineCommentSans)
 		"        break;\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentSwitches, HorstmannComment)
+TEST(IndentSwitches, RunInComment)
 {
-	// test indent switch block comments with horstmann brackets
+	// test indent switch block comments with run-in brackets
 	// should run-in to indented switch blocks
 	char textIn[] =
 		"\nvoid Foo()\n"
@@ -970,15 +970,15 @@ TEST(IndentSwitches, HorstmannComment)
 		"            break;\n"
 		"    }\n"
 		"}\n";
-	char options[] = "indent-switches, brackets=horstmann";
+	char options[] = "indent-switches, brackets=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentSwitches, HorstmannCommentSans)
+TEST(IndentSwitches, RunInCommentSans)
 {
-	// test switch block NOT indented comments with horstmann brackets
+	// test switch block NOT indented comments with run-in brackets
 	// currently is run-in and indented with switch blocks
 	char textIn[] =
 		"\nvoid Foo()\n"
@@ -1000,7 +1000,206 @@ TEST(IndentSwitches, HorstmannCommentSans)
 		"        break;\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=horstmann";
+	char options[] = "brackets=run-in";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+struct NestedSwitchesF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	NestedSwitchesF()
+	{
+		textStr =
+			"\nvoid foo(int fooArg)\n"
+			"{\n"
+			"    int a, b;\n"
+			"    switch (fooArg)\n"
+			"    {\n"
+			"    case 1:\n"
+			"        a = 0;\n"
+			"    case 2:\n"
+			"    {\n"
+			"        b = 1;\n"
+			"    }\n"
+			"    case 3:\n"
+			"    {\n"
+			"        switch (fooArg)\n"
+			"        {\n"
+			"        case 1:\n"
+			"            a = 0;\n"
+			"        case 2:\n"
+			"        {\n"
+			"            b = 1;\n"
+			"        }\n"
+			"        case 3:\n"
+			"        {\n"
+			"            switch (fooArg)\n"
+			"            {\n"
+			"            case 1:\n"
+			"                a = 0;\n"
+			"            case 2:\n"
+			"            {\n"
+			"                b = 1;\n"
+			"            }\n"
+			"            }\n"
+			"        }\n"
+			"        }\n"
+			"    }\n"
+			"    }\n"
+			"}";
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(NestedSwitchesF, SansIndents)
+{
+	// test nested switch indent with no options
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(textIn, textOut);
+	delete [] textOut;
+}
+
+TEST_F(NestedSwitchesF, IndentSwitches)
+{
+	// test nested switch indent with indented switches
+	char text[] =
+		"\nvoid foo(int fooArg)\n"
+		"{\n"
+		"    int a, b;\n"
+		"    switch (fooArg)\n"
+		"    {\n"
+		"        case 1:\n"
+		"            a = 0;\n"
+		"        case 2:\n"
+		"        {\n"
+		"            b = 1;\n"
+		"        }\n"
+		"        case 3:\n"
+		"        {\n"
+		"            switch (fooArg)\n"
+		"            {\n"
+		"                case 1:\n"
+		"                    a = 0;\n"
+		"                case 2:\n"
+		"                {\n"
+		"                    b = 1;\n"
+		"                }\n"
+		"                case 3:\n"
+		"                {\n"
+		"                    switch (fooArg)\n"
+		"                    {\n"
+		"                        case 1:\n"
+		"                            a = 0;\n"
+		"                        case 2:\n"
+		"                        {\n"
+		"                            b = 1;\n"
+		"                        }\n"
+		"                    }\n"
+		"                }\n"
+		"            }\n"
+		"        }\n"
+		"    }\n"
+		"}";
+	char options[] = "indent-switches";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST_F(NestedSwitchesF, IndentCases)
+{
+	// test nested switch indent with indented cases
+	char text[] =
+		"\nvoid foo(int fooArg)\n"
+		"{\n"
+		"    int a, b;\n"
+		"    switch (fooArg)\n"
+		"    {\n"
+		"    case 1:\n"
+		"        a = 0;\n"
+		"    case 2:\n"
+		"        {\n"
+		"            b = 1;\n"
+		"        }\n"
+		"    case 3:\n"
+		"        {\n"
+		"            switch (fooArg)\n"
+		"            {\n"
+		"            case 1:\n"
+		"                a = 0;\n"
+		"            case 2:\n"
+		"                {\n"
+		"                    b = 1;\n"
+		"                }\n"
+		"            case 3:\n"
+		"                {\n"
+		"                    switch (fooArg)\n"
+		"                    {\n"
+		"                    case 1:\n"
+		"                        a = 0;\n"
+		"                    case 2:\n"
+		"                        {\n"
+		"                            b = 1;\n"
+		"                        }\n"
+		"                    }\n"
+		"                }\n"
+		"            }\n"
+		"        }\n"
+		"    }\n"
+		"}";
+	char options[] = "indent-cases";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST_F(NestedSwitchesF, IndentSwitches_IndentCases)
+{
+	// test nested switch indent with indented switches and cases
+	char text[] =
+		"\nvoid foo(int fooArg)\n"
+		"{\n"
+		"    int a, b;\n"
+		"    switch (fooArg)\n"
+		"    {\n"
+		"        case 1:\n"
+		"            a = 0;\n"
+		"        case 2:\n"
+		"            {\n"
+		"                b = 1;\n"
+		"            }\n"
+		"        case 3:\n"
+		"            {\n"
+		"                switch (fooArg)\n"
+		"                {\n"
+		"                    case 1:\n"
+		"                        a = 0;\n"
+		"                    case 2:\n"
+		"                        {\n"
+		"                            b = 1;\n"
+		"                        }\n"
+		"                    case 3:\n"
+		"                        {\n"
+		"                            switch (fooArg)\n"
+		"                            {\n"
+		"                                case 1:\n"
+		"                                    a = 0;\n"
+		"                                case 2:\n"
+		"                                    {\n"
+		"                                        b = 1;\n"
+		"                                    }\n"
+		"                            }\n"
+		"                        }\n"
+		"                }\n"
+		"            }\n"
+		"    }\n"
+		"}";
+	char options[] = "indent-switches, indent-cases";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1179,396 +1378,6 @@ TEST(IndentCases, Switches)
 }
 
 //-------------------------------------------------------------------------
-// AStyle Indent Blocks
-// Additional tests are in the Brackets tests
-//-------------------------------------------------------------------------
-
-TEST(IndentBlocks, LongOption)
-{
-	// test indent blocks
-	// per GNU standards the only extra indent is within function blocks
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"class FooClass\n"
-		"{\n"
-		"private:\n"
-		"    bool var1;\n"
-		"    void func1();\n"
-		"protected:\n"
-		"    bool var2;\n"
-		"    void inlineFunc()\n"
-		"    {\n"
-		"        if (isBar)\n"
-		"            {\n"
-		"                bar();\n"
-		"                if (isAnotherBar)\n"
-		"                    {\n"
-		"                        anotherBar();\n"
-		"                        if (isXtraBar)\n"
-		"                            {\n"
-		"                                xtraBar();\n"
-		"                            }\n"
-		"                    }\n"
-		"            }\n"
-		"    }\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"{\n"
-		"    if (isFoo)\n"
-		"        {\n"
-		"            bar();\n"
-		"        }\n"
-		"    else\n"
-		"        anotherBar();\n"
-		"\n"
-		"    if (isBar)\n"
-		"        {\n"
-		"            bar();\n"
-		"            if (isAnotherBar)\n"
-		"                {\n"
-		"                    anotherBar();\n"
-		"                    if (isXtraBar)\n"
-		"                        {\n"
-		"                            xtraBar();\n"
-		"                        }\n"
-		"                }\n"
-		"        }\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "indent-blocks";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(IndentBlocks, ShortOption)
-{
-	// test indent blocks short option
-	// per GNU standards the only extra indent is within function blocks
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"class FooClass\n"
-		"{\n"
-		"private:\n"
-		"    bool var1;\n"
-		"    void func1();\n"
-		"protected:\n"
-		"    bool var2;\n"
-		"    void inlineFunc()\n"
-		"    {\n"
-		"        if (isBar)\n"
-		"            {\n"
-		"                bar();\n"
-		"                if (isAnotherBar)\n"
-		"                    {\n"
-		"                        anotherBar();\n"
-		"                        if (isXtraBar)\n"
-		"                            {\n"
-		"                                xtraBar();\n"
-		"                            }\n"
-		"                    }\n"
-		"            }\n"
-		"    }\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"{\n"
-		"    if (isFoo)\n"
-		"        {\n"
-		"            bar();\n"
-		"        }\n"
-		"    else\n"
-		"        anotherBar();\n"
-		"\n"
-		"    if (isBar)\n"
-		"        {\n"
-		"            bar();\n"
-		"            if (isAnotherBar)\n"
-		"                {\n"
-		"                    anotherBar();\n"
-		"                    if (isXtraBar)\n"
-		"                        {\n"
-		"                            xtraBar();\n"
-		"                        }\n"
-		"                }\n"
-		"        }\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "-G";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(IndentBlocks, Brackets)
-{
-	// test indent blocks and brackets
-	// these are mutually exclusive - indent blocks will be used
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"class FooClass\n"
-		"{\n"
-		"private:\n"
-		"    bool var1;\n"
-		"    void func1();\n"
-		"protected:\n"
-		"    bool var2;\n"
-		"    void func2();\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"{\n"
-		"    if (isFoo)\n"
-		"        {\n"
-		"            bar();\n"
-		"        }\n"
-		"    else\n"
-		"        {\n"
-		"            anotherBar();\n"
-		"        }\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "indent-brackets, indent-blocks";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(IndentBlocks, Struct)
-{
-	// test indent blocks with structs and unions
-	// the opening bracket should NOT be indented
-	char text[] =
-		"\nstruct b_type\n"
-		"{\n"
-		"    int i;\n"
-		"    int j;\n"
-		"};\n"
-		"\n"
-		"struct a_type {\n"
-		"    int i;\n"
-		"    int j;\n"
-		"};\n"
-		"\n"
-		"union b_type\n"
-		"{\n"
-		"    int i;\n"
-		"    int j;\n"
-		"};\n"
-		"\n"
-		"union a_type {\n"
-		"    int i;\n"
-		"    int j;\n"
-		"};\n"
-		"\n"
-		"// struct with inheritence and method\n"
-		"struct b_fooStruct : public bar\n"
-		"{\n"
-		"    Foobar(bool isBar)\n"
-		"    {\n"
-		"        if (isBar)\n"
-		"            {\n"
-		"                Foo();\n"
-		"            }\n"
-		"        else\n"
-		"            bar();\n"
-		"        index = i;\n"
-		"    }\n"
-		"    long index;\n"
-		"};\n"
-		"\n"
-		"// struct with inheritence and method\n"
-		"struct a_fooStruct : public bar {\n"
-		"    Foobar(bool isBar) {\n"
-		"        if (isBar) {\n"
-		"                Foo();\n"
-		"            }\n"
-		"        else\n"
-		"            bar();\n"
-		"        index = i;\n"
-		"    }\n"
-		"    long index;\n"
-		"};\n";
-	char options[] = "indent-blocks";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-//-------------------------------------------------------------------------
-// AStyle Indent Brackets
-// Additional tests are in the Brackets tests
-//-------------------------------------------------------------------------
-
-TEST(IndentBrackets, LongOption)
-{
-	// test indent brackets
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"class FooClass\n"
-		"    {\n"
-		"private:\n"
-		"    bool var1;\n"
-		"    void func1();\n"
-		"protected:\n"
-		"    bool var2;\n"
-		"    void func2();\n"
-		"    };\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"    {\n"
-		"    if (isFoo)\n"
-		"        {\n"
-		"        bar();\n"
-		"        }\n"
-		"    else\n"
-		"        {\n"
-		"        anotherBar();\n"
-		"        }\n"
-		"    }\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "indent-brackets";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-TEST(IndentBrackets, ShortOption)
-{
-	// test indent brackets short option
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"class FooClass\n"
-		"    {\n"
-		"private:\n"
-		"    bool var1;\n"
-		"    void func1();\n"
-		"protected:\n"
-		"    bool var2;\n"
-		"    void func2();\n"
-		"    };\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"    {\n"
-		"    if (isFoo)\n"
-		"        {\n"
-		"        bar();\n"
-		"        }\n"
-		"    else\n"
-		"        {\n"
-		"        anotherBar();\n"
-		"        }\n"
-		"    }\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "-B";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(IndentBrackets, Blocks)
-{
-	// test indent brackets and blocks
-	// these are mutually exclusive - indent blocks will be used
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"class FooClass\n"
-		"{\n"
-		"private:\n"
-		"    bool var1;\n"
-		"    void func1();\n"
-		"protected:\n"
-		"    bool var2;\n"
-		"    void func2();\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"{\n"
-		"    if (isFoo)\n"
-		"        {\n"
-		"            bar();\n"
-		"        }\n"
-		"    else\n"
-		"        {\n"
-		"            anotherBar();\n"
-		"        }\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "indent-blocks, indent-brackets";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(IndentBrackets, HorstmannComments)
-{
-	// test indent brackets with Horstmann comments
-	// will probably not be used, but it needs to work
-	char textIn[] =
-		"\nbool foo()\n"
-		"{   while (confs)\n"
-		"    {   /*Replace all '|' with '_'.\n"
-		"         * This is vital.\n"
-		"         */\n"
-		"        ConfigName = Attribute(name);\n"
-		"    }\n"
-		"}\n";
-	char text[] =
-		"\nbool foo()\n"
-		"    {   while (confs)\n"
-		"        {   /*Replace all '|' with '_'.\n"
-		"             * This is vital.\n"
-		"             */\n"
-		"        ConfigName = Attribute(name);\n"
-		"        }\n"
-		"    }\n";
-	char options[] = "indent-brackets";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(IndentBrackets, Arrays)
-{
-	// test indent brackets with arrays
-	char text[] =
-		"\nconst int cmdLineDesc[] =\n"
-		"    {\n"
-		"        { CMD_LINE_SWITCH1 },\n"
-		"        { CMD_LINE_SWITCH2 },\n"
-		"\n"
-		"        { CMD_LINE_SWITCH3 },\n"
-		"        { CMD_LINE_SWITCH4 },\n"
-		"\n"
-		"        { CMD_LINE_SWITCH5 },\n"
-		"        { CMD_LINE_SWITCH6 },\n"
-		"        { CMD_LINE_NONE }\n"
-		"    };\n";
-	char options[] = "indent-brackets";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-//-------------------------------------------------------------------------
 // AStyle Indent Namespaces
 // Additional tests are in the Brackets tests
 //-------------------------------------------------------------------------
@@ -1645,9 +1454,9 @@ TEST(IndentNamespaces, ShortOption)
 	delete [] textOut;
 }
 
-TEST(IndentNamespaces, Horstmann)
+TEST(IndentNamespaces, RunIn)
 {
-	// horstmann brackets should NOT run-in to namespaces
+	// run-in brackets should NOT run-in to namespaces
 	char text[] =
 		"\nnamespace FooName1\n"
 		"{\n"
@@ -1663,7 +1472,7 @@ TEST(IndentNamespaces, Horstmann)
 		"{\n"
 		"    /* comment2 */\n"
 		"}\n";
-	char options[] = "indent-namespaces, brackets=horstmann";
+	char options[] = "indent-namespaces, brackets=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;

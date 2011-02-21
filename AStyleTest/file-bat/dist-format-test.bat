@@ -13,10 +13,11 @@ REM k1 - align-pointer=type
 REM  v - verbose
 REM  w - indent-preprocessor
 REM  Q - formatted
+REM  x - delete-empty-lines
 REM z1 - windows lineends
 
-set options= -TbHCOwk1  -Qz1  --options=none
-set optionsh= -TlHCOwk1  -Qz1  --options=none
+set options= -TbHCOwk1x  -Qz1  --options=none
+set optionsh= -TlHCOwk1x  -Qz1  --options=none
 
 echo Formatting AStyleTest
 echo source %options%

@@ -57,7 +57,6 @@ struct BracketsNoneSharpF : public ::testing::Test
 			"    }\n"
 			"}\n"
 			"}\n";
-
 		textIn = textStr.c_str();
 	}
 };
@@ -94,7 +93,6 @@ TEST_F(BracketsNoneSharpF, Default)
 		"    }\n"
 		"}\n"
 		"}\n";
-
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
@@ -134,85 +132,6 @@ TEST_F(BracketsNoneSharpF, Namespace)
 		"    }\n"
 		"}\n";
 	char options[] = "indent-namespaces, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(BracketsNoneSharpF, Blocks)
-{
-	// test default blocks option, with indented blocks
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"public interface FooInterface\n"
-		"{\n"
-		"    int FooGet {\n"
-		"        get;\n"
-		"        set;\n"
-		"    }\n"
-		"    void Write(string text);\n"
-		"}\n"
-		"\n"
-		"public class FooClass\n"
-		"{\n"
-		"    private bool var1;\n"
-		"    private bool var2;\n"
-		"\n"
-		"    public void foo(bool isFoo)\n"
-		"    {\n"
-		"        if (isFoo)\n"
-		"            {\n"
-		"                bar();\n"
-		"            }\n"
-		"        else {\n"
-		"                anotherBar();\n"
-		"            }\n"
-		"    }\n"
-		"}\n"
-		"}\n";
-	char options[] = "indent-blocks, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-
-TEST_F(BracketsNoneSharpF, Brackets)
-{
-	// test default brackets option, with indent brackets
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"public interface FooInterface\n"
-		"    {\n"
-		"    int FooGet {\n"
-		"        get;\n"
-		"        set;\n"
-		"        }\n"
-		"    void Write(string text);\n"
-		"    }\n"
-		"\n"
-		"public class FooClass\n"
-		"    {\n"
-		"    private bool var1;\n"
-		"    private bool var2;\n"
-		"\n"
-		"    public void foo(bool isFoo)\n"
-		"        {\n"
-		"        if (isFoo)\n"
-		"            {\n"
-		"            bar();\n"
-		"            }\n"
-		"        else {\n"
-		"            anotherBar();\n"
-		"            }\n"
-		"        }\n"
-		"    }\n"
-		"}\n";
-	char options[] = "indent-brackets, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -291,9 +210,9 @@ TEST(BracketsNoneSharp, Linux)
 	delete [] textOut;
 }
 
-TEST(BracketsNoneSharp, Horstmann)
+TEST(BracketsNoneSharp, RunIn)
 {
-	// test default brackets option with horstmann brackets
+	// test default brackets option with run-in brackets
 	char text[] =
 		"\npublic void Foo(bool isFoo)\n"
 		"{   if (isFoo)\n"
@@ -347,7 +266,6 @@ struct BracketsBreakSharpF : public ::testing::Test
 			"    }\n"
 			"}\n"
 			"}\n";
-
 		textIn = textStr.c_str();
 	}
 };
@@ -387,7 +305,6 @@ TEST_F(BracketsBreakSharpF, LongOption)
 		"    }\n"
 		"}\n"
 		"}\n";
-
 	char options[] = "brackets=break, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
@@ -429,7 +346,6 @@ TEST_F(BracketsBreakSharpF, ShortOption)
 		"    }\n"
 		"}\n"
 		"}\n";
-
 	char options[] = "-b, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
@@ -472,89 +388,6 @@ TEST_F(BracketsBreakSharpF, Namespace)
 		"    }\n"
 		"}\n";
 	char options[] = "brackets=break, indent-namespaces, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(BracketsBreakSharpF, Blocks)
-{
-	// test break brackets option, with indent blocks
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"public interface FooInterface\n"
-		"{\n"
-		"    int FooGet\n"
-		"    {\n"
-		"        get;\n"
-		"        set;\n"
-		"    }\n"
-		"    void Write(string text);\n"
-		"}\n"
-		"\n"
-		"public class FooClass\n"
-		"{\n"
-		"    private bool var1;\n"
-		"    private bool var2;\n"
-		"\n"
-		"    public void foo(bool isFoo)\n"
-		"    {\n"
-		"        if (isFoo)\n"
-		"            {\n"
-		"                bar();\n"
-		"            }\n"
-		"        else\n"
-		"            {\n"
-		"                anotherBar();\n"
-		"            }\n"
-		"    }\n"
-		"}\n"
-		"}\n";
-	char options[] = "brackets=break, indent-blocks, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-
-TEST_F(BracketsBreakSharpF, Brackets)
-{
-	// test break brackets option, with indent brackets
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"public interface FooInterface\n"
-		"    {\n"
-		"    int FooGet\n"
-		"        {\n"
-		"        get;\n"
-		"        set;\n"
-		"        }\n"
-		"    void Write(string text);\n"
-		"    }\n"
-		"\n"
-		"public class FooClass\n"
-		"    {\n"
-		"    private bool var1;\n"
-		"    private bool var2;\n"
-		"\n"
-		"    public void foo(bool isFoo)\n"
-		"        {\n"
-		"        if (isFoo)\n"
-		"            {\n"
-		"            bar();\n"
-		"            }\n"
-		"        else\n"
-		"            {\n"
-		"            anotherBar();\n"
-		"            }\n"
-		"        }\n"
-		"    }\n"
-		"}\n";
-	char options[] = "brackets=break, indent-brackets, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -657,9 +490,9 @@ TEST(BracketsBreakSharp, Linux)
 	delete [] textOut;
 }
 
-TEST(BracketsBreakSharp, Horstmann)
+TEST(BracketsBreakSharp, RunIn)
 {
-	// test break brackets option with horstmann brackets
+	// test break brackets option with run-in brackets
 	char textIn[] =
 		"\npublic void Foo(bool isFoo)\n"
 		"{   if (isFoo)\n"
@@ -724,7 +557,6 @@ struct BracketsAttachSharpF : public ::testing::Test
 			"    }\n"
 			"}\n"
 			"}\n";
-
 		textIn = textStr.c_str();
 	}
 };
@@ -756,7 +588,6 @@ TEST_F(BracketsAttachSharpF, LongOption)
 		"    }\n"
 		"}\n"
 		"}\n";
-
 	char options[] = "brackets=attach, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
@@ -790,7 +621,6 @@ TEST_F(BracketsAttachSharpF, ShortOption)
 		"    }\n"
 		"}\n"
 		"}\n";
-
 	char options[] = "-a, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
@@ -824,78 +654,7 @@ TEST_F(BracketsAttachSharpF, Namespace)
 		"        }\n"
 		"    }\n"
 		"}\n";
-
 	char options[] = "brackets=attach, indent-namespaces, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(BracketsAttachSharpF, Blocks)
-{
-	// test attach brackets option, with indent blocks
-	char text[] =
-		"\nnamespace FooName {\n"
-		"\n"
-		"public interface FooInterface {\n"
-		"    int FooGet {\n"
-		"        get;\n"
-		"        set;\n"
-		"    }\n"
-		"    void Write(string text);\n"
-		"}\n"
-		"\n"
-		"public class FooClass {\n"
-		"    private bool var1;\n"
-		"    private bool var2;\n"
-		"\n"
-		"    public void foo(bool isFoo) {\n"
-		"        if (isFoo) {\n"
-		"                bar();\n"
-		"            }\n"
-		"        else {\n"
-		"                anotherBar();\n"
-		"            }\n"
-		"    }\n"
-		"}\n"
-		"}\n";
-
-	char options[] = "brackets=attach, indent-blocks, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-
-TEST_F(BracketsAttachSharpF, Brackets)
-{
-	// test attach brackets option, with indent brackets
-	char text[] =
-		"\nnamespace FooName {\n"
-		"\n"
-		"public interface FooInterface {\n"
-		"    int FooGet {\n"
-		"        get;\n"
-		"        set;\n"
-		"        }\n"
-		"    void Write(string text);\n"
-		"    }\n"
-		"\n"
-		"public class FooClass {\n"
-		"    private bool var1;\n"
-		"    private bool var2;\n"
-		"\n"
-		"    public void foo(bool isFoo) {\n"
-		"        if (isFoo) {\n"
-		"            bar();\n"
-		"            }\n"
-		"        else {\n"
-		"            anotherBar();\n"
-		"            }\n"
-		"        }\n"
-		"    }\n"
-		"}\n";
-	char options[] = "brackets=attach, indent-brackets, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -929,7 +688,6 @@ TEST_F(BracketsAttachSharpF, BreakClosing)
 		"    }\n"
 		"}\n"
 		"}\n";
-
 	char options[] = "brackets=attach, break-closing-brackets, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
@@ -1024,9 +782,9 @@ TEST(BracketsAttachSharp, Linux)
 	delete [] textOut;
 }
 
-TEST(BracketsAttachSharp, Horstmann)
+TEST(BracketsAttachSharp, RunIn)
 {
-	// test attach brackets option with horstmann brackets
+	// test attach brackets option with run-in brackets
 	char textIn[] =
 		"\npublic void Foo(bool isFoo)\n"
 		"{   if (isFoo)\n"
@@ -1087,7 +845,6 @@ struct BracketsLinuxSharpF : public ::testing::Test
 			"    }\n"
 			"}\n"
 			"}\n";
-
 		textIn = textStr.c_str();
 	}
 };
@@ -1123,7 +880,6 @@ TEST_F(BracketsLinuxSharpF, LongOption)
 		"    }\n"
 		"}\n"
 		"}\n";
-
 	char options[] = "brackets=linux, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
@@ -1161,7 +917,6 @@ TEST_F(BracketsLinuxSharpF, ShortOption)
 		"    }\n"
 		"}\n"
 		"}\n";
-
 	char options[] = "-l, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
@@ -1199,86 +954,7 @@ TEST_F(BracketsLinuxSharpF, Namespace)
 		"        }\n"
 		"    }\n"
 		"}\n";
-
 	char options[] = "brackets=linux, indent-namespaces, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(BracketsLinuxSharpF, Blocks)
-{
-	// test linux brackets option, with indent blocks
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"public interface FooInterface\n"
-		"{\n"
-		"    int FooGet {\n"
-		"        get;\n"
-		"        set;\n"
-		"    }\n"
-		"    void Write(string text);\n"
-		"}\n"
-		"\n"
-		"public class FooClass\n"
-		"{\n"
-		"    private bool var1;\n"
-		"    private bool var2;\n"
-		"\n"
-		"    public void foo(bool isFoo)\n"
-		"    {\n"
-		"        if (isFoo) {\n"
-		"                bar();\n"
-		"            }\n"
-		"        else {\n"
-		"                anotherBar();\n"
-		"            }\n"
-		"    }\n"
-		"}\n"
-		"}\n";
-
-	char options[] = "brackets=linux, indent-blocks, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-
-TEST_F(BracketsLinuxSharpF, Brackets)
-{
-	// test linux brackets option, with indent brackets
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"public interface FooInterface\n"
-		"    {\n"
-		"    int FooGet {\n"
-		"        get;\n"
-		"        set;\n"
-		"        }\n"
-		"    void Write(string text);\n"
-		"    }\n"
-		"\n"
-		"public class FooClass\n"
-		"    {\n"
-		"    private bool var1;\n"
-		"    private bool var2;\n"
-		"\n"
-		"    public void foo(bool isFoo)\n"
-		"        {\n"
-		"        if (isFoo) {\n"
-		"            bar();\n"
-		"            }\n"
-		"        else {\n"
-		"            anotherBar();\n"
-		"            }\n"
-		"        }\n"
-		"    }\n"
-		"}\n";
-	char options[] = "brackets=linux, indent-brackets, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1412,9 +1088,9 @@ TEST(BracketsLinuxSharp, Linux)
 	delete [] textOut;
 }
 
-TEST(BracketsLinuxSharp, Horstmann)
+TEST(BracketsLinuxSharp, RunIn)
 {
-	// test linux brackets option with horstmann brackets
+	// test linux brackets option with run-in brackets
 	char textIn[] =
 		"\npublic void Foo(bool isFoo)\n"
 		"{   if (isFoo)\n"
@@ -1554,7 +1230,6 @@ struct BracketsStroustrupSharpF : public ::testing::Test
 			"    }\n"
 			"}\n"
 			"}\n";
-
 		textIn = textStr.c_str();
 	}
 };
@@ -1587,7 +1262,6 @@ TEST_F(BracketsStroustrupSharpF, LongOption)
 		"    }\n"
 		"}\n"
 		"}\n";
-
 	char options[] = "brackets=stroustrup, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
@@ -1622,7 +1296,6 @@ TEST_F(BracketsStroustrupSharpF, ShortOption)
 		"    }\n"
 		"}\n"
 		"}\n";
-
 	char options[] = "-u, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
@@ -1657,85 +1330,11 @@ TEST_F(BracketsStroustrupSharpF, Namespace)
 		"        }\n"
 		"    }\n"
 		"}\n";
-
 	char options[] = "brackets=stroustrup, indent-namespaces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
-
-TEST_F(BracketsStroustrupSharpF, Blocks)
-{
-	// test stroustrup brackets option, with indent blocks
-	char text[] =
-		"\nnamespace FooName {\n"
-		"\n"
-		"public interface FooInterface {\n"
-		"    int FooGet {\n"
-		"        get;\n"
-		"        set;\n"
-		"    }\n"
-		"    void Write(string text);\n"
-		"}\n"
-		"\n"
-		"public class FooClass {\n"
-		"    private bool var1;\n"
-		"    private bool var2;\n"
-		"\n"
-		"    public void foo(bool isFoo)\n"
-		"    {\n"
-		"        if (isFoo) {\n"
-		"                bar();\n"
-		"            }\n"
-		"        else {\n"
-		"                anotherBar();\n"
-		"            }\n"
-		"    }\n"
-		"}\n"
-		"}\n";
-
-	char options[] = "brackets=stroustrup, indent-blocks, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-
-TEST_F(BracketsStroustrupSharpF, Brackets)
-{
-	// test stroustrup brackets option, with indent brackets
-	char text[] =
-		"\nnamespace FooName {\n"
-		"\n"
-		"public interface FooInterface {\n"
-		"    int FooGet {\n"
-		"        get;\n"
-		"        set;\n"
-		"        }\n"
-		"    void Write(string text);\n"
-		"    }\n"
-		"\n"
-		"public class FooClass {\n"
-		"    private bool var1;\n"
-		"    private bool var2;\n"
-		"\n"
-		"    public void foo(bool isFoo)\n"
-		"        {\n"
-		"        if (isFoo) {\n"
-		"            bar();\n"
-		"            }\n"
-		"        else {\n"
-		"            anotherBar();\n"
-		"            }\n"
-		"        }\n"
-		"    }\n"
-		"}\n";
-	char options[] = "brackets=stroustrup, indent-brackets, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
 
 TEST_F(BracketsStroustrupSharpF, BreakClosing)
 {
@@ -1766,7 +1365,6 @@ TEST_F(BracketsStroustrupSharpF, BreakClosing)
 		"    }\n"
 		"}\n"
 		"}\n";
-
 	char options[] = "brackets=stroustrup, break-closing-brackets, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
@@ -1863,12 +1461,12 @@ TEST(BracketsStroustrupSharp, NestedNamespace)
 // AStyle C# Break Bracket Options
 //-------------------------------------------------------------------------
 
-struct BracketsHorstmannSharpF : public ::testing::Test
+struct BracketsRunInSharpF : public ::testing::Test
 {
 	string textStr;
 	const char* textIn;
 
-	BracketsHorstmannSharpF()
+	BracketsRunInSharpF()
 	{
 		textStr =
 			"\nnamespace FooName\n"
@@ -1896,14 +1494,13 @@ struct BracketsHorstmannSharpF : public ::testing::Test
 			"    }\n"
 			"}\n"
 			"}\n";
-
 		textIn = textStr.c_str();
 	}
 };
 
-TEST_F(BracketsHorstmannSharpF, LongOption)
+TEST_F(BracketsRunInSharpF, LongOption)
 {
-	// test horstmann brackets option
+	// test run-in brackets option
 	char text[] =
 		"\nnamespace FooName\n"
 		"{\n"
@@ -1930,16 +1527,15 @@ TEST_F(BracketsHorstmannSharpF, LongOption)
 		"    }\n"
 		"}\n"
 		"}\n";
-
-	char options[] = "brackets=horstmann, mode=cs";
+	char options[] = "brackets=run-in, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_F(BracketsHorstmannSharpF, ShortOption)
+TEST_F(BracketsRunInSharpF, ShortOption)
 {
-	// test horstmann brackets short option
+	// test run-in brackets short option
 	char text[] =
 		"\nnamespace FooName\n"
 		"{\n"
@@ -1966,16 +1562,15 @@ TEST_F(BracketsHorstmannSharpF, ShortOption)
 		"    }\n"
 		"}\n"
 		"}\n";
-
 	char options[] = "-g, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_F(BracketsHorstmannSharpF, Namespace)
+TEST_F(BracketsRunInSharpF, Namespace)
 {
-	// test horstmann brackets option, with indented namespace
+	// test run-in brackets option, with indented namespace
 	char text[] =
 		"\nnamespace FooName\n"
 		"{\n"
@@ -2002,51 +1597,15 @@ TEST_F(BracketsHorstmannSharpF, Namespace)
 		"        }\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=horstmann, indent-namespaces, mode=cs";
+	char options[] = "brackets=run-in, indent-namespaces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_F(BracketsHorstmannSharpF, Blocks)
+TEST(BracketsRunInSharp, EmptyBrackets)
 {
-	// test horstmann brackets option, with indent blocks
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"public interface FooInterface\n"
-		"{   int FooGet\n"
-		"    {   get;\n"
-		"        set;\n"
-		"    }\n"
-		"    void Write(string text);\n"
-		"}\n"
-		"\n"
-		"public class FooClass\n"
-		"{   private bool var1;\n"
-		"    private bool var2;\n"
-		"\n"
-		"    public void foo(bool isFoo)\n"
-		"    {   if (isFoo)\n"
-		"            {   bar();\n"
-		"            }\n"
-		"        else\n"
-		"            {   anotherBar();\n"
-		"            }\n"
-		"    }\n"
-		"}\n"
-		"}\n";
-	char options[] = "brackets=horstmann, indent-blocks, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-
-TEST(BracketsHorstmannSharp, EmptyBrackets)
-{
-	// test horstmann brackets option
+	// test run-in brackets option
 	// do not change empty brackets
 	char text[] =
 		"\npublic class FooClass\n"
@@ -2054,15 +1613,15 @@ TEST(BracketsHorstmannSharp, EmptyBrackets)
 		"    public FooClass()\n"
 		"    {}\n"
 		"}\n";
-	char options[] = "brackets=horstmann, mode=cs";
+	char options[] = "brackets=run-in, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BracketsHorstmannSharp, Break)
+TEST(BracketsRunInSharp, Break)
 {
-	// test horstmann brackets option with broken brackets
+	// test run-in brackets option with broken brackets
 	char textIn[] =
 		"\npublic void Foo(bool isFoo)\n"
 		"{\n"
@@ -2084,15 +1643,15 @@ TEST(BracketsHorstmannSharp, Break)
 		"    {   anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=horstmann, mode=cs";
+	char options[] = "brackets=run-in, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BracketsHorstmannSharp, Attach)
+TEST(BracketsRunInSharp, Attach)
 {
-	// test horstmann brackets option with attached brackets
+	// test run-in brackets option with attached brackets
 	char textIn[] =
 		"\npublic void Foo(bool isFoo) {\n"
 		"    if (isFoo) {\n"
@@ -2110,13 +1669,13 @@ TEST(BracketsHorstmannSharp, Attach)
 		"    {   anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=horstmann, mode=cs";
+	char options[] = "brackets=run-in, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BracketsHorstmannSharp, Linux)
+TEST(BracketsRunInSharp, Linux)
 {
 	// test break brackets option with linux brackets
 	char textIn[] =
@@ -2137,15 +1696,15 @@ TEST(BracketsHorstmannSharp, Linux)
 		"    {   anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=horstmann, mode=cs";
+	char options[] = "brackets=run-in, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BracketsHorstmannSharp, Horstmann)
+TEST(BracketsRunInSharp, RunIn)
 {
-	// test break brackets option with horstmann brackets
+	// test break brackets option with run-in brackets
 	char text[] =
 		"\npublic void Foo(bool isFoo)\n"
 		"{   if (isFoo)\n"
@@ -2155,7 +1714,7 @@ TEST(BracketsHorstmannSharp, Horstmann)
 		"    {   anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=horstmann, mode=cs";
+	char options[] = "brackets=run-in, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2198,7 +1757,6 @@ struct BracketsOtherSharpF : public ::testing::Test
 			"    }\n"
 			"}\n"
 			"}\n";
-
 		textIn = textStr.c_str();
 	}
 };
@@ -2262,48 +1820,6 @@ TEST(BracketsOtherSharp, Where)
 	delete [] textOut;
 }
 
-TEST(BracketsOtherSharp, Where_IndentBlocks)
-{
-	// test a method that contains a where statement, with indent blocks
-	// should be recognized as a block opener
-	char text[] =
-		"\nvoid SetParent<T> (List<T> list) where T : INode\n"
-		"{\n"
-		"    if (list != null)\n"
-		"        {\n"
-		"            foreach (T x in list)\n"
-		"                {\n"
-		"                    x.Parent = parent;\n"
-		"                }\n"
-		"        }\n"
-		"}\n";
-	char options[] = "indent-blocks, mode=cs";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(BracketsOtherSharp, Where_IndentBrackets)
-{
-	// test a method that contains a where statement, with indent brackets
-	// should be recognized as a block opener
-	char text[] =
-		"\nvoid SetParent<T> (List<T> list) where T : INode\n"
-		"    {\n"
-		"    if (list != null)\n"
-		"        {\n"
-		"        foreach (T x in list)\n"
-		"            {\n"
-		"            x.Parent = parent;\n"
-		"            }\n"
-		"        }\n"
-		"    }\n";
-	char options[] = "indent-brackets, mode=cs";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
 TEST(BracketsOtherSharp, WhereClass)
 {
 	// test a class that contains a where statement
@@ -2324,56 +1840,6 @@ TEST(BracketsOtherSharp, WhereClass)
 		"    }\n"
 		"}\n";
 	char options[] = "mode=cs";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(BracketsOtherSharp, WhereClass_IndentBlocks)
-{
-	// test a class that contains a where statement, with indent blocks
-	char text[] =
-		"\npublic sealed class Foo<A, B> : FooBar\n"
-		"    where A : Bar1\n"
-		"    where B : Bar2\n"
-		"{\n"
-		"    int a;\n"
-		"    int b;\n"
-		"\n"
-		"    protected override void Foo1()\n"
-		"    {\n"
-		"        if foo()\n"
-		"            {\n"
-		"                FooBar1();\n"
-		"            }\n"
-		"    }\n"
-		"}\n";
-	char options[] = "indent-blocks, mode=cs";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(BracketsOtherSharp, WhereClass_IndentBrackets)
-{
-	// test a class that contains a where statement, with indent brackets
-	char text[] =
-		"\npublic sealed class Foo<A, B> : FooBar\n"
-		"    where A : Bar1\n"
-		"    where B : Bar2\n"
-		"    {\n"
-		"    int a;\n"
-		"    int b;\n"
-		"\n"
-		"    protected override void Foo1()\n"
-		"        {\n"
-		"        if foo()\n"
-		"            {\n"
-		"            FooBar1();\n"
-		"            }\n"
-		"        }\n"
-		"    }\n";
-	char options[] = "indent-brackets, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2472,70 +1938,7 @@ TEST(BracketsOtherSharp, NestedClass)
 		"        }\n"
 		"    }\n"
 		"}\n";
-
 	char options[] = "mode=cs";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(BracketsOtherSharp, NestedClass_IndentBlocks)
-{
-	// test interface with nested classes and indented blocks
-	char text[] =
-		"\npublic class A\n"
-		"{\n"
-		"    public int foo1;\n"
-		"    public class B\n"
-		"    {\n"
-		"        public int foo2;\n"
-		"        public class C\n"
-		"        {\n"
-		"            public void foo(bool isFoo)\n"
-		"            {\n"
-		"                if (isFoo)\n"
-		"                    {\n"
-		"                        bar();\n"
-		"                    }\n"
-		"                else\n"
-		"                    anotherBar();\n"
-		"            }\n"
-		"        }\n"
-		"    }\n"
-		"}\n";
-
-	char options[] = "indent-blocks, mode=cs";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(BracketsOtherSharp, NestedClass_IndentBrackets)
-{
-	// test interface with nested classes and indented brackets
-	char text[] =
-		"\npublic class A\n"
-		"    {\n"
-		"    public int foo1;\n"
-		"    public class B\n"
-		"        {\n"
-		"        public int foo2;\n"
-		"        public class C\n"
-		"            {\n"
-		"            public void foo(bool isFoo)\n"
-		"                {\n"
-		"                if (isFoo)\n"
-		"                    {\n"
-		"                    bar();\n"
-		"                    }\n"
-		"                else\n"
-		"                    anotherBar();\n"
-		"                }\n"
-		"            }\n"
-		"        }\n"
-		"    }\n";
-
-	char options[] = "indent-brackets, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2572,68 +1975,6 @@ TEST(BracketsOtherSharp, NestedNamespace)
 	delete [] textOut;
 }
 
-TEST(BracketsOtherSharp, NestedNamespace_IndentBlocks)
-{
-	// test nested namespaces and indented blocks
-	char text[] =
-		"\nnamespace A\n"
-		"{\n"
-		"namespace B\n"
-		"{\n"
-		"namespace C\n"
-		"{\n"
-		"public class fooClass\n"
-		"{\n"
-		"    void foo(bool isFoo)\n"
-		"    {\n"
-		"        if (isFoo)\n"
-		"            {\n"
-		"                bar();\n"
-		"            }\n"
-		"        else\n"
-		"            anotherBar();\n"
-		"    }\n"
-		"}\n"
-		"}\n"
-		"}\n"
-		"}\n";
-	char options[] = "indent-blocks, mode=cs";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(BracketsOtherSharp, NestedNamespace_IndentBrackets)
-{
-	// test nested namespaces and indented brackets
-	char text[] =
-		"\nnamespace A\n"
-		"{\n"
-		"namespace B\n"
-		"{\n"
-		"namespace C\n"
-		"{\n"
-		"public class fooClass\n"
-		"    {\n"
-		"    void foo(bool isFoo)\n"
-		"        {\n"
-		"        if (isFoo)\n"
-		"            {\n"
-		"            bar();\n"
-		"            }\n"
-		"        else\n"
-		"            anotherBar();\n"
-		"        }\n"
-		"    }\n"
-		"}\n"
-		"}\n"
-		"}\n";
-	char options[] = "indent-brackets, mode=cs";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
 TEST(BracketsOtherSharp, NestedNamespace_IndentNamespaces)
 {
 	// test nested indented namespaces
@@ -2664,69 +2005,6 @@ TEST(BracketsOtherSharp, NestedNamespace_IndentNamespaces)
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
-
-TEST(BracketsOtherSharp, NestedNamespace_IndentNamespacesBlocks)
-{
-	// test nested indented namespaces and indented blocks
-	char text[] =
-		"\nnamespace A\n"
-		"{\n"
-		"    namespace B\n"
-		"    {\n"
-		"        namespace C\n"
-		"        {\n"
-		"            public class fooClass\n"
-		"            {\n"
-		"                void foo(bool isFoo)\n"
-		"                {\n"
-		"                    if (isFoo)\n"
-		"                        {\n"
-		"                            bar();\n"
-		"                        }\n"
-		"                    else\n"
-		"                        anotherBar();\n"
-		"                }\n"
-		"            }\n"
-		"        }\n"
-		"    }\n"
-		"}\n";
-	char options[] = "indent-namespaces, indent-blocks, mode=cs";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(BracketsOtherSharp, NestedNamespace_IndentNamespacesBrackets)
-{
-	// test nested indented namespaces and indented brackets
-	char text[] =
-		"\nnamespace A\n"
-		"    {\n"
-		"    namespace B\n"
-		"        {\n"
-		"        namespace C\n"
-		"            {\n"
-		"            public class fooClass\n"
-		"                {\n"
-		"                void foo(bool isFoo)\n"
-		"                    {\n"
-		"                    if (isFoo)\n"
-		"                        {\n"
-		"                        bar();\n"
-		"                        }\n"
-		"                    else\n"
-		"                        anotherBar();\n"
-		"                    }\n"
-		"                }\n"
-		"            }\n"
-		"        }\n"
-		"    }\n";
-	char options[] = "indent-namespaces, indent-brackets, mode=cs";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
 
 //-------------------------------------------------------------------------
 // AStyle C# Other Bracket Options
@@ -2975,7 +2253,7 @@ TEST(BracketsArraySharp, Attach_Misc1)
 	delete [] textOut;
 }
 
-TEST(BracketsArraySharp, Horstmann_Comments)
+TEST(BracketsArraySharp, RunIn_Comments)
 {
 	// comments preceding array entries should NOT break the line
 	char text[] =
@@ -2985,13 +2263,13 @@ TEST(BracketsArraySharp, Horstmann_Comments)
 		"    /* 1: after quote   */ new int[] { 2  , 6  , 10 , 0  , 8  },\n"
 		"    /* 2: after d-quote */ new int[] { 3  , 7  , 0  , 0  , 0  }\n"
 		"};\n";
-	char options[] = "brackets=horstmann, mode=cs";
+	char options[] = "brackets=run-in, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(BracketsArraySharp, Horstmann_Misc1)
+TEST(BracketsArraySharp, RunIn_Misc1)
 {
 	// The following unusual C# array was badly formatted.
 	// It could be better but this is an improvement over what it was.
@@ -3019,7 +2297,7 @@ TEST(BracketsArraySharp, Horstmann_Misc1)
 		"        PwDefs.PasswordField\n"
 		"    }),\n"
 		"};";
-	char options[] = "brackets=horstmann, mode=cs";
+	char options[] = "brackets=run-in, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3043,30 +2321,6 @@ TEST(BracketsArraySharp, InStatementIndentWithParenLineBegin)
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(BracketsArraySharp, Clear_NonInStatementArray1)
-{
-	// The isNonInStatementArray should NOT be cleared if a one-line statement is created.
-	// If cleared the GetComponentType line is not indented.
-	char textIn[] =
-		"\npublic void ResolveIdentifier()\n"
-		"{\n"
-		"    ResolveResult groupByResolve = visitor(GroupBy);\n"
-		"    DomReturnType resolved = new DomReturnType(GetType(new IReturnType[] {\n"
-		"        GetComponentType(initializerResolve), groupByResolve}));\n"
-		"}";
-	char text[] =
-		"\npublic void ResolveIdentifier()\n"
-		"    {   ResolveResult groupByResolve = visitor(GroupBy);\n"
-		"    DomReturnType resolved = new DomReturnType(GetType(new IReturnType[]\n"
-		"        {   GetComponentType(initializerResolve), groupByResolve\n"
-		"        }));\n"
-		"    }";
-	char options[] = "brackets=horstmann, indent-brackets, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -3131,23 +2385,6 @@ TEST(BracketsArraySharp, Clear_NonInStatementArray4)
 	delete [] textOut;
 }
 
-TEST(BracketsArraySharp, Clear_NonInStatementArray5)
-{
-	// The following "help" line should be indented with indent-brackets.
-	// A line beginning with '{' caused isNonInStatementArray to be cleared.
-	char text[] =
-		"\npublic static int Main ( string[] args )\n"
-		"    {\n"
-		"    optionSet = new OptionSet () {\n"
-		"            { \"a=\", ( s, p ) => ProcessorValues[s] = p },\n"
-		"            { \"h|?|help\", s => ShowHelp ( false ) }\n"
-		"        };\n"
-		"    }";
-	char options[] = "indent-brackets, mode=cs";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
 
 //----------------------------------------------------------------------------
 
