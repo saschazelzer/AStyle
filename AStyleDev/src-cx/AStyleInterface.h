@@ -14,11 +14,11 @@ using namespace std;
 
 // external functions calls in Artistic Style shared or static library
 extern "C"
-{   char *STDCALL  AStyleGetVersion();
-    char *STDCALL  AStyleMain(const char *textIn,
-                              const char *options,
-                              void(STDCALL *errorHandler)(int, const char *),
-                              char*(STDCALL *memoryAlloc)(unsigned long));
+{   char* STDCALL  AStyleGetVersion();
+    char* STDCALL  AStyleMain(const char* textIn,
+                              const char* options,
+                              void(STDCALL* errorHandler)(int, const char*),
+                              char*(STDCALL* memoryAlloc)(unsigned long));
 }
 
 /**
@@ -31,31 +31,24 @@ class AStyleInterface
 public:
     // NOTE: enumerators are always static
 
-    enum BracketMode { BRACKETS_NONE,
-                       BRACKETS_ATTACH,
-                       BRACKETS_BREAK,
-                       BRACKETS_LINUX,
-                       BRACKETS_STROUSTRUP,
-                       BRACKETS_HORSTMANN
-                     };
-
     enum IndentType { INDENT_SPACES,
                       INDENT_TABS,
                       INDENT_FTABS
                     };
 
-    enum PredefinedStyle  { STYLE_NONE,
-                            STYLE_ALLMAN,
-                            STYLE_JAVA,
-                            STYLE_KandR,
-                            STYLE_STROUSTRUP,
-                            STYLE_WHITESMITH,
-                            STYLE_BANNER,
-                            STYLE_GNU,
-                            STYLE_LINUX,
-                            STYLE_HORSTMANN,
-                            STYLE_1TBS
-                          };
+    enum BracketStyle  { STYLE_NONE,
+                         STYLE_ALLMAN,
+                         STYLE_JAVA,
+                         STYLE_KandR,
+                         STYLE_STROUSTRUP,
+                         STYLE_WHITESMITH,
+                         STYLE_BANNER,
+                         STYLE_GNU,
+                         STYLE_LINUX,
+                         STYLE_HORSTMANN,
+                         STYLE_1TBS,
+                         STYLE_PICO
+                       };
 
     enum PointerAlign { ALIGN_NONE,
                         ALIGN_TYPE,
@@ -78,9 +71,9 @@ public:
 public:
     // public functions
     AStyleInterface();
-    char *formatSource(const char *textIn);
-    char *formatSource(const char *textIn, string &filePath);
-    char *formatSource(const char *textIn, FileMode fileModeArg);
+    char* formatSource(const char* textIn);
+    char* formatSource(const char* textIn, string& filePath);
+    char* formatSource(const char* textIn, FileMode fileModeArg);
     void  setFileMode(string fileName);
     void  setTestOptions();
 
@@ -89,22 +82,17 @@ private:
     // the initial value is the default value in Artistic Style
     // comments are the command line option used to set the variable
 
-    // predefined style option
-    PredefinedStyle predefinedStyle;    // --style=?
+    // bracket style option
+    BracketStyle bracketStyle;			// --style=?
 
     // tabs/spaces options
     int  indentLength;                  // --indent=? --indent=force-tab=#
     IndentType indentType;              // --indent=? --indent=force-tab=#
 
-    // brackets options
-    BracketMode bracketFormatMode;      // --brackets= none, break, attach, linux
-
     // indentation options
     bool classIndent;                   // --indent-classes
     bool switchIndent;                  // --indent-switches
     bool caseIndent;                    // --indent-cases
-    bool blockIndent;                   // --indent-blocks
-    bool bracketIndent;                 // --indent-brackets
     bool namespaceIndent;               // --indent-namespaces
     bool labelIndent;                   // --indent-labels
     bool preprocessorIndent;            // --indent-preprocessor
@@ -147,8 +135,8 @@ private:
     string getOptions() const;
     static string intToString(int intValue);
     // callback functions for Artistic Style
-    static void  STDCALL errorHandler(int errorNumber, const char *errorMessage);
-    static char *STDCALL memoryAlloc(unsigned long memoryNeeded);
+    static void  STDCALL errorHandler(int errorNumber, const char* errorMessage);
+    static char* STDCALL memoryAlloc(unsigned long memoryNeeded);
 
 };  // class AStyleInterface
 

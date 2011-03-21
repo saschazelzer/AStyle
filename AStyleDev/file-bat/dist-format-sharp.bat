@@ -6,8 +6,8 @@ set srcdir1=..\src-s
 set srcdir2=..\src-sx
 
 
-"%progdir%\AStyle"  -g -Q  %srcdir1%\*.cs
-"%progdir%\AStyle"  -g -Q  %srcdir2%\*.cs 
+"%progdir%\AStyle"  -A9 -Q  %srcdir1%\*.cs
+"%progdir%\AStyle"  -A9 -Q  %srcdir2%\*.cs 
 
 echo -
 echo -

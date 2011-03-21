@@ -60,8 +60,8 @@ class AStyleInterface
         {   System.load(astylePath);
         }
         catch (UnsatisfiedLinkError e)
-        {   //~ System.out.println(e.getMessage());
-            System.out.println("Cannot load library " + astylePath);
+        {   System.out.println(e.getMessage());
+            System.out.println("Cannot load native library " + astylePath);
             System.out.println("The program has terminated!");
             System.exit(1);
         }

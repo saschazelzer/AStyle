@@ -8,7 +8,7 @@ public class AStyleInterface
 {   // Disable warnings for 'Missing XML comment for publicly visible type or member'
 #pragma warning disable 1591
 
-    // predefinedStyle valid predefined styles
+    // bracketStyle valid bracket styles
     public const int STYLE_NONE       = 0;
     public const int STYLE_ALLMAN     = 1;
     public const int STYLE_JAVA       = 2;
@@ -20,14 +20,7 @@ public class AStyleInterface
     public const int STYLE_LINUX      = 8;
     public const int STYLE_HORSTMANN  = 9;
     public const int STYLE_1TBS       = 10;
-
-    // bracketFormatMode valid bracket modes
-    public const int BRACKETS_NONE       = 0;
-    public const int BRACKETS_ATTACH     = 1;
-    public const int BRACKETS_BREAK      = 2;
-    public const int BRACKETS_LINUX      = 3;
-    public const int BRACKETS_STROUSTRUP = 4;
-    public const int BRACKETS_HORSTMANN  = 5;
+    public const int STYLE_PICO       = 11;
 
     // indentType valid indent types
     public const int INDENT_SPACES = 0;
@@ -58,22 +51,17 @@ public class AStyleInterface
     // the initial value is the default value in Artistic Style
     // comments are the command line option used to set the variable
 
-    // predefined style option
-    private int  predefinedStyle = STYLE_NONE;      // --style=?
+    // bracket style option
+    private int  bracketStyle = STYLE_NONE;      // --style=?
 
     // tabs/spaces options
     private int  indentLength = 4;                  // --indent=?, --indent=force-tab=#
     private int  indentType   = INDENT_SPACES;      // --indent=?, --indent=force-tab=#
 
-    // brackets options
-    private int  bracketFormatMode = BRACKETS_NONE; // --brackets=?
-
     // indentation options
     private bool classIndent         = false;      // --indent-classes
     private bool switchIndent        = false;      // --indent-switches
     private bool caseIndent          = false;      // --indent-cases
-    private bool bracketIndent       = false;      // --indent-brackets
-    private bool blockIndent         = false;      // --indent-blocks
     private bool namespaceIndent     = false;      // --indent-namespaces
     private bool labelIndent         = false;      // --indent-labels
     private bool preprocessorIndent  = false;      // --indent-preprocessor
@@ -137,47 +125,44 @@ public class AStyleInterface
     {   String options = null;             // options to Artistic Style
         String separator = "\n";           // can be new-line, tab, space, or comma
 
-        // predefined style will override other options
-        if (predefinedStyle != STYLE_NONE)
-        {   if (predefinedStyle == STYLE_ALLMAN)
+        if (bracketStyle != STYLE_NONE)
+        {   if (bracketStyle == STYLE_ALLMAN)
                 options += "style=allman";
-            else if (predefinedStyle == STYLE_JAVA)
+            else if (bracketStyle == STYLE_JAVA)
                 options += "style=java";
-            else if (predefinedStyle == STYLE_KandR)
+            else if (bracketStyle == STYLE_KandR)
                 options += "style=k&r";
-            else if (predefinedStyle == STYLE_STROUSTRUP)
+            else if (bracketStyle == STYLE_STROUSTRUP)
                 options += "style=stroustrup";
-            else if (predefinedStyle == STYLE_WHITESMITH)
+            else if (bracketStyle == STYLE_WHITESMITH)
                 options += "style=whitesmith";
-            else if (predefinedStyle == STYLE_BANNER)
+            else if (bracketStyle == STYLE_BANNER)
                 options += "style=banner";
-            else if (predefinedStyle == STYLE_GNU)
+            else if (bracketStyle == STYLE_GNU)
                 options += "style=gnu";
-            else if (predefinedStyle == STYLE_LINUX)
+            else if (bracketStyle == STYLE_LINUX)
                 options += "style=linux";
-            else if (predefinedStyle == STYLE_HORSTMANN)
+            else if (bracketStyle == STYLE_HORSTMANN)
                 options += "style=horstmann";
-            else if (predefinedStyle == STYLE_1TBS)
+            else if (bracketStyle == STYLE_1TBS)
                 options += "style=1tbs";
+            else if (bracketStyle == STYLE_1TBS)
+                options += "style=pico";
             else
-                options += "predefinedStyle="      // force an error message
-                           + predefinedStyle;
+                options += "bracketStyle="      // force an error message
+                           + bracketStyle;
             options += separator;
         }
         // begin indent check
         if (indentType == INDENT_SPACES)           // space is the default
-        {   if (!(indentLength == defaultIndentLength
-                    || predefinedStyle == STYLE_GNU
-                    || predefinedStyle == STYLE_LINUX))
+        {   if (indentLength != defaultIndentLength)
             {   options += "indent=spaces=" + indentLength;
                 options += separator;
             }
         }
         else if (indentType == INDENT_TABS)        // tab is not the default
         {   // check conditions to use default tab setting
-            if (indentLength == defaultIndentLength
-                    && predefinedStyle != STYLE_GNU
-                    && predefinedStyle != STYLE_LINUX)
+            if (indentLength == defaultIndentLength)
                 options += "indent=tab";
             else
                 options += "indent=tab=" + indentLength;
@@ -193,22 +178,6 @@ public class AStyleInterface
             options += separator;
         }
         // end indent check
-        if (bracketFormatMode != BRACKETS_NONE)
-        {   if (bracketFormatMode == BRACKETS_ATTACH)
-                options += "brackets=attach";
-            else if (bracketFormatMode == BRACKETS_BREAK)
-                options += "brackets=break";
-            else if (bracketFormatMode == BRACKETS_LINUX)
-                options += "brackets=linux";
-            else if (bracketFormatMode == BRACKETS_STROUSTRUP)
-                options += "brackets=stroustrup";
-            else if (bracketFormatMode == BRACKETS_HORSTMANN)
-                options += "brackets=horstmann";
-            else
-                options += "bracketFormatMode="    // force an error message
-                           + bracketFormatMode;
-            options += separator;
-        }
         if (classIndent)
         {   options += "indent-classes";
             options += separator;
@@ -219,14 +188,6 @@ public class AStyleInterface
         }
         if (caseIndent)
         {   options += "indent-cases";
-            options += separator;
-        }
-        if (bracketIndent)
-        {   options += "indent-brackets";
-            options += separator;
-        }
-        if (blockIndent)
-        {   options += "indent-blocks";
             options += separator;
         }
         if (namespaceIndent)
@@ -376,26 +337,20 @@ public class AStyleInterface
     /// For test program only.
     /// This will not be used by an actual program.
     private void setTestOptionsX()
-    {   // predefined Style options
-        // will have precedence over conflicting options
-        predefinedStyle = STYLE_NONE;
+    {   // bracket Style options
+        bracketStyle = STYLE_NONE;
 
         // tabs / spaces options
         indentLength = 3;
         indentType   = INDENT_TABS;
 
-        // brackets option
-        bracketFormatMode = BRACKETS_NONE;
-
-        // fileMode option - FILEMODE_JAVA is required for Java files
-        fileMode = FILEMODE_JAVA;
+        // fileMode option - FILEMODE_SHARP is required for C# files
+        fileMode = FILEMODE_SHARP;
 
         // indentation options
         classIndent        = true;
         switchIndent       = true;
         caseIndent         = true;
-        bracketIndent      = true;
-        blockIndent        = true;
         namespaceIndent    = true;
         labelIndent        = true;
         preprocessorIndent = true;
@@ -425,8 +380,7 @@ public class AStyleInterface
         alignPointers      = ALIGN_TYPE;
 
         // generate some errors
-        /*  predefinedStyle   = 10;
-        bracketFormatMode = 7;
+        /*  bracketStyle   = 20;
         maxInStatementIndent = 90;
         minConditionalOption = 50;
         // cannot have both invalid indentLength and invalid indentType
@@ -481,10 +435,11 @@ public class AStyleInterface
                 Marshal.FreeHGlobal(pText);
             }
         }
-        catch (DllNotFoundException e)
+        catch (BadImageFormatException e)
         {   DisplayErrorMessage(e.ToString());
+            DisplayErrorMessage("You may be mixing 32 and 64 bit code!");
         }
-        catch (EntryPointNotFoundException e)
+        catch (Exception e)
         {   DisplayErrorMessage(e.ToString());
         }
         return sTextOut;
@@ -516,14 +471,15 @@ public class AStyleInterface
             {   sVersion = Marshal.PtrToStringAnsi(pVersion);
             }
         }
-        catch (DllNotFoundException e)
+        catch (BadImageFormatException e)
         {   DisplayErrorMessage(e.ToString());
-            Console.WriteLine("The program has terminated!");
+            DisplayErrorMessage("You may be mixing 32 and 64 bit code!");
+            DisplayErrorMessage("The program has terminated!");
             Environment.Exit(1);
         }
-        catch (EntryPointNotFoundException e)
+        catch (Exception e)
         {   DisplayErrorMessage(e.ToString());
-            Console.WriteLine("The program has terminated!");
+            DisplayErrorMessage("The program has terminated!");
             Environment.Exit(1);
         }
         return sVersion;

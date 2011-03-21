@@ -8,7 +8,7 @@ import java.util.*;
  */
 
 public class AStyleInterface
-{   // predefinedStyle valid predefined styles
+{   // bracketStyle valid bracket styles
     public static final int STYLE_NONE       = 0;
     public static final int STYLE_ALLMAN     = 1;
     public static final int STYLE_JAVA       = 2;
@@ -20,14 +20,7 @@ public class AStyleInterface
     public static final int STYLE_LINUX      = 8;
     public static final int STYLE_HORSTMANN  = 9;
     public static final int STYLE_1TBS       = 10;
-
-    // bracketFormatMode valid bracket modes
-    public static final int BRACKETS_NONE       = 0;
-    public static final int BRACKETS_ATTACH     = 1;
-    public static final int BRACKETS_BREAK      = 2;
-    public static final int BRACKETS_LINUX      = 3;
-    public static final int BRACKETS_STROUSTRUP = 4;
-    public static final int BRACKETS_HORSTMANN  = 5;
+	public static final int STYLE_PICO       = 11;
 
     // indentType valid indent types
     public static final int INDENT_SPACES = 0;
@@ -55,22 +48,17 @@ public class AStyleInterface
     // the initial value is the default value in Artistic Style
     // comments are the command line option used to set the variable
 
-    // predefined style option
-    private int     predefinedStyle = STYLE_NONE;   // --style=?
+    // bracket style option
+    private int     bracketStyle = STYLE_NONE;   // --style=?
 
     // tabs/spaces options
     private int     indentLength = 4;               // --indent=?, --indent=force-tab=#
     private int     indentType   = INDENT_SPACES;   // --indent=?, --indent=force-tab=#
 
-    // brackets options
-    private int bracketFormatMode = BRACKETS_NONE;  // --brackets=?
-
     // indentation options
     private boolean classIndent        = false;     // --indent-classes
     private boolean switchIndent       = false;     // --indent-switches
     private boolean caseIndent         = false;     // --indent-cases
-    private boolean blockIndent        = false;     // --indent-blocks
-    private boolean bracketIndent      = false;     // --indent-brackets
     private boolean namespaceIndent    = false;     // --indent-namespaces
     private boolean labelIndent        = false;     // --indent-labels
     private boolean preprocessorIndent = false;     // --indent-preprocessor
@@ -142,47 +130,45 @@ public class AStyleInterface
     {   StringBuffer options =  new StringBuffer(50);  // options to Artistic Style
         String separator = "\n";                       // can be new-line, tab, space, or comma
 
-        // predefined style will override other options
-        if (predefinedStyle != STYLE_NONE)
-        {   if (predefinedStyle == STYLE_ALLMAN)
+        // bracket style will override other options
+        if (bracketStyle != STYLE_NONE)
+        {   if (bracketStyle == STYLE_ALLMAN)
                 options.append("style=allman");
-            else if (predefinedStyle == STYLE_JAVA)
+            else if (bracketStyle == STYLE_JAVA)
                 options.append("style=java");
-            else if (predefinedStyle == STYLE_KandR)
+            else if (bracketStyle == STYLE_KandR)
                 options.append("style=k&r");
-            else if (predefinedStyle == STYLE_STROUSTRUP)
+            else if (bracketStyle == STYLE_STROUSTRUP)
                 options.append("style=stroustrup");
-            else if (predefinedStyle == STYLE_WHITESMITH)
+            else if (bracketStyle == STYLE_WHITESMITH)
                 options.append("style=whitesmith");
-            else if (predefinedStyle == STYLE_BANNER)
+            else if (bracketStyle == STYLE_BANNER)
                 options.append("style=banner");
-            else if (predefinedStyle == STYLE_GNU)
+            else if (bracketStyle == STYLE_GNU)
                 options.append("style=gnu");
-            else if (predefinedStyle == STYLE_LINUX)
+            else if (bracketStyle == STYLE_LINUX)
                 options.append("style=linux");
-            else if (predefinedStyle == STYLE_HORSTMANN)
+            else if (bracketStyle == STYLE_HORSTMANN)
                 options.append("style=horstmann");
-            else if (predefinedStyle == STYLE_1TBS)
+            else if (bracketStyle == STYLE_1TBS)
                 options.append("style=1tbs");
+           else if (bracketStyle == STYLE_PICO)
+                options.append("style=pico");
             else
-                options.append("predefinedStyle="      // force an error message
-                               + String.valueOf(predefinedStyle));
+                options.append("bracketStyle="      // force an error message
+                               + String.valueOf(bracketStyle));
             options.append(separator);
         }
         // begin indent check
         if (indentType == INDENT_SPACES)               // space is the default
-        {   if (!(indentLength == defaultIndentLength
-                    || predefinedStyle == STYLE_GNU
-                    || predefinedStyle == STYLE_LINUX))
+        {   if (indentLength != defaultIndentLength)
             {   options.append("indent=spaces=" + String.valueOf(indentLength));
                 options.append(separator);
             }
         }
         else if (indentType == INDENT_TABS)            // tab is not the default
         {   // check conditions to use default tab setting
-            if (indentLength == defaultIndentLength
-                    && predefinedStyle != STYLE_GNU
-                    && predefinedStyle != STYLE_LINUX)
+            if (indentLength == defaultIndentLength)
                 options.append("indent=tab");
             else
                 options.append("indent=tab=" + String.valueOf(indentLength));
@@ -198,22 +184,6 @@ public class AStyleInterface
             options.append(separator);
         }
         // end indent check
-        if (bracketFormatMode != BRACKETS_NONE)
-        {   if (bracketFormatMode == BRACKETS_ATTACH)
-                options.append("brackets=attach");
-            else if (bracketFormatMode == BRACKETS_BREAK)
-                options.append("brackets=break");
-            else if (bracketFormatMode == BRACKETS_LINUX)
-                options.append("brackets=linux");
-            else if (bracketFormatMode == BRACKETS_STROUSTRUP)
-                options.append("brackets=stroustrup");
-            else if (bracketFormatMode == BRACKETS_HORSTMANN)
-                options.append("brackets=horstmann");
-            else
-                options.append("bracketFormatMode="    // force an error message
-                               + String.valueOf(bracketFormatMode));
-            options.append(separator);
-        }
         if (classIndent)
         {   options.append("indent-classes");
             options.append(separator);
@@ -224,14 +194,6 @@ public class AStyleInterface
         }
         if (caseIndent)
         {   options.append("indent-cases");
-            options.append(separator);
-        }
-        if (bracketIndent)
-        {   options.append("indent-brackets");
-            options.append(separator);
-        }
-        if (blockIndent)
-        {   options.append("indent-blocks");
             options.append(separator);
         }
         if (namespaceIndent)
@@ -390,16 +352,12 @@ public class AStyleInterface
     * This will not be used by an actual program.
     */
     private void setTestOptionsX()
-    {   // predefined Style options
-        // will have precedence over conflicting options
-        predefinedStyle = STYLE_NONE;
+    {   // bracket Style options
+        bracketStyle = STYLE_NONE;
 
         // tabs / spaces options
         indentLength = 3;
         indentType   = INDENT_TABS;
-
-        // brackets option
-        bracketFormatMode = BRACKETS_NONE;
 
         // fileMode option - FILEMODE_JAVA is required for Java files
         fileMode = FILEMODE_JAVA;
@@ -408,8 +366,6 @@ public class AStyleInterface
         classIndent          = true;
         switchIndent         = true;
         caseIndent           = true;
-        bracketIndent        = true;
-        blockIndent          = true;
         namespaceIndent      = true;
         labelIndent          = true;
         preprocessorIndent   = true;
@@ -439,8 +395,7 @@ public class AStyleInterface
         alignPointers        = ALIGN_TYPE;
 
         // generate some errors
-        /*  predefinedStyle   = 10;
-        bracketFormatMode = 7;
+        /*  bracketStyle   = 20;
         maxInStatementIndent = 90;
         minConditionalOption = 9;
         // cannot have both invalid indentLength and invalid indentType
@@ -465,9 +420,9 @@ public class AStyleInterface
             //~ System.loadLibrary("astyle");
         }
         catch (UnsatisfiedLinkError e)
-        {   displayErrorMessage(e.getMessage() +
-                                "\nThe native library cannot be loaded!");
-            System.out.println("The program has terminated!");
+        {   displayErrorMessage(e.getMessage());
+            displayErrorMessage("Cannot load native library " + astylePath);
+            displayErrorMessage("The program has terminated!");
             System.exit(1);
         }
     }

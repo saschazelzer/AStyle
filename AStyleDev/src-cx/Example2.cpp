@@ -12,14 +12,14 @@
 #include <iostream>
 
 // function declarations
-void error(const char *why, const char *what = "");
-string getProjectDirectory(string &subPath);
-char *getText(string &filePath);
-void  setText(const char *textOut, string &filePathStr);
-void setOptionValues(AStyleInterface &as);
+void error(const char* why, const char* what = "");
+string getProjectDirectory(string& subPath);
+char* getText(string& filePath);
+void  setText(const char* textOut, string& filePathStr);
+void setOptionValues(AStyleInterface& as);
 
 
-int main(int, char **)
+int main(int, char**)
 {   // options to pass to AStyle
     string fileName[] = { "AStyleDev/test-c/ASBeautifier.cpp",
                           "AStyleDev/test-c/ASFormatter.cpp" ,
@@ -34,17 +34,17 @@ int main(int, char **)
     astyle.setTestOptions();
 
     // get Artistic Style version
-    char *version = AStyleGetVersion();
+    char* version = AStyleGetVersion();
     cout << "Example2 C++ - AStyle " << version << endl;
 
     // process the input files
     for (size_t i = 0; i < arraySize; i++)
     {   // get the text to format
         string filePath = getProjectDirectory(fileName[i]);
-        char *textIn = getText(filePath);
+        char* textIn = getText(filePath);
 
         // call the Artistic Style formatting function
-        char *textOut = astyle.formatSource(textIn, filePath);
+        char* textOut = astyle.formatSource(textIn, filePath);
 
         // NULL pointer is an error - restore the original file
         // an error message has been displayed by the error handler
@@ -67,7 +67,7 @@ int main(int, char **)
 }
 
 // Error message function for this example
-void error(const char *why, const char *what)
+void error(const char* why, const char* what)
 {   cout << why << ' ' << what << endl;
     cout << "The program has terminated!" << endl;
     exit(1);
@@ -75,12 +75,12 @@ void error(const char *why, const char *what)
 
 // Prepend the project directory to the subpath
 // This may need to be changed for your directory structure
-string getProjectDirectory(string &subPath)
+string getProjectDirectory(string& subPath)
 {
 #ifdef _WIN32
-    char *homeDirectory = getenv("USERPROFILE");
+    char* homeDirectory = getenv("USERPROFILE");
 #else
-    char *homeDirectory = getenv("HOME");
+    char* homeDirectory = getenv("HOME");
 #endif
     if (!homeDirectory)
         error("Cannot find HOME directory");
@@ -90,7 +90,7 @@ string getProjectDirectory(string &subPath)
 
 // Get the text to be formatted
 // Usually the text would be obtained from an edit control
-char *getText(string &filePath)
+char* getText(string& filePath)
 {   // open input file
     ifstream in(filePath.c_str());
     if (!in)
@@ -102,7 +102,7 @@ char *getText(string &filePath)
     in.seekg(0, ifstream::beg);
 
     // allocate memory
-    char *bufferIn = new(nothrow) char [bufferSizeIn];
+    char* bufferIn = new(nothrow) char [bufferSizeIn];
     if (bufferIn == NULL)
     {   in.close();
         error("Memory allocation failure on input");
@@ -121,11 +121,11 @@ char *getText(string &filePath)
 
 // Return the formatted text
 // Usually the text would be returned to an edit control
-void setText(const char *textOut, string &filePathStr)
+void setText(const char* textOut, string& filePathStr)
 {   // create a backup file
-    const char *filePath = filePathStr.c_str();
+    const char* filePath = filePathStr.c_str();
     string origfilePathStr = filePathStr + ".orig";
-    const char *origfilePath = origfilePathStr.c_str();
+    const char* origfilePath = origfilePathStr.c_str();
     remove(origfilePath);              // remove a pre-existing file
 
     if (rename(filePath, origfilePath) < 0)

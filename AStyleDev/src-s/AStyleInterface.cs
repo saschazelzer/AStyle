@@ -52,10 +52,11 @@ public class AStyleInterface
                 Marshal.FreeHGlobal(pText);
             }
         }
-        catch (DllNotFoundException e)
+        catch (BadImageFormatException e)
         {   Console.WriteLine(e.ToString());
+            Console.WriteLine("You may be mixing 32 and 64 bit code!");
         }
-        catch (EntryPointNotFoundException e)
+        catch (Exception e)
         {   Console.WriteLine(e.ToString());
         }
         return sTextOut;
@@ -72,12 +73,13 @@ public class AStyleInterface
             {   sVersion = Marshal.PtrToStringAnsi(pVersion);
             }
         }
-        catch (DllNotFoundException e)
+        catch (BadImageFormatException e)
         {   Console.WriteLine(e.ToString());
+            Console.WriteLine("You may be mixing 32 and 64 bit code!");
             Console.WriteLine("The program has terminated!");
             Environment.Exit(1);
         }
-        catch (EntryPointNotFoundException e)
+        catch (Exception e)
         {   Console.WriteLine(e.ToString());
             Console.WriteLine("The program has terminated!");
             Environment.Exit(1);

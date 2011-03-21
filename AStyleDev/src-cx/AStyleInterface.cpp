@@ -6,22 +6,17 @@
 * The constructor sets the variable default values.
 **/
 AStyleInterface::AStyleInterface()
-{   // predefined style options
-    predefinedStyle = STYLE_NONE;           // --style=?
+{   // bracket style options
+    bracketStyle = STYLE_NONE;              // --style=?
 
     // tabs/spaces options
     indentLength = 4;                       // --indent=?, --force-indent=tab=#
     indentType   = INDENT_SPACES;           // --indent=?, --force-indent=tab=#
 
-    // brackets options
-    bracketFormatMode    = BRACKETS_NONE;   // --brackets= none, break, attach, linux
-
     // indentation options
     classIndent        = false;             // --indent-classes
     switchIndent       = false;             // --indent-switches
     caseIndent         = false;             // --indent-cases
-    bracketIndent      = false;             // --indent-brackets
-    blockIndent        = false;             // --indent-blocks
     namespaceIndent    = false;             // --indent-namespaces
     labelIndent        = false;             // --indent-labels
     preprocessorIndent = false;             // --indent-preprocessor
@@ -85,43 +80,44 @@ string AStyleInterface::getOptions() const
     options.reserve(50);
     string separator = "\n";            // can be new-line, tab, space, or comma
 
-    // predefined style will override other options
-    if (predefinedStyle != STYLE_NONE)
-    {   if (predefinedStyle == STYLE_ALLMAN)
+    if (bracketStyle != STYLE_NONE)
+    {   if (bracketStyle == STYLE_ALLMAN)
             options.append("style=allman");
-        else if (predefinedStyle == STYLE_JAVA)
+        else if (bracketStyle == STYLE_JAVA)
             options.append("style=java");
-        else if (predefinedStyle == STYLE_KandR)
+        else if (bracketStyle == STYLE_KandR)
             options.append("style=k&r");
-        else if (predefinedStyle == STYLE_STROUSTRUP)
+        else if (bracketStyle == STYLE_STROUSTRUP)
             options.append("style=stroustrup");
-        else if (predefinedStyle == STYLE_WHITESMITH)
+        else if (bracketStyle == STYLE_WHITESMITH)
             options.append("style=whitesmith");
-        else if (predefinedStyle == STYLE_BANNER)
+        else if (bracketStyle == STYLE_BANNER)
             options.append("style=banner");
-        else if (predefinedStyle == STYLE_GNU)
+        else if (bracketStyle == STYLE_GNU)
             options.append("style=gnu");
-        else if (predefinedStyle == STYLE_LINUX)
+        else if (bracketStyle == STYLE_LINUX)
             options.append("style=linux");
+        else if (bracketStyle == STYLE_HORSTMANN)
+            options.append("style=horstmann");
+        else if (bracketStyle == STYLE_1TBS)
+            options.append("style=1tbs");
+        else if (bracketStyle == STYLE_PICO)
+            options.append("style=pico");
         else
-            options.append("invalid-predefinedStyle="      // force an error message
-                           + intToString(predefinedStyle));
+            options.append("invalid-bracketStyle="      // force an error message
+                           + intToString(bracketStyle));
         options.append(separator);
     }
     // begin indent check
     if (indentType == INDENT_SPACES)               // space is the default
-    {   if (!(indentLength == defaultIndentLength
-                || predefinedStyle == STYLE_GNU
-                || predefinedStyle == STYLE_LINUX))
+    {   if (indentLength != defaultIndentLength)
         {   options.append("indent=spaces=" + intToString(indentLength));
             options.append(separator);
         }
     }
     else if (indentType == INDENT_TABS)             // tab is not the default
     {   // check conditions to use default tab setting
-        if (indentLength == defaultIndentLength
-                && predefinedStyle != STYLE_GNU
-                && predefinedStyle != STYLE_LINUX)
+        if (indentLength == defaultIndentLength)
             options.append("indent=tab");
         else
             options.append("indent=tab=" + intToString(indentLength));
@@ -137,20 +133,6 @@ string AStyleInterface::getOptions() const
         options.append(separator);
     }
     // end indent check
-    if (bracketFormatMode != BRACKETS_NONE)
-    {   if (bracketFormatMode == BRACKETS_ATTACH)
-            options.append("brackets=attach");
-        else if (bracketFormatMode == BRACKETS_BREAK)
-            options.append("brackets=break");
-        else if (bracketFormatMode == BRACKETS_LINUX)
-            options.append("brackets=linux");
-        else if (bracketFormatMode == BRACKETS_STROUSTRUP)
-            options.append("brackets=stroustrup");
-        else
-            options.append("invalid-bracketFormatMode="    // force an error message
-                           + intToString(bracketFormatMode));
-        options.append(separator);
-    }
     if (classIndent)
     {   options.append("indent-classes");
         options.append(separator);
@@ -161,14 +143,6 @@ string AStyleInterface::getOptions() const
     }
     if (caseIndent)
     {   options.append("indent-cases");
-        options.append(separator);
-    }
-    if (bracketIndent)
-    {   options.append("indent-brackets");
-        options.append(separator);
-    }
-    if (blockIndent)
-    {   options.append("indent-blocks");
         options.append(separator);
     }
     if (namespaceIndent)
@@ -305,23 +279,17 @@ void AStyleInterface::setFileMode(string fileName)
 * This will not be used by an actual program.
 */
 void AStyleInterface::setTestOptions()
-{   // predefined Style options
-    // will have precedence over conflicting options
-//    predefinedStyle = STYLE_ALLMAN;
+{   // bracket Style options
+    bracketStyle = STYLE_ALLMAN;
 
     // tabs / spaces options
     indentLength = 3;
     indentType = INDENT_TABS;
 
-    // brackets option
-    bracketFormatMode = BRACKETS_ATTACH;
-
     // indentation options
     classIndent          = true;
     switchIndent         = true;
     caseIndent           = true;
-    bracketIndent        = true;
-    blockIndent          = true;
     namespaceIndent      = true;
     labelIndent          = true;
     preprocessorIndent   = true;
@@ -351,8 +319,7 @@ void AStyleInterface::setTestOptions()
     alignPointers        = ALIGN_TYPE;
 
     // generate some errors
-    /*    predefinedStyle    = (AStyleInterface::PredefinedStyle) 10;
-        bracketFormatMode  = (AStyleInterface::BracketMode) 7;
+    /*    bracketStyle    = (AStyleInterface::PredefinedStyle) 50;
         maxInStatementIndent = 90;
         minConditionalOption = 9;
         // cannot have both invalid indentLength and invalid indentType
@@ -368,12 +335,12 @@ void AStyleInterface::setTestOptions()
 * @param   textIn  A pointer to the source code to be formatted.
 * @return  A pointer to the formatted source from Artistic Style.
 */
-char *AStyleInterface::formatSource(const char *textIn)
+char* AStyleInterface::formatSource(const char* textIn)
 {   string options = getOptions();
 //	displayErrorMessage("--------------------");
 //	displayErrorMessage(options);
 //	displayErrorMessage("--------------------");
-    char *textOut = AStyleMain(textIn,
+    char* textOut = AStyleMain(textIn,
                                options.c_str(),
                                errorHandler,
                                memoryAlloc);
@@ -387,10 +354,10 @@ char *AStyleInterface::formatSource(const char *textIn)
 * @param   fileName  A pointer to the name of the file being formatted.
 * @return  A char pointer to the formatted source from Artistic Style.
 */
-char *AStyleInterface::formatSource(const char *textIn, string &filePath)
+char* AStyleInterface::formatSource(const char* textIn, string& filePath)
 {   // set file mode before formatting source
     setFileMode(filePath);
-    char *textOut = formatSource(textIn);
+    char* textOut = formatSource(textIn);
     return textOut;
 }
 
@@ -401,10 +368,10 @@ char *AStyleInterface::formatSource(const char *textIn, string &filePath)
 * @param   fileModeArg  A FileMode enum of the file being formatted.
 * @return  A char pointer to the formatted source from Artistic Style.
 */
-char *AStyleInterface::formatSource(const char *textIn, FileMode fileModeArg)
+char* AStyleInterface::formatSource(const char* textIn, FileMode fileModeArg)
 {   // set file mode before formatting source
     fileMode = fileModeArg;
-    char *textOut = formatSource(textIn);
+    char* textOut = formatSource(textIn);
     return textOut;
 }
 
@@ -417,7 +384,7 @@ char *AStyleInterface::formatSource(const char *textIn, FileMode fileModeArg)
 * @param  errorNumber   The error number from Artistic Style.
 * @param  errorMessage  The error message from Artistic Style.
 */
-void STDCALL AStyleInterface::errorHandler(int errorNumber, const char *errorMessage)
+void STDCALL AStyleInterface::errorHandler(int errorNumber, const char* errorMessage)
 {   displayErrorMessage(string("astyle error "
                                + intToString(errorNumber)
                                + "\n" + errorMessage));
@@ -431,8 +398,8 @@ void STDCALL AStyleInterface::errorHandler(int errorNumber, const char *errorMes
 *
 * @param  memoryNeeded  The amount of memory needed by Artistic Style.
 */
-char *STDCALL AStyleInterface::memoryAlloc(unsigned long memoryNeeded)
+char* STDCALL AStyleInterface::memoryAlloc(unsigned long memoryNeeded)
 {   // error condition should be checked by calling procedure
-    char *buffer = new(nothrow) char [memoryNeeded];
+    char* buffer = new(nothrow) char [memoryNeeded];
     return buffer;
 }
