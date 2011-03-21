@@ -30,11 +30,11 @@ project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
 # optionsX can be a bracket style or any other option
-options = libastyle.OPT1
+options = libastyle.OPT0
 optionsX = "-A11"
 
 # executables for test
-astyleexe1 = "astylexxx"
+astyleexe1 = "astyle2i"
 astyleexe2 = "astyled"
 
 # extract all files options, use False for speed

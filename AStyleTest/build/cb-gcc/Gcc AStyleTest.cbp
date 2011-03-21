@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="GccAStyleTest" />
+		<Option title="Gcc AStyleTest" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
@@ -22,10 +22,12 @@
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
+					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-pthread" />
-					<Add library="gtest" />
+					<Add library="gtestd" />
+					<Add directory="bin" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -44,11 +46,13 @@
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
+					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 					<Add option="-pthread" />
 					<Add library="gtest" />
+					<Add directory="bin" />
 				</Linker>
 			</Target>
 			<Target title="Coverage">
@@ -70,12 +74,14 @@
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
+					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg" />
 					<Add option="-pthread" />
 					<Add library="gcov" />
 					<Add library="gtest" />
+					<Add directory="bin" />
 				</Linker>
 			</Target>
 		</Build>

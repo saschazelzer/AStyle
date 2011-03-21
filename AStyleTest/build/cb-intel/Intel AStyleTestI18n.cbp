@@ -2,86 +2,66 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="GccAStyleTestI18n" />
+		<Option title="Intel AStyleTestI18n" />
 		<Option pch_mode="2" />
-		<Option compiler="gcc" />
+		<Option compiler="icc" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/AStyleTestI18nd" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objI18nd/" />
 				<Option type="1" />
-				<Option compiler="gcc" />
+				<Option compiler="icc" />
 				<Option parameters="--terse_printer" />
 				<Compiler>
-					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add option="-no-multibyte-chars" />
+					<Add option="-vec-report0" />
 					<Add option="-pthread" />
-					<Add option="-DGTEST_HAS_PTHREAD=1" />
+					<Add option="-w1" />
+					<Add option="-DGTEST_HAS_TR1_TUPLE=1" />
+					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add directory="../../srccon" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
+					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-pthread" />
 					<Add library="gtest" />
+					<Add directory="bin" />
 				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/AStyleTestI18n" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objI18n/" />
 				<Option type="1" />
-				<Option compiler="gcc" />
+				<Option compiler="icc" />
 				<Compiler>
-					<Add option="-O3" />
-					<Add option="-Wextra" />
+					<Add option="-O2" />
 					<Add option="-Wall" />
+					<Add option="-no-multibyte-chars" />
+					<Add option="-vec-report0" />
 					<Add option="-pthread" />
-					<Add option="-DGTEST_HAS_PTHREAD=1" />
-					<Add option="-DNDEBUG" />
+					<Add option="-w1" />
+					<Add option="-DGTEST_HAS_TR1_TUPLE=1" />
+					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
 					<Add option="-DASTYLECON_LIB" />
+					<Add option="-DNDEBUG" />
 					<Add directory="../../srccon" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
+					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
+					<Add option="-pthread" />
 					<Add option="-s" />
-					<Add option="-pthread" />
 					<Add library="gtest" />
-				</Linker>
-			</Target>
-			<Target title="Coverage">
-				<Option output="bin/AStyleTestI18nc" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objI18nc/" />
-				<Option type="1" />
-				<Option compiler="gcc" />
-				<Option parameters="--terse_printer" />
-				<Compiler>
-					<Add option="-Wextra" />
-					<Add option="-Wall" />
-					<Add option="-pg" />
-					<Add option="-pthread" />
-					<Add option="-fprofile-arcs" />
-					<Add option="-ftest-coverage" />
-					<Add option="-DGTEST_HAS_PTHREAD=1" />
-					<Add option="-DNDEBUG" />
-					<Add option="-DASTYLECON_LIB" />
-					<Add directory="../../srccon" />
-					<Add directory="../../srcx" />
-					<Add directory="../../../AStyle/src" />
-				</Compiler>
-				<Linker>
-					<Add option="-pg" />
-					<Add option="-pthread" />
-					<Add library="gcov" />
-					<Add library="gtest" />
+					<Add directory="bin" />
 				</Linker>
 			</Target>
 		</Build>
-		<Compiler>
-			<Add option="-fexceptions" />
-		</Compiler>
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
 		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
 		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />

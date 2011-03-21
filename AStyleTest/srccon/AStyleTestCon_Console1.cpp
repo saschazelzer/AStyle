@@ -542,7 +542,7 @@ TEST(ProcessOptions, HelpOption)
 	// test processOptions for help option display
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_SUCCESS),
-				"Predefined Style Options");
+				"Bracket Style Options:");
 #endif
 	deleteConsoleGlobalObject();
 }
@@ -560,7 +560,7 @@ TEST(ProcessOptions, HelpOption_Short1)
 	// test processOptions for help option display
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_SUCCESS),
-				"Predefined Style Options");
+				"Bracket Style Options:");
 #endif
 	deleteConsoleGlobalObject();
 }
@@ -578,7 +578,7 @@ TEST(ProcessOptions, HelpOption_Short2)
 	// test processOptions for help option display
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_SUCCESS),
-				"Predefined Style Options");
+				"Bracket Style Options:");
 #endif
 	deleteConsoleGlobalObject();
 }
@@ -1178,6 +1178,37 @@ TEST(HeaderVectorSequence, BuildPreDefinitionHeaders)
 		EXPECT_TRUE(prevHeader < (*preDefinitionHeaders[i]));
 		prevHeader = (*preDefinitionHeaders[i]);
 	}
+}
+
+//----------------------------------------------------------------------------
+// AStyle Removed Options release 2.02
+//----------------------------------------------------------------------------
+
+TEST(RemovedOptions_V202, AllOptions)
+// test that removed options are rejected with a message
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
+	// build optionsIn
+	vector<string> optionsIn;
+	optionsIn.push_back("--brackets=horstmann");
+	optionsIn.push_back("--indent-brackets");
+	optionsIn.push_back("--indent-blocks");
+	optionsIn.push_back("-B");
+	optionsIn.push_back("-G");
+	// cannot use death test with leak finder
+#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+	// test processOptions with invalid command line options
+	EXPECT_EXIT(g_console->processOptions(optionsIn),
+				::testing::ExitedWithCode(EXIT_FAILURE),
+				"Invalid command line options: \n"
+				"brackets=horstmann\n"
+				"indent-brackets\n"
+				"indent-blocks\n"
+				"B\n"
+				"G\n");
+#endif
+	deleteConsoleGlobalObject();
 }
 
 //----------------------------------------------------------------------------

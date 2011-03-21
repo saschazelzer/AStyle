@@ -16,6 +16,564 @@ namespace
 //----------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------
+// AStyle C++ Default Style
+// Additional tests are in the break brackets tests
+//----------------------------------------------------------------------------
+
+struct StyleDefaultCppF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	StyleDefaultCppF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo)\n"
+			"    {\n"
+			"        bar();\n"
+			"    }\n"
+			"    else\n"
+			"        anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
+		textIn = textStr.c_str();
+	}
+};
+
+
+TEST_F(StyleDefaultCppF, LongOption)
+{
+	// test default style option
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(textIn, textOut);
+	delete [] textOut;
+}
+
+
+TEST(StyleDefaultCpp, SpaceIndent)
+{
+	// test default style with space indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"      if (isFoo\n"
+		"                  && isBar)\n"
+		"      {\n"
+		"            bar();\n"
+		"      }\n"
+		"      else\n"
+		"            anotherBar();\n"
+		"}\n";
+	char options[] = "indent=spaces=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleDefaultCpp, Tab)
+{
+	// test default style with tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"	if (isFoo\n"
+		"	        && isBar)\n"
+		"	{\n"
+		"		bar();\n"
+		"	}\n"
+		"	else\n"
+		"		anotherBar();\n"
+		"}\n";
+	char options[] = "indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleDefaultCpp, TabIndent)
+{
+	// test default style with tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"	if (isFoo\n"
+		"	            && isBar)\n"
+		"	{\n"
+		"		bar();\n"
+		"	}\n"
+		"	else\n"
+		"		anotherBar();\n"
+		"}\n";
+	char options[] = "indent=tab=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleDefaultCpp, ForceTab)
+{
+	// test default style with force tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"	if (isFoo\n"
+		"			&& isBar)\n"
+		"	{\n"
+		"		bar();\n"
+		"	}\n"
+		"	else\n"
+		"		anotherBar();\n"
+		"}\n";
+	char options[] = "indent=force-tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleDefaultCpp, ForceTabIndent)
+{
+	// test default style with force tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"	if (isFoo\n"
+		"			&& isBar)\n"
+		"	{\n"
+		"		bar();\n"
+		"	}\n"
+		"	else\n"
+		"		anotherBar();\n"
+		"}\n";
+	char options[] = "indent=force-tab=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleDefaultCpp, MinConditionalIndent1)
+{
+	// default should use a default setting of MINCOND_TWO
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleDefaultCpp, MinConditionalIndent2)
+{
+	// test default style option with min conditional indent 0
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"        && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char options[] = "min-conditional-indent=0";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleDefaultCpp, NestedClass)
+{
+	// test nested classes
+	char text[] =
+		"\nclass A\n"
+		"{\n"
+		"public:\n"
+		"    int foo1;\n"
+		"    class B\n"
+		"    {\n"
+		"    public:\n"
+		"        int foo2;\n"
+		"        class C\n"
+		"        {\n"
+		"        public:\n"
+		"            void foo(bool isFoo)\n"
+		"            {\n"
+		"                if (isFoo)\n"
+		"                {\n"
+		"                    bar();\n"
+		"                }\n"
+		"                else\n"
+		"                    anotherBar();\n"
+		"            }\n"
+		"        }\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleDefaultCpp, NestedClass_IndentClass)
+{
+	// test nested classes with indented classes
+	char text[] =
+		"\nclass A\n"
+		"{\n"
+		"    public:\n"
+		"        int foo1;\n"
+		"        class B\n"
+		"        {\n"
+		"            public:\n"
+		"                int foo2;\n"
+		"                class C\n"
+		"                {\n"
+		"                    public:\n"
+		"                        void foo(bool isFoo)\n"
+		"                        {\n"
+		"                            if (isFoo)\n"
+		"                            {\n"
+		"                                bar();\n"
+		"                            }\n"
+		"                            else\n"
+		"                                anotherBar();\n"
+		"                        }\n"
+		"                }\n"
+		"        }\n"
+		"}\n";
+	char options[] = "indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleDefaultCpp, NestedNamespace)
+{
+	// test nested namespaces
+	char text[] =
+		"\nnamespace A\n"
+		"{\n"
+		"namespace B\n"
+		"{\n"
+		"namespace C\n"
+		"{\n"
+		"void foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n"
+		"}\n"
+		"}\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleDefaultCpp, NestedNamespace_IndentNamespace)
+{
+	// test nested indented namespaces
+	char text[] =
+		"\nnamespace A\n"
+		"{\n"
+		"    namespace B\n"
+		"    {\n"
+		"        namespace C\n"
+		"        {\n"
+		"            void foo(bool isFoo)\n"
+		"            {\n"
+		"                if (isFoo)\n"
+		"                {\n"
+		"                    bar();\n"
+		"                }\n"
+		"                else\n"
+		"                    anotherBar();\n"
+		"            }\n"
+		"        }\n"
+		"    }\n"
+		"}\n";
+	char options[] = "indent-namespaces";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleDefaultCpp, NestedNamespaceClass)
+{
+	// test namespaces within a class
+	char text[] =
+		"\nnamespace A\n"
+		"{\n"
+		"class A\n"
+		"{\n"
+		"public:\n"
+		"    namespace B\n"
+		"    {\n"
+		"    class B\n"
+		"    {\n"
+		"    public:\n"
+		"        namespace C\n"
+		"        {\n"
+		"        class C\n"
+		"        {\n"
+		"        public:\n"
+		"            void foo(bool isFoo)\n"
+		"            {\n"
+		"                if (isFoo)\n"
+		"                {\n"
+		"                    bar();\n"
+		"                }\n"
+		"                else\n"
+		"                    anotherBar();\n"
+		"            }\n"
+		"        }\n"
+		"        }\n"
+		"    }\n"
+		"    }\n"
+		"}\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleDefaultCpp, NestedNamespaceClass_IndentNamespace)
+{
+	// test indented namespaces within a class
+	char text[] =
+		"\nnamespace A\n"
+		"{\n"
+		"    class A\n"
+		"    {\n"
+		"    public:\n"
+		"        namespace B\n"
+		"        {\n"
+		"            class B\n"
+		"            {\n"
+		"            public:\n"
+		"                namespace C\n"
+		"                {\n"
+		"                    class C\n"
+		"                    {\n"
+		"                    public:\n"
+		"                        void foo(bool isFoo)\n"
+		"                        {\n"
+		"                            if (isFoo)\n"
+		"                            {\n"
+		"                                bar();\n"
+		"                            }\n"
+		"                            else\n"
+		"                                anotherBar();\n"
+		"                        }\n"
+		"                    }\n"
+		"                }\n"
+		"            }\n"
+		"        }\n"
+		"    }\n"
+		"}\n";
+	char options[] = "indent-namespaces";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleDefaultCpp, NestedNamespaceClass_IndentNamespaceClass)
+{
+	// test indented namespaces within an indented class
+	char text[] =
+		"\nnamespace A\n"
+		"{\n"
+		"    class A\n"
+		"    {\n"
+		"        public:\n"
+		"            namespace B\n"
+		"            {\n"
+		"                class B\n"
+		"                {\n"
+		"                    public:\n"
+		"                        namespace C\n"
+		"                        {\n"
+		"                            class C\n"
+		"                            {\n"
+		"                                public:\n"
+		"                                    void foo(bool isFoo)\n"
+		"                                    {\n"
+		"                                        if (isFoo)\n"
+		"                                        {\n"
+		"                                            bar();\n"
+		"                                        }\n"
+		"                                        else\n"
+		"                                            anotherBar();\n"
+		"                                    }\n"
+		"                            }\n"
+		"                        }\n"
+		"                }\n"
+		"            }\n"
+		"    }\n"
+		"}\n";
+	char options[] = "indent-namespaces, indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleDefaultCpp, Pico)
+{
+	// test default style with pico brackets
+	// the closing brackets should be broken
+	// the ENTIRE one-line block should be broken
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar1();\n"
+		"        bar2(); }\n"
+		"    else\n"
+		"    {   anotherBar1();\n"
+	    "        anotherBar2(); } }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar1();\n"
+		"        bar2();\n"
+		"    }\n"
+		"    else\n"
+		"    {   anotherBar1();\n"
+		"        anotherBar2();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleDefaultCpp, PicoOneLine)
+{
+	// test default style with pico brackets and one-line blocks
+	// the closing brackets should be broken
+	// the ENTIRE one-line block should be broken
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar(); }\n"
+		"    else\n"
+		"    {   anotherBar(); } }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"    {\n"
+		"        anotherBar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+//----------------------------------------------------------------------------
 // AStyle C++ Allman Style
 // Additional tests are in the break brackets tests
 //----------------------------------------------------------------------------
@@ -709,6 +1267,64 @@ TEST(StyleAllmanCpp, NestedNamespaceClass_IndentNamespaceClass)
 	delete [] textOut;
 }
 
+TEST(StyleAllmanCpp, Pico)
+{
+	// test allman style with pico brackets
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar1();\n"
+		"        bar2(); }\n"
+		"    else\n"
+		"    {   anotherBar1();\n"
+	    "        anotherBar2(); } }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"        bar1();\n"
+		"        bar2();\n"
+		"    }\n"
+		"    else\n"
+		"    {\n"
+		"        anotherBar1();\n"
+		"        anotherBar2();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "style=allman";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleAllmanCpp, PicoOneLine)
+{
+	// test allman style with pico brackets and one-line blocks
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar(); }\n"
+		"    else\n"
+		"    {   anotherBar(); } }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"    {\n"
+		"        anotherBar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "style=allman";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //----------------------------------------------------------------------------
 // AStyle C++ Java Style
 // Additional tests are in the attach brackets tests
@@ -1250,6 +1866,56 @@ TEST(StyleJavaCpp, NestedNamespaceClass_IndentNamespaceClass)
 		"}\n";
 	char options[] = "style=java, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleJavaCpp, Pico)
+{
+	// test java style with pico brackets
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar1();\n"
+		"        bar2(); }\n"
+		"    else\n"
+		"    {   anotherBar1();\n"
+	    "        anotherBar2(); } }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo) {\n"
+		"    if (isFoo) {\n"
+		"        bar1();\n"
+		"        bar2();\n"
+		"    } else {\n"
+		"        anotherBar1();\n"
+		"        anotherBar2();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "style=java";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleJavaCpp, PicoOneLine)
+{
+	// test java style with pico brackets and one-line blocks
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar(); }\n"
+		"    else\n"
+		"    {   anotherBar(); } }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo) {\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    } else {\n"
+		"        anotherBar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "style=java";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -1882,6 +2548,58 @@ TEST(StyleKRCpp, NestedNamespaceClass_IndentNamespaceClass)
 	delete [] textOut;
 }
 
+TEST(StyleKRCpp, Pico)
+{
+	// test k&r style with pico brackets
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar1();\n"
+		"        bar2(); }\n"
+		"    else\n"
+		"    {   anotherBar1();\n"
+	    "        anotherBar2(); } }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar1();\n"
+		"        bar2();\n"
+		"    } else {\n"
+		"        anotherBar1();\n"
+		"        anotherBar2();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "style=kr";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleKRCpp, PicoOneLine)
+{
+	// test k&r style with pico brackets and one-line blocks
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar(); }\n"
+		"    else\n"
+		"    {   anotherBar(); } }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    } else {\n"
+		"        anotherBar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "style=kr";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //----------------------------------------------------------------------------
 // AStyle C++ Stroustrup Style
 // Additional tests are in the stroustrup brackets tests
@@ -2409,6 +3127,58 @@ TEST(StyleStroustrupCpp, NestedNamespaceClass_IndentNamespaceClass)
 		"}\n";
 	char options[] = "style=stroustrup, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleStroustrupCpp, Pico)
+{
+	// test stroustrup style with pico brackets
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar1();\n"
+		"        bar2(); }\n"
+		"    else\n"
+		"    {   anotherBar1();\n"
+	    "        anotherBar2(); } }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar1();\n"
+		"        bar2();\n"
+		"    } else {\n"
+		"        anotherBar1();\n"
+		"        anotherBar2();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "style=stroustrup";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleStroustrupCpp, PicoOneLine)
+{
+	// test stroustrup style with pico brackets and one-line blocks
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar(); }\n"
+		"    else\n"
+		"    {   anotherBar(); } }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    } else {\n"
+		"        anotherBar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "style=stroustrup";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -3114,6 +3884,64 @@ TEST(StyleWhitesmithCpp, Arrays)
 	delete [] textOut;
 }
 
+TEST(StyleWhitesmithCpp, Pico)
+{
+	// test whitesmith style with pico brackets
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar1();\n"
+		"        bar2(); }\n"
+		"    else\n"
+		"    {   anotherBar1();\n"
+	    "        anotherBar2(); } }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"    {\n"
+		"    if (isFoo)\n"
+		"        {\n"
+		"        bar1();\n"
+		"        bar2();\n"
+		"        }\n"
+		"    else\n"
+		"        {\n"
+		"        anotherBar1();\n"
+		"        anotherBar2();\n"
+		"        }\n"
+		"    }\n";
+	char options[] = "style=whitesmith";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleWhitesmithCpp, PicoOneLine)
+{
+	// test whitesmith style with pico brackets and one-line blocks
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar(); }\n"
+		"    else\n"
+		"    {   anotherBar(); } }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"    {\n"
+		"    if (isFoo)\n"
+		"        {\n"
+		"        bar();\n"
+		"        }\n"
+		"    else\n"
+		"        {\n"
+		"        anotherBar();\n"
+		"        }\n"
+		"    }\n";
+	char options[] = "style=whitesmith";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //----------------------------------------------------------------------------
 // AStyle C++ Banner Style
 // There are NO additional tests are in the brackets tests
@@ -3705,6 +4533,58 @@ TEST(StyleBannerCpp, Arrays)
 		"    };\n";
 	char options[] = "style=banner";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleBannerCpp, Pico)
+{
+	// test banner style with pico brackets
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar1();\n"
+		"        bar2(); }\n"
+		"    else\n"
+		"    {   anotherBar1();\n"
+	    "        anotherBar2(); } }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo) {\n"
+		"    if (isFoo) {\n"
+		"        bar1();\n"
+		"        bar2();\n"
+		"        }\n"
+		"    else {\n"
+		"        anotherBar1();\n"
+		"        anotherBar2();\n"
+		"        }\n"
+		"    }\n";
+	char options[] = "style=banner";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleBannerCpp, PicoOneLine)
+{
+	// test banner style with pico brackets and one-line blocks
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar(); }\n"
+		"    else\n"
+		"    {   anotherBar(); } }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo) {\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"        }\n"
+		"    else {\n"
+		"        anotherBar();\n"
+		"        }\n"
+		"    }\n";
+	char options[] = "style=banner";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -4508,6 +5388,58 @@ TEST(StyleGnuCpp, VolatileOnly)
 	delete [] textOut;
 }
 
+TEST(StyleGnuCpp, Pico)
+{
+	// test gnu style with pico brackets
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar1();\n"
+		"        bar2(); }\n"
+		"    else\n"
+		"        anotherBar1(); }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"        {\n"
+		"            bar1();\n"
+		"            bar2();\n"
+		"        }\n"
+		"    else\n"
+		"        anotherBar1();\n"
+		"}\n";
+	char options[] = "style=gnu";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleGnuCpp, PicoOneLine)
+{
+	// test gnu style with pico brackets and one-line blocks
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar(); }\n"
+		"    else\n"
+		"        anotherBar(); }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"        {\n"
+		"            bar();\n"
+		"        }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char options[] = "style=gnu";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //----------------------------------------------------------------------------
 // AStyle C++ Linux Style
 // Additional tests are in the linux brackets tests
@@ -5070,6 +6002,58 @@ TEST(StyleLinuxCpp, NestedNamespaceClass_IndentNamespaceClass)
 		"}\n";
 	char options[] = "style=linux, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleLinuxCpp, Pico)
+{
+	// test linux style with pico brackets
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar1();\n"
+		"        bar2(); }\n"
+		"    else\n"
+		"    {   anotherBar1();\n"
+	    "        anotherBar2(); } }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar1();\n"
+		"        bar2();\n"
+		"    } else {\n"
+		"        anotherBar1();\n"
+		"        anotherBar2();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "style=linux";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleLinuxCpp, PicoOneLine)
+{
+	// test linux style with pico brackets and one-line blocks
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar(); }\n"
+		"    else\n"
+		"    {   anotherBar(); } }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    } else {\n"
+		"        anotherBar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "style=linux";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -5658,6 +6642,58 @@ TEST(StyleHorstmannCpp, NestedNamespaceClass_IndentNamespaceClass)
 		"}\n";
 	char options[] = "style=horstmann, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleHorstmannCpp, Pico)
+{
+	// test horstmann style with pico brackets
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar1();\n"
+		"        bar2(); }\n"
+		"    else\n"
+		"    {   anotherBar1();\n"
+	    "        anotherBar2(); } }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar1();\n"
+		"        bar2();\n"
+		"    }\n"
+		"    else\n"
+		"    {   anotherBar1();\n"
+		"        anotherBar2();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "style=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleHorstmannCpp, PicoOneLine)
+{
+	// test horstmann style with pico brackets and one-line blocks
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar(); }\n"
+		"    else\n"
+		"    {   anotherBar(); } }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar();\n"
+		"    }\n"
+		"    else\n"
+		"    {   anotherBar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "style=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -6337,6 +7373,56 @@ TEST(Style1TBSCpp, NestedNamespaceClass_IndentNamespaceClass)
 	delete [] textOut;
 }
 
+TEST(Style1TBSCpp, Pico)
+{
+	// test 1tbs style with pico brackets
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar1();\n"
+		"        bar2(); }\n"
+		"    else\n"
+		"        anotherBar1(); }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar1();\n"
+		"        bar2();\n"
+		"    } else {\n"
+		"        anotherBar1();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "style=1tbs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Style1TBSCpp, PicoOneLine)
+{
+	// test 1tbs style with pico brackets and one-line blocks
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar(); }\n"
+		"    else\n"
+		"        anotherBar(); }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    } else {\n"
+		"        anotherBar();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "style=1tbs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //----------------------------------------------------------------------------
 // AStyle C++ Pico Style
 // Additional tests are in the run-in brackets tests
@@ -6392,8 +7478,7 @@ TEST_F(StylePicoCppF, LongOption)
 		"    void func1();\n"
 		"protected:\n"
 		"    bool var2;\n"
-		"    void func2();\n"
-		"};\n"
+		"    void func2(); };\n"
 		"\n"
 		"void FooClass::Foo(bool isFoo)\n"
 		"{   if (isFoo)\n"
@@ -6422,8 +7507,7 @@ TEST_F(StylePicoCppF, ShortOption)
 		"    void func1();\n"
 		"protected:\n"
 		"    bool var2;\n"
-		"    void func2();\n"
-		"};\n"
+		"    void func2(); };\n"
 		"\n"
 		"void FooClass::Foo(bool isFoo)\n"
 		"{   if (isFoo)\n"
@@ -6453,8 +7537,7 @@ TEST_F(StylePicoCppF, Brackets)
 		"    void func1();\n"
 		"protected:\n"
 		"    bool var2;\n"
-		"    void func2();\n"
-		"};\n"
+		"    void func2(); };\n"
 		"\n"
 		"void FooClass::Foo(bool isFoo)\n"
 		"{   if (isFoo)\n"
@@ -6819,7 +7902,7 @@ TEST(StylePicoCpp, AddBrackets2)
 
 TEST(StylePicoCpp, BreakNamespaceClass)
 {
-	// always break a namespace and class
+	// always attach a namespace and class
 	char textIn[] =
 		"\nnamespace FooName {\n"
 		"class FooClass\n"
@@ -6830,9 +7913,7 @@ TEST(StylePicoCpp, BreakNamespaceClass)
 		"{\n"
 		"class FooClass\n"
 		"{   bool foo()\n"
-		"    {   return false; }\n"
-		"};\n"
-		"}\n";
+		"    {   return false; } }; }\n";
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -6858,10 +7939,7 @@ TEST(StylePicoCpp, NestedClass)
 		"            {   if (isFoo)\n"
 		"                {   bar(); }\n"
 		"                else\n"
-		"                    anotherBar(); }\n"
-		"        }\n"
-		"    }\n"
-		"}\n";
+		"                    anotherBar(); } } } }\n";
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -6884,10 +7962,7 @@ TEST(StylePicoCpp, NestedClass_IndentClass)
 		"                        {   if (isFoo)\n"
 		"                            {   bar(); }\n"
 		"                            else\n"
-		"                                anotherBar(); }\n"
-		"                }\n"
-		"        }\n"
-		"}\n";
+		"                                anotherBar(); } } } }\n";
 	char options[] = "style=pico, indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -6908,10 +7983,7 @@ TEST(StylePicoCpp, NestedNamespace)
 		"{   if (isFoo)\n"
 		"    {   bar(); }\n"
 		"    else\n"
-		"        anotherBar(); }\n"
-		"}\n"
-		"}\n"
-		"}\n";
+		"        anotherBar(); } } } }\n";
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -6931,10 +8003,7 @@ TEST(StylePicoCpp, NestedNamespace_IndentNamespace)
 		"            {   if (isFoo)\n"
 		"                {   bar(); }\n"
 		"                else\n"
-		"                    anotherBar(); }\n"
-		"        }\n"
-		"    }\n"
-		"}\n";
+		"                    anotherBar(); } } } }\n";
 	char options[] = "style=pico, indent-namespaces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -6964,13 +8033,7 @@ TEST(StylePicoCpp, NestedNamespaceClass)
 		"            {   if (isFoo)\n"
 		"                {   bar(); }\n"
 		"                else\n"
-		"                    anotherBar(); }\n"
-		"        }\n"
-		"        }\n"
-		"    }\n"
-		"    }\n"
-		"}\n"
-		"}\n";
+		"                    anotherBar(); } } } } } } }\n";
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -7000,13 +8063,7 @@ TEST(StylePicoCpp, NestedNamespaceClass_IndentNamespace)
 		"                        {   if (isFoo)\n"
 		"                            {   bar(); }\n"
 		"                            else\n"
-		"                                anotherBar(); }\n"
-		"                    }\n"
-		"                }\n"
-		"            }\n"
-		"        }\n"
-		"    }\n"
-		"}\n";
+		"                                anotherBar(); } } } } } } }\n";
 	char options[] = "style=pico, indent-namespaces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -7033,13 +8090,7 @@ TEST(StylePicoCpp, NestedNamespaceClass_IndentNamespaceClass)
 		"                                    {   if (isFoo)\n"
 		"                                        {   bar(); }\n"
 		"                                        else\n"
-		"                                            anotherBar(); }\n"
-		"                            }\n"
-		"                        }\n"
-		"                }\n"
-		"            }\n"
-		"    }\n"
-		"}\n";
+		"                                            anotherBar(); } } } } } } }\n";
 	char options[] = "style=pico, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -7064,6 +8115,38 @@ TEST(StylePicoCpp, AfterPreprocessor1)
 		"\n#ifdef __WIN32__\n"
 		"void foo() { SetEnvironmentVariable (k, v); }\n"
 		"#endif\n";
+	char options[] = "style=pico";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StylePicoCpp, AttachedClosingNamespace1)
+{
+	// the final line should be correctly indented
+	// namespaces may not actually be attached in the final version, but ...
+	char text[] =
+		"\nnamespace\n"
+		"{\n"
+		"class FooClass\n"
+		"{\n"
+		"public:\n"
+		"    int foo;\n"
+		"    // comment\n"
+		"}; }\n";
+	char options[] = "style=pico";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StylePicoCpp, AttachedClosingNamespace2)
+{
+	// the final line should be correctly indented
+	// namespaces may not actually be attached in the final version, but ...
+	char text[] =
+		"\ntemplate< typename T1, typename T2 > struct Convert\n"
+		"{   inline T2 operator()( const T1& val ) { return (T2)val; } };\n";
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -7516,8 +8599,7 @@ TEST_F(FileJavaF, Pico)
 		"    {   if (isFoo)\n"
 		"        {   bar(); }\n"
 		"        else\n"
-		"            anotherBar(); }\n"
-		"}\n";
+		"            anotherBar(); } }\n";
 	char options[] = "style=pico, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -8134,8 +9216,7 @@ TEST_F(FileSharpF, Pico)
 		"    {   if (isFoo)\n"
 		"        {   bar(); }\n"
 		"        else\n"
-		"            anotherBar(); }\n"
-		"}\n"
+		"            anotherBar(); } }\n"
 		"\n"
 		"}   // end FooName\n";
 	char options[] = "style=pico, mode=cs";

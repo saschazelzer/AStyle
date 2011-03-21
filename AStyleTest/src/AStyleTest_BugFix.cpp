@@ -12,6 +12,60 @@ namespace
 {
 
 //----------------------------------------------------------------------------
+// AStyle version 2.02 TEST functions
+//----------------------------------------------------------------------------
+
+	TEST(BugFix_V202, BreakBlocks_ConstVariableFollowsHeader)
+{
+	// With break-blocks where a "const" variable follows a header, the lines
+	// continued to be inserted. There should not be an empty line between the
+	// "const int" and "int b" statements.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (true) { x = 1;}\n"
+		"    const int a = bar();\n"
+		"    int b = baz();\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (true) {\n"
+		"        x = 1;\n"
+		"    }\n"
+		"\n"
+		"    const int a = bar();\n"
+		"    int b = baz();\n"
+		"}";
+	char options[] = "break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+	}
+
+TEST(BugFix_V202, RunInBrackets_ColonIdentification)
+{
+	// With run-in brackets when using indent-namespaces and indent-classes with a class modifier
+	// on the same line as the class opening bracket resulted in failure to recognize the class indent.
+	// This was a problem only when indent-labels was also used.
+	char text[] =
+		"\nnamespace\n"
+		"{\n"
+		"    class wxsNotebookExtra\n"
+		"    {   public:\n"				// this line is the problem
+		"            void OnEnumProperties(long Flags)\n"
+		"            {   WXS_SHORT_STRING(wxsNotebookExtra);\n"
+		"                WXS_BOOL(wxsNotebookExtra);\n"
+		"            }\n"
+		"    };\n"
+		"}\n";
+	char options[] = "indent-namespaces, indent-classes, indent-labels";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+//----------------------------------------------------------------------------
 // AStyle version 2.01 TEST functions
 //----------------------------------------------------------------------------
 
