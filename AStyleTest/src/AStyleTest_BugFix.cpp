@@ -15,7 +15,18 @@ namespace
 // AStyle version 2.02 TEST functions
 //----------------------------------------------------------------------------
 
-	TEST(BugFix_V202, BreakBlocks_ConstVariableFollowsHeader)
+TEST(BugFix_V202, PreprocessorDefine_SansBreakAfterComment)
+{
+	// Preprocessor define should not break after a comment.
+	char text[] =
+		"\n#define ABC { def; /*ghi*/ }";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V202, BreakBlocks_ConstVariableFollowsHeader)
 {
 	// With break-blocks where a "const" variable follows a header, the lines
 	// continued to be inserted. There should not be an empty line between the

@@ -255,18 +255,18 @@ def print_run_header():
 	else:
 		print "Using {0} {1}".format(astyleexe1, astyleexe2),
 	if options == libastyle.OPT0:
-		print "OPT0", 
+		print "OPT0",
 	elif options == libastyle.OPT1:
 		print "OPT1",
 	elif options == libastyle.OPT2:
 		print "OPT2",
 	elif options == libastyle.OPT3:
-		print "OPT3", 
+		print "OPT3",
 	else:
 		print options,
-	print '\n',
 	if len(optionsX.strip()) > 0:
-		print optionsX
+		print optionsX,
+	print
 
 # -----------------------------------------------------------------------------
 
@@ -370,7 +370,7 @@ def verify_current_exe1(regress1path):
 	if os.path.exists(test1path):
 		return False
 	return True
-	
+
 # -----------------------------------------------------------------------------
 
 def verify_formatted_files(numformat, totformat):
