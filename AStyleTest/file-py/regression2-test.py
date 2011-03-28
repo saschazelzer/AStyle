@@ -32,8 +32,8 @@ project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
 # optionsX can be a bracket style or any other option
-options  = libastyle.OPT0
-optionsX = ""
+options  = libastyle.OPT3
+optionsX = "--align-reference=type"
 
 # scite formatting options
 #options = "-tapOHUk3"
@@ -306,7 +306,10 @@ def set_astyle_args(filepath, excludes, astyleexe):
 	args.append("-vRQ")
 	if len(options.strip()) > 0:
 		args.append(options)
+	print astyleexe
 	if len(optionsX.strip()) > 0:
+		if optionsX[0] != '-':
+			libastyle.system_exit("optionsX must begin with a '-'")
 		args.append(optionsX)
 	# set excludes
 	for exclude in excludes:

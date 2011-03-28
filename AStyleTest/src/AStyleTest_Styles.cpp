@@ -527,7 +527,7 @@ TEST(StyleDefaultCpp, Pico)
 		"        bar2(); }\n"
 		"    else\n"
 		"    {   anotherBar1();\n"
-	    "        anotherBar2(); } }\n";
+		"        anotherBar2(); } }\n";
 	char text[] =
 		"\nvoid Foo(bool isFoo)\n"
 		"{   if (isFoo)\n"
@@ -1277,7 +1277,7 @@ TEST(StyleAllmanCpp, Pico)
 		"        bar2(); }\n"
 		"    else\n"
 		"    {   anotherBar1();\n"
-	    "        anotherBar2(); } }\n";
+		"        anotherBar2(); } }\n";
 	char text[] =
 		"\nvoid Foo(bool isFoo)\n"
 		"{\n"
@@ -1880,7 +1880,7 @@ TEST(StyleJavaCpp, Pico)
 		"        bar2(); }\n"
 		"    else\n"
 		"    {   anotherBar1();\n"
-	    "        anotherBar2(); } }\n";
+		"        anotherBar2(); } }\n";
 	char text[] =
 		"\nvoid Foo(bool isFoo) {\n"
 		"    if (isFoo) {\n"
@@ -2558,7 +2558,7 @@ TEST(StyleKRCpp, Pico)
 		"        bar2(); }\n"
 		"    else\n"
 		"    {   anotherBar1();\n"
-	    "        anotherBar2(); } }\n";
+		"        anotherBar2(); } }\n";
 	char text[] =
 		"\nvoid Foo(bool isFoo)\n"
 		"{\n"
@@ -3141,7 +3141,7 @@ TEST(StyleStroustrupCpp, Pico)
 		"        bar2(); }\n"
 		"    else\n"
 		"    {   anotherBar1();\n"
-	    "        anotherBar2(); } }\n";
+		"        anotherBar2(); } }\n";
 	char text[] =
 		"\nvoid Foo(bool isFoo)\n"
 		"{\n"
@@ -3894,7 +3894,7 @@ TEST(StyleWhitesmithCpp, Pico)
 		"        bar2(); }\n"
 		"    else\n"
 		"    {   anotherBar1();\n"
-	    "        anotherBar2(); } }\n";
+		"        anotherBar2(); } }\n";
 	char text[] =
 		"\nvoid Foo(bool isFoo)\n"
 		"    {\n"
@@ -4547,7 +4547,7 @@ TEST(StyleBannerCpp, Pico)
 		"        bar2(); }\n"
 		"    else\n"
 		"    {   anotherBar1();\n"
-	    "        anotherBar2(); } }\n";
+		"        anotherBar2(); } }\n";
 	char text[] =
 		"\nvoid Foo(bool isFoo) {\n"
 		"    if (isFoo) {\n"
@@ -6016,7 +6016,7 @@ TEST(StyleLinuxCpp, Pico)
 		"        bar2(); }\n"
 		"    else\n"
 		"    {   anotherBar1();\n"
-	    "        anotherBar2(); } }\n";
+		"        anotherBar2(); } }\n";
 	char text[] =
 		"\nvoid Foo(bool isFoo)\n"
 		"{\n"
@@ -6656,7 +6656,7 @@ TEST(StyleHorstmannCpp, Pico)
 		"        bar2(); }\n"
 		"    else\n"
 		"    {   anotherBar1();\n"
-	    "        anotherBar2(); } }\n";
+		"        anotherBar2(); } }\n";
 	char text[] =
 		"\nvoid Foo(bool isFoo)\n"
 		"{   if (isFoo)\n"

@@ -30,7 +30,7 @@ project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
 # optionsX can be a bracket style or any other option
-options = libastyle.OPT0
+options = libastyle.OPT1
 optionsX = ""
 
 # executables for test
@@ -213,6 +213,8 @@ def set_astyle_args(filepath, excludes, astyleexe):
 	if len(options.strip()) > 0:
 		args.append(options)
 	if len(optionsX.strip()) > 0:
+		if optionsX[0] != '-':
+			libastyle.system_exit("optionsX must begin with a '-'")
 		args.append(optionsX)
 	# set excludes
 	for exclude in excludes:

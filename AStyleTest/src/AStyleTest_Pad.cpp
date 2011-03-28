@@ -1735,6 +1735,19 @@ TEST(PadOperator, Sans10)
 	delete [] textOut;
 }
 
+TEST(PadOperator, Sans11)
+{
+	// should not pad a dereference following a cast
+	char text[] =
+		"\nvoid foo() {\n"
+		"    int bar = (int*) *ptr;\n"
+		"}\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(PadOperator, CommaSemiColon)
 {
 	// semi-colons should ALWAYS be padded

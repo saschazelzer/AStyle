@@ -2454,6 +2454,7 @@ TEST(ConvertTabs, Misc6)
 
 //-------------------------------------------------------------------------
 // AStyle Align Pointer
+// default Align Pointer value REF_SAME_AS_PTR is tested here
 //-------------------------------------------------------------------------
 TEST(AlignPointerNone, LongOption)
 {
@@ -4832,6 +4833,501 @@ TEST(AlignPointer, Sharp)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
+//-------------------------------------------------------------------------
+// AStyle Align Reference
+// default value REF_SAME_AS_PTR is tested with Align Pointer
+//-------------------------------------------------------------------------
+TEST(AlignReferenceNone, PointerNone)
+{
+	// references should not be changed
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char options[] = "align-reference=none";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceNone, PointerType)
+{
+	// references should not be changed
+	char text[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char options[] = "align-reference=none, align-pointer=type";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceNone, PointerMiddle)
+{
+	// references should not be changed
+	char text[] =
+		"\nstring foo(const string * bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char options[] = "align-reference=none, align-pointer=middle";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceNone, PointerName)
+{
+	// references should not be changed
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char options[] = "align-reference=none, align-pointer=name";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceNone, ShortOption)
+{
+	// test align-reference=none short option
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char options[] = "-W0";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+TEST(AlignReferenceType, PointerNone)
+{
+	// test align-reference=type
+	char textIn[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string& bar;     // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string& bar;     // comment\n"
+		"}\n";
+	char options[] = "align-reference=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceType, PointerType)
+{
+	// test align-reference=type
+	char textIn[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string& bar;     // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string& bar;     // comment\n"
+		"}\n";
+	char options[] = "align-reference=type, align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+TEST(AlignReferenceType, PointerMiddle)
+{
+	// test align-reference=type
+	char textIn[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string * bar)  // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string& bar;     // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string& bar;     // comment\n"
+		"}\n";
+	char options[] = "align-reference=type, align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+TEST(AlignReferenceType, PointerName)
+{
+	// test align-reference=type
+	char textIn[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string& bar;     // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string& bar;     // comment\n"
+		"}\n";
+	char options[] = "align-reference=type, align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceType, ShortOption)
+{
+	// test align-reference=type short option
+	char textIn[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string& bar;     // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string& bar;     // comment\n"
+		"}\n";
+	char options[] = "-W1";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceMiddle, PointerNone)
+{
+	// test align-reference=middle
+	char textIn[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string & bar;    // comment\n"
+		"    const string & bar;    // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string & bar;    // comment\n"
+		"}\n";
+	char options[] = "align-reference=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceMiddle, PointerType)
+{
+	// test align-reference=middle
+	char textIn[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string & bar;    // comment\n"
+		"    const string & bar;    // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string & bar;    // comment\n"
+		"}\n";
+	char options[] = "align-reference=middle, align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+TEST(AlignReferenceMiddle, PointerMiddle)
+{
+	// test align-reference=middle
+	char textIn[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string * bar)  // comment\n"
+		"{\n"
+		"    const string & bar;    // comment\n"
+		"    const string & bar;    // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string & bar;    // comment\n"
+		"}\n";
+	char options[] = "align-reference=middle, align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+TEST(AlignReferenceMiddle, PointerName)
+{
+	// test align-reference=middle
+	char textIn[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string & bar;    // comment\n"
+		"    const string & bar;    // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string & bar;    // comment\n"
+		"}\n";
+	char options[] = "align-reference=middle, align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceMiddle, ShortOption)
+{
+	// test align-reference=middle short option
+	char textIn[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string & bar;    // comment\n"
+		"    const string & bar;    // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string & bar;    // comment\n"
+		"}\n";
+	char options[] = "-W2";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceName, PointerNone)
+{
+	// test align-reference=name
+	char textIn[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string &bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string &bar;     // comment\n"
+		"}\n";
+	char options[] = "align-reference=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceName, PointerType)
+{
+	// test align-reference=name
+	char textIn[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string &bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string &bar;     // comment\n"
+		"}\n";
+	char options[] = "align-reference=name, align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceName, PointerMiddle)
+{
+	// test align-reference=name
+	char textIn[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string * bar)  // comment\n"
+		"{\n"
+		"    const string &bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string &bar;     // comment\n"
+		"}\n";
+	char options[] = "align-reference=name, align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceName, Pointername)
+{
+	// test align-reference=name
+	char textIn[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string &bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string &bar;     // comment\n"
+		"}\n";
+	char options[] = "align-reference=name, align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceName, ShortOption)
+{
+	// test align-reference=name short option
+	char textIn[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string &bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string &bar;     // comment\n"
+		"}\n";
+	char options[] = "-W3";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 
 //----------------------------------------------------------------------------
 

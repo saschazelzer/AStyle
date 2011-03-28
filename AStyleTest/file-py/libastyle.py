@@ -28,9 +28,11 @@ TESTPROJECT  = "TestProject"
 OPT0 = ""
 # align-pointer=type (k1), add-brackets (j), break-blocks=all (F),
 #     min-conditional-indent=0 (m0)
+#     pad-oper (p), delete-empty-lines (x)
 OPT1 = "-CSKNLwM50m0yejoOcFpPHUxEk1"
 # align-pointer=middle (k2), add-one-line-brackets (J), break-blocks (f), 
 #     min-conditional-indent=3 (m3), pad-paren-out(d)
+#     pad-oper (p), delete-empty-lines (x)
 OPT2 = "-CSKNLwM60m3yeJoOcfpdHUxEk2"
 # align-pointer=name (k3), , min-conditional-indent=1 (m1), pad-paren-in(D)
 # WITHOUT: add-brackets (j,J), break-blocks (f,F), 

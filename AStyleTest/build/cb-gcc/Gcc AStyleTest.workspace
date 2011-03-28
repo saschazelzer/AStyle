@@ -2,8 +2,8 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="Gcc AStyleTest">
 		<Project filename="Gcc GTestA.cbp" />
-		<Project filename="Gcc AStyleTest.cbp" active="1" />
+		<Project filename="Gcc AStyleTest.cbp" />
 		<Project filename="Gcc AStyleTestCon.cbp" />
-		<Project filename="Gcc AStyleTestI18n.cbp" />
+		<Project filename="Gcc AStyleTestI18n.cbp" active="1" />
 	</Workspace>
 </CodeBlocks_workspace_file>

@@ -15,6 +15,234 @@ namespace
 // AStyle version 2.02 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V202, TryFinallyExceptExtension1)
+{
+	// C++ __try __finally __except Microsoft extension
+	// Added to headers and non-paren headers to be recognized as a command bracket.
+	// Broken brackets, no style. __finally and __except are attached.
+	char text[] =
+		"\nvoid fooBar()\n"
+		"{\n"
+		"    __try\n"
+		"    {\n"
+		"        foo1();\n"
+		"        __try\n"
+		"        {\n"
+		"            foo2();\n"
+		"        }\n"
+		"        __finally\n"
+		"        {\n"
+		"            foo3();\n"
+		"        }\n"
+		"    }\n"
+		"    __except(filter(111))\n"
+		"    {\n"
+		"        foo4();\n"
+		"    }\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V202, TryFinallyExceptExtension2)
+{
+	// C++ __try __finally __except Microsoft extension
+	// Added to headers and non-paren headers to be recognized as a command bracket.
+	// Attached brackets, no style. __finally and __except are attached.
+	char text[] =
+		"\nvoid fooBar() {\n"
+		"    __try {\n"
+		"        foo1();\n"
+		"        __try {\n"
+		"            foo2();\n"
+		"        } __finally {\n"
+		"            foo3();\n"
+		"        }\n"
+		"    } __except(filter(111)) {\n"
+		"        foo4();\n"
+		"    }\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V202, TryFinallyExceptExtension3)
+{
+	// C++ __try __finally __except Microsoft extension
+	// Added to headers and non-paren headers to be recognized as a command bracket.
+	// Attached brackets changed to Allman style. __finally and __except are broken.
+	char textIn[] =
+		"\nvoid fooBar() {\n"
+		"    __try {\n"
+		"        foo1();\n"
+		"        __try {\n"
+		"            foo2();\n"
+		"        } __finally {\n"
+		"            foo3();\n"
+		"        }\n"
+		"    } __except(filter(111)) {\n"
+		"        foo4();\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid fooBar()\n"
+		"{\n"
+		"    __try\n"
+		"    {\n"
+		"        foo1();\n"
+		"        __try\n"
+		"        {\n"
+		"            foo2();\n"
+		"        }\n"
+		"        __finally\n"
+		"        {\n"
+		"            foo3();\n"
+		"        }\n"
+		"    }\n"
+		"    __except(filter(111))\n"
+		"    {\n"
+		"        foo4();\n"
+		"    }\n"
+		"}";
+	char options[] = "style=allman";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V202, TryFinallyExceptExtension4)
+{
+	// C++ __try __finally __except Microsoft extension
+	// Added to headers and non-paren headers to be recognized as a command bracket.
+	// Broken brackets changed to Java style. __finally and __except are attached.
+	char textIn[] =
+		"\nvoid fooBar()\n"
+		"{\n"
+		"    __try\n"
+		"    {\n"
+		"        foo1();\n"
+		"        __try\n"
+		"        {\n"
+		"            foo2();\n"
+		"        }\n"
+		"        __finally\n"
+		"        {\n"
+		"            foo3();\n"
+		"        }\n"
+		"    }\n"
+		"    __except(filter(111))\n"
+		"    {\n"
+		"        foo4();\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid fooBar() {\n"
+		"    __try {\n"
+		"        foo1();\n"
+		"        __try {\n"
+		"            foo2();\n"
+		"        } __finally {\n"
+		"            foo3();\n"
+		"        }\n"
+		"    } __except(filter(111)) {\n"
+		"        foo4();\n"
+		"    }\n"
+		"}";
+	char options[] = "style=java";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V202, PreCommandHeaders1)
+{
+	// Precommand headers const, sealed, and override, with const first.
+	char text[] =
+		"\nclass AStyleTest\n"
+		"{\n"
+		"    virtual void foo() const {\n"
+		"        if ( x ) {\n"
+		"            do1();\n"
+		"            do2();\n"
+		"        }\n"
+		"    }\n"
+		"\n"
+		"    virtual void foo_override() const override {\n"
+		"        if ( x ) {\n"
+		"            do1();\n"
+		"            do2();\n"
+		"        }\n"
+		"    }\n"
+		"\n"
+		"    virtual void foo_sealed() const sealed override {\n"
+		"        if ( x ) {\n"
+		"            do1();\n"
+		"            do2();\n"
+		"        }\n"
+		"    }\n"
+		"};";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V202, PreCommandHeaders2)
+{
+	// Precommand headers const, sealed, and override, with const last.
+	char text[] =
+		"\nclass AStyleTest\n"
+		"{\n"
+		"    virtual void foo_override() override const {\n"
+		"        if ( x ) {\n"
+		"            do1();\n"
+		"            do2();\n"
+		"        }\n"
+		"    }\n"
+		"\n"
+		"    virtual void foo_sealed() sealed override const {\n"
+		"        if ( x ) {\n"
+		"            do1();\n"
+		"            do2();\n"
+		"        }\n"
+		"    }\n"
+		"};";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V202, PreCommandHeaders3)
+{
+	// Precommand headers sealed and override, with NO const.
+	char text[] =
+		"\nclass AStyleTest\n"
+		"{\n"
+		"    virtual void foo_override() override {\n"
+		"        if ( x ) {\n"
+		"            do1();\n"
+		"            do2();\n"
+		"        }\n"
+		"    }\n"
+		"\n"
+		"    virtual void foo_sealed() sealed override {\n"
+		"        if ( x ) {\n"
+		"            do1();\n"
+		"            do2();\n"
+		"        }\n"
+		"    }\n"
+		"};";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BugFix_V202, PreprocessorDefine_SansBreakAfterComment)
 {
 	// Preprocessor define should not break after a comment.
@@ -52,7 +280,7 @@ TEST(BugFix_V202, BreakBlocks_ConstVariableFollowsHeader)
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
-	}
+}
 
 TEST(BugFix_V202, RunInBrackets_ColonIdentification)
 {
