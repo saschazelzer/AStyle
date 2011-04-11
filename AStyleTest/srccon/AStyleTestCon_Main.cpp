@@ -109,7 +109,7 @@ int main(int argc, char** argv)
 	{
 		if (g_isI18nTest)
 			// Change the following value to the number of tests (within 10).
-			TersePrinter::PrintTestTotals( 34 , __FILE__, __LINE__ );
+			TersePrinter::PrintTestTotals( 40 , __FILE__, __LINE__ );
 		else
 			// Change the following value to the number of tests (within 10).
 			TersePrinter::PrintTestTotals( 94 , __FILE__, __LINE__);
@@ -272,8 +272,6 @@ void sleep(int seconds)
 }
 
 void systemAbort(const wstring& message)
-// accept keyboard input then abort
-// assures a console message is noticed
 {
 	wcout << message << endl;
 	exit(EXIT_FAILURE);
@@ -554,8 +552,6 @@ void setTestDirectory()
 //}
 
 void systemAbort(const string& message)
-// accept keyboard input then abort
-// assures a console message is noticed
 {
 	cout << message << endl;
 	exit(EXIT_FAILURE);

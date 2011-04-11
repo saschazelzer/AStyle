@@ -1,11 +1,11 @@
 #!/bin/bash
 # Run gcov to print the coverage report
-# AStylec must be run to create the *.gcno files
+# astylep must have been run to create the *.gcno files in the objp directory
 
 # this is the source file to display
 filename=ASFormatter
 
-cd  ../build/cb-gcc/objc/AStyle/src
+cd  $HOME/Projects/AStyleTest/build/cb-gcc/objp/AStyle/src
 
 # check for the graph file created by the compile
 if [ ! -f $filename.gcno ]; then

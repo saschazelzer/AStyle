@@ -196,6 +196,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\..\AStyle\src\ASLocalizer.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\..\AStyle\src\ASResource.cpp"
 				>
 			</File>
@@ -213,6 +217,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\..\..\..\AStyle\src\ASLocalizer.h"
+				>
+			</File>
 			<File
 				RelativePath="..\..\..\..\AStyle\src\astyle.h"
 				>

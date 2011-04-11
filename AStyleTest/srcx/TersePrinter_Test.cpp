@@ -23,32 +23,55 @@ TEST(TestCase2, Equal_Fails)
 	EXPECT_EQ(1, 2) << "EXPECT_EQ failure.";
 }
 
-TEST(TestCase2, CString1_Fails)
+TEST(TestCase2, NotEqual_Fails)
 {
-	char expected_str[] =
-	    "\nvoid foo() {\n"
-	    "    isBar = true;\n"
-	    "    bar();\n"
-	    "}";
-	char actual_str[] =
-	    "\nvoid foo() {\n"
-	    "    isBar = true;\n"
-	    "     bar();\n"
-	    "}";
-	EXPECT_STREQ(expected_str, actual_str);
+	EXPECT_NE(1, 1) << "EXPECT_NE failure.";
 }
 
-TEST(TestCase2, CString2_Fails)
+TEST(TestCase2, StringPrintSpecifierEQ_Fails)
+// string containing a print specifier
+{
+	string expected = "%s %n";
+	string actual   = "%n %s";
+	EXPECT_EQ(expected, actual);
+}
+
+TEST(TestCase2, StringPrintSpecifierNE_Fails)
+// string containing a print specifier
+{
+	string expected = "%s %n";
+	string actual   = "%s %n";
+	EXPECT_NE(expected, actual);
+}
+
+TEST(TestCase2, CStringEQ_Fails)
 {
 	char expected_str[] =
 	    "\nvoid foo() {\n"
+	    "    isBar = true;\n"
 	    "    bar();\n"
 	    "}";
 	char actual_str[] =
 	    "\nvoid foo() {\n"
-	    "     bar();\n"
+	    "    isBar = true;\n"
+	    "        bar();\n"
 	    "}";
-	EXPECT_STREQ(expected_str, actual_str) << "EXPECT_STREQ 2 failure.";
+	EXPECT_STREQ(expected_str, actual_str) << "EXPECT_STREQ failure.";
+}
+
+TEST(TestCase2, CStringNE_Fails)
+{
+	char expected_str[] =
+	    "\nvoid foo() {\n"
+	    "    isBar = true;\n"
+	    "    bar();\n"
+	    "}";
+	char actual_str[] =
+	    "\nvoid foo() {\n"
+	    "    isBar = true;\n"
+	    "    bar();\n"
+	    "}";
+	EXPECT_STRNE(expected_str, actual_str) << "EXPECT_STRNE failure.";
 }
 
 TEST(TestCase2, DeathTest_WrongMessage)

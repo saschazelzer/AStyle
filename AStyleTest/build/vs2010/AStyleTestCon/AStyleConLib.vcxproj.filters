@@ -26,12 +26,18 @@
     <ClCompile Include="..\..\..\..\AStyle\src\astyle_main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\AStyle\src\ASLocalizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\AStyle\src\astyle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\AStyle\src\astyle_main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\AStyle\src\ASLocalizer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

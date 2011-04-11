@@ -351,6 +351,7 @@ TEST(ProcessOptions, FileOptionsVector_Error)
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("--options=" + optionsFileName);
+	optionsIn.push_back("--ascii");		// output in English
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// test processOptions with invalid file options
@@ -360,7 +361,7 @@ TEST(ProcessOptions, FileOptionsVector_Error)
 				"invalid1\n"
 				"invalid2\n"
 				"invalid3\n\n"
-				"For help on options, type 'astyle -h' ");
+				"For help on options, type 'astyle -h'");
 #endif
 	removeTestFile(optionsFileName);
 	deleteConsoleGlobalObject();
@@ -378,6 +379,7 @@ TEST(ProcessOptions, FileOptionsVector_FileError1)
 	g_console->standardizePath(optionsFileName);
 	vector<string> optionsIn;
 	optionsIn.push_back("--options=" + optionsFileName);
+	optionsIn.push_back("--ascii");		// output in English
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// test processOptions with options file error
@@ -397,6 +399,7 @@ TEST(ProcessOptions, FileOptionsVector_FileError2)
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("--options=");
+	optionsIn.push_back("--ascii");		// output in English
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// test processOptions with options file error
@@ -440,8 +443,8 @@ TEST(ProcessOptions, GetCurrentDirectory)
 	deleteConsoleGlobalObject();
 }
 
-TEST(ProcessOptions, ConsoleOptions)
-// test processOptions for console options
+TEST(ProcessOptions, OtherOptions)
+// test processOptions for other options
 // the "lineend" option is tested separately
 {
 	ASFormatter formatter;
@@ -470,8 +473,8 @@ TEST(ProcessOptions, ConsoleOptions)
 	deleteConsoleGlobalObject();
 }
 
-TEST(ProcessOptions, ConsoleOptions_Short)
-// test processOptions for short console options
+TEST(ProcessOptions, OtherOptions_Short)
+// test processOptions for short other options
 {
 	ASFormatter formatter;
 	createConsoleGlobalObject(formatter);
@@ -511,6 +514,7 @@ TEST(ProcessOptions, ConsoleOptions_Error)
 	optionsIn.push_back("--invalid2");
 	optionsIn.push_back("--invalid3");
 	optionsIn.push_back("--indent-classes");
+	optionsIn.push_back("--ascii");		// output in English
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// test processOptions with invalid command line options
@@ -520,14 +524,45 @@ TEST(ProcessOptions, ConsoleOptions_Error)
 				"invalid1\n"
 				"invalid2\n"
 				"invalid3\n\n"
-				"For help on options, type 'astyle -h' ");
+				"For help on options, type 'astyle -h'");
 #endif
 	deleteConsoleGlobalObject();
 }
 
 //----------------------------------------------------------------------------
-// AStyle help and version options
+// AStyle ascii, help and version options
 //----------------------------------------------------------------------------
+
+TEST(ProcessOptions, AsciiOption)
+// test processOptions for ascii option
+// For a complete test the user locale should something besides English.
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
+	// build optionsIn
+	vector<string> optionsIn;
+	optionsIn.push_back("--ascii");
+	g_console->processOptions(optionsIn);
+	string langID = g_console->getLanguageID();
+	EXPECT_EQ(langID, "en");
+	deleteConsoleGlobalObject();
+}
+
+TEST(ProcessOptions, AsciiOption_Short)
+// test processOptions for ascii short option -I
+// For a complete test the user locale should something besides English.
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
+	// build optionsIn
+	vector<string> optionsIn;
+	optionsIn.push_back("-I");
+	g_console->processOptions(optionsIn);
+	// test the language
+	string langID = g_console->getLanguageID();
+	EXPECT_EQ(langID, "en");
+	deleteConsoleGlobalObject();
+}
 
 TEST(ProcessOptions, HelpOption)
 // test processOptions for help option display
@@ -1196,6 +1231,7 @@ TEST(RemovedOptions_V202, AllOptions)
 	optionsIn.push_back("--indent-blocks");
 	optionsIn.push_back("-B");
 	optionsIn.push_back("-G");
+	optionsIn.push_back("--ascii");		// output in English
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// test processOptions with invalid command line options

@@ -15,6 +15,41 @@ namespace
 // AStyle version 2.02 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V202, ConditionalWithinConditional)
+{
+	// When a ? conditional is in a conditional the foundQuestionMark flag is not reset.
+	// This caused the following "case" ending : to be padded when pad-oper is used.
+	// The ? conditional in the IF statement should be padded.
+	char textIn[] =
+		"\nvoid main(void)\n"
+		"{\n"
+		"    if (version == IPMC_IP_VERSION_MLD?mld_filter_id:igmp_filter_id) {\n"
+		"        switch ( version ) {\n"
+		"        case IPMC_IP_VERSION_IGMP:\n"
+		"            break;\n"
+		"        default:\n"
+		"            break;\n"
+		"        }\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid main(void)\n"
+		"{\n"
+		"    if (version == IPMC_IP_VERSION_MLD ? mld_filter_id : igmp_filter_id) {\n"
+		"        switch ( version ) {\n"
+		"        case IPMC_IP_VERSION_IGMP:\n"
+		"            break;\n"
+		"        default:\n"
+		"            break;\n"
+		"        }\n"
+		"    }\n"
+		"}";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BugFix_V202, TryFinallyExceptExtension1)
 {
 	// C++ __try __finally __except Microsoft extension

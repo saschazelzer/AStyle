@@ -15,13 +15,13 @@ int g_test_to_run = 0;
 void TersePrinter::OnTestIterationStart(const UnitTest& unit_test, int /*iteration*/)
 {
 #ifdef __BORLANDC__
-	ColoredPrintf(COLOR_YELLOW, "No mock tests.\n");
+	ColoredPrintf(COLOR_YELLOW, "%s", "No mock tests.\n");
 #endif
 #if !GTEST_HAS_DEATH_TEST || LEAK_FINDER
-	ColoredPrintf(COLOR_YELLOW, "No death tests.\n");
+	ColoredPrintf(COLOR_YELLOW, "%s", "No death tests.\n");
 #endif
-	ColoredPrintf(COLOR_GREEN, "Using terse printer.\n");
-	ColoredPrintf(COLOR_GREEN, "[==========] ");
+	ColoredPrintf(COLOR_GREEN, "%s", "Using terse printer.\n");
+	ColoredPrintf(COLOR_GREEN, "%s", "[==========] ");
 	printf("Running %d tests from %d test cases.\n",
 	       unit_test.test_to_run_count(),
 	       unit_test.test_case_to_run_count());
@@ -31,7 +31,7 @@ void TersePrinter::OnTestIterationStart(const UnitTest& unit_test, int /*iterati
 // Fired before environment set-up for each iteration of tests starts.
 void TersePrinter::OnEnvironmentsSetUpStart(const UnitTest& /*unit_test*/)
 {
-	ColoredPrintf(COLOR_GREEN, "[----------] ");
+	ColoredPrintf(COLOR_GREEN, "%s", "[----------] ");
 	printf("Global test environment set-up.\n\n");
 	fflush(stdout);
 }
@@ -60,7 +60,7 @@ void TersePrinter::OnTestPartResult(const TestPartResult& test_part_result)
 		{
 			test_header_printed_ = true;
 			// print the message header
-			ColoredPrintf(COLOR_YELLOW, "[  RUN     ] ");
+			ColoredPrintf(COLOR_YELLOW, "%s", "[  RUN     ] ");
 			printf("%s.%s", test_case_name_.c_str(), test_info_name_.c_str());
 			// remove directory information from the file path
 			string file_name = test_part_result.file_name();
@@ -74,7 +74,7 @@ void TersePrinter::OnTestPartResult(const TestPartResult& test_part_result)
 		}
 		else
 		{
-			ColoredPrintf(COLOR_YELLOW, "[          ]\n");
+			ColoredPrintf(COLOR_YELLOW, "%s", "[          ]\n");
 		}
 		// print the failed test summary
 		PrintFailedTestSummary(string(test_part_result.summary()));
@@ -88,7 +88,7 @@ void TersePrinter::OnTestEnd(const TestInfo& test_info)
 {
 	if (!test_info.result()->Passed())
 	{
-		ColoredPrintf(COLOR_RED, "[  FAILED  ] ");
+		ColoredPrintf(COLOR_RED, "%s", "[  FAILED  ] ");
 		printf("%s.%s", test_case_name_.c_str(), test_info_name_.c_str());
 		string filler;
 		size_t name_length = test_case_name_.length() + test_info_name_.length() + 1;
@@ -104,7 +104,7 @@ void TersePrinter::OnTestEnd(const TestInfo& test_info)
 // Fired before environment tear-down for each iteration of tests starts.
 void TersePrinter::OnEnvironmentsTearDownStart(const UnitTest& /*unit_test*/)
 {
-	ColoredPrintf(COLOR_GREEN, "[----------] ");
+	ColoredPrintf(COLOR_GREEN, "%s", "[----------] ");
 	printf("Global test environment tear-down.\n");
 	fflush(stdout);
 }
@@ -113,20 +113,20 @@ void TersePrinter::OnEnvironmentsTearDownStart(const UnitTest& /*unit_test*/)
 void TersePrinter::OnTestIterationEnd(const UnitTest& unit_test, int /*iteration*/)
 {
 	g_test_to_run = unit_test.test_to_run_count();
-	ColoredPrintf(COLOR_GREEN, "[==========] ");
+	ColoredPrintf(COLOR_GREEN, "%s", "[==========] ");
 	printf("%d tests from %d test cases ran.",
 	       unit_test.test_to_run_count(),
 	       unit_test.test_case_to_run_count());
 	float time_in_ms = static_cast<float>(unit_test.elapsed_time());
 	printf(" (%1.2f seconds total)\n", time_in_ms / 1000);
 	// Print total passed.
-	ColoredPrintf(COLOR_GREEN, "[  PASSED  ] ");
+	ColoredPrintf(COLOR_GREEN, "%s", "[  PASSED  ] ");
 	printf("%d tests.\n", unit_test.successful_test_count());
 	// Print total failed.
 	int num_failures = unit_test.failed_test_count();
 	if (num_failures)
 	{
-		ColoredPrintf(COLOR_RED, "[  FAILED  ] ");
+		ColoredPrintf(COLOR_RED, "%s", "[  FAILED  ] ");
 		printf("%d tests, listed below:\n", num_failures);
 		PrintFailedTestsList(unit_test);
 		printf("\n%2d FAILED TESTS\n", num_failures);
@@ -173,12 +173,30 @@ void TersePrinter::PrintFailedTestSummary(string summary) const
 	{
 		if (line[j].compare(0, 9, "  Actual:") == 0
 		        || line[j].compare(0, 9, "Which is:") == 0
-		        || line[j].compare(0, 9, "Value of:") == 0
-		        || line[j].compare(0, 9, "Expected:") == 0)
+		        || line[j].compare(0, 9, "Value of:") == 0)
 		{
 			// Header portion is not colored.
 			printf("%s", line[j].substr(0, 10).c_str());
-			ColoredPrintf(COLOR_CYAN, line[j].substr(10).c_str());
+			ColoredPrintf(COLOR_CYAN, "%s", line[j].substr(10).c_str());
+		}
+		else if (line[j].compare(0, 9, "Expected:") == 0)
+		{
+			// Header portion is not colored.
+			printf("%s", line[j].substr(0, 10).c_str());
+			size_t iPrint = 10;
+			// Check for another header.
+			size_t iHeading = line[j].find(", actual:");
+			if (iHeading != string::npos)
+			{
+				ColoredPrintf(COLOR_CYAN, "%s", line[j].substr(iPrint, iHeading - iPrint).c_str());
+				iPrint = iHeading;
+				// Break the line at actual and reposition.
+				line[j].replace(iHeading, 2, "\n  ");
+				// Header portion is not colored.
+				printf("%s", line[j].substr(iHeading, 10).c_str());
+				iPrint += 10;
+			}
+			ColoredPrintf(COLOR_CYAN, "%s", line[j].substr(iPrint).c_str());
 		}
 		else if (line[j].compare(0, 11, "Death test:") == 0
 		         || line[j].compare(0, 11, "    Result:") == 0
@@ -188,11 +206,11 @@ void TersePrinter::PrintFailedTestSummary(string summary) const
 		{
 			// Header portion is not colored.
 			printf("%s", line[j].substr(0, 12).c_str());
-			ColoredPrintf(COLOR_CYAN, line[j].substr(12).c_str());
+			ColoredPrintf(COLOR_CYAN, "%s", line[j].substr(12).c_str());
 		}
 		else
 		{
-			ColoredPrintf(COLOR_CYAN, line[j].c_str());
+			ColoredPrintf(COLOR_CYAN, "%s", line[j].c_str());
 		}
 	}
 }
@@ -213,7 +231,7 @@ void TersePrinter::PrintFailedTestsList(const UnitTest& unit_test) const
 			const TestInfo& test_info = *test_case.GetTestInfo(j);
 			if (!test_info.should_run() || test_info.result()->Passed())
 				continue;
-			ColoredPrintf(COLOR_RED, "[  FAILED  ] ");
+			ColoredPrintf(COLOR_RED, "%s", "[  FAILED  ] ");
 			printf("%s.%s\n", test_case.name(), test_info.name());
 		}
 	}
@@ -256,7 +274,7 @@ void TersePrinter::PrintTestTotals(int all_test_total_check, const char* file, i
 		              all_test_total_check, g_test_to_run, file_name.c_str(), line);
 	}
 	else
-		ColoredPrintf(COLOR_GREEN, "\nAll tests run.\n");
+		ColoredPrintf(COLOR_GREEN, "%s", "\nAll tests run.\n");
 }
 
 #ifdef _WIN32

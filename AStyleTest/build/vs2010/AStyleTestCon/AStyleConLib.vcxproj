@@ -143,10 +143,12 @@
     <ClCompile Include="..\..\..\..\AStyle\src\ASBeautifier.cpp" />
     <ClCompile Include="..\..\..\..\AStyle\src\ASEnhancer.cpp" />
     <ClCompile Include="..\..\..\..\AStyle\src\ASFormatter.cpp" />
+    <ClCompile Include="..\..\..\..\AStyle\src\ASLocalizer.cpp" />
     <ClCompile Include="..\..\..\..\AStyle\src\ASResource.cpp" />
     <ClCompile Include="..\..\..\..\AStyle\src\astyle_main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\AStyle\src\ASLocalizer.h" />
     <ClInclude Include="..\..\..\..\AStyle\src\astyle.h" />
     <ClInclude Include="..\..\..\..\AStyle\src\astyle_main.h" />
   </ItemGroup>

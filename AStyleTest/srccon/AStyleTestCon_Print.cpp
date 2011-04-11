@@ -225,12 +225,10 @@ void PrintF::redirectStream()
 #ifdef _WIN32
 	char temp_file_path[MAX_PATH + 1] = { '\0' };
 	const DWORD success = GetTempPath(sizeof(temp_file_path), temp_file_path);
-	GTEST_CHECK_(success > 0)
-			<< "Unable to get temporary directory path";
+	GTEST_CHECK_(success > 0) << "Unable to get temporary directory path";
 	strcat(temp_file_path, "AStyleTestCon.tmp");
 	const int captured_fd = creat(temp_file_path, _S_IREAD | _S_IWRITE);
-	GTEST_CHECK_(captured_fd != -1)
-			<< "Unable to open temporary file " << temp_file_path;
+	GTEST_CHECK_(captured_fd != -1) << "Unable to open temporary file " << temp_file_path;
 	filename_ = temp_file_path;
 #else
 	// There's no guarantee that a test has write access to the
@@ -238,8 +236,7 @@ void PrintF::redirectStream()
 	// directory instead.
 	char temp_file_path[] = "/tmp/AStyleTestCon.tmp";
 	const int captured_fd = creat(temp_file_path, S_IREAD | S_IWRITE);
-	GTEST_CHECK_(captured_fd != -1)
-			<< "Unable to open temporary file " << temp_file_path;
+	GTEST_CHECK_(captured_fd != -1) << "Unable to open temporary file " << temp_file_path;
 	filename_ = temp_file_path;
 #endif
 	fflush(NULL);
@@ -277,11 +274,12 @@ TEST_F(PrintF, DefaultWildcard)
 		"------------------------------------------------------------\n"
 		"directory <test_directory>/*.cpp\n"
 		"------------------------------------------------------------\n"
-		"formatted  fileFormatted.cpp\n"
-		"unchanged* fileUnchanged.cpp\n";
+		"formatted fileFormatted.cpp\n"
+		"unchanged fileUnchanged.cpp\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back("--ascii");	// output in English
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	g_console->processOptions(astyleOptionsVector);
 	// redirect stdout and get the report
@@ -291,8 +289,7 @@ TEST_F(PrintF, DefaultWildcard)
 	adjustTextOut(textOut);
 	// check entries in the fileNameVector
 	vector<string> fileName = g_console->getFileName();
-	EXPECT_EQ(fileNames.size(), fileName.size())
-			<< "Print format was not checked.";
+	EXPECT_EQ(fileNames.size(), fileName.size()) << "Print format was not checked.";
 	// check the report content
 	EXPECT_EQ(text, textOut);
 }
@@ -307,11 +304,12 @@ TEST_F(PrintF, DefaultWildcard_Exclude)
 		"directory <test_directory>/*.cpp\n"
 		"exclude fileExcluded.cpp\n"
 		"------------------------------------------------------------\n"
-		"formatted  fileFormatted.cpp\n"
-		"unchanged* fileUnchanged.cpp\n";
+		"formatted fileFormatted.cpp\n"
+		"unchanged fileUnchanged.cpp\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back("--ascii");	// output in English
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	g_console->processOptions(astyleOptionsVector);
 	// add exclude files
@@ -323,8 +321,7 @@ TEST_F(PrintF, DefaultWildcard_Exclude)
 	adjustTextOut(textOut);
 	// check entries in the fileNameVector
 	vector<string> fileName = g_console->getFileName();
-	ASSERT_EQ(fileNames.size() - filesExcluded, fileName.size())
-			<< "Print format was not checked.";
+	ASSERT_EQ(fileNames.size() - filesExcluded, fileName.size()) << "Print format was not checked.";
 	// check the report content
 	EXPECT_EQ(text, textOut);
 }
@@ -339,10 +336,11 @@ TEST_F(PrintF, FormattedWildcard)
 		"------------------------------------------------------------\n"
 		"directory <test_directory>/*.cpp\n"
 		"------------------------------------------------------------\n"
-		"formatted  fileFormatted.cpp\n";
+		"formatted fileFormatted.cpp\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back("--ascii");	// output in English
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	g_console->processOptions(astyleOptionsVector);
 	// redirect stdout and get the report
@@ -352,8 +350,7 @@ TEST_F(PrintF, FormattedWildcard)
 	adjustTextOut(textOut);
 	// check entries in the fileNameVector
 	vector<string> fileName = g_console->getFileName();
-	ASSERT_EQ(fileNames.size(), fileName.size())
-			<< "Print format was not checked.";
+	ASSERT_EQ(fileNames.size(), fileName.size()) << "Print format was not checked.";
 	// check the report content
 	EXPECT_EQ(text, textOut);
 }
@@ -370,13 +367,14 @@ TEST_F(PrintF, VerboseWildcard_OptionsFile)
 		"------------------------------------------------------------\n"
 		"directory <test_directory>/*.cpp\n"
 		"------------------------------------------------------------\n"
-		"formatted  fileFormatted.cpp\n"
-		"unchanged* fileUnchanged.cpp\n"
+		"formatted fileFormatted.cpp\n"
+		"unchanged fileUnchanged.cpp\n"
 		"------------------------------------------------------------\n"
 		" 1 formatted;  1 unchanged;  0 seconds;  12 lines\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back("--ascii");	// output in English
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	g_console->processOptions(astyleOptionsVector);
 	// add options file
@@ -388,8 +386,7 @@ TEST_F(PrintF, VerboseWildcard_OptionsFile)
 	adjustTextOut(textOut);
 	// check entries in the fileNameVector
 	vector<string> fileName = g_console->getFileName();
-	ASSERT_EQ(fileNames.size() - filesExcluded, fileName.size())
-			<< "Print format was not checked.";
+	ASSERT_EQ(fileNames.size() - filesExcluded, fileName.size()) << "Print format was not checked.";
 	// check the report content
 	EXPECT_EQ(text, textOut);
 }
@@ -406,12 +403,13 @@ TEST_F(PrintF, VerboseFormattedWildcard)
 		"------------------------------------------------------------\n"
 		"directory <test_directory>/*.cpp\n"
 		"------------------------------------------------------------\n"
-		"formatted  fileFormatted.cpp\n"
+		"formatted fileFormatted.cpp\n"
 		"------------------------------------------------------------\n"
 		" 1 formatted;  1 unchanged;  0 seconds;  12 lines\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back("--ascii");	// output in English
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	g_console->processOptions(astyleOptionsVector);
 	// redirect stdout and get the report
@@ -421,8 +419,7 @@ TEST_F(PrintF, VerboseFormattedWildcard)
 	adjustTextOut(textOut);
 	// check entries in the fileNameVector
 	vector<string> fileName = g_console->getFileName();
-	ASSERT_EQ(fileNames.size() - filesExcluded, fileName.size())
-			<< "Print format was not checked.";
+	ASSERT_EQ(fileNames.size() - filesExcluded, fileName.size()) << "Print format was not checked.";
 	// check the report content
 	EXPECT_EQ(text, textOut);
 }
@@ -432,11 +429,11 @@ TEST_F(PrintF, DefaultSingleFile)
 {
 	assert(g_console != NULL);
 	// expected text
-	string text =
-		"formatted  <test_directory>/fileFormatted.cpp\n";
+	string text = "formatted <test_directory>/fileFormatted.cpp\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back("--ascii");	// output in English
 	astyleOptionsVector.push_back(getTestDirectory() + "/fileFormatted.cpp");
 	g_console->processOptions(astyleOptionsVector);
 	// redirect stdout and get the report
@@ -446,8 +443,7 @@ TEST_F(PrintF, DefaultSingleFile)
 	adjustTextOut(textOut);
 	// check entries in the fileNameVector
 	vector<string> fileName = g_console->getFileName();
-	ASSERT_EQ((size_t) 1, fileName.size())
-			<< "Print format was not checked.";
+	ASSERT_EQ((size_t) 1, fileName.size()) << "Print format was not checked.";
 	// check the report content
 	EXPECT_EQ(text, textOut);
 }
@@ -458,11 +454,11 @@ TEST_F(PrintF, FormattedSingleFile)
 	assert(g_console != NULL);
 	g_console->setIsFormattedOnly(true);		// test variable
 	// expected text
-	string text =
-		"formatted  <test_directory>/fileFormatted.cpp\n";
+	string text = "formatted <test_directory>/fileFormatted.cpp\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back("--ascii");	// output in English
 	astyleOptionsVector.push_back(getTestDirectory() + "/fileFormatted.cpp");
 	g_console->processOptions(astyleOptionsVector);
 	// redirect stdout and get the report
@@ -472,8 +468,7 @@ TEST_F(PrintF, FormattedSingleFile)
 	adjustTextOut(textOut);
 	// check entries in the fileNameVector
 	vector<string> fileName = g_console->getFileName();
-	ASSERT_EQ((size_t) 1, fileName.size())
-			<< "Print format was not checked.";
+	ASSERT_EQ((size_t) 1, fileName.size()) << "Print format was not checked.";
 	// check the report content
 	EXPECT_EQ(text, textOut);
 }
@@ -487,11 +482,12 @@ TEST_F(PrintF, VerboseSingleFile_OptionsFile)
 	string text =
 		"Artistic Style <version>\n"
 		"Using default options file <test_directory>/astylerc.txt\n"
-		"formatted  <test_directory>/fileFormatted.cpp\n"
+		"formatted <test_directory>/fileFormatted.cpp\n"
 		" 1 formatted;  0 unchanged;  0 seconds;  6 lines\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back("--ascii");	// output in English
 	astyleOptionsVector.push_back(getTestDirectory() + "/fileFormatted.cpp");
 	g_console->processOptions(astyleOptionsVector);
 	// add options file
@@ -503,8 +499,7 @@ TEST_F(PrintF, VerboseSingleFile_OptionsFile)
 	adjustTextOut(textOut);
 	// check entries in the fileNameVector
 	vector<string> fileName = g_console->getFileName();
-	ASSERT_EQ((size_t) 1, fileName.size())
-			<< "Print format was not checked.";
+	ASSERT_EQ((size_t) 1, fileName.size()) << "Print format was not checked.";
 	// check the report content
 	EXPECT_EQ(text, textOut);
 }
@@ -520,6 +515,7 @@ TEST_F(PrintF, Quiet_AllOptions)
 	string text = "\n";
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back("--ascii");	// output in English
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	g_console->processOptions(astyleOptionsVector);
 	// add options and exclude files
@@ -532,8 +528,7 @@ TEST_F(PrintF, Quiet_AllOptions)
 	adjustTextOut(textOut);
 	// check entries in the fileNameVector
 	vector<string> fileName = g_console->getFileName();
-	ASSERT_EQ(fileNames.size() - filesExcluded, fileName.size())
-			<< "Print format was not checked.";
+	ASSERT_EQ(fileNames.size() - filesExcluded, fileName.size()) << "Print format was not checked.";
 	// check the report content
 	EXPECT_EQ(text, textOut);
 }

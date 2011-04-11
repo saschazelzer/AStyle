@@ -1,4 +1,6 @@
-﻿// AStyleTestI18n tests the internationalization component of the ASConsole
+﻿// This module tests the non-ascii files and directories on disk.
+//
+// AStyleTestI18n tests the internationalization component of the ASConsole
 // class only. It uses the following source files from AStyleTestCon and
 // AStyleTest: AStyleTestCon.h, TersePrinter.h AStyleTestCon_Main.cpp,
 // AStyleTest_leakFinder.cpp, and TersePrinter.cpp.
@@ -35,9 +37,9 @@ namespace astyle
 extern char g_fileSeparator;
 }
 
+string convertToMultiByte(const wstring& wideStr);
 string createLocaleDirectory(wstring subDirectory);
-string getLanguageString(const string& languageIn);
-bool setGlobalLocale(const string& name);
+bool setGlobalLocale(const string& localeName);
 void standardizePath(string& path);
 
 //----------------------------------------------------------------------------
@@ -1130,13 +1132,13 @@ TEST(Other, GetNumberFormat)
 	separator = ",";
 	result = "1,234,567,890";
 	number = g_console->getNumberFormat(1234567890, grouping, separator);
-	EXPECT_EQ( result, number) << "group 3 (odd) with comma";
+	EXPECT_EQ(result, number) << "group 3 (odd) with comma";
 	// LINUX group 3 (even) with dot
 	grouping  = "\3";
 	separator = ".";
 	result = "123.456.789";
 	number = g_console->getNumberFormat(123456789, grouping, separator);
-	EXPECT_EQ( result, number) << "group 3 (even) with dot";
+	EXPECT_EQ(result, number) << "group 3 (even) with dot";
 	// LINUX group 3,2 (odd) with space
 	grouping  = "\3\2";
 	separator = " ";

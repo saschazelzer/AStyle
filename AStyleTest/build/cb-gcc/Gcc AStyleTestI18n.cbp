@@ -26,7 +26,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-pthread" />
-					<Add library="gtest" />
+					<Add library="gtestd" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
@@ -91,6 +91,8 @@
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
 		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
 		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />
+		<Unit filename="../../../AStyle/src/ASLocalizer.cpp" />
+		<Unit filename="../../../AStyle/src/ASLocalizer.h" />
 		<Unit filename="../../../AStyle/src/ASResource.cpp" />
 		<Unit filename="../../../AStyle/src/astyle.h" />
 		<Unit filename="../../../AStyle/src/astyle_main.cpp" />
@@ -98,6 +100,7 @@
 		<Unit filename="../../srccon/AStyleTestCon.h" />
 		<Unit filename="../../srccon/AStyleTestCon_Main.cpp" />
 		<Unit filename="../../srci18n/AStyleTestI18n_I18n.cpp" />
+		<Unit filename="../../srci18n/AStyleTestI18n_Localizer.cpp" />
 		<Unit filename="../../srci18n/AStyleTestI18n_Utf16.cpp" />
 		<Unit filename="../../srcx/TersePrinter.cpp" />
 		<Unit filename="../../srcx/TersePrinter.h" />

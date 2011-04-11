@@ -65,9 +65,11 @@
 			</Target>
 		</Build>
 		<Unit filename="..\..\src\AStyleTest.h" />
-		<Unit filename="..\..\src\AStyleTest_BracketsCpp.cpp" />
+		<Unit filename="..\..\src\AStyleTest_BracketsCpp1.cpp" />
+		<Unit filename="..\..\src\AStyleTest_BracketsCpp2.cpp" />
 		<Unit filename="..\..\src\AStyleTest_BracketsJava.cpp" />
 		<Unit filename="..\..\src\AStyleTest_BracketsSharp.cpp" />
+		<Unit filename="..\..\src\AStyleTest_BugFix.cpp" />
 		<Unit filename="..\..\src\AStyleTest_Format.cpp" />
 		<Unit filename="..\..\src\AStyleTest_Indent.cpp" />
 		<Unit filename="..\..\src\AStyleTest_LeakFinder.cpp" />

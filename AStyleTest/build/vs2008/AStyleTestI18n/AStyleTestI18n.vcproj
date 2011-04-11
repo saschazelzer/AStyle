@@ -512,6 +512,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\srci18n\AStyleTestI18n_Localizer.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\srci18n\AStyleTestI18n_Utf16.cpp"
 				>
 			</File>

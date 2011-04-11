@@ -26,6 +26,9 @@
     <ClCompile Include="..\..\..\srci18n\AStyleTestI18n_Utf16.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\srci18n\AStyleTestI18n_Localizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\srccon\AStyleTestCon.h">

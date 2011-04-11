@@ -1,4 +1,6 @@
-﻿// AStyleTestI18n tests the internationalization component of the ASConsole
+﻿// This module tests the utf-8 and utf-16 file encodings.
+//
+// AStyleTestI18n tests the internationalization component of the ASConsole
 // class only. It uses the following source files from AStyleTestCon and
 // AStyleTest: AStyleTestCon.h, TersePrinter.h AStyleTestCon_Main.cpp,
 // AStyleTest_leakFinder.cpp, and TersePrinter.cpp.
@@ -208,10 +210,12 @@ TEST_F(DetectEncodingF, Utf32LE_Abort)
 	memcpy(textBOM+4, textIn, sizeof(textIn));
 	fileNames.push_back(getTestDirectory() + "/UTF-32LE.cpp");
 	createTestFile(fileNames.back(), textBOM, textsize);
-	// expect abort
+	// cannot use death test with leak finder
+#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	EXPECT_EXIT(g_console->processFiles(),
 				::testing::ExitedWithCode(EXIT_FAILURE),
 				"Cannot process UTF-32 encoding");
+#endif
 }
 
 TEST_F(DetectEncodingF, Utf32BE_Abort)
@@ -234,10 +238,12 @@ TEST_F(DetectEncodingF, Utf32BE_Abort)
 	memcpy(textBOM+4, textIn, sizeof(textIn));
 	fileNames.push_back(getTestDirectory() + "/UTF-32BE.cpp");
 	createTestFile(fileNames.back(), textBOM, textsize);
-	// expect abort
+	// cannot use death test with leak finder
+#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	EXPECT_EXIT(g_console->processFiles(),
 				::testing::ExitedWithCode(EXIT_FAILURE),
 				"Cannot process UTF-32 encoding");
+#endif
 }
 
 //----------------------------------------------------------------------------

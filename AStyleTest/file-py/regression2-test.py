@@ -32,14 +32,14 @@ project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
 # optionsX can be a bracket style or any other option
-options  = libastyle.OPT3
-optionsX = "--align-reference=type"
+options  = libastyle.OPT0
+optionsX = ""
 
 # scite formatting options
 #options = "-tapOHUk3"
 
 # executables for test
-astyleexe1 = "astyle2i"
+astyleexe1 = "astyle2j"
 astyleexe2 = "astyled"
 
 # extract all files options, use False for speed

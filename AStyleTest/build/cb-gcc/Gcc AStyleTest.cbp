@@ -55,9 +55,9 @@
 					<Add directory="bin" />
 				</Linker>
 			</Target>
-			<Target title="Coverage">
-				<Option output="bin/AStyleTestc" prefix_auto="1" extension_auto="1" />
-				<Option object_output="objc/" />
+			<Target title="Profile">
+				<Option output="bin/AStyleTestp" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objp/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option parameters="--terse_printer" />
