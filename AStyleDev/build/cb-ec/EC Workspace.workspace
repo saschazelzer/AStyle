@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="Embarcadero Workspace">
-		<Project filename="EC AStyle.cbp" />
+		<Project filename="EC AStyle.cbp" active="1" />
 		<Project filename="EC AStyle Java.cbp" />
 		<Project filename="EC AStyle Sharp.cbp" />
 		<Project filename="EC Example Dll.cbp" />
 		<Project filename="EC Example Lib.cbp" />
 		<Project filename="EC Example Obj.cbp" />
-		<Project filename="EC Example2 Dll.cbp" active="1" />
+		<Project filename="EC Example2 Dll.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

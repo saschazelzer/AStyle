@@ -31,12 +31,44 @@
 				<Linker>
 					<Add option="-s" />
 					<Add option="-Wl,--add-stdcall-alias" />
-					<Add option="-Wl,--enable-auto-import" />
 				</Linker>
 				<ExtraCommands>
 					<Add after="cmd /c  copy /y  bin\AStylej.dll  ..\..\src-j\  &gt; NUL" />
 					<Add after="cmd /c  copy /y  bin\AStylej.dll  ..\..\src-jx\ &gt; NUL" />
 				</ExtraCommands>
+			</Target>
+			<Target title="Lint">
+				<Option output="bin\AStylejl" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objJaval\" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wshadow" />
+					<Add option="-Winit-self" />
+					<Add option="-Wredundant-decls" />
+					<Add option="-Wcast-align" />
+					<Add option="-Wundef" />
+					<Add option="-Wfloat-equal" />
+					<Add option="-Winline" />
+					<Add option="-Wmissing-declarations" />
+					<Add option="-Wmissing-include-dirs" />
+					<Add option="-Wswitch-enum" />
+					<Add option="-Wswitch-default" />
+					<Add option="-Wmain" />
+					<Add option="-pedantic" />
+					<Add option="-std=c++0x" />
+					<Add option="-std=c++98" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-fno-exceptions" />
+					<Add option="-fno-rtti" />
+					<Add option="-Wwrite-strings" />
+					<Add option="-Woverloaded-virtual" />
+					<Add option="-DASTYLE_JNI" />
+					<Add directory="C:\Program Files\Java\jdk1.6.0_15\include" />
+					<Add directory="C:\Program Files\Java\jdk1.6.0_15\include\win32" />
+				</Compiler>
 			</Target>
 		</Build>
 		<VirtualTargets>

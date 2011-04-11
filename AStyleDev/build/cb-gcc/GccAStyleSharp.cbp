@@ -20,7 +20,7 @@
 				<Compiler>
 					<Add option="-O3" />
 					<Add option="-Wall" />
-					<Add option="-W" />
+					<Add option="-Wextra" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
 					<Add option="-fpic" />

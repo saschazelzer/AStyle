@@ -16,7 +16,7 @@ exit 100
 REM do NOT use recursive
 :: "%progdir%\AStylep"   -CSKBNLwM50m10FyexpPUoOcEv  "%testdir%\ASBeautifier.cpp"
 :: "%progdir%\AStylep"   -CSKBNLwM50m10FyexpPUoOcEv  "%testdir%\ASBeautifier.java"
-"%progdir%\AStylep"   -CSKBNLwM50m10FyexpPUoOcERv  "%testdir%\*.cpp"
+"%progdir%\AStylep"   -CSKNLwM50m0FyexpPUoOcERv  "%testdir%\*.cpp"
 
 
 echo -
