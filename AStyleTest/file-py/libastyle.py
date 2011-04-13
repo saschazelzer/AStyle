@@ -238,6 +238,21 @@ def get_astyleexe_path(config):
 
 # -----------------------------------------------------------------------------
 
+def get_astyletest_directory(endsep=False):
+	"""Get the AStyleTest directory for the os environment.
+	   endsep = True will add an ending separator.
+	"""
+	if endsep != True and endsep != False:
+		system_exit("Bad arg in get_astyletest_directory(): " + endsep)
+	astyletestdir = get_project_directory() + "/AStyleTest"
+	if not os.path.isdir(astyletestdir):
+		message = "Cannot find astyletest directory: " + astyletestdir
+		system_exit(message)
+	if endsep: astyledir += '/'
+	return astyletestdir
+
+# -----------------------------------------------------------------------------
+
 def getch():
 	"""getch() for Windows and Linux.
 	   This won't work unless run from a terminal.
@@ -495,6 +510,7 @@ def test_all_functions():
 	get_astyle_directory()
 	get_astyleexe_directory(DEBUG)
 	get_astyleexe_path(DEBUG)
+	get_astyletest_directory()
 	get_diff_path()
 	get_file_py_directory()
 	get_home_directory()

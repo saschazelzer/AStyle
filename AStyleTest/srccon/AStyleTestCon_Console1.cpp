@@ -357,11 +357,11 @@ TEST(ProcessOptions, FileOptionsVector_Error)
 	// test processOptions with invalid file options
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_FAILURE),
-				"Invalid option file options: \n"
+				"Invalid option file options:\n"
 				"invalid1\n"
 				"invalid2\n"
 				"invalid3\n\n"
-				"For help on options, type 'astyle -h'");
+				"For help on options type 'astyle -h'");
 #endif
 	removeTestFile(optionsFileName);
 	deleteConsoleGlobalObject();
@@ -385,7 +385,7 @@ TEST(ProcessOptions, FileOptionsVector_FileError1)
 	// test processOptions with options file error
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_FAILURE),
-				"Cannot open options file: ");
+				"Cannot open options file");
 #endif
 	deleteConsoleGlobalObject();
 }
@@ -405,7 +405,7 @@ TEST(ProcessOptions, FileOptionsVector_FileError2)
 	// test processOptions with options file error
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_FAILURE),
-				"Cannot open options file: ");
+				"Cannot open options file");
 #endif
 	deleteConsoleGlobalObject();
 }
@@ -520,11 +520,11 @@ TEST(ProcessOptions, ConsoleOptions_Error)
 	// test processOptions with invalid command line options
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_FAILURE),
-				"Invalid command line options: \n"
+				"Invalid command line options:\n"
 				"invalid1\n"
 				"invalid2\n"
 				"invalid3\n\n"
-				"For help on options, type 'astyle -h'");
+				"For help on options type 'astyle -h'");
 #endif
 	deleteConsoleGlobalObject();
 }
@@ -1237,7 +1237,7 @@ TEST(RemovedOptions_V202, AllOptions)
 	// test processOptions with invalid command line options
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_FAILURE),
-				"Invalid command line options: \n"
+				"Invalid command line options:\n"
 				"brackets=horstmann\n"
 				"indent-brackets\n"
 				"indent-blocks\n"

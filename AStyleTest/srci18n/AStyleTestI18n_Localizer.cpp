@@ -212,10 +212,14 @@ struct TranslationF : public ::testing::Test
 		m_ascii.push_back("%s lines\n");
 		m_ascii.push_back("exclude %s\n");
 		m_ascii.push_back("Using default options file %s\n");
-		m_ascii.push_back("Invalid option file options: ");
-		m_ascii.push_back("Invalid command line options: ");
-		m_ascii.push_back("For help on options, type 'astyle -h'");
-		m_ascii.push_back("Cannot open options file: ");
+		m_ascii.push_back("Invalid option file options:");
+		m_ascii.push_back("Invalid command line options:");
+		m_ascii.push_back("For help on options type 'astyle -h'");
+		m_ascii.push_back("Cannot open options file");
+		m_ascii.push_back("Cannot open input file");
+		m_ascii.push_back("Cannot open directory");	
+		m_ascii.push_back("Cannot process the input stream");
+		m_ascii.push_back("\nArtistic Style has terminated!");
 	}
 	void getPrintSpecifiers(string& stringIn, vector<string>& specifiers)
 	// Extract the print specifiers from a string.
@@ -327,7 +331,7 @@ TEST_F(TranslationF, English)
 	English english;
 	// check size of vector
 	size_t numberOfTranslations = english.getTranslationVectorSize();
-	EXPECT_EQ(0, numberOfTranslations) << "translations vector should be empty";
+	EXPECT_EQ(0U, numberOfTranslations) << "translations vector should be empty";
 	for (size_t i = 0; i < m_ascii.size(); i++)
 	{
 		// remove the line end for printing
