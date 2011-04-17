@@ -202,22 +202,23 @@ struct TranslationF : public ::testing::Test
 
 	TranslationF()
 	{
+		// use the acript astyle-localizer.py to check these against astyle_main.cpp
 		setlocale(LC_ALL, "C");
-		m_ascii.push_back("formatted %s\n");		// should align with unchanged
-		m_ascii.push_back("unchanged %s\n");		// should align with formatted
-		m_ascii.push_back("directory %s\n");
-		m_ascii.push_back(" %s formatted;  %s unchanged;  ");
-		m_ascii.push_back(" seconds;  ");
-		m_ascii.push_back("%d min %d sec;  ");
+		m_ascii.push_back("formatted  %s\n");		// should align with unchanged
+		m_ascii.push_back("unchanged  %s\n");		// should align with formatted
+		m_ascii.push_back("directory  %s\n");
+		m_ascii.push_back(" %s formatted   %s unchanged   ");
+		m_ascii.push_back(" seconds   ");
+		m_ascii.push_back("%d min %d sec   ");
 		m_ascii.push_back("%s lines\n");
-		m_ascii.push_back("exclude %s\n");
-		m_ascii.push_back("Using default options file %s\n");
+		m_ascii.push_back("exclude  %s\n");
+		m_ascii.push_back("Using default options file  %s\n");
 		m_ascii.push_back("Invalid option file options:");
 		m_ascii.push_back("Invalid command line options:");
 		m_ascii.push_back("For help on options type 'astyle -h'");
 		m_ascii.push_back("Cannot open options file");
 		m_ascii.push_back("Cannot open input file");
-		m_ascii.push_back("Cannot open directory");	
+		m_ascii.push_back("Cannot open directory");
 		m_ascii.push_back("Cannot process the input stream");
 		m_ascii.push_back("\nArtistic Style has terminated!");
 	}

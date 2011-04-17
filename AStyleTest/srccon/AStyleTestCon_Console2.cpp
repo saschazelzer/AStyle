@@ -1344,7 +1344,7 @@ TEST(Other, ErrorExit)
 	// death test without error message
 	EXPECT_EXIT(g_console->error(),
 				::testing::ExitedWithCode(EXIT_FAILURE),
-				"\nArtistic Style has terminated!\n");
+				"\nArtistic Style ");	// "Artistic Style has terminated!"
 #endif
 	deleteConsoleGlobalObject();
 }
@@ -1359,7 +1359,7 @@ TEST(Other, ErrorExitWihMessage)
 	// death test with error message
 	EXPECT_EXIT(g_console->error("why", "what"),
 				::testing::ExitedWithCode(EXIT_FAILURE),
-				"why what\n\nArtistic Style has terminated!\n");
+				"why what\n\nArtistic Style ");	// "Artistic Style has terminated!"
 #endif
 	deleteConsoleGlobalObject();
 }
@@ -1375,8 +1375,7 @@ TEST(Other, VerifyCinPeek)
 	cin.seekg (1, ios_base::end);
 	EXPECT_EXIT(g_console->verifyCinPeek(),
 				::testing::ExitedWithCode(EXIT_FAILURE),
-				"Cannot process the input stream.\n"
-				"\nArtistic Style has terminated!\n");
+				"\nArtistic Style ");	// "Artistic Style has terminated!"
 #endif
 	deleteConsoleGlobalObject();
 }

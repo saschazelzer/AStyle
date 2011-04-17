@@ -499,6 +499,25 @@ TEST(ConsoleShortOption, LineEndMacOldShort)
 	delete [] textOut;
 }
 
+TEST(ConsoleShortOption, AsciiShort)
+{
+	// test ascii short option
+	// should get an error unless it has been duplicated by another option
+	// the source will be formatted without the option
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "-I";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != NULL);
+	delete [] textOut;
+}
+
 TEST(ConsoleShortOption, VersionShort)
 {
 	// test version short option
@@ -1013,10 +1032,10 @@ TEST(Struct, RunIn)
 }
 
 //----------------------------------------------------------------------------
-// AStyle Volatile Type Qualifier
+// AStyle PreCommandHeaders - Const, Volatile, Sealed, and Override Type Qualifier
 //----------------------------------------------------------------------------
 
-TEST(Volatile, ConstVolatile)
+TEST(PreCommandHeaders, ConstVolatile)
 {
 	// Test with "const volatile".
 	// The keyword "Volatile" used as a  type qualifier caused the data after the "if"
@@ -1037,7 +1056,7 @@ TEST(Volatile, ConstVolatile)
 	delete [] textOut;
 }
 
-TEST(Volatile, VolatileConst)
+TEST(PreCommandHeaders, VolatileConst)
 {
 	// Test with "volatile const".
 	// The keyword "Volatile" used as a  type qualifier caused the data after the "if"
@@ -1058,7 +1077,7 @@ TEST(Volatile, VolatileConst)
 	delete [] textOut;
 }
 
-TEST(Volatile, VolatileOnly)
+TEST(PreCommandHeaders, VolatileOnly1)
 {
 	// Test with "volatile" only.
 	// The keyword "Volatile" used as a  type qualifier caused the data after the "if"
@@ -1073,6 +1092,108 @@ TEST(Volatile, VolatileOnly)
 		"    }\n"
 		"    return result;\n"
 		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PreCommandHeaders, VolatileOnly2)
+{
+	// Test with "volatile" only.
+	// The keyword "Volatile" used as a  type qualifier caused the second
+	// parameter line (b_variable) to receive 1 less indent than needed.
+	char text[] =
+		"\nvoid fooFunction() volatile\n"
+		"{\n"
+		"    foo(a_variable,\n"
+		"        b_variable);\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PreCommandHeaders, ConstSealedOverride1)
+{
+	// Precommand headers const, sealed, and override, with const first.
+	char text[] =
+		"\nclass AStyleTest\n"
+		"{\n"
+		"    virtual void foo() const {\n"
+		"        if ( x ) {\n"
+		"            do1();\n"
+		"            do2();\n"
+		"        }\n"
+		"    }\n"
+		"\n"
+		"    virtual void foo_override() const override {\n"
+		"        if ( x ) {\n"
+		"            do1();\n"
+		"            do2();\n"
+		"        }\n"
+		"    }\n"
+		"\n"
+		"    virtual void foo_sealed() const sealed override {\n"
+		"        if ( x ) {\n"
+		"            do1();\n"
+		"            do2();\n"
+		"        }\n"
+		"    }\n"
+		"};";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PreCommandHeaders, ConstSealedOverride2)
+{
+	// Precommand headers const, sealed, and override, with const last.
+	char text[] =
+		"\nclass AStyleTest\n"
+		"{\n"
+		"    virtual void foo_override() override const {\n"
+		"        if ( x ) {\n"
+		"            do1();\n"
+		"            do2();\n"
+		"        }\n"
+		"    }\n"
+		"\n"
+		"    virtual void foo_sealed() sealed override const {\n"
+		"        if ( x ) {\n"
+		"            do1();\n"
+		"            do2();\n"
+		"        }\n"
+		"    }\n"
+		"};";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PreCommandHeaders, SealedOverride)
+{
+	// Precommand headers sealed and override, with NO const.
+	char text[] =
+		"\nclass AStyleTest\n"
+		"{\n"
+		"    virtual void foo_override() override {\n"
+		"        if ( x ) {\n"
+		"            do1();\n"
+		"            do2();\n"
+		"        }\n"
+		"    }\n"
+		"\n"
+		"    virtual void foo_sealed() sealed override {\n"
+		"        if ( x ) {\n"
+		"            do1();\n"
+		"            do2();\n"
+		"        }\n"
+		"    }\n"
+		"};";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);

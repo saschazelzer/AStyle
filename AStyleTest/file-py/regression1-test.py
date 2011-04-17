@@ -11,6 +11,7 @@ import libextract		# local directory
 import libtest			# local directory
 import locale
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -34,7 +35,7 @@ options = libastyle.OPT1
 optionsX = ""
 
 # executables for test
-astyleexe1 = "astyle2i"
+astyleexe1 = "astyle2j"
 astyleexe2 = "astyled"
 
 # extract all files options, use False for speed
@@ -226,18 +227,58 @@ def set_astyle_args(filepath, excludes, astyleexe):
 def verify_astyle_executables(exe1, exe2):
 	"""Verify that the astyle test executables are available.
 	"""
+	# get paths
 	exe1path = get_astyle_path(exe1)
-	if (os.name == "nt"
-	and not exe1path.endswith(".exe")):
-			exe1path += ".exe"
-	if not os.path.exists(exe1path):
-		libastyle.system_exit("Cannot find executable: " + exe1path)
 	exe2path = get_astyle_path(exe2)
-	if (os.name == "nt"
-	and not exe2path.endswith(".exe")):
-		exe2path += ".exe"
+	regress1path = libastyle.get_astyle_directory() + "/regress/" + exe1
+	# add "exe" extension
+	if os.name == "nt":
+		if not exe1path.endswith(".exe"):
+			exe1path += ".exe"
+		if not exe2path.endswith(".exe"):
+			exe2path += ".exe"
+		if not regress1path.endswith(".exe"):
+			regress1path += ".exe"
+	# verify exe1
+	if not os.path.exists(exe1path):
+		# try to copy exe1 from the "regress" directory
+		if os.path.exists(regress1path):
+			print "Copying " + exe1
+			shutil.copy(regress1path, exe1path)
+		else:
+			libastyle.system_exit("Cannot find executable 1: " + exe1path)
+	# check exe1 for most current by bumping the ending letter by 1
+	if not verify_current_exe1(regress1path):
+		libastyle.system_exit("Executable 1 is not current: " + regress1path)
+	# verify exe2
 	if not os.path.exists(exe2path):
-		libastyle.system_exit("Cannot find executable: " + exe2path)
+		libastyle.system_exit("Cannot find executable 2: " + exe2path)
+
+# -----------------------------------------------------------------------------
+
+def verify_current_exe1(regress1path):
+	"""Check that the requested exe1 is the most current version.
+	"""
+	# check exe1 for most current by bumping the ending letter by 1
+	alphas = "abcdefghijklmnopqrstuvwxyz"
+	if os.name == "nt":
+		if regress1path[-5].isdigit():	# for first file from last release (AStyle1.exe)
+			return True
+		index = alphas.find(regress1path[-5])
+		if index == -1:
+			libastyle.system_exit("Bad index for alpha: " + index)
+		test1path = regress1path[:-5] + alphas[index+1] + regress1path[-5+1:]
+	else:
+		if regress1path[-1].isdigit():	# for first file from last release (astyle1)
+			return True
+		index = alphas.find(regress1path[-1])
+		if index == -1:
+			libastyle.system_exit("Bad index for alpha: " + index)
+		test1path = regress1path[:-1] + alphas[index+1]
+	# is NOT most current if the next version exista
+	if os.path.exists(test1path):
+		return False
+	return True
 
 # -----------------------------------------------------------------------------
 

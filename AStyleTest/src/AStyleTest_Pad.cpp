@@ -249,48 +249,174 @@ TEST(BreakBlocks, WithForLoop)
 	delete [] textOut;
 }
 
-TEST(BreakBlocks, WithSwitch)
+TEST(BreakBlocks, WithSwitch1)
 {
-	// break blocks with 'switch'
-	// switch is broken but not the case statements
+	// Break blocks with 'switch' statement.
+	// Case starements with NO brackets are broken.
 	char textIn[] =
-		"\nvoid foo()\n"
+		"\nvoid fooFunction()\n"
 		"{\n"
-		"    int fooBar = 0;\n"
-		"    switch (test)\n"
-		"    {\n"
-		"    case 1:\n"
-		"        fooBar = 1;\n"
+		"    switch (x) {\n"
+		"    case (a + b) * c:\n"
+		"        foo = 4;\n"
+		"        foo = 5;\n"
 		"        break;\n"
-		"    case 2: {\n"
-		"        fooBar = 2;\n"
-		"    }\n"
-		"    break;\n"
 		"    default:\n"
+		"        foo = 6;\n"
 		"        break;\n"
 		"    }\n"
-		"    int bar = true;\n"
 		"}\n";
 	char text[] =
-		"\nvoid foo()\n"
+		"\nvoid fooFunction()\n"
 		"{\n"
-		"    int fooBar = 0;\n"
-		"\n"
-		"    switch (test)\n"
-		"    {\n"
-		"    case 1:\n"
-		"        fooBar = 1;\n"
+		"    switch (x) {\n"
+		"    case (a + b) * c:\n"
+		"        foo = 4;\n"
+		"        foo = 5;\n"
 		"        break;\n"
-		"    case 2: {\n"
-		"        fooBar = 2;\n"
+		"\n"
+		"    default:\n"
+		"        foo = 6;\n"
+		"        break;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakBlocks, WithSwitch2)
+{
+	// Break blocks with 'switch' statement.
+	// Case starements WITH brackets are broken.
+	// Break statements are INSIDE the brackets.
+	char textIn[] =
+		"\nvoid fooFunction()\n"
+		"{\n"
+		"    switch (x) {\n"
+		"    case (a + b) * c:\n"
+		"    {\n"
+		"        foo = 4;\n"
+		"        foo = 5;\n"
+		"        break;\n"
+		"    }\n"
+		"    default:\n"
+		"    {\n"
+		"        foo = 6;\n"
+		"        break;\n"
+		"    }\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid fooFunction()\n"
+		"{\n"
+		"    switch (x) {\n"
+		"    case (a + b) * c:\n"
+		"    {\n"
+		"        foo = 4;\n"
+		"        foo = 5;\n"
+		"        break;\n"
+		"    }\n"
+		"\n"
+		"    default:\n"
+		"    {\n"
+		"        foo = 6;\n"
+		"        break;\n"
+		"    }\n"
+		"    }\n"
+		"}\n";
+	char options[] = "break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakBlocks, WithSwitch3)
+{
+	// Break blocks with 'switch' statement.
+	// Case starements WITH brackets are broken.
+	// Break statements are OUTSIDE the brackets.
+	char textIn[] =
+		"\nvoid fooFunction()\n"
+		"{\n"
+		"    switch (x) {\n"
+		"    case (a + b) * c:\n"
+		"    {\n"
+		"        foo = 4;\n"
+		"        foo = 5;\n"
+		"    }\n"
+		"        break;\n"
+		"    default:\n"
+		"    {\n"
+		"        foo = 6;\n"
+		"    }\n"
+		"        break;\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid fooFunction()\n"
+		"{\n"
+		"    switch (x) {\n"
+		"    case (a + b) * c:\n"
+		"    {\n"
+		"        foo = 4;\n"
+		"        foo = 5;\n"
 		"    }\n"
 		"    break;\n"
-		"    default:\n"
-		"        break;\n"
-		"    }\n"
 		"\n"
-		"    int bar = true;\n"
+		"    default:\n"
+		"    {\n"
+		"        foo = 6;\n"
+		"    }\n"
+		"    break;\n"
+		"    }\n"
 		"}\n";
+	char options[] = "break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakBlocks, WithSwitch4)
+{
+	// Break blocks with 'switch' statement.
+	// Multiple fsll-thru case statements with no bracket.
+	char textIn[] =
+		"\nvoid fooFunction()\n"
+		"{\n"
+		"    switch (nr)\n"
+		"    {\n"
+		"    case '0':\n"
+		"    case '1':\n"
+		"    case '2':\n"
+		"    case '3':\n"
+		"    case '4':\n"
+		"        nr = xr;\n"
+		"        break;\n"
+		"    case 5:\n"
+		"    default:\n"
+		"        nr = current_size;\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid fooFunction()\n"
+		"{\n"
+		"    switch (nr)\n"
+		"    {\n"
+		"    case '0':\n"
+		"    case '1':\n"
+		"    case '2':\n"
+		"    case '3':\n"
+		"    case '4':\n"
+		"        nr = xr;\n"
+		"        break;\n"
+		"\n"
+		"    case 5:\n"
+		"    default:\n"
+		"        nr = current_size;\n"
+		"    }\n"
+		"}";
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -2283,6 +2409,57 @@ TEST(PadHeader, ShortLine)
 	delete [] textOut;
 }
 
+TEST(PadHeader, Switch)
+{
+	// Switch and case with statements should be padded.
+	char textIn[] =
+		"\nvoid fooFunction()\n"
+		"{\n"
+		"    switch(x) {\n"
+		"    case(a + b) * c:\n"
+		"        //...\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid fooFunction()\n"
+		"{\n"
+		"    switch (x) {\n"
+		"    case (a + b) * c:\n"
+		"        //...\n"
+		"    }\n"
+		"}";
+	char options[] = "pad-header";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadHeader, SwitchUnpadParens)
+{
+	// Switch and case with statements should be padded,
+	// even with unpad parens.
+	char textIn[] =
+		"\nvoid fooFunction()\n"
+		"{\n"
+		"    switch(x) {\n"
+		"    case(a + b) * c:\n"
+		"        //...\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid fooFunction()\n"
+		"{\n"
+		"    switch (x) {\n"
+		"    case (a + b) * c:\n"
+		"        //...\n"
+		"    }\n"
+		"}";
+	char options[] = "pad-header, unpad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Unpad Paren
 //-------------------------------------------------------------------------
@@ -2400,6 +2577,7 @@ TEST(UnpadParen, OperatorSans1)
 		"    x = y * (z + 2);\n"
 		"    x = y / (z + 2);\n"
 		"    x = y % (z + 2);\n"
+		"    x = y ^ (z + 2);\n"
 		"}\n";
 	char options[] = "unpad-paren";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -2418,6 +2596,7 @@ TEST(UnpadParen, OperatorSans2)
 		"    x = (z + 2) * y;\n"
 		"    x = (z + 2) / y;\n"
 		"    x = (z + 2) % y;\n"
+		"    x = (z + 2) ^ y;\n"
 		"}\n";
 	char options[] = "unpad-paren";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);

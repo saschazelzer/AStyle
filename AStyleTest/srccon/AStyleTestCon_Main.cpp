@@ -109,10 +109,10 @@ int main(int argc, char** argv)
 	{
 		if (g_isI18nTest)
 			// Change the following value to the number of tests (within 10).
-			TersePrinter::PrintTestTotals( 40 , __FILE__, __LINE__ );
+			TersePrinter::PrintTestTotals( 50 , __FILE__, __LINE__ );
 		else
 			// Change the following value to the number of tests (within 10).
-			TersePrinter::PrintTestTotals( 94 , __FILE__, __LINE__);
+			TersePrinter::PrintTestTotals( 97 , __FILE__, __LINE__);
 	}
 	if (g_isI18nTest)
 		printI18nMessage();
@@ -120,8 +120,8 @@ int main(int argc, char** argv)
 	printf("%c", '\n');
 #endif
 	// end of unit testing
-	//	removeTestDirectory(getTestDirectory());
-//	system("pause");		// sometimes needed for Windows debug
+	removeTestDirectory(getTestDirectory());
+	//system("pause");		// sometimes needed for Windows debug
 	return retval;
 }
 

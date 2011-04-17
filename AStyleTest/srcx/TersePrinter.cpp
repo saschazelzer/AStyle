@@ -261,13 +261,13 @@ void TersePrinter::PrintTestTotals(int all_test_total_check, const char* file, i
 		start++;
 	string file_name = file_path.substr(start);
 	// Check the totals.
-	if (g_test_to_run < all_test_total_check - 10)
+	if (g_test_to_run < all_test_total_check - 9)
 	{
 		ColoredPrintf(COLOR_YELLOW,
 		              "\nMISSING TESTS: %d (%d)  %s(%d)\n",
 		              all_test_total_check, g_test_to_run, file_name.c_str(), line);
 	}
-	else if (g_test_to_run > all_test_total_check + 10)
+	else if (g_test_to_run > all_test_total_check + 9)
 	{
 		ColoredPrintf(COLOR_YELLOW,
 		              "\nUpdate test variable: %d (%d)  %s(%d)\n",
