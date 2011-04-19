@@ -14,7 +14,7 @@ import sys
 # global variables ------------------------------------------------------------
 
 # release number for distribution file
-release = "2.01"
+release = "2.02"
 # inut from AStyle directory
 astyleDir = libastyle.get_astyle_directory()
 # output to Project directory
@@ -33,7 +33,7 @@ def create_distributions():
 	else:
 		build_linux_distribution()
 		build_mac_distribution()
-		build_vms_distribution()
+		# build_vms_distribution()
 
 # -----------------------------------------------------------------------------
 

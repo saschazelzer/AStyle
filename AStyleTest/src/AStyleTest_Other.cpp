@@ -1285,6 +1285,30 @@ TEST(Preprocessor, Elif)
 	delete [] textOut;
 }
 
+TEST(Preprocessor, PragmaRegionEndRegion)
+{
+	// C++ #region and #endregion should be indented with the code
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    #pragma region ILineManager\n"
+		"    // <value>\n"
+		"    // A collection of all line segments\n"
+		"    #pragma endregion\n"
+		"\n"
+		"    #pragma region Nested enumerator class\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    #pragma endregion\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(Preprocessor, SharpRegionEndRegion)
 {
 	// C# #region and #endregion should be indented with the code
@@ -1506,6 +1530,31 @@ TEST(Preprocessor, Detached_Elif)
 		"            w += 2000;\n"
 		"        }\n"
 		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Preprocessor, DetachedPragmaRegionEndRegion)
+{
+	// The # may be detached from the following directive
+	// C++ #region and #endregion should be indented with the code
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    # pragma region ILineManager\n"
+		"    // <value>\n"
+		"    // A collection of all line segments\n"
+		"    # pragma endregion\n"
+		"\n"
+		"    #  pragma   region Nested enumerator class\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    #  pragma   endregion\n"
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);

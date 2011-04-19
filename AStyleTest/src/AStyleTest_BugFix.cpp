@@ -2434,6 +2434,7 @@ TEST(BugFix_V123, PreprocessorErrorStatement)
 	char text[] =
 		"\n#ifdef SLIM_CONFIG_USE_PLATE\n"
 		"#error You mustn't compile this file.\n"
+		"#  error You mustn't compile this file.\n"
 		"#endif\n"
 		"\n"
 		"/* @param\n"
