@@ -1036,6 +1036,48 @@ TEST(Enum, ClassIndent3)
 	delete [] textOut;
 }
 
+TEST(Enum, InStatementIndent1)
+{
+	// test in-statement indent of an enum
+	char text[] =
+		"\nenum {\n"
+		"    A_REMAINDER_OF_LONG_NAME = 0x01,\n"
+		"    B_REMAINDER_OF_LONG_NAME = 0x02,\n"
+		"    AB_REMAINDER_OF_LONG_NAME =\n"
+		"        A_REMAINDER_OF_LONG_NAME |\n"
+		"        B_REMAINDER_OF_LONG_NAME,\n"
+		"    C_REMAINDER_OF_LONG_NAME = 0x01,\n"
+		"    D_REMAINDER_OF_LONG_NAME =  A_REMAINDER_OF_LONG_NAME |\n"
+		"                                C_REMAINDER_OF_LONG_NAME,\n"
+		"    E_REMAINDER_OF_LONG_NAME,\n"
+		"};";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Enum, InStatementIndent2)
+{
+	// test in-statement indent of an enum
+	char text[] =
+		"\nenum { A_REMAINDER_OF_LONG_NAME = 0x01,\n"
+		"       B_REMAINDER_OF_LONG_NAME = 0x02,\n"
+		"       AB_REMAINDER_OF_LONG_NAME =\n"
+		"           A_REMAINDER_OF_LONG_NAME |\n"
+		"           B_REMAINDER_OF_LONG_NAME,\n"
+		"       C_REMAINDER_OF_LONG_NAME = 0x01,\n"
+		"       D_REMAINDER_OF_LONG_NAME =  A_REMAINDER_OF_LONG_NAME |\n"
+		"                                   C_REMAINDER_OF_LONG_NAME,\n"
+		"       E_REMAINDER_OF_LONG_NAME,\n"
+		"     };";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+
 TEST(Enum, Java)
 {
 	// test indent of java enum

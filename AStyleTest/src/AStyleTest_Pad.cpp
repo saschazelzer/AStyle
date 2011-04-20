@@ -3486,6 +3486,31 @@ TEST(FillEmptyLines, Tab)
 	delete [] textOut;
 }
 
+TEST(FillEmptyLines, Enum)
+{
+	// test fill empty lines in an enum statement
+	char textIn[] =
+		"\nenum\n"
+		"{\n"
+		"    NUM1,\n"
+		"    NUM2,\n"
+		"\n"
+		"    NUM3,\n"
+		"};\n";
+	char text[] =
+		"\nenum\n"
+		"{\n"
+		"    NUM1,\n"
+		"    NUM2,\n"
+		"    \n"
+		"    NUM3,\n"
+		"};\n";
+	char options[] = "fill-empty-lines";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(FillEmptyLines, ForceTab)
 {
 	// test fill empty lines with force tabs
