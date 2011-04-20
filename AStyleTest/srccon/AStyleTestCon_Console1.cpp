@@ -530,7 +530,7 @@ TEST(ProcessOptions, ConsoleOptions_Error)
 }
 
 //----------------------------------------------------------------------------
-// AStyle ascii, help and version options
+// AStyle ascii, help, and version options
 //----------------------------------------------------------------------------
 
 TEST(ProcessOptions, AsciiOption)

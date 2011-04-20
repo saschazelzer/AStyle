@@ -2825,7 +2825,7 @@ TEST(DeleteEmptyLines, ShortOption)
 		"    foo1 = 1;\n"
 		"    foo2 = 2;\n"
 		"}\n";
-	char options[] = "-x";
+	char options[] = "-xd";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;

@@ -1286,17 +1286,12 @@ TEST(AddBrackets, SemiFollows)
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
-		"    if (a == 0) {\n"
-		"        ;\n"
-		"    }\n"
+		"    if (a == 0) ;\n"
 		"    func1();\n"
 		"    i++;\n"
-		"    while (isFoo) { // comment\n"
+		"    while (isFoo)  // comment\n"
 		"        ;\n"
-		"    }\n"
-		"    while (isFoo) {\n"
-		"        ;    // comment\n"
-		"    }\n"
+		"    while (isFoo); // comment\n"
 		"}\n";
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -1842,12 +1837,12 @@ TEST(AddOneLineBrackets, SemiFollows)
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
-		"    if (a == 0) { ; }\n"
+		"    if (a == 0) ;\n"
 		"    func1();\n"
 		"    i++;\n"
 		"    while (isFoo)  // comment\n"
-		"    { ; }\n"
-		"    while (isFoo) { ; } // comment\n"
+		"        ;\n"
+		"    while (isFoo); // comment\n"
 		"}\n";
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);

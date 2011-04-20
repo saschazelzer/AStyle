@@ -286,6 +286,83 @@ TEST(Macro, MfcPropertyPages)
 }
 
 //----------------------------------------------------------------------------
+// AStyle short options beginning with x for errors.
+// This tests the error conditions.
+//----------------------------------------------------------------------------
+
+TEST(ExtraShortOption, ErrorXSans)
+{
+	// test the x short option used by itself
+	// should get an error
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "-x";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != NULL);
+	delete [] textOut;
+}
+
+TEST(ExtraShortOption, ErrorExtraX1)
+{
+	// test the xx short option
+	// should get an error
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "-xx";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != NULL);
+	delete [] textOut;
+}
+
+TEST(ExtraShortOption, ErrorExtraX2)
+{
+	// test the x short option followed by xd
+	// should get an error
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "-xxd";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != NULL);
+	delete [] textOut;
+}
+
+TEST(ExtraShortOption, ErrorNumericX)
+{
+	// test the x short option followed by a number
+	// should get an error
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "-x1";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != NULL);
+	delete [] textOut;
+}
+
+//----------------------------------------------------------------------------
 // AStyle short options used only by console
 // should get an error unless they have been duplicated by another option
 //----------------------------------------------------------------------------
