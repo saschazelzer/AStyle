@@ -77,7 +77,7 @@ public class Example2
     ///  Usually the text would be obtained from an edit control.
     private static String GetText(string filePath)
     {   // create input buffers
-        int readSize = 1024;
+        int readSize = 131072;     // 128 KB
         StringBuilder bufferIn = new StringBuilder(readSize);
         char[] fileIn = new char[readSize];
 

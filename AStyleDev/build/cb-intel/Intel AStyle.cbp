@@ -24,8 +24,6 @@
 					<Add option="-Wall" />
 					<Add option="-w2" />
 					<Add option="-fno-exceptions" />
-					<Add option="-vec-report0" />
-					<Add option="-no-multibyte-chars" />
 					<Add option="-DNDEBUG" />
 				</Compiler>
 				<Linker>
@@ -49,8 +47,6 @@
 					<Add option="-w2" />
 					<Add option="-g" />
 					<Add option="-fno-exceptions" />
-					<Add option="-vec-report0" />
-					<Add option="-no-multibyte-chars" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-intel" />
@@ -76,8 +72,6 @@
 					<Add option="-Wcheck" />
 					<Add option="-w2" />
 					<Add option="-fno-exceptions" />
-					<Add option="-vec-report0" />
-					<Add option="-no-multibyte-chars" />
 					<Add option="-Wwrite-strings" />
 					<Add option="-Woverloaded-virtual" />
 				</Compiler>
@@ -97,8 +91,6 @@
 					<Add option="-w2" />
 					<Add option="-fno-exceptions" />
 					<Add option="-fpic" />
-					<Add option="-vec-report0" />
-					<Add option="-no-multibyte-chars" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLE_LIB" />
 				</Compiler>
@@ -121,8 +113,6 @@
 					<Add option="-w2" />
 					<Add option="-fno-exceptions" />
 					<Add option="-fpic" />
-					<Add option="-vec-report0" />
-					<Add option="-no-multibyte-chars" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLE_LIB" />
 					<Add option="-DASTYLE_JNI" />
@@ -140,6 +130,8 @@
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
 		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
 		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />
+		<Unit filename="../../../AStyle/src/ASLocalizer.cpp" />
+		<Unit filename="../../../AStyle/src/ASLocalizer.h" />
 		<Unit filename="../../../AStyle/src/ASResource.cpp" />
 		<Unit filename="../../../AStyle/src/astyle.h" />
 		<Unit filename="../../../AStyle/src/astyle_main.cpp" />

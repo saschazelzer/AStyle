@@ -2,9 +2,9 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Intel Example2 So" />
+		<Option title="Intel Example So" />
 		<Option pch_mode="0" />
-		<Option default_target="Example2So" />
+		<Option default_target="ExampleSo" />
 		<Option compiler="icc" />
 		<Build>
 			<Target title="AStyleSo">
@@ -23,8 +23,7 @@
 					<Add option="-Wall" />
 					<Add option="-fpic" />
 					<Add option="-fno-exceptions" />
-					<Add option="-vec-report0" />
-					<Add option="-no-multibyte-chars" />
+					<Add option="-w1" />
 					<Add option="-DASTYLE_LIB" />
 					<Add option="-DNDEBUG" />
 				</Compiler>
@@ -33,9 +32,9 @@
 					<Add option="-static-intel" />
 				</Linker>
 			</Target>
-			<Target title="Example2So">
-				<Option output="bin/example2So" prefix_auto="0" extension_auto="0" />
-				<Option object_output="obj2So" />
+			<Target title="ExampleSo">
+				<Option output="bin/exampleSo" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objSo" />
 				<Option type="1" />
 				<Option compiler="icc" />
 				<Option projectCompilerOptionsRelation="1" />
@@ -47,11 +46,9 @@
 					<Add option="-fno-rtti" />
 					<Add option="-O3" />
 					<Add option="-Wall" />
-					<Add option="-w2" />
 					<Add option="-wd1419" />
 					<Add option="-fno-exceptions" />
-					<Add option="-vec-report0" />
-					<Add option="-no-multibyte-chars" />
+					<Add option="-w1" />
 					<Add option="-DNDEBUG" />
 				</Compiler>
 				<Linker>
@@ -64,7 +61,7 @@
 			</Target>
 		</Build>
 		<VirtualTargets>
-			<Add alias="All" targets="AStyleSo;Example2So;" />
+			<Add alias="All" targets="AStyleSo;ExampleSo;" />
 		</VirtualTargets>
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp">
 			<Option target="AStyleSo" />
@@ -84,14 +81,8 @@
 		<Unit filename="../../../AStyle/src/astyle_main.cpp">
 			<Option target="AStyleSo" />
 		</Unit>
-		<Unit filename="../../src-cx/AStyleInterface.cpp">
-			<Option target="Example2So" />
-		</Unit>
-		<Unit filename="../../src-cx/AStyleInterface.h">
-			<Option target="Example2So" />
-		</Unit>
-		<Unit filename="../../src-cx/Example2.cpp">
-			<Option target="Example2So" />
+		<Unit filename="../../src-c/Example.cpp">
+			<Option target="ExampleSo" />
 		</Unit>
 		<Extensions>
 			<code_completion />

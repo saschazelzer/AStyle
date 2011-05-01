@@ -2,38 +2,43 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Intel AStyle Sharp" />
-		<Option pch_mode="2" />
-		<Option compiler="gcc" />
+		<Option title="Intel AStyle Java" />
+		<Option pch_mode="0" />
+		<Option compiler="icc" />
 		<Build>
-			<Target title="AStyleSo">
-				<Option output="bin/libastyle" prefix_auto="1" extension_auto="1" />
-				<Option object_output="objSo" />
+			<Target title="AStyleJ">
+				<Option output="bin/libastylej" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objJ" />
 				<Option type="3" />
-				<Option compiler="gcc" />
-				<Option createDefFile="1" />
-				<Option createStaticLib="1" />
+				<Option compiler="icc" />
+				<Option projectCompilerOptionsRelation="1" />
+				<Option projectLinkerOptionsRelation="1" />
+				<Option projectIncludeDirsRelation="1" />
+				<Option projectResourceIncludeDirsRelation="1" />
+				<Option projectLibDirsRelation="1" />
 				<Compiler>
+					<Add option="-fno-rtti" />
 					<Add option="-O3" />
 					<Add option="-Wall" />
-					<Add option="-W" />
-					<Add option="-fno-rtti" />
+					<Add option="-w2" />
 					<Add option="-fno-exceptions" />
 					<Add option="-fpic" />
-					<Add option="-DASTYLE_LIB" />
-					<Add option="-DDNDEBUG" />
+					<Add option="-DASTYLE_JNI" />
+					<Add option="-DNDEBUG" />
+					<Add directory="/usr/lib/jvm/default-java/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-static-intel" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cp  bin/libastyle.so  ../../src-s/" />
-					<Add after="cp  bin/libastyle.so  ../../src-sx/" />
+					<Add after="cp  bin/libastylej.so  ../../src-j" />
+					<Add after="cp  bin/libastylej.so  ../../src-jx" />
 				</ExtraCommands>
 			</Target>
 		</Build>
 		<VirtualTargets>
-			<Add alias="All" targets="AStyleSo;" />
+			<Add alias="All" targets="AStyleJ;" />
 		</VirtualTargets>
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
 		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
@@ -41,10 +46,9 @@
 		<Unit filename="../../../AStyle/src/ASResource.cpp" />
 		<Unit filename="../../../AStyle/src/astyle.h" />
 		<Unit filename="../../../AStyle/src/astyle_main.cpp" />
-		<Unit filename="../../../AStyle/src/astyle_main.h" />
 		<Extensions>
-			<envvars />
 			<code_completion />
+			<envvars />
 			<debugger />
 		</Extensions>
 	</Project>

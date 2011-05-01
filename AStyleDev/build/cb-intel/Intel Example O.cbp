@@ -20,10 +20,9 @@
 					<Add option="-fno-rtti" />
 					<Add option="-O3" />
 					<Add option="-Wall" />
+					<Add option="-w2" />
 					<Add option="-wd1419" />
 					<Add option="-fno-exceptions" />
-					<Add option="-vec-report0" />
-					<Add option="-no-multibyte-chars" />
 					<Add option="-DASTYLE_LIB" />
 					<Add option="-DNDEBUG" />
 				</Compiler>

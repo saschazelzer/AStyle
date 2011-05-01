@@ -104,6 +104,8 @@
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
 		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
 		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />
+		<Unit filename="../../../AStyle/src/ASLocalizer.cpp" />
+		<Unit filename="../../../AStyle/src/ASLocalizer.h" />
 		<Unit filename="../../../AStyle/src/ASResource.cpp" />
 		<Unit filename="../../../AStyle/src/astyle.h" />
 		<Unit filename="../../../AStyle/src/astyle_main.cpp" />

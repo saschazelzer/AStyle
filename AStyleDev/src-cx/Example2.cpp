@@ -97,9 +97,7 @@ char* getText(string& filePath)
         error("Cannot open input file", filePath.c_str());
 
     // get length of buffer
-    in.seekg(0, ifstream::end);
-    size_t bufferSizeIn = static_cast<size_t>(in.tellg());
-    in.seekg(0, ifstream::beg);
+    const int bufferSizeIn = 131072;     // 128 KB
 
     // allocate memory
     char* bufferIn = new(nothrow) char [bufferSizeIn];
@@ -110,11 +108,14 @@ char* getText(string& filePath)
 
     // read data as a block
     in.read(bufferIn, bufferSizeIn);
-    in.close();
-
-    // get actual size - will be smaller than buffer size
-    size_t textSizeIn = static_cast<size_t>(in.gcount());
+    // get actual size - must be smaller than buffer size
+    int textSizeIn = static_cast<int>(in.gcount());
+    if (textSizeIn == bufferSizeIn)
+    {   in.close();
+        error("Read buffer is too small");
+    }
     bufferIn[textSizeIn] = '\0';
+	in.close();
 
     return bufferIn;
 }

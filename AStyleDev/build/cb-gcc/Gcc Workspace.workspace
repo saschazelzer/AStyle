@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="GCC Workspace">
+		<Project filename="Gcc AStyle.cbp" />
+		<Project filename="Gcc AStyle Java.cbp" />
+		<Project filename="Gcc AStyle Sharp.cbp" />
+		<Project filename="Gcc Example A.cbp" />
+		<Project filename="Gcc Example O.cbp" />
+		<Project filename="Gcc Example So.cbp" />
+		<Project filename="Gcc Example2 A.cbp" />
+		<Project filename="Gcc Example2 O.cbp" />
+		<Project filename="Gcc Example2 So.cbp" active="1" />
+	</Workspace>
+</CodeBlocks_workspace_file>
