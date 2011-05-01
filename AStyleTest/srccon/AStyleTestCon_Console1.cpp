@@ -530,7 +530,7 @@ TEST(ProcessOptions, ConsoleOptions_Error)
 }
 
 //----------------------------------------------------------------------------
-// AStyle ascii, help, and version options
+// AStyle ascii, help, ignore-exclude-errors, and version options
 //----------------------------------------------------------------------------
 
 TEST(ProcessOptions, AsciiOption)
@@ -615,6 +615,66 @@ TEST(ProcessOptions, HelpOption_Short2)
 				::testing::ExitedWithCode(EXIT_SUCCESS),
 				"Bracket Style Options:");
 #endif
+	deleteConsoleGlobalObject();
+}
+
+TEST(ProcessOptions, IgnoreExcludeErrorsOption)
+// test processOptions for ignore-exclude-errors option
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
+	// set console options
+	vector<string> optionsIn;
+	optionsIn.push_back("--ignore-exclude-errors");
+	g_console->processOptions(optionsIn);
+	// check console options
+	EXPECT_TRUE(g_console->getIgnoreExcludeErrors());
+	EXPECT_FALSE(g_console->getIgnoreExcludeErrorsDisplay());
+	deleteConsoleGlobalObject();
+}
+
+TEST(ProcessOptions, IgnoreExcludeErrorsOption_Short)
+// test processOptions for ignore-exclude-errors short option
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
+	// set console options
+	vector<string> optionsIn;
+	optionsIn.push_back("-i");
+	g_console->processOptions(optionsIn);
+	// check console options
+	EXPECT_TRUE(g_console->getIgnoreExcludeErrors());
+	EXPECT_FALSE(g_console->getIgnoreExcludeErrorsDisplay());
+	deleteConsoleGlobalObject();
+}
+
+TEST(ProcessOptions, IgnoreExcludeErrorsAndDisplayOption)
+// test processOptions for ignore-exclude-errors-x option
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
+	// set console options
+	vector<string> optionsIn;
+	optionsIn.push_back("--ignore-exclude-errors-x");
+	g_console->processOptions(optionsIn);
+	// check console options
+	EXPECT_TRUE(g_console->getIgnoreExcludeErrors());
+	EXPECT_TRUE(g_console->getIgnoreExcludeErrorsDisplay());
+	deleteConsoleGlobalObject();
+}
+
+TEST(ProcessOptions, IgnoreExcludeErrorsAndDisplayOption_Short)
+// test processOptions for ignore-exclude-errors-x short option
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
+	// set console options
+	vector<string> optionsIn;
+	optionsIn.push_back("-xi");
+	g_console->processOptions(optionsIn);
+	// check console options
+	EXPECT_TRUE(g_console->getIgnoreExcludeErrors());
+	EXPECT_TRUE(g_console->getIgnoreExcludeErrorsDisplay());
 	deleteConsoleGlobalObject();
 }
 

@@ -313,7 +313,8 @@
     <ClCompile Include="..\..\..\src\AStyleTest_Main.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_Other.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_Pad.cpp" />
-    <ClCompile Include="..\..\..\src\AStyleTest_Styles.cpp" />
+    <ClCompile Include="..\..\..\src\AStyleTest_Styles1.cpp" />
+    <ClCompile Include="..\..\..\src\AStyleTest_Styles2.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_Tabs.cpp" />
     <ClCompile Include="..\..\..\srcx\TersePrinter.cpp" />
   </ItemGroup>

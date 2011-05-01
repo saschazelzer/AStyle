@@ -556,7 +556,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\AStyleTest_Styles.cpp"
+				RelativePath="..\..\..\src\AStyleTest_Styles1.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\AStyleTest_Styles2.cpp"
 				>
 			</File>
 			<File

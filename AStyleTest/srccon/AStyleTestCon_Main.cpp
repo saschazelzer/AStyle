@@ -291,7 +291,7 @@ void cleanTestDirectory(const string& directory)
 	DIR* dp = opendir(directory.c_str());
 	if (errno)
 		ASTYLE_ABORT(string(strerror(errno))
-					 +"\nCannot open directory for clean: " + directory);
+					 + "\nCannot open directory for clean: " + directory);
 	// remove files and sub directories
 	while ((entry = readdir(dp)) != NULL)
 	{

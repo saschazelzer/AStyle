@@ -291,10 +291,10 @@ TEST_F(PrintF, DefaultWildcard)
 	// expected text
 	string text =
 		"------------------------------------------------------------\n"
-		"directory  <test_directory>/*.cpp\n"
+		"Directory  <test_directory>/*.cpp\n"
 		"------------------------------------------------------------\n"
-		"formatted  fileFormatted.cpp\n"
-		"unchanged  fileUnchanged.cpp\n";
+		"Formatted  fileFormatted.cpp\n"
+		"Unchanged  fileUnchanged.cpp\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -320,11 +320,11 @@ TEST_F(PrintF, DefaultWildcard_Exclude)
 	// expected text
 	string text =
 		"------------------------------------------------------------\n"
-		"directory  <test_directory>/*.cpp\n"
-		"exclude  fileExcluded.cpp\n"
+		"Directory  <test_directory>/*.cpp\n"
+		"Exclude  fileExcluded.cpp\n"
 		"------------------------------------------------------------\n"
-		"formatted  fileFormatted.cpp\n"
-		"unchanged  fileUnchanged.cpp\n";
+		"Formatted  fileFormatted.cpp\n"
+		"Unchanged  fileUnchanged.cpp\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -345,6 +345,78 @@ TEST_F(PrintF, DefaultWildcard_Exclude)
 	EXPECT_EQ(text, textOut);
 }
 
+TEST_F(PrintF, DefaultWildcard_ExcludeError)
+// test print wildcard with exclude errors and ignore-exclude-errors
+{
+	assert(g_console != NULL);
+	// expected text
+	string text =
+		"------------------------------------------------------------\n"
+		"Directory  <test_directory>/*.cpp\n"
+		"Exclude  fileExcluded.cpp\n"
+		"Exclude (unmatched)  noExcludedFile.cpp\n"
+		"Exclude (unmatched)  noExcludedDirectory\n"
+		"------------------------------------------------------------\n"
+		"Formatted  fileFormatted.cpp\n"
+		"Unchanged  fileUnchanged.cpp\n";
+	adjustText(text);
+	// call astyle processOptions()
+	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back("--ascii");	// output in English
+	astyleOptionsVector.push_back("--ignore-exclude-errors");
+	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
+	g_console->processOptions(astyleOptionsVector);
+	// add exclude files
+	buildExcludeVector();
+	g_console->updateExcludeVector("noExcludedFile.cpp");
+	g_console->updateExcludeVector("noExcludedDirectory");
+	// redirect stdout and get the report
+	redirectStream();
+	g_console->processFiles();
+	string textOut = restoreStream();
+	adjustTextOut(textOut);
+	// check entries in the fileNameVector
+	vector<string> fileName = g_console->getFileName();
+	ASSERT_EQ(fileNames.size() - filesExcluded, fileName.size()) << "Print format was not checked.";
+	// check the report content
+	EXPECT_EQ(text, textOut);
+}
+
+TEST_F(PrintF, DefaultWildcard_ExcludeErrorNoPrint)
+// test print wildcard with exclude errors and ignore-exclude-errors-x
+{
+	assert(g_console != NULL);
+	// expected text
+	string text =
+		"------------------------------------------------------------\n"
+		"Directory  <test_directory>/*.cpp\n"
+		"Exclude  fileExcluded.cpp\n"
+		"------------------------------------------------------------\n"
+		"Formatted  fileFormatted.cpp\n"
+		"Unchanged  fileUnchanged.cpp\n";
+	adjustText(text);
+	// call astyle processOptions()
+	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back("--ascii");	// output in English
+	astyleOptionsVector.push_back("--ignore-exclude-errors-x");
+	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
+	g_console->processOptions(astyleOptionsVector);
+	// add exclude files
+	buildExcludeVector();
+	g_console->updateExcludeVector("noExcludedFile.cpp");
+	g_console->updateExcludeVector("noExcludedDirectory");
+	// redirect stdout and get the report
+	redirectStream();
+	g_console->processFiles();
+	string textOut = restoreStream();
+	adjustTextOut(textOut);
+	// check entries in the fileNameVector
+	vector<string> fileName = g_console->getFileName();
+	ASSERT_EQ(fileNames.size() - filesExcluded, fileName.size()) << "Print format was not checked.";
+	// check the report content
+	EXPECT_EQ(text, textOut);
+}
+
 TEST_F(PrintF, FormattedWildcard)
 // test print with "formatted" wildcard
 {
@@ -353,9 +425,9 @@ TEST_F(PrintF, FormattedWildcard)
 	// expected text
 	string text =
 		"------------------------------------------------------------\n"
-		"directory  <test_directory>/*.cpp\n"
+		"Directory  <test_directory>/*.cpp\n"
 		"------------------------------------------------------------\n"
-		"formatted  fileFormatted.cpp\n";
+		"Formatted  fileFormatted.cpp\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -382,12 +454,12 @@ TEST_F(PrintF, VerboseWildcard_OptionsFile)
 	// expected text
 	string text =
 		"Artistic Style <version>     <date>\n"
-		"Using default options file  <test_directory>/astylerc.txt\n"
+		"Using default options file <test_directory>/astylerc.txt\n"
 		"------------------------------------------------------------\n"
-		"directory  <test_directory>/*.cpp\n"
+		"Directory  <test_directory>/*.cpp\n"
 		"------------------------------------------------------------\n"
-		"formatted  fileFormatted.cpp\n"
-		"unchanged  fileUnchanged.cpp\n"
+		"Formatted  fileFormatted.cpp\n"
+		"Unchanged  fileUnchanged.cpp\n"
 		"------------------------------------------------------------\n"
 		" 1 formatted   1 unchanged   0 seconds   12 lines\n";
 	adjustText(text);
@@ -420,9 +492,9 @@ TEST_F(PrintF, VerboseFormattedWildcard)
 	string text =
 		"Artistic Style <version>     <date>\n"
 		"------------------------------------------------------------\n"
-		"directory  <test_directory>/*.cpp\n"
+		"Directory  <test_directory>/*.cpp\n"
 		"------------------------------------------------------------\n"
-		"formatted  fileFormatted.cpp\n"
+		"Formatted  fileFormatted.cpp\n"
 		"------------------------------------------------------------\n"
 		" 1 formatted   1 unchanged   0 seconds   12 lines\n";
 	adjustText(text);
@@ -448,7 +520,7 @@ TEST_F(PrintF, DefaultSingleFile)
 {
 	assert(g_console != NULL);
 	// expected text
-	string text = "formatted  <test_directory>/fileFormatted.cpp\n";
+	string text = "Formatted  <test_directory>/fileFormatted.cpp\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -473,7 +545,7 @@ TEST_F(PrintF, FormattedSingleFile)
 	assert(g_console != NULL);
 	g_console->setIsFormattedOnly(true);		// test variable
 	// expected text
-	string text = "formatted  <test_directory>/fileFormatted.cpp\n";
+	string text = "Formatted  <test_directory>/fileFormatted.cpp\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -500,8 +572,8 @@ TEST_F(PrintF, VerboseSingleFile_OptionsFile)
 	// expected text
 	string text =
 		"Artistic Style <version>     <date>\n"
-		"Using default options file  <test_directory>/astylerc.txt\n"
-		"formatted  <test_directory>/fileFormatted.cpp\n"
+		"Using default options file <test_directory>/astylerc.txt\n"
+		"Formatted  <test_directory>/fileFormatted.cpp\n"
 		" 1 formatted   0 unchanged   0 seconds   6 lines\n";
 	adjustText(text);
 	// call astyle processOptions()

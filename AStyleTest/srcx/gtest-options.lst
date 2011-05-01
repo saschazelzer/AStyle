@@ -2,8 +2,14 @@ Added Options:
 	--terse-printer				prints failed tests only
 
 Test Selection:
-	--gtest_list_tests			list all tests without running, terse_printer will not work
 	--gtest_filter				run only specific tests
+		--gtest_filter=*						Runs everything, due to the single match-everything * value
+		--gtest_filter=FooTest.*				Runs everything in test case FooTest.
+		--gtest_filter=*Null*:*Constructor*		Runs any test whose full name contains either "Null" or "Constructor".
+		--gtest_filter=-*DeathTest.*			Runs all non-death tests.
+		--gtest_filter=FooTest.*-FooTest.Bar	Runs everything in test case FooTest except FooTest.Bar.
+		 
+	--gtest_list_tests			list all tests without running, terse_printer will not work
 	--gtest_also_run_disabled_tests
 
 Test Execution:

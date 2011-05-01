@@ -1,7 +1,7 @@
 @echo off
 REM Create a gmock link to the directory with the version number
 
-set gmdir=gmock-1.5.0
+set gmdir=gmock-1.6.0
 
 :ckDir
 if not exist ..\..\%gmdir% (

@@ -91,7 +91,8 @@
 		<Unit filename="..\..\src\AStyleTest_Main.cpp" />
 		<Unit filename="..\..\src\AStyleTest_Other.cpp" />
 		<Unit filename="..\..\src\AStyleTest_Pad.cpp" />
-		<Unit filename="..\..\src\AStyleTest_Styles.cpp" />
+		<Unit filename="..\..\src\AStyleTest_Styles1.cpp" />
+		<Unit filename="..\..\src\AStyleTest_Styles2.cpp" />
 		<Unit filename="..\..\src\AStyleTest_Tabs.cpp" />
 		<Unit filename="..\..\srcx\TersePrinter.cpp" />
 		<Unit filename="..\..\srcx\TersePrinter.h" />

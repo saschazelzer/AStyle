@@ -16,10 +16,7 @@
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-no-multibyte-chars" />
-					<Add option="-vec-report0" />
-					<Add option="-pthread" />
 					<Add option="-w1" />
-					<Add option="-DGTEST_HAS_TR1_TUPLE=1" />
 					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add directory="../../srccon" />
@@ -28,8 +25,7 @@
 					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
-					<Add option="-pthread" />
-					<Add library="gtest" />
+					<Add library="gtestd" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
@@ -42,10 +38,7 @@
 					<Add option="-O2" />
 					<Add option="-Wall" />
 					<Add option="-no-multibyte-chars" />
-					<Add option="-vec-report0" />
-					<Add option="-pthread" />
 					<Add option="-w1" />
-					<Add option="-DGTEST_HAS_TR1_TUPLE=1" />
 					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add option="-DNDEBUG" />
@@ -55,7 +48,6 @@
 					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
-					<Add option="-pthread" />
 					<Add option="-s" />
 					<Add library="gtest" />
 					<Add directory="bin" />
@@ -65,6 +57,8 @@
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
 		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
 		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />
+		<Unit filename="../../../AStyle/src/ASLocalizer.cpp" />
+		<Unit filename="../../../AStyle/src/ASLocalizer.h" />
 		<Unit filename="../../../AStyle/src/ASResource.cpp" />
 		<Unit filename="../../../AStyle/src/astyle.h" />
 		<Unit filename="../../../AStyle/src/astyle_main.cpp" />
@@ -72,6 +66,7 @@
 		<Unit filename="../../srccon/AStyleTestCon.h" />
 		<Unit filename="../../srccon/AStyleTestCon_Main.cpp" />
 		<Unit filename="../../srci18n/AStyleTestI18n_I18n.cpp" />
+		<Unit filename="../../srci18n/AStyleTestI18n_Localizer.cpp" />
 		<Unit filename="../../srci18n/AStyleTestI18n_Utf16.cpp" />
 		<Unit filename="../../srcx/TersePrinter.cpp" />
 		<Unit filename="../../srcx/TersePrinter.h" />

@@ -5,12 +5,15 @@
 #ifndef TERSE_PRINTER_H
 #define TERSE_PRINTER_H
 
+// this MUST be included before windows.h because of a
+// bug in the mingw limits header
+#include "gtest/gtest.h"
+
 #ifdef _WIN32
 #include <windows.h>
-#endif
-
+#else
 #include <stdarg.h>
-#include "gtest/gtest.h"
+#endif
 
 enum ConsoleColor
 {
@@ -50,7 +53,6 @@ class TersePrinter : public EmptyTestEventListener
 		bool test_header_printed_;	// true if the test case header has been printed
 		string test_case_name_;		// from OnTestStart
 		string test_info_name_;		// from OnTestStart
-		string test_info_comment_;	// from OnTestStart
 
 	private:
 

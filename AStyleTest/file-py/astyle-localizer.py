@@ -44,13 +44,13 @@ def find_string_diffs(astyle_strings, test_strings):
 	if len(missing_test) > 0:
 		missing_test = list(missing_test)
 		missing_test.sort()
-		print str(len(missing_test)) + " missing test strings:"
+		print str(len(missing_test)) + " missing test strings",
 		print missing_test
 
 	if len(missing_astyle) > 0:
 		missing_astyle = list(missing_astyle)
 		missing_astyle.sort()
-		print str(len(missing_astyle)) + " unmatched astyle strings:"
+		print str(len(missing_astyle)) + " test not in astyle  ",
 		print missing_astyle
 
 	diffs= len(missing_test) + len(missing_astyle)

@@ -176,7 +176,7 @@ TEST_F(GetFilePathsF, FilePathsError)
 		++i;
 	}
 	string regex = "No file to process " + astyleOptionsVector.back() +
-				   "\nDid you intend to use --recursive.";
+				   "\nDid you intend to use --recursive?";
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// test processFiles with bad file path
@@ -207,6 +207,97 @@ TEST_F(GetFilePathsF, FilePathsErrorRecursive)
 		++i;
 	}
 	string regex = "No file to process " + astyleOptionsVector.back();
+	// cannot use death test with leak finder
+#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+	// test processFiles with bad file path
+	EXPECT_EXIT(g_console->processFiles(),
+				::testing::ExitedWithCode(EXIT_FAILURE),
+				regex);
+#endif
+}
+
+TEST_F(GetFilePathsF, FilePathsErrorSansFilename)
+// test fileName vector and getFilePaths with no filename and no recursive option
+{
+	assert(g_console != NULL);
+	g_console->setIsQuiet(true);		// change this to see results
+	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back(getTestDirectory() + "/");	// no file
+	g_console->processOptions(astyleOptionsVector);
+	// change special chars in filepath to '.' for windows regex comparison
+	size_t i = 0;
+	while (i < astyleOptionsVector.back().length())
+	{
+		i = astyleOptionsVector.back().find_first_of("\\/*?", i);
+		if (i == string::npos)
+			break;
+		astyleOptionsVector.back()[i] = '.';
+		++i;
+	}
+	string regex = "Missing filename in " + astyleOptionsVector.back();
+	// cannot use death test with leak finder
+#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+	// test processFiles with bad file path
+	EXPECT_EXIT(g_console->processFiles(),
+				::testing::ExitedWithCode(EXIT_FAILURE),
+				regex);
+#endif
+}
+
+TEST_F(GetFilePathsF, FilePathsErrorRecursiveSansWildcard)
+// test fileName vector and getFilePaths with recursive option and no wildcard
+{
+	assert(g_console != NULL);
+	g_console->setIsQuiet(true);		// change this to see results
+	g_console->setIsRecursive(true);
+	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back(getTestDirectory() + "/noWildcard.cpp");
+	g_console->processOptions(astyleOptionsVector);
+	// change special chars in filepath to '.' for windows regex comparison
+	size_t i = 0;
+	while (i < astyleOptionsVector.back().length())
+	{
+		i = astyleOptionsVector.back().find_first_of("\\/*?", i);
+		if (i == string::npos)
+			break;
+		astyleOptionsVector.back()[i] = '.';
+		++i;
+	}
+	string regex = "Recursive option with no wildcard\n";
+#ifndef _WIN32
+	regex.append("Did you intend quote the filename?\n");
+#endif
+	// cannot use death test with leak finder
+#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+	// test processFiles with bad file path
+	EXPECT_EXIT(g_console->processFiles(),
+				::testing::ExitedWithCode(EXIT_FAILURE),
+				regex);
+#endif
+}
+
+
+TEST_F(GetFilePathsF, FilePathsErrorInDirectoryName)
+// test fileName vector and getFilePaths with a non-existant directory
+{
+	assert(g_console != NULL);
+	g_console->setIsQuiet(true);		// change this to see results
+	g_console->setIsRecursive(true);
+	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back(getTestDirectory() + "/errorInDirectoryName/*.cpp");
+	g_console->processOptions(astyleOptionsVector);
+	// change special chars in filepath to '.' for windows regex comparison
+	size_t i = 0;
+	while (i < astyleOptionsVector.back().length())
+	{
+		i = astyleOptionsVector.back().find_first_of("\\/*?", i);
+		if (i == string::npos)
+			break;
+		astyleOptionsVector.back()[i] = '.';
+		++i;
+	}
+	string regex = "Cannot open directory " + astyleOptionsVector.back();
+	regex = regex.substr(0, regex.length() - 6);	// remove the wilscard
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// test processFiles with bad file path
@@ -599,9 +690,9 @@ TEST_F(RecursiveF, ExcludeErrors)
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	g_console->processOptions(astyleOptionsVector);
 	// error message regular expression
-	string regex = "Unmatched exclude ecursive1.cpp\n"
-				   "Unmatched exclude ubdir1a\n"
-				   "Did you intend to use --recursive.";
+	string regex = "Exclude .unmatched.  ecursive1.cpp\n"
+				   "Exclude .unmatched.  ubdir1a\n"
+				   "Did you intend to use --recursive";
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// test processFiles with unmatched excludes
@@ -626,8 +717,8 @@ TEST_F(RecursiveF, ExcludeErrorsRecursive)
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	g_console->processOptions(astyleOptionsVector);
 	// error message regular expression
-	string regex = "Unmatched exclude ecursive1.cpp\n"
-				   "Unmatched exclude ubdir1a";
+	string regex = "Exclude .unmatched.  ecursive1.cpp\n"
+				   "Exclude .unmatched.  ubdir1a";
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
 	// test processFiles with unmatched excludes
@@ -1415,7 +1506,7 @@ TEST(BugFix, V201_CheckSumError)
 	g_console->processOptions(astyleOptionsVector);
 	g_console->processFiles();
 	// Will actually get an assert error in astyle_main.cpp if this is not true.
-	EXPECT_EQ(0, formatter.getChecksumDiff());
+	EXPECT_TRUE(formatter.getChecksumDiff() == 0);
 	deleteConsoleGlobalObject();
 }
 

@@ -349,7 +349,7 @@ TEST_F(JapaneseF, RecursiveSuffix)
 	{
 		string backupFile = fileNames[i] + fileSuffixJ;
 		int backupFileStat = stat(backupFile.c_str(), &stBuf);
-		EXPECT_EQ(0, backupFileStat) << ("Cannot stat backup file: " + backupFile);
+		EXPECT_TRUE(backupFileStat == 0) << ("Cannot stat backup file: " + backupFile);
 	}
 }
 
@@ -599,7 +599,7 @@ TEST_F(GreekF, RecursiveSuffix)
 	{
 		string backupFile = fileNames[i] + fileSuffixJ;
 		int backupFileStat = stat(backupFile.c_str(), &stBuf);
-		EXPECT_EQ(0, backupFileStat) << ("Cannot stat backup file: " + backupFile);
+		EXPECT_TRUE(backupFileStat == 0) << ("Cannot stat backup file: " + backupFile);
 	}
 }
 
@@ -839,7 +839,7 @@ TEST_F(RussianF, RecursiveSuffix)
 	{
 		string backupFile = fileNames[i] + fileSuffixJ;
 		int backupFileStat = stat(backupFile.c_str(), &stBuf);
-		EXPECT_EQ(0, backupFileStat) << ("Cannot stat backup file: " + backupFile);
+		EXPECT_TRUE(backupFileStat == 0) << ("Cannot stat backup file: " + backupFile);
 	}
 }
 

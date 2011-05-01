@@ -35,9 +35,6 @@
     <ClCompile Include="..\..\..\src\AStyleTest_Pad.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\AStyleTest_Styles.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\AStyleTest_Tabs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -51,6 +48,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\AStyleTest_BugFix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AStyleTest_Styles1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AStyleTest_Styles2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

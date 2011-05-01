@@ -45,7 +45,6 @@ void TersePrinter::OnTestStart(const TestInfo& test_info)
 	test_header_printed_ = false;
 	test_case_name_ = test_info.test_case_name();
 	test_info_name_ = test_info.name();
-	test_info_comment_ == test_info.comment();
 }
 
 // Called after a failed assertion or a SUCCESS().
@@ -164,7 +163,7 @@ void TersePrinter::PrintFailedTestSummary(string summary) const
 	if (prev_i < (summary.length()))
 	{
 		line.push_back(summary.substr(prev_i));
-		int last_char = static_cast<int>(line.back().length() - 1);
+		int last_char = static_cast<int>(line.back().length()) - 1;
 		if (last_char > 0 && line.back()[last_char] != '\n')
 			line.back().append("\n");
 	}

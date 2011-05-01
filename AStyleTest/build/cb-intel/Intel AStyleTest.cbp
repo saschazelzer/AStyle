@@ -16,10 +16,7 @@
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-no-multibyte-chars" />
-					<Add option="-vec-report0" />
-					<Add option="-pthread" />
 					<Add option="-w1" />
-					<Add option="-DGTEST_HAS_TR1_TUPLE=1" />
 					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
 					<Add option="-DASTYLE_LIB" />
 					<Add directory="../../src" />
@@ -28,7 +25,6 @@
 					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
-					<Add option="-pthread" />
 					<Add library="gtestd" />
 					<Add directory="bin" />
 				</Linker>
@@ -42,10 +38,7 @@
 					<Add option="-O2" />
 					<Add option="-Wall" />
 					<Add option="-no-multibyte-chars" />
-					<Add option="-vec-report0" />
-					<Add option="-pthread" />
 					<Add option="-w1" />
-					<Add option="-DGTEST_HAS_TR1_TUPLE=1" />
 					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
 					<Add option="-DASTYLE_LIB" />
 					<Add option="-DNDEBUG" />
@@ -55,7 +48,6 @@
 					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
-					<Add option="-pthread" />
 					<Add option="-s" />
 					<Add library="gtest" />
 					<Add directory="bin" />
@@ -80,7 +72,8 @@
 		<Unit filename="../../src/AStyleTest_Main.cpp" />
 		<Unit filename="../../src/AStyleTest_Other.cpp" />
 		<Unit filename="../../src/AStyleTest_Pad.cpp" />
-		<Unit filename="../../src/AStyleTest_Styles.cpp" />
+		<Unit filename="../../src/AStyleTest_Styles1.cpp" />
+		<Unit filename="../../src/AStyleTest_Styles2.cpp" />
 		<Unit filename="../../src/AStyleTest_Tabs.cpp" />
 		<Unit filename="../../srcx/TersePrinter.cpp" />
 		<Unit filename="../../srcx/TersePrinter.h" />

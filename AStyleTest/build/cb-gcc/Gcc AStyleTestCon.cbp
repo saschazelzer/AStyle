@@ -16,8 +16,6 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
-					<Add option="-pthread" />
-					<Add option="-DGTEST_HAS_PTHREAD=1" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
@@ -25,7 +23,6 @@
 					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
-					<Add option="-pthread" />
 					<Add library="gtestd" />
 					<Add directory="bin" />
 				</Linker>
@@ -38,8 +35,6 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
-					<Add option="-pthread" />
-					<Add option="-DGTEST_HAS_PTHREAD=1" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add directory="../../src" />
@@ -49,7 +44,6 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add option="-pthread" />
 					<Add library="gtest" />
 					<Add directory="bin" />
 				</Linker>
@@ -64,10 +58,8 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-pg" />
-					<Add option="-pthread" />
 					<Add option="-fprofile-arcs" />
 					<Add option="-ftest-coverage" />
-					<Add option="-DGTEST_HAS_PTHREAD=1" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add directory="../../src" />
@@ -77,7 +69,6 @@
 				</Compiler>
 				<Linker>
 					<Add option="-pg" />
-					<Add option="-pthread" />
 					<Add library="gcov" />
 					<Add library="gtestd" />
 					<Add directory="bin" />

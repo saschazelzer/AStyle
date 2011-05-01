@@ -204,23 +204,29 @@ struct TranslationF : public ::testing::Test
 	{
 		// use the acript astyle-localizer.py to check these against astyle_main.cpp
 		setlocale(LC_ALL, "C");
-		m_ascii.push_back("formatted  %s\n");		// should align with unchanged
-		m_ascii.push_back("unchanged  %s\n");		// should align with formatted
-		m_ascii.push_back("directory  %s\n");
+		m_ascii.push_back("Formatted  %s\n");		// should align with unchanged
+		m_ascii.push_back("Unchanged  %s\n");		// should align with formatted
+		m_ascii.push_back("Directory  %s\n");
+		m_ascii.push_back("Exclude  %s\n");
+		m_ascii.push_back("Exclude (unmatched)  %s\n");
 		m_ascii.push_back(" %s formatted   %s unchanged   ");
 		m_ascii.push_back(" seconds   ");
 		m_ascii.push_back("%d min %d sec   ");
 		m_ascii.push_back("%s lines\n");
-		m_ascii.push_back("exclude  %s\n");
-		m_ascii.push_back("Using default options file  %s\n");
+		m_ascii.push_back("Using default options file %s\n");
 		m_ascii.push_back("Invalid option file options:");
 		m_ascii.push_back("Invalid command line options:");
 		m_ascii.push_back("For help on options type 'astyle -h'");
 		m_ascii.push_back("Cannot open options file");
-		m_ascii.push_back("Cannot open input file");
 		m_ascii.push_back("Cannot open directory");
 		m_ascii.push_back("Cannot process the input stream");
-		m_ascii.push_back("\nArtistic Style has terminated!");
+		m_ascii.push_back("Missing filename in %s\n");
+		m_ascii.push_back("Recursive option with no wildcard");
+		m_ascii.push_back("Did you intend quote the filename");
+		m_ascii.push_back("No file to process %s\n");
+		m_ascii.push_back("Did you intend to use --recursive");
+		m_ascii.push_back("Cannot process UTF-32 encoding");
+		m_ascii.push_back("\nArtistic Style has terminated");
 	}
 	void getPrintSpecifiers(string& stringIn, vector<string>& specifiers)
 	// Extract the print specifiers from a string.
@@ -332,7 +338,7 @@ TEST_F(TranslationF, English)
 	English english;
 	// check size of vector
 	size_t numberOfTranslations = english.getTranslationVectorSize();
-	EXPECT_EQ(0U, numberOfTranslations) << "translations vector should be empty";
+	EXPECT_TRUE(numberOfTranslations == 0) << "translations vector should be empty";
 	for (size_t i = 0; i < m_ascii.size(); i++)
 	{
 		// remove the line end for printing
