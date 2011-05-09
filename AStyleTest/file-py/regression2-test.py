@@ -28,12 +28,12 @@ import time
 #  SCITE
 #  SHARPDEVELOP
 #  TESTPROJECT
-project = libastyle.CODEBLOCKS
+project = libastyle.JEDIT
 
 # select OPT0 thru OPT3, or use customized options
 # optionsX can be a bracket style or any other option
-options  = libastyle.OPT3
-optionsX = "-A11"
+options  = libastyle.OPT2
+optionsX = ""
 
 # scite formatting options
 #options = "-tapOHUk3"

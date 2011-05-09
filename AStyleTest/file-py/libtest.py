@@ -113,7 +113,7 @@ def get_astyle_totals(filename):
 					seconds = float(totline[4])
 			return (formatted, totfiles, minutes, seconds)
 
-	libastyle.system_exit("Could not find total line in libtest.py")
+	libastyle.system_exit("Cannot find total line in libtest.py")
 
 # -----------------------------------------------------------------------------
 
@@ -127,15 +127,15 @@ def  get_formatted_files(filename):
 	for line in infile:
 		# use regular expressions to search the lines
 		# main directory line (start of line with a following space)
-		if re.match("directory ", line) != None:
+		if re.match("Directory ", line) != None:
 			directory = extract_directory_from_line(line)
 			continue
 		# total line (with a following comma)
-		if (re.search("formatted", line) != None
-		and re.search("unchanged", line) != None):
+		if (re.search("Formatted", line) != None
+		and re.search("Unchanged", line) != None):
 			continue
 		# formatted file line (start of line with a following space)
-		if re.match("formatted ", line) != None:
+		if re.match("Formatted ", line) != None:
 			subline = line[:-1].split()
 			formatted.append(directory + os.sep + subline[1])
 

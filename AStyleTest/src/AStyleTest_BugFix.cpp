@@ -15,6 +15,79 @@ namespace
 // AStyle version 2.02 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V202, BreakBeforeAssignmenOperator1)
+{
+	// Line beginning with an assignment operator should be indented.
+	char text[] =
+		"\nvoid main(void)\n"
+		"{\n"
+		"    a_long_variable_name\n"
+		"        = another_very_long_variable_name + a_long_function_name();\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V202, BreakBeforeAssignmenOperator2)
+{
+	// Line beginning with an assignment operator should be indented,
+	// and continuation lines should also be indented.
+	char text[] =
+		"\nvoid main(void)\n"
+		"{\n"
+		"    a_long_variable_name\n"
+		"        = another_very_long_variable_name\n"
+		"          + a_long_function_name()\n"
+		"          + another_long_function_name();\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V202, BreakBeforeAssignmenOperator3)
+{
+	// Line beginning with an assignment operator should be indented,
+	// not a line containing an assignment operator.
+	char text[] =
+		"\nvoid main(void)\n"
+		"{\n"
+		"    if (isalnum(*h)) {\n"
+		"        e=h+1;\n"
+		"    }\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V202, PointerPreceedsAPaddedParen)
+{
+	// Pointer preceeding a padded paren was spaced incorrectly
+	char textIn[] =
+		"\nclass CrashHandler\n"
+		"{\n"
+		"    typedef void    * ( *AddHandler_t ) ( unsigned long );\n"
+		"    typedef void* ( *AddHandler_t ) ( unsigned long );\n"
+		"    typedef void *( *AddHandler_t ) ( unsigned long );\n"
+		"};";
+	char text[] =
+		"\nclass CrashHandler\n"
+		"{\n"
+		"    typedef void    * ( *AddHandler_t ) ( unsigned long );\n"
+		"    typedef void * ( *AddHandler_t ) ( unsigned long );\n"
+		"    typedef void * ( *AddHandler_t ) ( unsigned long );\n"
+		"};";
+	char options[] = "align-pointer=name, pad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BugFix_V202, ConditionalWithinConditional)
 {
 	// When a ? conditional is in a conditional the foundQuestionMark flag is not reset.

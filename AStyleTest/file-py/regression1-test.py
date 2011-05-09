@@ -31,8 +31,8 @@ project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
 # optionsX can be a bracket style or any other option
-options = libastyle.OPT
-optionsX = "A0"
+options = libastyle.OPT2
+optionsX = ""
 
 # executables for test
 astyleexe1 = "astyle2m"
