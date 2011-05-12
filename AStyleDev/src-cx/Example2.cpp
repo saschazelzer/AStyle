@@ -115,7 +115,7 @@ char* getText(string& filePath)
         error("Read buffer is too small");
     }
     bufferIn[textSizeIn] = '\0';
-	in.close();
+    in.close();
 
     return bufferIn;
 }

@@ -103,6 +103,8 @@ string AStyleInterface::getOptions() const
             options.append("style=1tbs");
         else if (bracketStyle == STYLE_PICO)
             options.append("style=pico");
+        else if (bracketStyle == STYLE_LISP)
+            options.append("style=lisp");
         else
             options.append("invalid-bracketStyle="      // force an error message
                            + intToString(bracketStyle));

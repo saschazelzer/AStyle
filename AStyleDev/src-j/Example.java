@@ -78,7 +78,7 @@ public class Example
     private static String getText(String filePath)
     {   // create input buffers
         File inFile = new File(filePath);
-		final int readSize =  131072;    // 128 KB
+        final int readSize =  131072;    // 128 KB
         StringBuffer bufferIn = new StringBuffer(readSize);
         char fileIn[] = new char[readSize];
 

@@ -47,7 +47,8 @@ public:
                          STYLE_LINUX,
                          STYLE_HORSTMANN,
                          STYLE_1TBS,
-                         STYLE_PICO
+                         STYLE_PICO,
+                         STYLE_LISP
                        };
 
     enum PointerAlign { ALIGN_NONE,

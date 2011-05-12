@@ -20,7 +20,8 @@ public class AStyleInterface
     public static final int STYLE_LINUX      = 8;
     public static final int STYLE_HORSTMANN  = 9;
     public static final int STYLE_1TBS       = 10;
-	public static final int STYLE_PICO       = 11;
+    public static final int STYLE_PICO       = 11;
+    public static final int STYLE_LISP       = 12;
 
     // indentType valid indent types
     public static final int INDENT_SPACES = 0;
@@ -152,8 +153,10 @@ public class AStyleInterface
                 options.append("style=horstmann");
             else if (bracketStyle == STYLE_1TBS)
                 options.append("style=1tbs");
-           else if (bracketStyle == STYLE_PICO)
+            else if (bracketStyle == STYLE_PICO)
                 options.append("style=pico");
+            else if (bracketStyle == STYLE_LISP)
+                options.append("style=lisp");
             else
                 options.append("bracketStyle="      // force an error message
                                + String.valueOf(bracketStyle));

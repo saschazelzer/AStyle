@@ -21,6 +21,7 @@ public class AStyleInterface
     public const int STYLE_HORSTMANN  = 9;
     public const int STYLE_1TBS       = 10;
     public const int STYLE_PICO       = 11;
+    public const int STYLE_LISP       = 12;
 
     // indentType valid indent types
     public const int INDENT_SPACES = 0;
@@ -146,8 +147,10 @@ public class AStyleInterface
                 options += "style=horstmann";
             else if (bracketStyle == STYLE_1TBS)
                 options += "style=1tbs";
-            else if (bracketStyle == STYLE_1TBS)
+            else if (bracketStyle == STYLE_PICO)
                 options += "style=pico";
+            else if (bracketStyle == STYLE_LISP)
+                options += "style=lisp";
             else
                 options += "bracketStyle="      // force an error message
                            + bracketStyle;
