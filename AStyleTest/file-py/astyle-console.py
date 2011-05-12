@@ -171,6 +171,9 @@ def get_header_variables(header_variables, header_path):
 		# bypass static variables
 		if line[:6] == "static":
 			continue
+		# bypass embedded ASLocalizer object
+		if line.find("ASLocalizer") != -1:
+			continue
 		# bypass vectors and strings
 		if line.find("excludeVector") != -1:
 			continue

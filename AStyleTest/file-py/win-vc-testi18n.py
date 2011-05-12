@@ -28,7 +28,8 @@ def process_files():
 	command = exepath + ' ' + i18npath + ' ' + terse + ' '
 
 	# run tests
-	print "WAIT for a test to finish before running the next"
+	print "\nWAIT for a test to finish before running the next"
+	print "Reply OK to continue ..."
 	print "Running Greek Test"
 	subprocess.call(command + "/L0408")
 	time.sleep(2)		# must finish before running the next test

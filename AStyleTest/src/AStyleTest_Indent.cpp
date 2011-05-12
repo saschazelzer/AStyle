@@ -1956,26 +1956,26 @@ TEST(MaxInstatementIndent, Max)
 {
 	// test max instatement indent with the max value
 	char textIn[] =
-		"\nvoid Long_80_Byte_Indent_Function_xxx1234567890123456789012345678901234567890(bar1,\n"
+		"\nvoid Long_80_Byte_Indent_Function_xxxxx12345678901234567890123456789012345678901234567890123456789012345678901234567890(bar1,\n"
 		"                                        bar2,\n"
 		"                                        bar3)\n"
 		"{\n"
-		"    char Long_80_Byte_Indent_Array_xx1234567890123456789012345678901234567890[] = { red,\n"
+		"    char Long_80_Byte_Indent_Array_xx12345678901234567890123456789012345678901234567890123456789012345678901234567890[] = { red,\n"
 		"                                            green,\n"
 		"                                            blue\n"
 		"                                          };\n"
 		"}\n";
 	char text[] =
-		"\nvoid Long_80_Byte_Indent_Function_xxx1234567890123456789012345678901234567890(bar1,\n"
-		"                                                                              bar2,\n"
-		"                                                                              bar3)\n"
+		"\nvoid Long_80_Byte_Indent_Function_xxxxx12345678901234567890123456789012345678901234567890123456789012345678901234567890(bar1,\n"
+		"                                                                                                                        bar2,\n"
+		"                                                                                                                        bar3)\n"
 		"{\n"
-		"    char Long_80_Byte_Indent_Array_xx1234567890123456789012345678901234567890[] = { red,\n"
-		"                                                                                    green,\n"
-		"                                                                                    blue\n"
-		"                                                                                  };\n"
+		"    char Long_80_Byte_Indent_Array_xx12345678901234567890123456789012345678901234567890123456789012345678901234567890[] = { red,\n"
+		"                                                                                                                            green,\n"
+		"                                                                                                                            blue\n"
+		"                                                                                                                          };\n"
 		"}\n";
-	char options[] = "max-instatement-indent=80";
+	char options[] = "max-instatement-indent=120";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2018,6 +2018,54 @@ TEST(MaxInstatementIndent, Misc1)
 	delete [] textOut;
 }
 
+TEST(MaxInstatementIndent, Misc2)
+{
+	// Text should align on the paren,
+	// if max-instatement-indent is large enough.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    m_pTextFileSearcher = TextFileSearcher::BuildTextFileSearcher ( findData.GetFindText(),\n"
+		"                          findData.GetMatchWord(),\n"
+		"                          findData.GetRegEx() );\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    m_pTextFileSearcher = TextFileSearcher::BuildTextFileSearcher ( findData.GetFindText(),\n"
+		"                                                                    findData.GetMatchWord(),\n"
+		"                                                                    findData.GetRegEx() );\n"
+		"}\n";
+	char options[] = "max-instatement-indent=80";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxInstatementIndent, Misc3)
+{
+	// Text should align on the second paren,
+	// if max-instatement-indent is large enough.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    lineItemId = m_pTreeLog->AppendItem ( fileItemId, wxString::Format ( wxT ( \"%s: %s\" ),\n"
+		"                                          words[i].c_str(),\n"
+		"                                          words[i + 1].c_str() ) );\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    lineItemId = m_pTreeLog->AppendItem ( fileItemId, wxString::Format ( wxT ( \"%s: %s\" ),\n"
+		"                                                                         words[i].c_str(),\n"
+		"                                                                         words[i + 1].c_str() ) );\n"
+		"}\n";
+	char options[] = "max-instatement-indent=80";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(MaxInstatementIndent, Error)
 {
 	// test max instatement indent with an invalid value
@@ -2033,7 +2081,7 @@ TEST(MaxInstatementIndent, Error)
 		"                                          };\n"
 		"}\n";
 	// use errorHandler2 to verify the error
-	char options[] = "max-instatement-indent=81";
+	char options[] = "max-instatement-indent=121";
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();

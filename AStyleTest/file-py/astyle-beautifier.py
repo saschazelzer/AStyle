@@ -56,6 +56,8 @@ def convert_class_functions(line):
 		line = line.strip()
 	elif line.find("->") != -1:
 		line = ''
+	elif line.find("initVectors") != -1:
+		line = ''
 	elif line.find("ASBase::init") != -1:
 		line = ''
 	elif line.find("initStatic") != -1:

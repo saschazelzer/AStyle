@@ -24,6 +24,11 @@ def process_files():
 	# process the files
 	get_astyle_strings(astyle_strings, astyle_path)
 	get_test_strings(test_strings, test_path)
+	
+	print "Checking astyle_main strings to TranslationF."
+	total_astyle_strings = len(astyle_strings)
+	print "There are {0} translated strings in astyle_main.".format(total_astyle_strings)
+
 	find_string_diffs(astyle_strings, test_strings)
 
 	if print_strings:

@@ -51,6 +51,9 @@ def correct_libproj_directories(libproj_directories):
 	libproj_directories.append("AStyleDev\\test-j")
 	libproj_directories.append("AStyleDev\\test-s")
 	# remove directories backed up but not in svn
+	libproj_directories.remove("AStyle\\build\\cb-gcc")
+	libproj_directories.remove("AStyle\\build\\cb-intel")
+	libproj_directories.remove("AStyle\\build\\cb-mingw")
 	libproj_directories.remove("AStyle\\regress")
 
 	return libproj_directories

@@ -27,6 +27,10 @@ def process_files():
 	get_pre_block_variables(pre_block_variables, resource_path)
 	get_pre_command_variables(pre_command_variables, resource_path)
 
+	print "Checking header variables to non-paren, pre-block, and pre-command."
+	total_variables = len(header_variables)
+	print "There are {0} variables in the header list.".format(total_variables)
+
 	find_header_diffs(header_variables, np_header_variables)
 	find_pre_block_diffs(header_variables, pre_block_variables)
 	find_pre_command_diffs(header_variables, pre_command_variables)
@@ -102,9 +106,9 @@ def find_header_diffs(header_variables, np_header_variables):
 
 	diffs= len(missing_header)
 	if diffs == 0:
-		print "There are NO missing header variables!!!"
+		print "There are NO missing non-paren header variables!!!"
 	else:
-		print "There are {0} missing header variables.".format(diffs)
+		print "There are {0} missing non-paren header variables.".format(diffs)
 
 # -----------------------------------------------------------------------------
 
