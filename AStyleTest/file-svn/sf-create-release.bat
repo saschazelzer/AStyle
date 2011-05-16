@@ -6,7 +6,7 @@ REM do NOT use backslashes in the file:/// statement
 REM do NOT use %USERPROFILE% because of the backslashes
 set repos=https://astyle.svn.sourceforge.net/svnroot/astyle
 set svndir=%repos%/tags
-set rel=2.01
+set rel=2.02
 
 
 REM do NOT use backslashes in the file:/// statement
