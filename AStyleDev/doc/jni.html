@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Language" content="en-us" />
     <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
     <link href="styles.css" rel="stylesheet" type="text/css" />
-    <link href="jedit.css" rel="stylesheet" type="text/css" />
+    <link href="edit-jedit.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -205,131 +205,131 @@
 <span class="hl com">* for java files.</span>
 <span class="hl com">*/</span>
 
-<span class="hl kwa">import</span> java<span class="hl sym">.</span>io<span class="hl sym">.*;</span>
+<span class="hl kwa">import</span> java<span class="hl opt">.</span>io<span class="hl opt">.*;</span>
 
 <span class="hl kwa">public class</span> Example
-<span class="hl sym">{</span>   <span class="hl kwa">public static</span> <span class="hl kwb">void</span> <span class="hl kwd">main</span><span class="hl sym">(</span><span class="hl kwc">String</span><span class="hl sym">[]</span> args<span class="hl sym">)</span>
-    <span class="hl sym">{</span>   <span class="hl slc">// files to pass to AStyle</span>
-        <span class="hl kwc">String</span> fileName<span class="hl sym">[] =  {</span> <span class="hl str">&quot;AStyleDev/test-j/JSBeautifier.java&quot;</span><span class="hl sym">,</span>
-                               <span class="hl str">&quot;AStyleDev/test-j/JSFormatter.java&quot;</span> <span class="hl sym">,</span>
-                               <span class="hl str">&quot;AStyleDev/test-j/JSLineBreaker.java&quot;</span> <span class="hl sym">,</span>
-                             <span class="hl sym">};</span>
+<span class="hl opt">{</span>   <span class="hl kwa">public static</span> <span class="hl kwb">void</span> <span class="hl kwd">main</span><span class="hl opt">(</span>String<span class="hl opt">[]</span> args<span class="hl opt">)</span>
+    <span class="hl opt">{</span>   <span class="hl slc">// files to pass to AStyle</span>
+        String fileName<span class="hl opt">[] =  {</span> <span class="hl str">&quot;AStyleDev/test-j/JSBeautifier.java&quot;</span><span class="hl opt">,</span>
+                               <span class="hl str">&quot;AStyleDev/test-j/JSFormatter.java&quot;</span> <span class="hl opt">,</span>
+                               <span class="hl str">&quot;AStyleDev/test-j/JSLineBreaker.java&quot;</span> <span class="hl opt">,</span>
+                             <span class="hl opt">};</span>
 
         <span class="hl slc">// options to pass to AStyle</span>
         <span class="hl slc">// mode=java is required for Java files</span>
-        <span class="hl kwc">String</span> options <span class="hl sym">=</span> <span class="hl str">&quot;style=java mode=java&quot;</span><span class="hl sym">;</span>
+        String options <span class="hl opt">=</span> <span class="hl str">&quot;style=java mode=java&quot;</span><span class="hl opt">;</span>
 
         <span class="hl slc">// create an object</span>
-        AStyleInterface astyle <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwd">AStyleInterface</span><span class="hl sym">();</span>
+        AStyleInterface astyle <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">AStyleInterface</span><span class="hl opt">();</span>
 
         <span class="hl slc">// get Artistic Style version</span>
         <span class="hl slc">// does not need to terminate on an error</span>
-        <span class="hl kwc">String</span> version <span class="hl sym">=</span> astyle<span class="hl sym">.</span><span class="hl kwd">getVersion</span><span class="hl sym">();</span>
-        <span class="hl kwa">if</span> <span class="hl sym">(</span>version<span class="hl sym">.</span><span class="hl kwd">length</span><span class="hl sym">() !=</span> <span class="hl num">0</span><span class="hl sym">)</span>
-            <span class="hl kwc">System</span><span class="hl sym">.</span>out<span class="hl sym">.</span><span class="hl kwd">println</span><span class="hl sym">(</span><span class="hl str">&quot;Example Java - AStyle &quot;</span> <span class="hl sym">+</span> version<span class="hl sym">);</span>
+        String version <span class="hl opt">=</span> astyle<span class="hl opt">.</span><span class="hl kwd">getVersion</span><span class="hl opt">();</span>
+        <span class="hl kwa">if</span> <span class="hl opt">(</span>version<span class="hl opt">.</span><span class="hl kwd">length</span><span class="hl opt">() !=</span> <span class="hl num">0</span><span class="hl opt">)</span>
+            System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span><span class="hl str">&quot;Example Java - AStyle &quot;</span> <span class="hl opt">+</span> version<span class="hl opt">);</span>
 
         <span class="hl slc">// process the files</span>
-        <span class="hl kwa">for</span> <span class="hl sym">(</span><span class="hl kwb">int</span> i <span class="hl sym">=</span> <span class="hl num">0</span><span class="hl sym">;</span> i <span class="hl sym">&lt;</span> fileName<span class="hl sym">.</span>length<span class="hl sym">;</span> i<span class="hl sym">++)</span>
-        <span class="hl sym">{</span>   <span class="hl slc">// get the text to format</span>
-            <span class="hl kwc">String</span> filePath <span class="hl sym">=</span> <span class="hl kwd">getProjectDirectory</span><span class="hl sym">(</span>fileName<span class="hl sym">[</span>i<span class="hl sym">]);</span>
-            <span class="hl kwc">String</span> textIn <span class="hl sym">=</span> <span class="hl kwd">getText</span><span class="hl sym">(</span>filePath<span class="hl sym">);</span>
+        <span class="hl kwa">for</span> <span class="hl opt">(</span><span class="hl kwb">int</span> i <span class="hl opt">=</span> <span class="hl num">0</span><span class="hl opt">;</span> i <span class="hl opt">&lt;</span> fileName<span class="hl opt">.</span>length<span class="hl opt">;</span> i<span class="hl opt">++)</span>
+        <span class="hl opt">{</span>   <span class="hl slc">// get the text to format</span>
+            String filePath <span class="hl opt">=</span> <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</span>fileName<span class="hl opt">[</span>i<span class="hl opt">]);</span>
+            String textIn <span class="hl opt">=</span> <span class="hl kwd">getText</span><span class="hl opt">(</span>filePath<span class="hl opt">);</span>
 
             <span class="hl slc">// call the Artistic Style formatting function</span>
             <span class="hl slc">// does not need to terminate on an error</span>
-            <span class="hl kwc">String</span> textOut <span class="hl sym">=</span> astyle<span class="hl sym">.</span><span class="hl kwd">formatSource</span><span class="hl sym">(</span>textIn<span class="hl sym">,</span> options<span class="hl sym">);</span>
-            <span class="hl kwa">if</span> <span class="hl sym">(</span>textOut<span class="hl sym">.</span><span class="hl kwd">length</span><span class="hl sym">() ==</span> <span class="hl num">0</span><span class="hl sym">)</span>
-            <span class="hl sym">{</span>   <span class="hl kwc">System</span><span class="hl sym">.</span>out<span class="hl sym">.</span><span class="hl kwd">println</span><span class="hl sym">(</span><span class="hl str">&quot;Cannot format &quot;</span>  <span class="hl sym">+</span> filePath<span class="hl sym">);</span>
-                <span class="hl kwa">continue</span><span class="hl sym">;</span>
-            <span class="hl sym">}</span>
+            String textOut <span class="hl opt">=</span> astyle<span class="hl opt">.</span><span class="hl kwd">formatSource</span><span class="hl opt">(</span>textIn<span class="hl opt">,</span> options<span class="hl opt">);</span>
+            <span class="hl kwa">if</span> <span class="hl opt">(</span>textOut<span class="hl opt">.</span><span class="hl kwd">length</span><span class="hl opt">() ==</span> <span class="hl num">0</span><span class="hl opt">)</span>
+            <span class="hl opt">{</span>   System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot format &quot;</span>  <span class="hl opt">+</span> filePath<span class="hl opt">);</span>
+                <span class="hl kwa">continue</span><span class="hl opt">;</span>
+            <span class="hl opt">}</span>
 
             <span class="hl slc">// return the formatted text</span>
-            <span class="hl kwc">System</span><span class="hl sym">.</span>out<span class="hl sym">.</span><span class="hl kwd">println</span><span class="hl sym">(</span><span class="hl str">&quot;Formatted &quot;</span> <span class="hl sym">+</span> fileName<span class="hl sym">[</span>i<span class="hl sym">]);</span>
-            <span class="hl kwd">setText</span><span class="hl sym">(</span>textOut<span class="hl sym">,</span> filePath<span class="hl sym">);</span>
-        <span class="hl sym">}</span>
+            System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span><span class="hl str">&quot;Formatted &quot;</span> <span class="hl opt">+</span> fileName<span class="hl opt">[</span>i<span class="hl opt">]);</span>
+            <span class="hl kwd">setText</span><span class="hl opt">(</span>textOut<span class="hl opt">,</span> filePath<span class="hl opt">);</span>
+        <span class="hl opt">}</span>
 
-        <span class="hl kwa">return</span><span class="hl sym">;</span>
-    <span class="hl sym">}</span>
+        <span class="hl kwa">return</span><span class="hl opt">;</span>
+    <span class="hl opt">}</span>
 
     <span class="hl com">/*</span>
 <span class="hl com">    *  Error message function for this example.</span>
 <span class="hl com">    */</span>
-    <span class="hl kwa">private static</span> <span class="hl kwb">void</span> <span class="hl kwd">error</span><span class="hl sym">(</span><span class="hl kwc">String</span> why<span class="hl sym">,</span> <span class="hl kwc">String</span> what<span class="hl sym">)</span>
-    <span class="hl sym">{</span>   <span class="hl kwc">System</span><span class="hl sym">.</span>out<span class="hl sym">.</span><span class="hl kwd">println</span><span class="hl sym">(</span>why <span class="hl sym">+</span> <span class="hl str">' '</span> <span class="hl sym">+</span> what<span class="hl sym">);</span>
-        <span class="hl kwc">System</span><span class="hl sym">.</span>out<span class="hl sym">.</span><span class="hl kwd">println</span><span class="hl sym">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl sym">);</span>
-        <span class="hl kwc">System</span><span class="hl sym">.</span><span class="hl kwd">exit</span><span class="hl sym">(</span><span class="hl num">1</span><span class="hl sym">);</span>
-    <span class="hl sym">}</span>
+    <span class="hl kwa">private static</span> <span class="hl kwb">void</span> <span class="hl kwd">error</span><span class="hl opt">(</span>String why<span class="hl opt">,</span> String what<span class="hl opt">)</span>
+    <span class="hl opt">{</span>   System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span>why <span class="hl opt">+</span> <span class="hl str">' '</span> <span class="hl opt">+</span> what<span class="hl opt">);</span>
+        System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl opt">);</span>
+        System<span class="hl opt">.</span><span class="hl kwd">exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">);</span>
+    <span class="hl opt">}</span>
 
     <span class="hl com">/*</span>
 <span class="hl com">    * Prepend the project directory to the subpath.</span>
 <span class="hl com">    * This may need to be changed for your directory structure.</span>
 <span class="hl com">    */</span>
-    <span class="hl kwa">private static</span> <span class="hl kwc">String</span> <span class="hl kwd">getProjectDirectory</span><span class="hl sym">(</span><span class="hl kwc">String</span> subPath<span class="hl sym">)</span>
-    <span class="hl sym">{</span>   <span class="hl kwc">String</span> homeDirectory <span class="hl sym">=</span> <span class="hl kwc">System</span><span class="hl sym">.</span><span class="hl kwd">getProperty</span><span class="hl sym">(</span><span class="hl str">&quot;user.home&quot;</span><span class="hl sym">);</span>
-        <span class="hl kwc">String</span> projectPath <span class="hl sym">=</span> homeDirectory <span class="hl sym">+</span> <span class="hl str">&quot;/Projects/&quot;</span> <span class="hl sym">+</span> subPath<span class="hl sym">;</span>
-        <span class="hl kwa">return</span> projectPath<span class="hl sym">;</span>
-    <span class="hl sym">}</span>
+    <span class="hl kwa">private static</span> String <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</span>String subPath<span class="hl opt">)</span>
+    <span class="hl opt">{</span>   String homeDirectory <span class="hl opt">=</span> System<span class="hl opt">.</span><span class="hl kwd">getProperty</span><span class="hl opt">(</span><span class="hl str">&quot;user.home&quot;</span><span class="hl opt">);</span>
+        String projectPath <span class="hl opt">=</span> homeDirectory <span class="hl opt">+</span> <span class="hl str">&quot;/Projects/&quot;</span> <span class="hl opt">+</span> subPath<span class="hl opt">;</span>
+        <span class="hl kwa">return</span> projectPath<span class="hl opt">;</span>
+    <span class="hl opt">}</span>
 
     <span class="hl com">/*</span>
 <span class="hl com">    *  Get the text to be formatted.</span>
 <span class="hl com">    *  Usually the text would be obtained from an edit control.</span>
 <span class="hl com">    */</span>
-    <span class="hl kwa">private static</span> <span class="hl kwc">String</span> <span class="hl kwd">getText</span><span class="hl sym">(</span><span class="hl kwc">String</span> filePath<span class="hl sym">)</span>
-    <span class="hl sym">{</span>   <span class="hl slc">// create input buffers</span>
-        <span class="hl kwc">File</span> inFile <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwc">File</span><span class="hl sym">(</span>filePath<span class="hl sym">);</span>
-        <span class="hl kwb">int</span> readSize <span class="hl sym">=</span> <span class="hl num">1024</span><span class="hl sym">;</span>
-        <span class="hl kwc">StringBuffer</span> bufferIn <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwc">StringBuffer</span><span class="hl sym">(</span>readSize<span class="hl sym">);</span>
-        <span class="hl kwb">char</span> fileIn<span class="hl sym">[] =</span> <span class="hl kwa">new</span> <span class="hl kwb">char</span><span class="hl sym">[</span>readSize<span class="hl sym">];</span>
+    <span class="hl kwa">private static</span> String <span class="hl kwd">getText</span><span class="hl opt">(</span>String filePath<span class="hl opt">)</span>
+    <span class="hl opt">{</span>   <span class="hl slc">// create input buffers</span>
+        File inFile <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">File</span><span class="hl opt">(</span>filePath<span class="hl opt">);</span>
+        <span class="hl kwa">final</span> <span class="hl kwb">int</span> readSize <span class="hl opt">=</span>  <span class="hl num">131072</span><span class="hl opt">;</span>    <span class="hl slc">// 128 KB</span>
+        StringBuffer bufferIn <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">StringBuffer</span><span class="hl opt">(</span>readSize<span class="hl opt">);</span>
+        <span class="hl kwb">char</span> fileIn<span class="hl opt">[] =</span> <span class="hl kwa">new</span> <span class="hl kwb">char</span><span class="hl opt">[</span>readSize<span class="hl opt">];</span>
 
         <span class="hl slc">// read file data</span>
         <span class="hl kwa">try</span>
-        <span class="hl sym">{</span>   <span class="hl kwc">BufferedReader</span> <span class="hl kwa">in</span> <span class="hl sym">=</span>
-                <span class="hl kwa">new</span> <span class="hl kwc">BufferedReader</span><span class="hl sym">(</span><span class="hl kwa">new</span> <span class="hl kwc">FileReader</span><span class="hl sym">(</span>inFile<span class="hl sym">));</span>
+        <span class="hl opt">{</span>   BufferedReader <span class="hl kwa">in</span> <span class="hl opt">=</span>
+                <span class="hl kwa">new</span> <span class="hl kwd">BufferedReader</span><span class="hl opt">(</span><span class="hl kwa">new</span> <span class="hl kwd">FileReader</span><span class="hl opt">(</span>inFile<span class="hl opt">));</span>
             <span class="hl slc">// use read to preserve the current line endings</span>
-            <span class="hl kwb">int</span> charsIn <span class="hl sym">=</span> <span class="hl kwa">in</span><span class="hl sym">.</span><span class="hl kwd">read</span><span class="hl sym">(</span>fileIn<span class="hl sym">,</span> <span class="hl num">0</span><span class="hl sym">,</span> readSize<span class="hl sym">);</span>
-            <span class="hl kwa">while</span> <span class="hl sym">(</span>charsIn <span class="hl sym">!= -</span><span class="hl num">1</span><span class="hl sym">)</span>
-            <span class="hl sym">{</span>   bufferIn<span class="hl sym">.</span><span class="hl kwd">append</span><span class="hl sym">(</span>fileIn<span class="hl sym">,</span> <span class="hl num">0</span><span class="hl sym">,</span> charsIn<span class="hl sym">);</span>
-                charsIn <span class="hl sym">=</span> <span class="hl kwa">in</span><span class="hl sym">.</span><span class="hl kwd">read</span><span class="hl sym">(</span>fileIn<span class="hl sym">,</span> <span class="hl num">0</span><span class="hl sym">,</span> readSize<span class="hl sym">);</span>
-            <span class="hl sym">}</span>
-            <span class="hl kwa">in</span><span class="hl sym">.</span><span class="hl kwd">close</span><span class="hl sym">();</span>
-        <span class="hl sym">}</span>
-        <span class="hl kwa">catch</span> <span class="hl sym">(</span><span class="hl kwc">Exception</span> e<span class="hl sym">)</span>
-        <span class="hl sym">{</span>   <span class="hl kwa">if</span> <span class="hl sym">(</span>e <span class="hl kwa">instanceof</span> <span class="hl kwc">FileNotFoundException</span><span class="hl sym">)</span>
-                <span class="hl kwd">error</span><span class="hl sym">(</span><span class="hl str">&quot;Cannot open input file&quot;</span><span class="hl sym">,</span> filePath<span class="hl sym">);</span>
-            <span class="hl kwa">else if</span> <span class="hl sym">(</span>e <span class="hl kwa">instanceof</span> <span class="hl kwc">IOException</span><span class="hl sym">)</span>
-                <span class="hl kwd">error</span><span class="hl sym">(</span><span class="hl str">&quot;Error reading file&quot;</span><span class="hl sym">,</span> filePath<span class="hl sym">);</span>
+            <span class="hl kwb">int</span> charsIn <span class="hl opt">=</span> <span class="hl kwa">in</span><span class="hl opt">.</span><span class="hl kwd">read</span><span class="hl opt">(</span>fileIn<span class="hl opt">,</span> <span class="hl num">0</span><span class="hl opt">,</span> readSize<span class="hl opt">);</span>
+            <span class="hl kwa">while</span> <span class="hl opt">(</span>charsIn <span class="hl opt">!= -</span><span class="hl num">1</span><span class="hl opt">)</span>
+            <span class="hl opt">{</span>   bufferIn<span class="hl opt">.</span><span class="hl kwd">append</span><span class="hl opt">(</span>fileIn<span class="hl opt">,</span> <span class="hl num">0</span><span class="hl opt">,</span> charsIn<span class="hl opt">);</span>
+                charsIn <span class="hl opt">=</span> <span class="hl kwa">in</span><span class="hl opt">.</span><span class="hl kwd">read</span><span class="hl opt">(</span>fileIn<span class="hl opt">,</span> <span class="hl num">0</span><span class="hl opt">,</span> readSize<span class="hl opt">);</span>
+            <span class="hl opt">}</span>
+            <span class="hl kwa">in</span><span class="hl opt">.</span><span class="hl kwd">close</span><span class="hl opt">();</span>
+        <span class="hl opt">}</span>
+        <span class="hl kwa">catch</span> <span class="hl opt">(</span>Exception e<span class="hl opt">)</span>
+        <span class="hl opt">{</span>   <span class="hl kwa">if</span> <span class="hl opt">(</span>e <span class="hl kwa">instanceof</span> FileNotFoundException<span class="hl opt">)</span>
+                <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot open input file&quot;</span><span class="hl opt">,</span> filePath<span class="hl opt">);</span>
+            <span class="hl kwa">else if</span> <span class="hl opt">(</span>e <span class="hl kwa">instanceof</span> IOException<span class="hl opt">)</span>
+                <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Error reading file&quot;</span><span class="hl opt">,</span> filePath<span class="hl opt">);</span>
             <span class="hl kwa">else</span>
-                <span class="hl kwd">error</span><span class="hl sym">(</span>e<span class="hl sym">.</span><span class="hl kwd">getMessage</span><span class="hl sym">(),</span> filePath<span class="hl sym">);</span>
-        <span class="hl sym">}</span>
+                <span class="hl kwd">error</span><span class="hl opt">(</span>e<span class="hl opt">.</span><span class="hl kwd">getMessage</span><span class="hl opt">(),</span> filePath<span class="hl opt">);</span>
+        <span class="hl opt">}</span>
 
-        <span class="hl kwa">return</span> bufferIn<span class="hl sym">.</span><span class="hl kwd">toString</span><span class="hl sym">();</span>
-    <span class="hl sym">}</span>
+        <span class="hl kwa">return</span> bufferIn<span class="hl opt">.</span><span class="hl kwd">toString</span><span class="hl opt">();</span>
+    <span class="hl opt">}</span>
 
     <span class="hl com">/*</span>
 <span class="hl com">    *  Return the formatted text.</span>
 <span class="hl com">    *  Usually the text would be returned to an edit control.</span>
 <span class="hl com">    */</span>
-    <span class="hl kwa">private static</span> <span class="hl kwb">void</span> <span class="hl kwd">setText</span><span class="hl sym">(</span><span class="hl kwc">String</span> textOut<span class="hl sym">,</span> <span class="hl kwc">String</span> filePath<span class="hl sym">)</span>
-    <span class="hl sym">{</span>   <span class="hl slc">// create a backup file</span>
-        <span class="hl kwc">String</span> origfilePath <span class="hl sym">=</span> filePath <span class="hl sym">+</span>  <span class="hl str">&quot;.orig&quot;</span><span class="hl sym">;</span>
-        <span class="hl kwc">File</span> origFile <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwc">File</span><span class="hl sym">(</span>origfilePath<span class="hl sym">);</span>
-        <span class="hl kwc">File</span> outFile <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwc">File</span><span class="hl sym">(</span>filePath<span class="hl sym">);</span>
-        origFile<span class="hl sym">.</span><span class="hl kwd">delete</span><span class="hl sym">();</span>                  <span class="hl slc">// remove a pre-existing file</span>
-        <span class="hl kwa">if</span> <span class="hl sym">(!</span>outFile<span class="hl sym">.</span><span class="hl kwd">renameTo</span><span class="hl sym">(</span>origFile<span class="hl sym">))</span>
-            <span class="hl kwd">error</span><span class="hl sym">(</span><span class="hl str">&quot;Cannot create backup file&quot;</span><span class="hl sym">,</span> origfilePath<span class="hl sym">);</span>
+    <span class="hl kwa">private static</span> <span class="hl kwb">void</span> <span class="hl kwd">setText</span><span class="hl opt">(</span>String textOut<span class="hl opt">,</span> String filePath<span class="hl opt">)</span>
+    <span class="hl opt">{</span>   <span class="hl slc">// create a backup file</span>
+        String origfilePath <span class="hl opt">=</span> filePath <span class="hl opt">+</span>  <span class="hl str">&quot;.orig&quot;</span><span class="hl opt">;</span>
+        File origFile <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">File</span><span class="hl opt">(</span>origfilePath<span class="hl opt">);</span>
+        File outFile <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">File</span><span class="hl opt">(</span>filePath<span class="hl opt">);</span>
+        origFile<span class="hl opt">.</span><span class="hl kwd">delete</span><span class="hl opt">();</span>                  <span class="hl slc">// remove a pre-existing file</span>
+        <span class="hl kwa">if</span> <span class="hl opt">(!</span>outFile<span class="hl opt">.</span><span class="hl kwd">renameTo</span><span class="hl opt">(</span>origFile<span class="hl opt">))</span>
+            <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot create backup file&quot;</span><span class="hl opt">,</span> origfilePath<span class="hl opt">);</span>
 
         <span class="hl slc">// write the output file - same name as input</span>
         <span class="hl kwa">try</span>
-        <span class="hl sym">{</span>   <span class="hl kwc">BufferedWriter</span> out <span class="hl sym">=</span>
-                <span class="hl kwa">new</span> <span class="hl kwc">BufferedWriter</span><span class="hl sym">(</span><span class="hl kwa">new</span> <span class="hl kwc">FileWriter</span><span class="hl sym">(</span>filePath<span class="hl sym">));</span>
-            out<span class="hl sym">.</span><span class="hl kwd">write</span><span class="hl sym">(</span>textOut<span class="hl sym">,</span> <span class="hl num">0</span><span class="hl sym">,</span> textOut<span class="hl sym">.</span><span class="hl kwd">length</span><span class="hl sym">());</span>
-            out<span class="hl sym">.</span><span class="hl kwd">close</span><span class="hl sym">();</span>
-        <span class="hl sym">}</span>
-        <span class="hl kwa">catch</span> <span class="hl sym">(</span><span class="hl kwc">IOException</span> e<span class="hl sym">)</span>
-        <span class="hl sym">{</span>   <span class="hl kwd">error</span><span class="hl sym">(</span><span class="hl str">&quot;Cannot write to output&quot;</span><span class="hl sym">,</span> filePath<span class="hl sym">);</span>
-        <span class="hl sym">}</span>
-    <span class="hl sym">}</span>
+        <span class="hl opt">{</span>   BufferedWriter out <span class="hl opt">=</span>
+                <span class="hl kwa">new</span> <span class="hl kwd">BufferedWriter</span><span class="hl opt">(</span><span class="hl kwa">new</span> <span class="hl kwd">FileWriter</span><span class="hl opt">(</span>filePath<span class="hl opt">));</span>
+            out<span class="hl opt">.</span><span class="hl kwd">write</span><span class="hl opt">(</span>textOut<span class="hl opt">,</span> <span class="hl num">0</span><span class="hl opt">,</span> textOut<span class="hl opt">.</span><span class="hl kwd">length</span><span class="hl opt">());</span>
+            out<span class="hl opt">.</span><span class="hl kwd">close</span><span class="hl opt">();</span>
+        <span class="hl opt">}</span>
+        <span class="hl kwa">catch</span> <span class="hl opt">(</span>IOException e<span class="hl opt">)</span>
+        <span class="hl opt">{</span>   <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot write to output&quot;</span><span class="hl opt">,</span> filePath<span class="hl opt">);</span>
+        <span class="hl opt">}</span>
+    <span class="hl opt">}</span>
 
-<span class="hl sym">}</span>   <span class="hl slc">// class Example</span>
+<span class="hl opt">}</span>   <span class="hl slc">// class Example</span>
 
 </pre>
 </div>
@@ -347,43 +347,43 @@
 <span class="hl com">*/</span>
 
 <span class="hl kwa">class</span> AStyleInterface
-<span class="hl sym">{</span>   <span class="hl com">/**</span>
+<span class="hl opt">{</span>   <span class="hl com">/**</span>
 <span class="hl com">    *  Call the AStyleMain function in Artistic Style.</span>
 <span class="hl com">    *  &#64;param   textIn   A string containing the source code to be formatted.</span>
 <span class="hl com">    *  &#64;param   options  A string of options to Artistic Style.</span>
 <span class="hl com">    *  &#64;return  A String containing the formatted source from Artistic Style,</span>
 <span class="hl com">    *           or an empty string on error.</span>
 <span class="hl com">    */</span>
-    <span class="hl kwa">public</span> <span class="hl kwc">String</span> <span class="hl kwd">formatSource</span><span class="hl sym">(</span><span class="hl kwc">String</span> textIn<span class="hl sym">,</span> <span class="hl kwc">String</span> options<span class="hl sym">)</span>
-    <span class="hl sym">{</span>   <span class="hl slc">// Return the allocated string</span>
+    <span class="hl kwa">public</span> String <span class="hl kwd">formatSource</span><span class="hl opt">(</span>String textIn<span class="hl opt">,</span> String options<span class="hl opt">)</span>
+    <span class="hl opt">{</span>   <span class="hl slc">// Return the allocated string</span>
         <span class="hl slc">// Memory space is allocated by OnAStyleMemAlloc, a callback function from AStyle</span>
-        <span class="hl kwc">String</span> textOut <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwc">String</span><span class="hl sym">(</span><span class="hl str">&quot;&quot;</span><span class="hl sym">);</span>
+        String textOut <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">String</span><span class="hl opt">(</span><span class="hl str">&quot;&quot;</span><span class="hl opt">);</span>
         <span class="hl kwa">try</span>
-        <span class="hl sym">{</span>   textOut <span class="hl sym">=</span> <span class="hl kwd">AStyleMain</span><span class="hl sym">(</span>textIn<span class="hl sym">,</span> options<span class="hl sym">);</span>
-        <span class="hl sym">}</span>
-        <span class="hl kwa">catch</span> <span class="hl sym">(</span><span class="hl kwc">UnsatisfiedLinkError</span> e<span class="hl sym">)</span>
-        <span class="hl sym">{</span>   <span class="hl slc">//~ System.out.println(e.getMessage());</span>
-            <span class="hl kwc">System</span><span class="hl sym">.</span>out<span class="hl sym">.</span><span class="hl kwd">println</span><span class="hl sym">(</span><span class="hl str">&quot;Cannot call function AStyleMain&quot;</span><span class="hl sym">);</span>
-        <span class="hl sym">}</span>
-        <span class="hl kwa">return</span> textOut<span class="hl sym">;</span>
-    <span class="hl sym">}</span>
+        <span class="hl opt">{</span>   textOut <span class="hl opt">=</span> <span class="hl kwd">AStyleMain</span><span class="hl opt">(</span>textIn<span class="hl opt">,</span> options<span class="hl opt">);</span>
+        <span class="hl opt">}</span>
+        <span class="hl kwa">catch</span> <span class="hl opt">(</span>UnsatisfiedLinkError e<span class="hl opt">)</span>
+        <span class="hl opt">{</span>   <span class="hl slc">//~ System.out.println(e.getMessage());</span>
+            System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot call function AStyleMain&quot;</span><span class="hl opt">);</span>
+        <span class="hl opt">}</span>
+        <span class="hl kwa">return</span> textOut<span class="hl opt">;</span>
+    <span class="hl opt">}</span>
 
     <span class="hl com">/**</span>
 <span class="hl com">    *  Call the AStyleGetVersion function in Artistic Style.</span>
 <span class="hl com">    *  &#64;return  A String containing the formatted source from Artistic Style,</span>
 <span class="hl com">    *           or an empty string on error.</span>
 <span class="hl com">    */</span>
-    <span class="hl kwa">public</span> <span class="hl kwc">String</span> <span class="hl kwd">getVersion</span><span class="hl sym">()</span>
-    <span class="hl sym">{</span>   <span class="hl kwc">String</span> version <span class="hl sym">=</span> <span class="hl kwa">new</span> <span class="hl kwc">String</span><span class="hl sym">();</span>
+    <span class="hl kwa">public</span> String <span class="hl kwd">getVersion</span><span class="hl opt">()</span>
+    <span class="hl opt">{</span>   String version <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">String</span><span class="hl opt">();</span>
         <span class="hl kwa">try</span>
-        <span class="hl sym">{</span>   version <span class="hl sym">=</span> <span class="hl kwd">AStyleGetVersion</span><span class="hl sym">();</span>
-        <span class="hl sym">}</span>
-        <span class="hl kwa">catch</span> <span class="hl sym">(</span><span class="hl kwc">UnsatisfiedLinkError</span> e<span class="hl sym">)</span>
-        <span class="hl sym">{</span>   <span class="hl slc">//~ System.out.println(e.getMessage());</span>
-            <span class="hl kwc">System</span><span class="hl sym">.</span>out<span class="hl sym">.</span><span class="hl kwd">println</span><span class="hl sym">(</span><span class="hl str">&quot;Cannot call function GetVersion&quot;</span><span class="hl sym">);</span>
-        <span class="hl sym">}</span>
-        <span class="hl kwa">return</span> version<span class="hl sym">;</span>
-    <span class="hl sym">}</span>
+        <span class="hl opt">{</span>   version <span class="hl opt">=</span> <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">();</span>
+        <span class="hl opt">}</span>
+        <span class="hl kwa">catch</span> <span class="hl opt">(</span>UnsatisfiedLinkError e<span class="hl opt">)</span>
+        <span class="hl opt">{</span>   <span class="hl slc">//~ System.out.println(e.getMessage());</span>
+            System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot call function GetVersion&quot;</span><span class="hl opt">);</span>
+        <span class="hl opt">}</span>
+        <span class="hl kwa">return</span> version<span class="hl opt">;</span>
+    <span class="hl opt">}</span>
 
     <span class="hl slc">// functions to call Artistic Style ---------------------------------------------------</span>
 
@@ -393,20 +393,20 @@
 <span class="hl com">    * But the exception must be handled when a function is called.</span>
 <span class="hl com">    */</span>
     <span class="hl kwa">static</span>
-    <span class="hl sym">{</span>   <span class="hl slc">// load shared library from the classpath</span>
-        <span class="hl kwc">String</span> astylePath <span class="hl sym">=</span> <span class="hl kwc">System</span><span class="hl sym">.</span><span class="hl kwd">getProperty</span><span class="hl sym">(</span><span class="hl str">&quot;user.dir&quot;</span><span class="hl sym">)</span>
-                            <span class="hl sym">+</span> <span class="hl kwc">System</span><span class="hl sym">.</span><span class="hl kwd">getProperty</span><span class="hl sym">(</span><span class="hl str">&quot;file.separator&quot;</span><span class="hl sym">)</span>
-                            <span class="hl sym">+</span> <span class="hl kwc">System</span><span class="hl sym">.</span><span class="hl kwd">mapLibraryName</span><span class="hl sym">(</span><span class="hl str">&quot;astylej&quot;</span><span class="hl sym">);</span>
+    <span class="hl opt">{</span>   <span class="hl slc">// load shared library from the classpath</span>
+        String astylePath <span class="hl opt">=</span> System<span class="hl opt">.</span><span class="hl kwd">getProperty</span><span class="hl opt">(</span><span class="hl str">&quot;user.dir&quot;</span><span class="hl opt">)</span>
+                            <span class="hl opt">+</span> System<span class="hl opt">.</span><span class="hl kwd">getProperty</span><span class="hl opt">(</span><span class="hl str">&quot;file.separator&quot;</span><span class="hl opt">)</span>
+                            <span class="hl opt">+</span> System<span class="hl opt">.</span><span class="hl kwd">mapLibraryName</span><span class="hl opt">(</span><span class="hl str">&quot;astylej&quot;</span><span class="hl opt">);</span>
         <span class="hl kwa">try</span>
-        <span class="hl sym">{</span>   <span class="hl kwc">System</span><span class="hl sym">.</span><span class="hl kwd">load</span><span class="hl sym">(</span>astylePath<span class="hl sym">);</span>
-        <span class="hl sym">}</span>
-        <span class="hl kwa">catch</span> <span class="hl sym">(</span><span class="hl kwc">UnsatisfiedLinkError</span> e<span class="hl sym">)</span>
-        <span class="hl sym">{</span>   <span class="hl slc">//~ System.out.println(e.getMessage());</span>
-            <span class="hl kwc">System</span><span class="hl sym">.</span>out<span class="hl sym">.</span><span class="hl kwd">println</span><span class="hl sym">(</span><span class="hl str">&quot;Cannot load library &quot;</span> <span class="hl sym">+</span> astylePath<span class="hl sym">);</span>
-            <span class="hl kwc">System</span><span class="hl sym">.</span>out<span class="hl sym">.</span><span class="hl kwd">println</span><span class="hl sym">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl sym">);</span>
-            <span class="hl kwc">System</span><span class="hl sym">.</span><span class="hl kwd">exit</span><span class="hl sym">(</span><span class="hl num">1</span><span class="hl sym">);</span>
-        <span class="hl sym">}</span>
-    <span class="hl sym">}</span>
+        <span class="hl opt">{</span>   System<span class="hl opt">.</span><span class="hl kwd">load</span><span class="hl opt">(</span>astylePath<span class="hl opt">);</span>
+        <span class="hl opt">}</span>
+        <span class="hl kwa">catch</span> <span class="hl opt">(</span>UnsatisfiedLinkError e<span class="hl opt">)</span>
+        <span class="hl opt">{</span>   System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span>e<span class="hl opt">.</span><span class="hl kwd">getMessage</span><span class="hl opt">());</span>
+            System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot load native library &quot;</span> <span class="hl opt">+</span> astylePath<span class="hl opt">);</span>
+            System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl opt">);</span>
+            System<span class="hl opt">.</span><span class="hl kwd">exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">);</span>
+        <span class="hl opt">}</span>
+    <span class="hl opt">}</span>
 
     <span class="hl com">/**</span>
 <span class="hl com">    *  Calls the AStyleMain function in Artistic Style.</span>
@@ -415,14 +415,14 @@
 <span class="hl com">    *  &#64;param   options  A string of options to Artistic Style.</span>
 <span class="hl com">    *  &#64;return  A String containing the formatted source from Artistic Style.</span>
 <span class="hl com">    */</span>
-    <span class="hl kwa">public native</span> <span class="hl kwc">String</span> <span class="hl kwd">AStyleMain</span><span class="hl sym">(</span><span class="hl kwc">String</span> textIn<span class="hl sym">,</span> <span class="hl kwc">String</span> options<span class="hl sym">);</span>
+    <span class="hl kwa">public native</span> String <span class="hl kwd">AStyleMain</span><span class="hl opt">(</span>String textIn<span class="hl opt">,</span> String options<span class="hl opt">);</span>
 
     <span class="hl com">/**</span>
 <span class="hl com">    * Calls the AStyleGetVersion function in Artistic Style.</span>
 <span class="hl com">    *</span>
 <span class="hl com">    * &#64;return    A String containing the version number of Artistic Style.</span>
 <span class="hl com">    */</span>
-    <span class="hl kwa">public native</span> <span class="hl kwc">String</span> <span class="hl kwd">AStyleGetVersion</span><span class="hl sym">();</span>
+    <span class="hl kwa">public native</span> String <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">();</span>
 
     <span class="hl com">/**</span>
 <span class="hl com">    * Error handler for messages from Artistic Style.</span>
@@ -435,13 +435,13 @@
 <span class="hl com">    *  &#64;param  errorNumber   The error number from Artistic Style.</span>
 <span class="hl com">    *  &#64;param  errorMessage  The error message from Artistic Style.</span>
 <span class="hl com">    */</span>
-    <span class="hl kwa">private</span> <span class="hl kwb">void</span> <span class="hl kwc">ErrorHandler</span><span class="hl sym">(</span><span class="hl kwb">int</span> errorNumber<span class="hl sym">,</span> <span class="hl kwc">String</span> errorMessage<span class="hl sym">)</span>
-    <span class="hl sym">{</span>   <span class="hl kwc">System</span><span class="hl sym">.</span>out<span class="hl sym">.</span><span class="hl kwd">println</span><span class="hl sym">(</span><span class="hl str">&quot;AStyle error &quot;</span>
-                           <span class="hl sym">+</span> <span class="hl kwc">String</span><span class="hl sym">.</span><span class="hl kwd">valueOf</span><span class="hl sym">(</span>errorNumber<span class="hl sym">)</span>
-                           <span class="hl sym">+</span> <span class="hl str">&quot; - &quot;</span> <span class="hl sym">+</span> errorMessage<span class="hl sym">);</span>
-    <span class="hl sym">}</span>
+    <span class="hl kwa">private</span> <span class="hl kwb">void</span> <span class="hl kwd">ErrorHandler</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> String errorMessage<span class="hl opt">)</span>
+    <span class="hl opt">{</span>   System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span><span class="hl str">&quot;AStyle error &quot;</span>
+                           <span class="hl opt">+</span> String<span class="hl opt">.</span><span class="hl kwd">valueOf</span><span class="hl opt">(</span>errorNumber<span class="hl opt">)</span>
+                           <span class="hl opt">+</span> <span class="hl str">&quot; - &quot;</span> <span class="hl opt">+</span> errorMessage<span class="hl opt">);</span>
+    <span class="hl opt">}</span>
 
-<span class="hl sym">}</span>   <span class="hl slc">// class AStyleInterface</span>
+<span class="hl opt">}</span>   <span class="hl slc">// class AStyleInterface</span>
 
 </pre>
     </div>
