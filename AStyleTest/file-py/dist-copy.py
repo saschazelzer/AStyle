@@ -3,13 +3,15 @@
 # Windows distribution is created on Winsows.
 # Linux distribution is created on Linux.
 
+# to disable the print statement and use the print() function (version 3 format)
+from __future__ import print_function
+
 import glob
 import libastyle		#local directory
 import os
 import shutil
 import stat
 import subprocess
-import sys
 
 # global variables ------------------------------------------------------------
 
@@ -26,6 +28,7 @@ def create_distributions():
 	"""Main processing function.
 	"""
 	libastyle.set_text_color()
+	print (libastyle.get_python_version())
 	os.chdir(libastyle.get_file_py_directory())
 	remove_dist_directories()
 	if os.name == "nt":
@@ -40,10 +43,10 @@ def create_distributions():
 def build_linux_distribution():
 	"""Copy astyle files to the linux directory.
 	"""
-	print
-	print "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
-	print "*              Copying Linux Distribution               *"
-	print "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+	print ()
+	print ("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
+	print ("*              Copying Linux Distribution               *")
+	print ("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
 	distBase = baseDir + "/DistLinux"
 	distAStyle = distBase + "/astyle"
 	os.makedirs(distAStyle)
@@ -67,7 +70,7 @@ def build_linux_distribution():
 	# permissions = read/write by the owner and read only by everyone else
 	mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
 	os.chmod(makePathGcc, mode)
-	print "build/gcc copied"
+	print ("build/gcc copied")
 
 	# build/intel directory
 	astyleBuildIntel = astyleDir + "/build/intel/"
@@ -78,7 +81,7 @@ def build_linux_distribution():
 	# permissions = read/write by the owner and read only by everyone else
 	mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
 	os.chmod(makePathIntel, mode)
-	print "build/intel copied"
+	print ("build/intel copied")
 
 	# create tar.bz2
 	tarname = "astyle_{0}_linux.tar".format(release)
@@ -91,10 +94,10 @@ def build_linux_distribution():
 def build_mac_distribution():
 	"""Copy astyle files to the mac directory.
 	"""
-	print
-	print "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
-	print "*               Copying Mac Distribution                *"
-	print "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+	print ()
+	print ("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
+	print ("*               Copying Mac Distribution                *")
+	print ("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
 	distBase = baseDir + "/DistMac"
 	distAStyle = distBase + "/astyle"
 	os.makedirs(distAStyle)
@@ -118,7 +121,7 @@ def build_mac_distribution():
 	# permissions = read/write by the owner and read only by everyone else
 	mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
 	os.chmod(makePathMac, mode)
-	print "build/mac copied"
+	print ("build/mac copied")
 
 	# create tar.gz
 	tarname = "astyle_{0}_macosx.tar".format(release)
@@ -131,10 +134,10 @@ def build_mac_distribution():
 def build_vms_distribution():
 	"""Copy astyle files to the open vms directory.
 	"""
-	print
-	print "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
-	print "*             Copying OpenVMS Distribution              *"
-	print "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+	print ()
+	print ("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
+	print ("*             Copying OpenVMS Distribution              *")
+	print ("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
 	distBase = baseDir + "/DistVMS"
 	distAStyle = distBase + "/astyle"
 	os.makedirs(distAStyle)
@@ -158,7 +161,7 @@ def build_vms_distribution():
 			     "lib.opt",
 			     "vmsbuild.com"):
 		shutil.copy(astyleBuildVms + file, distBuildVms)
-	print "build/vms copied"
+	print ("build/vms copied")
 
 	# create zip
 	zipfile = "astyle_{0}_openvms.zip".format(release)
@@ -169,10 +172,10 @@ def build_vms_distribution():
 def build_windows_distribution():
 	"""Copy astyle files to the windows directory.
 	"""
-	print
-	print "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
-	print "*             Copying Windows Distribution              *"
-	print "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+	print ()
+	print ("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
+	print ("*             Copying Windows Distribution              *")
+	print ("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
 	distBase = baseDir + "/DistWindows"
 	distAStyle = distBase + "/AStyle"
 	os.makedirs(distAStyle)
@@ -186,7 +189,7 @@ def build_windows_distribution():
 	vsi = astyle_build_directory.find("vs20")
 	if vsi != -1:
 		vsdir = astyle_build_directory[vsi:vsi+6]
-	print "exe copied ({0})".format(vsdir)
+	print ("exe copied ({0})".format(vsdir))
 
 	# doc directory
 	distDoc = distAStyle + "/doc/"
@@ -229,7 +232,7 @@ def call_7zip(distBase, compressedFile):
 		libastyle.system_exit("Bad 7zip return: "  + str(retval))
 	outfile.close()
 	os.remove(filename)
-	print compressedFile + " created"
+	print (compressedFile + " created")
 
 # -----------------------------------------------------------------------------
 
@@ -270,7 +273,7 @@ def copy_astyle_doc(distDoc, toDos=False):
 		# read/write by the owner and read only by everyone else (-rw-r--r--)
 		mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
 		os.chmod(srcfile, mode)
-	print "doc copied"
+	print ("doc copied")
 
 # -----------------------------------------------------------------------------
 
@@ -291,7 +294,7 @@ def copy_astyle_src(distSrc, toDos=False):
 		# read/write by the owner and read only by everyone else (-rw-r--r--)
 		mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
 		os.chmod(srcfile, mode)
-	print "src copied"
+	print ("src copied")
 
 # -----------------------------------------------------------------------------
 
@@ -337,7 +340,7 @@ def copy_vs20xx_directories(astyleBuildDir, distAStyleBuild):
 				for filter in filtfiles:
 					shutil.copy(filter, distAStyleProj)
 
-		print "build/" + vsdir[1:-1] + " copied"
+		print ("build/" + vsdir[1:-1] + " copied")
 
 # -----------------------------------------------------------------------------
 
@@ -347,7 +350,7 @@ def remove_dist_directories():
 	dirs = glob.glob(baseDir + "/[Dd]ist*/")
 	for directory in dirs:
 		directory = directory.replace('\\', '/')
-		print "remove " + directory
+		print ("remove " + directory)
 		shutil.rmtree(directory, True)
 		# this is a problem with Windows only
 		if os.path.isdir(directory):

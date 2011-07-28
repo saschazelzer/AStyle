@@ -16,8 +16,8 @@ REM  Q - formatted
 REM  x - delete-empty-lines
 REM z1 - windows lineends
 
-set options= -A1THCOwk1x  -Qz1  --options=none
-set optionsh= -A3THCOwk1x  -Qz1  --options=none
+set options= -A1THCOwk1  -Qz1  --options=none
+set optionsh= -A3THCOwk1  -Qz1  --options=none
 
 echo Formatting AStyleTest
 echo source %options%

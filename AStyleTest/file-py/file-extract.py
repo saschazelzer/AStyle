@@ -2,10 +2,11 @@
 # Calls libextract to extract files in the TestArchives directory.
 # Change the global variables to the desired values.
 
+# to disable the print statement and use the print() function (version 3 format)
+from __future__ import print_function
+
 import libastyle		#local directory
 import libextract		#local directory
-import os
-import sys
 import time
 
 # global variables ------------------------------------------------------------
@@ -20,13 +21,19 @@ import time
 #  TESTPROJECT
 project = libastyle.TESTPROJECT
 
+# extract all files options, use False for speed
+#all_files_option = True
+all_files_option = False
+
 # -----------------------------------------------------------------------------
 
 def extract_project():
 	"""Call the library procedure to extract the requested project.
 	"""
+	libastyle.set_text_color()
+	print (libastyle.get_python_version())
 	starttime = time.time()
-	libextract.extract_project(project)
+	libextract.extract_project(project, all_files_option)
 	stoptime = time.time()
 	print_run_time(starttime, stoptime)
 
@@ -36,18 +43,17 @@ def print_run_time(starttime, stoptime):
 	"""Print run time for the test.
 	"""
 	runtime = int(stoptime - starttime + 0.5)
-	min = runtime / 60
-	sec = runtime % 60
+	min =  int(runtime / 60)
+	sec =  int(runtime % 60)
 	if min == 0:
-		print "{0} seconds".format(sec)
+		print ("{0} seconds".format(sec))
 	else:
-		print "{0} min {1} seconds".format(min, sec)
+		print ("{0} min {1} seconds".format(min, sec))
 
 # -----------------------------------------------------------------------------
 
 # make the module executable
 if __name__ == "__main__":
-	libastyle.set_text_color()
 	extract_project()
 	libastyle.system_exit()
 

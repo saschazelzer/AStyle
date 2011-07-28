@@ -2,11 +2,13 @@
 # Test functions to print and parse the astyle report file.
 # Test functions to extract the formatted files and call a diff viewer.
 
+# to disable the print statement and use the print() function (version 3 format)
+from __future__ import print_function
+
 import libastyle		# local directory
 import os
 import re				# regular expressions
 import subprocess
-import sys
 
 # -----------------------------------------------------------------------------
 
@@ -34,16 +36,16 @@ def diff_formatted_files(filepaths, diffOLD=False):
 		if diffOLD: diffprog = "diff2-print.py"
 		else: diffprog = "diff1-print.py"
 		msg = "Run {0} from the console to view the diffs"
-		print msg.format(diffprog)
+		print (msg.format(diffprog))
 		return
-	print "Press m or n to skip, z to end"
+	print ("Press m or n to skip, z to end")
 	numin = 0
 	processed = 0
 	for filepath in filepaths:
 		numin += 1
 		filepath = filepath.replace('\\', '/')
 		stripfile = strip_test_directory_prefix(filepath)
-		print "{0} of {1} {2}".format(numin, len(filepaths), stripfile)
+		print ("{0} of {1} {2}".format(numin, len(filepaths), stripfile))
 		ch = libastyle.getch()
 		if ch == 'n' or ch == 'N' or ch == 'm' or ch == 'M': continue
 		if ch == 'z' : break
@@ -53,7 +55,7 @@ def diff_formatted_files(filepaths, diffOLD=False):
 			call_diff_program(filepath, oldpath)
 		else:
 			call_diff_program(filepath, filepath + ".orig")
-	print "{0} of {1} diffs processed".format(processed, len(filepaths))
+	print ("{0} of {1} diffs processed".format(processed, len(filepaths)))
 
 # -----------------------------------------------------------------------------
 
@@ -81,8 +83,10 @@ def get_astyle_totals(filename):
 	   Return 3 - Runtime minutes
 	   Return 4 - Runtime seconds
 	"""
-	infile = open_filein(filename, 'rb')
-	infile.seek(-100, os.SEEK_END)
+#	infile = open_filein(filename, 'rb')		# changed for version 3.2
+	infile = open_filein(filename, 'r')
+#	infile.seek(-100, os.SEEK_END)			# changed for version 3.2
+	os.lseek(infile.fileno() , -100, os.SEEK_END)
 
 	for line in infile:
 		# use regular expressions to search the lines
@@ -94,12 +98,14 @@ def get_astyle_totals(filename):
 			sep = get_thousands_sep(totline[-2])  
 			# cannot extract if the separator is a space (French)
 			if sep == None:
-				print "Cannot extract totals from file"
+				print ("Cannot extract totals from file")
 				return (0, 0, 0, 0)
 			#extract the totals
-			totline[0] = totline[0].translate(None, sep)
+#			totline[0] = totline[0].translate(None, sep)		# changed for version 3.2
+			totline[0] = totline[0].replace(sep, '')
 			formatted = int(totline[0])
-			totline[2] = totline[2].translate(None, sep)
+#			totline[2] = totline[2].translate(None, sep)		# changed for version 3.2
+			totline[2] = totline[2].replace(sep, '')
 			unchanged = int(totline[2])
 			totfiles = formatted + unchanged
 			if totline[5] == "min":
@@ -121,7 +127,8 @@ def  get_formatted_files(filename):
 	"""Get a list of formatted files from the astyle output.
 	   Returns a list of the formatted files.
 	"""
-	infile = open_filein(filename, 'rb')
+#	infile = open_filein(filename, 'rb')		# changed for version 3.2
+	infile = open_filein(filename, 'r')
 	formatted = []
 
 	for line in infile:
@@ -202,7 +209,7 @@ def test_all_functions():
 	# begin tests -----------------------------------------
 	files = get_formatted_files(testfile)
 		# calls extract_directory_from_line()
-	print "No files will be displayed in the comparison program."
+	print ("No files will be displayed in the comparison program.")
 	diff_formatted_files(files)
 		# calls call_diff_program()
 		# calls strip_test_directory_prefix()
@@ -236,6 +243,8 @@ def test_file_write(filename):
 
 # make the module executable
 if __name__ == "__main__":
+	libastyle.set_text_color()
+	print (libastyle.get_python_version())
 	test_all_functions()
 	libastyle.system_exit()
 

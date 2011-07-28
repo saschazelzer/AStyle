@@ -11,6 +11,44 @@
 namespace
 {
 
+
+//----------------------------------------------------------------------------
+// AStyle version 2.03 TEST functions
+//----------------------------------------------------------------------------
+
+TEST(BugFix_V203, BreakBlocksDeleteEmptyLines)
+{
+	// Test comment in a case statement with break-blocks and delete-empty-lines.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    switch(FileType)\n"
+		"    {\n"
+		"    case ftHeader:\n"
+		"        // fallthrough\n"
+		"\n"
+		"    case ftSource:\n"
+		"        bar = true;\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    switch(FileType)\n"
+		"    {\n"
+		"    case ftHeader:\n"
+		"\n"
+		"        // fallthrough\n"
+		"    case ftSource:\n"
+		"        bar = true;\n"
+		"    }\n"
+		"}";
+	char options[] = "break-blocks, delete-empty-lines";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //----------------------------------------------------------------------------
 // AStyle version 2.02 TEST functions
 //----------------------------------------------------------------------------

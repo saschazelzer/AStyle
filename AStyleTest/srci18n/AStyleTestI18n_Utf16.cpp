@@ -71,7 +71,7 @@ string WideCharToUtf8Str(wchar_t* wcIn, size_t wcLen)
 	int iconvval = iconv(iconvh, &wcConv, &wcLeft, &mbConv, &mbLeft);
 	if (iconvval == -1)
 		systemAbort("Bad iconv in Utf16ToUtf8Str()");
-	*mbConv = NULL;
+	*mbConv = '\0';
 	iconv_close(iconvh);
 	string mbStr(mbOut);
 	delete []mbOut;
@@ -93,7 +93,7 @@ size_t WideCharToUtf16LE(wchar_t* wcIn, size_t wcLen, char* w16Out, size_t w16Bu
 	int iconvval = iconv(iconvh, &wcConv, &wcLeft, &w16Conv, &w16Left);
 	if (iconvval == -1)
 		systemAbort("Bad iconv in WideCharToUtf16()");
-	*w16Conv = NULL;
+	*w16Conv = '\0';
 	iconv_close(iconvh);
 	return w16Buf - w16Left;
 }

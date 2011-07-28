@@ -1,8 +1,10 @@
 #! /usr/bin/python
 # Check libSVN.bat to libPROJ.bat to verify all .svn directories are backed up.
 
+# to disable the print statement and use the print() function (version 3 format)
+from __future__ import print_function
+
 import libastyle		#local directory
-import sys
 import os
 
 # global variables ------------------------------------------------------------
@@ -20,19 +22,20 @@ def process_files():
 	libsvn_directories = []		# directories in  libSVN.bat
 
 	libastyle.set_text_color()
+	print (libastyle.get_python_version())
 	get_directories(libproj_directories, libproj_path)
 	get_directories(libsvn_directories, libsvn_path)
 	correct_libproj_directories(libproj_directories)
 
-	print "Checking libPROJ.bat directories to libSVN.bat."
+	print ("Checking libPROJ.bat directories to libSVN.bat.")
 	total_variables = len(libproj_directories)
-	print "There are {0} directories in libPROJ.bat.".format(total_variables)
+	print ("There are {0} directories in libPROJ.bat.".format(total_variables))
 
 	find_diffs(libproj_directories, libsvn_directories)
 
 	if print_variables:
-		print libproj_directories
-		print libsvn_directories
+		print (libproj_directories)
+		print (libsvn_directories)
 
 # -----------------------------------------------------------------------------
 
@@ -91,20 +94,20 @@ def find_diffs(libproj_directories, libsvn_directories):
 	if len(missing_projects) > 0:
 		missing_projects = list(missing_projects)
 		missing_projects.sort()
-		print str(len(missing_projects)) + " missing libPROJ directories:"
-		print missing_projects
+		print (str(len(missing_projects)) + " missing libPROJ directories:")
+		print (missing_projects)
 
 	if len(missing_libsvn) > 0:
 		missing_libsvn = list(missing_libsvn)
 		missing_libsvn.sort()
-		print str(len(missing_libsvn)) + " missing libSVN directories:"
-		print missing_libsvn
+		print (str(len(missing_libsvn)) + " missing libSVN directories:")
+		print (missing_libsvn)
 
 	diffs= len(missing_projects) + len(missing_libsvn)
 	if diffs == 0:
-		print "There are NO diffs in the directories!!!"
+		print ("There are NO diffs in the directories!!!")
 	else:
-		print "There are {0} diffs in the directories.".format(diffs)
+		print ("There are {0} diffs in the directories.".format(diffs))
 
 # -----------------------------------------------------------------------------
 
@@ -144,7 +147,7 @@ def get_directories(directories, file_path):
 			for_statement = 1
 			open_paren = line.find('(')
 			if open_paren == -1:
-				print "missing open paren: " + line
+				print ("missing open paren: " + line)
 				continue
 			directory_name = extract_word(line[open_paren+1:])
 			if is_svn_directory(directory_name):
@@ -174,7 +177,7 @@ def is_svn_directory(directory_name):
 if __name__ == "__main__":
 	if os.name != "nt":
 		libastyle.set_text_color()
-		print "This test is for Windows only!"
+		print ("This test is for Windows only!")
 	else:
 		process_files()
 	libastyle.system_exit()

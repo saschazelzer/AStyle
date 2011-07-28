@@ -2,9 +2,10 @@
 # Check astyle_main.cpp "settext" translations to the test variables in AStyleTestI18n_Localizer.cpp.
 # The test for the individual languages are done by AStyleTestI18n_Localizer.cpp.
 
+# to disable the print statement and use the print() function (version 3 format)
+from __future__ import print_function
+
 import libastyle		#local directory
-import sys
-import os
 
 # global variables ------------------------------------------------------------
 
@@ -21,21 +22,21 @@ def process_files():
 	astyle_path = libastyle.get_astyle_directory() + "/src/astyle_main.cpp"
 	test_path = libastyle.get_astyletest_directory() + "/srci18n/AStyleTestI18n_Localizer.cpp"
 	libastyle.set_text_color()
-	# process the files
+	print (libastyle.get_python_version())
 	get_astyle_strings(astyle_strings, astyle_path)
 	get_test_strings(test_strings, test_path)
-	
-	print "Checking astyle_main strings to TranslationF."
+
+	print ("Checking astyle_main strings to TranslationF.")
 	total_astyle_strings = len(astyle_strings)
-	print "There are {0} translated strings in astyle_main.".format(total_astyle_strings)
+	print ("There are {0} translated strings in astyle_main.".format(total_astyle_strings))
 
 	find_string_diffs(astyle_strings, test_strings)
 
 	if print_strings:
 		astyle_strings.sort()
 		test_strings.sort()
-		print astyle_strings
-		print test_strings
+		print (astyle_strings)
+		print (test_strings)
 
 # -----------------------------------------------------------------------------
 
@@ -49,20 +50,20 @@ def find_string_diffs(astyle_strings, test_strings):
 	if len(missing_test) > 0:
 		missing_test = list(missing_test)
 		missing_test.sort()
-		print str(len(missing_test)) + " missing test strings",
-		print missing_test
+		print (str(len(missing_test)) + " missing test strings", end=" ")
+		print (missing_test)
 
 	if len(missing_astyle) > 0:
 		missing_astyle = list(missing_astyle)
 		missing_astyle.sort()
-		print str(len(missing_astyle)) + " test not in astyle  ",
-		print missing_astyle
+		print (str(len(missing_astyle)) + " test not in astyle  ", end=" ")
+		print (missing_astyle)
 
 	diffs= len(missing_test) + len(missing_astyle)
 	if diffs == 0:
-		print "There are NO diffs in the test strings!!!"
+		print ("There are NO diffs in the test strings!!!")
 	else:
-		print "There are {0} diffs in the test strings.".format(diffs)
+		print ("There are {0} diffs in the test strings.".format(diffs))
 
 # -----------------------------------------------------------------------------
 
@@ -95,7 +96,7 @@ def get_astyle_strings(astyle_strings, astyle_path):
 
 	file_in.close()
 	if print_detail:
-		print "{0} astyle strings".format(astyle_total)
+		print ("{0} astyle strings".format(astyle_total))
 
 # -----------------------------------------------------------------------------
 
@@ -133,7 +134,7 @@ def get_test_strings(test_strings, test_path):
 		# extract the string
 		if line.find('m_ascii.push_back("') == -1:
 			continue
-		start = line.find('("') 
+		start = line.find('("')
 		if start == -1:
 			continue
 		start += 2
@@ -146,7 +147,7 @@ def get_test_strings(test_strings, test_path):
 
 	file_in.close()
 	if print_detail:
-		print "{0} {1} test strings".format(test_lines, test_total)
+		print ("{0} {1} test strings".format(test_lines, test_total))
 
 # -----------------------------------------------------------------------------
 

@@ -54,6 +54,7 @@ void removeTestDirectory(const string& dirName);
 void removeTestFile(const string& testFileName);
 void setTestDirectory();
 void systemAbort(const string& message);
+void systemPause();
 void systemPause(const string& message);
 bool writeOptionsFile(const string& optionsFileName, const char* fileIn);
 

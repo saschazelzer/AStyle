@@ -6,6 +6,9 @@
 # Changes will cause files in the second run to be formatted.
 # The differences can be checked with a diff program.
 
+# to disable the print statement and use the print() function (version 3 format)
+from __future__ import print_function
+
 import libastyle		# local directory
 import libextract		# local directory
 import libtest			# local directory
@@ -13,7 +16,6 @@ import locale
 import os
 import shutil
 import subprocess
-import sys
 import time
 
 # global variables ------------------------------------------------------------
@@ -27,7 +29,7 @@ import time
 #  SCITE
 #  SHARPDEVELOP
 # TESTPROJECT
-project = libastyle.CODEBLOCKS
+project = libastyle.TESTPROJECT
 
 # select OPT0 thru OPT3, or use customized options
 # optionsX can be a bracket style or any other option
@@ -35,7 +37,7 @@ options = libastyle.OPT0
 optionsX = ""
 
 # executables for test
-astyleexe1 = "astyle2n"
+astyleexe1 = "astyle2"
 astyleexe2 = "astyled"
 
 # extract all files options, use False for speed
@@ -54,6 +56,7 @@ def process_files():
 	# initialization
 	starttime = time.time()
 	libastyle.set_text_color()
+	print (libastyle.get_python_version())
 	locale.setlocale(locale.LC_ALL, "")
 	print_run_header()
 	os.chdir(libastyle.get_file_py_directory())
@@ -63,7 +66,7 @@ def process_files():
 	excludes = libastyle.get_project_excludes(project)
 	testfile = "test.txt"
 	if extractfiles:
-		print "\nExtracting files"
+		print ("\nExtracting files")
 		libextract.extract_project(project, all_files_option)
 
 	# run test 1
@@ -130,10 +133,10 @@ def print_astyle_totals(filename):
 	formatted, totfiles, min, sec = libtest.get_astyle_totals(filename)
 	if min == 0:
 		printline = "{0:n} formatted; {1:n} files; {2} seconds"
-		print printline.format(formatted, totfiles, sec)
+		print (printline.format(formatted, totfiles, sec))
 	else:
 		printline = "{0:n} formatted; {1:n} files; {2} min {3} seconds"
-		print printline.format(formatted, totfiles, min, sec)
+		print (printline.format(formatted, totfiles, min, sec))
 	return (formatted, totfiles)
 
 # -----------------------------------------------------------------------------
@@ -142,62 +145,62 @@ def print_formatting_message(args, project):
 	"""Print the formatting message at the start of a test.
 	   Input is the command list used to call astyle.
 	"""
-	print "Formatting " +  project,
+	print ("Formatting " +  project, end=" ")
 	# print args starting with a '-' except for excludes
 	for arg in args:
 		if not arg[0] == '-': continue
 		if arg[:9] == "--exclude": continue
-		print arg,
-	print
+		print (arg, end=" ")
+	print ()
 
 # -----------------------------------------------------------------------------
 
 def print_run_header():
 	"""Print run header information.
 	"""
-	print "Testing {0}".format(project)
+	print ("Testing {0}".format(project))
 	if os.name == "nt":
-		print "Using ({0}) {1} {2}".format(libastyle.VS_RELEASE,
-				astyleexe1, astyleexe2),
+		print ("Using ({0}) {1} {2}".format(libastyle.VS_RELEASE,
+				astyleexe1, astyleexe2), end=" ")
 	else:
-		print "Using {0} {1}".format(astyleexe1, astyleexe2),
+		print ("Using {0} {1}".format(astyleexe1, astyleexe2), end=" ")
 	if options == libastyle.OPT0:
-		print "OPT0",
+		print ("OPT0", end=" ")
 	elif options == libastyle.OPT1:
-		print "OPT1",
+		print ("OPT1", end=" ")
 	elif options == libastyle.OPT2:
-		print "OPT2",
+		print ("OPT2", end=" ")
 	elif options == libastyle.OPT3:
-		print "OPT3",
+		print ("OPT3", end=" ")
 	else:
-		print options,
+		print (options, end=" ")
 	if len(optionsX.strip()) > 0:
-		print optionsX,
-	print
+		print (optionsX, end=" ")
+	print ()
 
 # -----------------------------------------------------------------------------
 
 def print_run_total(starttime):
 	"""Print total information for the entire run.
 	"""
-	print
+	print ()
 	stoptime = time.time()
 	runtime = int(stoptime - starttime + 0.5)
-	min = runtime / 60
-	sec = runtime % 60
+	min =  int(runtime / 60)
+	sec =  int(runtime % 60)
 	if min == 0:
-		print "{0} seconds total run time".format(sec)
+		print ("{0} seconds total run time".format(sec))
 	else:
-		print "{0} min {1} seconds total run time".format(min, sec)
-	print
+		print ("{0} min {1} seconds total run time".format(min, sec))
+	print ()
 
 # -----------------------------------------------------------------------------
 
 def print_test_header(testnum, astyleexe):
 	"""Print header information for a test.
 	"""
-	print
-	print "TEST {0} with {1}".format(testnum, astyleexe)
+	print ()
+	print ("TEST {0} with {1}".format(testnum, astyleexe))
 
 # -----------------------------------------------------------------------------
 
@@ -243,7 +246,7 @@ def verify_astyle_executables(exe1, exe2):
 	if not os.path.exists(exe1path):
 		# try to copy exe1 from the "regress" directory
 		if os.path.exists(regress1path):
-			print "Copying " + exe1
+			print ("Copying " + exe1)
 			shutil.copy(regress1path, exe1path)
 		else:
 			libastyle.system_exit("Cannot find executable 1: " + exe1path)

@@ -2066,7 +2066,30 @@ TEST(MaxInstatementIndent, Misc3)
 	delete [] textOut;
 }
 
-TEST(MaxInstatementIndent, Error)
+TEST(MaxInstatementIndent, ErrorMin)
+{
+	// test max instatement indent with an invalid value
+	// should call the error handler
+	char text[] =
+		"\nvoid Long_40_Byte_Indent_Function_xxx(bar1,\n"
+		"                                      bar2,\n"
+		"                                      bar3)\n"
+		"{\n"
+		"    char Long_40_Byte_Indent_Array_xx[] = { red,\n"
+		"                                            green,\n"
+		"                                            blue\n"
+		"                                          };\n"
+		"}\n";
+	// use errorHandler2 to verify the error
+	char options[] = "max-instatement-indent=39";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	delete [] textOut;
+}
+
+TEST(MaxInstatementIndent, ErrorMax)
 {
 	// test max instatement indent with an invalid value
 	// should call the error handler

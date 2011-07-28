@@ -10,10 +10,11 @@
 // global variables
 //----------------------------------------------------------------------------
 
+void systemPause();
 int errorHandler2Calls;
 
 //----------------------------------------------------------------------------
-// main function
+// main functions
 //----------------------------------------------------------------------------
 
 int main(int argc, char** argv)
@@ -21,10 +22,13 @@ int main(int argc, char** argv)
 	// parse command line BEFORE InitGoogleTest
 	bool useTersePrinter = false;
 	bool useColor = true;
+	bool noClose = false;
 	for (int i = 1; i < argc; i++)
 	{
 		if (strcmp(argv[i], "--terse_printer") == 0 )
 			useTersePrinter = true;
+		else if (strcmp(argv[i], "--no_close") == 0 )
+			noClose = true;
 		else if (strcmp(argv[i], "--gtest_color=no") == 0 )
 			useColor = false;
 	}
@@ -45,13 +49,25 @@ int main(int argc, char** argv)
 	// example 9 will not work here because of user modifications.
 	// Change the following value to the number of tests (within 10).
 	if (useTersePrinter)
-//		TersePrinter::PrintTestTotals(1325, __FILE__, __LINE__);
-		TersePrinter::PrintTestTotals(1508, __FILE__, __LINE__);
+		TersePrinter::PrintTestTotals(1560, __FILE__, __LINE__);
 #ifdef __WIN32
 	printf("%c", '\n');
 #endif
-//	system("pause");		// sometimes needed for debug
+	if (noClose)			// command line option
+		systemPause();
+
 	return retval;
+}
+
+void systemPause()
+{
+#ifdef _WIN32
+	system("pause");
+#else
+	cout << "Press ENTER to continue." << endl;
+	if (system("read x") > 0)
+		cout << "Bad return from 'system' call." << endl;
+#endif
 }
 
 //----------------------------------------------------------------------------
@@ -64,13 +80,7 @@ int main(int argc, char** argv)
 void  STDCALL errorHandler(int errorNumber, const char* errorMessage)
 {
 	cout << "AStyle error " << errorNumber << ".\n" << errorMessage << endl;
-#ifdef _WIN32
-	system("pause");
-#else
-	cout << "Press ENTER to continue." << endl;
-	if (system("read x") > 0)
-		cout << "Bad return from 'system' call." << endl;
-#endif
+	systemPause();
 }
 
 // Error handler 2 just adds to an error count

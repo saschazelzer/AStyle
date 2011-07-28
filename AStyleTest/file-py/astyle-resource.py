@@ -1,9 +1,10 @@
 #! /usr/bin/python
 # Check ASResource vectors for various criteria.
 
+# to disable the print statement and use the print() function (version 3 format)
+from __future__ import print_function
+
 import libastyle		#local directory
-import sys
-import os
 
 # global variables ------------------------------------------------------------
 
@@ -22,24 +23,25 @@ def process_files():
 	resource_path = libastyle.get_astyle_directory() + "/src/ASResource.cpp"
 
 	libastyle.set_text_color()
+	print (libastyle.get_python_version())
 	get_header_variables(header_variables, resource_path)
 	get_np_header_variables(np_header_variables, resource_path)
 	get_pre_block_variables(pre_block_variables, resource_path)
 	get_pre_command_variables(pre_command_variables, resource_path)
 
-	print "Checking header variables to non-paren, pre-block, and pre-command."
+	print ("Checking header variables to non-paren, pre-block, and pre-command.")
 	total_variables = len(header_variables)
-	print "There are {0} variables in the header list.".format(total_variables)
+	print ("There are {0} variables in the header list.".format(total_variables))
 
 	find_header_diffs(header_variables, np_header_variables)
 	find_pre_block_diffs(header_variables, pre_block_variables)
 	find_pre_command_diffs(header_variables, pre_command_variables)
 
 	if print_variables:
-		print header_variables
-		print np_header_variables
-		print pre_block_variables
-		print pre_command_variables
+		print (header_variables)
+		print (np_header_variables)
+		print (pre_block_variables)
+		print (pre_command_variables)
 
 # -----------------------------------------------------------------------------
 
@@ -101,14 +103,14 @@ def find_header_diffs(header_variables, np_header_variables):
 	if len(missing_header) > 0:
 		missing_header = list(missing_header)
 		missing_header.sort()
-		print str(len(missing_header)) + " missing header variables:"
-		print missing_header
+		print (str(len(missing_header)) + " missing header variables:")
+		print (missing_header)
 
 	diffs= len(missing_header)
 	if diffs == 0:
-		print "There are NO missing non-paren header variables!!!"
+		print ("There are NO missing non-paren header variables!!!")
 	else:
-		print "There are {0} missing non-paren header variables.".format(diffs)
+		print ("There are {0} missing non-paren header variables.".format(diffs))
 
 # -----------------------------------------------------------------------------
 
@@ -123,13 +125,13 @@ def find_pre_block_diffs(header_variables, pre_block_variables):
 	if diffs != 0:
 		duplicate_header = list(missing_header)
 		duplicate_header.sort()
-		print str(len(duplicate_header)) + " duplicate pre-block variables:"
-		print duplicate_header
+		print (str(len(duplicate_header)) + " duplicate pre-block variables:")
+		print (duplicate_header)
 
 	if diffs == 0:
-		print "There are NO duplicates in the pre-block variables!!!"
+		print ("There are NO duplicates in the pre-block variables!!!")
 	else:
-		print "There are {0} duplicates in the pre-block variables.".format(diffs)
+		print ("There are {0} duplicates in the pre-block variables.".format(diffs))
 
 # -----------------------------------------------------------------------------
 
@@ -144,13 +146,13 @@ def find_pre_command_diffs(header_variables, pre_command_variables):
 	if diffs != 0:
 		duplicate_header = list(missing_header)
 		duplicate_header.sort()
-		print str(len(duplicate_header)) + " duplicate pre-command variables:"
-		print duplicate_header
+		print (str(len(duplicate_header)) + " duplicate pre-command variables:")
+		print (duplicate_header)
 
 	if diffs == 0:
-		print "There are NO duplicates in the pre-command variables!!!"
+		print ("There are NO duplicates in the pre-command variables!!!")
 	else:
-		print "There are {0} duplicates in the pre-command variables.".format(diffs)
+		print ("There are {0} duplicates in the pre-command variables.".format(diffs))
 
 # -----------------------------------------------------------------------------
 
@@ -184,7 +186,7 @@ def get_header_variables(header_variables, resource_path):
 
 	file_in.close()
 	if print_detail:
-		print "{0} headers".format(header_total)
+		print ("{0} headers".format(header_total))
 
 # -----------------------------------------------------------------------------
 
@@ -218,7 +220,7 @@ def get_np_header_variables(np_header_variables, resource_path):
 
 	file_in.close()
 	if print_detail:
-		print "{0} non-paren headers".format(np_header_total)
+		print ("{0} non-paren headers".format(np_header_total))
 
 # -----------------------------------------------------------------------------
 
@@ -252,7 +254,7 @@ def get_pre_block_variables(pre_block_variables, resource_path):
 
 	file_in.close()
 	if print_detail:
-		print "{0} pre-block statements".format(pre_block_total)
+		print ("{0} pre-block statements".format(pre_block_total))
 
 	# -----------------------------------------------------------------------------
 
@@ -286,7 +288,7 @@ def get_pre_command_variables(pre_command_variables, resource_path):
 
 	file_in.close()
 	if print_detail:
-		print "{0} pre-command headers".format(pre_command_total)
+		print ("{0} pre-command headers".format(pre_command_total))
 
 # -----------------------------------------------------------------------------
 

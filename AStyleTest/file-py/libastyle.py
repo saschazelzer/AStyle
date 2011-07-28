@@ -3,6 +3,9 @@
 # All directories and filepaths should be in this module.
 # Executed as stand-alone it will run a series of tests.
 
+# to disable the print statement and use the print() function (version 3 format)
+from __future__ import print_function
+
 import os
 import subprocess
 import sys
@@ -28,15 +31,16 @@ TESTPROJECT  = "TestProject"
 OPT0 = ""
 # align-pointer=type (k1), add-brackets (j), break-blocks=all (F),
 #     min-conditional-indent=0 (m0)
-#     pad-oper (p), delete-empty-lines (x)
-OPT1 = "-CSKNLwM50m0yejoOcFpPHUxdEk1"
-# align-pointer=middle (k2), add-one-line-brackets (J), break-blocks (f), 
+#     pad-oper (p), delete-empty-lines (xd)
+OPT1 = "-CSKNLwYM50m0yeoOcFpPHUxdEk1xC100"
+#OPT1 = "-CSKNLwYM50m0yejoOcFpPHUxdEk1xC100"
+# align-pointer=middle (k2), add-one-line-brackets (J), break-blocks (f),
 #     min-conditional-indent=3 (m3), pad-paren-out(d)
-#     pad-oper (p), delete-empty-lines (x)
+#     pad-oper (p), delete-empty-lines (xd)
 OPT2 = "-CSKNLwM60m3yeJoOcfpdHUxdEk3W1"
 # align-pointer=name (k3), , min-conditional-indent=1 (m1), pad-paren-in(D)
-# WITHOUT: add-brackets (j,J), break-blocks (f,F), 
-#     pad-oper (p), delete-empty-lines (x)
+# WITHOUT: add-brackets (j,J), break-blocks (f,F),
+#     pad-oper (p), delete-empty-lines (xd)
 OPT3 = "-CSKNLwM80m1yeoOcDHUEk2W3"
 
 # compile configurations
@@ -54,11 +58,11 @@ def build_astyle_executable(config):
 	"""Build the astyle executable.
 	"""
 	if config == DEBUG:
-		print "Building AStyle Debug"
+		print ("Building AStyle Debug")
 	elif config == RELEASE:
-		print "Building AStyle Release"
+		print ("Building AStyle Release")
 	elif config == STATIC and os.name == "nt":
-		print "Building AStyle Static"
+		print ("Building AStyle Static")
 	else:
 		system_exit("Bad arg in build_astyle_executable(): " + config)
 	astylepath = get_astyle_build_directory(config)
@@ -95,7 +99,7 @@ def compile_astyle_windows(astylepath, config):
 		sdk = "v4.0.30319"
 		vsdir = "vs2010"
 	# remove the cache file as a precaution
-	cachepath = (get_astyle_directory() 
+	cachepath = (get_astyle_directory()
 			+ "/build/"
 			+ vsdir
 			+ "/AStyle.sln.cache")
@@ -116,7 +120,7 @@ def compile_astyle_windows(astylepath, config):
 			+ "/build/"
 			+ vsdir
 			+ "/AStyle.sln")
-	platform = "/property:Platform=Win32"  
+	platform = "/property:Platform=Win32"
 	msbuild = ([buildpath, configProp, platform, slnpath])
 	buildfile = get_temp_directory() + "/build.txt"
 	outfile = open(buildfile, 'w')
@@ -248,7 +252,7 @@ def get_astyletest_directory(endsep=False):
 	if not os.path.isdir(astyletestdir):
 		message = "Cannot find astyletest directory: " + astyletestdir
 		system_exit(message)
-	if endsep: astyledir += '/'
+	if endsep: astyletestdir += '/'
 	return astyletestdir
 
 # -----------------------------------------------------------------------------
@@ -283,7 +287,7 @@ def getch():
 				ch = sys.stdin.read(1)
 		finally:
 			termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-	print ch
+	print (ch)
 	return ch
 
 # -----------------------------------------------------------------------------
@@ -293,7 +297,7 @@ def get_diff_path():
 	   endexe = True will add an ending '.exe' to Windows.
 	"""
 	if os.name == "nt":
-		exepath = os.getenv("PROGRAMFILES") + "/WinMerge/WinMergeU.exe"
+		exepath = "/Program Files (x86)/" + "/WinMerge/WinMergeU.exe"
 		if not os.path.isfile(exepath):
 			message = "Cannot find diff path: " + exepath
 			system_exit(message)
@@ -345,11 +349,10 @@ def get_project_directory(endsep=False):
 
 def get_project_excludes(project):
 	"""Get the project excludes list for AStyle processing.
-	    Argument must be one of the global variables.
-	    Returns a list of excludes.
+	   Argument must be one of the global variables.
+	   Returns a list of excludes.
 	"""
 	excludes = []
-	testDirectory = get_test_directory()
 	if project == CODEBLOCKS:
 		# excludes because of %pythoncode
 		# advprops.h is __WXPYTHON__ at line 192
@@ -366,7 +369,7 @@ def get_project_excludes(project):
 	elif project == KDEVELOP:
 		None  # excludes.append("--exclude=app_templates")
 	elif project == MONODEVELOP:
-		None 
+		None
 	elif project == SCITE:
 		excludes.append("--exclude=lua")
 	elif project == SHARPDEVELOP:
@@ -382,8 +385,8 @@ def get_project_excludes(project):
 
 def get_project_filepaths(project):
 	"""Get filepath list for AStyle processing.
-	    Argument must be one of the global variables.
-	    Returns a list of filepaths to process.
+	   Argument must be one of the global variables.
+	   Returns a list of filepaths to process.
 	"""
 	filepaths = []
 	testDirectory = get_test_directory()
@@ -416,6 +419,12 @@ def get_project_filepaths(project):
 
 # -----------------------------------------------------------------------------
 
+def get_python_version():
+	version = "Python {0}.{1}".format(sys.version_info[0], sys.version_info[1])
+	return version
+	
+# -----------------------------------------------------------------------------
+
 def get_temp_directory(endsep=False):
 	"""Get the temporary directory for the os environment.
 	   endsep = True will add an ending separator.
@@ -445,12 +454,12 @@ def get_test_directory(endsep=False):
 
 def is_executed_from_console():
 	"""Check if this run is from a console or from SciTE.
-	   If run from SciTE the first arg will be 'scite'.
+	   If run from a console the sys.stdin will be a TTY.
 	"""
-	if (len(sys.argv) > 1
-	and sys.argv[1].lower() == "scite"):
+	if os.isatty(sys.stdin.fileno()):
+		return True
+	else:
 		return False
-	return True
 
 # -----------------------------------------------------------------------------
 
@@ -492,11 +501,13 @@ def system_exit(message=''):
 	"""
 	if len(message.strip()) > 0:
 		set_error_color()
-		print message
+		print (message)
 	# pause if script is run from the console
 	if is_executed_from_console():
-		print "\nPress any key to end . . ."
+		print ("\nPress any key to end . . .")
 		getch()
+	else:
+		print ("End of script !")
 	sys.exit()
 
 # -----------------------------------------------------------------------------
@@ -530,5 +541,6 @@ def test_all_functions():
 # run tests if executed as stand-alone
 if __name__ == "__main__":
 	set_text_color()
+	print (get_python_version())
 	test_all_functions()
 	system_exit()

@@ -8,6 +8,9 @@
 # Files with undesired changes will be copied to a Test directory
 #     where they can be checked with a diff program.
 
+# to disable the print statement and use the print() function (version 3 format)
+from __future__ import print_function
+
 import libastyle		# local directory
 import libextract		# local directory
 import libtest			# local directory
@@ -15,7 +18,6 @@ import locale
 import os
 import shutil
 import subprocess
-import sys
 import time
 
 # global variables ------------------------------------------------------------
@@ -29,18 +31,18 @@ import time
 #  SCITE
 #  SHARPDEVELOP		# can compile on Windows only
 #  TESTPROJECT
-project = libastyle.JEDIT
+project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
 #options = "-tapO"
-options = libastyle.OPT2
+options = libastyle.OPT1
 
 # executable for test
 astyleexe = "astyled"
 
 # extract all files option, use False for speed, use True to compile
-all_files_option = True
-#all_files_option = False
+#all_files_option = True
+all_files_option = False
 
 # test number to start with (usually 1)
 start = 1
@@ -59,6 +61,7 @@ def process_files():
 	#initialization
 	starttime = time.time()
 	libastyle.set_text_color()
+	print (libastyle.get_python_version())
 	locale.setlocale(locale.LC_ALL, "")
 	print_run_header()
 	os.chdir(libastyle.get_file_py_directory())
@@ -66,7 +69,7 @@ def process_files():
 	excludes = libastyle.get_project_excludes(project)
 	index = set_test_start(brackets)
 	libastyle.build_astyle_executable(get_astyle_config())
-	print "\nExtracting files"
+	print ("\nExtracting files")
 	libextract.extract_project(project, all_files_option)
 
 	# process the bracket options
@@ -80,7 +83,7 @@ def process_files():
 		files = check_formatted_files(testfile, brackets, index)
 		if len(files) > 0:
 			errors += totformat
-			errtests.append( get_test_directory_name(index)) 
+			errtests.append( get_test_directory_name(index))
 			copy_formatted_files(files, testfile, index)
 			verify_formatted_files(len(files), totformat)
 		os.remove(testfile)
@@ -129,7 +132,7 @@ def copy_formatted_files(files, testfile, index):
 	os.mkdir(testdir)
 	shutil.copy (testfile, testdir)
 	for file in files:
-		print "copying " + strip_directory_prefix(file)
+		print ("copying " + strip_directory_prefix(file))
 		shutil.copy(file, testdir)
 		shutil.copy(file + ".orig", testdir)
 
@@ -159,10 +162,10 @@ def print_astyle_totals(filename):
 	formatted, totfiles, min, sec = libtest.get_astyle_totals(filename)
 	if min == 0:
 		printline = "{0:n} formatted; {1:n} files; {2} seconds"
-		print printline.format(formatted, totfiles, sec)
+		print (printline.format(formatted, totfiles, sec))
 	else:
 		printline = "{0:n} formatted; {1:n} files; {2} min {3} seconds"
-		print printline.format(formatted, totfiles, min, sec)
+		print (printline.format(formatted, totfiles, min, sec))
 	return (formatted, totfiles)
 
 # -----------------------------------------------------------------------------
@@ -178,58 +181,58 @@ def print_formatting_message(args, project):
 	"""Print the formatting message at the start of a test.
 	   Input is the command list used to call astyle.
 	"""
-	print "Formatting " +  project,
+	print ("Formatting " +  project, end=" ")
 	# print args starting with a '-' except for excludes
 	for arg in args:
 		if not arg[0] == '-': continue
 		if arg[:9] == "--exclude": continue
-		print arg,
-	print
+		print (arg, end=" ")
+	print ()
 
 # -----------------------------------------------------------------------------
 
 def print_run_header():
 	"""Print run header information.
 	"""
-	print "Testing {0}".format(project)
+	print ("Testing {0}".format(project))
 	if os.name == "nt":
-		print "Using ({0}) {1}".format(libastyle.VS_RELEASE, astyleexe),
+		print ("Using ({0}) {1}".format(libastyle.VS_RELEASE, astyleexe), end=" ")
 	else:
-		print "Using {0}".format(astyleexe),
+		print ("Using {0}".format(astyleexe), end=" ")
 	if options == libastyle.OPT0:
-		print "OPT0" 
+		print ("OPT0")
 	elif options == libastyle.OPT1:
-		print "OPT1" 
+		print ("OPT1")
 	elif options == libastyle.OPT2:
-		print "OPT2"
+		print ("OPT2")
 	elif options == libastyle.OPT3:
-		print "OPT3" 
+		print ("OPT3")
 	else:
-		print options
-		
+		print (options)
+
 # -----------------------------------------------------------------------------
 
 def print_run_total(errors, errtests, starttime):
 	"""Print total information for the entire run.
 	"""
-	print
-	print '-' * 60
+	print ()
+	print ('-' * 60)
 	stoptime = time.time()
 	runtime = int(stoptime - starttime + 0.5)
-	min = runtime / 60
-	sec = runtime % 60
+	min =  int(runtime / 60)
+	sec =  int(runtime % 60)
 	if min == 0:
-		print "{0} seconds total run time".format(sec)
+		print ("{0} seconds total run time".format(sec))
 	else:
-		print "{0} min {1} seconds total run time".format(min, sec)
+		print ("{0} min {1} seconds total run time".format(min, sec))
 	if errors == 0:
-		print str(errors) + " errors"
+		print (str(errors) + " errors")
 	else:
 		libastyle.set_error_color()
-		print str(errors) + " errors in",
+		print (str(errors) + " errors in", end=" ")
 		for test in errtests:
-			print test,
-		print
+			print (test, end=" ")
+		print ()
 
 # -----------------------------------------------------------------------------
 
@@ -237,10 +240,10 @@ def print_test_header(brackets, index):
 	"""Print header information for a test.
 	"""
 	testNo = index + 1
-	print '\n' + ('-' * 60) + '\n'
-	print "TEST {0} OF {1}".format(testNo, len(brackets))
-	print brackets[:testNo]
-	print brackets
+	print ('\n' + ('-' * 60) + '\n')
+	print ("TEST {0} OF {1}".format(testNo, len(brackets)))
+	print (brackets[:testNo])
+	print (brackets)
 
 # -----------------------------------------------------------------------------
 
@@ -284,17 +287,17 @@ def set_test_start(brackets):
 	else:
 		index = start - 1
 	if index > 0:
-		print "Start with test {0}".format(index+1)
+		print ("Start with test {0}".format(index+1))
 		# if needed decrease by one test
 		if brackets[index] == brackets[index-1]:
 			index -= 1
-			print "Starting with test {0} to avoid diffs".format(index+1)
+			print ("Starting with test {0} to avoid diffs".format(index+1))
 		elif brackets[index] == '_':
 			if index >= 2:
 				index -= 2
 			else:
 				index -= 1
-			print "Starting with test {0} to apply format".format(index+1)
+			print ("Starting with test {0} to apply format".format(index+1))
 	remove_test_directories(brackets, index)
 	return index
 

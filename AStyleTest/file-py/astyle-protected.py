@@ -2,9 +2,10 @@
 # Check ASBeautifier protected variables to verify all variables are
 # replaced in the activeBeautifierStack.
 
+# to disable the print statement and use the print() function (version 3 format)
+from __future__ import print_function
+
 import libastyle		#local directory
-import sys
-import os
 
 # global variables ------------------------------------------------------------
 
@@ -22,20 +23,21 @@ def process_files():
 	beautifier_path = libastyle.get_astyle_directory() + "/src/ASBeautifier.cpp"
 
 	libastyle.set_text_color()
+	print (libastyle.get_python_version())
 	get_header_variables(header_variables, header_path)
 	get_beautifier_variables(beautifier_variables, beautifier_path)
 	header_variables.sort()
 	beautifier_variables.sort()
-	
-	print "Checking ASBeautifier protected variables to activeBeautifierStack."
+
+	print ("Checking ASBeautifier protected variables to activeBeautifierStack.")
 	total_variables = len(header_variables)
-	print "There are {0} protected variables in the header list.".format(total_variables)
+	print ("There are {0} protected variables in the header list.".format(total_variables))
 
 	find_class_diffs(header_variables, beautifier_variables)
 
 	if print_variables:
-		print header_variables
-		print beautifier_variables
+		print (header_variables)
+		print (beautifier_variables)
 
 # -----------------------------------------------------------------------------
 
@@ -49,20 +51,20 @@ def find_class_diffs(header_variables, beautifier_variables):
 	if len(missing_header) > 0:
 		missing_header = list(missing_header)
 		missing_header.sort()
-		print str(len(missing_header)) + " missing protected header variables:"
-		print missing_header
+		print (str(len(missing_header)) + " missing protected header variables:")
+		print (missing_header)
 
 	if len(missing_class) > 0:
 		missing_class = list(missing_class)
 		missing_class.sort()
-		print str(len(missing_class)) + " missing activeBeautifierStack beautifier variables:"
-		print missing_class
+		print (str(len(missing_class)) + " missing activeBeautifierStack beautifier variables:")
+		print (missing_class)
 
 	diffs= len(missing_header) + len(missing_class)
 	if diffs == 0:
-		print "There are NO diffs in the activeBeautifierStack variables!!!"
+		print ("There are NO diffs in the activeBeautifierStack variables!!!")
 	else:
-		print "There are {0} diffs in the activeBeautifierStack variables.".format(diffs)
+		print ("There are {0} diffs in the activeBeautifierStack variables.".format(diffs))
 
 # -----------------------------------------------------------------------------
 
@@ -102,7 +104,7 @@ def get_beautifier_variables(beautifier_variables, beautifier_path):
 
 	file_in.close()
 	if print_detail:
-		print "{0} {1} activeBeautifierStack".format(beautifier_lines, beautifier_total)
+		print ("{0} {1} activeBeautifierStack".format(beautifier_lines, beautifier_total))
 
 # -----------------------------------------------------------------------------
 
@@ -142,7 +144,7 @@ def get_header_variables(header_variables, header_path):
 
 	file_in.close()
 	if print_detail:
-		print "{0} {1} header protected".format(header_lines, header_total)
+		print ("{0} {1} header protected".format(header_lines, header_total))
 
 # -----------------------------------------------------------------------------
 

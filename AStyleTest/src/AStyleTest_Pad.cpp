@@ -1647,6 +1647,33 @@ TEST(PadOperator, Misc5)
 	delete [] textOut;
 }
 
+TEST(PadOperator, Misc6)
+{
+	// test pad operator in a one-line "case" statement
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    swtch (bar)\n"
+		"    {\n"
+		"    case _OP_COMPARITH: DerefInc(((arg1&0xFFFF0000)>>16), (arg1&0x0000FFFF), false); continue;\n"
+		"    default: continue;\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    swtch (bar)\n"
+		"    {\n"
+		"    case _OP_COMPARITH: DerefInc(((arg1 & 0xFFFF0000) >> 16), (arg1 & 0x0000FFFF), false); continue;\n"
+		"    default: continue;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "pad-oper, keep-one-line-statements";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(PadOperator, Sans1)
 {
 	// do not pad a pointer dereference or "address of"
@@ -3593,6 +3620,2883 @@ TEST(FillEmptyLines, SQL)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
+//-------------------------------------------------------------------------
+// AStyle Align Pointer
+// default Align Pointer value REF_SAME_AS_PTR is tested here
+//-------------------------------------------------------------------------
+TEST(AlignPointerNone, LongOption)
+{
+	// pointers and references should not be changed
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string* bar;     // comment\n"
+		"    const string *bar;     // comment\n"
+		"    const string   *bar;   // comment\n"
+		"    const string  * bar;   // comment\n"
+		"    const string*bar;      // comment\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, Tabs)
+{
+	// test with tab separators
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const char	*bar;\n"
+		"    const char		*bar;\n"
+		"    const char*		bar;\n"
+		"    const char		*		bar;\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, AddressOf)
+{
+	// "address of" operator should NOT be changed
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (bar1 == &AS_BAR1\n"
+		"            || bar2 == &AS_BAR2)   // comment\n"
+		"        return;\n"
+		"    return &x;\n"
+		"    return (&x);\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, Dereference)
+{
+	// dereference should NOT be changed
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    TRxtra (*prevWordH);   // comment\n"
+		"    if (fileName.empty())\n"
+		"        *traceOutF << lineNum << endl;\n"
+		"    else\n"
+		"        *traceOutF << fileName << endl;\n"
+		"    RegisterImage((char**)xpm_data_ptrs[i]);\n"
+		"    if (i > *maxcol) *maxcol = i;\n"
+		"    *newVec = **iter;\n"
+		"    (info.*entryFunc[j])(value);\n"
+		"    bool gtr = (*a)->IsLarger(**b);\n"
+		"    return *this;\n"
+		"    return (*this);\n"
+		"    if (*doc) delete *doc;\n"
+		"\n"
+		"    if(prev) next = next;\n"
+		"    else *chain = next;\n"
+		"\n"
+		"    for (tp::iterator it = p.begin(); it != p.end(); ++it) {\n"
+		"        fill( m, **it );\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, GlobalVariables)
+{
+	// test with global variables
+	char textIn[] =
+		"\n// global variables\n"
+		"ostream* _err = &cerr;\n"
+		"ASConsole * g_console;\n"
+		"stringstream *_err = NULL;\n";
+	char text[] =
+		"\n// global variables\n"
+		"ostream* _err = &cerr;\n"
+		"ASConsole * g_console;\n"
+		"stringstream *_err = NULL;\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, GlobalDeclarations)
+{
+	// test with global declarations
+	char text[] =
+		"\n// function declarations\n"
+		"void *foo(char* fooBar);\n"
+		"char&bar(char&);\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, Cast1)
+{
+	// cast should not be changed
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const string *bar;          // comment0\n"
+		"    foo = (RefNode **) bar();   // comment1\n"
+		"    foo = (RefNode *) bar();    // comment2\n"
+		"    foo = ( RefNode ** ) bar(); // comment1\n"
+		"    foo = ( RefNode * ) bar();  // comment2\n"
+		"    foo = const_cast<RefNode **>(bar()); // comment3\n"
+		"    foo = const_cast<RefNode *>(bar());  // comment4\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, Cast2)
+{
+	// cast should not be changed
+	char text[] =
+		"\nvoid foo(void *, void *);\n"
+		"void foo(void *fooBar, void * fooBar);\n"
+		"void foo(void **, void**);\n"
+		"void foo(wxCommandEvent &);\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, ConvertTabs)
+{
+	// test tab conversion
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    wxListBox	*channel;\n"
+		"    wxTextCtrl	*filename;\n"
+		"    char		*	stamp;\n"
+		"    void			*userData;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    wxListBox   *channel;\n"
+		"    wxTextCtrl  *filename;\n"
+		"    char        *   stamp;\n"
+		"    void            *userData;\n"
+		"}\n";
+	char options[] = "convert-tabs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, Paren)
+{
+	// test pointer recognition in a paren
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(cbProject* p  = pm->GetProject())\n"
+		"        getBar();\n"
+		"    if(cbProject * p = pm->GetProject())\n"
+		"        getBar();\n"
+		"    if(cbProject  *p = pm->GetProject())\n"
+		"        getBar();\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, PointerToPointer)
+{
+	// test double pointer
+	char text[] =
+		"\nint main(int argc, char **argv)\n"
+		"{\n"
+		"    char    **bar1;\n"
+		"    char  **  bar1;\n"
+		"    char**    bar1;\n"
+		"    char	**	bar1;\n"
+		"    char		**		bar1;\n"
+		"    char**bar1;\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, EndOfLine1)
+{
+	// test pointer at end of line
+	char text[] =
+		"\nvoid*\n"
+		"foo() {}\n"
+		"\n"
+		"char &\n"
+		"bar() {}\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, EndOfLine2)
+{
+	// test pointer at end of line with spaces or comment after
+	char textIn[] =
+		"\nvoid*   \n"
+		"foo() {}\n"
+		"\n"
+		"char &   \n"
+		"bar() {}\n"
+		"\n"
+		"void*      // comment  \n"
+		"foo() {}\n"
+		"\n"
+		"void **    /* comment */  \n"
+		"foo() {}\n"
+		"\n"
+		"char**   \n"
+		"bar() {}\n";
+	char text[] =
+		"\nvoid*\n"
+		"foo() {}\n"
+		"\n"
+		"char &\n"
+		"bar() {}\n"
+		"\n"
+		"void*      // comment\n"
+		"foo() {}\n"
+		"\n"
+		"void **    /* comment */\n"
+		"foo() {}\n"
+		"\n"
+		"char**\n"
+		"bar() {}\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, Comment)
+{
+	// test pointer with comment after
+	char text[] =
+		"\nvoid Foo(WordList*/*keyword*/,\n"
+		"         WordList**/*keyword*/) {\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, OperatorOverload)
+{
+	// test pointer with overloaded operator
+	char text[] =
+		"\nclass Foo\n"
+		"{\n"
+		"    T& operator* () const {};\n"
+		"    T * operator-> () {};\n"
+		"};\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, ConversionOperator)
+{
+	// test pointer with conversion operator
+	char text[] =
+		"\n// conversion operator declarations\n"
+		"operator EventRef &() { return fEvent; }\n"
+		"operator HIRect * () { return this; }\n"
+		"operator bool() { return len ? true : false; }\n"
+		"\n"
+		"// conversion operator definitions\n"
+		"operator EventRef&();\n"
+		"operator HIRect *();\n"
+		"operator bool() const;\n"
+		"\n"
+		"// conversion operator casts\n"
+		"EventRef& rf = (EventRef&) tf;\n"
+		"HIRect *pr   = (HIRect *) tr;\n"
+		"bool bb      = (bool) tb;\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, ScopeResolution)
+{
+	// should not change scope resolution operator
+	char text[] =
+		"\nstruct CV {\n"
+		"    VarType TClassType::*var;\n"
+		"    VarType TClassType:: *var;\n"
+		"    VarType TClassType::* var;\n"
+		"    VarType TClassType:: * var;\n"
+		"} cv;\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, PadParenOutside)
+{
+	// should not change scope resolution operator
+	char text[] =
+		"\nBOOL RegisterServer() {\n"
+		"    static DOREGSTRUCT ClsidEntries[] = {\n"
+		"        { ShowIcon, (LPTSTR)& showIcon},\n"
+		"        { Dynamic,  (LPTSTR) & isDynamic},\n"
+		"        { Maxtext,  (LPTSTR) &maxText},\n"
+		"        { IconID,   (LPTSTR)&iconID},\n"
+		"    };\n"
+		"}";
+	char options[] = "pad-paren-out";
+	char* textOut1 = AStyleMain(text, options, errorHandler, memoryAlloc);
+	// format twice to be sure an extra space is not added
+	char* textOut = AStyleMain(textOut1, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut1;
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, UnpadParen)
+{
+	// unpad-paren should NOT delete space padding
+	char text[] =
+		"\nLUA_API lua_State     *(lua_tothread)(lua_State *L, int idx);\n"
+		"LUA_API const void     *(lua_topointer)(lua_State *L, int idx);\n";
+	char options[] = "unpad-paren";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, LongOption)
+{
+	// test align pointer=type
+	char textIn[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string* bar;     // comment\n"
+		"    const string *bar;     // comment\n"
+		"    const string   *bar;   // comment\n"
+		"    const string  * bar;   // comment\n"
+		"    const string*bar;      // comment\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string* bar;     // comment\n"
+		"    const string* bar;     // comment\n"
+		"    const string*   bar;   // comment\n"
+		"    const string*   bar;   // comment\n"
+		"    const string* bar;     // comment\n"
+		"    const string& bar;     // comment\n"
+		"    const string& bar;     // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string& bar;     // comment\n"
+		"}\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, ShortOption)
+{
+	// test align pointer=type short option
+	char textIn[] =
+		"\nstring foo(const string *bar)\n"
+		"{\n"
+		"    const string* bar;\n"
+		"    const string *bar;\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string* bar)\n"
+		"{\n"
+		"    const string* bar;\n"
+		"    const string* bar;\n"
+		"}\n";
+	char options[] = "-k1";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, FromCentered)
+{
+	// test align pointer=type when input is centered
+	// a space is deleted in certain circumstances
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const string * bar;     // remove space\n"
+		"    const string  * bar;    // don't remove\n"
+		"    const string *  bar;    // don't remove\n"
+		"    const string* bar;      // don't remove\n"
+		"    const string *bar;      // don't remove\n"
+		"\n"
+		"    const string ** bar;    // remove space\n"
+		"    const string  ** bar;   // don't remove\n"
+		"    const string **  bar;   // don't remove\n"
+		"    const string** bar;     // don't remove\n"
+		"    const string **bar;     // don't remove\n"
+		"\n"
+		"    const string & bar;     // remove space\n"
+		"    const string  & bar;    // don't remove\n"
+		"    const string &  bar;    // don't remove\n"
+		"    const string& bar;      // don't remove\n"
+		"    const string &bar;      // don't remove\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const string* bar;      // remove space\n"
+		"    const string*   bar;    // don't remove\n"
+		"    const string*   bar;    // don't remove\n"
+		"    const string* bar;      // don't remove\n"
+		"    const string* bar;      // don't remove\n"
+		"\n"
+		"    const string** bar;     // remove space\n"
+		"    const string**   bar;   // don't remove\n"
+		"    const string**   bar;   // don't remove\n"
+		"    const string** bar;     // don't remove\n"
+		"    const string** bar;     // don't remove\n"
+		"\n"
+		"    const string& bar;      // remove space\n"
+		"    const string&   bar;    // don't remove\n"
+		"    const string&   bar;    // don't remove\n"
+		"    const string& bar;      // don't remove\n"
+		"    const string& bar;      // don't remove\n"
+		"}\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, Tabs)
+{
+	// test with tab separators
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const char	*bar;\n"
+		"    const char		*bar;\n"
+		"    const char*		bar;\n"
+		"    const char		*		bar;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const char*	bar;\n"
+		"    const char*		bar;\n"
+		"    const char*		bar;\n"
+		"    const char*				bar;\n"
+		"}\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, AddressOf)
+{
+	// "address of" operator should NOT be separated from the name
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (bar1 == &AS_BAR1\n"
+		"            || bar2 == &AS_BAR2)   // comment\n"
+		"        return;\n"
+		"    return &x;\n"
+		"    return (&x);\n"
+		"}\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, Dereference)
+{
+	// dereference should NOT be separated from the name
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    TRxtra (*prevWordH);   // comment\n"
+		"    if (fileName.empty())\n"
+		"        *traceOutF << lineNum << endl;\n"
+		"    else\n"
+		"        *traceOutF << fileName << endl;\n"
+		"    RegisterImage((char**)xpm_data_ptrs[i]);\n"
+		"    if (i > *maxcol) *maxcol = i;\n"
+		"    *newVec = **iter;\n"
+		"    (info.*entryFunc[j])(value);\n"
+		"    bool gtr = (*a)->IsLarger(**b);\n"
+		"    return *this;\n"
+		"    return (*this);\n"
+		"    if (*doc) delete *doc;\n"
+		"\n"
+		"    if(prev) next = next;\n"
+		"    else *chain = next;\n"
+		"\n"
+		"    for (tp::iterator it = p.begin(); it != p.end(); ++it) {\n"
+		"        fill( m, **it );\n"
+		"    }\n"
+		"}\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, GlobalVariables)
+{
+	// test with global variables
+	char textIn[] =
+		"\n// global variables\n"
+		"ostream *_err = &cerr;\n"
+		"ASConsole *g_console;\n"
+		"stringstream *_err = NULL;\n";
+	char text[] =
+		"\n// global variables\n"
+		"ostream* _err = &cerr;\n"
+		"ASConsole* g_console;\n"
+		"stringstream* _err = NULL;\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, GlobalDeclarations)
+{
+	// test with global declarations
+	char textIn[] =
+		"\n// function declarations\n"
+		"void *foo(char*fooBar);\n"
+		"char&bar(char&);\n";
+	char text[] =
+		"\n// function declarations\n"
+		"void* foo(char* fooBar);\n"
+		"char& bar(char&);\n";;
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, Cast1)
+{
+	// cast should not be space padded
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const string *bar;          // comment0\n"
+		"    foo = (RefNode **) bar();   // comment1\n"
+		"    foo = (RefNode *) bar();    // comment2\n"
+		"    foo = ( RefNode ** ) bar(); // comment1\n"
+		"    foo = ( RefNode * ) bar();  // comment2\n"
+		"    foo = const_cast<RefNode **>(bar()); // comment3\n"
+		"    foo = const_cast<RefNode *>(bar());  // comment4\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const string* bar;          // comment0\n"
+		"    foo = (RefNode**) bar();    // comment1\n"
+		"    foo = (RefNode*) bar();     // comment2\n"
+		"    foo = ( RefNode** ) bar();  // comment1\n"
+		"    foo = ( RefNode* ) bar();   // comment2\n"
+		"    foo = const_cast<RefNode**>(bar());  // comment3\n"
+		"    foo = const_cast<RefNode*>(bar());   // comment4\n"
+		"}\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, Cast2)
+{
+	// cast should not be space padded
+	char textIn[] =
+		"\nvoid foo(void *, void *);\n"
+		"void foo(void *fooBar, void * fooBar);\n";
+	char text[] =
+		"\nvoid foo(void*, void*);\n"
+		"void foo(void* fooBar, void* fooBar);\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, ConvertTabs)
+{
+	// test tab conversion on type
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    wxListBox	*channel;\n"
+		"    wxTextCtrl	*filename;\n"
+		"    char		*	stamp;\n"
+		"    void			*userData;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    wxListBox*   channel;\n"
+		"    wxTextCtrl*  filename;\n"
+		"    char*           stamp;\n"
+		"    void*            userData;\n"
+		"}\n";
+	char options[] = "align-pointer=type, convert-tabs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, Paren)
+{
+	// test pointer recognition in a paren
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(cbProject *p = pm->GetProject())\n"
+		"        getBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(cbProject* p = pm->GetProject())\n"
+		"        getBar();\n"
+		"}\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, PointerToPointer)
+{
+	// test double pointer
+	char textIn[] =
+		"\nint main(int argc, char **argv)\n"
+		"{\n"
+		"    char    **bar1;\n"
+		"    char  **  bar1;\n"
+		"    char**    bar1;\n"
+		"    char	**	bar1;\n"
+		"    char		**		bar1;\n"
+		"    char**bar1;\n"
+		"}\n";
+	char text[] =
+		"\nint main(int argc, char** argv)\n"
+		"{\n"
+		"    char**    bar1;\n"
+		"    char**    bar1;\n"
+		"    char**    bar1;\n"
+		"    char**		bar1;\n"
+		"    char**				bar1;\n"
+		"    char** bar1;\n"
+		"}\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, EndOfLine1)
+{
+	// test pointer at end of line
+	char textIn[] =
+		"\nvoid*\n"
+		"foo() {}\n"
+		"\n"
+		"char &\n"
+		"bar() {}\n";
+	char text[] =
+		"\nvoid*\n"
+		"foo() {}\n"
+		"\n"
+		"char&\n"
+		"bar() {}\n";
+	char options[] = "align-pointer=type, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, EndOfLine2)
+{
+	// test pointer at end of line with spaces or comment after
+	char textIn[] =
+		"\nvoid*   \n"
+		"foo() {}\n"
+		"\n"
+		"char &   \n"
+		"bar() {}\n"
+		"\n"
+		"void*      // comment  \n"
+		"foo() {}\n"
+		"\n"
+		"void **    /* comment */  \n"
+		"foo() {}\n"
+		"\n"
+		"char**   \n"
+		"bar() {}\n";
+	char text[] =
+		"\nvoid*\n"
+		"foo() {}\n"
+		"\n"
+		"char&\n"
+		"bar() {}\n"
+		"\n"
+		"void*      // comment\n"
+		"foo() {}\n"
+		"\n"
+		"void**     /* comment */\n"
+		"foo() {}\n"
+		"\n"
+		"char**\n"
+		"bar() {}\n";
+	char options[] = "align-pointer=type, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, Comment)
+{
+	// test pointer with comment after
+	char textIn[] =
+		"\nvoid Foo(WordList*/*keyword*/,\n"
+		"         WordList**/*keyword*/) {\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(WordList* /*keyword*/,\n"
+		"         WordList** /*keyword*/) {\n"
+		"}\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, OperatorOverload)
+{
+	// test pointer with overloaded operator
+	char textIn[] =
+		"\nclass Foo\n"
+		"{\n"
+		"    T& operator* () const {};\n"
+		"    T * operator-> () {};\n"
+		"};\n";
+	char text[] =
+		"\nclass Foo\n"
+		"{\n"
+		"    T& operator* () const {};\n"
+		"    T* operator-> () {};\n"
+		"};\n";
+	char options[] = "align-pointer=type, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, ConversionOperator)
+{
+	// test pointer with conversion operator
+	char textIn[] =
+		"\n// conversion operator declarations\n"
+		"operator EventRef &() { return fEvent; }\n"
+		"operator HIRect * () { return this; }\n"
+		"operator bool() { return len ? true : false; }\n"
+		"\n"
+		"// conversion operator definitions\n"
+		"operator EventRef&();\n"
+		"operator HIRect *();\n"
+		"operator bool() const;\n"
+		"\n"
+		"// conversion operator casts\n"
+		"EventRef& rf = (EventRef&) tf;\n"
+		"HIRect *pr   = (HIRect *) tr;\n"
+		"bool bb      = (bool) tb;\n";
+	char text[] =
+		"\n// conversion operator declarations\n"
+		"operator EventRef& () { return fEvent; }\n"
+		"operator HIRect* () { return this; }\n"
+		"operator bool() { return len ? true : false; }\n"
+		"\n"
+		"// conversion operator definitions\n"
+		"operator EventRef& ();\n"
+		"operator HIRect* ();\n"
+		"operator bool() const;\n"
+		"\n"
+		"// conversion operator casts\n"
+		"EventRef& rf = (EventRef&) tf;\n"
+		"HIRect* pr   = (HIRect*) tr;\n"
+		"bool bb      = (bool) tb;\n";
+	char options[] = "align-pointer=type, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, ScopeResolution)
+{
+	// should pad scope resolution operator
+	char textIn[] =
+		"\nstruct CV {\n"
+		"    VarType TClassType::*var;\n"
+		"    VarType TClassType:: *var;\n"
+		"    VarType TClassType::* var;\n"
+		"    VarType TClassType:: * var;\n"
+		"} cv;\n";
+	char text[] =
+		"\nstruct CV {\n"
+		"    VarType TClassType::* var;\n"
+		"    VarType TClassType::* var;\n"
+		"    VarType TClassType::* var;\n"
+		"    VarType TClassType::* var;\n"
+		"} cv;\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, PadParenOutside)
+{
+	// should not change scope resolution operator
+	char textIn[] =
+		"\nBOOL RegisterServer() {\n"
+		"    static DOREGSTRUCT ClsidEntries[] = {\n"
+		"        { ShowIcon, (LPTSTR)& showIcon},\n"
+		"        { Dynamic,  (LPTSTR) & isDynamic},\n"
+		"        { Maxtext,  (LPTSTR) &maxText},\n"
+		"        { IconID,   (LPTSTR)&iconID},\n"
+		"    };\n"
+		"}";
+	char text[] =
+		"\nBOOL RegisterServer() {\n"
+		"    static DOREGSTRUCT ClsidEntries[] = {\n"
+		"        { ShowIcon, (LPTSTR)& showIcon},\n"
+		"        { Dynamic,  (LPTSTR)& isDynamic},\n"
+		"        { Maxtext,  (LPTSTR)& maxText},\n"
+		"        { IconID,   (LPTSTR)& iconID},\n"
+		"    };\n"
+		"}";
+	char options[] = "align-pointer=type, pad-paren-out";
+	char* textOut1 = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	// format twice to be sure an extra space is not added
+	char* textOut = AStyleMain(textOut1, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut1;
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, UnpadParen)
+{
+	// unpad-paren should NOT delete space padding
+	char textIn[] =
+		"\nLUA_API lua_State     *(lua_tothread)(lua_State *L, int idx);\n"
+		"LUA_API const void     *(lua_topointer)(lua_State *L, int idx);\n";
+	char text[] =
+		"\nLUA_API lua_State*     (lua_tothread)(lua_State* L, int idx);\n"
+		"LUA_API const void*     (lua_topointer)(lua_State* L, int idx);\n";
+	char options[] = "align-pointer=type, unpad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, Catch)
+{
+	// 'catch' statement is a reference, not an operator
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    try {\n"
+		"        wxBufferedInputStream fb(fs);\n"
+		"    }\n"
+		"    catch (cbException&ex) {\n"
+		"        ex.ShowErrorMessage(true);\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    try {\n"
+		"        wxBufferedInputStream fb(fs);\n"
+		"    }\n"
+		"    catch (cbException& ex) {\n"
+		"        ex.ShowErrorMessage(true);\n"
+		"    }\n"
+		"}\n";
+	char options[] = "align-pointer=type, pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, AndOperator)
+{
+	// should not unpad && operator
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo() && isBar())   // comment\n"
+		"        return;\n"
+		"    if (isFoo && isBar)   // comment\n"
+		"        return;\n"
+		"    if (isFoo\n"
+		"            && isBar1)   // comment\n"
+		"        return;\n"
+		"}\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, Sans1)
+{
+	// these are not pointers
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    a *= b;\n"
+		"    a &= b;\n"
+		"    a && b;\n"
+		"    x = a * b;\n"
+		"    x = a & b;\n"
+		"    bar[boo*foo-1] = 2;\n"
+		"}\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, Sans2)
+{
+	// these should be padded as operators
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    a*=b;\n"
+		"    a&=b;\n"
+		"    a&&b;\n"
+		"    x=a*b;\n"
+		"    x=a&b;\n"
+		"    if (len*tab>longest) bar();\n"
+		"    SetWidth(width()+(pixels*indentAmt));\n"
+		"    if (m_Flags&flLocal) return;\n"
+		"    Link(m_y+.5*h-.5*m_fontSize);\n"
+		"    if ((Flags&flVariable)&&(Flags&flId))\n"
+		"        bar();\n"
+		"    out_html(change_to_size(i*j));\n"
+		"    if (i>*maxcol) *maxcol=i;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    a *= b;\n"
+		"    a &= b;\n"
+		"    a && b;\n"
+		"    x = a * b;\n"
+		"    x = a & b;\n"
+		"    if (len * tab > longest) bar();\n"
+		"    SetWidth(width() + (pixels * indentAmt));\n"
+		"    if (m_Flags & flLocal) return;\n"
+		"    Link(m_y + .5 * h - .5 * m_fontSize);\n"
+		"    if ((Flags & flVariable) && (Flags & flId))\n"
+		"        bar();\n"
+		"    out_html(change_to_size(i * j));\n"
+		"    if (i > *maxcol) *maxcol = i;\n"
+		"}\n";
+	char options[] = "align-pointer=type, pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, LongOption)
+{
+	// test align pointer=middle
+	char textIn[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string* bar;     // comment\n"
+		"    const string *bar;     // comment\n"
+		"    const string   *bar;   // comment\n"
+		"    const string  * bar;   // comment\n"
+		"    const string*bar;      // comment\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string * bar)  // comment\n"
+		"{\n"
+		"    const string * bar;    // comment\n"
+		"    const string * bar;    // comment\n"
+		"    const string  * bar;   // comment\n"
+		"    const string  * bar;   // comment\n"
+		"    const string * bar;    // comment\n"
+		"    const string & bar;    // comment\n"
+		"    const string & bar;    // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string & bar;    // comment\n"
+		"}\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, ShortOption)
+{
+	// test align pointer=middle short option
+	char textIn[] =
+		"\nstring foo(const string *bar)\n"
+		"{\n"
+		"    const string* bar;\n"
+		"    const string *bar;\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string * bar)\n"
+		"{\n"
+		"    const string * bar;\n"
+		"    const string * bar;\n"
+		"}\n";
+	char options[] = "-k2";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, Tabs)
+{
+	// test with tab separators
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const char	*bar;\n"
+		"    const char		*bar;\n"
+		"    const char*		bar;\n"
+		"    const char		*		bar;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const char	* bar;\n"
+		"    const char	*	bar;\n"
+		"    const char	*	bar;\n"
+		"    const char		*		bar;\n"
+		"}\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, AddressOf)
+{
+	// "address of" operator should NOT be separated from the name
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (bar1 == &AS_BAR1\n"
+		"            || bar2 == &AS_BAR2)   // comment\n"
+		"        return;\n"
+		"    return &x;\n"
+		"    return (&x);\n"
+		"}\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, Dereference)
+{
+	// dereference should NOT be separated from the name
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    TRxtra (*prevWordH);   // comment\n"
+		"    if (fileName.empty())\n"
+		"        *traceOutF << lineNum << endl;\n"
+		"    else\n"
+		"        *traceOutF << fileName << endl;\n"
+		"    RegisterImage((char **)xpm_data_ptrs[i]);\n"
+		"    if (i > *maxcol) *maxcol = i;\n"
+		"    *newVec = **iter;\n"
+		"    (info.*entryFunc[j])(value);\n"
+		"    bool gtr = (*a)->IsLarger(**b);\n"
+		"    return *this;\n"
+		"    return (*this);\n"
+		"    if (*doc) delete *doc;\n"
+		"\n"
+		"    if(prev) next = next;\n"
+		"    else *chain = next;\n"
+		"\n"
+		"    for (tp::iterator it = p.begin(); it != p.end(); ++it) {\n"
+		"        fill( m, **it );\n"
+		"    }\n"
+		"}\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, GlobalVariables)
+{
+	// test with global variables
+	char textIn[] =
+		"\n// global variables\n"
+		"ostream* _err = &cerr;\n"
+		"ASConsole* g_console;\n"
+		"stringstream* _err = NULL;\n";
+	char text[] =
+		"\n// global variables\n"
+		"ostream * _err = &cerr;\n"
+		"ASConsole * g_console;\n"
+		"stringstream * _err = NULL;\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, GlobalDeclarations)
+{
+	// test with global declarations
+	char textIn[] =
+		"\n// function declarations\n"
+		"void *foo(char*fooBar);\n"
+		"char&bar(char&);\n";
+	char text[] =
+		"\n// function declarations\n"
+		"void * foo(char * fooBar);\n"
+		"char & bar(char &);\n";;
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, Cast1)
+{
+	// cast should be space padded
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const string* bar;          // comment0\n"
+		"    foo = (RefNode**) bar();    // comment1\n"
+		"    foo = (RefNode*) bar();     // comment2\n"
+		"    foo = ( RefNode** ) bar();  // comment1\n"
+		"    foo = ( RefNode* ) bar();   // comment2\n"
+		"    foo = const_cast<RefNode**>(bar());  // comment3\n"
+		"    foo = const_cast<RefNode*>(bar());   // comment4\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const string * bar;         // comment0\n"
+		"    foo = (RefNode **) bar();   // comment1\n"
+		"    foo = (RefNode *) bar();    // comment2\n"
+		"    foo = ( RefNode ** ) bar(); // comment1\n"
+		"    foo = ( RefNode * ) bar();  // comment2\n"
+		"    foo = const_cast<RefNode **>(bar()); // comment3\n"
+		"    foo = const_cast<RefNode *>(bar());  // comment4\n"
+		"}\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, Cast2)
+{
+	// cast should be space padded
+	char textIn[] =
+		"\nvoid foo(void*, void*);\n"
+		"void foo(void*fooBar, void* fooBar);\n";
+	char text[] =
+		"\nvoid foo(void *, void *);\n"
+		"void foo(void * fooBar, void * fooBar);\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, ConvertTabs)
+{
+	// test tab conversion on type
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    wxListBox*	channel;\n"
+		"    wxTextCtrl	*filename;\n"
+		"    char		*	stamp;\n"
+		"    void*			userData;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    wxListBox * channel;\n"
+		"    wxTextCtrl * filename;\n"
+		"    char      *     stamp;\n"
+		"    void      *     userData;\n"
+		"}\n";
+	char options[] = "align-pointer=middle, convert-tabs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, Paren)
+{
+	// test pointer recognition in a paren
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(cbProject *p = pm->GetProject())\n"
+		"        getBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(cbProject * p = pm->GetProject())\n"
+		"        getBar();\n"
+		"}\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, PointerToPointer)
+{
+	// test double pointer
+	char textIn[] =
+		"\nint main(int argc, char **argv)\n"
+		"{\n"
+		"    char    **bar1;\n"
+		"    char  **  bar1;\n"
+		"    char**    bar1;\n"
+		"    char	**	bar1;\n"
+		"    char		**		bar1;\n"
+		"    char**bar1;\n"
+		"}\n";
+	char text[] =
+		"\nint main(int argc, char ** argv)\n"
+		"{\n"
+		"    char  **  bar1;\n"
+		"    char  **  bar1;\n"
+		"    char  **  bar1;\n"
+		"    char	**	bar1;\n"
+		"    char		**		bar1;\n"
+		"    char ** bar1;\n"
+		"}\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, EndOfLine1)
+{
+	// test pointer at end of line
+	char textIn[] =
+		"\nvoid*\n"
+		"foo() {}\n"
+		"\n"
+		"char &\n"
+		"bar() {}\n";
+	char text[] =
+		"\nvoid *\n"
+		"foo() {}\n"
+		"\n"
+		"char &\n"
+		"bar() {}\n";
+	char options[] = "align-pointer=middle, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, EndOfLine2)
+{
+	// test pointer at end of line with spaces or comment after
+	char textIn[] =
+		"\nvoid*   \n"
+		"foo() {}\n"
+		"\n"
+		"char &   \n"
+		"bar() {}\n"
+		"\n"
+		"void*      // comment  \n"
+		"foo() {}\n"
+		"\n"
+		"void **    /* comment */  \n"
+		"foo() {}\n"
+		"\n"
+		"char**   \n"
+		"bar() {}\n";
+	char text[] =
+		"\nvoid *\n"
+		"foo() {}\n"
+		"\n"
+		"char &\n"
+		"bar() {}\n"
+		"\n"
+		"void *     // comment\n"
+		"foo() {}\n"
+		"\n"
+		"void **    /* comment */\n"
+		"foo() {}\n"
+		"\n"
+		"char **\n"
+		"bar() {}\n";
+	char options[] = "align-pointer=middle, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, Comment)
+{
+	// test pointer with comment after
+	char textIn[] =
+		"\nvoid Foo(WordList*/*keyword*/,\n"
+		"         WordList**/*keyword*/) {\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(WordList * /*keyword*/,\n"
+		"         WordList ** /*keyword*/) {\n"
+		"}\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, OperatorOverload)
+{
+	// test pointer with overloaded operator
+	char textIn[] =
+		"\nclass Foo\n"
+		"{\n"
+		"    T& operator* () const {};\n"
+		"    T * operator-> () {};\n"
+		"};\n";
+	char text[] =
+		"\nclass Foo\n"
+		"{\n"
+		"    T & operator* () const {};\n"
+		"    T * operator-> () {};\n"
+		"};\n";
+	char options[] = "align-pointer=middle, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, ConversionOperator)
+{
+	// test pointer with conversion operator
+	char textIn[] =
+		"\n// conversion operator declarations\n"
+		"operator EventRef &() { return fEvent; }\n"
+		"operator HIRect * () { return this; }\n"
+		"operator bool() { return len ? true : false; }\n"
+		"\n"
+		"// conversion operator definitions\n"
+		"operator EventRef&();\n"
+		"operator HIRect *();\n"
+		"operator bool() const;\n"
+		"\n"
+		"// conversion operator casts\n"
+		"EventRef& rf = (EventRef&) tf;\n"
+		"HIRect *pr   = (HIRect *) tr;\n"
+		"bool bb      = (bool) tb;\n";
+	char text[] =
+		"\n// conversion operator declarations\n"
+		"operator EventRef & () { return fEvent; }\n"
+		"operator HIRect * () { return this; }\n"
+		"operator bool() { return len ? true : false; }\n"
+		"\n"
+		"// conversion operator definitions\n"
+		"operator EventRef & ();\n"
+		"operator HIRect * ();\n"
+		"operator bool() const;\n"
+		"\n"
+		"// conversion operator casts\n"
+		"EventRef & rf = (EventRef &) tf;\n"
+		"HIRect * pr   = (HIRect *) tr;\n"
+		"bool bb      = (bool) tb;\n";
+	char options[] = "align-pointer=middle, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, ScopeResolution)
+{
+	// should pad scope resolution operator
+	char textIn[] =
+		"\nstruct CV {\n"
+		"    VarType TClassType::*var;\n"
+		"    VarType TClassType:: *var;\n"
+		"    VarType TClassType::* var;\n"
+		"    VarType TClassType:: * var;\n"
+		"} cv;\n";
+	char text[] =
+		"\nstruct CV {\n"
+		"    VarType TClassType::* var;\n"
+		"    VarType TClassType::* var;\n"
+		"    VarType TClassType::* var;\n"
+		"    VarType TClassType::*  var;\n"
+		"} cv;\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, PadParenOutside)
+{
+	// should not change scope resolution operator
+	char textIn[] =
+		"\nBOOL RegisterServer() {\n"
+		"    static DOREGSTRUCT ClsidEntries[] = {\n"
+		"        { ShowIcon, (LPTSTR)& showIcon},\n"
+		"        { Dynamic,  (LPTSTR) & isDynamic},\n"
+		"        { Maxtext,  (LPTSTR) &maxText},\n"
+		"        { IconID,   (LPTSTR)&iconID},\n"
+		"    };\n"
+		"}";
+	char text[] =
+		"\nBOOL RegisterServer() {\n"
+		"    static DOREGSTRUCT ClsidEntries[] = {\n"
+		"        { ShowIcon, (LPTSTR) & showIcon},\n"
+		"        { Dynamic,  (LPTSTR) & isDynamic},\n"
+		"        { Maxtext,  (LPTSTR) & maxText},\n"
+		"        { IconID,   (LPTSTR) & iconID},\n"
+		"    };\n"
+		"}";
+	char options[] = "align-pointer=middle, pad-paren-out";
+	char* textOut1 = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	// format twice to be sure an extra space is not added
+	char* textOut = AStyleMain(textOut1, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut1;
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, UnpadParen)
+{
+	// unpad-paren should NOT delete space padding
+	char textIn[] =
+		"\nLUA_API lua_State*     (lua_tothread)(lua_State *L, int idx);\n"
+		"LUA_API const void     *(lua_topointer)(lua_State *L, int idx);\n";
+	char text[] =
+		"\nLUA_API lua_State   *  (lua_tothread)(lua_State * L, int idx);\n"
+		"LUA_API const void   *  (lua_topointer)(lua_State * L, int idx);\n";
+	char options[] = "align-pointer=middle, unpad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, Catch)
+{
+	// 'catch' statement is a reference, not an operator
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    try {\n"
+		"        wxBufferedInputStream fb(fs);\n"
+		"    }\n"
+		"    catch (cbException&ex) {\n"
+		"        ex.ShowErrorMessage(true);\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    try {\n"
+		"        wxBufferedInputStream fb(fs);\n"
+		"    }\n"
+		"    catch (cbException & ex) {\n"
+		"        ex.ShowErrorMessage(true);\n"
+		"    }\n"
+		"}\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, AndOperator)
+{
+	// should not unpad && operator
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo() && isBar())   // comment\n"
+		"        return;\n"
+		"    if (isFoo && isBar)   // comment\n"
+		"        return;\n"
+		"    if (isFoo\n"
+		"            && isBar1)   // comment\n"
+		"        return;\n"
+		"}\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, Sans1)
+{
+	// these are not pointers
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    a *= b;\n"
+		"    a &= b;\n"
+		"    a && b;\n"
+		"    x = a * b;\n"
+		"    x = a & b;\n"
+		"    bar[boo*foo-1] = 2;\n"
+		"}\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, Sans2)
+{
+	// these should be padded as operators
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    a*=b;\n"
+		"    a&=b;\n"
+		"    a&&b;\n"
+		"    x=a*b;\n"
+		"    x=a&b;\n"
+		"    if (len*tab>longest) bar();\n"
+		"    SetWidth(width()+(pixels*indentAmt));\n"
+		"    if (m_Flags&flLocal) return;\n"
+		"    Link(m_y+.5*h-.5*m_fontSize);\n"
+		"    if ((Flags&flVariable)&&(Flags&flId))\n"
+		"        bar();\n"
+		"    out_html(change_to_size(i*j));\n"
+		"    if (i>*maxcol) *maxcol=i;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    a *= b;\n"
+		"    a &= b;\n"
+		"    a && b;\n"
+		"    x = a * b;\n"
+		"    x = a & b;\n"
+		"    if (len * tab > longest) bar();\n"
+		"    SetWidth(width() + (pixels * indentAmt));\n"
+		"    if (m_Flags & flLocal) return;\n"
+		"    Link(m_y + .5 * h - .5 * m_fontSize);\n"
+		"    if ((Flags & flVariable) && (Flags & flId))\n"
+		"        bar();\n"
+		"    out_html(change_to_size(i * j));\n"
+		"    if (i > *maxcol) *maxcol = i;\n"
+		"}\n";
+	char options[] = "align-pointer=middle, pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, LongOption)
+{
+	// test align pointer=name
+	char textIn[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string* bar;     // comment\n"
+		"    const string *bar;     // comment\n"
+		"    const string   *bar;   // comment\n"
+		"    const string  * bar;   // comment\n"
+		"    const string*bar;      // comment\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string *bar;     // comment\n"
+		"    const string *bar;     // comment\n"
+		"    const string   *bar;   // comment\n"
+		"    const string   *bar;   // comment\n"
+		"    const string *bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string &bar;     // comment\n"
+		"}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, ShortOption)
+{
+	// test align pointer=name short option
+	char textIn[] =
+		"\nstring foo(const string* bar)\n"
+		"{\n"
+		"    const string *bar;\n"
+		"    const string* bar;\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string *bar)\n"
+		"{\n"
+		"    const string *bar;\n"
+		"    const string *bar;\n"
+		"}\n";
+	char options[] = "-k3";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, FromCentered)
+{
+	// test align pointer=name when input is centered
+	// a space is deleted in certain circumstances
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const string * bar;     // remove space\n"
+		"    const string  * bar;    // don't remove\n"
+		"    const string *  bar;    // don't remove\n"
+		"    const string* bar;      // don't remove\n"
+		"    const string *bar;      // don't remove\n"
+		"\n"
+		"    const string ** bar;    // remove space\n"
+		"    const string  ** bar;   // don't remove\n"
+		"    const string **  bar;   // don't remove\n"
+		"    const string** bar;     // don't remove\n"
+		"    const string **bar;     // don't remove\n"
+		"\n"
+		"    const string & bar;     // remove space\n"
+		"    const string  & bar;    // don't remove\n"
+		"    const string &  bar;    // don't remove\n"
+		"    const string& bar;      // don't remove\n"
+		"    const string &bar;      // don't remove\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const string *bar;      // remove space\n"
+		"    const string   *bar;    // don't remove\n"
+		"    const string   *bar;    // don't remove\n"
+		"    const string *bar;      // don't remove\n"
+		"    const string *bar;      // don't remove\n"
+		"\n"
+		"    const string **bar;     // remove space\n"
+		"    const string   **bar;   // don't remove\n"
+		"    const string   **bar;   // don't remove\n"
+		"    const string **bar;     // don't remove\n"
+		"    const string **bar;     // don't remove\n"
+		"\n"
+		"    const string &bar;      // remove space\n"
+		"    const string   &bar;    // don't remove\n"
+		"    const string   &bar;    // don't remove\n"
+		"    const string &bar;      // don't remove\n"
+		"    const string &bar;      // don't remove\n"
+		"}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, Tabs)
+{
+	// test with tab separators
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const char*	bar;\n"
+		"    const char	*	bar;\n"
+		"    const char		*bar;\n"
+		"    const char		*		bar;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const char	*bar;\n"
+		"    const char		*bar;\n"
+		"    const char		*bar;\n"
+		"    const char				*bar;\n"
+		"}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, AddressOf)
+{
+	// "address of" operator should NOT be separated from the name
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (bar1 == &AS_BAR1\n"
+		"            || bar2 == &AS_BAR2)   // comment\n"
+		"        return;\n"
+		"    return &x;\n"
+		"    return (&x);\n"
+		"}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, Dereference)
+{
+	// dereference should NOT be separated from the name
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    TRxtra (*prevWordH);   // comment\n"
+		"    if (fileName.empty())\n"
+		"        *traceOutF << lineNum << endl;\n"
+		"    else\n"
+		"        *traceOutF << fileName << endl;\n"
+		"    RegisterImage((char **)xpm_data_ptrs[i]);\n"
+		"    if (i > *maxcol) *maxcol = i;\n"
+		"    *newVec = **iter;\n"
+		"    (info.*entryFunc[j])(value);\n"
+		"    bool gtr = (*a)->IsLarger(**b);\n"
+		"    return *this;\n"
+		"    return (*this);\n"
+		"    if (*doc) delete *doc;\n"
+		"\n"
+		"    if(prev) next = next;\n"
+		"    else *chain = next;\n"
+		"\n"
+		"    for (tp::iterator it = p.begin(); it != p.end(); ++it) {\n"
+		"        fill( m, **it );\n"
+		"    }\n"
+		"}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, GlobalVariables)
+{
+	// test with global variables
+	char textIn[] =
+		"\n// global variables\n"
+		"ostream* _err = &cerr;\n"
+		"ASConsole* g_console;\n"
+		"stringstream* _err = NULL;\n";
+	char text[] =
+		"\n// global variables\n"
+		"ostream *_err = &cerr;\n"
+		"ASConsole *g_console;\n"
+		"stringstream *_err = NULL;\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, GlobalDeclarations)
+{
+	// test with global declarations
+	char textIn[] =
+		"\n// function declarations\n"
+		"void* foo(char*fooBar);\n"
+		"char&bar(char&);\n";
+	char text[] =
+		"\n// function declarations\n"
+		"void *foo(char *fooBar);\n"
+		"char &bar(char &);\n";;
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, Cast1)
+{
+	// cast should be space padded
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const string* bar;          // comment0\n"
+		"    foo = (RefNode**) bar();    // comment1\n"
+		"    foo = (RefNode*) bar();     // comment2\n"
+		"    foo = ( RefNode** ) bar();  // comment1\n"
+		"    foo = ( RefNode* ) bar();   // comment2\n"
+		"    foo = const_cast<RefNode**>(bar());  // comment3\n"
+		"    foo = const_cast<RefNode*>(bar());   // comment4\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const string *bar;          // comment0\n"
+		"    foo = (RefNode **) bar();   // comment1\n"
+		"    foo = (RefNode *) bar();    // comment2\n"
+		"    foo = ( RefNode ** ) bar(); // comment1\n"
+		"    foo = ( RefNode * ) bar();  // comment2\n"
+		"    foo = const_cast<RefNode **>(bar()); // comment3\n"
+		"    foo = const_cast<RefNode *>(bar());  // comment4\n"
+		"}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, Cast2)
+{
+	// cast should be space padded
+	char textIn[] =
+		"\nvoid foo(void*, void*);\n"
+		"void foo(void*fooBar, void* fooBar);\n";
+	char text[] =
+		"\nvoid foo(void *, void *);\n"
+		"void foo(void *fooBar, void *fooBar);\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, ConvertTabs)
+{
+	// test tab conversion on type
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    wxListBox*	channel;\n"
+		"    wxTextCtrl*	filename;\n"
+		"    char		*	stamp;\n"
+		"    void*			userData;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    wxListBox  *channel;\n"
+		"    wxTextCtrl *filename;\n"
+		"    char           *stamp;\n"
+		"    void           *userData;\n"
+		"}\n";
+	char options[] = "align-pointer=name, convert-tabs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, Paren)
+{
+	// test pointer recognition in a paren
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(cbProject * p = pm->GetProject())\n"
+		"        getBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(cbProject *p = pm->GetProject())\n"
+		"        getBar();\n"
+		"}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, PointerToPointer)
+{
+	// test double pointer
+	char textIn[] =
+		"\nint main(int argc, char** argv)\n"
+		"{\n"
+		"    char**    bar1;\n"
+		"    char  **  bar1;\n"
+		"    char    **bar1;\n"
+		"    char	**	bar1;\n"
+		"    char		**		bar1;\n"
+		"}\n";
+	char text[] =
+		"\nint main(int argc, char **argv)\n"
+		"{\n"
+		"    char    **bar1;\n"
+		"    char    **bar1;\n"
+		"    char    **bar1;\n"
+		"    char		**bar1;\n"
+		"    char				**bar1;\n"
+		"}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, EndOfLine1)
+{
+	// test pointer at end of line
+	char textIn[] =
+		"\nvoid*\n"
+		"foo() {}\n"
+		"\n"
+		"char &\n"
+		"bar() {}\n";
+	char text[] =
+		"\nvoid *\n"
+		"foo() {}\n"
+		"\n"
+		"char &\n"
+		"bar() {}\n";
+	char options[] = "align-pointer=name, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, EndOfLine2)
+{
+	// test pointer at end of line with spaces or comment after
+	char textIn[] =
+		"\nvoid*   \n"
+		"foo() {}\n"
+		"\n"
+		"char &   \n"
+		"bar() {}\n"
+		"\n"
+		"void*      // comment  \n"
+		"foo() {}\n"
+		"\n"
+		"void **    /* comment */  \n"
+		"foo() {}\n"
+		"\n"
+		"char**   \n"
+		"bar() {}\n";
+	char text[] =
+		"\nvoid *\n"
+		"foo() {}\n"
+		"\n"
+		"char &\n"
+		"bar() {}\n"
+		"\n"
+		"void *     // comment\n"
+		"foo() {}\n"
+		"\n"
+		"void **    /* comment */\n"
+		"foo() {}\n"
+		"\n"
+		"char **\n"
+		"bar() {}\n";
+	char options[] = "align-pointer=name, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, Comment)
+{
+	// test pointer with comment after
+	char textIn[] =
+		"\nvoid Foo(WordList*/*keyword*/,\n"
+		"         WordList**/*keyword*/) {\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(WordList */*keyword*/,\n"
+		"         WordList **/*keyword*/) {\n"
+		"}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, OperatorOverload)
+{
+	// test pointer with overloaded operator
+	char textIn[] =
+		"\nclass Foo\n"
+		"{\n"
+		"    T& operator* () const {};\n"
+		"    T * operator-> () {};\n"
+		"};\n";
+	char text[] =
+		"\nclass Foo\n"
+		"{\n"
+		"    T &operator* () const {};\n"
+		"    T *operator-> () {};\n"
+		"};\n";
+	char options[] = "align-pointer=name, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, ConversionOperator)
+{
+	// test pointer with conversion operator
+	char textIn[] =
+		"\n// conversion operator declarations\n"
+		"operator EventRef &() { return fEvent; }\n"
+		"operator HIRect * () { return this; }\n"
+		"operator bool() { return len ? true : false; }\n"
+		"\n"
+		"// conversion operator definitions\n"
+		"operator EventRef&();\n"
+		"operator HIRect *();\n"
+		"operator bool() const;\n"
+		"\n"
+		"// conversion operator casts\n"
+		"EventRef& rf = (EventRef&) tf;\n"
+		"HIRect *pr   = (HIRect *) tr;\n"
+		"bool bb      = (bool) tb;\n";
+	char text[] =
+		"\n// conversion operator declarations\n"
+		"operator EventRef &() { return fEvent; }\n"
+		"operator HIRect *() { return this; }\n"
+		"operator bool() { return len ? true : false; }\n"
+		"\n"
+		"// conversion operator definitions\n"
+		"operator EventRef &();\n"
+		"operator HIRect *();\n"
+		"operator bool() const;\n"
+		"\n"
+		"// conversion operator casts\n"
+		"EventRef &rf = (EventRef &) tf;\n"
+		"HIRect *pr   = (HIRect *) tr;\n"
+		"bool bb      = (bool) tb;\n";
+	char options[] = "align-pointer=name, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, ScopeResolution)
+{
+	// should not pad scope resolution operator
+	char textIn[] =
+		"\nstruct CV {\n"
+		"    VarType TClassType::*var;\n"
+		"    VarType TClassType:: *var;\n"
+		"    VarType TClassType::* var;\n"
+		"    VarType TClassType:: * var;\n"
+		"} cv;\n";
+	char text[] =
+		"\nstruct CV {\n"
+		"    VarType TClassType::*var;\n"
+		"    VarType TClassType::*var;\n"
+		"    VarType TClassType::*var;\n"
+		"    VarType TClassType::*var;\n"
+		"} cv;\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, PadParenOutside)
+{
+	// test align-pointer with pad-paren-out
+	char textIn[] =
+		"\nBOOL RegisterServer() {\n"
+		"    static DOREGSTRUCT ClsidEntries[] = {\n"
+		"        { ShowIcon, (LPTSTR)& showIcon},\n"
+		"        { Dynamic,  (LPTSTR) & isDynamic},\n"
+		"        { Maxtext,  (LPTSTR) &maxText},\n"
+		"        { IconID,   (LPTSTR)&iconID},\n"
+		"    };\n"
+		"}";
+	char text[] =
+		"\nBOOL RegisterServer() {\n"
+		"    static DOREGSTRUCT ClsidEntries[] = {\n"
+		"        { ShowIcon, (LPTSTR) &showIcon},\n"
+		"        { Dynamic,  (LPTSTR) &isDynamic},\n"
+		"        { Maxtext,  (LPTSTR) &maxText},\n"
+		"        { IconID,   (LPTSTR) &iconID},\n"
+		"    };\n"
+		"}";
+	char options[] = "align-pointer=name, pad-paren-out";
+	char* textOut1 = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	// format twice to be sure an extra space is not added
+	char* textOut = AStyleMain(textOut1, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut1;
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, UnpadParen)
+{
+	// unpad-paren should NOT delete space padding
+	char textIn[] =
+		"\nLUA_API lua_State*     (lua_tothread)(lua_State *L, int idx);\n"
+		"LUA_API const void*     (lua_topointer)(lua_State *L, int idx);\n";
+	char text[] =
+		"\nLUA_API lua_State     *(lua_tothread)(lua_State *L, int idx);\n"
+		"LUA_API const void     *(lua_topointer)(lua_State *L, int idx);\n";
+	char options[] = "align-pointer=name, unpad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, Catch)
+{
+	// 'catch' statement is a reference, not an operator
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    try {\n"
+		"        wxBufferedInputStream fb(fs);\n"
+		"    }\n"
+		"    catch (cbException&ex) {\n"
+		"        ex.ShowErrorMessage(true);\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    try {\n"
+		"        wxBufferedInputStream fb(fs);\n"
+		"    }\n"
+		"    catch (cbException &ex) {\n"
+		"        ex.ShowErrorMessage(true);\n"
+		"    }\n"
+		"}\n";
+	char options[] = "align-pointer=name, pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, AndOperator)
+{
+	// should not unpad && operator
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo() && isBar())   // comment\n"
+		"        return;\n"
+		"    if (isFoo && isBar)   // comment\n"
+		"        return;\n"
+		"    if (isFoo\n"
+		"            && isBar1)   // comment\n"
+		"        return;\n"
+		"}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, Sans1)
+{
+	// these are not pointers
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    a *= b;\n"
+		"    a &= b;\n"
+		"    a && b;\n"
+		"    x = a * b;\n"
+		"    x = a & b;\n"
+		"    bar[boo*foo-1] = 2;\n"
+		"}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, Sans2)
+{
+	// these should be padded as operators
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    a*=b;\n"
+		"    a&=b;\n"
+		"    a&&b;\n"
+		"    x=a*b;\n"
+		"    x=a&b;\n"
+		"    if (len*tab>longest) bar();\n"
+		"    SetWidth(width()+(pixels*indentAmt));\n"
+		"    if (m_Flags&flLocal) return;\n"
+		"    Link(m_y+.5*h-.5*m_fontSize);\n"
+		"    if ((Flags&flVariable)&&(Flags&flId))\n"
+		"        bar();\n"
+		"    out_html(change_to_size(i*j));\n"
+		"    if (i>*maxcol) *maxcol=i;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    a *= b;\n"
+		"    a &= b;\n"
+		"    a && b;\n"
+		"    x = a * b;\n"
+		"    x = a & b;\n"
+		"    if (len * tab > longest) bar();\n"
+		"    SetWidth(width() + (pixels * indentAmt));\n"
+		"    if (m_Flags & flLocal) return;\n"
+		"    Link(m_y + .5 * h - .5 * m_fontSize);\n"
+		"    if ((Flags & flVariable) && (Flags & flId))\n"
+		"        bar();\n"
+		"    out_html(change_to_size(i * j));\n"
+		"    if (i > *maxcol) *maxcol = i;\n"
+		"}\n";
+	char options[] = "align-pointer=name, pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointer, ShortLowerLimit)
+{
+	// test error handling for the short option lower limit
+	// should call the error handler
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	// use errorHandler2 to verify the error
+	char options[] = "-k0";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointer, ShortUpperLimit)
+{
+	// test error handling for the short option upper limit
+	// should call the error handler
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	// use errorHandler2 to verify the error
+	char options[] = "-k4";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointer, Java)
+{
+	// align-pointer should have no effect on Java
+	// should pad-oper not align-pointer=type
+	char textIn[] =
+		"\nbool foo()\n"
+		"{\n"
+		"    StringBuilder s = new StringBuilder(length*count);\n"
+		"    return (modifier&query) == query;\n"
+		"}\n";
+	char text[] =
+		"\nbool foo()\n"
+		"{\n"
+		"    StringBuilder s = new StringBuilder(length * count);\n"
+		"    return (modifier & query) == query;\n"
+		"}\n";
+	char options[] = "mode=java, pad-oper, align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointer, Sharp)
+{
+	// align-pointer should have no effect on C#
+	// should pad-oper not align-pointer=type
+	char textIn[] =
+		"\nbool foo()\n"
+		"{\n"
+		"    StringBuilder s = new StringBuilder(length*count);\n"
+		"    return (modifier&query) == query;\n"
+		"}\n";
+	char text[] =
+		"\nbool foo()\n"
+		"{\n"
+		"    StringBuilder s = new StringBuilder(length * count);\n"
+		"    return (modifier & query) == query;\n"
+		"}\n";
+	char options[] = "mode=cs, pad-oper, align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Align Reference
+// default value REF_SAME_AS_PTR is tested with Align Pointer
+//-------------------------------------------------------------------------
+TEST(AlignReferenceNone, PointerNone)
+{
+	// references should not be changed
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char options[] = "align-reference=none";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceNone, PointerType)
+{
+	// references should not be changed
+	char text[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char options[] = "align-reference=none, align-pointer=type";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceNone, PointerMiddle)
+{
+	// references should not be changed
+	char text[] =
+		"\nstring foo(const string * bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char options[] = "align-reference=none, align-pointer=middle";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceNone, PointerName)
+{
+	// references should not be changed
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char options[] = "align-reference=none, align-pointer=name";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceNone, ShortOption)
+{
+	// test align-reference=none short option
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char options[] = "-W0";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+TEST(AlignReferenceType, PointerNone)
+{
+	// test align-reference=type
+	char textIn[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string& bar;     // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string& bar;     // comment\n"
+		"}\n";
+	char options[] = "align-reference=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceType, PointerType)
+{
+	// test align-reference=type
+	char textIn[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string& bar;     // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string& bar;     // comment\n"
+		"}\n";
+	char options[] = "align-reference=type, align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+TEST(AlignReferenceType, PointerMiddle)
+{
+	// test align-reference=type
+	char textIn[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string * bar)  // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string& bar;     // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string& bar;     // comment\n"
+		"}\n";
+	char options[] = "align-reference=type, align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+TEST(AlignReferenceType, PointerName)
+{
+	// test align-reference=type
+	char textIn[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string& bar;     // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string& bar;     // comment\n"
+		"}\n";
+	char options[] = "align-reference=type, align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceType, ShortOption)
+{
+	// test align-reference=type short option
+	char textIn[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string& bar;     // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string& bar;     // comment\n"
+		"}\n";
+	char options[] = "-W1";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceMiddle, PointerNone)
+{
+	// test align-reference=middle
+	char textIn[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string & bar;    // comment\n"
+		"    const string & bar;    // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string & bar;    // comment\n"
+		"}\n";
+	char options[] = "align-reference=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceMiddle, PointerType)
+{
+	// test align-reference=middle
+	char textIn[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string & bar;    // comment\n"
+		"    const string & bar;    // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string & bar;    // comment\n"
+		"}\n";
+	char options[] = "align-reference=middle, align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+TEST(AlignReferenceMiddle, PointerMiddle)
+{
+	// test align-reference=middle
+	char textIn[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string * bar)  // comment\n"
+		"{\n"
+		"    const string & bar;    // comment\n"
+		"    const string & bar;    // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string & bar;    // comment\n"
+		"}\n";
+	char options[] = "align-reference=middle, align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+TEST(AlignReferenceMiddle, PointerName)
+{
+	// test align-reference=middle
+	char textIn[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string & bar;    // comment\n"
+		"    const string & bar;    // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string & bar;    // comment\n"
+		"}\n";
+	char options[] = "align-reference=middle, align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceMiddle, ShortOption)
+{
+	// test align-reference=middle short option
+	char textIn[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string & bar;    // comment\n"
+		"    const string & bar;    // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string & bar;    // comment\n"
+		"}\n";
+	char options[] = "-W2";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceName, PointerNone)
+{
+	// test align-reference=name
+	char textIn[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string &bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string &bar;     // comment\n"
+		"}\n";
+	char options[] = "align-reference=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceName, PointerType)
+{
+	// test align-reference=name
+	char textIn[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string &bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string &bar;     // comment\n"
+		"}\n";
+	char options[] = "align-reference=name, align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceName, PointerMiddle)
+{
+	// test align-reference=name
+	char textIn[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string * bar)  // comment\n"
+		"{\n"
+		"    const string &bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string &bar;     // comment\n"
+		"}\n";
+	char options[] = "align-reference=name, align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceName, Pointername)
+{
+	// test align-reference=name
+	char textIn[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string &bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string &bar;     // comment\n"
+		"}\n";
+	char options[] = "align-reference=name, align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceName, ShortOption)
+{
+	// test align-reference=name short option
+	char textIn[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string &bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string &bar;     // comment\n"
+		"}\n";
+	char options[] = "-W3";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 
 //----------------------------------------------------------------------------
 

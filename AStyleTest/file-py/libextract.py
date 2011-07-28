@@ -5,17 +5,19 @@
 # The only function called externally is extract_project().
 # Executed as stand-alone it will run a series of tests.
 
+# to disable the print statement and use the print() function (version 3 format)
+from __future__ import print_function
+
 import glob
 import libastyle		#local directory
 import os
 import shutil
 import subprocess
-import sys
 import time
 
 # global variables ------------------------------------------------------------
 
-# set by extract_project function
+# set by an argument in extract_project function
 extract_all_files = False
 
 # -----------------------------------------------------------------------------
@@ -26,7 +28,7 @@ def extract_project(project, all_files_option):
 	"""
 	if all_files_option == True:
 		extract_all_files = True
-		print "extracting ALL files"
+		print ("extracting ALL files")
 	if project == libastyle.CODEBLOCKS:
 		extract_codeblocks()
 	elif project == libastyle.DRJAVA:
@@ -53,10 +55,10 @@ def call_7zip(filepath, outdir, fileext):
 	"""
 	filepath = filepath.replace('\\', '/')
 	prtfile = strip_directory_prefix(filepath)
-	print "extract " + prtfile
+	print ("extract " + prtfile)
 	exepath = libastyle.get_7zip_path()
 	extract = [exepath, "x", "-ry", "-o" + outdir, filepath]
-	if extract_all_files:
+	if not extract_all_files:
 		extract.extend(fileext)
 	filename = libastyle.get_temp_directory() + "/extract.txt"
 	outfile = open(filename, 'w')
@@ -83,7 +85,7 @@ def check_rename_ok(globpath, destination):
 	# try to remove the old directory one more time
 	for directory in dirs:
 		if directory[-len(destination):] == destination:
-			print "remove retry"
+			print ("remove retry")
 			shutil.rmtree(directory, True)
 	dirs = glob.glob(globpath)
 	if len(dirs) > 1:
@@ -230,7 +232,7 @@ def remove_test_directory(pattern):
 	for file in files:
 		file = file.replace('\\', '/')
 		prtfile = strip_directory_prefix(file)
-		print "remove " + prtfile
+		print ("remove " + prtfile)
 		# removed the directory - this is a problem with Windows only
 		imax = 5
 		for i in range(0, imax):
@@ -253,7 +255,7 @@ def rename_test_directory(source, destination):
 	destpath = testdir + destination
 	prtsrc = strip_directory_prefix(dir)
 	prtdst = strip_directory_prefix(destpath)
-	print "rename {0} {1}".format(prtsrc, prtdst)
+	print ("rename {0} {1}".format(prtsrc, prtdst))
 	try:
 		shutil.move(dir, destpath)
 	except WindowsError as e:
@@ -279,25 +281,25 @@ def test_all_compressed():
 	"""Test extracts for all compressed files.
 	"""
 	starttime = time.time()
-	print "TEST COMPRESSED\n"
+	print ("TEST COMPRESSED\n")
 	arcdir = libastyle.get_archive_directory()
 	files = glob.glob(arcdir  + "/*.tar")
 	for file in files:
 		file = file.replace('\\', '/')
 		prtfile = strip_directory_prefix(file)
-		print "remove tar " + prtfile
+		print ("remove tar " + prtfile)
 		os.remove(file)
-	print
-	#extract_project(libastyle.CODEBLOCKS, False); print
-	#extract_project(libastyle.DRJAVA, False); print
-	#extract_project(libastyle.JEDIT, False); print
-	#extract_project(libastyle.KDEVELOP, False); print
-	#extract_project(libastyle.MONODEVELOP, False); print
-	#extract_project(libastyle.SCITE, False); print
-	extract_project(libastyle.SHARPDEVELOP, False); print
-	extract_project(libastyle.TESTPROJECT, False); print
+	print ()
+	#extract_project(libastyle.CODEBLOCKS, False); print ()
+	#extract_project(libastyle.DRJAVA, False); print ()
+	#extract_project(libastyle.JEDIT, False); print ()
+	#extract_project(libastyle.KDEVELOP, False); print ()
+	#extract_project(libastyle.MONODEVELOP, False); print ()
+	#extract_project(libastyle.SCITE, False); print ()
+	extract_project(libastyle.SHARPDEVELOP, False); print ()
+	extract_project(libastyle.TESTPROJECT, False); print ()
 	stoptime = time.time()
-	test_print_time(starttime, stoptime); print
+	test_print_time(starttime, stoptime); print ()
 
 # -----------------------------------------------------------------------------
 
@@ -306,15 +308,15 @@ def test_all_tarballs():
 	    Assumes tarballs are present in the archive.
 	"""
 	starttime = time.time()
-	print "TEST TARBALLS\n"
-	extract_project(libastyle.CODEBLOCKS, False); print
+	print ("TEST TARBALLS\n")
+	extract_project(libastyle.CODEBLOCKS, False); print ()
 	# no tarball for DRJAVA
-	extract_project(libastyle.JEDIT, False); print
-	extract_project(libastyle.KDEVELOP, False); print
-	extract_project(libastyle.MONODEVELOP, False); print
+	extract_project(libastyle.JEDIT, False); print ()
+	extract_project(libastyle.KDEVELOP, False); print ()
+	extract_project(libastyle.MONODEVELOP, False); print ()
 	# no tarball for SCITE
 	# no tarball for SHARPDEVELOP
-	extract_project(libastyle.TESTPROJECT, False); print
+	extract_project(libastyle.TESTPROJECT, False); print ()
 	stoptime = time.time()
 	test_print_time(starttime, stoptime)
 
@@ -324,12 +326,12 @@ def test_print_time(starttime, stoptime):
 	"""Print run time for the test.
 	"""
 	runtime = int(stoptime - starttime + 0.5)
-	min = runtime / 60
-	sec = runtime % 60
+	min =  int(runtime / 60)
+	sec =  int(runtime % 60)
 	if min == 0:
-		print "{0} seconds".format(sec)
+		print ("{0} seconds".format(sec))
 	else:
-		print "{0} min {1} seconds".format(min, sec)
+		print ("{0} min {1} seconds".format(min, sec))
 
 # -----------------------------------------------------------------------------
 
@@ -337,6 +339,7 @@ def test_print_time(starttime, stoptime):
 # run tests if executed as stand-alone
 if __name__ == "__main__":
 	libastyle.set_text_color()
+	print (libastyle.get_python_version())
 	test_all_compressed()
 	test_all_tarballs()
 	libastyle.system_exit()

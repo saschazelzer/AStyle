@@ -1,10 +1,12 @@
 #! /usr/bin/python
 # Use a diff viewer to show diffs in files from the astyle report.
 
+# to disable the print statement and use the print() function (version 3 format)
+from __future__ import print_function
+
 import libastyle		#local directory
 import libtest			#local directory
 import os
-import sys
 
 # -----------------------------------------------------------------------------
 
@@ -12,6 +14,7 @@ def process_diffs():
 	"""Main processing function.
 	"""
 	libastyle.set_text_color()
+	print (libastyle.get_python_version())
 	os.chdir(libastyle.get_file_py_directory())
 	testfile = "test.txt"
 	formatted, unchanged, min, sec = libtest.get_astyle_totals(testfile)

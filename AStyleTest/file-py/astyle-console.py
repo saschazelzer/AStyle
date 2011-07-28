@@ -2,9 +2,10 @@
 # Check ASConsole constructor to class variables
 #     in the header file to verify all variables are initialized .
 
+# to disable the print statement and use the print() function (version 3 format)
+from __future__ import print_function
+
 import libastyle		#local directory
-import sys
-import os
 
 # global variables ------------------------------------------------------------
 
@@ -22,18 +23,19 @@ def process_files():
 	console_path = libastyle.get_astyle_directory() + "/src/astyle_main.h"
 
 	libastyle.set_text_color()
+	print (libastyle.get_python_version())
 	get_header_variables(header_variables, header_path)
 	get_constructor_variables(class_variables, console_path)
 
-	print "Checking ASConsole header to class constructor."
+	print ("Checking ASConsole header to class constructor.")
 	total_variables = len(header_variables)
-	print "There are {0} variables in the header list.".format(total_variables)
+	print ("There are {0} variables in the header list.".format(total_variables))
 
 	find_class_diffs(header_variables, class_variables)
 
 	if print_variables:
-		print header_variables
-		print class_variables
+		print (header_variables)
+		print (class_variables)
 
 # -----------------------------------------------------------------------------
 
@@ -57,20 +59,20 @@ def find_class_diffs(header_variables, class_variables):
 	if len(missing_header) > 0:
 		missing_header = list(missing_header)
 		missing_header.sort()
-		print str(len(missing_header)) + " missing header variables:"
-		print missing_header
+		print (str(len(missing_header)) + " missing header variables:")
+		print (missing_header)
 
 	if len(missing_class) > 0:
 		missing_class = list(missing_class)
 		missing_class.sort()
-		print str(len(missing_class)) + " missing class variables:"
-		print missing_class
+		print (str(len(missing_class)) + " missing class variables:")
+		print (missing_class)
 
 	diffs= len(missing_header) + len(missing_class)
 	if diffs == 0:
-		print "There are NO diffs in the class constructor variables!!!"
+		print ("There are NO diffs in the class constructor variables!!!")
 	else:
-		print "There are {0} diffs in the class constructor variables.".format(diffs)
+		print ("There are {0} diffs in the class constructor variables.".format(diffs))
 
 # -----------------------------------------------------------------------------
 
@@ -121,7 +123,7 @@ def get_constructor_variables(class_variables, console_path):
 
 	file_in.close()
 	if print_detail:
-		print "{0} {1} class constructor".format(class_lines, class_total)
+		print ("{0} {1} class constructor".format(class_lines, class_total))
 
 # -----------------------------------------------------------------------------
 
@@ -211,7 +213,7 @@ def get_header_variables(header_variables, header_path):
 
 	file_in.close()
 	if print_detail:
-		print "{0} {1} header".format(header_lines, header_total)
+		print ("{0} {1} header".format(header_lines, header_total))
 
 # -----------------------------------------------------------------------------
 

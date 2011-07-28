@@ -79,24 +79,27 @@ int main(int argc, char** argv)
 	// and before a death test
 //	printf("Test directory: %s.\n", (*g_testDirectory).c_str());
 	// parse command line BEFORE InitGoogleTest
-	bool use_terse_printer = false;
-	bool use_color = true;
+	bool useTersePrinter = false;
+	bool useColor = true;
+	bool noClose = false;
 	for (int i = 1; i < argc; i++)
 	{
 		if (strcmp(argv[i], "--terse_printer") == 0 )
-			use_terse_printer = true;
+			useTersePrinter = true;
+		else if (strcmp(argv[i], "--no_close") == 0 )
+			noClose = true;
 		else if (strcmp(argv[i], "--gtest_color=no") == 0 )
-			use_color = false;
+			useColor = false;
 	}
 	// do this after parsing the command line but before changing printer
 	testing::InitGoogleTest(&argc, argv);
 	// change to TersePrinter
-	if (use_terse_printer)
+	if (useTersePrinter)
 	{
 		UnitTest& unit_test = *UnitTest::GetInstance();
 		testing::TestEventListeners& listeners = unit_test.listeners();
 		delete listeners.Release(listeners.default_result_printer());
-		listeners.Append(new TersePrinter(use_color));
+		listeners.Append(new TersePrinter(useColor));
 	}
 	// begin unit testing
 	createTestDirectory(getTestDirectory());
@@ -105,7 +108,7 @@ int main(int argc, char** argv)
 	// Verify that all tests were run. This can occur if a source file
 	// is missing from the project. The UnitTest reflection API in
 	// example 9 will not work here because of user modifications.
-	if (use_terse_printer)
+	if (useTersePrinter)
 	{
 		if (g_isI18nTest)
 			// Change the following value to the number of tests (within 10).
@@ -121,7 +124,8 @@ int main(int argc, char** argv)
 #endif
 	// end of unit testing
 	removeTestDirectory(getTestDirectory());
-	//system("pause");		// sometimes needed for Windows debug
+	if (noClose)			// command line option
+		systemPause();
 	return retval;
 }
 
@@ -557,11 +561,8 @@ void systemAbort(const string& message)
 	exit(EXIT_FAILURE);
 }
 
-void systemPause(const string& message)
-// accept keyboard input to continue
-// assures a console message is noticed
+void systemPause()
 {
-	cout << message << endl;
 #ifdef _WIN32
 	system("pause");
 #else
@@ -569,6 +570,14 @@ void systemPause(const string& message)
 	if (system("read x") > 0)
 		cout << "Bad return from 'system' call." << endl;
 #endif
+}
+
+void systemPause(const string& message)
+// accept keyboard input to continue
+// assures a console message is noticed
+{
+	cout << message << endl;
+	systemPause();
 }
 
 bool writeOptionsFile(const string& optionsFileName, const char* fileIn)
