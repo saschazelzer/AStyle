@@ -1,0 +1,52 @@
+###########################################################################
+#
+# Copyright (c) German Cancer Research Center,
+#   Division of Medical and Biological Informatics
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.commontk.org/LICENSE
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+###########################################################################
+
+#
+# AStyleConfig.cmake - AStyle CMake configuration file for external projects.
+#
+
+FIND_LIBRARY(AStyle_LIBRARIES astyle
+  PATHS "@CMAKE_RUNTIME_OUTPUT_DIRECTORY@/"
+        "@CMAKE_RUNTIME_OUTPUT_DIRECTORY@/Release"
+        "@CMAKE_RUNTIME_OUTPUT_DIRECTORY@/Debug"
+  NO_DEFAULT_PATH
+  )
+
+# The AStyle include file directories.
+SET(AStyle_INCLUDE_DIRS "@AStyle_INCLUDE_DIRS_CONFIG@")
+  
+# The location of the UseAStyle.cmake file.
+SET(AStyle_USE_FILE "@AStyle_USE_FILE@")
+ 
+# A AStyle install tree always provides one build configuration.
+# A AStyle build tree may provide either one or multiple build
+# configurations depending on the CMake generator used.
+# Since AStyle can be used either from a build tree or an install
+# tree it is useful for outside projects to know the configurations available.
+# If this AStyleConfig.cmake is in a AStyle install
+# tree AStyle_CONFIGURATION_TYPES will be empty and
+# AStyle_BUILD_TYPE will be set to the value of
+# CMAKE_BUILD_TYPE used to build AStyle. If AStyleConfig.cmake
+# is in a AStyle build tree then AStyle_CONFIGURATION_TYPES
+# and AStyle_BUILD_TYPE will have values matching CMAKE_CONFIGURATION_TYPES
+# and CMAKE_BUILD_TYPE for that build tree (only one will ever be set).
+SET(AStyle_CONFIGURATION_TYPES @AStyle_CONFIGURATION_TYPES_CONFIG@)
+SET(AStyle_BUILD_TYPE @AStyle_BUILD_TYPE_CONFIG@)
+
+
